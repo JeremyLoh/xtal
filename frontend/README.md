@@ -1,3 +1,7 @@
+# References
+
+1. Leaflet Map, not rendering tiles properly (just include `import 'leaflet/dist/leaflet.css'`) - https://stackoverflow.com/questions/60296645/leaflet-map-not-rendering-tiles-properly
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
