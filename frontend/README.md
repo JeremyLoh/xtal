@@ -1,6 +1,7 @@
 # References
 
 1. Leaflet Map, not rendering tiles properly (just include `import 'leaflet/dist/leaflet.css'`) - https://stackoverflow.com/questions/60296645/leaflet-map-not-rendering-tiles-properly
+2. Install npm package `@types/node` if Typescript cannot import node packages (e.g. `import dns from "node:dns"`) - https://www.npmjs.com/package/@types/node
 
 # React + TypeScript + Vite
 
