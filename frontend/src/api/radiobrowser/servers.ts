@@ -11,4 +11,11 @@ async function getServers(): Promise<String[]> {
   return [...new Set(json.map((data) => "https://" + data.name))]
 }
 
-export { getServers }
+async function getRandomServer(): Promise<String> {
+  const servers = await getServers()
+  const size = servers.length
+  const randomIndex = Math.floor(Math.random() * (size - 1))
+  return servers[randomIndex]
+}
+
+export { getRandomServer }
