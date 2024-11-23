@@ -13,7 +13,9 @@
     "ky": "1.7.2",
     "leaflet": "1.9.4",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "react-icons": "5.3.0",
+    "video.js": "8.19.1"
   },
   "devDependencies": {
     "@eslint/js": "9.15.0",

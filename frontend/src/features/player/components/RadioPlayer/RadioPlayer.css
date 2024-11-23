@@ -1,0 +1,23 @@
+.radio-player-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: #44403c;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+/* Video.js styles, require "!important" to override default styles */
+.video-js {
+  /* To remove black background color on audio controls - not sure why this works */
+  width: 100%;
+}
+.video-js .vjs-control-bar {
+  display: flex !important;
+  gap: 0.5rem;
+  justify-content: center !important;
+}
+.vjs-play-control {
+  padding: 1rem !important;
+  background-color: #0ea5e9 !important;
+}
