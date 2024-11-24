@@ -35,7 +35,9 @@ function RadioCard(props: RadioCardProps) {
   function handleReady() {}
   return (
     <div className="radio-card">
-      <img src={station.favicon} height={128} width={128} />
+      {station.favicon && (
+        <img src={station.favicon} height={128} width={128} />
+      )}
       <h2>{station.name}</h2>
       <a href={station.homepage} rel="noopener noreferrer" target="_blank">
         {station.homepage}

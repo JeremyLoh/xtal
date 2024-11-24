@@ -1,3 +1,4 @@
+import "./RadioSelect.css"
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi"
 
 type RadioSelectProps = {
@@ -6,11 +7,11 @@ type RadioSelectProps = {
 
 function RadioSelect(props: RadioSelectProps) {
   return (
-    <div>
+    <div className="radio-select-container">
       <GiPerspectiveDiceSixFacesRandom
         onClick={props.handleRandomSelect}
         size={64}
-        title="select random radio"
+        title="Select a random radio station"
       />
     </div>
   )
