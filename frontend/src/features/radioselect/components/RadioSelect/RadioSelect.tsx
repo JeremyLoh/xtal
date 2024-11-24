@@ -12,6 +12,7 @@ function RadioSelect(props: RadioSelectProps) {
         onClick={props.handleRandomSelect}
         size={64}
         title="Select a random radio station"
+        data-testid="random-radio-station-btn"
       />
     </div>
   )
