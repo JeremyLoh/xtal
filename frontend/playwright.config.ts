@@ -74,7 +74,7 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   // https://github.com/microsoft/playwright/issues/16834
   webServer: {
-    command: "npm run preview",
+    command: "npm run dev",
     url: "http://localhost:5173",
     timeout: 120000,
     reuseExistingServer: !process.env.CI,
