@@ -3,11 +3,13 @@ import "leaflet/dist/leaflet.css"
 import L from "leaflet"
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
+import { Station } from "../../../../api/radiobrowser/types"
+import RadioCard from "../RadioCard/RadioCard"
 
 let map: L.Map
 
 type MapProps = {
-  popupContent: JSX.Element | null
+  station: Station | null
 }
 
 function Map(props: MapProps) {
@@ -20,7 +22,7 @@ function Map(props: MapProps) {
     }
   }, [])
   useEffect(() => {
-    if (props.popupContent == null) {
+    if (props.station == null) {
       return
     }
     const popupDiv = document.createElement("div")
@@ -32,12 +34,12 @@ function Map(props: MapProps) {
     return () => {
       popup.remove()
     }
-  }, [setPopupContainer, props.popupContent])
+  }, [setPopupContainer, props.station])
   return (
     <div id="map">
       {popupContainer !== null &&
-        props.popupContent &&
-        createPortal(props.popupContent, popupContainer)}
+        props.station &&
+        createPortal(<RadioCard station={props.station} />, popupContainer)}
     </div>
   )
 }
