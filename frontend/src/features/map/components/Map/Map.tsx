@@ -24,7 +24,7 @@ function Map(props: MapProps) {
       return
     }
     const popupDiv = document.createElement("div")
-    const popup = L.popup({ minWidth: 250 })
+    const popup = L.popup({ minWidth: 300, keepInView: true })
       .setLatLng([1.35, 103.81]) // TODO fix hard coded position
       .setContent(popupDiv)
       .openOn(map)

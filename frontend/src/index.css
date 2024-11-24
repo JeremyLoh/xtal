@@ -1,7 +1,11 @@
 *,
 *::before,
 *::after {
+  /* https://stackoverflow.com/questions/21621584/padding-causes-horizontal-scroll-it-increases-the-width */
   box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
 }
 
 :root {
@@ -10,8 +14,6 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -20,16 +22,16 @@
 }
 
 .error-text {
-  color: #dc2626;
+  color: var(--error-color);
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
 }
-a:hover {
-  color: #535bf2;
+.leaflet-popup-close-button {
+  font-size: 1.4rem !important;
 }
 
 body {
@@ -44,6 +46,13 @@ h1 {
   line-height: 1.1;
 }
 
+a {
+  color: var(--link-color) !important;
+}
+a:hover {
+  filter: brightness(0.8) !important;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -56,7 +65,7 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--accent-color);
 }
 button:focus,
 button:focus-visible {
@@ -65,13 +74,32 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    /* https://www.realtimecolors.com/?colors=070c03-f7fbf4-9aca3f-9ae4e2-5e97d4&fonts=Ubuntu-Ubuntu */
+    --text-color: #070c03;
+    --background-color: #f7fbf4;
+    --primary-color: #9aca3f;
+    --secondary-color: #9ae4e2;
+    --accent-color: #5e97d4;
+    --error-color: #a80b0b;
+    --success-color: #0e5d3c;
+    --link-color: #293a6f;
+    background-color: var(--background-color);
+    color: var(--text-color);
   }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* https://www.realtimecolors.com/?colors=e8ebf5-0b0f1d-99aade-26408d-3059d2&fonts=Ubuntu-Ubuntu */
+    --text-color: #e8ebf5;
+    --background-color: #0b0f1d;
+    --primary-color: #99aade;
+    --secondary-color: #26408d;
+    --accent-color: #3059d2;
+    --error-color: #dc2626;
+    --success-color: #22c55e;
+    --link-color: #e6f0f7;
+    background-color: var(--background-color);
+    color: var(--text-color);
   }
 }

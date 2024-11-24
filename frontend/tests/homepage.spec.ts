@@ -29,6 +29,11 @@ test("has title", async ({ page }) => {
   await expect(page).toHaveTitle(/xtal/)
 })
 
+test("has header", async ({ page }) => {
+  await page.goto(HOMEPAGE)
+  await expect(page.locator("header")).toBeVisible()
+})
+
 test.describe("random radio station", () => {
   test("get random station and display on map", async ({ page }) => {
     // mock radio browser api with any query params

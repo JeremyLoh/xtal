@@ -4,6 +4,7 @@ import "./App.css"
 import Map from "./features/map/components/Map/Map"
 import RadioSelect from "./features/radioselect/components/RadioSelect/RadioSelect"
 import RadioCard from "./features/map/components/RadioCard/RadioCard"
+import Header from "./components/Header/Header"
 
 function App() {
   const [popupContent, setPopupContent] = useState<JSX.Element | null>(null)
@@ -19,8 +20,9 @@ function App() {
   }
   return (
     <>
-      <Map popupContent={popupContent} />
+      <Header />
       <RadioSelect handleRandomSelect={displayRandomStation} />
+      <Map popupContent={popupContent} />
     </>
   )
 }
