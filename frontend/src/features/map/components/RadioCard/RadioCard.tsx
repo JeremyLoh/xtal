@@ -1,4 +1,5 @@
 import "./RadioCard.css"
+import { useState } from "react"
 import RadioPlayer from "../../../player/components/RadioPlayer/RadioPlayer"
 import { Station } from "../../../../api/radiobrowser/types"
 
@@ -9,9 +10,11 @@ type RadioCardProps = {
 // Display radio player on map as a popup
 function RadioCard(props: RadioCardProps) {
   const { station } = props
+  const [error, setError] = useState<string | null>(null)
   // https://videojs.com/guides/options/
   const options = {
     audioOnlyMode: true,
+    errorDisplay: true,
     autoplay: false,
     controls: true,
     fill: true,
@@ -32,6 +35,9 @@ function RadioCard(props: RadioCardProps) {
       },
     },
   }
+  function handleError(error: string) {
+    setError(error)
+  }
   function handleReady() {}
   return (
     <div className="radio-card">
@@ -44,7 +50,17 @@ function RadioCard(props: RadioCardProps) {
       </a>
       {station.tags && <p># {station.tags}</p>}
       <p>From {station.country}</p>
-      <RadioPlayer options={options} onReady={handleReady} />
+      {error ? (
+        <p className="error-text" data-testid="radio-card-playback-error">
+          {error}
+        </p>
+      ) : (
+        <RadioPlayer
+          options={options}
+          onReady={handleReady}
+          handleError={handleError}
+        />
+      )}
     </div>
   )
 }

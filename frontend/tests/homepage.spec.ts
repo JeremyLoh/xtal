@@ -1,5 +1,8 @@
 import { test, expect, Page } from "@playwright/test"
-import { stationWithNoLocationLatLng } from "./mocks/station"
+import {
+  stationWithBlockedAccess,
+  stationWithNoLocationLatLng,
+} from "./mocks/station"
 
 const HOMEPAGE = "http://localhost:5173"
 
@@ -59,5 +62,51 @@ test.describe("random radio station", () => {
     ).toBeVisible()
     await getAudioPlayButton(page).click()
     await getAudioPauseButton(page).click()
+  })
+
+  test("get random station with blocked access HTTP 403 should display error message", async ({
+    page,
+  }) => {
+    // mock radio browser api with any query params
+    await page.route("*/**/json/stations?*", async (route) => {
+      const json = [stationWithBlockedAccess]
+      await route.fulfill({ json })
+    })
+    await page.route(stationWithBlockedAccess.url_resolved, async (route) => {
+      await route.fulfill({ status: 403 })
+    })
+    await page.goto(HOMEPAGE)
+    await clickRandomRadioStationButton(page)
+    await expect(page.locator("#map")).toBeVisible()
+    // assert radio card is shown inside map (map has css id of "map")
+    await expect(page.locator("#map .radio-card")).toBeVisible()
+    await expect(
+      page.locator("#map .radio-card").getByRole("heading", {
+        name: stationWithBlockedAccess.name,
+        exact: true,
+      })
+    ).toBeVisible()
+    await expect(
+      page.locator("#map .radio-card").getByRole("link", {
+        name: stationWithBlockedAccess.homepage,
+        exact: true,
+      })
+    ).toBeVisible()
+    await expect(
+      page
+        .locator("#map .radio-card")
+        .getByText("From " + stationWithBlockedAccess.country, {
+          exact: true,
+        })
+    ).toBeVisible()
+    await expect(getAudioPlayButton(page)).not.toBeVisible()
+    await expect(
+      page.locator("#map .radio-card").getByTestId("radio-card-playback-error")
+    ).toBeVisible()
+    await expect(
+      page.locator("#map .radio-card").getByTestId("radio-card-playback-error")
+    ).toHaveText(
+      /The media could not be loaded, either because the server or network failed or because the format is not supported/
+    )
   })
 })
