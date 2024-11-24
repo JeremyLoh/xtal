@@ -1,10 +1,11 @@
 .radio-player-container {
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
-  background-color: #44403c;
+  background-color: var(--secondary-color);
   border-radius: 8px;
-  padding: 0.5rem;
+  padding: 0.8rem;
 }
 
 /* Video.js styles, require "!important" to override default styles */
@@ -16,8 +17,11 @@
   display: flex !important;
   gap: 0.5rem;
   justify-content: center !important;
+  color: var(--text-color);
+  font-weight: bold;
+  font-size: 110%;
 }
 .vjs-play-control {
   padding: 1rem !important;
-  background-color: #0ea5e9 !important;
+  background-color: var(--background-color) !important;
 }

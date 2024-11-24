@@ -29,8 +29,8 @@ function RadioCard(props: RadioCardProps) {
       // https://docs.videojs.com/control-bar_control-bar.js
       children: {
         playToggle: true,
-        volumePanel: true,
         liveDisplay: true,
+        volumePanel: true,
         audioTrackButton: true,
       },
     },

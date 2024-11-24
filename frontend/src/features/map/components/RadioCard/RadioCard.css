@@ -4,6 +4,10 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 50ch;
+  max-width: 60ch;
   padding: 1rem;
+}
+
+.radio-card p {
+  word-break: break-all;
 }
