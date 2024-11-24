@@ -8,25 +8,33 @@ import Player, { PlayerReadyCallback } from "video.js/dist/types/player"
 type RadioPlayerProps = {
   options: typeof videojs.options
   onReady: PlayerReadyCallback
+  handleError: (error: string) => void
 }
 
 function RadioPlayer(props: RadioPlayerProps) {
-  const { options, onReady } = props
+  const { options, onReady, handleError } = props
   const videoRef = useRef<HTMLDivElement | null>(null)
   const playerRef = useRef<Player | null>(null)
   useEffect(() => {
-    if (playerRef.current == null && videoRef.current) {
-      // Video.js player needs to be inside the component el for React 18 Strict Mode
-      const videoElement = document.createElement("video-js")
-      videoElement.classList.add("vjs-big-play-centered")
-      videoRef.current.appendChild(videoElement)
-      playerRef.current = videojs(videoElement, options, onReady)
-    } else {
-      const player = playerRef.current
-      player?.autoplay(options.autoplay)
-      player?.src(options.sources)
+    if (!(playerRef.current == null && videoRef.current)) {
+      return
     }
-  }, [options, onReady])
+    // Video.js player needs to be inside the component el for React 18 Strict Mode
+    const videoElement = document.createElement("video-js")
+    videoElement.classList.add("vjs-big-play-centered")
+    videoRef.current.appendChild(videoElement)
+
+    playerRef.current = videojs(videoElement, options, onReady)
+    playerRef.current.autoplay(options.autoplay)
+    playerRef.current.src(options.sources)
+    playerRef.current.on("error", () => {
+      // https://stackoverflow.com/questions/30887908/how-to-write-error-message-object-of-videojs-on-server
+      const errorMessage = playerRef.current?.error()?.message
+      if (errorMessage) {
+        handleError(errorMessage)
+      }
+    })
+  }, [options, onReady, handleError])
   // dispose Video.js player when component unmounts
   useEffect(() => {
     const player = playerRef.current
