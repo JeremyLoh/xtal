@@ -1,6 +1,7 @@
 import { test, expect, Page } from "@playwright/test"
 import {
   stationWithBlockedAccess,
+  stationWithMultipleTags,
   stationWithNoLocationLatLng,
 } from "./mocks/station"
 
@@ -35,7 +36,7 @@ test("has header", async ({ page }) => {
 })
 
 test.describe("random radio station", () => {
-  test("get random station and display on map", async ({ page }) => {
+  test("display random station on map", async ({ page }) => {
     // mock radio browser api with any query params
     await page.route("*/**/json/stations/search?*", async (route) => {
       const json = [stationWithNoLocationLatLng]
@@ -113,5 +114,39 @@ test.describe("random radio station", () => {
     ).toHaveText(
       /The media could not be loaded, either because the server or network failed or because the format is not supported/
     )
+  })
+
+  test("random station with multiple tags should have visible audio player component", async ({
+    page,
+  }) => {
+    await page.route("*/**/json/stations/search?*", async (route) => {
+      const json = [stationWithMultipleTags]
+      await route.fulfill({ json })
+    })
+    await page.goto(HOMEPAGE)
+    await clickRandomRadioStationButton(page)
+    await expect(page.locator("#map")).toBeVisible()
+    // assert radio card is shown inside map (map has css id of "map")
+    await expect(page.locator("#map .radio-card")).toBeVisible()
+    await expect(
+      page.locator("#map .radio-card").getByRole("heading", {
+        name: stationWithMultipleTags.name,
+        exact: true,
+      })
+    ).toBeVisible()
+    await expect(
+      page.locator("#map .radio-card").getByRole("link", {
+        name: stationWithMultipleTags.homepage,
+        exact: true,
+      })
+    ).toBeVisible()
+    await expect(
+      page
+        .locator("#map .radio-card")
+        .getByText("From " + stationWithMultipleTags.country, {
+          exact: true,
+        })
+    ).toBeVisible()
+    await expect(getAudioPlayButton(page)).toBeInViewport()
   })
 })
