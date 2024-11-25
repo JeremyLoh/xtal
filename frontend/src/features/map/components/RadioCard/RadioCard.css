@@ -4,10 +4,31 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 60ch;
+  max-width: 50ch;
   padding: 1rem;
 }
 
-.radio-card p {
+.radio-card p,
+.radio-card a {
+  padding: 0;
   word-break: break-all;
+}
+.radio-card a {
+  padding: 0.5rem 0;
+}
+
+.station-tag-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.station-tag {
+  padding: 0.2rem 0.4rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background-color: var(--primary-color);
+  border-bottom: 1mm solid var(--accent-color);
 }
