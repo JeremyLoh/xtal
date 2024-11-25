@@ -32,6 +32,7 @@ function Map(props: MapProps) {
       .setContent(popupDiv)
       .openOn(map)
     setPopupContainer(popupDiv)
+    map.panTo(location, { animate: true })
     return () => {
       popup.remove()
     }
