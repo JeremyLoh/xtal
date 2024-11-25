@@ -18,12 +18,7 @@ function RadioCard(props: RadioCardProps) {
     autoplay: false,
     controls: true,
     fill: true,
-    sources: [
-      {
-        src: station.url_resolved,
-        type: "audio/mpeg",
-      },
-    ],
+    sources: getAudioSources(station),
     controlBar: {
       // Define order of elements in the video-js control bar
       // https://docs.videojs.com/control-bar_control-bar.js
@@ -45,11 +40,19 @@ function RadioCard(props: RadioCardProps) {
         <img src={station.favicon} height={128} width={128} />
       )}
       <h2>{station.name}</h2>
+      {station.tags && (
+        <div className="station-tag-container">
+          {station.tags.split(",").map((tag, index) => (
+            <span className="station-tag" key={`${tag}-${index}`}>
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
       <a href={station.homepage} rel="noopener noreferrer" target="_blank">
         {station.homepage}
       </a>
-      {station.tags && <p># {station.tags}</p>}
-      <p>From {station.country}</p>
+      {station.country && <p>From {station.country}</p>}
       {error ? (
         <p className="error-text" data-testid="radio-card-playback-error">
           {error}
@@ -63,6 +66,39 @@ function RadioCard(props: RadioCardProps) {
       )}
     </div>
   )
+}
+
+function getAudioSources(station: Station) {
+  // https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Containers
+  const codecToType = new Map([
+    ["AAC", "audio/aac"],
+    ["AAC+", "audio/aac"],
+    ["OGG", "audio/ogg"],
+    ["MP3", "audio/mpeg"],
+  ])
+  const codec = station.codec ? station.codec.toUpperCase() : ""
+  if (codecToType.has(codec)) {
+    return [
+      {
+        src: station.url_resolved,
+        type: codecToType.get(codec),
+      },
+    ]
+  }
+  return [
+    {
+      src: station.url_resolved,
+      type: "audio/aac",
+    },
+    {
+      src: station.url_resolved,
+      type: "audio/mpeg",
+    },
+    {
+      src: station.url_resolved,
+      type: "audio/ogg",
+    },
+  ]
 }
 
 export default RadioCard

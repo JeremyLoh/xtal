@@ -37,7 +37,7 @@ test("has header", async ({ page }) => {
 test.describe("random radio station", () => {
   test("get random station and display on map", async ({ page }) => {
     // mock radio browser api with any query params
-    await page.route("*/**/json/stations?*", async (route) => {
+    await page.route("*/**/json/stations/search?*", async (route) => {
       const json = [stationWithNoLocationLatLng]
       await route.fulfill({ json })
     })
@@ -73,7 +73,7 @@ test.describe("random radio station", () => {
     page,
   }) => {
     // mock radio browser api with any query params
-    await page.route("*/**/json/stations?*", async (route) => {
+    await page.route("*/**/json/stations/search?*", async (route) => {
       const json = [stationWithBlockedAccess]
       await route.fulfill({ json })
     })

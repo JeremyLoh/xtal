@@ -74,12 +74,12 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    /* https://www.realtimecolors.com/?colors=070c03-f7fbf4-9aca3f-9ae4e2-5e97d4&fonts=Ubuntu-Ubuntu */
+    /* https://www.realtimecolors.com/?colors=070c03-f7fbf4-9aca3f-5bcecb-3d9aff&fonts=Ubuntu-Ubuntu */
     --text-color: #070c03;
     --background-color: #f7fbf4;
     --primary-color: #9aca3f;
-    --secondary-color: #9ae4e2;
-    --accent-color: #5e97d4;
+    --secondary-color: #5bcecb;
+    --accent-color: #3d9aff;
     --error-color: #a80b0b;
     --success-color: #0e5d3c;
     --link-color: #293a6f;
@@ -90,13 +90,13 @@ button:focus-visible {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* https://www.realtimecolors.com/?colors=e8ebf5-0b0f1d-99aade-26408d-3059d2&fonts=Ubuntu-Ubuntu */
+    /* https://www.realtimecolors.com/?colors=e8ebf5-0b0f1d-4846b6-143fc0-3059d2&fonts=Ubuntu-Ubuntu */
     --text-color: #e8ebf5;
     --background-color: #0b0f1d;
-    --primary-color: #99aade;
-    --secondary-color: #26408d;
+    --primary-color: #4846b6;
+    --secondary-color: #143fc0;
     --accent-color: #3059d2;
-    --error-color: #dc2626;
+    --error-color: #ff3535;
     --success-color: #22c55e;
     --link-color: #e6f0f7;
     background-color: var(--background-color);
