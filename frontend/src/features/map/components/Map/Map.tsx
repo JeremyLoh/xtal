@@ -3,11 +3,13 @@ import "leaflet/dist/leaflet.css"
 import L from "leaflet"
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
+import { Station } from "../../../../api/radiobrowser/types"
+import RadioCard from "../RadioCard/RadioCard"
 
 let map: L.Map
 
 type MapProps = {
-  popupContent: JSX.Element | null
+  station: Station | null
 }
 
 function Map(props: MapProps) {
@@ -20,24 +22,26 @@ function Map(props: MapProps) {
     }
   }, [])
   useEffect(() => {
-    if (props.popupContent == null) {
+    if (props.station == null) {
       return
     }
+    const location = getStationLocation(props.station)
     const popupDiv = document.createElement("div")
     const popup = L.popup({ minWidth: 300, keepInView: true })
-      .setLatLng([1.35, 103.81]) // TODO fix hard coded position
+      .setLatLng(location)
       .setContent(popupDiv)
       .openOn(map)
     setPopupContainer(popupDiv)
+    map.panTo(location, { animate: true })
     return () => {
       popup.remove()
     }
-  }, [setPopupContainer, props.popupContent])
+  }, [setPopupContainer, props.station])
   return (
     <div id="map">
       {popupContainer !== null &&
-        props.popupContent &&
-        createPortal(props.popupContent, popupContainer)}
+        props.station &&
+        createPortal(<RadioCard station={props.station} />, popupContainer)}
     </div>
   )
 }
@@ -51,6 +55,15 @@ function setupMap() {
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map)
   return map
+}
+
+function getStationLocation(station: Station) {
+  if (station.geo_lat && station.geo_long) {
+    return { lat: station.geo_lat, lng: station.geo_long }
+  } else {
+    console.error("Could not get coordinates for station: ", station.name)
+    return { lat: 1.35, lng: 103.81 }
+  }
 }
 
 export default Map
