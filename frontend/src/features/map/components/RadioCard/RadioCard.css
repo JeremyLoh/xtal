@@ -3,9 +3,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 0.5rem;
   width: 100%;
-  max-width: 50ch;
-  padding: 1rem;
 }
 
 .radio-card p,
@@ -28,7 +27,7 @@
 .station-tag {
   padding: 0.2rem 0.4rem;
   border-radius: 8px;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   background-color: var(--primary-color);
   border-bottom: 1mm solid var(--accent-color);
 }
