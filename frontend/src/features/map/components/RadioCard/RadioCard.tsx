@@ -71,8 +71,8 @@ function RadioCard(props: RadioCardProps) {
 function getAudioSources(station: Station) {
   // https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Containers
   const codecToType = new Map([
-    ["AAC", ["audio/aac", "audio/x-mpegURL"]],
-    ["AAC+", ["audio/aac", "audio/x-mpegURL"]],
+    ["AAC", ["audio/aac", "audio/x-mpegurl", "application/x-mpegURL"]],
+    ["AAC+", ["audio/aac", "audio/x-mpegurl", "application/x-mpegURL"]],
     ["OGG", ["audio/ogg"]],
     ["MP3", ["audio/mpeg"]],
   ])
@@ -101,7 +101,11 @@ function getAudioSources(station: Station) {
     },
     {
       src: station.url_resolved,
-      type: "audio/x-mpegURL",
+      type: "audio/x-mpegurl",
+    },
+    {
+      src: station.url_resolved,
+      type: "application/x-mpegURL",
     },
   ]
 }
