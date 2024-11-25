@@ -25,9 +25,10 @@ function Map(props: MapProps) {
     if (props.station == null) {
       return
     }
+    const location = getStationLocation(props.station)
     const popupDiv = document.createElement("div")
     const popup = L.popup({ minWidth: 300, keepInView: true })
-      .setLatLng([1.35, 103.81]) // TODO fix hard coded position
+      .setLatLng(location)
       .setContent(popupDiv)
       .openOn(map)
     setPopupContainer(popupDiv)
@@ -53,6 +54,15 @@ function setupMap() {
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map)
   return map
+}
+
+function getStationLocation(station: Station) {
+  if (station.geo_lat && station.geo_long) {
+    return { lat: station.geo_lat, lng: station.geo_long }
+  } else {
+    console.error("Could not get coordinates for station: ", station.name)
+    return { lat: 1.35, lng: 103.81 }
+  }
 }
 
 export default Map
