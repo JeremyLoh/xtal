@@ -18,8 +18,6 @@ function App() {
     abortControllerRef.current = new AbortController()
     const station = await getRandomStation(abortControllerRef.current)
     if (station) {
-      // TODO remove debug log
-      console.log(JSON.stringify(station, null, 2))
       setCurrentStation(station)
     } else {
       toast.error("Could not get random radio station")
