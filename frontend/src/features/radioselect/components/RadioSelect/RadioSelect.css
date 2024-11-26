@@ -3,3 +3,16 @@
   justify-content: center;
   padding: 1rem;
 }
+
+.radio-select-random-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-color);
+  /* Icon color can be changed with "color" property */
+  color: var(--text-color);
+}
+.radio-select-random-btn:hover {
+  filter: brightness(0.9);
+}
