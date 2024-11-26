@@ -13,7 +13,9 @@ async function getRandomStation(): Promise<Station> {
   const server = await getRandomServer()
   const url = `${server}/json/stations/search`
   const json: Station[] = await ky.get(url, { retry: 0, searchParams }).json()
-  const station = convertMissingInformation(json[getRandomInt(limit - 1)])
+  // API might return less entries compared to limit (reduce by 1 for array zero based index)
+  const responseCount = Math.max(json.length - 1, 0)
+  const station = convertMissingInformation(json[getRandomInt(responseCount)])
   return station
 }
 
