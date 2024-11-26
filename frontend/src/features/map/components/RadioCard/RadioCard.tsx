@@ -1,5 +1,6 @@
 import "./RadioCard.css"
 import { useState } from "react"
+import { toast } from "sonner"
 import RadioPlayer from "../../../player/components/RadioPlayer/RadioPlayer"
 import { Station } from "../../../../api/radiobrowser/types"
 
@@ -32,8 +33,11 @@ function RadioCard(props: RadioCardProps) {
   }
   function handleError(error: string) {
     setError(error)
+    toast.error("Could not play radio station")
   }
-  function handleReady() {}
+  function handleReady() {
+    toast.success("Found a new station!")
+  }
   return (
     <div className="radio-card">
       {station.favicon && (
