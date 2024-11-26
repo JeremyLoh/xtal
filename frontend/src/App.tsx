@@ -1,6 +1,7 @@
-import { useRef, useState } from "react"
-import { getRandomStation } from "./api/radiobrowser/station"
 import "./App.css"
+import { useRef, useState } from "react"
+import { toast, Toaster } from "sonner"
+import { getRandomStation } from "./api/radiobrowser/station"
 import Map from "./features/map/components/Map/Map"
 import RadioSelect from "./features/radioselect/components/RadioSelect/RadioSelect"
 import Header from "./components/Header/Header"
@@ -17,16 +18,15 @@ function App() {
     abortControllerRef.current = new AbortController()
     const station = await getRandomStation(abortControllerRef.current)
     if (station) {
-      // TODO remove debug log
-      console.log(JSON.stringify(station, null, 2))
       setCurrentStation(station)
     } else {
-      // TODO display error message for failure to get station
+      toast.error("Could not get random radio station")
     }
     setIsLoading(false)
   }
   return (
     <>
+      <Toaster position="top-center" richColors />
       <Header />
       <RadioSelect
         handleRandomSelect={displayRandomStation}
