@@ -1,20 +1,14 @@
-import ky from "ky"
-
-type Server = {
-  ip: string
-  name: string
-}
-
-async function getServers(): Promise<string[]> {
-  const endpoint = "http://all.api.radio-browser.info/json/servers"
-  const json: Server[] = await ky.get(endpoint, { retry: 0 }).json()
-  return [...new Set(json.map((data) => "https://" + data.name))]
-}
+// Hard coded servers as requests to "http" fails with "This request has been blocked; the content must be served over HTTPS"
+// http://all.api.radio-browser.info/json/servers
+const servers: string[] = [
+  "https://nl1.api.radio-browser.info",
+  "https://de1.api.radio-browser.info",
+  "https://at1.api.radio-browser.info",
+]
+const serverCount = servers.length
 
 async function getRandomServer(): Promise<string> {
-  const servers = await getServers()
-  const size = servers.length
-  const randomIndex = Math.floor(Math.random() * (size - 1))
+  const randomIndex = Math.floor(Math.random() * (serverCount - 1))
   return servers[randomIndex]
 }
 
