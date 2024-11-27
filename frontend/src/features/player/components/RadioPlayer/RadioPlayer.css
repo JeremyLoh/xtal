@@ -25,3 +25,28 @@
   padding: 1rem !important;
   background-color: var(--background-color) !important;
 }
+/* To make currentTimeDisplay, timeDivider and durationDisplay to work
+https://stackoverflow.com/questions/48715817/video-js-customizing-player-controls */
+.vjs-current-time {
+  display: inline-block !important;
+}
+.vjs-time-divider {
+  display: inline-block !important;
+}
+.vjs-duration {
+  display: inline-block !important;
+}
+/* https://stackoverflow.com/questions/72654727/expand-volume-level-by-default */
+.video-js .vjs-volume-panel.vjs-volume-panel-horizontal {
+  /* Fix the width to prevent hover expansion to default width of 10em */
+  width: 10em !important;
+}
+.video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
+  width: 5em;
+  height: 2em;
+  margin-right: 0;
+  opacity: 1;
+}
+.video-js {
+  vertical-align: middle !important;
+}

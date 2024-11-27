@@ -11,14 +11,24 @@ Made using TypeScript, React and Playwright (testing)
 - react-icons - https://react-icons.github.io/react-icons/
 - ky (HTTP requests) - https://www.npmjs.com/package/ky
 
+Favicon - https://favicon.io/emoji-favicons/dizzy/
+
+- This favicon was generated using the following graphics from Twitter Twemoji:
+- Graphics Title: 1f4ab.svg
+- Graphics Author: Copyright 2020 Twitter, Inc and other contributors (https://github.com/twitter/twemoji)
+- Graphics Source: https://github.com/twitter/twemoji/blob/master/assets/svg/1f4ab.svg
+- Graphics License: CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
+
 # References
 
 1. Leaflet Map, not rendering tiles properly (just include `import 'leaflet/dist/leaflet.css'`) - https://stackoverflow.com/questions/60296645/leaflet-map-not-rendering-tiles-properly
 2. Install npm package `@types/node` if Typescript cannot import node packages (e.g. `import dns from "node:dns"`) - https://www.npmjs.com/package/@types/node
 3. Rendering react components into non react dom nodes (for rendering JSX component to Leaflet map popup) - https://react.dev/reference/react-dom/createPortal#rendering-react-components-into-non-react-dom-nodes
 4. Countries with their (ISO 3166-1) Alpha-2 code, Alpha-3 code, UN M49, average latitude and longitude coordinates - https://gist.github.com/tadast/8827699
-5. Media Audio Format Containers - https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Containers
-6. E.g. converting CSV file to array of entries to create map
+5. Customizing Player Controls for Video JS - https://stackoverflow.com/questions/48715817/video-js-customizing-player-controls
+6. Expand volume control by default (Video JS) - https://stackoverflow.com/questions/72654727/expand-volume-level-by-default
+7. Media Audio Format Containers - https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Containers
+8. E.g. converting CSV file to array of entries to create map
 
 ```javascript
 import fs from "node:fs"

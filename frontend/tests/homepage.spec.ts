@@ -72,7 +72,7 @@ test.describe("random radio station", () => {
     await expect(
       page
         .locator("#map .radio-card")
-        .getByText("From " + stationWithNoLocationLatLng.country, {
+        .getByText(stationWithNoLocationLatLng.country, {
           exact: true,
         })
     ).toBeVisible()
@@ -111,7 +111,7 @@ test.describe("random radio station", () => {
     await expect(
       page
         .locator("#map .radio-card")
-        .getByText("From " + stationWithBlockedAccess.country, {
+        .getByText(stationWithBlockedAccess.country, {
           exact: true,
         })
     ).toBeVisible()
@@ -153,7 +153,7 @@ test.describe("random radio station", () => {
     await expect(
       page
         .locator("#map .radio-card")
-        .getByText("From " + stationWithMultipleTags.country, {
+        .getByText(stationWithMultipleTags.country, {
           exact: true,
         })
     ).toBeVisible()

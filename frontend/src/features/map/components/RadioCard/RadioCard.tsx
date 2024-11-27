@@ -3,6 +3,7 @@ import { useState } from "react"
 import { toast } from "sonner"
 import RadioPlayer from "../../../player/components/RadioPlayer/RadioPlayer"
 import { Station } from "../../../../api/radiobrowser/types"
+import { FaMapMarkerAlt } from "react-icons/fa"
 
 type RadioCardProps = {
   station: Station
@@ -14,6 +15,7 @@ function RadioCard(props: RadioCardProps) {
   const [error, setError] = useState<string | null>(null)
   // https://videojs.com/guides/options/
   const options = {
+    liveui: true,
     audioOnlyMode: true,
     errorDisplay: true,
     autoplay: false,
@@ -25,9 +27,9 @@ function RadioCard(props: RadioCardProps) {
       // https://docs.videojs.com/control-bar_control-bar.js
       children: {
         playToggle: true,
-        liveDisplay: true,
+        currentTimeDisplay: true,
         volumePanel: true,
-        audioTrackButton: true,
+        fullscreenToggle: false,
       },
     },
   }
@@ -40,9 +42,7 @@ function RadioCard(props: RadioCardProps) {
   }
   return (
     <div className="radio-card">
-      {station.favicon && (
-        <img src={station.favicon} height={128} width={128} />
-      )}
+      {station.favicon && <img src={station.favicon} height={64} width={64} />}
       <h2>{station.name}</h2>
       {station.tags && (
         <div className="station-tag-container">
@@ -56,7 +56,11 @@ function RadioCard(props: RadioCardProps) {
       <a href={station.homepage} rel="noopener noreferrer" target="_blank">
         {station.homepage}
       </a>
-      {station.country && <p>From {station.country}</p>}
+      {station.country && (
+        <p>
+          <FaMapMarkerAlt size={16} /> {station.country}
+        </p>
+      )}
       {error ? (
         <p className="error-text" data-testid="radio-card-playback-error">
           {error}

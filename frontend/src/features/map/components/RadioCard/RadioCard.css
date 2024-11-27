@@ -9,6 +9,9 @@
 
 .radio-card p,
 .radio-card a {
+  display: flex;
+  align-items: center;
+  column-gap: 0.2rem;
   padding: 0;
   word-break: break-all;
 }
