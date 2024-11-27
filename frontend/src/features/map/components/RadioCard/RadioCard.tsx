@@ -3,6 +3,7 @@ import { useState } from "react"
 import { toast } from "sonner"
 import RadioPlayer from "../../../player/components/RadioPlayer/RadioPlayer"
 import { Station } from "../../../../api/radiobrowser/types"
+import { FaMapMarkerAlt } from "react-icons/fa"
 
 type RadioCardProps = {
   station: Station
@@ -56,7 +57,11 @@ function RadioCard(props: RadioCardProps) {
       <a href={station.homepage} rel="noopener noreferrer" target="_blank">
         {station.homepage}
       </a>
-      {station.country && <p>From {station.country}</p>}
+      {station.country && (
+        <p>
+          <FaMapMarkerAlt size={16} /> {station.country}
+        </p>
+      )}
       {error ? (
         <p className="error-text" data-testid="radio-card-playback-error">
           {error}
