@@ -35,6 +35,14 @@ test("has header", async ({ page }) => {
   await expect(page.locator("header")).toBeVisible()
 })
 
+test("has footer", async ({ page }) => {
+  await page.goto(HOMEPAGE)
+  await expect(page.locator("footer")).toBeVisible()
+  await expect(
+    page.locator("footer").getByText("@Jeremy_Loh", { exact: true })
+  ).toBeVisible()
+})
+
 test.describe("random radio station", () => {
   test("display random station on map", async ({ page }) => {
     // mock radio browser api with any query params
