@@ -23,7 +23,7 @@ function App() {
     } else {
       toast.error("Could not get random radio station")
     }
-    setIsLoading(false)
+    setTimeout(() => setIsLoading(false), 3000)
   }
   return (
     <>
