@@ -1,6 +1,7 @@
 #map {
+  flex: 1; /* #root id element has flexbox, fill map to remaining size */
+  min-height: 50vh;
   width: 100%;
-  height: 80vh;
   /* stops user map panning */
   /* pointer-events: none; */
 }

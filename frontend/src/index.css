@@ -37,6 +37,13 @@
   font-size: 1.4rem !important;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+}
+
 body {
   margin: 0;
   width: 100%;
