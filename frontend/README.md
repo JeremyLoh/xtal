@@ -11,6 +11,14 @@ Made using TypeScript, React and Playwright (testing)
 - react-icons - https://react-icons.github.io/react-icons/
 - ky (HTTP requests) - https://www.npmjs.com/package/ky
 
+Favicon - https://favicon.io/emoji-favicons/dizzy/
+
+- This favicon was generated using the following graphics from Twitter Twemoji:
+- Graphics Title: 1f4ab.svg
+- Graphics Author: Copyright 2020 Twitter, Inc and other contributors (https://github.com/twitter/twemoji)
+- Graphics Source: https://github.com/twitter/twemoji/blob/master/assets/svg/1f4ab.svg
+- Graphics License: CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
+
 # References
 
 1. Leaflet Map, not rendering tiles properly (just include `import 'leaflet/dist/leaflet.css'`) - https://stackoverflow.com/questions/60296645/leaflet-map-not-rendering-tiles-properly
