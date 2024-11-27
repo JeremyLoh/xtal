@@ -15,6 +15,7 @@ function RadioCard(props: RadioCardProps) {
   const [error, setError] = useState<string | null>(null)
   // https://videojs.com/guides/options/
   const options = {
+    liveui: true,
     audioOnlyMode: true,
     errorDisplay: true,
     autoplay: false,
@@ -26,9 +27,9 @@ function RadioCard(props: RadioCardProps) {
       // https://docs.videojs.com/control-bar_control-bar.js
       children: {
         playToggle: true,
-        liveDisplay: true,
+        currentTimeDisplay: true,
         volumePanel: true,
-        audioTrackButton: true,
+        fullscreenToggle: false,
       },
     },
   }
@@ -41,9 +42,7 @@ function RadioCard(props: RadioCardProps) {
   }
   return (
     <div className="radio-card">
-      {station.favicon && (
-        <img src={station.favicon} height={128} width={128} />
-      )}
+      {station.favicon && <img src={station.favicon} height={64} width={64} />}
       <h2>{station.name}</h2>
       {station.tags && (
         <div className="station-tag-container">

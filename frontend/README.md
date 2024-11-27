@@ -25,8 +25,10 @@ Favicon - https://favicon.io/emoji-favicons/dizzy/
 2. Install npm package `@types/node` if Typescript cannot import node packages (e.g. `import dns from "node:dns"`) - https://www.npmjs.com/package/@types/node
 3. Rendering react components into non react dom nodes (for rendering JSX component to Leaflet map popup) - https://react.dev/reference/react-dom/createPortal#rendering-react-components-into-non-react-dom-nodes
 4. Countries with their (ISO 3166-1) Alpha-2 code, Alpha-3 code, UN M49, average latitude and longitude coordinates - https://gist.github.com/tadast/8827699
-5. Media Audio Format Containers - https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Containers
-6. E.g. converting CSV file to array of entries to create map
+5. Customizing Player Controls for Video JS - https://stackoverflow.com/questions/48715817/video-js-customizing-player-controls
+6. Expand volume control by default (Video JS) - https://stackoverflow.com/questions/72654727/expand-volume-level-by-default
+7. Media Audio Format Containers - https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Containers
+8. E.g. converting CSV file to array of entries to create map
 
 ```javascript
 import fs from "node:fs"
