@@ -25,6 +25,9 @@
   color: var(--error-color);
 }
 
+.leaflet-control-attribution a {
+  color: #070c03 !important;
+}
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
   background-color: var(--background-color) !important;
