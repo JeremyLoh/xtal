@@ -1,0 +1,17 @@
+footer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0.2rem;
+  font-size: 0.7rem;
+  background-color: var(--primary-color);
+  border-top: 2mm dotted var(--accent-color);
+}
+
+#footer-github-link {
+  padding: 0 0.1rem;
+  color: var(--text-color);
+}
+#footer-github-link:hover {
+  background-color: var(--background-color);
+}

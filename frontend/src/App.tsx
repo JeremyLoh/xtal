@@ -6,6 +6,7 @@ import Map from "./features/map/components/Map/Map"
 import RadioSelect from "./features/radioselect/components/RadioSelect/RadioSelect"
 import Header from "./components/Header/Header"
 import { Station } from "./api/radiobrowser/types"
+import Footer from "./components/Footer/Footer"
 
 function App() {
   const abortControllerRef = useRef<AbortController | null>(null)
@@ -33,6 +34,7 @@ function App() {
         isLoading={isLoading}
       />
       <Map station={currentStation} />
+      <Footer />
     </>
   )
 }
