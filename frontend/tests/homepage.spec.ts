@@ -38,9 +38,11 @@ test("has header", async ({ page }) => {
 test("has footer", async ({ page }) => {
   await page.goto(HOMEPAGE)
   await expect(page.locator("footer")).toBeVisible()
-  await expect(
-    page.locator("footer").getByText("@Jeremy_Loh", { exact: true })
-  ).toBeVisible()
+  await expect(page.locator("footer").getByText("Jeremy_Loh")).toBeVisible()
+  await expect(page.locator("#footer-github-link")).toHaveAttribute(
+    "href",
+    "https://github.com/JeremyLoh/"
+  )
 })
 
 test.describe("random radio station", () => {

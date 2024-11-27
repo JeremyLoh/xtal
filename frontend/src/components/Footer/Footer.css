@@ -1,17 +1,26 @@
 footer {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  align-items: center;
+  column-gap: 0.2rem;
   width: 100%;
   padding: 0.2rem;
   font-size: 0.7rem;
+  font-weight: bold;
   background-color: var(--primary-color);
-  border-top: 2mm dotted var(--accent-color);
+  border-left: 2mm dotted var(--accent-color);
+  border-right: 2mm dotted var(--accent-color);
+}
+footer span {
+  display: flex;
+  align-items: center;
 }
 
 #footer-github-link {
-  padding: 0 0.1rem;
-  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #footer-github-link:hover {
-  background-color: var(--background-color);
+  filter: brightness(0.5);
 }

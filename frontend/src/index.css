@@ -84,15 +84,15 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    /* https://www.realtimecolors.com/?colors=070c03-f7fbf4-9aca3f-5bcecb-3d9aff&fonts=Ubuntu-Ubuntu */
-    --text-color: #070c03;
-    --background-color: #f7fbf4;
-    --primary-color: #9aca3f;
-    --secondary-color: #5bcecb;
-    --accent-color: #3d9aff;
+    /* https://www.realtimecolors.com/?colors=180c15-fdfafc-fdacca-9fcd9b-e45ac2&fonts=Ubuntu-Ubuntu */
+    --text-color: #180c15;
+    --background-color: #fdfafc;
+    --primary-color: #fdacca;
+    --secondary-color: #9fcd9b;
+    --accent-color: #e45ac2;
     --error-color: #a80b0b;
     --success-color: #0e5d3c;
-    --link-color: #293a6f;
+    --link-color: #0b2881;
     --disabled-element-color: #737373;
     background-color: var(--background-color);
     color: var(--text-color);
