@@ -93,6 +93,7 @@ button:focus-visible {
     --error-color: #a80b0b;
     --success-color: #0e5d3c;
     --link-color: #293a6f;
+    --disabled-element-color: #737373;
     background-color: var(--background-color);
     color: var(--text-color);
   }
@@ -109,6 +110,7 @@ button:focus-visible {
     --error-color: #ff3535;
     --success-color: #22c55e;
     --link-color: #e6f0f7;
+    --disabled-element-color: #737373;
     background-color: var(--background-color);
     color: var(--text-color);
   }

@@ -16,3 +16,7 @@
 .radio-select-random-btn:hover {
   filter: brightness(0.9);
 }
+.radio-select-random-btn:disabled {
+  background-color: var(--disabled-element-color);
+  pointer-events: none;
+}

@@ -2,7 +2,7 @@
 // http://all.api.radio-browser.info/json/servers
 const servers: string[] = [
   "https://nl1.api.radio-browser.info",
-  "https://de1.api.radio-browser.info",
+  // "https://de1.api.radio-browser.info", // HTTP 502 Errors
   "https://at1.api.radio-browser.info",
 ]
 const serverCount = servers.length
