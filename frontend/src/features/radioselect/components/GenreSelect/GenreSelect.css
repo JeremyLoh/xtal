@@ -1,0 +1,36 @@
+#genre-select-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 90ch;
+  gap: 1rem;
+}
+
+.icon {
+  transition: transform 200ms ease-out;
+}
+.icon:hover {
+  transform: scale(1.2);
+}
+
+.slider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  overflow-x: scroll;
+  /* scrollbar-width: none; */
+  font-size: calc(0.6rem + 0.4vw);
+  /* Prevent button text overflow - https://stackoverflow.com/questions/75673568/prevent-buttons-from-overflowing-to-a-new-line */
+  white-space: nowrap;
+}
+
+.slider button {
+  background-color: var(--secondary-color);
+  border-bottom: 1mm solid var(--accent-color);
+  transition: all 200ms;
+}
+.slider button:hover {
+  background-color: var(--accent-color);
+  border-bottom: 1mm solid var(--secondary-color);
+}

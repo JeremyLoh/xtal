@@ -160,3 +160,40 @@ test.describe("random radio station", () => {
     await expect(getAudioPlayButton(page)).toBeInViewport()
   })
 })
+
+test.describe("select genre of random radio station", () => {
+  test("display genre labels and slide left and right icon", async ({
+    page,
+  }) => {
+    await page.goto(HOMEPAGE)
+    await expect(page.locator("#genre-select-container")).toBeVisible()
+    await expect(
+      page.locator("#genre-select-container").getByText("All", { exact: true })
+    ).toBeVisible()
+    await expect(
+      page.locator("#genre-select-container .slide-left-icon")
+    ).toBeVisible()
+    await expect(
+      page.locator("#genre-select-container .slide-right-icon")
+    ).toBeVisible()
+  })
+
+  test("click slide to right icon does not show first genre anymore ('All' genre)", async ({
+    page,
+  }) => {
+    await page.goto(HOMEPAGE)
+    const firstGenre = "All"
+    // expect "All" genre tag will disappear after sliding to right
+    await expect(
+      page
+        .locator("#genre-select-container")
+        .getByText(firstGenre, { exact: true })
+    ).toBeInViewport()
+    await page.locator("#genre-select-container .slide-right-icon").click()
+    await expect(
+      page
+        .locator("#genre-select-container")
+        .getByText(firstGenre, { exact: true })
+    ).not.toBeInViewport()
+  })
+})

@@ -1,5 +1,6 @@
 import "./RadioSelect.css"
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi"
+import GenreSelect from "../GenreSelect/GenreSelect"
 
 type RadioSelectProps = {
   handleRandomSelect: () => void
@@ -9,6 +10,7 @@ type RadioSelectProps = {
 function RadioSelect(props: RadioSelectProps) {
   return (
     <div className="radio-select-container">
+      <GenreSelect />
       <button
         className="radio-select-random-btn"
         disabled={props.isLoading}
