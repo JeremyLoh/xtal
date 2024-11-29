@@ -162,6 +162,17 @@ test.describe("random radio station", () => {
 })
 
 test.describe("select genre of random radio station", () => {
+  async function assertGenreIsInView(page: Page, genre: string) {
+    await expect(
+      page.locator("#genre-select-container").getByText(genre, { exact: true })
+    ).toBeInViewport()
+  }
+  async function assertGenreIsNotInView(page: Page, genre: string) {
+    await expect(
+      page.locator("#genre-select-container").getByText(genre, { exact: true })
+    ).not.toBeInViewport()
+  }
+
   test("display genre labels and slide left and right icon", async ({
     page,
   }) => {
@@ -184,16 +195,20 @@ test.describe("select genre of random radio station", () => {
     await page.goto(HOMEPAGE)
     const firstGenre = "All"
     // expect "All" genre tag will disappear after sliding to right
-    await expect(
-      page
-        .locator("#genre-select-container")
-        .getByText(firstGenre, { exact: true })
-    ).toBeInViewport()
+    await assertGenreIsInView(page, firstGenre)
     await page.locator("#genre-select-container .slide-right-icon").click()
-    await expect(
-      page
-        .locator("#genre-select-container")
-        .getByText(firstGenre, { exact: true })
-    ).not.toBeInViewport()
+    await assertGenreIsNotInView(page, firstGenre)
+  })
+
+  test("click slide to left icon shows the first genre, after slide to right has been done", async ({
+    page,
+  }) => {
+    await page.goto(HOMEPAGE)
+    const firstGenre = "All"
+    await assertGenreIsInView(page, firstGenre)
+    await page.locator("#genre-select-container .slide-right-icon").click()
+    await assertGenreIsNotInView(page, firstGenre)
+    await page.locator("#genre-select-container .slide-left-icon").click()
+    await assertGenreIsInView(page, firstGenre)
   })
 })
