@@ -5,7 +5,7 @@ type GenreInformation = {
   approxStationCount: number
 }
 
-// approximate station count is based on stations with min bitrate of > 64
+// approximate station count is based on
 // e.g https://at1.api.radio-browser.info/json/stations/search?&order=random&hidebroken=true&is_https=true&tag=ambient
 export const genres: Array<GenreInformation> = [
   { genre: "All", searchTag: "", approxStationCount: 28159 },
