@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 90ch;
+  max-width: 120ch;
   gap: 1rem;
 }
 
@@ -17,7 +17,7 @@
 .slider {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: clamp(0.4rem, 0.4rem + 1vw, 1rem);
   overflow-x: scroll;
   scrollbar-width: none;
   font-size: clamp(0.7rem, 0.7rem + 0.2vw, 1rem);
