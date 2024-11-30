@@ -28,7 +28,7 @@ function App() {
   }
   return (
     <>
-      <Toaster position="top-center" richColors />
+      <Toaster position="top-center" expand={true} richColors />
       <Header />
       <RadioSelect
         handleRandomSelect={displayRandomStation}
