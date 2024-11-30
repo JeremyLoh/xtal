@@ -160,3 +160,75 @@ test.describe("random radio station", () => {
     await expect(getAudioPlayButton(page)).toBeInViewport()
   })
 })
+
+test.describe("select genre of random radio station", () => {
+  async function assertGenreIsInView(page: Page, genre: string) {
+    await expect(
+      page.locator("#genre-select-container").getByText(genre, { exact: true })
+    ).toBeInViewport()
+  }
+  async function assertGenreIsNotInView(page: Page, genre: string) {
+    await expect(
+      page.locator("#genre-select-container").getByText(genre, { exact: true })
+    ).not.toBeInViewport()
+  }
+
+  test("display genre labels and slide left and right icon", async ({
+    page,
+  }) => {
+    await page.goto(HOMEPAGE)
+    await expect(page.locator("#genre-select-container")).toBeVisible()
+    await expect(
+      page.locator("#genre-select-container").getByText("All", { exact: true })
+    ).toBeVisible()
+    await expect(
+      page.locator("#genre-select-container .slide-left-icon")
+    ).toBeVisible()
+    await expect(
+      page.locator("#genre-select-container .slide-right-icon")
+    ).toBeVisible()
+  })
+
+  test("click slide to right icon does not show first genre anymore ('All' genre)", async ({
+    page,
+  }) => {
+    await page.goto(HOMEPAGE)
+    const firstGenre = "All"
+    // expect "All" genre tag will disappear after sliding to right
+    await assertGenreIsInView(page, firstGenre)
+    await page.locator("#genre-select-container .slide-right-icon").click()
+    await assertGenreIsNotInView(page, firstGenre)
+  })
+
+  test("click slide to left icon shows the first genre, after slide to right has been done", async ({
+    page,
+  }) => {
+    await page.goto(HOMEPAGE)
+    const firstGenre = "All"
+    await assertGenreIsInView(page, firstGenre)
+    await page.locator("#genre-select-container .slide-right-icon").click()
+    await assertGenreIsNotInView(page, firstGenre)
+    await page.locator("#genre-select-container .slide-left-icon").click()
+    await assertGenreIsInView(page, firstGenre)
+  })
+
+  test("selecting a different genre add 'selected' css class to genre", async ({
+    page,
+  }) => {
+    await page.goto(HOMEPAGE)
+    const firstGenre = "All"
+    const secondGenre = "Alternative"
+    await assertGenreIsInView(page, firstGenre)
+    await assertGenreIsInView(page, secondGenre)
+    await expect(page.locator("#genre-select-container .selected")).toHaveText(
+      firstGenre
+    )
+    await page
+      .locator("#genre-select-container")
+      .getByText(secondGenre, { exact: true })
+      .click()
+    await expect(page.locator("#genre-select-container .selected")).toHaveText(
+      secondGenre
+    )
+  })
+})

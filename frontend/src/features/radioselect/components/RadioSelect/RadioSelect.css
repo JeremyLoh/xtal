@@ -1,17 +1,21 @@
 .radio-select-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
   padding: 1rem;
 }
 
 .radio-select-random-btn {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 0.2rem;
   background-color: var(--primary-color);
   /* Icon color can be changed with "color" property */
   color: var(--text-color);
+  font-size: clamp(0.7rem, 0.7rem + 0.2vw, 1rem);
 }
 .radio-select-random-btn:hover {
   filter: brightness(0.9);

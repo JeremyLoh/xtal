@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import { Station } from "../../../../api/radiobrowser/types"
 import RadioCard from "../RadioCard/RadioCard"
+import { toast } from "sonner"
 
 let map: L.Map
 
@@ -47,7 +48,7 @@ function Map(props: MapProps) {
 }
 
 function setupMap() {
-  const map = L.map("map").setView([1.35, 103.81], 4)
+  const map = L.map("map").setView([0, 0], 4)
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     minZoom: 4,
     maxZoom: 15,
@@ -62,7 +63,8 @@ function getStationLocation(station: Station) {
     return { lat: station.geo_lat, lng: station.geo_long }
   } else {
     console.error("Could not get coordinates for station: ", station.name)
-    return { lat: 1.35, lng: 103.81 }
+    toast.info("Could not get station location")
+    return { lat: 0, lng: 0 }
   }
 }
 
