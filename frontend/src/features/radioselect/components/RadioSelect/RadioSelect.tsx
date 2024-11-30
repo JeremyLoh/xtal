@@ -28,7 +28,7 @@ function RadioSelect(props: RadioSelectProps) {
         data-testid="random-radio-station-btn"
       >
         <GiPerspectiveDiceSixFacesRandom
-          size={48}
+          size={36}
           title="Select a random radio station"
         />
         <span>Random</span>
