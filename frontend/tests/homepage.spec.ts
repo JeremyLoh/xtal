@@ -211,4 +211,24 @@ test.describe("select genre of random radio station", () => {
     await page.locator("#genre-select-container .slide-left-icon").click()
     await assertGenreIsInView(page, firstGenre)
   })
+
+  test("selecting a different genre add 'selected' css class to genre", async ({
+    page,
+  }) => {
+    await page.goto(HOMEPAGE)
+    const firstGenre = "All"
+    const secondGenre = "Alternative"
+    await assertGenreIsInView(page, firstGenre)
+    await assertGenreIsInView(page, secondGenre)
+    await expect(page.locator("#genre-select-container .selected")).toHaveText(
+      firstGenre
+    )
+    await page
+      .locator("#genre-select-container")
+      .getByText(secondGenre, { exact: true })
+      .click()
+    await expect(page.locator("#genre-select-container .selected")).toHaveText(
+      secondGenre
+    )
+  })
 })

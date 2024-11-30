@@ -1,14 +1,20 @@
 // List of tags - e.g. https://at1.api.radio-browser.info/json/tags?order=stationcount&reverse=true
-type GenreInformation = {
+export type GenreInformation = {
   genre: string
   searchTag: string
   approxStationCount: number
 }
 
+export const DEFAULT_GENRE_SEARCH: GenreInformation = {
+  genre: "All",
+  searchTag: "",
+  approxStationCount: 28159,
+}
+
 // approximate station count is based on
 // e.g https://at1.api.radio-browser.info/json/stations/search?&order=random&hidebroken=true&is_https=true&tag=ambient
 export const genres: Array<GenreInformation> = [
-  { genre: "All", searchTag: "", approxStationCount: 28159 },
+  DEFAULT_GENRE_SEARCH,
   { genre: "Alternative", searchTag: "alternative", approxStationCount: 430 },
   { genre: "Ambient", searchTag: "ambient", approxStationCount: 198 },
   { genre: "Anime", searchTag: "anime", approxStationCount: 40 },

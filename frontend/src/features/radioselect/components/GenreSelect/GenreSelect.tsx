@@ -1,11 +1,22 @@
 import "./GenreSelect.css"
-import { genres } from "../../../../api/radiobrowser/genreTags"
+import {
+  DEFAULT_GENRE_SEARCH,
+  GenreInformation,
+  genres,
+} from "../../../../api/radiobrowser/genreTags"
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 
-function GenreSelect() {
+type GenreSelectProps = {
+  handleGenreSelect: (genre: GenreInformation) => void
+}
+
+function GenreSelect(props: GenreSelectProps) {
   const SCROLL_AMOUNT = 500
   const sliderRef = useRef<HTMLDivElement | null>(null)
+  const [selectedGenre, setSelectedGenre] = useState<string>(
+    DEFAULT_GENRE_SEARCH.genre
+  )
   function slideLeft() {
     if (sliderRef.current == null) {
       return
@@ -28,9 +39,17 @@ function GenreSelect() {
         onClick={slideLeft}
       />
       <div ref={sliderRef} className="slider">
-        {genres.map((genreInfo) => (
+        {genres.map((genreInfo: GenreInformation) => (
           <div key={genreInfo.genre}>
-            <button>{genreInfo.genre}</button>
+            <button
+              className={selectedGenre === genreInfo.genre ? "selected" : ""}
+              onClick={() => {
+                setSelectedGenre(genreInfo.genre)
+                props.handleGenreSelect(genreInfo)
+              }}
+            >
+              {genreInfo.genre}
+            </button>
           </div>
         ))}
       </div>
