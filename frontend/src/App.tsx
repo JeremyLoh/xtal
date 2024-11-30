@@ -15,13 +15,10 @@ function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   async function displayRandomStation(genre: GenreInformation) {
-    // TODO search based on genre given
-    console.log({ genre })
-
     setIsLoading(true)
     abortControllerRef.current?.abort()
     abortControllerRef.current = new AbortController()
-    const station = await getRandomStation(abortControllerRef.current)
+    const station = await getRandomStation(abortControllerRef.current, genre)
     if (station) {
       setCurrentStation(station)
     } else {

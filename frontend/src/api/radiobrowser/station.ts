@@ -2,15 +2,17 @@ import ky from "ky"
 import { getRandomServer } from "./servers"
 import { Station } from "./types"
 import { convertMissingInformation } from "./converter/stationConverter"
+import { GenreInformation } from "./genreTags"
 
 async function getRandomStation(
-  abortController: AbortController
+  abortController: AbortController,
+  genre: GenreInformation
 ): Promise<Station | null> {
-  const minBitrate = 64
-  const offset = getRandomInt(10000)
+  const tag = genre.searchTag
+  const offset = getRandomInt(genre.approxStationCount)
   const limit = 3
   const searchParams = new URLSearchParams(
-    `?order=random&limit=${limit}&hidebroken=true&is_https=true&bitrateMin=${minBitrate}&offset=${offset}`
+    `?order=random&limit=${limit}&hidebroken=true&is_https=true&offset=${offset}&tag=${tag}`
   )
   const server = await getRandomServer()
   const url = `${server}/json/stations/search`
