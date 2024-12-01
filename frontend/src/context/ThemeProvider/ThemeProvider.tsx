@@ -38,7 +38,7 @@ type Theme = {
   isDark: boolean
   toggle: () => void
 }
-const ThemeContext = createContext<Theme | undefined>(undefined)
+export const ThemeContext = createContext<Theme | undefined>(undefined)
 
 // https://stackoverflow.com/questions/61117608/how-do-i-set-system-preference-dark-mode-in-a-react-app-but-also-allow-users-to
 function ThemeProvider({ children }: { children: React.ReactNode }) {
