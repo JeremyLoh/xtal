@@ -13,3 +13,10 @@ header {
   font-weight: bold;
   padding: 0;
 }
+
+.header-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
