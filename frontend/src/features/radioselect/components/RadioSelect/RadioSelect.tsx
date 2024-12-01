@@ -6,9 +6,11 @@ import {
   DEFAULT_GENRE_SEARCH,
   GenreInformation,
 } from "../../../../api/radiobrowser/genreTags"
+import { StationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/StationSearchStrategy"
+import { getGenreStationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/GenreStationSearchStrategy"
 
 type RadioSelectProps = {
-  handleRandomSelect: (genre: GenreInformation) => void
+  handleRandomSelect: (searchStrategy: StationSearchStrategy) => void
   isLoading: boolean
 }
 
@@ -24,7 +26,9 @@ function RadioSelect(props: RadioSelectProps) {
       <button
         className="radio-select-random-btn"
         disabled={props.isLoading}
-        onClick={() => props.handleRandomSelect(selectedGenre)}
+        onClick={() =>
+          props.handleRandomSelect(getGenreStationSearchStrategy(selectedGenre))
+        }
         data-testid="random-radio-station-btn"
       >
         <GiPerspectiveDiceSixFacesRandom
