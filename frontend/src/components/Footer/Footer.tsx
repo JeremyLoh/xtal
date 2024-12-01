@@ -10,6 +10,7 @@ function Footer() {
         href="https://github.com/JeremyLoh/"
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Github link for Jeremy Loh"
       >
         <FaGithubSquare size={28} />
       </a>
