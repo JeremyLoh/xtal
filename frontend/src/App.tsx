@@ -30,11 +30,13 @@ function App() {
     <>
       <Toaster position="top-center" expand={true} richColors />
       <Header />
-      <RadioSelect
-        handleRandomSelect={displayRandomStation}
-        isLoading={isLoading}
-      />
-      <Map station={currentStation} />
+      <main>
+        <RadioSelect
+          handleRandomSelect={displayRandomStation}
+          isLoading={isLoading}
+        />
+        <Map station={currentStation} />
+      </main>
       <Footer />
     </>
   )
