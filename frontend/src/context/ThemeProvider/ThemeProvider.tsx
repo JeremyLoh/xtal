@@ -51,8 +51,6 @@ function ThemeProvider({ children }: { children: React.ReactNode }) {
     root.style.cssText = theme.join("")
   }
   function toggle() {
-    const body = document.getElementsByTagName("body")[0]
-    body.style.cssText = "transition: background 0.3s"
     const theme = isDark ? lightTheme : darkTheme
     applyTheme(theme)
     setIsDark(!isDark)
