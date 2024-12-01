@@ -1,11 +1,10 @@
 import { test, expect, Page } from "@playwright/test"
+import { HOMEPAGE } from "./constants"
 import {
   stationWithBlockedAccess,
   stationWithMultipleTags,
   stationWithNoLocationLatLng,
 } from "./mocks/station"
-
-const HOMEPAGE = "http://localhost:5173"
 
 async function clickRandomRadioStationButton(page: Page) {
   await page.getByTestId("random-radio-station-btn").click()
