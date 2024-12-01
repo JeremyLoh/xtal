@@ -38,6 +38,7 @@ type Theme = {
   isDark: boolean
   toggle: () => void
 }
+// eslint-disable-next-line react-refresh/only-export-components
 export const ThemeContext = createContext<Theme | undefined>(undefined)
 
 // https://stackoverflow.com/questions/61117608/how-do-i-set-system-preference-dark-mode-in-a-react-app-but-also-allow-users-to
