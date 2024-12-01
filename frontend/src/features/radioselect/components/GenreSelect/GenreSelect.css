@@ -26,6 +26,7 @@
 }
 
 .slider button {
+  color: var(--text-color);
   background-color: var(--genre-chip-primary-color);
   transition: all 200ms;
 }

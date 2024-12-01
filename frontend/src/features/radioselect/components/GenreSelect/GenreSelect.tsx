@@ -1,11 +1,11 @@
+import { useRef, useState } from "react"
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6"
 import "./GenreSelect.css"
 import {
   DEFAULT_GENRE_SEARCH,
   GenreInformation,
   genres,
 } from "../../../../api/radiobrowser/genreTags"
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa6"
-import { useRef, useState } from "react"
 
 type GenreSelectProps = {
   handleGenreSelect: (genre: GenreInformation) => void
