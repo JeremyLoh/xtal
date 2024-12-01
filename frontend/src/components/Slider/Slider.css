@@ -1,4 +1,4 @@
-#genre-select-container {
+.slider-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,14 +27,14 @@
 
 .slider button {
   color: var(--text-color);
-  background-color: var(--genre-chip-primary-color);
+  background-color: var(--slider-chip-primary-color);
   transition: all 200ms;
 }
 .slider button:hover {
-  background-color: var(--genre-chip-secondary-color);
+  background-color: var(--slider-chip-secondary-color);
   border-color: transparent;
 }
 .slider button.selected {
-  background-color: var(--genre-chip-selected-color);
-  color: var(--genre-chip-selected-text-color);
+  background-color: var(--slider-chip-selected-color);
+  color: var(--slider-chip-selected-text-color);
 }

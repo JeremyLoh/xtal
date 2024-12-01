@@ -1,6 +1,5 @@
-import { useRef, useState } from "react"
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa6"
-import "./GenreSelect.css"
+import { useState } from "react"
+import Slider from "../../../../components/Slider/Slider"
 import {
   DEFAULT_GENRE_SEARCH,
   GenreInformation,
@@ -13,52 +12,25 @@ type GenreSelectProps = {
 
 function GenreSelect(props: GenreSelectProps) {
   const SCROLL_AMOUNT = 500
-  const sliderRef = useRef<HTMLDivElement | null>(null)
   const [selectedGenre, setSelectedGenre] = useState<string>(
     DEFAULT_GENRE_SEARCH.genre
   )
-  function slideLeft() {
-    if (sliderRef.current == null) {
-      return
-    }
-    const nextPosition = sliderRef.current.scrollLeft - SCROLL_AMOUNT
-    sliderRef.current.scroll({ left: nextPosition, behavior: "smooth" })
-  }
-  function slideRight() {
-    if (sliderRef.current == null) {
-      return
-    }
-    const nextPosition = sliderRef.current.scrollLeft + SCROLL_AMOUNT
-    sliderRef.current.scroll({ left: nextPosition, behavior: "smooth" })
-  }
   return (
-    <div id="genre-select-container">
-      <FaChevronLeft
-        size={60}
-        className="icon slide-left-icon"
-        onClick={slideLeft}
-      />
-      <div ref={sliderRef} className="slider">
-        {genres.map((genreInfo: GenreInformation) => (
-          <div key={genreInfo.genre}>
-            <button
-              className={selectedGenre === genreInfo.genre ? "selected" : ""}
-              onClick={() => {
-                setSelectedGenre(genreInfo.genre)
-                props.handleGenreSelect(genreInfo)
-              }}
-            >
-              {genreInfo.genre}
-            </button>
-          </div>
-        ))}
-      </div>
-      <FaChevronRight
-        size={60}
-        className="icon slide-right-icon"
-        onClick={slideRight}
-      />
-    </div>
+    <Slider className="genre-slider-container" scrollAmount={SCROLL_AMOUNT}>
+      {genres.map((genreInfo: GenreInformation) => (
+        <div key={genreInfo.genre}>
+          <button
+            className={selectedGenre === genreInfo.genre ? "selected" : ""}
+            onClick={() => {
+              setSelectedGenre(genreInfo.genre)
+              props.handleGenreSelect(genreInfo)
+            }}
+          >
+            {genreInfo.genre}
+          </button>
+        </div>
+      ))}
+    </Slider>
   )
 }
 

@@ -11,10 +11,10 @@ const lightTheme = [
   "--success-color: #0e5d3c;",
   "--link-color: #0b2881;",
   "--disabled-element-color: #737373;",
-  "--genre-chip-primary-color: #d4d4d4;",
-  "--genre-chip-secondary-color: #e5e5e5;",
-  "--genre-chip-selected-color: #262626;",
-  "--genre-chip-selected-text-color: #f5f5f5;",
+  "--slider-chip-primary-color: #d4d4d4;",
+  "--slider-chip-secondary-color: #e5e5e5;",
+  "--slider-chip-selected-color: #262626;",
+  "--slider-chip-selected-text-color: #f5f5f5;",
 ]
 
 // https://www.realtimecolors.com/?colors=e8ebf5-0b0f1d-4846b6-143fc0-3059d2&fonts=Ubuntu-Ubuntu
@@ -28,10 +28,10 @@ const darkTheme = [
   "--success-color: #22c55e;",
   "--link-color: #e6f0f7;",
   "--disabled-element-color: #737373;",
-  "--genre-chip-primary-color: #525252;",
-  "--genre-chip-secondary-color: #737373;",
-  "--genre-chip-selected-color: #d4d4d4;",
-  "--genre-chip-selected-text-color: #171717;",
+  "--slider-chip-primary-color: #525252;",
+  "--slider-chip-secondary-color: #737373;",
+  "--slider-chip-selected-color: #d4d4d4;",
+  "--slider-chip-selected-text-color: #171717;",
 ]
 
 type Theme = {

@@ -163,12 +163,12 @@ test.describe("random radio station", () => {
 test.describe("select genre of random radio station", () => {
   async function assertGenreIsInView(page: Page, genre: string) {
     await expect(
-      page.locator("#genre-select-container").getByText(genre, { exact: true })
+      page.locator(".genre-slider-container").getByText(genre, { exact: true })
     ).toBeInViewport()
   }
   async function assertGenreIsNotInView(page: Page, genre: string) {
     await expect(
-      page.locator("#genre-select-container").getByText(genre, { exact: true })
+      page.locator(".genre-slider-container").getByText(genre, { exact: true })
     ).not.toBeInViewport()
   }
 
@@ -176,15 +176,15 @@ test.describe("select genre of random radio station", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
-    await expect(page.locator("#genre-select-container")).toBeVisible()
+    await expect(page.locator(".slider-container")).toBeVisible()
     await expect(
-      page.locator("#genre-select-container").getByText("All", { exact: true })
+      page.locator(".genre-slider-container").getByText("All", { exact: true })
     ).toBeVisible()
     await expect(
-      page.locator("#genre-select-container .slide-left-icon")
+      page.locator(".genre-slider-container .slide-left-icon")
     ).toBeVisible()
     await expect(
-      page.locator("#genre-select-container .slide-right-icon")
+      page.locator(".genre-slider-container .slide-right-icon")
     ).toBeVisible()
   })
 
@@ -195,7 +195,7 @@ test.describe("select genre of random radio station", () => {
     const firstGenre = "All"
     // expect "All" genre tag will disappear after sliding to right
     await assertGenreIsInView(page, firstGenre)
-    await page.locator("#genre-select-container .slide-right-icon").click()
+    await page.locator(".genre-slider-container .slide-right-icon").click()
     await assertGenreIsNotInView(page, firstGenre)
   })
 
@@ -205,9 +205,9 @@ test.describe("select genre of random radio station", () => {
     await page.goto(HOMEPAGE)
     const firstGenre = "All"
     await assertGenreIsInView(page, firstGenre)
-    await page.locator("#genre-select-container .slide-right-icon").click()
+    await page.locator(".genre-slider-container .slide-right-icon").click()
     await assertGenreIsNotInView(page, firstGenre)
-    await page.locator("#genre-select-container .slide-left-icon").click()
+    await page.locator(".genre-slider-container .slide-left-icon").click()
     await assertGenreIsInView(page, firstGenre)
   })
 
@@ -219,14 +219,14 @@ test.describe("select genre of random radio station", () => {
     const secondGenre = "Alternative"
     await assertGenreIsInView(page, firstGenre)
     await assertGenreIsInView(page, secondGenre)
-    await expect(page.locator("#genre-select-container .selected")).toHaveText(
+    await expect(page.locator(".genre-slider-container .selected")).toHaveText(
       firstGenre
     )
     await page
-      .locator("#genre-select-container")
+      .locator(".genre-slider-container")
       .getByText(secondGenre, { exact: true })
       .click()
-    await expect(page.locator("#genre-select-container .selected")).toHaveText(
+    await expect(page.locator(".genre-slider-container .selected")).toHaveText(
       secondGenre
     )
   })
