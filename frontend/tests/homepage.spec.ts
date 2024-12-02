@@ -231,3 +231,38 @@ test.describe("select genre of random radio station", () => {
     )
   })
 })
+
+test.describe("radio station search type container", () => {
+  function getGenreSearchButton(page: Page) {
+    return page.locator("#station-search-type-container .genre-search-button")
+  }
+  function getCountrySearchButton(page: Page) {
+    return page.locator("#station-search-type-container .country-search-button")
+  }
+
+  test("display genre tab with 'selected' CSS className", async ({ page }) => {
+    await page.goto(HOMEPAGE)
+    // Genre tab should be selected by default, "selected" class
+    await expect(getGenreSearchButton(page)).toHaveClass(/selected/)
+    await expect(getCountrySearchButton(page)).not.toHaveClass(/selected/)
+  })
+
+  test("display genre and country tab above slider", async ({ page }) => {
+    await page.goto(HOMEPAGE)
+    await expect(getGenreSearchButton(page)).toBeVisible()
+    await expect(getCountrySearchButton(page)).toBeVisible()
+  })
+
+  test("display country options in slider when country tab is clicked", async ({
+    page,
+  }) => {
+    const expectedCountryCount = 100
+    await page.goto(HOMEPAGE)
+    await expect(getCountrySearchButton(page)).not.toHaveClass(/selected/)
+    await getCountrySearchButton(page).click()
+    await expect(getCountrySearchButton(page)).toHaveClass(/selected/)
+    await expect(page.locator(".slider .country-slider-option")).toHaveCount(
+      expectedCountryCount
+    )
+  })
+})
