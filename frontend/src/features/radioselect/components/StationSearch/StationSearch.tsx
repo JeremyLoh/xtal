@@ -1,12 +1,7 @@
 import { useState } from "react"
 import "./StationSearch.css"
 import { FaFlag, FaMusic } from "react-icons/fa"
-
-// eslint-disable-next-line react-refresh/only-export-components
-export enum StationSearchType {
-  GENRE = "genre",
-  COUNTRY = "country",
-}
+import { StationSearchType } from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory"
 
 type StationSearchProps = {
   handleStationSearchType: (searchType: StationSearchType) => void

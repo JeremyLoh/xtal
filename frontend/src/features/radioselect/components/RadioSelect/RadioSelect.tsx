@@ -2,21 +2,15 @@ import "./RadioSelect.css"
 import { useState } from "react"
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi"
 import GenreSelect from "../GenreSelect/GenreSelect"
-import {
-  DEFAULT_GENRE_SEARCH,
-  GenreInformation,
-} from "../../../../api/radiobrowser/genreTags"
+import { GenreInformation } from "../../../../api/radiobrowser/genreTags"
 import { StationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/StationSearchStrategy"
-import { GenreStationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/GenreStationSearchStrategy"
-import { CountryStationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/CountryStationSearchStrategy"
-import StationSearch, {
-  StationSearchType,
-} from "../StationSearch/StationSearch"
+import StationSearch from "../StationSearch/StationSearch"
 import CountrySelect from "../CountrySelect/CountrySelect"
+import { CountryStation } from "../../../../api/location/countryStation"
 import {
-  CountryStation,
-  DEFAULT_COUNTRY_SEARCH,
-} from "../../../../api/location/countryStation"
+  SearchStrategyFactory,
+  StationSearchType,
+} from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory"
 
 type RadioSelectProps = {
   handleRandomSelect: (searchStrategy: StationSearchStrategy) => void
@@ -28,46 +22,36 @@ type ActiveSearch = {
   strategy: StationSearchStrategy
 }
 
-const defaultSearchTypes = new Map<StationSearchType, ActiveSearch>([
-  [
-    StationSearchType.GENRE,
-    {
-      type: StationSearchType.GENRE,
-      strategy: new GenreStationSearchStrategy(DEFAULT_GENRE_SEARCH),
-    },
-  ],
-  [
-    StationSearchType.COUNTRY,
-    {
-      type: StationSearchType.COUNTRY,
-      strategy: new CountryStationSearchStrategy(DEFAULT_COUNTRY_SEARCH),
-    },
-  ],
-])
+const initialActiveSearch: ActiveSearch = {
+  type: StationSearchType.GENRE,
+  strategy: SearchStrategyFactory.createDefaultSearchStrategy(
+    StationSearchType.GENRE
+  ),
+}
 
 function RadioSelect(props: RadioSelectProps) {
-  const [activeSearch, setActiveSearch] = useState<ActiveSearch | undefined>(
-    defaultSearchTypes.get(StationSearchType.GENRE)
-  )
+  const [activeSearch, setActiveSearch] =
+    useState<ActiveSearch>(initialActiveSearch)
   function handleStationSearchType(searchType: StationSearchType) {
     if (activeSearch && searchType === activeSearch.type) {
       return
     }
-    if (defaultSearchTypes.has(searchType)) {
-      setActiveSearch(defaultSearchTypes.get(searchType))
-    }
+    setActiveSearch({
+      type: searchType,
+      strategy: SearchStrategyFactory.createDefaultSearchStrategy(searchType),
+    })
   }
 
   function handleGenreSelect(genre: GenreInformation) {
     setActiveSearch({
       type: StationSearchType.GENRE,
-      strategy: new GenreStationSearchStrategy(genre),
+      strategy: SearchStrategyFactory.createGenreSearchStrategy(genre),
     })
   }
   function handleCountrySelect(country: CountryStation) {
     setActiveSearch({
       type: StationSearchType.COUNTRY,
-      strategy: new CountryStationSearchStrategy(country),
+      strategy: SearchStrategyFactory.createCountrySearchStrategy(country),
     })
   }
   return (
