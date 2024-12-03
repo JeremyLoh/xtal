@@ -15,6 +15,7 @@
 }
 
 .slider {
+  width: 90%;
   display: flex;
   align-items: center;
   gap: clamp(0.4rem, 0.4rem + 1vw, 1rem);
