@@ -29,7 +29,7 @@ function Slider(props: SliderProps) {
       className={`slider-container ${props.className ? props.className : ""}`}
     >
       <FaChevronLeft
-        size={60}
+        size={16}
         className="icon slide-left-icon"
         onClick={slideLeft}
       />
@@ -37,7 +37,7 @@ function Slider(props: SliderProps) {
         {props.children}
       </div>
       <FaChevronRight
-        size={60}
+        size={16}
         className="icon slide-right-icon"
         onClick={slideRight}
       />

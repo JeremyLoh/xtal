@@ -73,6 +73,7 @@ a:hover {
 }
 
 button {
+  background-color: var(--slider-chip-primary-color);
   color: var(--text-color);
   border-radius: 8px;
   border: 1px solid transparent;
