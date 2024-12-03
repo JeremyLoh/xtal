@@ -159,6 +159,24 @@ test.describe("random radio station", () => {
     ).toBeVisible()
     await expect(getAudioPlayButton(page)).toBeInViewport()
   })
+
+  test("random station with bitrate information displays bitrate on card", async ({
+    page,
+  }) => {
+    await page.route("*/**/json/stations/search?*", async (route) => {
+      const json = [unitedStatesStation]
+      await route.fulfill({ json })
+    })
+    await page.goto(HOMEPAGE)
+    await clickRandomRadioStationButton(page)
+    await expect(
+      page
+        .locator("#map .radio-card")
+        .getByText(`${unitedStatesStation.bitrate} kbps`, {
+          exact: true,
+        })
+    ).toBeVisible()
+  })
 })
 
 test.describe("select genre of random radio station", () => {

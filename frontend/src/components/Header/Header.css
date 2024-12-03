@@ -1,3 +1,7 @@
+#header-container {
+  border-bottom: 2mm dotted var(--primary-color);
+}
+
 header {
   display: flex;
   justify-content: space-between;
@@ -5,7 +9,6 @@ header {
   margin: 0 auto;
   width: 80%;
   max-width: 70ch;
-  border-bottom: 2mm dotted var(--primary-color);
 }
 
 .header-app-name {

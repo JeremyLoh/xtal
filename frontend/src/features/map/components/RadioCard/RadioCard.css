@@ -19,18 +19,16 @@
   padding: 0.5rem 0;
 }
 
+.station-name {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
 .station-tag-container {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.station-tag {
-  padding: 0.2rem 0.4rem;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  background-color: var(--primary-color);
-  border-bottom: 1mm solid var(--accent-color);
+  gap: 0.3rem;
+  margin: 0.5rem 0;
 }
