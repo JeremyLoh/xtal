@@ -4,6 +4,7 @@ import {
   stationWithBlockedAccess,
   stationWithMultipleTags,
   stationWithNoLocationLatLng,
+  unitedStatesStation,
 } from "./mocks/station"
 
 async function clickRandomRadioStationButton(page: Page) {
@@ -232,7 +233,7 @@ test.describe("select genre of random radio station", () => {
   })
 })
 
-test.describe("radio station search type container", () => {
+test.describe("radio station search type", () => {
   function getGenreSearchButton(page: Page) {
     return page.locator("#station-search-type-container .genre-search-button")
   }
@@ -264,5 +265,32 @@ test.describe("radio station search type container", () => {
     await expect(page.locator(".slider .country-slider-option")).toHaveCount(
       expectedCountryCount
     )
+  })
+
+  test("search random station by country", async ({ page }) => {
+    const expectedCountryCode = "US"
+    await page.route(
+      `*/**/json/stations/search?countrycode=${expectedCountryCode}&*`,
+      async (route) => {
+        const json = [unitedStatesStation]
+        await route.fulfill({ json })
+      }
+    )
+    await page.goto(HOMEPAGE)
+    await getCountrySearchButton(page).click()
+    await clickRandomRadioStationButton(page)
+    await expect(page.locator("#map .radio-card")).toBeVisible()
+    await expect(
+      page.locator("#map .radio-card").getByRole("heading", {
+        name: unitedStatesStation.name,
+        exact: true,
+      })
+    ).toBeVisible()
+    await expect(
+      page.locator("#map .radio-card").getByRole("link", {
+        name: unitedStatesStation.homepage,
+        exact: true,
+      })
+    ).toBeVisible()
   })
 })

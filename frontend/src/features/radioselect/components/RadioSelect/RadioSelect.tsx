@@ -8,11 +8,15 @@ import {
 } from "../../../../api/radiobrowser/genreTags"
 import { StationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/StationSearchStrategy"
 import { getGenreStationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/GenreStationSearchStrategy"
+import { CountryStationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/CountryStationSearchStrategy"
 import StationSearch, {
   StationSearchType,
 } from "../StationSearch/StationSearch"
 import CountrySelect from "../CountrySelect/CountrySelect"
-import { CountryStation } from "../../../../api/location/countryStation"
+import {
+  CountryStation,
+  DEFAULT_COUNTRY_SEARCH,
+} from "../../../../api/location/countryStation"
 
 type RadioSelectProps = {
   handleRandomSelect: (searchStrategy: StationSearchStrategy) => void
@@ -24,19 +28,34 @@ type ActiveSearch = {
   strategy: StationSearchStrategy
 }
 
+const defaultSearchTypes = new Map<StationSearchType, ActiveSearch>([
+  [
+    StationSearchType.GENRE,
+    {
+      type: StationSearchType.GENRE,
+      strategy: getGenreStationSearchStrategy(DEFAULT_GENRE_SEARCH),
+    },
+  ],
+  [
+    StationSearchType.COUNTRY,
+    {
+      type: StationSearchType.COUNTRY,
+      strategy: new CountryStationSearchStrategy(DEFAULT_COUNTRY_SEARCH),
+    },
+  ],
+])
+
 function RadioSelect(props: RadioSelectProps) {
-  const [activeSearch, setActiveSearch] = useState<ActiveSearch>({
-    type: StationSearchType.GENRE,
-    strategy: getGenreStationSearchStrategy(DEFAULT_GENRE_SEARCH),
-  })
+  const [activeSearch, setActiveSearch] = useState<ActiveSearch | undefined>(
+    defaultSearchTypes.get(StationSearchType.GENRE)
+  )
   function handleStationSearchType(searchType: StationSearchType) {
-    if (searchType === activeSearch.type) {
+    if (activeSearch && searchType === activeSearch.type) {
       return
     }
-    setActiveSearch({
-      type: searchType,
-      strategy: getGenreStationSearchStrategy(DEFAULT_GENRE_SEARCH),
-    })
+    if (defaultSearchTypes.has(searchType)) {
+      setActiveSearch(defaultSearchTypes.get(searchType))
+    }
   }
 
   function handleGenreSelect(genre: GenreInformation) {
@@ -46,22 +65,26 @@ function RadioSelect(props: RadioSelectProps) {
     })
   }
   function handleCountrySelect(country: CountryStation) {
-    // TODO setActiveSearch for the country, create countrySearchStrategy
-    console.log({ country })
+    setActiveSearch({
+      type: StationSearchType.COUNTRY,
+      strategy: new CountryStationSearchStrategy(country),
+    })
   }
   return (
     <div className="radio-select-container">
       <StationSearch handleStationSearchType={handleStationSearchType} />
-      {activeSearch.type === StationSearchType.GENRE && (
+      {activeSearch && activeSearch.type === StationSearchType.GENRE && (
         <GenreSelect handleGenreSelect={handleGenreSelect} />
       )}
-      {activeSearch.type === StationSearchType.COUNTRY && (
+      {activeSearch && activeSearch.type === StationSearchType.COUNTRY && (
         <CountrySelect handleCountrySelect={handleCountrySelect} />
       )}
       <button
         className="radio-select-random-btn"
         disabled={props.isLoading}
-        onClick={() => props.handleRandomSelect(activeSearch.strategy)}
+        onClick={() =>
+          activeSearch && props.handleRandomSelect(activeSearch.strategy)
+        }
         data-testid="random-radio-station-btn"
       >
         <GiPerspectiveDiceSixFacesRandom
