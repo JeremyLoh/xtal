@@ -4,6 +4,7 @@ import { toast } from "sonner"
 import RadioPlayer from "../../../player/components/RadioPlayer/RadioPlayer"
 import { Station } from "../../../../api/radiobrowser/types"
 import { FaMapMarkerAlt } from "react-icons/fa"
+import Pill from "../../../../components/Pill/Pill"
 
 type RadioCardProps = {
   station: Station
@@ -43,13 +44,11 @@ function RadioCard(props: RadioCardProps) {
   return (
     <div className="radio-card">
       {station.favicon && <img src={station.favicon} height={64} width={64} />}
-      <h2>{station.name}</h2>
+      <h2 className="station-name">{station.name}</h2>
       {station.tags && (
         <div className="station-tag-container">
           {station.tags.split(",").map((tag, index) => (
-            <span className="station-tag" key={`${tag}-${index}`}>
-              {tag}
-            </span>
+            <Pill key={`${tag}-${index}`}>{tag}</Pill>
           ))}
         </div>
       )}
