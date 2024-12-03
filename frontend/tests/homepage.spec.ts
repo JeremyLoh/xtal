@@ -257,7 +257,7 @@ test.describe("radio station search type", () => {
   test("display country options in slider when country tab is clicked", async ({
     page,
   }) => {
-    const expectedCountryCount = 100
+    const expectedCountryCount = 65
     await page.goto(HOMEPAGE)
     await expect(getCountrySearchButton(page)).not.toHaveClass(/selected/)
     await getCountrySearchButton(page).click()

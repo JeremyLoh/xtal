@@ -10,9 +10,8 @@ export const DEFAULT_COUNTRY_SEARCH: CountryStation = {
   stationCount: 6650,
 }
 
-// 100 countries, sorted based on station count (radio browser station api)
 // Data retrieved on 2 December 2024, countryCode is based on ISO 3166
-// https://de1.api.radio-browser.info/json/countries?order=stationcount&reverse=true&limit=100
+// https://de1.api.radio-browser.info/json/countries?order=stationcount&reverse=true
 export const countryStationInfo: Array<CountryStation> = [
   {
     countryCode: "US",
@@ -23,11 +22,6 @@ export const countryStationInfo: Array<CountryStation> = [
     countryCode: "DE",
     name: "Germany",
     stationCount: 5301,
-  },
-  {
-    countryCode: "RU",
-    name: "The Russian Federation",
-    stationCount: 2875,
   },
   {
     countryCode: "FR",
@@ -70,11 +64,6 @@ export const countryStationInfo: Array<CountryStation> = [
     stationCount: 1449,
   },
   {
-    countryCode: "IN",
-    name: "India",
-    stationCount: 1395,
-  },
-  {
     countryCode: "ES",
     name: "Spain",
     stationCount: 1247,
@@ -105,16 +94,6 @@ export const countryStationInfo: Array<CountryStation> = [
     stationCount: 827,
   },
   {
-    countryCode: "AE",
-    name: "The United Arab Emirates",
-    stationCount: 692,
-  },
-  {
-    countryCode: "UG",
-    name: "Uganda",
-    stationCount: 582,
-  },
-  {
     countryCode: "CH",
     name: "Switzerland",
     stationCount: 559,
@@ -130,11 +109,6 @@ export const countryStationInfo: Array<CountryStation> = [
     stationCount: 485,
   },
   {
-    countryCode: "TR",
-    name: "Türkiye",
-    stationCount: 475,
-  },
-  {
     countryCode: "CO",
     name: "Colombia",
     stationCount: 458,
@@ -148,11 +122,6 @@ export const countryStationInfo: Array<CountryStation> = [
     countryCode: "CL",
     name: "Chile",
     stationCount: 385,
-  },
-  {
-    countryCode: "UA",
-    name: "Ukraine",
-    stationCount: 378,
   },
   {
     countryCode: "RS",
@@ -215,11 +184,6 @@ export const countryStationInfo: Array<CountryStation> = [
     stationCount: 203,
   },
   {
-    countryCode: "VE",
-    name: "Bolivarian Republic Of Venezuela",
-    stationCount: 194,
-  },
-  {
     countryCode: "JP",
     name: "Japan",
     stationCount: 191,
@@ -240,29 +204,9 @@ export const countryStationInfo: Array<CountryStation> = [
     stationCount: 172,
   },
   {
-    countryCode: "AF",
-    name: "Afghanistan",
-    stationCount: 156,
-  },
-  {
     countryCode: "ZA",
     name: "South Africa",
     stationCount: 155,
-  },
-  {
-    countryCode: "SA",
-    name: "Saudi Arabia",
-    stationCount: 148,
-  },
-  {
-    countryCode: "BA",
-    name: "Bosnia And Herzegovina",
-    stationCount: 145,
-  },
-  {
-    countryCode: "GI",
-    name: "Gibraltar",
-    stationCount: 134,
   },
   {
     countryCode: "FI",
@@ -280,16 +224,6 @@ export const countryStationInfo: Array<CountryStation> = [
     stationCount: 113,
   },
   {
-    countryCode: "IL",
-    name: "Israel",
-    stationCount: 109,
-  },
-  {
-    countryCode: "DO",
-    name: "The Dominican Republic",
-    stationCount: 105,
-  },
-  {
     countryCode: "TW",
     name: "Taiwan, Republic Of China",
     stationCount: 103,
@@ -305,11 +239,6 @@ export const countryStationInfo: Array<CountryStation> = [
     stationCount: 99,
   },
   {
-    countryCode: "MA",
-    name: "Morocco",
-    stationCount: 93,
-  },
-  {
     countryCode: "NO",
     name: "Norway",
     stationCount: 92,
@@ -323,16 +252,6 @@ export const countryStationInfo: Array<CountryStation> = [
     countryCode: "LT",
     name: "Lithuania",
     stationCount: 84,
-  },
-  {
-    countryCode: "KE",
-    name: "Kenya",
-    stationCount: 82,
-  },
-  {
-    countryCode: "TN",
-    name: "Tunisia",
-    stationCount: 82,
   },
   {
     countryCode: "LK",
@@ -355,53 +274,13 @@ export const countryStationInfo: Array<CountryStation> = [
     stationCount: 74,
   },
   {
-    countryCode: "DZ",
-    name: "Algeria",
-    stationCount: 71,
-  },
-  {
-    countryCode: "BY",
-    name: "Belarus",
-    stationCount: 69,
-  },
-  {
     countryCode: "HK",
     name: "Hong Kong",
     stationCount: 67,
   },
   {
-    countryCode: "PK",
-    name: "Pakistan",
-    stationCount: 67,
-  },
-  {
-    countryCode: "EG",
-    name: "Egypt",
-    stationCount: 66,
-  },
-  {
-    countryCode: "NG",
-    name: "Nigeria",
-    stationCount: 65,
-  },
-  {
-    countryCode: "CU",
-    name: "Cuba",
-    stationCount: 63,
-  },
-  {
-    countryCode: "MK",
-    name: "Republic Of North Macedonia",
-    stationCount: 61,
-  },
-  {
     countryCode: "PY",
     name: "Paraguay",
-    stationCount: 60,
-  },
-  {
-    countryCode: "IR",
-    name: "Islamic Republic Of Iran",
     stationCount: 60,
   },
   {
@@ -410,24 +289,9 @@ export const countryStationInfo: Array<CountryStation> = [
     stationCount: 58,
   },
   {
-    countryCode: "HN",
-    name: "Honduras",
-    stationCount: 57,
-  },
-  {
-    countryCode: "LB",
-    name: "Lebanon",
-    stationCount: 56,
-  },
-  {
     countryCode: "AL",
     name: "Albania",
     stationCount: 54,
-  },
-  {
-    countryCode: "ME",
-    name: "Montenegro",
-    stationCount: 53,
   },
   {
     countryCode: "VN",
@@ -440,16 +304,6 @@ export const countryStationInfo: Array<CountryStation> = [
     stationCount: 51,
   },
   {
-    countryCode: "SV",
-    name: "El Salvador",
-    stationCount: 48,
-  },
-  {
-    countryCode: "KZ",
-    name: "Kazakhstan",
-    stationCount: 48,
-  },
-  {
     countryCode: "CY",
     name: "Cyprus",
     stationCount: 48,
@@ -458,31 +312,6 @@ export const countryStationInfo: Array<CountryStation> = [
     countryCode: "SG",
     name: "Singapore",
     stationCount: 46,
-  },
-  {
-    countryCode: "MD",
-    name: "The Republic Of Moldova",
-    stationCount: 46,
-  },
-  {
-    countryCode: "ET",
-    name: "Ethiopia",
-    stationCount: 46,
-  },
-  {
-    countryCode: "AZ",
-    name: "Azerbaijan",
-    stationCount: 39,
-  },
-  {
-    countryCode: "PR",
-    name: "Puerto Rico",
-    stationCount: 37,
-  },
-  {
-    countryCode: "HT",
-    name: "Haiti",
-    stationCount: 37,
   },
   {
     countryCode: "JM",
@@ -507,11 +336,6 @@ export const countryStationInfo: Array<CountryStation> = [
   {
     countryCode: "NP",
     name: "Nepal",
-    stationCount: 29,
-  },
-  {
-    countryCode: "JO",
-    name: "Jordan",
     stationCount: 29,
   },
 ]
