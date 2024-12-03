@@ -7,7 +7,7 @@ import {
   GenreInformation,
 } from "../../../../api/radiobrowser/genreTags"
 import { StationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/StationSearchStrategy"
-import { getGenreStationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/GenreStationSearchStrategy"
+import { GenreStationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/GenreStationSearchStrategy"
 import { CountryStationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/CountryStationSearchStrategy"
 import StationSearch, {
   StationSearchType,
@@ -33,7 +33,7 @@ const defaultSearchTypes = new Map<StationSearchType, ActiveSearch>([
     StationSearchType.GENRE,
     {
       type: StationSearchType.GENRE,
-      strategy: getGenreStationSearchStrategy(DEFAULT_GENRE_SEARCH),
+      strategy: new GenreStationSearchStrategy(DEFAULT_GENRE_SEARCH),
     },
   ],
   [
@@ -61,7 +61,7 @@ function RadioSelect(props: RadioSelectProps) {
   function handleGenreSelect(genre: GenreInformation) {
     setActiveSearch({
       type: StationSearchType.GENRE,
-      strategy: getGenreStationSearchStrategy(genre),
+      strategy: new GenreStationSearchStrategy(genre),
     })
   }
   function handleCountrySelect(country: CountryStation) {
