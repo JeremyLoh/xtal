@@ -19,7 +19,6 @@ export class CountryStationSearchStrategy implements StationSearchStrategy {
   async findStation(abortController: AbortController): Promise<Station | null> {
     const server = await getRandomServer()
     const url = `${server}/json/stations/search`
-    console.log(this.searchParams.toString())
     return await getStation(abortController, url, this.searchParams)
   }
 
