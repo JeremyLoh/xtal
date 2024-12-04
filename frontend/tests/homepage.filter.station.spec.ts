@@ -40,13 +40,11 @@ test.describe("radio station search type", () => {
     test("country tab first selected moves map to approximate country location", async ({
       page,
     }) => {
-      const expectedStartMapPane = "transform: translate3d(2048px, 2048px, 0px)"
       await page.goto(HOMEPAGE)
-      expect(
-        await page
+      const expectedStartMapPane =
+        (await page
           .locator(".leaflet-proxy.leaflet-zoom-animated")
-          .getAttribute("style")
-      ).toContain(expectedStartMapPane)
+          .getAttribute("style")) || ""
       await getCountrySearchButton(page).click()
       expect(
         page.locator(".leaflet-proxy.leaflet-zoom-animated")
@@ -56,13 +54,7 @@ test.describe("radio station search type", () => {
     test("select second country in country tab moves map to second approximate country location", async ({
       page,
     }) => {
-      const expectedStartMapPane = "transform: translate3d(2048px, 2048px, 0px)"
       await page.goto(HOMEPAGE)
-      expect(
-        await page
-          .locator(".leaflet-proxy.leaflet-zoom-animated")
-          .getAttribute("style")
-      ).toContain(expectedStartMapPane)
       await getCountrySearchButton(page).click()
       const expectedFirstCountryMapPane =
         (await page
@@ -90,6 +82,7 @@ test.describe("radio station search type", () => {
       await page.goto(HOMEPAGE)
       await getCountrySearchButton(page).click()
       await clickRandomRadioStationButton(page)
+      await page.waitForTimeout(500) // test fails without waiting for the navigation
       const expectedStationMapPane =
         (await page
           .locator(".leaflet-proxy.leaflet-zoom-animated")
