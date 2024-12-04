@@ -45,7 +45,7 @@ function RadioCard(props: RadioCardProps) {
     <div className="radio-card">
       {station.favicon && <img src={station.favicon} height={64} width={64} />}
       <h2 className="station-name">{station.name}</h2>
-      {station.bitrate && (
+      {station.bitrate > 0 && (
         <Pill key="station-bitrate">{station.bitrate} kbps</Pill>
       )}
       {station.tags && (
