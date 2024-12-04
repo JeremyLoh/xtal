@@ -5,21 +5,25 @@ import { Station } from "../types"
 import { StationSearchStrategy } from "./StationSearchStrategy"
 
 export class GenreStationSearchStrategy implements StationSearchStrategy {
-  private searchParams: URLSearchParams
+  private genre: GenreInformation
 
   constructor(genre: GenreInformation) {
-    const tag = genre.searchTag
-    const offset = this.getRandomInt(genre.approxStationCount)
-    const limit = 3
-    this.searchParams = new URLSearchParams(
-      `?order=random&limit=${limit}&hidebroken=true&is_https=true&offset=${offset}&tag=${tag}`
-    )
+    this.genre = genre
   }
 
   async findStation(abortController: AbortController): Promise<Station | null> {
+    // offset needs to be different for each call
+    const offset = this.getRandomInt(this.genre.approxStationCount)
+    const tag = this.genre.searchTag
+    const limit = 3
+    const searchParams = new URLSearchParams(
+      tag !== ""
+        ? `order=random&limit=${limit}&hidebroken=true&is_https=true&offset=${offset}&tag=${tag}`
+        : `order=random&limit=${limit}&hidebroken=true&is_https=true&offset=${offset}`
+    )
     const server = await getRandomServer()
     const url = `${server}/json/stations/search`
-    return await getStation(abortController, url, this.searchParams)
+    return await getStation(abortController, url, searchParams)
   }
 
   getRandomInt(max: number) {
