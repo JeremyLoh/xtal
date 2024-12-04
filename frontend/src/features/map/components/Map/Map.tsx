@@ -3,25 +3,35 @@ import "leaflet/dist/leaflet.css"
 import L from "leaflet"
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
+import { toast } from "sonner"
 import { Station } from "../../../../api/radiobrowser/types"
 import RadioCard from "../RadioCard/RadioCard"
-import { toast } from "sonner"
 
 let map: L.Map
 
 type MapProps = {
   station: Station | null
+  latLng: L.LatLngExpression
 }
 
 function Map(props: MapProps) {
+  const [currentPopup, setCurrentPopup] = useState<L.Popup | null>(null)
   const [popupContainer, setPopupContainer] = useState<HTMLElement | null>(null)
-
   useEffect(() => {
     map = setupMap()
     return () => {
       map.remove()
     }
   }, [])
+  useEffect(() => {
+    if (currentPopup !== null && currentPopup.isOpen()) {
+      // do not navigate when station is rendered to user
+      return
+    }
+    if (map) {
+      map.panTo(props.latLng)
+    }
+  }, [currentPopup, props.latLng])
   useEffect(() => {
     if (props.station == null) {
       return
@@ -33,9 +43,11 @@ function Map(props: MapProps) {
       .setContent(popupDiv)
       .openOn(map)
     setPopupContainer(popupDiv)
+    setCurrentPopup(popup)
     map.panTo(location, { animate: true })
     return () => {
       popup.remove()
+      setCurrentPopup(null)
     }
   }, [setPopupContainer, props.station])
   return (

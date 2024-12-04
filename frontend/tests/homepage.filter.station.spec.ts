@@ -36,6 +36,72 @@ test.describe("radio station search type", () => {
     )
   })
 
+  test.describe("country tab", () => {
+    test("country tab first selected moves map to approximate country location", async ({
+      page,
+    }) => {
+      const expectedStartMapPane = "transform: translate3d(2048px, 2048px, 0px)"
+      await page.goto(HOMEPAGE)
+      expect(
+        await page
+          .locator(".leaflet-proxy.leaflet-zoom-animated")
+          .getAttribute("style")
+      ).toContain(expectedStartMapPane)
+      await getCountrySearchButton(page).click()
+      expect(
+        page.locator(".leaflet-proxy.leaflet-zoom-animated")
+      ).not.toHaveAttribute("style", expectedStartMapPane)
+    })
+
+    test("select second country in country tab moves map to second approximate country location", async ({
+      page,
+    }) => {
+      const expectedStartMapPane = "transform: translate3d(2048px, 2048px, 0px)"
+      await page.goto(HOMEPAGE)
+      expect(
+        await page
+          .locator(".leaflet-proxy.leaflet-zoom-animated")
+          .getAttribute("style")
+      ).toContain(expectedStartMapPane)
+      await getCountrySearchButton(page).click()
+      const expectedFirstCountryMapPane =
+        (await page
+          .locator(".leaflet-proxy.leaflet-zoom-animated")
+          .getAttribute("style")) || ""
+      // get second country in list of countries
+      await page.locator(".country-slider-option").nth(1).click()
+      expect(
+        page.locator(".leaflet-proxy.leaflet-zoom-animated")
+      ).not.toHaveAttribute("style", expectedFirstCountryMapPane)
+    })
+
+    test("should not navigate map to approximate country when station popup is open", async ({
+      page,
+    }) => {
+      // load a country radio station, click the second location and the map should not navigate
+      const expectedCountryCode = "US"
+      await page.route(
+        `*/**/json/stations/search?countrycode=${expectedCountryCode}&*`,
+        async (route) => {
+          const json = [unitedStatesStation]
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE)
+      await getCountrySearchButton(page).click()
+      await clickRandomRadioStationButton(page)
+      const expectedStationMapPane =
+        (await page
+          .locator(".leaflet-proxy.leaflet-zoom-animated")
+          .getAttribute("style")) || ""
+      // get second country in list of countries
+      await page.locator(".country-slider-option").nth(1).click()
+      expect(
+        page.locator(".leaflet-proxy.leaflet-zoom-animated")
+      ).toHaveAttribute("style", expectedStationMapPane)
+    })
+  })
+
   test("search random station by country", async ({ page }) => {
     const expectedCountryCode = "US"
     await page.route(

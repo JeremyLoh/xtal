@@ -55,9 +55,11 @@ function RadioCard(props: RadioCardProps) {
           ))}
         </div>
       )}
-      <a href={station.homepage} rel="noopener noreferrer" target="_blank">
-        {station.homepage}
-      </a>
+      {station.homepage && (
+        <a href={station.homepage} rel="noopener noreferrer" target="_blank">
+          {station.homepage}
+        </a>
+      )}
       {station.country && (
         <p>
           <FaMapMarkerAlt size={16} /> {station.country}
