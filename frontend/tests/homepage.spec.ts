@@ -311,4 +311,27 @@ test.describe("radio station search type", () => {
       })
     ).toBeVisible()
   })
+
+  test("second random country station request should call API with different offset number", async ({
+    page,
+  }) => {
+    const apiCalls: string[] = []
+    const expectedCountryCode = "US"
+    await page.route(
+      `*/**/json/stations/search?countrycode=${expectedCountryCode}&*`,
+      async (route) => {
+        apiCalls.push(route.request().url())
+        const json = [unitedStatesStation]
+        await route.fulfill({ json })
+      }
+    )
+    await page.goto(HOMEPAGE)
+    await getCountrySearchButton(page).click()
+    await clickRandomRadioStationButton(page)
+    await clickRandomRadioStationButton(page)
+    const offsets = new Set(
+      apiCalls.map((apiCall) => new URLSearchParams(apiCall).get("offset"))
+    )
+    expect(offsets.size).toBe(2)
+  })
 })
