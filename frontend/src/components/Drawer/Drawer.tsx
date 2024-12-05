@@ -1,7 +1,7 @@
 import "./Drawer.css"
 import { Dispatch, SetStateAction } from "react"
 import { MdOutlineHorizontalRule } from "react-icons/md"
-import { motion } from "motion/react"
+import { motion, useDragControls } from "motion/react"
 
 type DrawerProps = {
   open: boolean
@@ -10,8 +10,12 @@ type DrawerProps = {
 }
 
 function Drawer(props: DrawerProps) {
+  const controls = useDragControls()
   function handleClick() {
     props.setOpen(false)
+  }
+  function startDrag(event: React.PointerEvent) {
+    controls.start(event)
   }
   return (
     props.open && (
@@ -29,9 +33,18 @@ function Drawer(props: DrawerProps) {
           transition={{
             type: "easeInOut",
           }}
+          drag="y"
+          dragControls={controls}
+          dragListener={false} /* Prevent auto drag on pointerdown event */
         >
-          <MdOutlineHorizontalRule size={40} />
-          {props?.children}
+          <div>
+            <button className="drawer-drag-button" onPointerDown={startDrag}>
+              <MdOutlineHorizontalRule size={40} />
+            </button>
+          </div>
+          {props.children && (
+            <div className="drawer-content">{props.children}</div>
+          )}
         </motion.div>
       </>
     )

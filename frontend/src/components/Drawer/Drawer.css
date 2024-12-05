@@ -9,12 +9,12 @@
 }
 
 .drawer {
+  z-index: 10; /* Needs to be higher compared to map and drawer container z-index */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   margin: 0 auto;
-  z-index: 10; /* Needs to be higher compared to map and drawer container z-index */
   position: absolute;
   bottom: 0px;
   left: 0px;
@@ -23,4 +23,29 @@
   background-color: var(--background-color);
   border-top: 2mm solid var(--secondary-color);
   border-radius: 16px 16px 0 0;
+}
+
+.drawer-drag-button {
+  cursor: grab;
+  touch-action: none; /* for touchscreens */
+  border-radius: 16px;
+  padding: 0 1rem;
+  background-color: var(
+    --background-color
+  ); /* Same color as drawer background */
+  outline: none !important;
+}
+.drawer-drag-button:hover {
+  border: 1px solid transparent;
+}
+.drawer-drag-button:active {
+  cursor: grabbing;
+}
+
+.drawer-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  padding: 0 1rem;
 }
