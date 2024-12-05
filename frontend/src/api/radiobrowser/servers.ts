@@ -8,8 +8,12 @@ const servers: string[] = [
 const serverCount = servers.length
 
 async function getRandomServer(): Promise<string> {
-  const randomIndex = Math.floor(Math.random() * (serverCount - 1))
-  return servers[randomIndex]
+  const randomIndex: number = Math.floor(Math.random() * (serverCount - 1))
+  const server = servers.at(randomIndex)
+  if (server == undefined) {
+    throw new Error("Could not get server url")
+  }
+  return server
 }
 
 export { getRandomServer }
