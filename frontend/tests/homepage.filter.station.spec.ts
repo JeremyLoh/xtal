@@ -36,10 +36,12 @@ test.describe("radio station search type", () => {
     )
   })
 
-  test.describe("country tab", () => {
+  test.describe("country tab (only runs in headed mode)", () => {
     test("country tab first selected moves map to approximate country location", async ({
       page,
+      headless,
     }) => {
+      test.skip(headless, "UI element does not does not work in headless mode")
       test.slow()
       await page.goto(HOMEPAGE)
       const expectedStartMapPane =
@@ -54,7 +56,9 @@ test.describe("radio station search type", () => {
 
     test("select second country in country tab moves map to second approximate country location", async ({
       page,
+      headless,
     }) => {
+      test.skip(headless, "UI element does not does not work in headless mode")
       test.slow()
       await page.goto(HOMEPAGE)
       await getCountrySearchButton(page).click()
@@ -71,7 +75,9 @@ test.describe("radio station search type", () => {
 
     test("should not navigate map to approximate country when station popup is open", async ({
       page,
+      headless,
     }) => {
+      test.skip(headless, "UI element does not does not work in headless mode")
       test.slow()
       // load a country radio station, click the second location and the map should not navigate
       const expectedCountryCode = "US"

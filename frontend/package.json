@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "test": "npx playwright test --ui",
+    "test": "npx playwright test --ui --headed",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
