@@ -1,0 +1,14 @@
+.drawer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  z-index: 10; /* Needs to be higher compared to map z-index */
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  transform: translate(10%, 0%);
+  width: 80%;
+  height: 60%;
+  background-color: var(--background-color);
+}
