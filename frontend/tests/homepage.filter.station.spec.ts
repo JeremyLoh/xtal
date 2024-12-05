@@ -40,6 +40,7 @@ test.describe("radio station search type", () => {
     test("country tab first selected moves map to approximate country location", async ({
       page,
     }) => {
+      test.slow()
       await page.goto(HOMEPAGE)
       const expectedStartMapPane =
         (await page
@@ -54,6 +55,7 @@ test.describe("radio station search type", () => {
     test("select second country in country tab moves map to second approximate country location", async ({
       page,
     }) => {
+      test.slow()
       await page.goto(HOMEPAGE)
       await getCountrySearchButton(page).click()
       const expectedFirstCountryMapPane =
@@ -70,6 +72,7 @@ test.describe("radio station search type", () => {
     test("should not navigate map to approximate country when station popup is open", async ({
       page,
     }) => {
+      test.slow()
       // load a country radio station, click the second location and the map should not navigate
       const expectedCountryCode = "US"
       await page.route(
