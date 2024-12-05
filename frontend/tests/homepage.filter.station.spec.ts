@@ -82,7 +82,7 @@ test.describe("radio station search type", () => {
       await page.goto(HOMEPAGE)
       await getCountrySearchButton(page).click()
       await clickRandomRadioStationButton(page)
-      await page.waitForTimeout(500) // test fails without waiting for the navigation
+      await page.waitForTimeout(1000) // test fails without waiting for the navigation
       const expectedStationMapPane =
         (await page
           .locator(".leaflet-proxy.leaflet-zoom-animated")
