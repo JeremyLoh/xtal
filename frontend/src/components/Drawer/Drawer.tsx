@@ -15,15 +15,25 @@ function Drawer(props: DrawerProps) {
   }
   return (
     props.open && (
-      <motion.div
-        className="drawer"
-        onClick={handleClick}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        <MdOutlineHorizontalRule size={40} />
-        {props?.children}
-      </motion.div>
+      <>
+        <motion.div
+          className="drawer-background-container"
+          onClick={handleClick}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.7 }}
+        />
+        <motion.div
+          className="drawer"
+          initial={{ x: "5%", y: "50%" }}
+          animate={{ x: "5%", y: "0%" }}
+          transition={{
+            type: "easeInOut",
+          }}
+        >
+          <MdOutlineHorizontalRule size={40} />
+          {props?.children}
+        </motion.div>
+      </>
     )
   )
 }
