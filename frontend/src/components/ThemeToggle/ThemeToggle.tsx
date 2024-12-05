@@ -12,7 +12,7 @@ function ThemeToggle() {
       data-testid="theme-toggle-btn"
       title="Toggle Theme"
     >
-      {theme?.isDark ? (
+      {theme.isDark ? (
         <FaMoon className="dark-mode-icon" size={24} />
       ) : (
         <FaSun className="light-mode-icon" size={24} />
