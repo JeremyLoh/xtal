@@ -6,7 +6,10 @@ import { GenreInformation } from "../../../../api/radiobrowser/genreTags"
 import { StationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/StationSearchStrategy"
 import StationSearch from "../StationSearch/StationSearch"
 import CountrySelect from "../CountrySelect/CountrySelect"
-import { CountryStation } from "../../../../api/location/countryStation"
+import {
+  CountryStation,
+  DEFAULT_COUNTRY_SEARCH,
+} from "../../../../api/location/countryStation"
 import {
   SearchStrategyFactory,
   StationSearchType,
@@ -14,6 +17,7 @@ import {
 
 type RadioSelectProps = {
   handleRandomSelect: (searchStrategy: StationSearchStrategy) => void
+  handleCountryChange: (countryCode: string) => void
   isLoading: boolean
 }
 
@@ -36,6 +40,10 @@ function RadioSelect(props: RadioSelectProps) {
     if (activeSearch && searchType === activeSearch.type) {
       return
     }
+    if (searchType === StationSearchType.COUNTRY) {
+      // load default country for first time switching to country search type
+      props.handleCountryChange(DEFAULT_COUNTRY_SEARCH.countryCode)
+    }
     setActiveSearch({
       type: searchType,
       strategy: SearchStrategyFactory.createDefaultSearchStrategy(searchType),
@@ -53,6 +61,7 @@ function RadioSelect(props: RadioSelectProps) {
       type: StationSearchType.COUNTRY,
       strategy: SearchStrategyFactory.createCountrySearchStrategy(country),
     })
+    props.handleCountryChange(country.countryCode)
   }
   return (
     <div className="radio-select-container">
