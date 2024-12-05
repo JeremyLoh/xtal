@@ -12,7 +12,7 @@ export const DEFAULT_COUNTRY_SEARCH: CountryStation = {
 
 // Data retrieved on 2 December 2024, countryCode is based on ISO 3166
 // https://de1.api.radio-browser.info/json/countries?order=stationcount&reverse=true
-export const countryStationInfo: Array<CountryStation> = [
+export const countryStationInfo: CountryStation[] = [
   {
     countryCode: "US",
     name: "The United States Of America",

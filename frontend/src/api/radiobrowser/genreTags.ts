@@ -13,7 +13,7 @@ export const DEFAULT_GENRE_SEARCH: GenreInformation = {
 
 // approximate station count is based on
 // e.g https://at1.api.radio-browser.info/json/stations/search?&order=random&hidebroken=true&is_https=true&tag=ambient
-export const genres: Array<GenreInformation> = [
+export const genres: GenreInformation[] = [
   DEFAULT_GENRE_SEARCH,
   { genre: "Alternative", searchTag: "alternative", approxStationCount: 430 },
   { genre: "Ambient", searchTag: "ambient", approxStationCount: 198 },
