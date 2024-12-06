@@ -22,6 +22,9 @@ test.describe("search drawer for finding radio stations", () => {
   function getDrawerCloseButton(page: Page) {
     return page.locator(".drawer-close-button")
   }
+  function getRadioCardPopup(page: Page) {
+    return page.locator("#map .radio-card")
+  }
 
   test("display drawer after search button click", async ({ page }) => {
     await page.goto(HOMEPAGE)
@@ -80,7 +83,7 @@ test.describe("search drawer for finding radio stations", () => {
       ).toBeVisible()
     })
 
-    test("search radio station for name shows entries in drawer", async ({
+    test("search radio station for name shows one entry in drawer", async ({
       page,
     }) => {
       const stationName = "vinyl hd"
@@ -108,6 +111,41 @@ test.describe("search drawer for finding radio stations", () => {
       await expect(
         getSingleStationResultCard(page).getByRole("button", {
           name: "load station",
+        })
+      ).toBeVisible()
+    })
+
+    test("click on drawer load station button for radio station result card loads station on map", async ({
+      page,
+    }) => {
+      const stationName = "vinyl hd"
+      await page.route("*/**/json/stations/search?*", async (route) => {
+        const json = [unitedStatesStation]
+        await route.fulfill({ json })
+      })
+      await page.goto(HOMEPAGE)
+      await getSearchFilterButton(page).click()
+      await expect(getDrawerComponent(page)).toBeVisible()
+      await getForm(page).getByLabel("Search By Name").fill(stationName)
+      await getForm(page).locator("button[type='submit']").click()
+      await expect(getSingleStationResultCard(page)).toBeVisible()
+      await getSingleStationResultCard(page)
+        .getByRole("button", {
+          name: "load station",
+        })
+        .click()
+      await expect(getDrawerComponent(page)).not.toBeVisible()
+      await expect(getRadioCardPopup(page)).toBeVisible()
+      await expect(
+        page.locator("#map .radio-card").getByRole("heading", {
+          name: unitedStatesStation.name,
+          exact: true,
+        })
+      ).toBeVisible()
+      await expect(
+        page.locator("#map .radio-card").getByRole("link", {
+          name: unitedStatesStation.homepage,
+          exact: true,
         })
       ).toBeVisible()
     })

@@ -8,6 +8,7 @@ import { Station } from "../../../../api/radiobrowser/types"
 import Pill from "../../../../components/Pill/Pill"
 
 type StationSelectProps = {
+  handleLoadStation: (station: Station) => void
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
 }
@@ -16,6 +17,10 @@ function StationSelect(props: StationSelectProps) {
   const abortControllerRef = useRef<AbortController | null>(null)
   const [stations, setStations] = useState<Station[] | null>(null)
 
+  function handleLoadStation(station: Station) {
+    props.setOpen(false)
+    props.handleLoadStation(station)
+  }
   async function handleStationSearch({
     stationName,
     limit,
@@ -49,33 +54,40 @@ function StationSelect(props: StationSelectProps) {
                 className="station-search-result-card"
                 whileHover={{ scale: 1.04 }}
               >
-                <p>{station.name}</p>
+                <p className="station-search-card-title">{station.name}</p>
                 {station.bitrate > 0 ? (
                   <Pill
-                    className="station-search-bitrate-pill"
+                    className="station-search-card-bitrate-pill"
                     key="station-bitrate"
                   >
                     {station.bitrate} kbps
                   </Pill>
                 ) : (
                   <Pill
-                    className="station-search-bitrate-pill"
+                    className="station-search-card-bitrate-pill"
                     key="station-bitrate"
                   >
                     Unknown kbps
                   </Pill>
                 )}
                 {station.tags != "" && station.tags.split(",").length > 0 && (
-                  <div className="station-search-tag-container">
+                  <div className="station-search-card-tag-container">
                     {station.tags.split(",").map((tag, index) => (
                       <Pill key={`${tag}-${index}`}>{tag}</Pill>
                     ))}
                   </div>
                 )}
                 {station.country && (
-                  <p className="station-search-country">{station.country}</p>
+                  <p className="station-search-card-country">
+                    {station.country}
+                  </p>
                 )}
-                <button>Load Station</button>
+                <button
+                  className="station-search-card-load-button"
+                  onClick={() => handleLoadStation(station)}
+                >
+                  Load Station
+                </button>
               </motion.div>
             )
           })}
