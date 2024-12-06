@@ -1,7 +1,12 @@
 import "./Drawer.css"
 import { Dispatch, SetStateAction } from "react"
 import { MdOutlineHorizontalRule } from "react-icons/md"
-import { motion, useDragControls, useMotionValue } from "motion/react"
+import {
+  motion,
+  useAnimate,
+  useDragControls,
+  useMotionValue,
+} from "motion/react"
 
 type DrawerProps = {
   open: boolean
@@ -11,8 +16,11 @@ type DrawerProps = {
 
 function Drawer(props: DrawerProps) {
   const y = useMotionValue(0)
+  const [scope, animate] = useAnimate()
   const controls = useDragControls()
-  function handleClose() {
+  async function handleClose() {
+    const yStart = typeof y.get() === "number" ? y.get() : 0
+    await animate(scope.current, { y: [yStart, "100%"] })
     props.setOpen(false)
   }
   function startDrag(event: React.PointerEvent) {
@@ -35,6 +43,7 @@ function Drawer(props: DrawerProps) {
         />
         <motion.div
           className="drawer"
+          ref={scope}
           initial={{ x: "5%", y: "50%" }}
           animate={{ x: "5%", y: "0%" }}
           transition={{
