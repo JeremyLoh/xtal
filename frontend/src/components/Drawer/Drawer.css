@@ -25,6 +25,18 @@
   border-radius: 16px 16px 0 0;
 }
 
+.drawer-info-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 1rem;
+  width: 100%;
+}
+.drawer-close-button {
+  background-color: transparent;
+  padding: 0;
+}
+
 .drawer-drag-button {
   cursor: grab;
   touch-action: none; /* for touchscreens */

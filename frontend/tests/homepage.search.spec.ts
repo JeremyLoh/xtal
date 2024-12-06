@@ -14,6 +14,9 @@ test.describe("search drawer for finding radio stations", () => {
   function getDrawerDragButton(page: Page) {
     return page.locator(".drawer-drag-button")
   }
+  function getDrawerCloseButton(page: Page) {
+    return page.locator(".drawer-close-button")
+  }
 
   test("display drawer after search button click", async ({
     page,
@@ -24,6 +27,18 @@ test.describe("search drawer for finding radio stations", () => {
     await expect(getSearchFilterButton(page)).toBeVisible()
     await getSearchFilterButton(page).click()
     await expect(getDrawerComponent(page)).toBeVisible()
+  })
+
+  test("close drawer when close icon is clicked", async ({
+    page,
+    headless,
+  }) => {
+    test.skip(headless, "UI element does not does not work in headless mode")
+    await page.goto(HOMEPAGE)
+    await getSearchFilterButton(page).click()
+    await expect(getDrawerComponent(page)).toBeVisible()
+    await getDrawerCloseButton(page).click()
+    await expect(getDrawerComponent(page)).not.toBeVisible()
   })
 
   test("close drawer on outside drawer click", async ({ page, headless }) => {

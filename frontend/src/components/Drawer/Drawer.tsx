@@ -1,6 +1,7 @@
 import "./Drawer.css"
 import { Dispatch, SetStateAction } from "react"
 import { MdOutlineHorizontalRule } from "react-icons/md"
+import { IoClose } from "react-icons/io5"
 import {
   motion,
   useAnimate,
@@ -66,6 +67,11 @@ function Drawer(props: DrawerProps) {
           <div>
             <button className="drawer-drag-button" onPointerDown={startDrag}>
               <MdOutlineHorizontalRule size={40} />
+            </button>
+          </div>
+          <div className="drawer-info-container">
+            <button className="drawer-close-button" onClick={handleClose}>
+              <IoClose size={28} />
             </button>
           </div>
           {props.children && (
