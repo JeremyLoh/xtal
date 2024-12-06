@@ -1,5 +1,6 @@
 import test, { expect, Page } from "@playwright/test"
 import { HOMEPAGE } from "./constants"
+import { unitedStatesStation } from "./mocks/station"
 
 test.describe("search drawer for finding radio stations", () => {
   test.beforeEach(({ headless }) => {
@@ -35,6 +36,9 @@ test.describe("search drawer for finding radio stations", () => {
       return getDrawerComponent(page).locator(
         ".drawer-content .station-search-form"
       )
+    }
+    function getSingleStationResultCard(page: Page) {
+      return getDrawerComponent(page).locator(".station-search-result-card")
     }
 
     test("display drawer with radio station search form", async ({ page }) => {
@@ -73,6 +77,38 @@ test.describe("search drawer for finding radio stations", () => {
         getDrawerComponent(page).getByText(
           "Station Name cannot be longer than 255 characters"
         )
+      ).toBeVisible()
+    })
+
+    test("search radio station for name shows entries in drawer", async ({
+      page,
+    }) => {
+      const stationName = "vinyl hd"
+      await page.route("*/**/json/stations/search?*", async (route) => {
+        const json = [unitedStatesStation]
+        await route.fulfill({ json })
+      })
+      await page.goto(HOMEPAGE)
+      await getSearchFilterButton(page).click()
+      await expect(getDrawerComponent(page)).toBeVisible()
+      await getForm(page).getByLabel("Search By Name").fill(stationName)
+      await getForm(page).locator("button[type='submit']").click()
+      await expect(getSingleStationResultCard(page)).toBeVisible()
+      const expectedTextInStationResultCard = [
+        unitedStatesStation.name,
+        unitedStatesStation.bitrate.toString(),
+        ...unitedStatesStation.tags.split(",").slice(0, 8), // first 8 station tags are shown
+        unitedStatesStation.country,
+      ]
+      for (const expectedText of expectedTextInStationResultCard) {
+        await expect(
+          getSingleStationResultCard(page).getByText(expectedText)
+        ).toBeVisible()
+      }
+      await expect(
+        getSingleStationResultCard(page).getByRole("button", {
+          name: "load station",
+        })
       ).toBeVisible()
     })
   })
