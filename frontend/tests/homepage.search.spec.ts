@@ -26,6 +26,7 @@ test.describe("search drawer for finding radio stations", () => {
     await page.goto(HOMEPAGE)
     await expect(getSearchFilterButton(page)).toBeVisible()
     await getSearchFilterButton(page).click()
+    await expect(getSearchFilterButton(page)).toHaveClass(/selected/)
     await expect(getDrawerComponent(page)).toBeVisible()
   })
 

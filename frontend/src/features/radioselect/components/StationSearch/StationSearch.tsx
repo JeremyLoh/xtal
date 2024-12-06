@@ -37,7 +37,7 @@ function StationSearch(props: StationSearchProps) {
       </button>
       <button
         onClick={() => setShowSearchFilter(!showSearchFilter)}
-        className="search-filter-button"
+        className={`search-filter-button ${showSearchFilter ? "selected" : ""}`}
         name="search radio stations with more filters"
         title="Search Radio Stations with more filters"
       >
