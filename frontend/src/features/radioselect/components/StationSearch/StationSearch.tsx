@@ -2,7 +2,7 @@ import { useState } from "react"
 import "./StationSearch.css"
 import { FaFlag, FaMusic, FaSearch } from "react-icons/fa"
 import { StationSearchType } from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory"
-import Drawer from "../../../../components/Drawer/Drawer"
+import StationSelect from "../StationSelect/StationSelect"
 
 type StationSearchProps = {
   handleStationSearchType: (searchType: StationSearchType) => void
@@ -43,7 +43,7 @@ function StationSearch(props: StationSearchProps) {
       >
         <FaSearch size={16} /> Search Filters
       </button>
-      <Drawer open={showSearchFilter} setOpen={setShowSearchFilter}></Drawer>
+      <StationSelect open={showSearchFilter} setOpen={setShowSearchFilter} />
     </div>
   )
 }

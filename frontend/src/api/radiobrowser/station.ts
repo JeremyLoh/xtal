@@ -2,30 +2,24 @@ import ky from "ky"
 import { Station } from "./types"
 import { convertMissingInformation } from "./converter/stationConverter"
 
-async function getStation(
+async function getAllStations(
   abortController: AbortController,
   url: string,
   searchParams: URLSearchParams
-): Promise<Station | null> {
+): Promise<Station[] | null> {
   try {
     const json: Station[] = await ky
       .get(url, { retry: 0, signal: abortController.signal, searchParams })
       .json()
     // API might return less entries compared to limit (reduce by 1 for array zero based index)
-    const responseCount = Math.max(json.length - 1, 0)
-    const station = convertMissingInformation(json[getRandomInt(responseCount)])
-    return station
+    return json.map((station) => convertMissingInformation(station))
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.name === "AbortError") {
-      console.log("Aborted getRandomStation request")
+      console.log("Aborted getAllStations request")
     }
     return null
   }
 }
 
-function getRandomInt(max: number) {
-  return Math.floor(Math.random() * max)
-}
-
-export { getStation }
+export { getAllStations }

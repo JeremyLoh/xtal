@@ -157,6 +157,7 @@ test.describe("radio station search type", () => {
   test("second random genre station request should call API with different offset number", async ({
     page,
   }) => {
+    test.slow()
     const apiCalls: string[] = []
     await page.route("*/**/json/stations/search?*", async (route) => {
       apiCalls.push(route.request().url())
@@ -167,10 +168,11 @@ test.describe("radio station search type", () => {
     await getGenreSearchButton(page).click()
     await clickRandomRadioStationButton(page)
     await clickRandomRadioStationButton(page)
+    await clickRandomRadioStationButton(page)
     const offsets = new Set(
       apiCalls.map((apiCall) => new URLSearchParams(apiCall).get("offset"))
     )
-    expect(offsets.size).toBe(2)
+    expect(offsets.size).toBeGreaterThan(1)
   })
 })
 

@@ -3,6 +3,10 @@ import {
   DEFAULT_COUNTRY_SEARCH,
 } from "../../location/countryStation"
 import { DEFAULT_GENRE_SEARCH, GenreInformation } from "../genreTags"
+import {
+  AdvancedStationSearchCriteria,
+  AdvancedStationSearchStrategy,
+} from "./AdvancedStationSearchStrategy"
 import { CountryStationSearchStrategy } from "./CountryStationSearchStrategy"
 import { GenreStationSearchStrategy } from "./GenreStationSearchStrategy"
 import { StationSearchStrategy } from "./StationSearchStrategy"
@@ -31,5 +35,13 @@ export class SearchStrategyFactory {
 
   static createCountrySearchStrategy(country: CountryStation) {
     return new CountryStationSearchStrategy(country)
+  }
+
+  static createAdvancedSearchStrategy(
+    searchStrategy: AdvancedStationSearchCriteria,
+    limit: number,
+    offset: number
+  ) {
+    return new AdvancedStationSearchStrategy(searchStrategy, limit, offset)
   }
 }

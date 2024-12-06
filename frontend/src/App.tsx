@@ -19,12 +19,20 @@ function App() {
     lng: 0,
   })
 
+  function getRandomInt(max: number) {
+    return Math.floor(Math.random() * max)
+  }
   async function displayRandomStation(searchStrategy: StationSearchStrategy) {
     setIsLoading(true)
     abortControllerRef.current?.abort()
     abortControllerRef.current = new AbortController()
-    const station = await searchStrategy.findStation(abortControllerRef.current)
-    if (station) {
+    const stations = await searchStrategy.findStations(
+      abortControllerRef.current
+    )
+    if (stations) {
+      // API might return less entries compared to limit (reduce by 1 for array zero based index)
+      const responseCount = Math.max(stations.length - 1, 0)
+      const station = stations[getRandomInt(responseCount)]
       setCurrentStation(station)
     } else {
       toast.error("Could not get random radio station")

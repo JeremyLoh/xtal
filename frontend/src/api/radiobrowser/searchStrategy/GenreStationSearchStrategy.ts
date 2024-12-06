@@ -1,6 +1,6 @@
 import { GenreInformation } from "../genreTags"
 import { getRandomServer } from "../servers"
-import { getStation } from "../station"
+import { getAllStations } from "../station"
 import { Station } from "../types"
 import { StationSearchStrategy } from "./StationSearchStrategy"
 
@@ -11,7 +11,9 @@ export class GenreStationSearchStrategy implements StationSearchStrategy {
     this.genre = genre
   }
 
-  async findStation(abortController: AbortController): Promise<Station | null> {
+  async findStations(
+    abortController: AbortController
+  ): Promise<Station[] | null> {
     // offset needs to be different for each call
     const offset = this.getRandomInt(this.genre.approxStationCount)
     const tag = this.genre.searchTag
@@ -23,7 +25,7 @@ export class GenreStationSearchStrategy implements StationSearchStrategy {
     )
     const server = await getRandomServer()
     const url = `${server}/json/stations/search`
-    return await getStation(abortController, url, searchParams)
+    return await getAllStations(abortController, url, searchParams)
   }
 
   getRandomInt(max: number) {

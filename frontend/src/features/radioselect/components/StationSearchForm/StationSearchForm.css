@@ -1,0 +1,26 @@
+.station-search-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  padding: 0 1rem;
+}
+
+.station-search-form input {
+  padding: 0.3rem;
+  font-size: 1rem;
+}
+
+.station-search-form button[type="submit"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: var(--secondary-color);
+}
+
+.error-text {
+  color: var(--error-color);
+  padding: 0;
+  margin: 0;
+}

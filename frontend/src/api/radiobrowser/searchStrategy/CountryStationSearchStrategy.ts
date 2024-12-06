@@ -2,7 +2,7 @@ import { StationSearchStrategy } from "./StationSearchStrategy"
 import { CountryStation } from "../../location/countryStation"
 import { Station } from "../types"
 import { getRandomServer } from "../servers"
-import { getStation } from "../station"
+import { getAllStations } from "../station"
 
 export class CountryStationSearchStrategy implements StationSearchStrategy {
   private country: CountryStation
@@ -11,7 +11,9 @@ export class CountryStationSearchStrategy implements StationSearchStrategy {
     this.country = country
   }
 
-  async findStation(abortController: AbortController): Promise<Station | null> {
+  async findStations(
+    abortController: AbortController
+  ): Promise<Station[] | null> {
     // offset needs to be different for each call of findStation
     const offset = this.getRandomInt(this.country.stationCount)
     const countryCode = this.country.countryCode
@@ -21,7 +23,7 @@ export class CountryStationSearchStrategy implements StationSearchStrategy {
     )
     const server = await getRandomServer()
     const url = `${server}/json/stations/search`
-    return await getStation(abortController, url, searchParams)
+    return await getAllStations(abortController, url, searchParams)
   }
 
   getRandomInt(max: number) {
