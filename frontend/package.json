@@ -13,11 +13,12 @@
   "dependencies": {
     "ky": "1.7.2",
     "leaflet": "1.9.4",
+    "motion": "11.13.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-icons": "5.4.0",
     "sonner": "1.7.0",
-    "video.js": "8.20.0"
+    "video.js": "8.21.0"
   },
   "devDependencies": {
     "@eslint/js": "9.16.0",
@@ -28,11 +29,11 @@
     "@types/react-dom": "18.3.1",
     "@vitejs/plugin-react": "4.3.4",
     "eslint": "9.16.0",
-    "eslint-plugin-react-hooks": "5.0.0",
+    "eslint-plugin-react-hooks": "5.1.0",
     "eslint-plugin-react-refresh": "0.4.16",
     "globals": "15.13.0",
     "typescript": "5.7.2",
     "typescript-eslint": "8.17.0",
-    "vite": "6.0.2"
+    "vite": "6.0.3"
   }
 }

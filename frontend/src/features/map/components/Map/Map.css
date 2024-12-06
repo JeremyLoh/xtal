@@ -1,4 +1,5 @@
 #map {
+  z-index: 1;
   flex: 1; /* #root id element has flexbox, fill map to remaining size */
   min-height: 50vh;
   width: 100%;
