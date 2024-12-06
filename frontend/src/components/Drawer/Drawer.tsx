@@ -1,7 +1,7 @@
 import "./Drawer.css"
 import { Dispatch, SetStateAction } from "react"
 import { MdOutlineHorizontalRule } from "react-icons/md"
-import { motion, useDragControls } from "motion/react"
+import { motion, useDragControls, useMotionValue } from "motion/react"
 
 type DrawerProps = {
   open: boolean
@@ -10,19 +10,26 @@ type DrawerProps = {
 }
 
 function Drawer(props: DrawerProps) {
+  const y = useMotionValue(0)
   const controls = useDragControls()
-  function handleClick() {
+  function handleClose() {
     props.setOpen(false)
   }
   function startDrag(event: React.PointerEvent) {
     controls.start(event)
+  }
+  function onDragEnd() {
+    const isDragDownGreaterThanThreshold = y.get() > 100
+    if (isDragDownGreaterThanThreshold) {
+      handleClose()
+    }
   }
   return (
     props.open && (
       <>
         <motion.div
           className="drawer-background-container"
-          onClick={handleClick}
+          onClick={handleClose}
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.7 }}
         />
@@ -33,9 +40,19 @@ function Drawer(props: DrawerProps) {
           transition={{
             type: "easeInOut",
           }}
+          style={{ y }}
           drag="y"
+          onDragEnd={onDragEnd}
           dragControls={controls}
           dragListener={false} /* Prevent auto drag on pointerdown event */
+          dragConstraints={{
+            top: 0,
+            bottom: 0,
+          }}
+          dragElastic={{
+            top: 0,
+            bottom: 0.4,
+          }}
         >
           <div>
             <button className="drawer-drag-button" onPointerDown={startDrag}>
