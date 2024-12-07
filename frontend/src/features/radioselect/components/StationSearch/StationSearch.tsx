@@ -1,14 +1,17 @@
-import { useState } from "react"
 import "./StationSearch.css"
+import { useContext, useState } from "react"
 import { FaFlag, FaMusic, FaSearch } from "react-icons/fa"
 import { StationSearchType } from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory"
-import Drawer from "../../../../components/Drawer/Drawer"
+import StationSelect from "../StationSelect/StationSelect"
+import { Station } from "../../../../api/radiobrowser/types"
+import { MapContext } from "../../../../context/MapProvider/MapProvider"
 
 type StationSearchProps = {
   handleStationSearchType: (searchType: StationSearchType) => void
 }
 
 function StationSearch(props: StationSearchProps) {
+  const mapContext = useContext(MapContext)
   const [showSearchFilter, setShowSearchFilter] = useState<boolean>(false)
   const [selectedSearch, setSelectedSearch] = useState<StationSearchType>(
     StationSearchType.GENRE
@@ -16,6 +19,9 @@ function StationSearch(props: StationSearchProps) {
   function handleClick(searchType: StationSearchType) {
     setSelectedSearch(searchType)
     props.handleStationSearchType(searchType)
+  }
+  function handleLoadStation(station: Station) {
+    mapContext?.setStation(station)
   }
   return (
     <div id="station-search-type-container">
@@ -43,7 +49,11 @@ function StationSearch(props: StationSearchProps) {
       >
         <FaSearch size={16} /> Search Filters
       </button>
-      <Drawer open={showSearchFilter} setOpen={setShowSearchFilter}></Drawer>
+      <StationSelect
+        handleLoadStation={handleLoadStation}
+        open={showSearchFilter}
+        setOpen={setShowSearchFilter}
+      />
     </div>
   )
 }
