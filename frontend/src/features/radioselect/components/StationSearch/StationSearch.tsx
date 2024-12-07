@@ -12,7 +12,7 @@ type StationSearchProps = {
 
 function StationSearch(props: StationSearchProps) {
   const mapContext = useContext(MapContext)
-  const [showSearchFilter, setShowSearchFilter] = useState<boolean>(false)
+  const [showSearchStation, setShowSearchStation] = useState<boolean>(false)
   const [selectedSearch, setSelectedSearch] = useState<StationSearchType>(
     StationSearchType.GENRE
   )
@@ -42,17 +42,19 @@ function StationSearch(props: StationSearchProps) {
         <FaFlag size={16} /> Countries
       </button>
       <button
-        onClick={() => setShowSearchFilter(!showSearchFilter)}
-        className={`search-filter-button ${showSearchFilter ? "selected" : ""}`}
+        onClick={() => setShowSearchStation(!showSearchStation)}
+        className={`search-station-button ${
+          showSearchStation ? "selected" : ""
+        }`}
         name="search radio stations with more filters"
         title="Search Radio Stations with more filters"
       >
-        <FaSearch size={16} /> Search Filters
+        <FaSearch size={16} /> Search Stations
       </button>
       <StationSelect
         handleLoadStation={handleLoadStation}
-        open={showSearchFilter}
-        setOpen={setShowSearchFilter}
+        open={showSearchStation}
+        setOpen={setShowSearchStation}
       />
     </div>
   )
