@@ -1,0 +1,51 @@
+.station-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.2rem;
+  padding: 1rem;
+  width: 100%;
+}
+
+.station-card p,
+.station-card a {
+  display: flex;
+  align-items: center;
+  column-gap: 0.2rem;
+  padding: 0;
+  word-break: break-all;
+}
+
+.station-card-icon {
+  margin: 0 auto;
+}
+
+.station-card-title {
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 0.5rem 0 !important;
+}
+
+.station-card-bitrate-pill {
+  width: fit-content;
+  margin: 0.2rem 0;
+}
+
+.station-card-tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.2rem;
+  column-gap: 0.4rem;
+  width: 100%;
+}
+
+.station-card-country {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0;
+  margin: 0.5rem 0 !important;
+  font-size: 0.9rem;
+  font-style: italic;
+  word-break: break-all;
+}

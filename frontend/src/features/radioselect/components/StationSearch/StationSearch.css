@@ -6,7 +6,7 @@
 
 .genre-search-button,
 .country-search-button,
-.search-filter-button {
+.search-station-button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,7 +16,7 @@
 }
 .genre-search-button.selected,
 .country-search-button.selected,
-.search-filter-button.selected {
+.search-station-button.selected {
   background-color: var(--slider-chip-selected-color);
   color: var(--slider-chip-selected-text-color);
 }

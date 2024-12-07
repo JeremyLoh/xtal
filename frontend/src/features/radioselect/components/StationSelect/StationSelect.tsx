@@ -5,7 +5,7 @@ import Drawer from "../../../../components/Drawer/Drawer"
 import StationSearchForm from "../StationSearchForm/StationSearchForm"
 import { SearchStrategyFactory } from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory"
 import { Station } from "../../../../api/radiobrowser/types"
-import Pill from "../../../../components/Pill/Pill"
+import StationCard from "../../../../components/StationCard/StationCard"
 
 type StationSelectProps = {
   handleLoadStation: (station: Station) => void
@@ -54,34 +54,12 @@ function StationSelect(props: StationSelectProps) {
                 className="station-search-result-card"
                 whileHover={{ scale: 1.04 }}
               >
-                <p className="station-search-card-title">{station.name}</p>
-                {station.bitrate > 0 ? (
-                  <Pill
-                    className="station-search-card-bitrate-pill"
-                    key="station-bitrate"
-                  >
-                    {station.bitrate} kbps
-                  </Pill>
-                ) : (
-                  <Pill
-                    className="station-search-card-bitrate-pill"
-                    key="station-bitrate"
-                  >
-                    Unknown kbps
-                  </Pill>
-                )}
-                {station.tags != "" && station.tags.split(",").length > 0 && (
-                  <div className="station-search-card-tag-container">
-                    {station.tags.split(",").map((tag, index) => (
-                      <Pill key={`${tag}-${index}`}>{tag}</Pill>
-                    ))}
-                  </div>
-                )}
-                {station.country && (
-                  <p className="station-search-card-country">
-                    {station.country}
-                  </p>
-                )}
+                <StationCard station={station}>
+                  <StationCard.Title />
+                  <StationCard.Bitrate />
+                  <StationCard.Tags />
+                  <StationCard.Country />
+                </StationCard>
                 <button
                   className="station-search-card-load-button"
                   onClick={() => handleLoadStation(station)}

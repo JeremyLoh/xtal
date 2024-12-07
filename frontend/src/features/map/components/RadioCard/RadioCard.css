@@ -3,32 +3,5 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0.5rem;
   width: 100%;
-}
-
-.radio-card p,
-.radio-card a {
-  display: flex;
-  align-items: center;
-  column-gap: 0.2rem;
-  padding: 0;
-  word-break: break-all;
-}
-.radio-card a {
-  padding: 0.5rem 0;
-}
-
-.station-name {
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-.station-tag-container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  margin: 0.5rem 0;
 }

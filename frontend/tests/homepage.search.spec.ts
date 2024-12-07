@@ -7,8 +7,8 @@ test.describe("search drawer for finding radio stations", () => {
     test.skip(headless, "UI element does not does not work in headless mode")
   })
 
-  function getSearchFilterButton(page: Page) {
-    return page.getByRole("button", { name: "search filters" })
+  function getSearchStationButton(page: Page) {
+    return page.getByRole("button", { name: "search stations" })
   }
   function getDrawerContainer(page: Page) {
     return page.locator(".drawer-background-container")
@@ -28,9 +28,9 @@ test.describe("search drawer for finding radio stations", () => {
 
   test("display drawer after search button click", async ({ page }) => {
     await page.goto(HOMEPAGE)
-    await expect(getSearchFilterButton(page)).toBeVisible()
-    await getSearchFilterButton(page).click()
-    await expect(getSearchFilterButton(page)).toHaveClass(/selected/)
+    await expect(getSearchStationButton(page)).toBeVisible()
+    await getSearchStationButton(page).click()
+    await expect(getSearchStationButton(page)).toHaveClass(/selected/)
     await expect(getDrawerComponent(page)).toBeVisible()
   })
 
@@ -46,7 +46,7 @@ test.describe("search drawer for finding radio stations", () => {
 
     test("display drawer with radio station search form", async ({ page }) => {
       await page.goto(HOMEPAGE)
-      await getSearchFilterButton(page).click()
+      await getSearchStationButton(page).click()
       await expect(getDrawerComponent(page)).toBeVisible()
       await expect(
         getDrawerComponent(page).locator(".drawer-title")
@@ -58,7 +58,7 @@ test.describe("search drawer for finding radio stations", () => {
       page,
     }) => {
       await page.goto(HOMEPAGE)
-      await getSearchFilterButton(page).click()
+      await getSearchStationButton(page).click()
       await expect(getDrawerComponent(page)).toBeVisible()
       await getForm(page).getByLabel("Search By Name").fill("")
       await getForm(page).locator("button[type='submit']").click()
@@ -72,7 +72,7 @@ test.describe("search drawer for finding radio stations", () => {
     }) => {
       const count = 256
       await page.goto(HOMEPAGE)
-      await getSearchFilterButton(page).click()
+      await getSearchStationButton(page).click()
       await expect(getDrawerComponent(page)).toBeVisible()
       await getForm(page).getByLabel("Search By Name").fill("a".repeat(count))
       await getForm(page).locator("button[type='submit']").click()
@@ -92,7 +92,7 @@ test.describe("search drawer for finding radio stations", () => {
         await route.fulfill({ json })
       })
       await page.goto(HOMEPAGE)
-      await getSearchFilterButton(page).click()
+      await getSearchStationButton(page).click()
       await expect(getDrawerComponent(page)).toBeVisible()
       await getForm(page).getByLabel("Search By Name").fill(stationName)
       await getForm(page).locator("button[type='submit']").click()
@@ -124,7 +124,7 @@ test.describe("search drawer for finding radio stations", () => {
         await route.fulfill({ json })
       })
       await page.goto(HOMEPAGE)
-      await getSearchFilterButton(page).click()
+      await getSearchStationButton(page).click()
       await expect(getDrawerComponent(page)).toBeVisible()
       await getForm(page).getByLabel("Search By Name").fill(stationName)
       await getForm(page).locator("button[type='submit']").click()
@@ -153,7 +153,7 @@ test.describe("search drawer for finding radio stations", () => {
 
   test("close drawer when close icon is clicked", async ({ page }) => {
     await page.goto(HOMEPAGE)
-    await getSearchFilterButton(page).click()
+    await getSearchStationButton(page).click()
     await expect(getDrawerComponent(page)).toBeVisible()
     await getDrawerCloseButton(page).click()
     await expect(getDrawerComponent(page)).not.toBeVisible()
@@ -161,7 +161,7 @@ test.describe("search drawer for finding radio stations", () => {
 
   test("close drawer on outside drawer click", async ({ page }) => {
     await page.goto(HOMEPAGE)
-    await getSearchFilterButton(page).click()
+    await getSearchStationButton(page).click()
     await expect(getDrawerComponent(page)).toBeVisible()
     await getDrawerComponent(page).click()
     await expect(getDrawerComponent(page)).toBeVisible()
@@ -173,7 +173,7 @@ test.describe("search drawer for finding radio stations", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
-    await getSearchFilterButton(page).click()
+    await getSearchStationButton(page).click()
     await expect(getDrawerComponent(page)).toBeVisible()
     await getDrawerDragButton(page).hover()
     const dragButtonBounds = (await getDrawerDragButton(page).boundingBox())!
@@ -188,7 +188,7 @@ test.describe("search drawer for finding radio stations", () => {
 
   test("close drawer on drag down of more than 100px", async ({ page }) => {
     await page.goto(HOMEPAGE)
-    await getSearchFilterButton(page).click()
+    await getSearchStationButton(page).click()
     await expect(getDrawerComponent(page)).toBeVisible()
     await getDrawerDragButton(page).hover()
     const dragButtonBounds = (await getDrawerDragButton(page).boundingBox())!

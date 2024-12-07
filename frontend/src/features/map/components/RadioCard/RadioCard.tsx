@@ -3,8 +3,7 @@ import { useState } from "react"
 import { toast } from "sonner"
 import RadioPlayer from "../../../player/components/RadioPlayer/RadioPlayer"
 import { Station } from "../../../../api/radiobrowser/types"
-import { FaMapMarkerAlt } from "react-icons/fa"
-import Pill from "../../../../components/Pill/Pill"
+import StationCard from "../../../../components/StationCard/StationCard"
 
 type RadioCardProps = {
   station: Station
@@ -43,28 +42,14 @@ function RadioCard(props: RadioCardProps) {
   }
   return (
     <div className="radio-card">
-      {station.favicon && <img src={station.favicon} height={64} width={64} />}
-      <h2 className="station-name">{station.name}</h2>
-      {station.bitrate > 0 && (
-        <Pill key="station-bitrate">{station.bitrate} kbps</Pill>
-      )}
-      {station.tags && (
-        <div className="station-tag-container">
-          {station.tags.split(",").map((tag, index) => (
-            <Pill key={`${tag}-${index}`}>{tag}</Pill>
-          ))}
-        </div>
-      )}
-      {station.homepage && (
-        <a href={station.homepage} rel="noopener noreferrer" target="_blank">
-          {station.homepage}
-        </a>
-      )}
-      {station.country && (
-        <p>
-          <FaMapMarkerAlt size={16} /> {station.country}
-        </p>
-      )}
+      <StationCard station={station}>
+        <StationCard.Icon />
+        <StationCard.Title />
+        <StationCard.Bitrate />
+        <StationCard.Tags />
+        <StationCard.Country />
+        <StationCard.HomepageLink />
+      </StationCard>
       {error ? (
         <p className="error-text" data-testid="radio-card-playback-error">
           {error}

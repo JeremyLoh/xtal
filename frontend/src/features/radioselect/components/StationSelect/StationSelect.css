@@ -11,7 +11,6 @@
   flex-direction: column;
   justify-content: flex-start;
   gap: 0.2rem;
-  padding: 1rem;
   -webkit-box-shadow: var(--text-color) 0px 3px 10px -3px;
   -moz-box-shadow: var(--text-color) 0px 3px 10px -3px;
   box-shadow: var(--text-color) 0px 3px 10px -3px;
@@ -22,29 +21,8 @@
   margin: 0.5rem 0;
 }
 
-.station-search-card-title {
-  font-weight: bold;
-}
-
-.station-search-card-bitrate-pill {
-  width: fit-content;
-  margin: 0.2rem 0;
-}
-
-.station-search-card-tag-container {
-  display: flex;
-  flex-wrap: wrap;
-  row-gap: 0.2rem;
-  column-gap: 0.4rem;
-  width: 100%;
-}
-
-.station-search-card-country {
-  font-size: 0.8rem;
-  font-style: italic;
-}
-
 .station-search-card-load-button {
+  margin: 1rem;
   margin-top: auto;
   background-color: var(--secondary-color);
 }
