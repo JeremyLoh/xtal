@@ -25,6 +25,10 @@
   color: var(--error-color);
 }
 
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  color: #070c03 !important;
+}
 .leaflet-control-attribution a {
   color: #070c03 !important;
 }
