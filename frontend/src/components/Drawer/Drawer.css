@@ -20,7 +20,7 @@
   left: 0px;
   width: 90%;
   height: 70%;
-  background-color: var(--background-color);
+  background-color: var(--drawer-background-color);
   border-top: 2mm solid var(--secondary-color);
   border-radius: 16px 16px 0 0;
 }
@@ -43,7 +43,7 @@
   border-radius: 16px;
   padding: 0 1rem;
   background-color: var(
-    --background-color
+    --drawer-background-color
   ); /* Same color as drawer background */
   outline: none !important;
 }
@@ -52,6 +52,12 @@
 }
 .drawer-drag-button:active {
   cursor: grabbing;
+}
+
+.drawer-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0.8rem 0;
 }
 
 .drawer-content {

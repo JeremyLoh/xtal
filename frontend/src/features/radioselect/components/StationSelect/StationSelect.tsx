@@ -1,6 +1,8 @@
 import "./StationSelect.css"
 import { motion } from "motion/react"
+import { toast } from "sonner"
 import { Dispatch, SetStateAction, useRef, useState } from "react"
+import { IoIosRadio } from "react-icons/io"
 import Drawer from "../../../../components/Drawer/Drawer"
 import StationSearchForm from "../StationSearchForm/StationSearchForm"
 import { SearchStrategyFactory } from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory"
@@ -41,6 +43,9 @@ function StationSelect(props: StationSelectProps) {
     )
     const stations = await strategy.findStations(abortControllerRef.current)
     setStations(stations)
+    if (stations && stations.length === 0) {
+      toast.warning("No stations found")
+    }
   }
   return (
     <Drawer title="Station Search" open={props.open} setOpen={props.setOpen}>
@@ -64,6 +69,7 @@ function StationSelect(props: StationSelectProps) {
                   className="station-search-card-load-button"
                   onClick={() => handleLoadStation(station)}
                 >
+                  <IoIosRadio size={24} />
                   Load Station
                 </button>
               </motion.div>

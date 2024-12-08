@@ -71,7 +71,7 @@ function Drawer(props: DrawerProps) {
             </button>
           </div>
           <div className="drawer-info-container">
-            <h4 className="drawer-title">{props.title}</h4>
+            <h3 className="drawer-title">{props.title}</h3>
             <button className="drawer-close-button" onClick={handleClose}>
               <IoClose size={28} />
             </button>

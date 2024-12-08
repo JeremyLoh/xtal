@@ -43,7 +43,7 @@ function App() {
   }
   return (
     <>
-      <Toaster position="top-center" expand={true} richColors />
+      <Toaster position="bottom-right" expand={true} richColors />
       <Header />
       <main>
         <RadioSelect
