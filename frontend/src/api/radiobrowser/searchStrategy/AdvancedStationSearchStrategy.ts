@@ -12,9 +12,9 @@ export type AdvancedStationSearchCriteria = {
 }
 
 export class AdvancedStationSearchStrategy implements StationSearchStrategy {
-  private searchCriteria: AdvancedStationSearchCriteria
-  private limit: number
-  private offset: number
+  public searchCriteria: AdvancedStationSearchCriteria
+  public limit: number
+  public offset: number
 
   constructor(
     searchCriteria: AdvancedStationSearchCriteria,
