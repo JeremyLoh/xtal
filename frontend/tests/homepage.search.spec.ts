@@ -22,6 +22,12 @@ test.describe("search drawer for finding radio stations", () => {
   function getDrawerCloseButton(page: Page) {
     return page.locator(".drawer-close-button")
   }
+  function getDrawerStationResultCard(page: Page) {
+    return page.locator(".station-search-result-card")
+  }
+  function getDrawerLoadMoreStationButton(page: Page) {
+    return page.locator(".station-search-load-more-results-button")
+  }
   function getRadioCardPopup(page: Page) {
     return page.locator("#map .radio-card")
   }
@@ -148,6 +154,95 @@ test.describe("search drawer for finding radio stations", () => {
           exact: true,
         })
       ).toBeVisible()
+    })
+
+    test("load second set of station results when 'Load More Results' button is clicked", async ({
+      page,
+    }) => {
+      const stationName = "vinyl hd"
+      await page.route("*/**/json/stations/search?*", async (route) => {
+        const requestUrl = route.request().url()
+        if (requestUrl.includes("offset=0")) {
+          const json = [unitedStatesStation]
+          await route.fulfill({ json })
+        } else if (requestUrl.includes("offset=10")) {
+          // assumption that limit for each request is 10
+          const json = [
+            { ...unitedStatesStation, name: unitedStatesStation.name + " 2" },
+          ]
+          await route.fulfill({ json })
+        }
+      })
+      await page.goto(HOMEPAGE)
+      await getSearchStationButton(page).click()
+      await expect(getDrawerComponent(page)).toBeVisible()
+      await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()
+      await getForm(page).getByLabel("Search By Name").fill(stationName)
+      await getForm(page).locator("button[type='submit']").click()
+      await expect(getDrawerStationResultCard(page)).toHaveCount(1)
+      // check that more results are loaded during second request
+      await expect(getDrawerLoadMoreStationButton(page)).toBeVisible()
+      await getDrawerLoadMoreStationButton(page).click()
+      await expect(getDrawerStationResultCard(page)).toHaveCount(2)
+      await expect(
+        getDrawerStationResultCard(page).nth(1).locator(".station-card-title")
+      ).toHaveText("Classic Vinyl HD 2")
+    })
+
+    test("searching for new station criteria removes all existing search results", async ({
+      page,
+    }) => {
+      const firstStationNameSearch = "first"
+      const secondStationNameSearch = "second"
+      await page.route("*/**/json/stations/search?*", async (route) => {
+        const requestUrl = route.request().url()
+        if (requestUrl.includes("name=first")) {
+          const json = [{ ...unitedStatesStation, name: "first station name" }]
+          await route.fulfill({ json })
+        } else if (requestUrl.includes("name=second")) {
+          const json = [{ ...unitedStatesStation, name: "second station name" }]
+          await route.fulfill({ json })
+        }
+      })
+      await page.goto(HOMEPAGE)
+      await getSearchStationButton(page).click()
+      await expect(getDrawerComponent(page)).toBeVisible()
+      await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()
+      await getForm(page)
+        .getByLabel("Search By Name")
+        .fill(firstStationNameSearch)
+      await getForm(page).locator("button[type='submit']").click()
+      await expect(getDrawerStationResultCard(page)).toHaveCount(1)
+      await expect(
+        getDrawerStationResultCard(page).nth(0).locator(".station-card-title")
+      ).toHaveText("first station name")
+
+      await getForm(page).getByLabel("Search By Name").clear()
+      await getForm(page)
+        .getByLabel("Search By Name")
+        .fill(secondStationNameSearch)
+      await getForm(page).locator("button[type='submit']").click()
+      await expect(getDrawerStationResultCard(page)).toHaveCount(1)
+      await expect(
+        getDrawerStationResultCard(page).nth(0).locator(".station-card-title")
+      ).toHaveText("second station name")
+    })
+
+    test("no station found should not display 'Load More Results' button", async ({
+      page,
+    }) => {
+      const stationName = "test"
+      await page.route("*/**/json/stations/search?*", async (route) => {
+        await route.fulfill({ json: [] })
+      })
+      await page.goto(HOMEPAGE)
+      await getSearchStationButton(page).click()
+      await expect(getDrawerComponent(page)).toBeVisible()
+      await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()
+      await getForm(page).getByLabel("Search By Name").fill(stationName)
+      await getForm(page).locator("button[type='submit']").click()
+      await expect(getDrawerStationResultCard(page)).toHaveCount(0)
+      await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()
     })
   })
 
