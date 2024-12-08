@@ -22,6 +22,7 @@ function StationSelect(props: StationSelectProps) {
   const [stations, setStations] = useState<Station[] | null>(null)
   const [searchStrategy, setSearchStrategy] =
     useState<AdvancedStationSearchStrategy | null>(null)
+  const [hasNoFurtherEntries, setHasNoFurtherEntries] = useState<boolean>(false)
 
   function handleLoadStation(station: Station) {
     props.setOpen(false)
@@ -63,12 +64,13 @@ function StationSelect(props: StationSelectProps) {
     if (stations && stations.length === 0) {
       toast.warning("No stations found")
     }
+    setHasNoFurtherEntries(stations == null || stations.length === 0)
   }
-  function handleLoadMoreResults() {
+  async function handleLoadMoreResults() {
     if (searchStrategy == null) {
       return
     }
-    handleStationSearch({
+    await handleStationSearch({
       stationName: searchStrategy.searchCriteria.name,
       limit: searchStrategy.limit,
       offset: searchStrategy.offset + searchStrategy.limit,
@@ -108,6 +110,7 @@ function StationSelect(props: StationSelectProps) {
             <button
               className="station-search-load-more-results-button"
               onClick={handleLoadMoreResults}
+              disabled={hasNoFurtherEntries}
             >
               <IoAddSharp size={24} />
               Load More Results

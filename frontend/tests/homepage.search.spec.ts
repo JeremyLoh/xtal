@@ -189,6 +189,30 @@ test.describe("search drawer for finding radio stations", () => {
       ).toHaveText("Classic Vinyl HD 2")
     })
 
+    test("should disable 'Load More Results' button after no more results are found", async ({
+      page,
+    }) => {
+      const stationName = "vinyl hd"
+      await page.route("*/**/json/stations/search?*", async (route) => {
+        const requestUrl = route.request().url()
+        if (requestUrl.includes("offset=0")) {
+          const json = [unitedStatesStation]
+          await route.fulfill({ json })
+        } else {
+          await route.fulfill({ json: [] })
+        }
+      })
+      await page.goto(HOMEPAGE)
+      await getSearchStationButton(page).click()
+      await expect(getDrawerComponent(page)).toBeVisible()
+      await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()
+      await getForm(page).getByLabel("Search By Name").fill(stationName)
+      await getForm(page).locator("button[type='submit']").click()
+      await expect(getDrawerStationResultCard(page)).toHaveCount(1)
+      await getDrawerLoadMoreStationButton(page).click()
+      await expect(getDrawerLoadMoreStationButton(page)).toBeDisabled()
+    })
+
     test("searching for new station criteria removes all existing search results", async ({
       page,
     }) => {

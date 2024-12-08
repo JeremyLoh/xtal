@@ -48,3 +48,7 @@
 .station-search-load-more-results-button:hover {
   background-color: var(--accent-color);
 }
+.station-search-load-more-results-button:disabled {
+  background-color: var(--disabled-element-color);
+  pointer-events: none;
+}
