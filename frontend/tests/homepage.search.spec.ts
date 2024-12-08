@@ -10,44 +10,94 @@ test.describe("search drawer for finding radio stations", () => {
   function getSearchStationButton(page: Page) {
     return page.getByRole("button", { name: "search stations" })
   }
-  function getDrawerContainer(page: Page) {
-    return page.locator(".drawer-background-container")
-  }
   function getDrawerComponent(page: Page) {
     return page.locator(".drawer")
   }
-  function getDrawerDragButton(page: Page) {
-    return page.locator(".drawer-drag-button")
-  }
-  function getDrawerCloseButton(page: Page) {
-    return page.locator(".drawer-close-button")
-  }
-  function getDrawerStationResultCard(page: Page) {
-    return page.locator(".station-search-result-card")
-  }
-  function getDrawerLoadMoreStationButton(page: Page) {
-    return page.locator(".station-search-load-more-results-button")
-  }
-  function getRadioCardPopup(page: Page) {
-    return page.locator("#map .radio-card")
-  }
 
-  test("display drawer after search button click", async ({ page }) => {
-    await page.goto(HOMEPAGE)
-    await expect(getSearchStationButton(page)).toBeVisible()
-    await getSearchStationButton(page).click()
-    await expect(getSearchStationButton(page)).toHaveClass(/selected/)
-    await expect(getDrawerComponent(page)).toBeVisible()
+  test.describe("drawer functionality", () => {
+    function getDrawerContainer(page: Page) {
+      return page.locator(".drawer-background-container")
+    }
+    function getDrawerDragButton(page: Page) {
+      return page.locator(".drawer-drag-button")
+    }
+    function getDrawerCloseButton(page: Page) {
+      return page.locator(".drawer-close-button")
+    }
+
+    test("display drawer after search button click", async ({ page }) => {
+      await page.goto(HOMEPAGE)
+      await expect(getSearchStationButton(page)).toBeVisible()
+      await getSearchStationButton(page).click()
+      await expect(getSearchStationButton(page)).toHaveClass(/selected/)
+      await expect(getDrawerComponent(page)).toBeVisible()
+    })
+
+    test("close drawer when close icon is clicked", async ({ page }) => {
+      await page.goto(HOMEPAGE)
+      await getSearchStationButton(page).click()
+      await expect(getDrawerComponent(page)).toBeVisible()
+      await getDrawerCloseButton(page).click()
+      await expect(getDrawerComponent(page)).not.toBeVisible()
+    })
+
+    test("close drawer on outside drawer click", async ({ page }) => {
+      await page.goto(HOMEPAGE)
+      await getSearchStationButton(page).click()
+      await expect(getDrawerComponent(page)).toBeVisible()
+      await getDrawerComponent(page).click()
+      await expect(getDrawerComponent(page)).toBeVisible()
+      await getDrawerContainer(page).click({ position: { x: 0, y: 0 } })
+      await expect(getDrawerComponent(page)).not.toBeVisible()
+    })
+
+    test("does not close drawer on small drag down of less than 100px", async ({
+      page,
+    }) => {
+      await page.goto(HOMEPAGE)
+      await getSearchStationButton(page).click()
+      await expect(getDrawerComponent(page)).toBeVisible()
+      await getDrawerDragButton(page).hover()
+      const dragButtonBounds = (await getDrawerDragButton(page).boundingBox())!
+      await page.mouse.down()
+      await page.mouse.move(
+        0,
+        dragButtonBounds.y + dragButtonBounds.height / 2 + 51
+      )
+      await page.mouse.up()
+      await expect(getDrawerComponent(page)).toBeVisible()
+    })
+
+    test("close drawer on drag down of more than 100px", async ({ page }) => {
+      await page.goto(HOMEPAGE)
+      await getSearchStationButton(page).click()
+      await expect(getDrawerComponent(page)).toBeVisible()
+      await getDrawerDragButton(page).hover()
+      const dragButtonBounds = (await getDrawerDragButton(page).boundingBox())!
+      await page.mouse.down()
+      await page.mouse.move(
+        0,
+        dragButtonBounds.y + dragButtonBounds.height / 2 + 270
+      )
+      await page.mouse.up()
+      await expect(getDrawerComponent(page)).not.toBeVisible()
+    })
   })
 
   test.describe("radio station search form", () => {
+    function getDrawerStationResultCard(page: Page) {
+      return page.locator(".station-search-result-card")
+    }
+    function getDrawerLoadMoreStationButton(page: Page) {
+      return page.locator(".station-search-load-more-results-button")
+    }
     function getForm(page: Page) {
       return getDrawerComponent(page).locator(
         ".drawer-content .station-search-form"
       )
     }
-    function getSingleStationResultCard(page: Page) {
-      return getDrawerComponent(page).locator(".station-search-result-card")
+    function getRadioCardPopup(page: Page) {
+      return page.locator("#map .radio-card")
     }
 
     test("display drawer with radio station search form", async ({ page }) => {
@@ -102,7 +152,7 @@ test.describe("search drawer for finding radio stations", () => {
       await expect(getDrawerComponent(page)).toBeVisible()
       await getForm(page).getByLabel("Search By Name").fill(stationName)
       await getForm(page).locator("button[type='submit']").click()
-      await expect(getSingleStationResultCard(page)).toBeVisible()
+      await expect(getDrawerStationResultCard(page)).toBeVisible()
       const expectedTextInStationResultCard = [
         unitedStatesStation.name,
         unitedStatesStation.bitrate.toString(),
@@ -111,11 +161,11 @@ test.describe("search drawer for finding radio stations", () => {
       ]
       for (const expectedText of expectedTextInStationResultCard) {
         await expect(
-          getSingleStationResultCard(page).getByText(expectedText)
+          getDrawerStationResultCard(page).getByText(expectedText)
         ).toBeVisible()
       }
       await expect(
-        getSingleStationResultCard(page).getByRole("button", {
+        getDrawerStationResultCard(page).getByRole("button", {
           name: "load station",
         })
       ).toBeVisible()
@@ -134,8 +184,8 @@ test.describe("search drawer for finding radio stations", () => {
       await expect(getDrawerComponent(page)).toBeVisible()
       await getForm(page).getByLabel("Search By Name").fill(stationName)
       await getForm(page).locator("button[type='submit']").click()
-      await expect(getSingleStationResultCard(page)).toBeVisible()
-      await getSingleStationResultCard(page)
+      await expect(getDrawerStationResultCard(page)).toBeVisible()
+      await getDrawerStationResultCard(page)
         .getByRole("button", {
           name: "load station",
         })
@@ -268,55 +318,5 @@ test.describe("search drawer for finding radio stations", () => {
       await expect(getDrawerStationResultCard(page)).toHaveCount(0)
       await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()
     })
-  })
-
-  test("close drawer when close icon is clicked", async ({ page }) => {
-    await page.goto(HOMEPAGE)
-    await getSearchStationButton(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
-    await getDrawerCloseButton(page).click()
-    await expect(getDrawerComponent(page)).not.toBeVisible()
-  })
-
-  test("close drawer on outside drawer click", async ({ page }) => {
-    await page.goto(HOMEPAGE)
-    await getSearchStationButton(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
-    await getDrawerComponent(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
-    await getDrawerContainer(page).click({ position: { x: 0, y: 0 } })
-    await expect(getDrawerComponent(page)).not.toBeVisible()
-  })
-
-  test("does not close drawer on small drag down of less than 100px", async ({
-    page,
-  }) => {
-    await page.goto(HOMEPAGE)
-    await getSearchStationButton(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
-    await getDrawerDragButton(page).hover()
-    const dragButtonBounds = (await getDrawerDragButton(page).boundingBox())!
-    await page.mouse.down()
-    await page.mouse.move(
-      0,
-      dragButtonBounds.y + dragButtonBounds.height / 2 + 51
-    )
-    await page.mouse.up()
-    await expect(getDrawerComponent(page)).toBeVisible()
-  })
-
-  test("close drawer on drag down of more than 100px", async ({ page }) => {
-    await page.goto(HOMEPAGE)
-    await getSearchStationButton(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
-    await getDrawerDragButton(page).hover()
-    const dragButtonBounds = (await getDrawerDragButton(page).boundingBox())!
-    await page.mouse.down()
-    await page.mouse.move(
-      0,
-      dragButtonBounds.y + dragButtonBounds.height / 2 + 270
-    )
-    await page.mouse.up()
-    await expect(getDrawerComponent(page)).not.toBeVisible()
   })
 })
