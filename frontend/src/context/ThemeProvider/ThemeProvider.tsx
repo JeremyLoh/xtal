@@ -10,7 +10,7 @@ const lightTheme = [
   "--error-color: #a80b0b;",
   "--success-color: #0e5d3c;",
   "--link-color: #0b2881;",
-  "--disabled-element-color: #737373;",
+  "--disabled-element-color: #a3a3a3;",
   "--slider-chip-primary-color: #d4d4d4;",
   "--slider-chip-secondary-color: #e5e5e5;",
   "--slider-chip-selected-color: #262626;",
