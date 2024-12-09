@@ -165,6 +165,12 @@ test.describe("search drawer for finding radio stations", () => {
         ).toBeVisible()
       }
       await expect(
+        getDrawerStationResultCard(page).locator(".station-card-icon")
+      ).toBeVisible()
+      await expect(
+        getDrawerStationResultCard(page).locator(".station-card-icon")
+      ).toHaveAttribute("src", unitedStatesStation.favicon)
+      await expect(
         getDrawerStationResultCard(page).getByRole("button", {
           name: "load station",
         })
