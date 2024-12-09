@@ -49,3 +49,12 @@
   font-style: italic;
   word-break: break-all;
 }
+
+.station-card-vote-pill,
+.station-card-language-pill {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
+  width: fit-content;
+}
