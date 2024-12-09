@@ -16,6 +16,10 @@
   align-items: center;
   gap: 0.4rem;
   background-color: var(--secondary-color);
+  transition: all 0.3s;
+}
+.station-search-form button[type="submit"]:hover {
+  background-color: var(--accent-color);
 }
 
 .error-text {

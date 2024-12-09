@@ -87,9 +87,10 @@ function StationSelect(props: StationSelectProps) {
                 <motion.div
                   key={station.stationuuid + "-" + index}
                   className="station-search-result-card"
-                  whileHover={{ scale: 1.04 }}
+                  whileHover={{ scale: 1.03 }}
                 >
                   <StationCard station={station}>
+                    <StationCard.Icon />
                     <StationCard.Title />
                     <StationCard.Bitrate />
                     <StationCard.Tags />
