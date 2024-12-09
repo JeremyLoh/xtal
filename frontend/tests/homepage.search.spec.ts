@@ -158,6 +158,7 @@ test.describe("search drawer for finding radio stations", () => {
         unitedStatesStation.bitrate.toString(),
         ...unitedStatesStation.tags.split(",").slice(0, 8), // first 8 station tags are shown
         unitedStatesStation.country,
+        unitedStatesStation.votes.toString(),
       ]
       for (const expectedText of expectedTextInStationResultCard) {
         await expect(

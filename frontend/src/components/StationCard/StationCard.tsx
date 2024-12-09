@@ -3,6 +3,7 @@ import { createContext, PropsWithChildren, useContext } from "react"
 import { Station } from "../../api/radiobrowser/types"
 import Pill from "../Pill/Pill"
 import { FaMapMarkerAlt } from "react-icons/fa"
+import { BiSolidLike } from "react-icons/bi"
 
 type StationCardContext = {
   station: Station
@@ -95,6 +96,18 @@ StationCard.HomepageLink = function StationCardHomepageLink() {
       <a href={station.homepage} rel="noopener noreferrer" target="_blank">
         {station.homepage}
       </a>
+    )
+  )
+}
+
+StationCard.Votes = function StationCardVotes() {
+  const { station } = useStationCardContext()
+  return (
+    station.votes > 0 && (
+      <Pill className="station-card-vote-pill" key="station-votes">
+        <BiSolidLike size={18} aria-label="Station Vote Count" />{" "}
+        {station.votes}
+      </Pill>
     )
   )
 }
