@@ -50,7 +50,8 @@
   word-break: break-all;
 }
 
-.station-card-vote-pill {
+.station-card-vote-pill,
+.station-card-language-pill {
   display: flex;
   justify-content: center;
   align-items: center;

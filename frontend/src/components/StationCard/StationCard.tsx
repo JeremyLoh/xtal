@@ -4,6 +4,7 @@ import { Station } from "../../api/radiobrowser/types"
 import Pill from "../Pill/Pill"
 import { FaMapMarkerAlt } from "react-icons/fa"
 import { BiSolidLike } from "react-icons/bi"
+import { IoLanguageSharp } from "react-icons/io5"
 
 type StationCardContext = {
   station: Station
@@ -107,6 +108,19 @@ StationCard.Votes = function StationCardVotes() {
       <Pill className="station-card-vote-pill" key="station-votes">
         <BiSolidLike size={18} aria-label="Station Vote Count" />{" "}
         {station.votes}
+      </Pill>
+    )
+  )
+}
+
+StationCard.Language = function StationCardLanguage() {
+  const { station } = useStationCardContext()
+  return (
+    station.language &&
+    station.language !== "" && (
+      <Pill className="station-card-language-pill" key="station-language">
+        <IoLanguageSharp size={18} />
+        {station.language}
       </Pill>
     )
   )

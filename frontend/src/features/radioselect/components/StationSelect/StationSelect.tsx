@@ -93,6 +93,7 @@ function StationSelect(props: StationSelectProps) {
                     <StationCard.Icon />
                     <StationCard.Title />
                     <StationCard.Votes />
+                    <StationCard.Language />
                     <StationCard.Bitrate />
                     <StationCard.Tags />
                     <StationCard.Country />
