@@ -1,6 +1,10 @@
 # xtal
 
-Listen to the world's radio
+Listen to the world's radio with xtal, a fast and responsive mobile / desktop web application
+
+- Discover music / radio stations available around the globe
+  - Explore different genres of music
+  - Search stations by filters
 
 # Tech Stack
 
@@ -16,3 +20,4 @@ Listen to the world's radio
 - sonner (Toasts) - https://sonner.emilkowal.ski/
 - react-icons - https://react-icons.github.io/react-icons/
 - ky (HTTP requests) - https://www.npmjs.com/package/ky
+- react-hook-form - https://www.npmjs.com/package/react-hook-form
