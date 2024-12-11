@@ -5,7 +5,9 @@ import { toast } from "sonner"
 import { IoIosRadio } from "react-icons/io"
 import { IoAddSharp } from "react-icons/io5"
 import Drawer from "../../../../components/Drawer/Drawer"
-import StationSearchForm from "../StationSearchForm/StationSearchForm"
+import StationSearchForm, {
+  StationSearchValues,
+} from "../StationSearchForm/StationSearchForm"
 import { SearchStrategyFactory } from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory"
 import { AdvancedStationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/AdvancedStationSearchStrategy"
 import { Station } from "../../../../api/radiobrowser/types"
@@ -28,28 +30,22 @@ function StationSelect(props: StationSelectProps) {
     props.setOpen(false)
     props.handleLoadStation(station)
   }
-  async function handleNewStationSearch(data: {
-    stationName: string
-    limit: number
-    offset: number
-  }) {
+  async function handleNewStationSearch(data: StationSearchValues) {
     setStations(null)
     await handleStationSearch(data)
   }
   async function handleStationSearch({
     stationName,
+    language,
     limit,
     offset,
-  }: {
-    stationName: string
-    limit: number
-    offset: number
-  }) {
+  }: StationSearchValues) {
     abortControllerRef?.current?.abort()
     abortControllerRef.current = new AbortController()
     const strategy = SearchStrategyFactory.createAdvancedSearchStrategy(
       {
         name: stationName,
+        language: language,
       },
       limit,
       offset
@@ -72,6 +68,7 @@ function StationSelect(props: StationSelectProps) {
     }
     await handleStationSearch({
       stationName: searchStrategy.searchCriteria.name,
+      language: searchStrategy.searchCriteria.language,
       limit: searchStrategy.limit,
       offset: searchStrategy.offset + searchStrategy.limit,
     })
