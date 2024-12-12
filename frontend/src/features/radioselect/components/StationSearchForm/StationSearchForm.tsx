@@ -39,8 +39,6 @@ function StationSearchForm(props: StationSearchFormProps) {
     },
   })
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
-    console.log({ data })
-
     props.handleStationSearch({
       stationName: data.stationName,
       language:
@@ -76,7 +74,7 @@ function StationSearchForm(props: StationSearchFormProps) {
         id="language"
         {...register("language")}
       >
-        <option value="">Any Language</option>
+        <option value="">any language</option>
         {languages.map((option: string, index: number) => {
           return (
             <option key={`${option}-${index}`} value={option}>

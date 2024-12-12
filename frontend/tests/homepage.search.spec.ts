@@ -143,6 +143,84 @@ test.describe("search drawer for finding radio stations", () => {
     })
 
     test.describe("language filter", () => {
+      test("should display languages in select options", async ({ page }) => {
+        const expectedLanguageOptions = [
+          "english",
+          "spanish",
+          "german",
+          "french",
+          "chinese",
+          "russian",
+          "italian",
+          "greek",
+          "polish",
+          "portuguese",
+          "hindi",
+          "dutch",
+          "tamil",
+          "romanian",
+          "arabic",
+          "serbian",
+          "ukrainian",
+          "hungarian",
+          "turkish",
+          "czech",
+          "croatian",
+          "japanese",
+          "malayalam",
+          "filipino",
+          "indonesian",
+          "swedish",
+          "slovak",
+          "bosnian",
+          "catalan",
+          "danish",
+          "cantonese",
+          "bahasa indonesia",
+          "bulgarian",
+          "finnish",
+          "korean",
+          "slovenian",
+          "hebrew",
+          "persian",
+          "thai",
+          "swiss german",
+          "estonian",
+          "norwegian",
+          "urdu",
+          "swahili",
+          "kannada",
+          "malay",
+          "lithuanian",
+          "mandarin",
+          "sinhala",
+          "macedonian",
+          "kazakh",
+          "latvian",
+          "kurdish",
+          "georgian",
+          "afrikaans",
+          "azerbaijani",
+          "amharic",
+          "tagalog",
+          "belarusian",
+          "telugu",
+          "vietnamese",
+        ]
+        await page.goto(HOMEPAGE)
+        await getSearchStationButton(page).click()
+        expect(
+          await getForm(page)
+            .locator("select#language option")
+            .allTextContents()
+        ).toEqual(
+          expect.arrayContaining([...expectedLanguageOptions, "any language"])
+        )
+        await expect(
+          getForm(page).locator("select#language option")
+        ).toHaveCount(expectedLanguageOptions.length + 1) // add one for "Any Language"
+      })
+
       test("display english as default language", async ({ page }) => {
         await page.goto(HOMEPAGE)
         await getSearchStationButton(page).click()
