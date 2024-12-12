@@ -1,6 +1,6 @@
 import test, { expect, Page } from "@playwright/test"
 import { HOMEPAGE } from "./constants"
-import { unitedStatesStation } from "./mocks/station"
+import { cantoneseStation, unitedStatesStation } from "./mocks/station"
 
 test.describe("search drawer for finding radio stations", () => {
   test.beforeEach(({ headless }) => {
@@ -96,6 +96,9 @@ test.describe("search drawer for finding radio stations", () => {
         ".drawer-content .station-search-form"
       )
     }
+    function getStationSearchByNameInput(page: Page) {
+      return getForm(page).getByLabel("Search By Name")
+    }
     function getRadioCardPopup(page: Page) {
       return page.locator("#map .radio-card")
     }
@@ -116,7 +119,7 @@ test.describe("search drawer for finding radio stations", () => {
       await page.goto(HOMEPAGE)
       await getSearchStationButton(page).click()
       await expect(getDrawerComponent(page)).toBeVisible()
-      await getForm(page).getByLabel("Search By Name").fill("")
+      await getStationSearchByNameInput(page).fill("")
       await getForm(page).locator("button[type='submit']").click()
       await expect(
         getDrawerComponent(page).getByText("Station Name is required")
@@ -130,13 +133,137 @@ test.describe("search drawer for finding radio stations", () => {
       await page.goto(HOMEPAGE)
       await getSearchStationButton(page).click()
       await expect(getDrawerComponent(page)).toBeVisible()
-      await getForm(page).getByLabel("Search By Name").fill("a".repeat(count))
+      await getStationSearchByNameInput(page).fill("a".repeat(count))
       await getForm(page).locator("button[type='submit']").click()
       await expect(
         getDrawerComponent(page).getByText(
           "Station Name cannot be longer than 255 characters"
         )
       ).toBeVisible()
+    })
+
+    test.describe("language filter", () => {
+      test("should display languages in select options", async ({ page }) => {
+        const expectedLanguageOptions = [
+          "english",
+          "spanish",
+          "german",
+          "french",
+          "chinese",
+          "russian",
+          "italian",
+          "greek",
+          "polish",
+          "portuguese",
+          "hindi",
+          "dutch",
+          "tamil",
+          "romanian",
+          "arabic",
+          "serbian",
+          "ukrainian",
+          "hungarian",
+          "turkish",
+          "czech",
+          "croatian",
+          "japanese",
+          "malayalam",
+          "filipino",
+          "indonesian",
+          "swedish",
+          "slovak",
+          "bosnian",
+          "catalan",
+          "danish",
+          "cantonese",
+          "bahasa indonesia",
+          "bulgarian",
+          "finnish",
+          "korean",
+          "slovenian",
+          "hebrew",
+          "persian",
+          "thai",
+          "swiss german",
+          "estonian",
+          "norwegian",
+          "urdu",
+          "swahili",
+          "kannada",
+          "malay",
+          "lithuanian",
+          "mandarin",
+          "sinhala",
+          "macedonian",
+          "kazakh",
+          "latvian",
+          "kurdish",
+          "georgian",
+          "afrikaans",
+          "azerbaijani",
+          "amharic",
+          "tagalog",
+          "belarusian",
+          "telugu",
+          "vietnamese",
+        ]
+        await page.goto(HOMEPAGE)
+        await getSearchStationButton(page).click()
+        expect(
+          await getForm(page)
+            .locator("select#language option")
+            .allTextContents()
+        ).toEqual(
+          expect.arrayContaining([...expectedLanguageOptions, "any language"])
+        )
+        await expect(
+          getForm(page).locator("select#language option")
+        ).toHaveCount(expectedLanguageOptions.length + 1) // add one for "Any Language"
+      })
+
+      test("display english as default language", async ({ page }) => {
+        await page.goto(HOMEPAGE)
+        await getSearchStationButton(page).click()
+        await expect(getForm(page).locator("select#language")).toHaveValue(
+          "english"
+        )
+        await getForm(page)
+          .locator("select#language")
+          .selectOption(["cantonese"])
+        await expect(getForm(page).locator("select#language")).toHaveValue(
+          "cantonese"
+        )
+      })
+
+      test("search for cantonese language radio station", async ({ page }) => {
+        const name = cantoneseStation.name.split(" ").join("+")
+        await page.route(
+          `*/**/json/stations/search?name=${name}&limit=**`,
+          async (route) => {
+            // force test failure for searching endpoint without language search param
+            const json = []
+            await route.fulfill({ json })
+          }
+        )
+        await page.route(
+          `*/**/json/stations/search?**name=${name}**language=cantonese**`,
+          async (route) => {
+            const json = [cantoneseStation]
+            await route.fulfill({ json })
+          }
+        )
+        await page.goto(HOMEPAGE)
+        await getSearchStationButton(page).click()
+        await getForm(page)
+          .locator("select#language")
+          .selectOption(["cantonese"])
+        await getStationSearchByNameInput(page).fill(cantoneseStation.name)
+        await getForm(page).locator("button[type='submit']").click()
+        await expect(getDrawerStationResultCard(page)).toBeVisible()
+        await expect(
+          getDrawerStationResultCard(page).getByText(cantoneseStation.name)
+        ).toBeVisible()
+      })
     })
 
     test("search radio station for name shows one entry in drawer", async ({
@@ -150,7 +277,7 @@ test.describe("search drawer for finding radio stations", () => {
       await page.goto(HOMEPAGE)
       await getSearchStationButton(page).click()
       await expect(getDrawerComponent(page)).toBeVisible()
-      await getForm(page).getByLabel("Search By Name").fill(stationName)
+      await getStationSearchByNameInput(page).fill(stationName)
       await getForm(page).locator("button[type='submit']").click()
       await expect(getDrawerStationResultCard(page)).toBeVisible()
       const expectedTextInStationResultCard = [
@@ -190,7 +317,7 @@ test.describe("search drawer for finding radio stations", () => {
       await page.goto(HOMEPAGE)
       await getSearchStationButton(page).click()
       await expect(getDrawerComponent(page)).toBeVisible()
-      await getForm(page).getByLabel("Search By Name").fill(stationName)
+      await getStationSearchByNameInput(page).fill(stationName)
       await getForm(page).locator("button[type='submit']").click()
       await expect(getDrawerStationResultCard(page)).toBeVisible()
       await getDrawerStationResultCard(page)
@@ -235,7 +362,7 @@ test.describe("search drawer for finding radio stations", () => {
       await getSearchStationButton(page).click()
       await expect(getDrawerComponent(page)).toBeVisible()
       await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()
-      await getForm(page).getByLabel("Search By Name").fill(stationName)
+      await getStationSearchByNameInput(page).fill(stationName)
       await getForm(page).locator("button[type='submit']").click()
       await expect(getDrawerStationResultCard(page)).toHaveCount(1)
       // check that more results are loaded during second request
@@ -264,7 +391,7 @@ test.describe("search drawer for finding radio stations", () => {
       await getSearchStationButton(page).click()
       await expect(getDrawerComponent(page)).toBeVisible()
       await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()
-      await getForm(page).getByLabel("Search By Name").fill(stationName)
+      await getStationSearchByNameInput(page).fill(stationName)
       await getForm(page).locator("button[type='submit']").click()
       await expect(getDrawerStationResultCard(page)).toHaveCount(1)
       await getDrawerLoadMoreStationButton(page).click()
@@ -299,7 +426,7 @@ test.describe("search drawer for finding radio stations", () => {
         getDrawerStationResultCard(page).nth(0).locator(".station-card-title")
       ).toHaveText("first station name")
 
-      await getForm(page).getByLabel("Search By Name").clear()
+      await getStationSearchByNameInput(page).clear()
       await getForm(page)
         .getByLabel("Search By Name")
         .fill(secondStationNameSearch)
@@ -321,7 +448,7 @@ test.describe("search drawer for finding radio stations", () => {
       await getSearchStationButton(page).click()
       await expect(getDrawerComponent(page)).toBeVisible()
       await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()
-      await getForm(page).getByLabel("Search By Name").fill(stationName)
+      await getStationSearchByNameInput(page).fill(stationName)
       await getForm(page).locator("button[type='submit']").click()
       await expect(getDrawerStationResultCard(page)).toHaveCount(0)
       await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()

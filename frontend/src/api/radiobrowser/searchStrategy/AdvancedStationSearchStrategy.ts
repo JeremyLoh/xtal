@@ -3,12 +3,19 @@ import { getAllStations } from "../station"
 import { Station } from "../types"
 import { StationSearchStrategy } from "./StationSearchStrategy"
 
-const criteriaToSearchParam = new Map<string, (value: string) => string>([
-  ["name", (value: string) => `name=${value}`],
-])
+const criteriaToSearchParam = new Map<string, (value: string) => string | null>(
+  [
+    ["name", (value: string) => `name=${value}`],
+    [
+      "language",
+      (value: string) => (value !== "" ? `language=${value}` : null),
+    ],
+  ]
+)
 
 export type AdvancedStationSearchCriteria = {
   name: string
+  language: string
 }
 
 export class AdvancedStationSearchStrategy implements StationSearchStrategy {

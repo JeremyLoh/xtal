@@ -1,22 +1,28 @@
-import { SubmitHandler, useForm } from "react-hook-form"
 import "./StationSearchForm.css"
-import { FaSearch } from "react-icons/fa"
 import { useState } from "react"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { FaSearch } from "react-icons/fa"
+import { languages, LanguageEnum } from "../../../../api/radiobrowser/languages"
+
+export type StationSearchValues = {
+  stationName: string
+  language: string
+  limit: number
+  offset: number
+}
 
 type Inputs = {
   stationName: string
+  language: LanguageEnum
 }
 
 type StationSearchFormProps = {
   handleStationSearch: ({
     stationName,
+    language,
     limit,
     offset,
-  }: {
-    stationName: string
-    limit: number
-    offset: number
-  }) => void
+  }: StationSearchValues) => void
 }
 
 function StationSearchForm(props: StationSearchFormProps) {
@@ -26,11 +32,18 @@ function StationSearchForm(props: StationSearchFormProps) {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<Inputs>()
+  } = useForm<Inputs>({
+    defaultValues: {
+      stationName: "",
+      language: LanguageEnum.english,
+    },
+  })
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
     props.handleStationSearch({
-      offset,
       stationName: data.stationName,
+      language:
+        data.language === LanguageEnum.any ? "" : LanguageEnum[data.language],
+      offset,
       limit,
     })
   }
@@ -55,6 +68,21 @@ function StationSearchForm(props: StationSearchFormProps) {
             : errors.stationName.message}
         </p>
       )}
+      <label htmlFor="language">Language</label>
+      <select
+        className="language-select"
+        id="language"
+        {...register("language")}
+      >
+        <option value="">any language</option>
+        {languages.map((option: string, index: number) => {
+          return (
+            <option key={`${option}-${index}`} value={option}>
+              {option}
+            </option>
+          )
+        })}
+      </select>
       <button type="submit">
         <FaSearch size={16} /> Search
       </button>
