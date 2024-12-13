@@ -10,12 +10,17 @@ const criteriaToSearchParam = new Map<string, (value: string) => string | null>(
       "language",
       (value: string) => (value !== "" ? `language=${value}` : null),
     ],
+    [
+      "sort",
+      (value: string) => (value !== "" ? `order=${value}&reverse=true` : null),
+    ],
   ]
 )
 
 export type AdvancedStationSearchCriteria = {
   name: string
   language: string
+  sort: string
 }
 
 export class AdvancedStationSearchStrategy implements StationSearchStrategy {

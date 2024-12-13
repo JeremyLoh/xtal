@@ -7,6 +7,7 @@ import { languages, LanguageEnum } from "../../../../api/radiobrowser/languages"
 export type StationSearchValues = {
   stationName: string
   language: string
+  sort: string
   limit: number
   offset: number
 }
@@ -14,12 +15,14 @@ export type StationSearchValues = {
 type Inputs = {
   stationName: string
   language: LanguageEnum
+  sort: string
 }
 
 type StationSearchFormProps = {
   handleStationSearch: ({
     stationName,
     language,
+    sort,
     limit,
     offset,
   }: StationSearchValues) => void
@@ -36,6 +39,7 @@ function StationSearchForm(props: StationSearchFormProps) {
     defaultValues: {
       stationName: "",
       language: LanguageEnum.english,
+      sort: "",
     },
   })
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
@@ -43,6 +47,7 @@ function StationSearchForm(props: StationSearchFormProps) {
       stationName: data.stationName,
       language:
         data.language === LanguageEnum.any ? "" : LanguageEnum[data.language],
+      sort: data.sort,
       offset,
       limit,
     })
@@ -79,6 +84,17 @@ function StationSearchForm(props: StationSearchFormProps) {
           return (
             <option key={`${option}-${index}`} value={option}>
               {option}
+            </option>
+          )
+        })}
+      </select>
+      <label htmlFor="sort">Sort By</label>
+      <select id="sort" className="sort-select" {...register("sort")}>
+        <option value="">none</option>
+        {["bitrate", "votes"].map((value: string, index: number) => {
+          return (
+            <option key={`${value}-${index}`} value={value}>
+              {value}
             </option>
           )
         })}
