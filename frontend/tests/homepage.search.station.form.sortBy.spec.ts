@@ -1,13 +1,10 @@
 import test, { expect, Page } from "@playwright/test"
 import { StationBuilder } from "./mocks/station"
 import { Station } from "../src/api/radiobrowser/types"
-import { HOMEPAGE } from "./constants"
+import { getDrawerComponent, HOMEPAGE } from "./constants"
 
 function getSearchStationButton(page: Page) {
   return page.getByRole("button", { name: "search stations" })
-}
-function getDrawerComponent(page: Page) {
-  return page.locator(".drawer")
 }
 function getForm(page: Page) {
   return getDrawerComponent(page).locator(

@@ -1,11 +1,8 @@
 import test, { expect, Page } from "@playwright/test"
-import { HOMEPAGE } from "./constants"
+import { getDrawerComponent, HOMEPAGE } from "./constants"
 
 function getSearchStationButton(page: Page) {
   return page.getByRole("button", { name: "search stations" })
-}
-function getDrawerComponent(page: Page) {
-  return page.locator(".drawer")
 }
 
 test.describe("search drawer for finding radio stations", () => {
