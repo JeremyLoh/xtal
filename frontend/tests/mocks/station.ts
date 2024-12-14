@@ -1,3 +1,41 @@
+import { Station } from "../../src/api/radiobrowser/types"
+
+export class StationBuilder {
+  private station: Station
+
+  constructor() {
+    this.reset()
+  }
+
+  public reset(): void {
+    // @ts-expect-error create empty station
+    const newStation: Station = {}
+    for (const [key, value] of Object.entries(unitedStatesStation)) {
+      newStation[key] = value
+    }
+    this.station = newStation
+  }
+
+  public getStation(): Station {
+    const output = this.station
+    this.reset()
+    return output
+  }
+
+  public withName(name: string) {
+    this.station.name = name
+  }
+  public withBitrate(bitrate: number) {
+    this.station.bitrate = bitrate
+  }
+  public withTags(tags: string) {
+    this.station.tags = tags
+  }
+  public withVotes(votes: number) {
+    this.station.votes = votes
+  }
+}
+
 export const stationWithMultipleTags = {
   changeuuid: "6970a8a0-3114-4c1f-98f6-a92657dc3665",
   stationuuid: "47a8338b-75b5-485b-b8f9-a589dc6277b1",

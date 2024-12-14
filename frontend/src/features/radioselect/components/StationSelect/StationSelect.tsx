@@ -37,6 +37,7 @@ function StationSelect(props: StationSelectProps) {
   async function handleStationSearch({
     stationName,
     language,
+    sort,
     limit,
     offset,
   }: StationSearchValues) {
@@ -46,6 +47,7 @@ function StationSelect(props: StationSelectProps) {
       {
         name: stationName,
         language: language,
+        sort: sort,
       },
       limit,
       offset
@@ -69,6 +71,7 @@ function StationSelect(props: StationSelectProps) {
     await handleStationSearch({
       stationName: searchStrategy.searchCriteria.name,
       language: searchStrategy.searchCriteria.language,
+      sort: searchStrategy.searchCriteria.sort,
       limit: searchStrategy.limit,
       offset: searchStrategy.offset + searchStrategy.limit,
     })
