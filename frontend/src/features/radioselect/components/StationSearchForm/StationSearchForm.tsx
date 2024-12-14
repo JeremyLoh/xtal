@@ -8,6 +8,7 @@ export type StationSearchValues = {
   stationName: string
   language: string
   sort: string
+  tag: string
   limit: number
   offset: number
 }
@@ -16,6 +17,7 @@ type Inputs = {
   stationName: string
   language: LanguageEnum
   sort: string
+  tag: string
 }
 
 type StationSearchFormProps = {
@@ -23,6 +25,7 @@ type StationSearchFormProps = {
     stationName,
     language,
     sort,
+    tag,
     limit,
     offset,
   }: StationSearchValues) => void
@@ -40,6 +43,7 @@ function StationSearchForm(props: StationSearchFormProps) {
       stationName: "",
       language: LanguageEnum.english,
       sort: "",
+      tag: "",
     },
   })
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
@@ -48,6 +52,7 @@ function StationSearchForm(props: StationSearchFormProps) {
       language:
         data.language === LanguageEnum.any ? "" : LanguageEnum[data.language],
       sort: data.sort,
+      tag: data.tag.trim(),
       offset,
       limit,
     })
@@ -99,6 +104,13 @@ function StationSearchForm(props: StationSearchFormProps) {
           )
         })}
       </select>
+      <label htmlFor="tag">Tag</label>
+      <input
+        id="tag"
+        type="text"
+        placeholder="search by tag"
+        {...register("tag")}
+      />
       <button type="submit">
         <FaSearch size={16} /> Search
       </button>
