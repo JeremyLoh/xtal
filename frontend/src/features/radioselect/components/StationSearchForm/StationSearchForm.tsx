@@ -3,6 +3,10 @@ import { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { FaSearch } from "react-icons/fa"
 import { languages, LanguageEnum } from "../../../../api/radiobrowser/languages"
+import {
+  stationNameValidation,
+  stationTagValidation,
+} from "./StationSearchFormValidation"
 
 export type StationSearchValues = {
   stationName: string
@@ -13,7 +17,7 @@ export type StationSearchValues = {
   offset: number
 }
 
-type Inputs = {
+export type Inputs = {
   stationName: string
   language: LanguageEnum
   sort: string
@@ -63,13 +67,7 @@ function StationSearchForm(props: StationSearchFormProps) {
       <input
         type="text"
         id="stationName"
-        {...register("stationName", {
-          required: true,
-          maxLength: {
-            value: 255,
-            message: "Station Name cannot be longer than 255 characters",
-          },
-        })}
+        {...register("stationName", stationNameValidation)}
       />
       {errors.stationName &&
         getErrorElement(
@@ -108,13 +106,7 @@ function StationSearchForm(props: StationSearchFormProps) {
         id="tag"
         type="text"
         placeholder="search by tag"
-        {...register("tag", {
-          required: false,
-          maxLength: {
-            value: 30,
-            message: "Tag cannot be longer than 30 characters",
-          },
-        })}
+        {...register("tag", stationTagValidation)}
       />
       {errors.tag && getErrorElement(errors.tag.message)}
       <button type="submit">
