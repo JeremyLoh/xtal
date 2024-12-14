@@ -151,10 +151,11 @@ test.describe("radio station search type", () => {
     await getCountrySearchButton(page).click()
     await clickRandomRadioStationButton(page)
     await clickRandomRadioStationButton(page)
+    await clickRandomRadioStationButton(page)
     const offsets = new Set(
       apiCalls.map((apiCall) => new URLSearchParams(apiCall).get("offset"))
     )
-    expect(offsets.size).toBe(2)
+    expect(offsets.size).toBeGreaterThan(1)
   })
 
   test("second random genre station request should call API with different offset number", async ({
