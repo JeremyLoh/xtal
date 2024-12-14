@@ -1,5 +1,4 @@
 import "./Drawer.css"
-import { Dispatch, SetStateAction } from "react"
 import { MdOutlineHorizontalRule } from "react-icons/md"
 import { IoClose } from "react-icons/io5"
 import {
@@ -11,7 +10,7 @@ import {
 
 type DrawerProps = {
   open: boolean
-  setOpen: Dispatch<SetStateAction<boolean>>
+  setOpen: (isOpen: boolean) => void
   title: string
   children?: React.ReactNode
 }

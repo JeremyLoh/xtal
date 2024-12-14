@@ -14,6 +14,7 @@ import { StationSearchStrategy } from "./StationSearchStrategy"
 export enum StationSearchType {
   GENRE = "genre",
   COUNTRY = "country",
+  ADVANCED = "advanced",
 }
 
 export class SearchStrategyFactory {
