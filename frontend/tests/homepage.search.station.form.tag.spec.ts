@@ -35,7 +35,6 @@ test.describe("radio station search form tag filter", () => {
     await page.route(
       `*/**/json/stations/search?**name=${expectedStationName}**`,
       async (route) => {
-        console.log(route.request().url())
         if (route.request().url().includes("tag=")) {
           await route.fulfill({ json: [] })
         } else {
