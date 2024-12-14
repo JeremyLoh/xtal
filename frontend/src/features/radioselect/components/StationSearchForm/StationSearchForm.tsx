@@ -3,19 +3,25 @@ import { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { FaSearch } from "react-icons/fa"
 import { languages, LanguageEnum } from "../../../../api/radiobrowser/languages"
+import {
+  stationNameValidation,
+  stationTagValidation,
+} from "./StationSearchFormValidation"
 
 export type StationSearchValues = {
   stationName: string
   language: string
   sort: string
+  tag: string
   limit: number
   offset: number
 }
 
-type Inputs = {
+export type Inputs = {
   stationName: string
   language: LanguageEnum
   sort: string
+  tag: string
 }
 
 type StationSearchFormProps = {
@@ -23,6 +29,7 @@ type StationSearchFormProps = {
     stationName,
     language,
     sort,
+    tag,
     limit,
     offset,
   }: StationSearchValues) => void
@@ -40,6 +47,7 @@ function StationSearchForm(props: StationSearchFormProps) {
       stationName: "",
       language: LanguageEnum.english,
       sort: "",
+      tag: "",
     },
   })
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
@@ -48,6 +56,7 @@ function StationSearchForm(props: StationSearchFormProps) {
       language:
         data.language === LanguageEnum.any ? "" : LanguageEnum[data.language],
       sort: data.sort,
+      tag: data.tag.trim(),
       offset,
       limit,
     })
@@ -58,21 +67,14 @@ function StationSearchForm(props: StationSearchFormProps) {
       <input
         type="text"
         id="stationName"
-        {...register("stationName", {
-          required: true,
-          maxLength: {
-            value: 255,
-            message: "Station Name cannot be longer than 255 characters",
-          },
-        })}
+        {...register("stationName", stationNameValidation)}
       />
-      {errors.stationName && (
-        <p role="alert" className="error-text">
-          {errors.stationName.type === "required"
+      {errors.stationName &&
+        getErrorElement(
+          errors.stationName.type === "required"
             ? "Station Name is required"
-            : errors.stationName.message}
-        </p>
-      )}
+            : errors.stationName.message
+        )}
       <label htmlFor="language">Language</label>
       <select
         className="language-select"
@@ -99,10 +101,29 @@ function StationSearchForm(props: StationSearchFormProps) {
           )
         })}
       </select>
+      <label htmlFor="tag">Tag</label>
+      <input
+        id="tag"
+        type="text"
+        placeholder="search by tag"
+        {...register("tag", stationTagValidation)}
+      />
+      {errors.tag && getErrorElement(errors.tag.message)}
       <button type="submit">
         <FaSearch size={16} /> Search
       </button>
     </form>
+  )
+}
+
+function getErrorElement(message: string | undefined): JSX.Element | null {
+  if (message == undefined) {
+    return null
+  }
+  return (
+    <p role="alert" className="error-text">
+      {message}
+    </p>
   )
 }
 

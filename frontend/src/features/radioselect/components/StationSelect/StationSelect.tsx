@@ -38,6 +38,7 @@ function StationSelect(props: StationSelectProps) {
     stationName,
     language,
     sort,
+    tag,
     limit,
     offset,
   }: StationSearchValues) {
@@ -48,6 +49,7 @@ function StationSelect(props: StationSelectProps) {
         name: stationName,
         language: language,
         sort: sort,
+        tag: tag,
       },
       limit,
       offset
@@ -72,6 +74,7 @@ function StationSelect(props: StationSelectProps) {
       stationName: searchStrategy.searchCriteria.name,
       language: searchStrategy.searchCriteria.language,
       sort: searchStrategy.searchCriteria.sort,
+      tag: searchStrategy.searchCriteria.tag,
       limit: searchStrategy.limit,
       offset: searchStrategy.offset + searchStrategy.limit,
     })

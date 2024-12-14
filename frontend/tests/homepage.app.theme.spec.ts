@@ -1,5 +1,5 @@
 import test, { expect, Page } from "@playwright/test"
-import { HOMEPAGE } from "./constants"
+import { HOMEPAGE } from "./constants/homepageConstants"
 
 // https://playwright.dev/docs/emulation#color-scheme-and-media
 test.use({
