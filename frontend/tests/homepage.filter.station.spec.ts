@@ -1,5 +1,8 @@
 import test, { expect, Page } from "@playwright/test"
-import { clickRandomRadioStationButton, HOMEPAGE } from "./constants"
+import {
+  clickRandomRadioStationButton,
+  HOMEPAGE,
+} from "./constants/homepageConstants"
 import { stationWithMultipleTags, unitedStatesStation } from "./mocks/station"
 
 test.describe("radio station search type", () => {

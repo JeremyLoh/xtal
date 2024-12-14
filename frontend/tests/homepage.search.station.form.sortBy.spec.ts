@@ -1,22 +1,13 @@
 import test, { expect, Page } from "@playwright/test"
 import { StationBuilder } from "./mocks/station"
 import { Station } from "../src/api/radiobrowser/types"
-import { getDrawerComponent, HOMEPAGE } from "./constants"
-
-function getSearchStationButton(page: Page) {
-  return page.getByRole("button", { name: "search stations" })
-}
-function getForm(page: Page) {
-  return getDrawerComponent(page).locator(
-    ".drawer-content .station-search-form"
-  )
-}
-function getStationSearchByNameInput(page: Page) {
-  return getForm(page).getByLabel("Search By Name")
-}
-function getDrawerStationResultCard(page: Page) {
-  return page.locator(".station-search-result-card")
-}
+import { HOMEPAGE } from "./constants/homepageConstants"
+import {
+  getDrawerStationResultCard,
+  getForm,
+  getSearchStationButton,
+  getStationSearchByNameInput,
+} from "./constants/stationFormConstants"
 
 test.describe("radio station search form sort options", () => {
   function getSortSelect(page: Page) {
