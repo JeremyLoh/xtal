@@ -71,13 +71,12 @@ function StationSearchForm(props: StationSearchFormProps) {
           },
         })}
       />
-      {errors.stationName && (
-        <p role="alert" className="error-text">
-          {errors.stationName.type === "required"
+      {errors.stationName &&
+        getErrorElement(
+          errors.stationName.type === "required"
             ? "Station Name is required"
-            : errors.stationName.message}
-        </p>
-      )}
+            : errors.stationName.message
+        )}
       <label htmlFor="language">Language</label>
       <select
         className="language-select"
@@ -109,12 +108,30 @@ function StationSearchForm(props: StationSearchFormProps) {
         id="tag"
         type="text"
         placeholder="search by tag"
-        {...register("tag")}
+        {...register("tag", {
+          required: false,
+          maxLength: {
+            value: 30,
+            message: "Tag cannot be longer than 30 characters",
+          },
+        })}
       />
+      {errors.tag && getErrorElement(errors.tag.message)}
       <button type="submit">
         <FaSearch size={16} /> Search
       </button>
     </form>
+  )
+}
+
+function getErrorElement(message: string | undefined): JSX.Element | null {
+  if (message == undefined) {
+    return null
+  }
+  return (
+    <p role="alert" className="error-text">
+      {message}
+    </p>
   )
 }
 

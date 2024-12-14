@@ -1,5 +1,5 @@
 import test, { expect, Page } from "@playwright/test"
-import { HOMEPAGE } from "./constants/homepageConstants"
+import { getDrawerComponent, HOMEPAGE } from "./constants/homepageConstants"
 import {
   getDrawerStationResultCard,
   getForm,
@@ -35,6 +35,7 @@ test.describe("radio station search form tag filter", () => {
     await page.route(
       `*/**/json/stations/search?**name=${expectedStationName}**`,
       async (route) => {
+        console.log(route.request().url())
         if (route.request().url().includes("tag=")) {
           await route.fulfill({ json: [] })
         } else {
@@ -119,6 +120,38 @@ test.describe("radio station search form tag filter", () => {
     await getForm(page).locator("button[type='submit']").click()
     await expect(
       getDrawerStationResultCard(page).getByText(expectedStationName)
+    ).toBeVisible()
+  })
+
+  test("should limit max tag length to 30 characters", async ({ page }) => {
+    const expectedTag = "a".repeat(31)
+    const expectedStationName = "test"
+    const mockedStations: Station[] = []
+    const stationBuilder = new StationBuilder()
+    stationBuilder.withName(expectedStationName)
+    stationBuilder.withTags(expectedTag)
+    mockedStations.push(stationBuilder.getStation())
+    await page.route(
+      `*/**/json/stations/search?**name=${expectedStationName}**`,
+      async (route) => {
+        if (route.request().url().includes(`tag=${expectedTag}`)) {
+          const json = mockedStations
+          await route.fulfill({ json })
+        } else {
+          await route.fulfill({ json: [] })
+        }
+      }
+    )
+    await page.goto(HOMEPAGE)
+    await getSearchStationButton(page).click()
+    await getTagFilterInput(page).fill(expectedTag)
+    await getStationSearchByNameInput(page).fill(expectedStationName)
+    await getForm(page).locator("button[type='submit']").click()
+    await expect(getDrawerStationResultCard(page)).not.toBeVisible()
+    await expect(
+      getDrawerComponent(page).getByText(
+        "Tag cannot be longer than 30 characters"
+      )
     ).toBeVisible()
   })
 })
