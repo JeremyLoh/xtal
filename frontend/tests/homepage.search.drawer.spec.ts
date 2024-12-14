@@ -1,5 +1,10 @@
 import test, { expect, Page } from "@playwright/test"
-import { getDrawerComponent, HOMEPAGE } from "./constants/homepageConstants"
+import {
+  getCountrySearchButton,
+  getDrawerComponent,
+  getGenreSearchButton,
+  HOMEPAGE,
+} from "./constants/homepageConstants"
 import { getSearchStationButton } from "./constants/stationFormConstants"
 
 test.describe("search drawer for finding radio stations", () => {
@@ -23,6 +28,41 @@ test.describe("search drawer for finding radio stations", () => {
       await getSearchStationButton(page).click()
       await expect(getSearchStationButton(page)).toHaveClass(/selected/)
       await expect(getDrawerComponent(page)).toBeVisible()
+    })
+
+    test("should remove selected class on genre button when search button is clicked", async ({
+      page,
+    }) => {
+      await page.goto(HOMEPAGE)
+      await getGenreSearchButton(page).click()
+      await expect(getGenreSearchButton(page)).toHaveClass(/selected/)
+      await getSearchStationButton(page).click()
+      await expect(getGenreSearchButton(page)).not.toHaveClass(/selected/)
+      await expect(getSearchStationButton(page)).toHaveClass(/selected/)
+    })
+
+    test("should reset selected class to genre button when search drawer is closed", async ({
+      page,
+    }) => {
+      await page.goto(HOMEPAGE)
+      await getGenreSearchButton(page).click()
+      await expect(getGenreSearchButton(page)).toHaveClass(/selected/)
+      await getSearchStationButton(page).click()
+      await expect(getGenreSearchButton(page)).not.toHaveClass(/selected/)
+      await expect(getSearchStationButton(page)).toHaveClass(/selected/)
+      await getDrawerCloseButton(page).click()
+      await expect(getGenreSearchButton(page)).toHaveClass(/selected/)
+    })
+
+    test("should remove selected class on countries button when search button is clicked", async ({
+      page,
+    }) => {
+      await page.goto(HOMEPAGE)
+      await getCountrySearchButton(page).click()
+      await expect(getCountrySearchButton(page)).toHaveClass(/selected/)
+      await getSearchStationButton(page).click()
+      await expect(getCountrySearchButton(page)).not.toHaveClass(/selected/)
+      await expect(getSearchStationButton(page)).toHaveClass(/selected/)
     })
 
     test("close drawer when close icon is clicked", async ({ page }) => {

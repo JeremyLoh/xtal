@@ -20,8 +20,19 @@ function StationSearch(props: StationSearchProps) {
     setSelectedSearch(searchType)
     props.handleStationSearchType(searchType)
   }
+  function handleAdvancedClick() {
+    setSelectedSearch(StationSearchType.ADVANCED)
+    setShowSearchStation(!showSearchStation)
+  }
   function handleLoadStation(station: Station) {
     mapContext?.setStation(station)
+  }
+  function handleOpen(isOpen: boolean) {
+    setShowSearchStation(isOpen)
+    if (!isOpen) {
+      // revert back to default first station search type
+      setSelectedSearch(StationSearchType.GENRE)
+    }
   }
   return (
     <div id="station-search-type-container">
@@ -42,7 +53,7 @@ function StationSearch(props: StationSearchProps) {
         <FaFlag size={16} /> Countries
       </button>
       <button
-        onClick={() => setShowSearchStation(!showSearchStation)}
+        onClick={handleAdvancedClick}
         className={`search-station-button ${
           showSearchStation ? "selected" : ""
         }`}
@@ -54,7 +65,7 @@ function StationSearch(props: StationSearchProps) {
       <StationSelect
         handleLoadStation={handleLoadStation}
         open={showSearchStation}
-        setOpen={setShowSearchStation}
+        setOpen={handleOpen}
       />
     </div>
   )

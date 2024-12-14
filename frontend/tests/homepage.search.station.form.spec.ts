@@ -1,5 +1,9 @@
 import test, { expect, Page } from "@playwright/test"
-import { getDrawerComponent, HOMEPAGE } from "./constants/homepageConstants"
+import {
+  getDrawerComponent,
+  getGenreSearchButton,
+  HOMEPAGE,
+} from "./constants/homepageConstants"
 import { unitedStatesStation } from "./mocks/station"
 import {
   getDrawerStationResultCard,
@@ -128,6 +132,8 @@ test.describe("radio station search form", () => {
         exact: true,
       })
     ).toBeVisible()
+    // genre button should have selected class set after station is loaded from drawer
+    await expect(getGenreSearchButton(page)).toHaveClass(/selected/)
   })
 
   test("load second set of station results when 'Load More Results' button is clicked", async ({

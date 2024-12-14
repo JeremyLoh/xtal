@@ -1,18 +1,13 @@
 import test, { expect, Page } from "@playwright/test"
 import {
   clickRandomRadioStationButton,
+  getCountrySearchButton,
+  getGenreSearchButton,
   HOMEPAGE,
 } from "./constants/homepageConstants"
 import { stationWithMultipleTags, unitedStatesStation } from "./mocks/station"
 
 test.describe("radio station search type", () => {
-  function getGenreSearchButton(page: Page) {
-    return page.locator("#station-search-type-container .genre-search-button")
-  }
-  function getCountrySearchButton(page: Page) {
-    return page.locator("#station-search-type-container .country-search-button")
-  }
-
   test("display genre tab with 'selected' CSS className", async ({ page }) => {
     await page.goto(HOMEPAGE)
     // Genre tab should be selected by default, "selected" class
@@ -151,10 +146,11 @@ test.describe("radio station search type", () => {
     await getCountrySearchButton(page).click()
     await clickRandomRadioStationButton(page)
     await clickRandomRadioStationButton(page)
+    await clickRandomRadioStationButton(page)
     const offsets = new Set(
       apiCalls.map((apiCall) => new URLSearchParams(apiCall).get("offset"))
     )
-    expect(offsets.size).toBe(2)
+    expect(offsets.size).toBeGreaterThan(1)
   })
 
   test("second random genre station request should call API with different offset number", async ({

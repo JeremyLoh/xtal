@@ -1,5 +1,5 @@
 import "./StationSelect.css"
-import { Dispatch, SetStateAction, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { motion } from "motion/react"
 import { toast } from "sonner"
 import { IoIosRadio } from "react-icons/io"
@@ -16,7 +16,7 @@ import StationCard from "../../../../components/StationCard/StationCard"
 type StationSelectProps = {
   handleLoadStation: (station: Station) => void
   open: boolean
-  setOpen: Dispatch<SetStateAction<boolean>>
+  setOpen: (isOpen: boolean) => void
 }
 
 function StationSelect(props: StationSelectProps) {
