@@ -32,6 +32,7 @@ function StationSearch(props: StationSearchProps) {
     if (!isOpen) {
       // revert back to default first station search type
       setSelectedSearch(StationSearchType.GENRE)
+      props.handleStationSearchType(StationSearchType.GENRE)
     }
   }
   return (
