@@ -45,8 +45,8 @@ function Drawer(props: DrawerProps) {
         <motion.div
           className="drawer"
           ref={scope}
-          initial={{ x: "5%", y: "50%" }}
-          animate={{ x: "5%", y: "0%" }}
+          initial={{ x: "0%", y: "50%" }}
+          animate={{ x: "0%", y: "0%" }}
           transition={{
             type: "easeInOut",
           }}

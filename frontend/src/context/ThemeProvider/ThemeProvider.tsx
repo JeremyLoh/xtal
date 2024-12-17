@@ -15,7 +15,7 @@ const lightTheme = [
   "--slider-chip-secondary-color: #e5e5e5;",
   "--slider-chip-selected-color: #262626;",
   "--slider-chip-selected-text-color: #f5f5f5;",
-  "--drawer-background-color: #f5f5f4;",
+  "--drawer-background-color: #f5f5f5;",
 ]
 
 // https://www.realtimecolors.com/?colors=e8ebf5-0b0f1d-4846b6-143fc0-3059d2&fonts=Ubuntu-Ubuntu

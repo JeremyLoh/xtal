@@ -11,10 +11,7 @@
   flex-direction: column;
   justify-content: flex-start;
   gap: 0.2rem;
-  -webkit-box-shadow: var(--text-color) 0px 3px 10px -3px;
-  -moz-box-shadow: var(--text-color) 0px 3px 10px -3px;
-  box-shadow: var(--text-color) 0px 3px 10px -3px;
-  border-bottom: 2mm dotted var(--accent-color);
+  border-radius: 8px;
   background-color: var(--background-color);
 }
 .station-search-result-card p {
