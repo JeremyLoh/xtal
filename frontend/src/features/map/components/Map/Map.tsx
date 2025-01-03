@@ -38,7 +38,11 @@ function Map(props: MapProps) {
     }
     const location = getStationLocation(props.station)
     const popupDiv = document.createElement("div")
-    const popup = L.popup({ minWidth: 300, keepInView: true })
+    const popup = L.popup({
+      minWidth: 300,
+      keepInView: true,
+      closeOnClick: false,
+    })
       .setLatLng(location)
       .setContent(popupDiv)
       .openOn(map)

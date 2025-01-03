@@ -12,7 +12,11 @@ type RadioCardProps = {
 // Display radio player on map as a popup
 function RadioCard(props: RadioCardProps) {
   const { station } = props
+  const [isFavourite, setFavourite] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
+  function handleFavouriteToggle() {
+    setFavourite(!isFavourite)
+  }
   // https://videojs.com/guides/options/
   const options = {
     liveui: true,
@@ -43,6 +47,13 @@ function RadioCard(props: RadioCardProps) {
   return (
     <div className="radio-card">
       <StationCard station={station}>
+        <span onClick={handleFavouriteToggle} className="favourite-icon">
+          {isFavourite ? (
+            <StationCard.FavouriteIconFilled />
+          ) : (
+            <StationCard.FavouriteIconOutline />
+          )}
+        </span>
         <StationCard.Icon />
         <StationCard.Title />
         <StationCard.Bitrate />

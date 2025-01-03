@@ -58,3 +58,7 @@
   gap: 0.2rem;
   width: fit-content;
 }
+
+.station-card-favourite-icon {
+  margin-left: auto;
+}

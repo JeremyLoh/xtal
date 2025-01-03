@@ -5,6 +5,7 @@ import Pill from "../Pill/Pill"
 import { FaMapMarkerAlt } from "react-icons/fa"
 import { BiSolidLike } from "react-icons/bi"
 import { IoLanguageSharp } from "react-icons/io5"
+import { GoStar, GoStarFill } from "react-icons/go"
 
 type StationCardContext = {
   station: Station
@@ -24,7 +25,7 @@ function useStationCardContext() {
   return context
 }
 
-export default function StationCard({ station, children }: StationCardProps) {
+export default function StationCard({ children, station }: StationCardProps) {
   return (
     <StationCardContext.Provider value={{ station }}>
       <div className="station-card">{children}</div>
@@ -49,6 +50,19 @@ StationCard.Icon = function StationCardIcon() {
 StationCard.Title = function StationCardTitle() {
   const { station } = useStationCardContext()
   return <h2 className="station-card-title">{station.name}</h2>
+}
+
+StationCard.FavouriteIconOutline = function StationCardFavouriteIconOutline() {
+  return <GoStar size={20} className="station-card-favourite-icon" />
+}
+StationCard.FavouriteIconFilled = function StationCardFavouriteIconFilled() {
+  return (
+    <GoStarFill
+      size={20}
+      color="#facc15"
+      className="station-card-favourite-icon selected"
+    />
+  )
 }
 
 StationCard.Bitrate = function StationCardBitrate() {
