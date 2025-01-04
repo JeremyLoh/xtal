@@ -1,9 +1,10 @@
 import "./RadioCard.css"
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { toast } from "sonner"
 import RadioPlayer from "../../../player/components/RadioPlayer/RadioPlayer"
 import { Station } from "../../../../api/radiobrowser/types"
 import StationCard from "../../../../components/StationCard/StationCard"
+import { FavouriteStationsContext } from "../../../../context/FavouriteStationsProvider/FavouriteStationsProvider"
 
 type RadioCardProps = {
   station: Station
@@ -12,9 +13,37 @@ type RadioCardProps = {
 // Display radio player on map as a popup
 function RadioCard(props: RadioCardProps) {
   const { station } = props
-  const [isFavourite, setFavourite] = useState<boolean>(false)
+  const favouriteStationsContext = useContext(FavouriteStationsContext)
   const [error, setError] = useState<string | null>(null)
+  const [isFavourite, setFavourite] = useState<boolean>(
+    favouriteStationsContext?.favouriteStations.some(
+      (s: Station) => s.stationuuid === station.stationuuid
+    ) || false
+  )
+  useEffect(() => {
+    // handle favourite station change by other components
+    setFavourite(
+      favouriteStationsContext?.favouriteStations.some(
+        (s: Station) => s.stationuuid === station.stationuuid
+      ) || false
+    )
+  }, [favouriteStationsContext?.favouriteStations, station.stationuuid])
+
   function handleFavouriteToggle() {
+    const previousStations = favouriteStationsContext?.favouriteStations || []
+    const isRemoveStationAction = isFavourite
+    if (isRemoveStationAction) {
+      favouriteStationsContext?.setFavouriteStations(
+        previousStations.filter(
+          (station: Station) => station.stationuuid !== station.stationuuid
+        )
+      )
+    } else {
+      favouriteStationsContext?.setFavouriteStations([
+        station,
+        ...previousStations,
+      ])
+    }
     setFavourite(!isFavourite)
   }
   // https://videojs.com/guides/options/
@@ -47,7 +76,11 @@ function RadioCard(props: RadioCardProps) {
   return (
     <div className="radio-card">
       <StationCard station={station}>
-        <span onClick={handleFavouriteToggle} className="favourite-icon">
+        <span
+          title={`${isFavourite ? "Remove" : "Add"} Station to Favourites`}
+          onClick={handleFavouriteToggle}
+          className="favourite-icon"
+        >
           {isFavourite ? (
             <StationCard.FavouriteIconFilled />
           ) : (

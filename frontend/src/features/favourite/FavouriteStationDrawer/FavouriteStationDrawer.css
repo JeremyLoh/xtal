@@ -1,0 +1,27 @@
+.favourite-stations {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.favourite-station {
+  border-left: 2mm dotted var(--primary-color);
+}
+
+.remove-favourite-station-btn {
+  width: fit-content;
+  padding: 0.3rem;
+  margin-left: auto;
+  background-color: transparent;
+}
+
+.no-favourite-text {
+  font-size: 1.1rem;
+}
+
+.add-favourite-station-info {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+}
