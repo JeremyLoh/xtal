@@ -3,6 +3,7 @@ import { GoStarFill } from "react-icons/go"
 import "./FavouriteStationDrawer.css"
 import Drawer from "../../../components/Drawer/Drawer"
 import { Station } from "../../../api/radiobrowser/types"
+import { MapContext } from "../../../context/MapProvider/MapProvider"
 import { FavouriteStationsContext } from "../../../context/FavouriteStationsProvider/FavouriteStationsProvider"
 import FavouriteStationCard from "../FavouriteStationCard/FavouriteStationCard"
 
@@ -15,6 +16,7 @@ function FavouriteStationDrawer({
   open,
   setOpen,
 }: FavouriteStationDrawerProps) {
+  const mapContext = useContext(MapContext)
   const favouriteStationsContext = useContext(FavouriteStationsContext)
 
   function handleRemoveFavouriteStation(station: Station) {
@@ -24,16 +26,22 @@ function FavouriteStationDrawer({
       )
     )
   }
+  function handleLoadStation(station: Station) {
+    setOpen(false)
+    mapContext?.setStation(station)
+  }
   return (
     <Drawer title="Favourite Stations" open={open} setOpen={setOpen}>
       {favouriteStationsContext?.favouriteStations &&
       favouriteStationsContext.favouriteStations.length > 0 ? (
         <div className="favourite-stations">
           {favouriteStationsContext.favouriteStations.map(
-            (station: Station) => (
+            (station: Station, index: number) => (
               <FavouriteStationCard
+                key={`favourite-station-card-${station.stationuuid}-${index}`}
                 station={station}
                 handleRemoveFavouriteStation={handleRemoveFavouriteStation}
+                handleLoadStation={handleLoadStation}
               />
             )
           )}

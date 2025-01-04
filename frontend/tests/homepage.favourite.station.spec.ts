@@ -3,9 +3,12 @@ import {
   clickRandomRadioStationButton,
   HOMEPAGE,
 } from "./constants/homepageConstants"
-import { unitedStatesStation } from "./mocks/station"
+import { stationWithMultipleTags, unitedStatesStation } from "./mocks/station"
 
 test.describe("radio station favourite feature", () => {
+  function getRadioCardPopup(page: Page) {
+    return page.locator("#map .radio-card")
+  }
   function getRadioCardFavouriteButton(page: Page) {
     return page.locator("#map .radio-card .station-card-favourite-icon")
   }
@@ -146,5 +149,56 @@ test.describe("radio station favourite feature", () => {
     await expect(getRadioCardFavouriteButton(page)).not.toHaveClass(/selected/)
     await getFavouriteStationsButton(page).click()
     await assertEmptyFavouriteList(page)
+  })
+
+  test("allow selection of a favourite station and display it on the map", async ({
+    page,
+  }) => {
+    let requestCount = 1
+    await page.route("*/**/json/stations/search?*", async (route) => {
+      if (requestCount === 1) {
+        requestCount++
+        const json = [unitedStatesStation]
+        await route.fulfill({ json })
+      } else {
+        const json = [stationWithMultipleTags]
+        await route.fulfill({ json })
+      }
+    })
+    await page.goto(HOMEPAGE)
+    await clickRandomRadioStationButton(page)
+    await expect(page.locator("#map")).toBeVisible()
+    await getRadioCardFavouriteButton(page).click()
+    // load another radio station on the map that is different from the first station
+    await clickRandomRadioStationButton(page)
+    await expect(
+      page.locator("#map .radio-card").getByRole("heading", {
+        name: stationWithMultipleTags.name,
+        exact: true,
+      })
+    ).toBeVisible()
+
+    // load first station from favourite stations drawer
+    await getFavouriteStationsButton(page).click()
+    await getFavouriteStationsDrawer(page)
+      .locator(".favourite-station")
+      .getByRole("button", {
+        name: "load station",
+      })
+      .click()
+    await expect(getFavouriteStationsDrawer(page)).not.toBeVisible()
+    await expect(getRadioCardPopup(page)).toBeVisible()
+    await expect(
+      page.locator("#map .radio-card").getByRole("heading", {
+        name: unitedStatesStation.name,
+        exact: true,
+      })
+    ).toBeVisible()
+    await expect(
+      page.locator("#map .radio-card").getByRole("link", {
+        name: unitedStatesStation.homepage,
+        exact: true,
+      })
+    ).toBeVisible()
   })
 })

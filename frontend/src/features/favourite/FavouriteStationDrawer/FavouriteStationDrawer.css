@@ -4,17 +4,6 @@
   gap: 1rem;
 }
 
-.favourite-station {
-  border-left: 2mm dotted var(--primary-color);
-}
-
-.remove-favourite-station-btn {
-  width: fit-content;
-  padding: 0.3rem;
-  margin-left: auto;
-  background-color: transparent;
-}
-
 .no-favourite-text {
   font-size: 1.1rem;
 }
