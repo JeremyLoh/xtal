@@ -1,0 +1,22 @@
+.favourite-station {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 2mm dashed var(--primary-color);
+}
+.favourite-station:nth-child(2n) {
+  border-bottom: 2mm dashed var(--secondary-color);
+}
+
+.favourite-station-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+  gap: 0.2rem;
+}
+
+.remove-favourite-station-btn,
+.favourite-station-load-button {
+  width: fit-content;
+  padding: 0.3rem;
+  background-color: transparent;
+}
