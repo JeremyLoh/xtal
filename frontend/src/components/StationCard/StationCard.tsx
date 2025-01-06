@@ -6,6 +6,7 @@ import { FaMapMarkerAlt } from "react-icons/fa"
 import { BiSolidLike } from "react-icons/bi"
 import { IoLanguageSharp } from "react-icons/io5"
 import { GoStar, GoStarFill } from "react-icons/go"
+import { MdOutlineImageNotSupported } from "react-icons/md"
 
 type StationCardContext = {
   station: Station
@@ -35,15 +36,19 @@ export default function StationCard({ children, station }: StationCardProps) {
 
 StationCard.Icon = function StationCardIcon() {
   const { station } = useStationCardContext()
-  return (
-    station.favicon && (
-      <img
-        className="station-card-icon"
-        src={station.favicon}
-        height={64}
-        width={64}
-      />
-    )
+  return station.favicon ? (
+    <img
+      className="station-card-icon"
+      src={station.favicon}
+      height={64}
+      width={64}
+    />
+  ) : (
+    <MdOutlineImageNotSupported
+      className="station-card-icon"
+      size={64}
+      title="Icon Not Available"
+    />
   )
 }
 

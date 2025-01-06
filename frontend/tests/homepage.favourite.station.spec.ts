@@ -201,4 +201,27 @@ test.describe("radio station favourite feature", () => {
       })
     ).toBeVisible()
   })
+
+  test("placeholder icon shows up for station with empty favicon", async ({
+    page,
+  }) => {
+    await page.route("*/**/json/stations/search?*", async (route) => {
+      const json = [{ ...unitedStatesStation, favicon: "" }]
+      await route.fulfill({ json })
+    })
+    await page.goto(HOMEPAGE)
+    await clickRandomRadioStationButton(page)
+    await getRadioCardFavouriteButton(page).click()
+    await expect(
+      page.locator("#map .radio-card .station-card-icon")
+    ).toBeVisible()
+    // open the favourite station drawer, and assert placeholder icon is shown
+    await getFavouriteStationsButton(page).click()
+    await expect(
+      getFavouriteStationsDrawer(page).locator(".station-card-icon")
+    ).toBeVisible()
+    await expect(
+      getFavouriteStationsDrawer(page).locator(".station-card-icon title")
+    ).toHaveText("Icon Not Available")
+  })
 })
