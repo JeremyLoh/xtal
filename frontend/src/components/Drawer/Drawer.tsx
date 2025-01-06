@@ -1,4 +1,6 @@
 import "./Drawer.css"
+import { useRef } from "react"
+import { createPortal } from "react-dom"
 import { MdOutlineHorizontalRule } from "react-icons/md"
 import { IoClose } from "react-icons/io5"
 import {
@@ -16,6 +18,9 @@ type DrawerProps = {
 }
 
 function Drawer(props: DrawerProps) {
+  const drawerRootRef = useRef<HTMLElement>(
+    document.getElementById("drawer-root")
+  )
   const y = useMotionValue(0)
   const [scope, animate] = useAnimate()
   const controls = useDragControls()
@@ -33,8 +38,13 @@ function Drawer(props: DrawerProps) {
       handleClose()
     }
   }
+
+  if (drawerRootRef.current == null) {
+    return null
+  }
   return (
-    props.open && (
+    props.open &&
+    createPortal(
       <>
         <motion.div
           className="drawer-background-container"
@@ -79,7 +89,8 @@ function Drawer(props: DrawerProps) {
             <div className="drawer-content">{props.children}</div>
           )}
         </motion.div>
-      </>
+      </>,
+      drawerRootRef.current
     )
   )
 }
