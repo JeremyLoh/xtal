@@ -4,7 +4,7 @@
   align-items: center;
   width: 100%;
   max-width: 120ch;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .icon {
@@ -18,10 +18,10 @@
   width: 90%;
   display: flex;
   align-items: center;
-  gap: clamp(0.4rem, 0.4rem + 1vw, 1rem);
+  gap: clamp(0.3rem, 0.3rem + 1vw, 1rem);
   overflow-x: scroll;
   scrollbar-width: none;
-  font-size: clamp(0.7rem, 0.7rem + 0.2vw, 1rem);
+  font-size: clamp(0.6rem, 0.6rem + 0.2vw, 1rem);
   /* Prevent button text overflow - https://stackoverflow.com/questions/75673568/prevent-buttons-from-overflowing-to-a-new-line */
   white-space: nowrap;
 }

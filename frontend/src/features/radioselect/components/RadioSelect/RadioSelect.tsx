@@ -1,6 +1,6 @@
 import "./RadioSelect.css"
 import { useState } from "react"
-import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi"
+import { FaRandom } from "react-icons/fa"
 import GenreSelect from "../GenreSelect/GenreSelect"
 import { GenreInformation } from "../../../../api/radiobrowser/genreTags"
 import { StationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/StationSearchStrategy"
@@ -80,11 +80,11 @@ function RadioSelect(props: RadioSelectProps) {
         }
         data-testid="random-radio-station-btn"
       >
-        <GiPerspectiveDiceSixFacesRandom
-          size={36}
+        <FaRandom
+          size={window.innerWidth < 500 ? 16 : 20}
           title="Select a random radio station"
         />
-        <span>Random</span>
+        <b>Random</b>
       </button>
     </div>
   )

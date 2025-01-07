@@ -9,15 +9,32 @@ header {
   margin: 0 auto;
   width: 80%;
   max-width: 70ch;
+  margin-top: 0.5rem;
 }
 
-.header-app-name {
+.header-title-container {
+  display: flex;
+  justify-content: end;
+  align-items: baseline;
+  padding-top: clamp(0.5rem, 0.5rem + 1vw, 1rem);
+  column-gap: 0.5rem;
+}
+
+.header-title {
   font-size: 1.2rem;
   font-weight: bold;
   padding: 0;
+  margin: 0;
 }
 
-.header-info {
+.header-subtitle {
+  font-size: clamp(0.5rem, 0.5rem + 1vw, 0.9rem);
+  font-style: italic;
+  padding: 0;
+  margin: 0;
+}
+
+.header-actions {
   display: flex;
   justify-content: center;
   align-items: center;
