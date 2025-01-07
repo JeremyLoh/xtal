@@ -86,6 +86,10 @@
   color: var(--text-color);
   transition: all 300ms;
 }
+#drawer-root {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
 
 main {
   display: flex;
