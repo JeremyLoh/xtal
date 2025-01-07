@@ -113,7 +113,12 @@ StationCard.HomepageLink = function StationCardHomepageLink() {
   const { station } = useStationCardContext()
   return (
     station.homepage && (
-      <a href={station.homepage} rel="noopener noreferrer" target="_blank">
+      <a
+        className="station-card-homepage"
+        href={station.homepage}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         {station.homepage}
       </a>
     )
