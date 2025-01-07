@@ -6,9 +6,11 @@ function Header() {
   return (
     <div id="header-container">
       <header>
-        <p className="header-app-name">Xtal</p>
-        <div className="header-info">
-          <p>Listen to the World</p>
+        <div className="header-title-container">
+          <p className="header-title">Xtal</p>
+          <p className="header-subtitle">Listen to the World</p>
+        </div>
+        <div className="header-actions">
           <ThemeToggle />
           <FavouriteStationToggle />
         </div>
