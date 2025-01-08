@@ -1,11 +1,12 @@
 import test, { expect, Page } from "@playwright/test"
-import { getDrawerComponent, HOMEPAGE } from "./constants/homepageConstants"
+import { HOMEPAGE } from "./constants/homepageConstants"
 import {
   getDrawerStationResultCard,
   getForm,
   getSearchStationButton,
+  getSearchStationDrawer,
   getStationSearchByNameInput,
-} from "./constants/stationFormConstants"
+} from "./constants/searchStationConstants"
 import { StationBuilder } from "./mocks/station"
 import { Station } from "../src/api/radiobrowser/types"
 
@@ -148,7 +149,7 @@ test.describe("radio station search form tag filter", () => {
     await getForm(page).locator("button[type='submit']").click()
     await expect(getDrawerStationResultCard(page)).not.toBeVisible()
     await expect(
-      getDrawerComponent(page).getByText(
+      getSearchStationDrawer(page).getByText(
         "Tag cannot be longer than 30 characters"
       )
     ).toBeVisible()

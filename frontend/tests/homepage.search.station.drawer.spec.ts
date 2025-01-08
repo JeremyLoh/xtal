@@ -1,13 +1,13 @@
 import test, { expect, Page } from "@playwright/test"
 import {
   getCountrySearchButton,
-  getDrawerComponent,
   getGenreSearchButton,
   HOMEPAGE,
 } from "./constants/homepageConstants"
 import {
   closeSearchStationDrawer,
   getSearchStationButton,
+  getSearchStationDrawer,
 } from "./constants/searchStationConstants"
 
 test.describe("search station drawer for finding radio stations", () => {
@@ -26,7 +26,7 @@ test.describe("search station drawer for finding radio stations", () => {
     await expect(getSearchStationButton(page)).toBeVisible()
     await getSearchStationButton(page).click()
     await expect(getSearchStationButton(page)).toHaveClass(/selected/)
-    await expect(getDrawerComponent(page)).toBeVisible()
+    await expect(getSearchStationDrawer(page)).toBeVisible()
   })
 
   test("should remove selected class on genre button when search station button is clicked", async ({
@@ -76,9 +76,9 @@ test.describe("search station drawer for finding radio stations", () => {
   }) => {
     await page.goto(HOMEPAGE)
     await getSearchStationButton(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
+    await expect(getSearchStationDrawer(page)).toBeVisible()
     await closeSearchStationDrawer(page)
-    await expect(getDrawerComponent(page)).not.toBeVisible()
+    await expect(getSearchStationDrawer(page)).not.toBeVisible()
   })
 
   test("close search station drawer on outside drawer click", async ({
@@ -86,11 +86,11 @@ test.describe("search station drawer for finding radio stations", () => {
   }) => {
     await page.goto(HOMEPAGE)
     await getSearchStationButton(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
-    await getDrawerComponent(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
+    await expect(getSearchStationDrawer(page)).toBeVisible()
+    await getSearchStationDrawer(page).click()
+    await expect(getSearchStationDrawer(page)).toBeVisible()
     await getDrawerContainer(page).click({ position: { x: 0, y: 0 } })
-    await expect(getDrawerComponent(page)).not.toBeVisible()
+    await expect(getSearchStationDrawer(page)).not.toBeVisible()
   })
 
   test("does not close search station drawer on small drag down of less than 100px", async ({
@@ -98,7 +98,7 @@ test.describe("search station drawer for finding radio stations", () => {
   }) => {
     await page.goto(HOMEPAGE)
     await getSearchStationButton(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
+    await expect(getSearchStationDrawer(page)).toBeVisible()
     await getDrawerDragButton(page).hover()
     const dragButtonBounds = (await getDrawerDragButton(page).boundingBox())!
     await page.mouse.down()
@@ -107,7 +107,7 @@ test.describe("search station drawer for finding radio stations", () => {
       dragButtonBounds.y + dragButtonBounds.height / 2 + 51
     )
     await page.mouse.up()
-    await expect(getDrawerComponent(page)).toBeVisible()
+    await expect(getSearchStationDrawer(page)).toBeVisible()
   })
 
   test("close search station drawer on drag down of more than 100px", async ({
@@ -115,7 +115,7 @@ test.describe("search station drawer for finding radio stations", () => {
   }) => {
     await page.goto(HOMEPAGE)
     await getSearchStationButton(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
+    await expect(getSearchStationDrawer(page)).toBeVisible()
     await getDrawerDragButton(page).hover()
     const dragButtonBounds = (await getDrawerDragButton(page).boundingBox())!
     await page.mouse.down()
@@ -124,6 +124,6 @@ test.describe("search station drawer for finding radio stations", () => {
       dragButtonBounds.y + dragButtonBounds.height / 2 + 270
     )
     await page.mouse.up()
-    await expect(getDrawerComponent(page)).not.toBeVisible()
+    await expect(getSearchStationDrawer(page)).not.toBeVisible()
   })
 })

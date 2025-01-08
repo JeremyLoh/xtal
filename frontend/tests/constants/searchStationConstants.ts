@@ -1,12 +1,15 @@
 import { Page } from "@playwright/test"
-import { getDrawerComponent } from "./homepageConstants"
 
 export function getSearchStationButton(page: Page) {
   return page.getByRole("button", { name: "search stations" })
 }
 
+export function getSearchStationDrawer(page: Page) {
+  return page.locator(".drawer")
+}
+
 export function getForm(page: Page) {
-  return getDrawerComponent(page).locator(
+  return getSearchStationDrawer(page).locator(
     ".drawer-content .station-search-form"
   )
 }

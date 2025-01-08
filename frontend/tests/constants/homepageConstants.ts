@@ -7,10 +7,6 @@ export async function clickRandomRadioStationButton(page: Page) {
   await page.getByTestId("random-radio-station-btn").click()
 }
 
-export function getDrawerComponent(page: Page) {
-  return page.locator(".drawer")
-}
-
 export function getGenreSearchButton(page: Page) {
   return page.locator("#station-search-type-container .genre-search-button")
 }

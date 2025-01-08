@@ -7,7 +7,7 @@ import {
   getForm,
   getSearchStationButton,
   getStationSearchByNameInput,
-} from "./constants/stationFormConstants"
+} from "./constants/searchStationConstants"
 
 test.describe("radio station search form sort options", () => {
   function getSortSelect(page: Page) {
