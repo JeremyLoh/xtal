@@ -1,16 +1,13 @@
 import test, { expect, Page } from "@playwright/test"
-import {
-  getDrawerComponent,
-  getGenreSearchButton,
-  HOMEPAGE,
-} from "./constants/homepageConstants"
+import { getGenreSearchButton, HOMEPAGE } from "./constants/homepageConstants"
 import { unitedStatesStation } from "./mocks/station"
 import {
   getDrawerStationResultCard,
-  getForm,
+  getSearchStationForm,
   getSearchStationButton,
+  getSearchStationDrawer,
   getStationSearchByNameInput,
-} from "./constants/stationFormConstants"
+} from "./constants/searchStationConstants"
 
 test.describe("radio station search form", () => {
   function getDrawerLoadMoreStationButton(page: Page) {
@@ -23,11 +20,11 @@ test.describe("radio station search form", () => {
   test("display drawer with radio station search form", async ({ page }) => {
     await page.goto(HOMEPAGE)
     await getSearchStationButton(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
-    await expect(getDrawerComponent(page).locator(".drawer-title")).toHaveText(
-      "Station Search"
-    )
-    await expect(getForm(page)).toBeVisible()
+    await expect(getSearchStationDrawer(page)).toBeVisible()
+    await expect(
+      getSearchStationDrawer(page).locator(".drawer-title")
+    ).toHaveText("Station Search")
+    await expect(getSearchStationForm(page)).toBeVisible()
   })
 
   test("empty name should not be allowed for radio station search form", async ({
@@ -35,11 +32,11 @@ test.describe("radio station search form", () => {
   }) => {
     await page.goto(HOMEPAGE)
     await getSearchStationButton(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
+    await expect(getSearchStationDrawer(page)).toBeVisible()
     await getStationSearchByNameInput(page).fill("")
-    await getForm(page).locator("button[type='submit']").click()
+    await getSearchStationForm(page).locator("button[type='submit']").click()
     await expect(
-      getDrawerComponent(page).getByText("Station Name is required")
+      getSearchStationDrawer(page).getByText("Station Name is required")
     ).toBeVisible()
   })
 
@@ -49,11 +46,11 @@ test.describe("radio station search form", () => {
     const count = 256
     await page.goto(HOMEPAGE)
     await getSearchStationButton(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
+    await expect(getSearchStationDrawer(page)).toBeVisible()
     await getStationSearchByNameInput(page).fill("a".repeat(count))
-    await getForm(page).locator("button[type='submit']").click()
+    await getSearchStationForm(page).locator("button[type='submit']").click()
     await expect(
-      getDrawerComponent(page).getByText(
+      getSearchStationDrawer(page).getByText(
         "Station Name cannot be longer than 255 characters"
       )
     ).toBeVisible()
@@ -69,9 +66,9 @@ test.describe("radio station search form", () => {
     })
     await page.goto(HOMEPAGE)
     await getSearchStationButton(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
+    await expect(getSearchStationDrawer(page)).toBeVisible()
     await getStationSearchByNameInput(page).fill(stationName)
-    await getForm(page).locator("button[type='submit']").click()
+    await getSearchStationForm(page).locator("button[type='submit']").click()
     await expect(getDrawerStationResultCard(page)).toBeVisible()
     const expectedTextInStationResultCard = [
       unitedStatesStation.name,
@@ -109,16 +106,16 @@ test.describe("radio station search form", () => {
     })
     await page.goto(HOMEPAGE)
     await getSearchStationButton(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
+    await expect(getSearchStationDrawer(page)).toBeVisible()
     await getStationSearchByNameInput(page).fill(stationName)
-    await getForm(page).locator("button[type='submit']").click()
+    await getSearchStationForm(page).locator("button[type='submit']").click()
     await expect(getDrawerStationResultCard(page)).toBeVisible()
     await getDrawerStationResultCard(page)
       .getByRole("button", {
         name: "load station",
       })
       .click()
-    await expect(getDrawerComponent(page)).not.toBeVisible()
+    await expect(getSearchStationDrawer(page)).not.toBeVisible()
     await expect(getRadioCardPopup(page)).toBeVisible()
     await expect(
       page.locator("#map .radio-card").getByRole("heading", {
@@ -155,10 +152,10 @@ test.describe("radio station search form", () => {
     })
     await page.goto(HOMEPAGE)
     await getSearchStationButton(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
+    await expect(getSearchStationDrawer(page)).toBeVisible()
     await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()
     await getStationSearchByNameInput(page).fill(stationName)
-    await getForm(page).locator("button[type='submit']").click()
+    await getSearchStationForm(page).locator("button[type='submit']").click()
     await expect(getDrawerStationResultCard(page)).toHaveCount(1)
     // check that more results are loaded during second request
     await expect(getDrawerLoadMoreStationButton(page)).toBeVisible()
@@ -184,10 +181,10 @@ test.describe("radio station search form", () => {
     })
     await page.goto(HOMEPAGE)
     await getSearchStationButton(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
+    await expect(getSearchStationDrawer(page)).toBeVisible()
     await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()
     await getStationSearchByNameInput(page).fill(stationName)
-    await getForm(page).locator("button[type='submit']").click()
+    await getSearchStationForm(page).locator("button[type='submit']").click()
     await expect(getDrawerStationResultCard(page)).toHaveCount(1)
     await getDrawerLoadMoreStationButton(page).click()
     await expect(getDrawerLoadMoreStationButton(page)).toBeDisabled()
@@ -210,22 +207,22 @@ test.describe("radio station search form", () => {
     })
     await page.goto(HOMEPAGE)
     await getSearchStationButton(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
+    await expect(getSearchStationDrawer(page)).toBeVisible()
     await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()
-    await getForm(page)
+    await getSearchStationForm(page)
       .getByLabel("Search By Name")
       .fill(firstStationNameSearch)
-    await getForm(page).locator("button[type='submit']").click()
+    await getSearchStationForm(page).locator("button[type='submit']").click()
     await expect(getDrawerStationResultCard(page)).toHaveCount(1)
     await expect(
       getDrawerStationResultCard(page).nth(0).locator(".station-card-title")
     ).toHaveText("first station name")
 
     await getStationSearchByNameInput(page).clear()
-    await getForm(page)
+    await getSearchStationForm(page)
       .getByLabel("Search By Name")
       .fill(secondStationNameSearch)
-    await getForm(page).locator("button[type='submit']").click()
+    await getSearchStationForm(page).locator("button[type='submit']").click()
     await expect(getDrawerStationResultCard(page)).toHaveCount(1)
     await expect(
       getDrawerStationResultCard(page).nth(0).locator(".station-card-title")
@@ -241,10 +238,10 @@ test.describe("radio station search form", () => {
     })
     await page.goto(HOMEPAGE)
     await getSearchStationButton(page).click()
-    await expect(getDrawerComponent(page)).toBeVisible()
+    await expect(getSearchStationDrawer(page)).toBeVisible()
     await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()
     await getStationSearchByNameInput(page).fill(stationName)
-    await getForm(page).locator("button[type='submit']").click()
+    await getSearchStationForm(page).locator("button[type='submit']").click()
     await expect(getDrawerStationResultCard(page)).toHaveCount(0)
     await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()
   })

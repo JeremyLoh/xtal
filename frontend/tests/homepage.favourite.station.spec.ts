@@ -4,6 +4,11 @@ import {
   HOMEPAGE,
 } from "./constants/homepageConstants"
 import { stationWithMultipleTags, unitedStatesStation } from "./mocks/station"
+import {
+  closeFavouriteStationsDrawer,
+  getFavouriteStationsButton,
+  getFavouriteStationsDrawer,
+} from "./constants/favouriteStationConstants"
 
 test.describe("radio station favourite feature", () => {
   function getRadioCardPopup(page: Page) {
@@ -11,15 +16,6 @@ test.describe("radio station favourite feature", () => {
   }
   function getRadioCardFavouriteButton(page: Page) {
     return page.locator("#map .radio-card .station-card-favourite-icon")
-  }
-  function getFavouriteStationsButton(page: Page) {
-    return page.getByTestId("favourite-station-toggle-btn")
-  }
-  function getFavouriteStationsDrawer(page: Page) {
-    return page.locator(".drawer")
-  }
-  async function closeFavouriteStationsDrawer(page: Page) {
-    await page.locator(".drawer-close-button").click()
   }
   async function assertEmptyFavouriteList(page: Page) {
     await expect(

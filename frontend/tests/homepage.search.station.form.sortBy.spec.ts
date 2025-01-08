@@ -4,14 +4,14 @@ import { Station } from "../src/api/radiobrowser/types"
 import { HOMEPAGE } from "./constants/homepageConstants"
 import {
   getDrawerStationResultCard,
-  getForm,
+  getSearchStationForm,
   getSearchStationButton,
   getStationSearchByNameInput,
-} from "./constants/stationFormConstants"
+} from "./constants/searchStationConstants"
 
 test.describe("radio station search form sort options", () => {
   function getSortSelect(page: Page) {
-    return getForm(page).locator("select#sort")
+    return getSearchStationForm(page).locator("select#sort")
   }
 
   test("display available sort options", async ({ page }) => {
@@ -21,9 +21,9 @@ test.describe("radio station search form sort options", () => {
     expect(
       await getSortSelect(page).locator("option").allTextContents()
     ).toEqual(expect.arrayContaining([...expectedSortOptions]))
-    await expect(getForm(page).locator("select#sort option")).toHaveCount(
-      expectedSortOptions.length
-    )
+    await expect(
+      getSearchStationForm(page).locator("select#sort option")
+    ).toHaveCount(expectedSortOptions.length)
   })
 
   test("sort by none does not sort station results", async ({ page }) => {
@@ -52,7 +52,7 @@ test.describe("radio station search form sort options", () => {
     await page.goto(HOMEPAGE)
     await getSearchStationButton(page).click()
     await getStationSearchByNameInput(page).fill(stationNameSearch)
-    await getForm(page).locator("button[type='submit']").click()
+    await getSearchStationForm(page).locator("button[type='submit']").click()
     await expect(getDrawerStationResultCard(page)).toHaveCount(2)
     await expect(
       getDrawerStationResultCard(page)
@@ -93,7 +93,7 @@ test.describe("radio station search form sort options", () => {
     await getSearchStationButton(page).click()
     await getStationSearchByNameInput(page).fill(stationNameSearch)
     await getSortSelect(page).selectOption(["bitrate"])
-    await getForm(page).locator("button[type='submit']").click()
+    await getSearchStationForm(page).locator("button[type='submit']").click()
     await expect(getDrawerStationResultCard(page)).toHaveCount(2)
     await expect(
       getDrawerStationResultCard(page)
@@ -144,7 +144,7 @@ test.describe("radio station search form sort options", () => {
     await getSearchStationButton(page).click()
     await getStationSearchByNameInput(page).fill(stationNameSearch)
     await getSortSelect(page).selectOption(["votes"])
-    await getForm(page).locator("button[type='submit']").click()
+    await getSearchStationForm(page).locator("button[type='submit']").click()
     await expect(getDrawerStationResultCard(page)).toHaveCount(2)
     await expect(
       getDrawerStationResultCard(page)
