@@ -18,3 +18,7 @@ export function getDrawerStationResultCard(page: Page) {
 export function getStationSearchByNameInput(page: Page) {
   return getForm(page).getByLabel("Search By Name")
 }
+
+export async function closeSearchStationDrawer(page: Page) {
+  await page.locator(".drawer-close-button").click()
+}

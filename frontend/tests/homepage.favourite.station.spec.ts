@@ -8,7 +8,7 @@ import {
   closeFavouriteStationsDrawer,
   getFavouriteStationsButton,
   getFavouriteStationsDrawer,
-} from "./constants/favouriteStations"
+} from "./constants/favouriteStationConstants"
 
 test.describe("radio station favourite feature", () => {
   function getRadioCardPopup(page: Page) {
