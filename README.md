@@ -5,6 +5,7 @@ Listen to the world's radio with xtal, a fast and responsive mobile / desktop we
 - Discover music / radio stations available around the globe
   - Explore different genres of music
   - Search stations by filters
+  - Add / Remove Favourite Stations
 
 # Tech Stack
 
