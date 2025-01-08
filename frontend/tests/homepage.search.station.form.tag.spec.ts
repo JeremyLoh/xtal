@@ -2,7 +2,7 @@ import test, { expect, Page } from "@playwright/test"
 import { HOMEPAGE } from "./constants/homepageConstants"
 import {
   getDrawerStationResultCard,
-  getForm,
+  getSearchStationForm,
   getSearchStationButton,
   getSearchStationDrawer,
   getStationSearchByNameInput,
@@ -12,7 +12,7 @@ import { Station } from "../src/api/radiobrowser/types"
 
 test.describe("radio station search form tag filter", () => {
   function getTagFilterInput(page: Page) {
-    return getForm(page).locator("input#tag")
+    return getSearchStationForm(page).locator("input#tag")
   }
 
   test("should display tag filter in radio station search form", async ({
@@ -47,7 +47,7 @@ test.describe("radio station search form tag filter", () => {
     await page.goto(HOMEPAGE)
     await getSearchStationButton(page).click()
     await getStationSearchByNameInput(page).fill(expectedStationName)
-    await getForm(page).locator("button[type='submit']").click()
+    await getSearchStationForm(page).locator("button[type='submit']").click()
     await expect(getDrawerStationResultCard(page)).toBeVisible()
     await expect(
       getDrawerStationResultCard(page).getByText(expectedStationName)
@@ -80,7 +80,7 @@ test.describe("radio station search form tag filter", () => {
     await getSearchStationButton(page).click()
     await getTagFilterInput(page).fill(expectedTag)
     await getStationSearchByNameInput(page).fill(expectedStationName)
-    await getForm(page).locator("button[type='submit']").click()
+    await getSearchStationForm(page).locator("button[type='submit']").click()
     await expect(getDrawerStationResultCard(page)).toBeVisible()
     await expect(
       getDrawerStationResultCard(page).getByText(expectedStationName)
@@ -117,7 +117,7 @@ test.describe("radio station search form tag filter", () => {
     await getSearchStationButton(page).click()
     await getTagFilterInput(page).fill(tagInput)
     await getStationSearchByNameInput(page).fill(expectedStationName)
-    await getForm(page).locator("button[type='submit']").click()
+    await getSearchStationForm(page).locator("button[type='submit']").click()
     await expect(
       getDrawerStationResultCard(page).getByText(expectedStationName)
     ).toBeVisible()
@@ -146,7 +146,7 @@ test.describe("radio station search form tag filter", () => {
     await getSearchStationButton(page).click()
     await getTagFilterInput(page).fill(expectedTag)
     await getStationSearchByNameInput(page).fill(expectedStationName)
-    await getForm(page).locator("button[type='submit']").click()
+    await getSearchStationForm(page).locator("button[type='submit']").click()
     await expect(getDrawerStationResultCard(page)).not.toBeVisible()
     await expect(
       getSearchStationDrawer(page).getByText(
