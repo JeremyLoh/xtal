@@ -5,17 +5,7 @@ on:
   pull_request:
     branches: [main]
 jobs:
-  create-envfile:
-    defaults:
-      run:
-        working-directory: frontend
-    runs-on: ubuntu-latest
-    steps:
-      - name: Make envfile
-        run: |
-          echo "VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS=${{ secrets.VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS }}" >> .env.local
   test:
-    needs: create-envfile
     timeout-minutes: 60
     defaults:
       run:
@@ -26,6 +16,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+      - name: Create envfile
+        run: |
+          echo "VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS=${{ secrets.VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS }}" >> .env.local
       - name: Install dependencies
         run: npm ci
       - name: Install Playwright Browsers
