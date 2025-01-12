@@ -14,7 +14,7 @@ test.describe("radio station favourite feature", () => {
   function getRadioCardPopup(page: Page) {
     return page.locator("#map .radio-card")
   }
-  function getRadioCardFavouriteButton(page: Page) {
+  function getRadioCardFavouriteIcon(page: Page) {
     return page.locator("#map .radio-card .station-card-favourite-icon")
   }
   async function assertEmptyFavouriteList(page: Page) {
@@ -26,6 +26,52 @@ test.describe("radio station favourite feature", () => {
     ).toContainText("Start by adding a new station")
   }
 
+  test("hover on favourited station's favourite icon on radio station card changes color", async ({
+    page,
+  }) => {
+    await page.route("*/**/json/stations/search?*", async (route) => {
+      const json = [unitedStatesStation]
+      await route.fulfill({ json })
+    })
+    await page.goto(HOMEPAGE)
+    await clickRandomRadioStationButton(page)
+    await getRadioCardFavouriteIcon(page).click()
+    // move mouse away from the favourite icon to check the default fill color
+    await page.mouse.move(0, 0)
+    await expect(
+      getRadioCardFavouriteIcon(page),
+      "should have non-hover radio card favourite icon yellow fill color"
+    ).toHaveCSS("fill", "rgb(250, 204, 21)")
+    await getRadioCardFavouriteIcon(page).hover()
+    await expect(
+      getRadioCardFavouriteIcon(page),
+      "should have hover radio card favourite icon red fill color"
+    ).toHaveCSS("fill", "rgb(220, 38, 38)")
+  })
+
+  test("hover on non-favourite station's favourite icon does not change color", async ({
+    page,
+  }) => {
+    const NO_FILL_COLOR = "rgb(24, 12, 21)"
+    await page.route("*/**/json/stations/search?*", async (route) => {
+      const json = [unitedStatesStation]
+      await route.fulfill({ json })
+    })
+    await page.goto(HOMEPAGE)
+    await clickRandomRadioStationButton(page)
+    // move mouse away from the favourite icon to check the default fill color
+    await page.mouse.move(0, 0)
+    await expect(
+      getRadioCardFavouriteIcon(page),
+      "should have non-hover radio card favourite icon no fill color"
+    ).toHaveCSS("fill", NO_FILL_COLOR)
+    await getRadioCardFavouriteIcon(page).hover()
+    await expect(
+      getRadioCardFavouriteIcon(page),
+      "should have hover radio card favourite icon no fill color"
+    ).toHaveCSS("fill", NO_FILL_COLOR)
+  })
+
   test("favourite icon on radio station card toggles on click", async ({
     page,
   }) => {
@@ -36,10 +82,10 @@ test.describe("radio station favourite feature", () => {
     await page.goto(HOMEPAGE)
     await clickRandomRadioStationButton(page)
     await expect(page.locator("#map")).toBeVisible()
-    await expect(getRadioCardFavouriteButton(page)).toBeVisible()
-    await expect(getRadioCardFavouriteButton(page)).not.toHaveClass(/selected/)
-    await getRadioCardFavouriteButton(page).click()
-    await expect(getRadioCardFavouriteButton(page)).toHaveClass(/selected/)
+    await expect(getRadioCardFavouriteIcon(page)).toBeVisible()
+    await expect(getRadioCardFavouriteIcon(page)).not.toHaveClass(/selected/)
+    await getRadioCardFavouriteIcon(page).click()
+    await expect(getRadioCardFavouriteIcon(page)).toHaveClass(/selected/)
   })
 
   test("display empty favourite stations drawer when favourite station button is clicked", async ({
@@ -72,7 +118,7 @@ test.describe("radio station favourite feature", () => {
 
     await clickRandomRadioStationButton(page)
     await expect(page.locator("#map")).toBeVisible()
-    await getRadioCardFavouriteButton(page).click()
+    await getRadioCardFavouriteIcon(page).click()
     await getFavouriteStationsButton(page).click()
 
     await expect(
@@ -101,6 +147,17 @@ test.describe("radio station favourite feature", () => {
         ".favourite-station .station-card-favourite-icon.selected"
       )
     ).toBeVisible()
+
+    // check hover color for remove favourite station button (do not hover in button center, where icon is)
+    await getFavouriteStationsDrawer(page)
+      .locator(".favourite-station .remove-favourite-station-btn")
+      .hover({ position: { x: 5, y: 0 } })
+    await expect(
+      getFavouriteStationsDrawer(page).locator(
+        ".favourite-station .station-card-favourite-icon.selected"
+      ),
+      "should have hover remove favourite icon red fill color"
+    ).toHaveCSS("fill", "rgb(220, 38, 38)")
   })
 
   test("remove one favourited station in drawer when favourite icon in drawer is clicked", async ({
@@ -122,7 +179,7 @@ test.describe("radio station favourite feature", () => {
 
     await clickRandomRadioStationButton(page)
     await expect(page.locator("#map")).toBeVisible()
-    await getRadioCardFavouriteButton(page).click()
+    await getRadioCardFavouriteIcon(page).click()
     await getFavouriteStationsButton(page).click()
     await expect(
       getFavouriteStationsDrawer(page).locator(".favourite-station")
@@ -142,7 +199,7 @@ test.describe("radio station favourite feature", () => {
 
     // assert that closing and opening the drawer shows an empty favourite station list
     await closeFavouriteStationsDrawer(page)
-    await expect(getRadioCardFavouriteButton(page)).not.toHaveClass(/selected/)
+    await expect(getRadioCardFavouriteIcon(page)).not.toHaveClass(/selected/)
     await getFavouriteStationsButton(page).click()
     await assertEmptyFavouriteList(page)
   })
@@ -164,7 +221,7 @@ test.describe("radio station favourite feature", () => {
     await page.goto(HOMEPAGE)
     await clickRandomRadioStationButton(page)
     await expect(page.locator("#map")).toBeVisible()
-    await getRadioCardFavouriteButton(page).click()
+    await getRadioCardFavouriteIcon(page).click()
     // load another radio station on the map that is different from the first station
     await clickRandomRadioStationButton(page)
     await expect(
@@ -207,7 +264,7 @@ test.describe("radio station favourite feature", () => {
     })
     await page.goto(HOMEPAGE)
     await clickRandomRadioStationButton(page)
-    await getRadioCardFavouriteButton(page).click()
+    await getRadioCardFavouriteIcon(page).click()
     await expect(
       page.locator("#map .radio-card .station-card-icon")
     ).toBeVisible()
