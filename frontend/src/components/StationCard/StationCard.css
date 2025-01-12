@@ -62,6 +62,9 @@
 .station-card-favourite-icon {
   margin-left: auto;
 }
+.station-card-favourite-icon.selected:hover {
+  fill: var(--favourite-icon-hover-remove-color);
+}
 
 .station-card-homepage {
   font-size: clamp(0.5rem, 0.5rem + 1vw, 0.9rem);
