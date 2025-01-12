@@ -5,7 +5,20 @@ on:
   pull_request:
     branches: [main]
 jobs:
+  create-envfile:
+    defaults:
+      run:
+        working-directory: frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS: ${{ secrets.VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS }}
+          directory: frontend
+          file_name: .env.local
   test:
+    needs: create-envfile
     timeout-minutes: 60
     defaults:
       run:

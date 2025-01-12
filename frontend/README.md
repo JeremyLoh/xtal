@@ -2,6 +2,18 @@
 
 Made using TypeScript, React and Playwright (testing)
 
+# Setup
+
+1. Create a `.env.production` and `.env.local` file - https://vite.dev/guide/env-and-mode#env-files
+
+   - e.g. `.env.local`
+
+   ```
+   VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS=3
+   ```
+
+2. On the GitHub Actions secrets, add each environment property defined in`.github/workflows/playwright.yml` that contains the env file used for QA (testing) `.env.local`
+
 # Packages used
 
 - Radio Browser - https://www.radio-browser.info/

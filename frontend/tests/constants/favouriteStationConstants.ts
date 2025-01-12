@@ -11,3 +11,7 @@ export function getFavouriteStationsDrawer(page: Page) {
 export async function closeFavouriteStationsDrawer(page: Page) {
   await page.locator(".drawer-close-button").click()
 }
+
+export function getRadioCardFavouriteIcon(page: Page) {
+  return page.locator("#map .radio-card .station-card-favourite-icon")
+}
