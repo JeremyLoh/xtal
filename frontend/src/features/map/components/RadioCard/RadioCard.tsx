@@ -13,6 +13,7 @@ type RadioCardProps = {
 // Display radio player on map as a popup
 function RadioCard(props: RadioCardProps) {
   const { station } = props
+  const options = getPlayerOptions(station)
   const favouriteStationsContext = useContext(FavouriteStationsContext)
   const [error, setError] = useState<string | null>(null)
   const [isFavourite, setFavourite] = useState<boolean>(
@@ -30,41 +31,47 @@ function RadioCard(props: RadioCardProps) {
   }, [favouriteStationsContext?.favouriteStations, station.stationuuid])
 
   function handleFavouriteToggle() {
-    const previousStations = favouriteStationsContext?.favouriteStations || []
     const isRemoveStationAction = isFavourite
+    const previousStations = favouriteStationsContext?.favouriteStations || []
     if (isRemoveStationAction) {
       favouriteStationsContext?.setFavouriteStations(
         previousStations.filter(
-          (station: Station) => station.stationuuid !== station.stationuuid
+          (s: Station) => s.stationuuid !== station.stationuuid
         )
       )
+      setFavourite(!isFavourite)
     } else {
+      handleAddFavouriteStation(previousStations)
+    }
+  }
+  function handleAddFavouriteStation(previousStations: Station[]) {
+    const previousStationCount = previousStations.length
+    const MAX_FAVOURITE_STATIONS_ANONYMOUS = import.meta.env
+      .VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS
+    const isFavouriteStationLimitReached =
+      MAX_FAVOURITE_STATIONS_ANONYMOUS != undefined &&
+      previousStationCount + 1 === parseInt(MAX_FAVOURITE_STATIONS_ANONYMOUS)
+    const isFavouriteStationBelowLimit =
+      MAX_FAVOURITE_STATIONS_ANONYMOUS != undefined &&
+      previousStationCount + 1 <= parseInt(MAX_FAVOURITE_STATIONS_ANONYMOUS)
+
+    if (isFavouriteStationLimitReached) {
+      toast.warning(
+        `Favourite station limit of ${MAX_FAVOURITE_STATIONS_ANONYMOUS} reached`
+      )
+      setFavourite(!isFavourite)
+    }
+    if (isFavouriteStationBelowLimit) {
       favouriteStationsContext?.setFavouriteStations([
         station,
         ...previousStations,
       ])
+      setFavourite(!isFavourite)
+    } else {
+      toast.error(
+        `Could not add favourite station. Exceeded limit of ${MAX_FAVOURITE_STATIONS_ANONYMOUS}`
+      )
     }
-    setFavourite(!isFavourite)
-  }
-  // https://videojs.com/guides/options/
-  const options = {
-    liveui: true,
-    audioOnlyMode: true,
-    errorDisplay: true,
-    autoplay: false,
-    controls: true,
-    fill: true,
-    sources: getAudioSources(station),
-    controlBar: {
-      // Define order of elements in the video-js control bar
-      // https://docs.videojs.com/control-bar_control-bar.js
-      children: {
-        playToggle: true,
-        currentTimeDisplay: true,
-        volumePanel: true,
-        fullscreenToggle: false,
-      },
-    },
   }
   function handleError(error: string) {
     setError(error)
@@ -107,6 +114,29 @@ function RadioCard(props: RadioCardProps) {
       )}
     </div>
   )
+}
+
+function getPlayerOptions(station: Station) {
+  // https://videojs.com/guides/options/
+  return {
+    liveui: true,
+    audioOnlyMode: true,
+    errorDisplay: true,
+    autoplay: false,
+    controls: true,
+    fill: true,
+    sources: getAudioSources(station),
+    controlBar: {
+      // Define order of elements in the video-js control bar
+      // https://docs.videojs.com/control-bar_control-bar.js
+      children: {
+        playToggle: true,
+        currentTimeDisplay: true,
+        volumePanel: true,
+        fullscreenToggle: false,
+      },
+    },
+  }
 }
 
 function getAudioSources(station: Station) {

@@ -8,14 +8,12 @@ import {
   closeFavouriteStationsDrawer,
   getFavouriteStationsButton,
   getFavouriteStationsDrawer,
+  getRadioCardFavouriteIcon,
 } from "./constants/favouriteStationConstants"
 
 test.describe("radio station favourite feature", () => {
   function getRadioCardPopup(page: Page) {
     return page.locator("#map .radio-card")
-  }
-  function getRadioCardFavouriteIcon(page: Page) {
-    return page.locator("#map .radio-card .station-card-favourite-icon")
   }
   async function assertEmptyFavouriteList(page: Page) {
     await expect(

@@ -47,7 +47,7 @@ test.describe("radio station search type", () => {
           .locator(".leaflet-proxy.leaflet-zoom-animated")
           .getAttribute("style")) || ""
       await getCountrySearchButton(page).click()
-      expect(
+      await expect(
         page.locator(".leaflet-proxy.leaflet-zoom-animated")
       ).not.toHaveAttribute("style", expectedStartMapPane)
     })
@@ -66,7 +66,7 @@ test.describe("radio station search type", () => {
           .getAttribute("style")) || ""
       // get second country in list of countries
       await page.locator(".country-slider-option").nth(1).click()
-      expect(
+      await expect(
         page.locator(".leaflet-proxy.leaflet-zoom-animated")
       ).not.toHaveAttribute("style", expectedFirstCountryMapPane)
     })
@@ -96,7 +96,7 @@ test.describe("radio station search type", () => {
           .getAttribute("style")) || ""
       // get second country in list of countries
       await page.locator(".country-slider-option").nth(1).click()
-      expect(
+      await expect(
         page.locator(".leaflet-proxy.leaflet-zoom-animated")
       ).toHaveAttribute("style", expectedStationMapPane)
     })
