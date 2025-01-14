@@ -43,6 +43,7 @@ test.describe("share radio station feature", () => {
     await getRadioCardShareIcon(page).click()
     const expectedUrl =
       (await page.evaluate(() => window.location.href)) +
+      "radio-station/" +
       unitedStatesStation.stationuuid
     expect(await getClipboardContent(page)).toBe(expectedUrl)
   })

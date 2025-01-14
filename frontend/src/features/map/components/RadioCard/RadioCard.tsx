@@ -75,7 +75,7 @@ function RadioCard(props: RadioCardProps) {
   }
   function handleShareStation() {
     navigator.clipboard.writeText(
-      `${window.location.href}${station.stationuuid}`
+      `${window.location.href}radio-station/${station.stationuuid}`
     )
   }
   function handleError(error: string) {
