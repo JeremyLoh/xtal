@@ -1,17 +1,14 @@
-import "./App.css"
 import { useContext, useRef, useState } from "react"
-import { toast, Toaster } from "sonner"
-import Map from "./features/map/components/Map/Map"
-import RadioSelect from "./features/radioselect/components/RadioSelect/RadioSelect"
-import Header from "./components/Header/Header"
-import Footer from "./components/Footer/Footer"
-import { StationSearchStrategy } from "./api/radiobrowser/searchStrategy/StationSearchStrategy"
-import { countryAlpha2ToCoordinate } from "./api/location/countryCoordinate"
-import { MapContext } from "./context/MapProvider/MapProvider"
+import { Outlet } from "react-router"
+import { toast } from "sonner"
+import RadioSelect from "../../features/radioselect/components/RadioSelect/RadioSelect"
+import { countryAlpha2ToCoordinate } from "../../api/location/countryCoordinate"
+import { MapContext } from "../../context/MapProvider/MapProvider"
+import { StationSearchStrategy } from "../../api/radiobrowser/searchStrategy/StationSearchStrategy"
 
-function App() {
-  const abortControllerRef = useRef<AbortController | null>(null)
+export default function HomeLayout() {
   const mapContext = useContext(MapContext)
+  const abortControllerRef = useRef<AbortController | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   function getRandomInt(max: number) {
@@ -41,31 +38,15 @@ function App() {
       mapContext?.setCurrentView({ lat: latitude, lng: longitude })
     }
   }
+
   return (
     <>
-      <Toaster
-        position="bottom-right"
-        expand={true}
-        richColors
-        toastOptions={{
-          className: "toaster",
-        }}
+      <RadioSelect
+        handleRandomSelect={displayRandomStation}
+        handleCountryChange={handleCountryChange}
+        isLoading={isLoading}
       />
-      <Header />
-      <main>
-        <RadioSelect
-          handleRandomSelect={displayRandomStation}
-          handleCountryChange={handleCountryChange}
-          isLoading={isLoading}
-        />
-        <Map
-          station={mapContext ? mapContext.station : null}
-          latLng={mapContext ? mapContext.currentView : { lat: 0, lng: 0 }}
-        />
-      </main>
-      <Footer />
+      <Outlet />
     </>
   )
 }
-
-export default App

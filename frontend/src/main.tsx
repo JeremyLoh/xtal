@@ -1,11 +1,15 @@
 import "./index.css"
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
-import { BrowserRouter, Route, Routes } from "react-router"
-import App from "./App.tsx"
+import { BrowserRouter, Routes, Route } from "react-router"
 import ThemeProvider from "./context/ThemeProvider/ThemeProvider.tsx"
 import MapProvider from "./context/MapProvider/MapProvider.tsx"
 import FavouriteStationsProvider from "./context/FavouriteStationsProvider/FavouriteStationsProvider.tsx"
+import Root from "./Root.tsx"
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.tsx"
+import HomePage from "./pages/HomePage/HomePage.tsx"
+import RadioStation from "./pages/RadioStation/RadioStation.tsx"
+import HomeLayout from "./pages/HomeLayout/HomeLayout.tsx"
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -14,7 +18,16 @@ createRoot(document.getElementById("root")!).render(
         <FavouriteStationsProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<App />} />
+              <Route path="/" element={<Root />}>
+                <Route element={<HomeLayout />}>
+                  <Route index element={<HomePage />} />
+                  <Route
+                    path="radio-station/:stationuuid"
+                    element={<RadioStation />}
+                  />
+                </Route>
+              </Route>
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </BrowserRouter>
         </FavouriteStationsProvider>
