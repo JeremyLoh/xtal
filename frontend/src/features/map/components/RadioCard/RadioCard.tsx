@@ -73,6 +73,11 @@ function RadioCard(props: RadioCardProps) {
       )
     }
   }
+  function handleShareStation() {
+    navigator.clipboard.writeText(
+      `${window.location.href}${station.stationuuid}`
+    )
+  }
   function handleError(error: string) {
     setError(error)
     toast.error("Could not play radio station")
@@ -95,7 +100,7 @@ function RadioCard(props: RadioCardProps) {
               <StationCard.FavouriteIconOutline />
             )}
           </span>
-          <span title="Share Station Link">
+          <span title="Share Station Link" onClick={handleShareStation}>
             <StationCard.ShareIcon />
           </span>
         </div>
