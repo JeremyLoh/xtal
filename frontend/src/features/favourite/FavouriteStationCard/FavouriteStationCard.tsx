@@ -2,6 +2,7 @@ import { FaMapLocationDot } from "react-icons/fa6"
 import "./FavouriteStationCard.css"
 import { Station } from "../../../api/radiobrowser/types"
 import StationCard from "../../../components/StationCard/StationCard"
+import useClipboard from "../../../hooks/useClipboard"
 
 type FavouriteStationCardProps = {
   station: Station
@@ -14,6 +15,11 @@ function FavouriteStationCard({
   handleRemoveFavouriteStation,
   handleLoadStation,
 }: FavouriteStationCardProps) {
+  const { copyRadioStationShareUrl } = useClipboard()
+
+  function handleShareStation() {
+    copyRadioStationShareUrl(station)
+  }
   return (
     <div className="favourite-station">
       <StationCard station={station}>
@@ -28,6 +34,13 @@ function FavouriteStationCard({
             onClick={() => handleRemoveFavouriteStation(station)}
           >
             <StationCard.FavouriteIconFilled />
+          </button>
+          <button
+            className="favourite-station-share-button"
+            title="Share Station"
+            onClick={handleShareStation}
+          >
+            <StationCard.ShareIcon />
           </button>
           <button
             className="favourite-station-load-button"

@@ -5,6 +5,7 @@ import RadioPlayer from "../../../player/components/RadioPlayer/RadioPlayer"
 import { Station } from "../../../../api/radiobrowser/types"
 import StationCard from "../../../../components/StationCard/StationCard"
 import { FavouriteStationsContext } from "../../../../context/FavouriteStationsProvider/FavouriteStationsProvider"
+import useClipboard from "../../../../hooks/useClipboard"
 
 type RadioCardProps = {
   station: Station
@@ -13,6 +14,7 @@ type RadioCardProps = {
 // Display radio player on map as a popup
 function RadioCard(props: RadioCardProps) {
   const { station } = props
+  const { copyRadioStationShareUrl } = useClipboard()
   const options = getPlayerOptions(station)
   const favouriteStationsContext = useContext(FavouriteStationsContext)
   const [error, setError] = useState<string | null>(null)
@@ -74,10 +76,7 @@ function RadioCard(props: RadioCardProps) {
     }
   }
   function handleShareStation() {
-    const origin = new URL(window.location.href).origin
-    navigator.clipboard.writeText(
-      `${origin}/radio-station/${station.stationuuid}`
-    )
+    copyRadioStationShareUrl(station)
   }
   function handleError(error: string) {
     setError(error)

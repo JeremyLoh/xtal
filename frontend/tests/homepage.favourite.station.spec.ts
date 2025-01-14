@@ -10,6 +10,7 @@ import {
   getFavouriteStationsDrawer,
   getRadioCardFavouriteIcon,
 } from "./constants/favouriteStationConstants"
+import { getClipboardContent } from "./constants/shareStationConstants"
 
 test.describe("radio station favourite feature", () => {
   function getRadioCardPopup(page: Page) {
@@ -156,6 +157,29 @@ test.describe("radio station favourite feature", () => {
       ),
       "should have hover remove favourite icon red fill color"
     ).toHaveCSS("fill", "rgb(220, 38, 38)")
+  })
+
+  test("click radio station share button should copy correct radio station share url", async ({
+    page,
+  }) => {
+    await page.route("*/**/json/stations/search?*", async (route) => {
+      const json = [unitedStatesStation]
+      await route.fulfill({ json })
+    })
+    await page.goto(HOMEPAGE)
+    await clickRandomRadioStationButton(page)
+    await getRadioCardFavouriteIcon(page).click()
+    await expect(getFavouriteStationsButton(page)).toBeVisible()
+    await getFavouriteStationsButton(page).click()
+    await expect(getFavouriteStationsDrawer(page)).toBeVisible()
+    await getFavouriteStationsDrawer(page)
+      .locator(".favourite-station .station-card-share-icon")
+      .click()
+    const expectedUrl =
+      (await page.evaluate(() => window.location.href)) +
+      "radio-station/" +
+      unitedStatesStation.stationuuid
+    expect(await getClipboardContent(page)).toBe(expectedUrl)
   })
 
   test("remove one favourited station in drawer when favourite icon in drawer is clicked", async ({

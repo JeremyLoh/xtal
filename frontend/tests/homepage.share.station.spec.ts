@@ -4,22 +4,17 @@ import {
   HOMEPAGE,
 } from "./constants/homepageConstants"
 import { stationWithLocationLatLng, unitedStatesStation } from "./mocks/station"
+import { getClipboardContent } from "./constants/shareStationConstants"
 
 test.describe("share radio station feature", () => {
   function getRadioCardShareIcon(page: Page) {
     return page.locator("#map .radio-card .station-card-share-icon")
   }
-  async function getClipboardContent(page: Page) {
-    const handle = await page.evaluateHandle(() =>
-      navigator.clipboard.readText()
-    )
-    return await handle.jsonValue()
-  }
-  async function getRadioStationShareUrl(page: Page) {
+  async function getRadioStationShareUrl(page: Page, stationuuid: string) {
     const shareUrl =
       (await page.evaluate(() => window.location.href)) +
       "radio-station/" +
-      unitedStatesStation.stationuuid
+      stationuuid
     return shareUrl
   }
 
@@ -48,7 +43,10 @@ test.describe("share radio station feature", () => {
     await page.goto(HOMEPAGE)
     await clickRandomRadioStationButton(page)
     await getRadioCardShareIcon(page).click()
-    const expectedUrl = await getRadioStationShareUrl(page)
+    const expectedUrl = await getRadioStationShareUrl(
+      page,
+      unitedStatesStation.stationuuid
+    )
     expect(await getClipboardContent(page)).toBe(expectedUrl)
   })
 
@@ -67,7 +65,10 @@ test.describe("share radio station feature", () => {
       }
     })
     await page.goto(HOMEPAGE)
-    const shareUrl = await getRadioStationShareUrl(page)
+    const shareUrl = await getRadioStationShareUrl(
+      page,
+      unitedStatesStation.stationuuid
+    )
     await page.goto(shareUrl)
     await expect(
       page.locator("#map .radio-card").getByRole("heading", {
