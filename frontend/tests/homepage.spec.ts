@@ -45,6 +45,30 @@ test("has footer", async ({ page }) => {
   )
 })
 
+test.describe("404 Not Found page", () => {
+  test("should display 404 Not Found page when invalid url is reached", async ({
+    page,
+  }) => {
+    await page.goto(HOMEPAGE + "/invalid-url")
+    await expect(page.getByText("404 Not Found")).toBeVisible()
+    await expect(
+      page.getByRole("link", { name: "Return Home", exact: true })
+    ).toBeVisible()
+  })
+
+  test("should navigate to homepage when 'Return Home' link is clicked on 404 Not Found page", async ({
+    page,
+  }) => {
+    await page.goto(HOMEPAGE + "/invalid-url")
+    await expect(page.getByText("404 Not Found")).toBeVisible()
+    await expect(
+      page.getByRole("link", { name: "Return Home", exact: true })
+    ).toBeVisible()
+    await page.getByRole("link", { name: "Return Home", exact: true }).click()
+    expect(page.url()).not.toBe("/invalid-url")
+  })
+})
+
 test.describe("random radio station", () => {
   test("display random station on map", async ({ page }) => {
     // mock radio browser api with any query params
