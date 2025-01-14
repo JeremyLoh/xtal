@@ -74,8 +74,9 @@ function RadioCard(props: RadioCardProps) {
     }
   }
   function handleShareStation() {
+    const origin = new URL(window.location.href).origin
     navigator.clipboard.writeText(
-      `${window.location.href}radio-station/${station.stationuuid}`
+      `${origin}/radio-station/${station.stationuuid}`
     )
   }
   function handleError(error: string) {
