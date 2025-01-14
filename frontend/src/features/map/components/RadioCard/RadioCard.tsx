@@ -83,17 +83,22 @@ function RadioCard(props: RadioCardProps) {
   return (
     <div className="radio-card">
       <StationCard station={station}>
-        <span
-          title={`${isFavourite ? "Remove" : "Add"} Station to Favourites`}
-          onClick={handleFavouriteToggle}
-          className="favourite-icon"
-        >
-          {isFavourite ? (
-            <StationCard.FavouriteIconFilled />
-          ) : (
-            <StationCard.FavouriteIconOutline />
-          )}
-        </span>
+        <div className="radio-card-actions">
+          <span
+            title={`${isFavourite ? "Remove" : "Add"} Station to Favourites`}
+            onClick={handleFavouriteToggle}
+            className="favourite-icon"
+          >
+            {isFavourite ? (
+              <StationCard.FavouriteIconFilled />
+            ) : (
+              <StationCard.FavouriteIconOutline />
+            )}
+          </span>
+          <span title="Share Station Link">
+            <StationCard.ShareIcon />
+          </span>
+        </div>
         <StationCard.Icon />
         <StationCard.Title />
         <StationCard.Bitrate />
