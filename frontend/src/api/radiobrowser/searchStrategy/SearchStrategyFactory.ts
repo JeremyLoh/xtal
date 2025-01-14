@@ -10,6 +10,7 @@ import {
 import { CountryStationSearchStrategy } from "./CountryStationSearchStrategy"
 import { GenreStationSearchStrategy } from "./GenreStationSearchStrategy"
 import { StationSearchStrategy } from "./StationSearchStrategy"
+import { UuidSearchStrategy } from "./UuidSearchStrategy"
 
 export enum StationSearchType {
   GENRE = "genre",
@@ -44,5 +45,9 @@ export class SearchStrategyFactory {
     offset: number
   ) {
     return new AdvancedStationSearchStrategy(searchStrategy, limit, offset)
+  }
+
+  static createUuidSearchStrategy(stationuuid: string) {
+    return new UuidSearchStrategy(stationuuid)
   }
 }
