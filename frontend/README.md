@@ -1,6 +1,6 @@
 # Xtal Frontend
 
-Made using TypeScript, React and Playwright (testing)
+Made using TypeScript, React and Playwright (end-to-end testing)
 
 # Setup
 
@@ -22,6 +22,9 @@ Made using TypeScript, React and Playwright (testing)
 - sonner (Toasts) - https://sonner.emilkowal.ski/
 - react-icons - https://react-icons.github.io/react-icons/
 - ky (HTTP requests) - https://www.npmjs.com/package/ky
+- react-hook-form - https://www.npmjs.com/package/react-hook-form
+- React Router - https://reactrouter.com/
+- Video.js - https://videojs.com/
 
 Favicon - https://favicon.io/emoji-favicons/dizzy/
 

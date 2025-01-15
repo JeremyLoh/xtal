@@ -38,8 +38,16 @@ The Frontend end-to-end tests are written in Playwright - https://playwright.dev
 
 1. Ensure `node` is installed on your system - https://nodejs.org/en
 2. Navigate to the `frontend/` directory
-3. Install the required dependencies using `npm install`
-4. Run `npm run test` (to launch Playwright UI) OR run `npx playwright test` to run tests in headless mode
+3. Create a `.env.production` and `.env.local` file - https://vite.dev/guide/env-and-mode#env-files
+
+   - e.g. `.env.local`
+
+   ```
+   VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS=3
+   ```
+
+4. Install the required dependencies using `npm install`
+5. Run `npm run test` (to launch Playwright UI) OR run `npx playwright test` to run tests in headless mode
 
 # Found a bug?
 
