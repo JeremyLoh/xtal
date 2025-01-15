@@ -132,6 +132,7 @@ test.describe("radio station search type", () => {
   test("second random country station request should call API with different offset number", async ({
     page,
   }) => {
+    test.slow()
     const apiCalls: string[] = []
     const expectedCountryCode = "US"
     await page.route(
