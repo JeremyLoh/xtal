@@ -22,3 +22,9 @@ Listen to the world's radio with xtal, a fast and responsive mobile / desktop we
 - react-icons - https://react-icons.github.io/react-icons/
 - ky (HTTP requests) - https://www.npmjs.com/package/ky
 - react-hook-form - https://www.npmjs.com/package/react-hook-form
+
+# Running Tests
+
+1. Ensure `node` is installed on your system - https://nodejs.org/en
+2. Navigate to the `frontend/` directory
+3. Run `npm run test` (to launch Playwright UI) OR run `npx playwright test` to run tests in headless mode
