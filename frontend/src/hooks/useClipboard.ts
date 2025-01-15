@@ -6,6 +6,7 @@ function useClipboard() {
     const origin = new URL(window.location.href).origin
     navigator.clipboard
       .writeText(`${origin}/radio-station/${station.stationuuid}`)
+      .then(() => toast.success("Link Copied"))
       .catch(() =>
         toast.error("Could not copy radio station share url to clipboard")
       )

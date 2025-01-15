@@ -1,6 +1,7 @@
 import test, { expect, Page } from "@playwright/test"
 import {
   clickRandomRadioStationButton,
+  getToastMessages,
   HOMEPAGE,
 } from "./constants/homepageConstants"
 import { stationWithLocationLatLng, unitedStatesStation } from "./mocks/station"
@@ -48,6 +49,23 @@ test.describe("share radio station feature", () => {
       unitedStatesStation.stationuuid
     )
     expect(await getClipboardContent(page)).toBe(expectedUrl)
+  })
+
+  test("should show toast success message when share radio station link is copied successfully", async ({
+    page,
+  }) => {
+    await page.route("*/**/json/stations/search?*", async (route) => {
+      const json = [unitedStatesStation]
+      await route.fulfill({ json })
+    })
+    await page.goto(HOMEPAGE)
+    await clickRandomRadioStationButton(page)
+    await getRadioCardShareIcon(page).click()
+    const toastMessages = await getToastMessages(page)
+    const expectedSuccessMessage = "Link Copied"
+    expect(toastMessages).toEqual(
+      expect.arrayContaining([expectedSuccessMessage])
+    )
   })
 
   test("should load radio station when share radio station link is used", async ({
