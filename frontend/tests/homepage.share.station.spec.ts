@@ -81,12 +81,14 @@ test.describe("share radio station feature", () => {
   test("should not copy nested route '/radio-station/' when copying a new radio station share link", async ({
     page,
   }) => {
-    // 1) when user navigates to route /radio-station and fails to load a radio station
-    // 2) tries to search for a new random radio station
-    // 3) click on the share link for the new radio station
+    // 1) Then user navigates to route /radio-station and loads a radio station
+    // 2) Tries to search for a new random radio station
+    // 3) Click on the share link for the new radio station
     // 4) The share link for the new radio station should not be invalid (nested)
-    // e.g. navigate to http://localhost:5173/radio-station/invalidStationuuid
-    // e.g. share link should not be http://localhost:5173/radio-station/invalidStationuuidradio-station/f37830fa-76d3-4b85-addb-f3548e6d08ea
+    // e.g. station A uuid = d1a54d2e-623e-4970-ab11-35f7b56c5ec3
+    // station B uuid = f37830fa-76d3-4b85-addb-f3548e6d08ea
+    // navigate to http://localhost:5173/radio-station/d1a54d2e-623e-4970-ab11-35f7b56c5ec3
+    // share link should not be http://localhost:5173/radio-station/d1a54d2e-623e-4970-ab11-35f7b56c5ec3radio-station/f37830fa-76d3-4b85-addb-f3548e6d08ea
     await page.route("*/**/json/stations/search?*", async (route) => {
       const requestUrl = route.request().url()
       if (
@@ -101,12 +103,46 @@ test.describe("share radio station feature", () => {
         await route.fulfill({ json })
       }
     })
-    await page.goto(HOMEPAGE + "/radio-station/invalidStationuuid")
+    await page.goto(
+      HOMEPAGE + `/radio-station/${unitedStatesStation.stationuuid}`
+    )
+    await expect(
+      page.locator("#map .radio-card").getByRole("heading", {
+        name: unitedStatesStation.name,
+        exact: true,
+      })
+    ).toBeVisible()
     await clickRandomRadioStationButton(page)
     await getRadioCardShareIcon(page).click()
     const expectedUrl =
       new URL(await page.evaluate(() => window.location.href)).origin +
       `/radio-station/${stationWithLocationLatLng.stationuuid}`
     expect(await getClipboardContent(page)).toBe(expectedUrl)
+  })
+
+  test("should redirect to 404 page when invalid UUID V4 radio station share url stationuuid is present in the url", async ({
+    page,
+  }) => {
+    // radio browser api currently uses UUID V4 for the "stationuuid" field
+    await page.goto(HOMEPAGE + "/radio-station/invalidStationuuid")
+    await expect(page.getByText("404 Not Found")).toBeVisible()
+    await expect(
+      page.getByRole("link", { name: "Return Home", exact: true })
+    ).toBeVisible()
+    expect(page.url(), "should match url ending with '/404'").toMatch(/\/404$/)
+  })
+
+  test("should redirect to 404 page when empty stationuuid is given", async ({
+    page,
+  }) => {
+    await page.goto(HOMEPAGE + "/radio-station/")
+    await expect(page.getByText("404 Not Found")).toBeVisible()
+    await expect(
+      page.getByRole("link", { name: "Return Home", exact: true })
+    ).toBeVisible()
+    expect(
+      page.url(),
+      "should match url ending with '/radio-station/'"
+    ).toMatch(/\/radio-station\/$/)
   })
 })

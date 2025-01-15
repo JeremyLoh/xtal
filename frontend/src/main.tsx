@@ -27,6 +27,7 @@ createRoot(document.getElementById("root")!).render(
                   />
                 </Route>
               </Route>
+              <Route path="/404" element={<NotFoundPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </BrowserRouter>
