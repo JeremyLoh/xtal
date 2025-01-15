@@ -15,11 +15,13 @@
 }
 
 .remove-favourite-station-btn,
+.favourite-station-share-button,
 .favourite-station-load-button {
   width: fit-content;
   padding: 0.3rem;
   background-color: transparent;
 }
+
 .remove-favourite-station-btn:hover .station-card-favourite-icon.selected {
   /* Ensure that hover on button causes inner icon color change */
   fill: var(--favourite-icon-hover-remove-color) !important;

@@ -83,6 +83,9 @@ async function getCountryCoordinatesFromCsv() {
 }
 ```
 
+9. How to access the clipboard contents using playwright in typescript - https://stackoverflow.com/questions/72265518/how-to-access-the-clipboard-contents-using-playwright-in-typescript
+10. Validate for UUID V4 - https://stackoverflow.com/questions/7905929/how-to-test-valid-uuid-guid
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

@@ -28,8 +28,8 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  /* Run parallel tests with 4 workers for CI */
+  workers: process.env.CI ? 4 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -45,9 +45,14 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: {
+        ...devices["Desktop Chrome"],
+        contextOptions: {
+          // https://github.com/microsoft/playwright/issues/13037
+          permissions: ["clipboard-read", "clipboard-write"],
+        },
+      },
     },
-
     {
       name: "firefox",
       use: { ...devices["Desktop Firefox"] },
@@ -60,7 +65,13 @@ export default defineConfig({
     /* Test against mobile viewports. */
     {
       name: "Mobile Chrome",
-      use: { ...devices["Pixel 5"] },
+      use: {
+        ...devices["Pixel 5"],
+        contextOptions: {
+          // https://github.com/microsoft/playwright/issues/13037
+          permissions: ["clipboard-read", "clipboard-write"],
+        },
+      },
     },
     // {
     //   name: "Mobile Safari",

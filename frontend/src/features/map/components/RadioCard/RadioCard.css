@@ -6,6 +6,12 @@
   width: 100%;
 }
 
+.radio-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
 .favourite-icon {
   margin-left: auto;
 }

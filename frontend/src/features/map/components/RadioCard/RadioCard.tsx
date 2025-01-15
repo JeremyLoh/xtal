@@ -5,6 +5,7 @@ import RadioPlayer from "../../../player/components/RadioPlayer/RadioPlayer"
 import { Station } from "../../../../api/radiobrowser/types"
 import StationCard from "../../../../components/StationCard/StationCard"
 import { FavouriteStationsContext } from "../../../../context/FavouriteStationsProvider/FavouriteStationsProvider"
+import useClipboard from "../../../../hooks/useClipboard"
 
 type RadioCardProps = {
   station: Station
@@ -13,6 +14,7 @@ type RadioCardProps = {
 // Display radio player on map as a popup
 function RadioCard(props: RadioCardProps) {
   const { station } = props
+  const { copyRadioStationShareUrl } = useClipboard()
   const options = getPlayerOptions(station)
   const favouriteStationsContext = useContext(FavouriteStationsContext)
   const [error, setError] = useState<string | null>(null)
@@ -73,6 +75,9 @@ function RadioCard(props: RadioCardProps) {
       )
     }
   }
+  function handleShareStation() {
+    copyRadioStationShareUrl(station)
+  }
   function handleError(error: string) {
     setError(error)
     toast.error("Could not play radio station")
@@ -83,17 +88,22 @@ function RadioCard(props: RadioCardProps) {
   return (
     <div className="radio-card">
       <StationCard station={station}>
-        <span
-          title={`${isFavourite ? "Remove" : "Add"} Station to Favourites`}
-          onClick={handleFavouriteToggle}
-          className="favourite-icon"
-        >
-          {isFavourite ? (
-            <StationCard.FavouriteIconFilled />
-          ) : (
-            <StationCard.FavouriteIconOutline />
-          )}
-        </span>
+        <div className="radio-card-actions">
+          <span
+            title={`${isFavourite ? "Remove" : "Add"} Station to Favourites`}
+            onClick={handleFavouriteToggle}
+            className="favourite-icon"
+          >
+            {isFavourite ? (
+              <StationCard.FavouriteIconFilled />
+            ) : (
+              <StationCard.FavouriteIconOutline />
+            )}
+          </span>
+          <span title="Share Station Link" onClick={handleShareStation}>
+            <StationCard.ShareIcon />
+          </span>
+        </div>
         <StationCard.Icon />
         <StationCard.Title />
         <StationCard.Bitrate />

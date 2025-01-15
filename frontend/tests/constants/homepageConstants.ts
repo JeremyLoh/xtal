@@ -14,3 +14,11 @@ export function getGenreSearchButton(page: Page) {
 export function getCountrySearchButton(page: Page) {
   return page.locator("#station-search-type-container .country-search-button")
 }
+
+export async function getToastMessages(page: Page) {
+  const toasts = await page.locator(".toaster").all()
+  const toastMessages = (
+    await Promise.all(toasts.map((locator) => locator.allTextContents()))
+  ).flat(1)
+  return toastMessages
+}

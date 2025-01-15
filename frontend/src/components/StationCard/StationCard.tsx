@@ -4,7 +4,7 @@ import { Station } from "../../api/radiobrowser/types"
 import Pill from "../Pill/Pill"
 import { FaMapMarkerAlt } from "react-icons/fa"
 import { BiSolidLike } from "react-icons/bi"
-import { IoLanguageSharp } from "react-icons/io5"
+import { IoLanguageSharp, IoShareSocialSharp } from "react-icons/io5"
 import { GoStar, GoStarFill } from "react-icons/go"
 import { MdOutlineImageNotSupported } from "react-icons/md"
 
@@ -68,6 +68,10 @@ StationCard.FavouriteIconFilled = function StationCardFavouriteIconFilled() {
       className="station-card-favourite-icon selected"
     />
   )
+}
+
+StationCard.ShareIcon = function StationCardShareIcon() {
+  return <IoShareSocialSharp size={20} className="station-card-share-icon" />
 }
 
 StationCard.Bitrate = function StationCardBitrate() {
