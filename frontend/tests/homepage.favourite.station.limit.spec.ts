@@ -3,6 +3,7 @@ import process from "process"
 import { unitedStatesStation } from "./mocks/station"
 import {
   clickRandomRadioStationButton,
+  getToastMessages,
   HOMEPAGE,
 } from "./constants/homepageConstants"
 import {
@@ -15,13 +16,6 @@ import {
 test.describe("radio station favourite station limit feature", () => {
   function uuid() {
     return crypto.randomUUID()
-  }
-  async function getToastMessages(page: Page) {
-    const toasts = await page.locator(".toaster").all()
-    const toastMessages = (
-      await Promise.all(toasts.map((locator) => locator.allTextContents()))
-    ).flat(1)
-    return toastMessages
   }
   async function assertToastMessage(page: Page, message: string) {
     const toastMessages = await getToastMessages(page)

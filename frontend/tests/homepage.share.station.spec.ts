@@ -29,9 +29,6 @@ test.describe("share radio station feature", () => {
     await page.goto(HOMEPAGE)
     await clickRandomRadioStationButton(page)
     await expect(getRadioCardShareIcon(page)).toBeVisible()
-    expect(
-      page.locator(".radio-card").getByTitle("Share Station Link")
-    ).toBeVisible()
   })
 
   test("should copy share radio station link to clipboard", async ({

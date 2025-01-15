@@ -39,16 +39,20 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
-    permissions: ["clipboard-read", "clipboard-write"],
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: {
+        ...devices["Desktop Chrome"],
+        contextOptions: {
+          // https://github.com/microsoft/playwright/issues/13037
+          permissions: ["clipboard-read", "clipboard-write"],
+        },
+      },
     },
-
     {
       name: "firefox",
       use: { ...devices["Desktop Firefox"] },
@@ -61,7 +65,13 @@ export default defineConfig({
     /* Test against mobile viewports. */
     {
       name: "Mobile Chrome",
-      use: { ...devices["Pixel 5"] },
+      use: {
+        ...devices["Pixel 5"],
+        contextOptions: {
+          // https://github.com/microsoft/playwright/issues/13037
+          permissions: ["clipboard-read", "clipboard-write"],
+        },
+      },
     },
     // {
     //   name: "Mobile Safari",
