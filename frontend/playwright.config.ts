@@ -51,11 +51,21 @@ export default defineConfig({
           // https://github.com/microsoft/playwright/issues/13037
           permissions: ["clipboard-read", "clipboard-write"],
         },
+        viewport: {
+          width: 1920,
+          height: 1080
+        },
       },
     },
     {
       name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
+      use: {
+        ...devices["Desktop Firefox"], 
+        viewport: {
+          width: 1920,
+          height: 1080
+        },
+      },
     },
     // {
     //   name: "webkit",

@@ -4,7 +4,7 @@ import { LatLngExpression } from "leaflet"
 
 type MapInfo = {
   station: Station | null
-  setStation: React.Dispatch<React.SetStateAction<Station | null>>
+  setStation: (station: Station | null) => void
   currentView: LatLngExpression
   setCurrentView: React.Dispatch<React.SetStateAction<LatLngExpression>>
 }
@@ -18,9 +18,13 @@ function MapProvider({ children }: { children: React.ReactNode }) {
     lng: 0,
   })
   const [station, setStation] = useState<Station | null>(null)
+  function setMapStation(station: Station | null) {
+    setCurrentView({lat: station?.geo_lat || 0, lng: station?.geo_long || 0})
+    setStation(station == null ? null : {...station})
+  }
   return (
     <MapContext.Provider
-      value={{ station, setStation, currentView, setCurrentView }}
+      value={{ station, setStation: setMapStation, currentView, setCurrentView }}
     >
       {children}
     </MapContext.Provider>
