@@ -53,17 +53,17 @@ export default defineConfig({
         },
         viewport: {
           width: 1920,
-          height: 1080
+          height: 1080,
         },
       },
     },
     {
       name: "firefox",
       use: {
-        ...devices["Desktop Firefox"], 
+        ...devices["Desktop Firefox"],
         viewport: {
           width: 1920,
-          height: 1080
+          height: 1080,
         },
       },
     },
@@ -76,7 +76,7 @@ export default defineConfig({
     {
       name: "Mobile Chrome",
       use: {
-        ...devices["Pixel 5"],
+        ...devices["Galaxy S8"],
         contextOptions: {
           // https://github.com/microsoft/playwright/issues/13037
           permissions: ["clipboard-read", "clipboard-write"],
