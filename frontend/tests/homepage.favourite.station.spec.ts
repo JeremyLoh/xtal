@@ -1,6 +1,7 @@
 import test, { expect, Page } from "@playwright/test"
 import {
   clickRandomRadioStationButton,
+  getRadioStationMapPopupCloseButton,
   HOMEPAGE,
 } from "./constants/homepageConstants"
 import { stationWithMultipleTags, unitedStatesStation } from "./mocks/station"
@@ -150,7 +151,7 @@ test.describe("radio station favourite feature", () => {
     // check hover color for remove favourite station button (do not hover in button center, where icon is)
     await getFavouriteStationsDrawer(page)
       .locator(".favourite-station .remove-favourite-station-btn")
-      .hover({ position: { x: 5, y: 0 } })
+      .hover({ position: { x: 5, y: 2 } })
     await expect(
       getFavouriteStationsDrawer(page).locator(
         ".favourite-station .station-card-favourite-icon.selected"
@@ -264,14 +265,50 @@ test.describe("radio station favourite feature", () => {
     await expect(getFavouriteStationsDrawer(page)).not.toBeVisible()
     await expect(getRadioCardPopup(page)).toBeVisible()
     await expect(
-      page.locator("#map .radio-card").getByRole("heading", {
+      getRadioCardPopup(page).getByRole("heading", {
         name: unitedStatesStation.name,
         exact: true,
       })
     ).toBeVisible()
     await expect(
-      page.locator("#map .radio-card").getByRole("link", {
+      getRadioCardPopup(page).getByRole("link", {
         name: unitedStatesStation.homepage,
+        exact: true,
+      })
+    ).toBeVisible()
+  })
+
+  test("removing favourite station Map popup using 'x' button and loading same favourite station using favourite station drawer shows same station on Map", async ({
+    page,
+  }) => {
+    await page.route("*/**/json/stations/search?*", async (route) => {
+      const json = [unitedStatesStation]
+      await route.fulfill({ json })
+    })
+    await page.goto(HOMEPAGE)
+    await clickRandomRadioStationButton(page)
+    await expect(page.locator("#map")).toBeVisible()
+    await getRadioCardFavouriteIcon(page).click()
+    await getRadioStationMapPopupCloseButton(page).scrollIntoViewIfNeeded()
+    await getRadioStationMapPopupCloseButton(page).click()
+    await expect(
+      getRadioCardPopup(page),
+      "should remove radio station card from Map"
+    ).not.toBeVisible()
+    await getFavouriteStationsButton(page).click()
+    await getFavouriteStationsDrawer(page)
+      .locator(".favourite-station")
+      .getByRole("button", {
+        name: "load station",
+      })
+      .click()
+    await expect(
+      getRadioCardPopup(page),
+      "should display same favourite station on the Map"
+    ).toBeVisible()
+    await expect(
+      getRadioCardPopup(page).getByRole("heading", {
+        name: unitedStatesStation.name,
         exact: true,
       })
     ).toBeVisible()

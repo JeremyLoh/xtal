@@ -15,6 +15,10 @@ export function getCountrySearchButton(page: Page) {
   return page.locator("#station-search-type-container .country-search-button")
 }
 
+export function getRadioStationMapPopupCloseButton(page: Page) {
+  return page.locator(".leaflet-popup-close-button")
+}
+
 export async function getToastMessages(page: Page) {
   const toasts = await page.locator(".toaster").all()
   const toastMessages = (

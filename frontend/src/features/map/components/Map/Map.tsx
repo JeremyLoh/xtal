@@ -17,21 +17,35 @@ type MapProps = {
 function Map(props: MapProps) {
   const [currentPopup, setCurrentPopup] = useState<L.Popup | null>(null)
   const [popupContainer, setPopupContainer] = useState<HTMLElement | null>(null)
+
   useEffect(() => {
     map = setupMap()
     return () => {
       map.remove()
     }
   }, [])
+
   useEffect(() => {
     if (currentPopup !== null && currentPopup.isOpen()) {
       // do not navigate when station is rendered to user
       return
     }
     if (map) {
-      map.panTo(props.latLng)
+      // navigate when lat lng changes (e.g. Radio Station "Countries" select)
+      map.invalidateSize({ pan: true, animate: true })
+      map.panTo(props.latLng, { animate: true })
     }
   }, [currentPopup, props.latLng])
+
+  useEffect(() => {
+    if (props.station == null || currentPopup == null || map == null) {
+      return
+    }
+    const location = getStationLocation(props.station)
+    map.invalidateSize({ pan: true, animate: true })
+    map.panTo(location, { animate: true })
+  }, [currentPopup, props.station])
+
   useEffect(() => {
     if (props.station == null) {
       return
@@ -48,12 +62,12 @@ function Map(props: MapProps) {
       .openOn(map)
     setPopupContainer(popupDiv)
     setCurrentPopup(popup)
-    map.panTo(location, { animate: true })
     return () => {
       popup.remove()
       setCurrentPopup(null)
     }
   }, [setPopupContainer, props.station])
+
   return (
     <div id="map">
       {popupContainer !== null &&
