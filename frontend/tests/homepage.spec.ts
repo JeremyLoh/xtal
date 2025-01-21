@@ -146,7 +146,7 @@ test.describe("random radio station", () => {
     await expect(
       page.locator("#map .radio-card").getByTestId("radio-card-playback-error")
     ).toHaveText(
-      /The media could not be loaded, either because the server or network failed or because the format is not supported/
+      /The media could not be loaded. Server failed or the playback format is not supported/
     )
   })
 

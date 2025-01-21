@@ -10,10 +10,11 @@ type RadioStationParams = {
 }
 
 function isInvalidUuid(uuid: string) {
-  const uuidV4regex = new RegExp(
-    /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
+  // check UUID Version 1 to 5 "[0-5]", version number is the first character of the third group: [VERSION_NUMBER][0-9A-F]{3}
+  const uuidregex = new RegExp(
+    /^[0-9A-F]{8}-[0-9A-F]{4}-[1-5][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
   )
-  return !uuidV4regex.test(uuid)
+  return !uuidregex.test(uuid)
 }
 
 export default function RadioStation() {
