@@ -78,11 +78,10 @@ function RadioCard(props: RadioCardProps) {
   function handleShareStation() {
     copyRadioStationShareUrl(station)
   }
-  function handleError(error: string) {
+  function handleError() {
     setError(
       "The media could not be loaded. Server failed or the playback format is not supported"
     )
-    console.error(error)
     toast.error("Could not play radio station")
   }
   function handleReady() {
