@@ -200,4 +200,62 @@ test.describe("random radio station", () => {
       )
     ).toBeVisible()
   })
+
+  test.describe("station tag", () => {
+    function getStationTagContainer(page: Page) {
+      return getRadioCardMapPopup(page).locator(".station-card-tag-container")
+    }
+
+    test("station with tag longer than 50 characters are removed", async ({
+      page,
+    }) => {
+      const tags = [
+        "test tag",
+        "a".repeat(51),
+        "b".repeat(50),
+        "c".repeat(49),
+      ].join(",")
+      await page.route("*/**/json/stations/search?*", async (route) => {
+        const json = [{ ...unitedStatesStation, tags }]
+        await route.fulfill({ json })
+      })
+      await page.goto(HOMEPAGE)
+      await clickRandomRadioStationButton(page)
+      await expect(
+        getStationTagContainer(page).getByText("test tag")
+      ).toBeVisible()
+      await expect(
+        getStationTagContainer(page).getByText("a".repeat(51))
+      ).not.toBeVisible()
+      await expect(
+        getStationTagContainer(page).getByText("b".repeat(50))
+      ).toBeVisible()
+      await expect(
+        getStationTagContainer(page).getByText("c".repeat(49))
+      ).toBeVisible()
+
+      await page.waitForTimeout(3000)
+    })
+
+    test("station with tag of only whitespace are removed", async ({
+      page,
+    }) => {
+      const tags = ["    ", " ", "test tag"].join(",")
+      await page.route("*/**/json/stations/search?*", async (route) => {
+        const json = [{ ...unitedStatesStation, tags }]
+        await route.fulfill({ json })
+      })
+      await page.goto(HOMEPAGE)
+      await clickRandomRadioStationButton(page)
+      await expect(
+        getStationTagContainer(page).getByText("test tag")
+      ).toBeVisible()
+      await expect(
+        getStationTagContainer(page).getByText(" ", { exact: true })
+      ).not.toBeVisible()
+      await expect(
+        getStationTagContainer(page).getByText("    ", { exact: true })
+      ).not.toBeVisible()
+    })
+  })
 })
