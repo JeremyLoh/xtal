@@ -1,6 +1,7 @@
 import { test, expect, Page } from "@playwright/test"
 import {
   clickRandomRadioStationButton,
+  getRadioCardMapPopup,
   HOMEPAGE,
 } from "./constants/homepageConstants"
 import {
@@ -12,14 +13,14 @@ import {
 
 function getAudioPlayButton(page: Page) {
   // play button will have title="Play"
-  return page.locator("#map .radio-card").getByRole("button", {
+  return getRadioCardMapPopup(page).getByRole("button", {
     name: "Play",
     exact: true,
   })
 }
 function getAudioPauseButton(page: Page) {
   // pause button will have title="Pause"
-  return page.locator("#map .radio-card").getByRole("button", {
+  return getRadioCardMapPopup(page).getByRole("button", {
     name: "Pause",
     exact: true,
   })
@@ -80,25 +81,26 @@ test.describe("random radio station", () => {
     await clickRandomRadioStationButton(page)
     await expect(page.locator("#map")).toBeVisible()
     // assert radio card is shown inside map (map has css id of "map")
-    await expect(page.locator("#map .radio-card")).toBeVisible()
+    await expect(getRadioCardMapPopup(page)).toBeVisible()
     await expect(
-      page.locator("#map .radio-card").getByRole("heading", {
+      getRadioCardMapPopup(page).getByRole("heading", {
         name: stationWithNoLocationLatLng.name,
         exact: true,
       })
     ).toBeVisible()
     await expect(
-      page.locator("#map .radio-card").getByRole("link", {
+      getRadioCardMapPopup(page).getByRole("link", {
         name: stationWithNoLocationLatLng.homepage,
         exact: true,
       })
     ).toBeVisible()
     await expect(
-      page
-        .locator("#map .radio-card")
-        .getByText(stationWithNoLocationLatLng.country, {
+      getRadioCardMapPopup(page).getByText(
+        stationWithNoLocationLatLng.country,
+        {
           exact: true,
-        })
+        }
+      )
     ).toBeVisible()
     await getAudioPlayButton(page).click()
     await getAudioPauseButton(page).click()
@@ -119,32 +121,30 @@ test.describe("random radio station", () => {
     await clickRandomRadioStationButton(page)
     await expect(page.locator("#map")).toBeVisible()
     // assert radio card is shown inside map (map has css id of "map")
-    await expect(page.locator("#map .radio-card")).toBeVisible()
+    await expect(getRadioCardMapPopup(page)).toBeVisible()
     await expect(
-      page.locator("#map .radio-card").getByRole("heading", {
+      getRadioCardMapPopup(page).getByRole("heading", {
         name: stationWithBlockedAccess.name,
         exact: true,
       })
     ).toBeVisible()
     await expect(
-      page.locator("#map .radio-card").getByRole("link", {
+      getRadioCardMapPopup(page).getByRole("link", {
         name: stationWithBlockedAccess.homepage,
         exact: true,
       })
     ).toBeVisible()
     await expect(
-      page
-        .locator("#map .radio-card")
-        .getByText(stationWithBlockedAccess.country, {
-          exact: true,
-        })
+      getRadioCardMapPopup(page).getByText(stationWithBlockedAccess.country, {
+        exact: true,
+      })
     ).toBeVisible()
     await expect(getAudioPlayButton(page)).not.toBeVisible()
     await expect(
-      page.locator("#map .radio-card").getByTestId("radio-card-playback-error")
+      getRadioCardMapPopup(page).getByTestId("radio-card-playback-error")
     ).toBeVisible()
     await expect(
-      page.locator("#map .radio-card").getByTestId("radio-card-playback-error")
+      getRadioCardMapPopup(page).getByTestId("radio-card-playback-error")
     ).toHaveText(
       /The media could not be loaded. Server failed or the playback format is not supported/
     )
@@ -161,25 +161,23 @@ test.describe("random radio station", () => {
     await clickRandomRadioStationButton(page)
     await expect(page.locator("#map")).toBeVisible()
     // assert radio card is shown inside map (map has css id of "map")
-    await expect(page.locator("#map .radio-card")).toBeVisible()
+    await expect(getRadioCardMapPopup(page)).toBeVisible()
     await expect(
-      page.locator("#map .radio-card").getByRole("heading", {
+      getRadioCardMapPopup(page).getByRole("heading", {
         name: stationWithMultipleTags.name,
         exact: true,
       })
     ).toBeVisible()
     await expect(
-      page.locator("#map .radio-card").getByRole("link", {
+      getRadioCardMapPopup(page).getByRole("link", {
         name: stationWithMultipleTags.homepage,
         exact: true,
       })
     ).toBeVisible()
     await expect(
-      page
-        .locator("#map .radio-card")
-        .getByText(stationWithMultipleTags.country, {
-          exact: true,
-        })
+      getRadioCardMapPopup(page).getByText(stationWithMultipleTags.country, {
+        exact: true,
+      })
     ).toBeVisible()
     await expect(getAudioPlayButton(page)).toBeInViewport()
   })
@@ -194,11 +192,12 @@ test.describe("random radio station", () => {
     await page.goto(HOMEPAGE)
     await clickRandomRadioStationButton(page)
     await expect(
-      page
-        .locator("#map .radio-card")
-        .getByText(`${unitedStatesStation.bitrate} kbps`, {
+      getRadioCardMapPopup(page).getByText(
+        `${unitedStatesStation.bitrate} kbps`,
+        {
           exact: true,
-        })
+        }
+      )
     ).toBeVisible()
   })
 })

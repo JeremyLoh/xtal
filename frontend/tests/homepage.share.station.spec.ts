@@ -1,6 +1,7 @@
 import test, { expect, Page } from "@playwright/test"
 import {
   clickRandomRadioStationButton,
+  getRadioCardMapPopup,
   getToastMessages,
   HOMEPAGE,
 } from "./constants/homepageConstants"
@@ -9,7 +10,7 @@ import { getClipboardContent } from "./constants/shareStationConstants"
 
 test.describe("share radio station feature", () => {
   function getRadioCardShareIcon(page: Page) {
-    return page.locator("#map .radio-card .station-card-share-icon")
+    return getRadioCardMapPopup(page).locator(".station-card-share-icon")
   }
   async function getRadioStationShareUrl(page: Page, stationuuid: string) {
     const shareUrl =
@@ -86,7 +87,7 @@ test.describe("share radio station feature", () => {
     )
     await page.goto(shareUrl)
     await expect(
-      page.locator("#map .radio-card").getByRole("heading", {
+      getRadioCardMapPopup(page).getByRole("heading", {
         name: unitedStatesStation.name,
         exact: true,
       })
@@ -122,7 +123,7 @@ test.describe("share radio station feature", () => {
       HOMEPAGE + `/radio-station/${unitedStatesStation.stationuuid}`
     )
     await expect(
-      page.locator("#map .radio-card").getByRole("heading", {
+      getRadioCardMapPopup(page).getByRole("heading", {
         name: unitedStatesStation.name,
         exact: true,
       })
@@ -150,7 +151,7 @@ test.describe("share radio station feature", () => {
       await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
       await expect(page.getByText("404 Not Found")).not.toBeVisible()
       await expect(
-        page.locator("#map .radio-card").getByRole("heading", {
+        getRadioCardMapPopup(page).getByRole("heading", {
           name: unitedStatesStation.name,
           exact: true,
         })
@@ -171,7 +172,7 @@ test.describe("share radio station feature", () => {
       await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
       await expect(page.getByText("404 Not Found")).not.toBeVisible()
       await expect(
-        page.locator("#map .radio-card").getByRole("heading", {
+        getRadioCardMapPopup(page).getByRole("heading", {
           name: unitedStatesStation.name,
           exact: true,
         })
@@ -192,7 +193,7 @@ test.describe("share radio station feature", () => {
       await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
       await expect(page.getByText("404 Not Found")).not.toBeVisible()
       await expect(
-        page.locator("#map .radio-card").getByRole("heading", {
+        getRadioCardMapPopup(page).getByRole("heading", {
           name: unitedStatesStation.name,
           exact: true,
         })
@@ -213,7 +214,7 @@ test.describe("share radio station feature", () => {
       await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
       await expect(page.getByText("404 Not Found")).not.toBeVisible()
       await expect(
-        page.locator("#map .radio-card").getByRole("heading", {
+        getRadioCardMapPopup(page).getByRole("heading", {
           name: unitedStatesStation.name,
           exact: true,
         })
@@ -234,7 +235,7 @@ test.describe("share radio station feature", () => {
       await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
       await expect(page.getByText("404 Not Found")).not.toBeVisible()
       await expect(
-        page.locator("#map .radio-card").getByRole("heading", {
+        getRadioCardMapPopup(page).getByRole("heading", {
           name: unitedStatesStation.name,
           exact: true,
         })

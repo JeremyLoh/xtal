@@ -3,6 +3,7 @@ import {
   clickRandomRadioStationButton,
   getCountrySearchButton,
   getGenreSearchButton,
+  getRadioCardMapPopup,
   HOMEPAGE,
 } from "./constants/homepageConstants"
 import { stationWithMultipleTags, unitedStatesStation } from "./mocks/station"
@@ -114,15 +115,15 @@ test.describe("radio station search type", () => {
     await page.goto(HOMEPAGE)
     await getCountrySearchButton(page).click()
     await clickRandomRadioStationButton(page)
-    await expect(page.locator("#map .radio-card")).toBeVisible()
+    await expect(getRadioCardMapPopup(page)).toBeVisible()
     await expect(
-      page.locator("#map .radio-card").getByRole("heading", {
+      getRadioCardMapPopup(page).getByRole("heading", {
         name: unitedStatesStation.name,
         exact: true,
       })
     ).toBeVisible()
     await expect(
-      page.locator("#map .radio-card").getByRole("link", {
+      getRadioCardMapPopup(page).getByRole("link", {
         name: unitedStatesStation.homepage,
         exact: true,
       })

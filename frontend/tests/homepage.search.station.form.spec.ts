@@ -1,5 +1,9 @@
 import test, { expect, Page } from "@playwright/test"
-import { getGenreSearchButton, HOMEPAGE } from "./constants/homepageConstants"
+import {
+  getGenreSearchButton,
+  getRadioCardMapPopup,
+  HOMEPAGE,
+} from "./constants/homepageConstants"
 import { unitedStatesStation } from "./mocks/station"
 import {
   getDrawerStationResultCard,
@@ -12,9 +16,6 @@ import {
 test.describe("radio station search form", () => {
   function getDrawerLoadMoreStationButton(page: Page) {
     return page.locator(".station-search-load-more-results-button")
-  }
-  function getRadioCardPopup(page: Page) {
-    return page.locator("#map .radio-card")
   }
 
   test("display drawer with radio station search form", async ({ page }) => {
@@ -116,15 +117,15 @@ test.describe("radio station search form", () => {
       })
       .click()
     await expect(getSearchStationDrawer(page)).not.toBeVisible()
-    await expect(getRadioCardPopup(page)).toBeVisible()
+    await expect(getRadioCardMapPopup(page)).toBeVisible()
     await expect(
-      page.locator("#map .radio-card").getByRole("heading", {
+      getRadioCardMapPopup(page).getByRole("heading", {
         name: unitedStatesStation.name,
         exact: true,
       })
     ).toBeVisible()
     await expect(
-      page.locator("#map .radio-card").getByRole("link", {
+      getRadioCardMapPopup(page).getByRole("link", {
         name: unitedStatesStation.homepage,
         exact: true,
       })
