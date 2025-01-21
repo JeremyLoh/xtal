@@ -1,6 +1,7 @@
 import test, { expect, Page } from "@playwright/test"
 import {
   clickRandomRadioStationButton,
+  getRadioCardMapPopup,
   getRadioStationMapPopupCloseButton,
   HOMEPAGE,
 } from "./constants/homepageConstants"
@@ -14,9 +15,6 @@ import {
 import { getClipboardContent } from "./constants/shareStationConstants"
 
 test.describe("radio station favourite feature", () => {
-  function getRadioCardPopup(page: Page) {
-    return page.locator("#map .radio-card")
-  }
   async function assertEmptyFavouriteList(page: Page) {
     await expect(
       getFavouriteStationsDrawer(page).locator(".empty-favourites")
@@ -248,7 +246,7 @@ test.describe("radio station favourite feature", () => {
     // load another radio station on the map that is different from the first station
     await clickRandomRadioStationButton(page)
     await expect(
-      page.locator("#map .radio-card").getByRole("heading", {
+      getRadioCardMapPopup(page).getByRole("heading", {
         name: stationWithMultipleTags.name,
         exact: true,
       })
@@ -263,15 +261,15 @@ test.describe("radio station favourite feature", () => {
       })
       .click()
     await expect(getFavouriteStationsDrawer(page)).not.toBeVisible()
-    await expect(getRadioCardPopup(page)).toBeVisible()
+    await expect(getRadioCardMapPopup(page)).toBeVisible()
     await expect(
-      getRadioCardPopup(page).getByRole("heading", {
+      getRadioCardMapPopup(page).getByRole("heading", {
         name: unitedStatesStation.name,
         exact: true,
       })
     ).toBeVisible()
     await expect(
-      getRadioCardPopup(page).getByRole("link", {
+      getRadioCardMapPopup(page).getByRole("link", {
         name: unitedStatesStation.homepage,
         exact: true,
       })
@@ -292,7 +290,7 @@ test.describe("radio station favourite feature", () => {
     await getRadioStationMapPopupCloseButton(page).scrollIntoViewIfNeeded()
     await getRadioStationMapPopupCloseButton(page).click()
     await expect(
-      getRadioCardPopup(page),
+      getRadioCardMapPopup(page),
       "should remove radio station card from Map"
     ).not.toBeVisible()
     await getFavouriteStationsButton(page).click()
@@ -303,11 +301,11 @@ test.describe("radio station favourite feature", () => {
       })
       .click()
     await expect(
-      getRadioCardPopup(page),
+      getRadioCardMapPopup(page),
       "should display same favourite station on the Map"
     ).toBeVisible()
     await expect(
-      getRadioCardPopup(page).getByRole("heading", {
+      getRadioCardMapPopup(page).getByRole("heading", {
         name: unitedStatesStation.name,
         exact: true,
       })
@@ -325,7 +323,7 @@ test.describe("radio station favourite feature", () => {
     await clickRandomRadioStationButton(page)
     await getRadioCardFavouriteIcon(page).click()
     await expect(
-      page.locator("#map .radio-card .station-card-icon")
+      getRadioCardMapPopup(page).locator(".station-card-icon")
     ).toBeVisible()
     // open the favourite station drawer, and assert placeholder icon is shown
     await getFavouriteStationsButton(page).click()

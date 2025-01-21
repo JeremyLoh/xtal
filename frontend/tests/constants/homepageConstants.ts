@@ -15,6 +15,10 @@ export function getCountrySearchButton(page: Page) {
   return page.locator("#station-search-type-container .country-search-button")
 }
 
+export function getRadioCardMapPopup(page: Page) {
+  return page.locator("#map .radio-card")
+}
+
 export function getRadioStationMapPopupCloseButton(page: Page) {
   return page.locator(".leaflet-popup-close-button")
 }
