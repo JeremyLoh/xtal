@@ -135,6 +135,113 @@ test.describe("share radio station feature", () => {
     expect(await getClipboardContent(page)).toBe(expectedUrl)
   })
 
+  test.describe("should not redirect to 404 page for valid stationuuid UUID Versions 1 to 5 in Radio Station Share URL", () => {
+    test("stationuuid UUID Version 1 should not redirect to 404 page", async ({
+      page,
+    }) => {
+      const stationuuid = "960a2547-e2e4-11e9-a8ba-52543be04c81"
+      await page.route(
+        `*/**/json/stations/byuuid?uuids=${stationuuid}`,
+        async (route) => {
+          const json = [{ ...unitedStatesStation, stationuuid }]
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
+      await expect(page.getByText("404 Not Found")).not.toBeVisible()
+      await expect(
+        page.locator("#map .radio-card").getByRole("heading", {
+          name: unitedStatesStation.name,
+          exact: true,
+        })
+      ).toBeVisible()
+    })
+
+    test("stationuuid UUID Version 2 should not redirect to 404 page", async ({
+      page,
+    }) => {
+      const stationuuid = "960a2547-e2e4-21e9-a8ba-52543be04c81"
+      await page.route(
+        `*/**/json/stations/byuuid?uuids=${stationuuid}`,
+        async (route) => {
+          const json = [{ ...unitedStatesStation, stationuuid }]
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
+      await expect(page.getByText("404 Not Found")).not.toBeVisible()
+      await expect(
+        page.locator("#map .radio-card").getByRole("heading", {
+          name: unitedStatesStation.name,
+          exact: true,
+        })
+      ).toBeVisible()
+    })
+
+    test("stationuuid UUID Version 3 should not redirect to 404 page", async ({
+      page,
+    }) => {
+      const stationuuid = "960a2547-e2e4-31e9-a8ba-52543be04c81"
+      await page.route(
+        `*/**/json/stations/byuuid?uuids=${stationuuid}`,
+        async (route) => {
+          const json = [{ ...unitedStatesStation, stationuuid }]
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
+      await expect(page.getByText("404 Not Found")).not.toBeVisible()
+      await expect(
+        page.locator("#map .radio-card").getByRole("heading", {
+          name: unitedStatesStation.name,
+          exact: true,
+        })
+      ).toBeVisible()
+    })
+
+    test("stationuuid UUID Version 4 should not redirect to 404 page", async ({
+      page,
+    }) => {
+      const stationuuid = "db93a00f-9191-46ab-9e87-ec9b373b3eee"
+      await page.route(
+        `*/**/json/stations/byuuid?uuids=${stationuuid}`,
+        async (route) => {
+          const json = [{ ...unitedStatesStation, stationuuid }]
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
+      await expect(page.getByText("404 Not Found")).not.toBeVisible()
+      await expect(
+        page.locator("#map .radio-card").getByRole("heading", {
+          name: unitedStatesStation.name,
+          exact: true,
+        })
+      ).toBeVisible()
+    })
+
+    test("stationuuid UUID Version 5 should not redirect to 404 page", async ({
+      page,
+    }) => {
+      const stationuuid = "b79cb3ba-745e-5d9a-8903-4a02327a7e09"
+      await page.route(
+        `*/**/json/stations/byuuid?uuids=${stationuuid}`,
+        async (route) => {
+          const json = [{ ...unitedStatesStation, stationuuid }]
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
+      await expect(page.getByText("404 Not Found")).not.toBeVisible()
+      await expect(
+        page.locator("#map .radio-card").getByRole("heading", {
+          name: unitedStatesStation.name,
+          exact: true,
+        })
+      ).toBeVisible()
+    })
+  })
+
   test("should redirect to 404 page when invalid UUID V4 radio station share url stationuuid is present in the url", async ({
     page,
   }) => {
