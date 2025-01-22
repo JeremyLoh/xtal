@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeremyLoh/xtal.git"
+  },
+  "author": "JeremyLoh",
+  "bugs": {
+    "url": "https://github.com/JeremyLoh/xtal/issues"
+  },
+  "homepage": "https://github.com/JeremyLoh/xtal#readme",
+  "description": "Backend for xtal application",
+  "dependencies": {
+    "dotenv": "16.4.7",
+    "express": "4.21.2"
+  }
+}
