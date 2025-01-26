@@ -1,9 +1,8 @@
-import { Request, Response, Router } from "express"
+import { Router } from "express"
+import podcastTrendingRouter from "./podcast/trending.js"
 
 const router = Router()
 
-router.get("/", (request: Request, response: Response) => {
-  response.send("Hello World")
-})
+router.use(podcastTrendingRouter)
 
 export default router

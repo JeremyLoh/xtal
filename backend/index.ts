@@ -22,3 +22,5 @@ function startBackend() {
 }
 
 startBackend()
+
+export { setupApp }
