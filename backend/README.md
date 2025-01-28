@@ -13,7 +13,11 @@
 
 ```shell
 PORT=3000
+PODCAST_INDEX_API_KEY="???"
+PODCAST_INDEX_API_SECRET="???"
 ```
+
+- `PODCAST_INDEX_API_KEY` and `PODCAST_INDEX_API_SECRET` is obtained from using an account created on https://podcastindex-org.github.io/docs-api/#overview--overview (enclosed in double quotes to escape characters such as `#`)
 
 # Running the application (Dev)
 
@@ -25,6 +29,7 @@ PORT=3000
 2. `vitest` - test framework - https://vitest.dev/
 3. `msw` - (mocking HTTP requests) - https://mswjs.io/
 4. `supertest` - testing HTTP server - https://www.npmjs.com/package/supertest
+5. `dayjs` - date utility library - https://day.js.org/
 
 # References
 
