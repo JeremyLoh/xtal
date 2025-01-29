@@ -1,9 +1,28 @@
 import dayjs from "dayjs"
 import request from "supertest"
-import { describe, expect, test } from "vitest"
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest"
+import { NextFunction, Request, Response } from "express"
 import { setupApp } from "../../index.js"
 
+function getMockMiddleware() {
+  return (request: Request, response: Response, next: NextFunction) => next()
+}
+
 describe("GET /podcast/trending", () => {
+  beforeEach(() => {
+    vi.mock("../../middleware/rateLimiter.js", () => {
+      return {
+        default: {
+          getTrendingPodcastLimiter: getMockMiddleware(),
+        },
+      }
+    })
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
   describe("given invalid URL parameters", () => {
     describe("limit parameter (count of podcasts to return)", () => {
       test("should respond with status 400 for limit parameter of zero", async () => {

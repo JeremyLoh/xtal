@@ -4,12 +4,14 @@ import { checkSchema, matchedData, validationResult } from "express-validator"
 import { getTrendingPodcasts } from "../../service/podcastTrendingService.js"
 import { InvalidApiKeyError } from "../../error/invalidApiKeyError.js"
 import { getPodcastTrendingValidationSchema } from "../../validation/podcastTrendingValidation.js"
+import rateLimiter from "../../middleware/rateLimiter.js"
 
 const router = Router()
 
 router.get(
   "/podcast/trending",
   checkSchema(getPodcastTrendingValidationSchema, ["query"]),
+  rateLimiter.getTrendingPodcastLimiter,
   async (request: Request, response: Response) => {
     const result = validationResult(request)
     if (!result.isEmpty()) {

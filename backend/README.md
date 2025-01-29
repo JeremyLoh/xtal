@@ -37,3 +37,6 @@ PODCAST_INDEX_API_SECRET="???"
 1. How to set up TypeScript with Node.js and Express - https://blog.logrocket.com/how-to-set-up-node-typescript-express/
 2. What is module option in tsconfig used for? - https://stackoverflow.com/questions/55471795/what-is-module-option-in-tsconfig-used-for
 3. Express-validator: How can i use date birthday validator with checkschema? - https://stackoverflow.com/questions/75091208/express-validator-how-can-i-use-date-birthday-validator-with-checkschema
+4. Multiple test file port 3000 already in use - https://stackoverflow.com/questions/54422849/jest-testing-multiple-test-file-port-3000-already-in-use
+   - Put `app.listen` in a different file (run listen for each test file instead)
+   - OR skip the `app.listen` for `NODE_ENV=test`. `supertest` without `app.listen` will use port 0. (port 0 for choose the first randomly available port that you find)

@@ -15,10 +15,13 @@ function startBackend() {
     throw new Error("[server]: process.env.PORT should be defined")
   }
   const app = setupApp()
-  app.listen(PORT, () => {
-    console.log(`[server]: Server started on port ${PORT}`)
-    app.emit("serverStarted")
-  })
+  if (process.env.NODE_ENV !== "test") {
+    // prevent test failure on parallel test runs on the same port. (supertest uses port 0 by default if no app.listen is executed)
+    app.listen(PORT, () => {
+      console.log(`[server]: Server started on port ${PORT}`)
+      app.emit("serverStarted")
+    })
+  }
 }
 
 startBackend()

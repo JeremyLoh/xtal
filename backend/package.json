@@ -6,7 +6,7 @@
   "scripts": {
     "start": "tsc --build && node dist/index.js",
     "dev": "npx tsx watch index.ts",
-    "test": "vitest"
+    "test": "set NODE_ENV=test && vitest"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
     "dayjs": "1.11.13",
     "dotenv": "16.4.7",
     "express": "4.21.2",
+    "express-rate-limit": "7.5.0",
     "express-validator": "7.2.1",
     "ky": "1.7.4"
   },
