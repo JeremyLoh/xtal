@@ -2,7 +2,7 @@ import { PodcastIndexAuthManager } from "../api/authManager.js"
 import { PodcastIndexFacade } from "../api/podcastFacade.js"
 import { InvalidApiKeyError } from "../error/invalidApiKeyError.js"
 
-export async function getTrendingPodcasts(max: number, since: Date) {
+export async function getTrendingPodcasts(limit: number, since: Date) {
   const apiKey = process.env.PODCAST_INDEX_API_KEY
   const apiSecret = process.env.PODCAST_INDEX_API_SECRET
   if (
@@ -19,6 +19,6 @@ export async function getTrendingPodcasts(max: number, since: Date) {
   const podcastFacade: PodcastIndexFacade = new PodcastIndexFacade(
     podcastAuthManager
   )
-  const podcasts = await podcastFacade.getTrendingPodcasts(max, since)
+  const podcasts = await podcastFacade.getTrendingPodcasts(limit, since)
   return podcasts
 }

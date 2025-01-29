@@ -20,13 +20,13 @@ router.get(
     }
     const data = matchedData(request)
     const threeDaysAgo = dayjs().subtract(3, "days").toDate()
-    const max = Number(data.max) || 10
+    const limit = Number(data.limit) || 10
     const since: Date = data.since
       ? new Date(Number(data.since) * 1000) // convert unix timestamp to milliseconds
       : threeDaysAgo
 
     try {
-      const podcasts = await getTrendingPodcasts(max, since)
+      const podcasts = await getTrendingPodcasts(limit, since)
       response.status(200)
       response.type("application/json")
       response.send({

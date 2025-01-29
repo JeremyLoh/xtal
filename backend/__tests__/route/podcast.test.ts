@@ -5,41 +5,41 @@ import { setupApp } from "../../index.js"
 
 describe("GET /podcast/trending", () => {
   describe("given invalid URL parameters", () => {
-    describe("max parameter (count of podcasts to return)", () => {
-      test("should respond with status 400 for max parameter of zero", async () => {
+    describe("limit parameter (count of podcasts to return)", () => {
+      test("should respond with status 400 for limit parameter of zero", async () => {
         const app = setupApp()
-        const response = await request(app).get("/podcast/trending?max=0")
+        const response = await request(app).get("/podcast/trending?limit=0")
         expect(response.status).toEqual(400)
         expect(response.body).toEqual(
           expect.objectContaining({
             errors: expect.arrayContaining([
-              "'max' should be between 1 and 100",
+              "'limit' should be between 1 and 100",
             ]),
           })
         )
       })
 
-      test("should respond with status 400 for max parameter of 101", async () => {
+      test("should respond with status 400 for limit parameter of 101", async () => {
         const app = setupApp()
-        const response = await request(app).get("/podcast/trending?max=101")
+        const response = await request(app).get("/podcast/trending?limit=101")
         expect(response.status).toEqual(400)
         expect(response.body).toEqual(
           expect.objectContaining({
             errors: expect.arrayContaining([
-              "'max' should be between 1 and 100",
+              "'limit' should be between 1 and 100",
             ]),
           })
         )
       })
 
-      test("should respond with status 400 for negative max parameter", async () => {
+      test("should respond with status 400 for negative limit parameter", async () => {
         const app = setupApp()
-        const response = await request(app).get("/podcast/trending?max=-1")
+        const response = await request(app).get("/podcast/trending?limit=-1")
         expect(response.status).toEqual(400)
         expect(response.body).toEqual(
           expect.objectContaining({
             errors: expect.arrayContaining([
-              "'max' should be between 1 and 100",
+              "'limit' should be between 1 and 100",
             ]),
           })
         )
