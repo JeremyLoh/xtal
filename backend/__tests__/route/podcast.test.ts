@@ -3,6 +3,30 @@ import { describe, expect, test } from "vitest"
 import { setupApp } from "../../index.js"
 
 describe("GET /podcast/trending", () => {
+  describe("given invalid URL parameters", () => {
+    test("should respond with status 400 for max parameter of zero", async () => {
+      const app = setupApp()
+      const response = await request(app).get("/podcast/trending?max=0")
+      expect(response.status).toEqual(400)
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          errors: expect.arrayContaining(["'max' should be between 1 and 100"]),
+        })
+      )
+    })
+
+    test("should respond with status 400 for max parameter of 101", async () => {
+      const app = setupApp()
+      const response = await request(app).get("/podcast/trending?max=101")
+      expect(response.status).toEqual(400)
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          errors: expect.arrayContaining(["'max' should be between 1 and 100"]),
+        })
+      )
+    })
+  })
+
   describe("given zero URL parameters", () => {
     test("should respond with status 200", async () => {
       const app = setupApp()

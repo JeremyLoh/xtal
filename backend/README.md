@@ -30,6 +30,7 @@ PODCAST_INDEX_API_SECRET="???"
 3. `msw` - (mocking HTTP requests) - https://mswjs.io/
 4. `supertest` - testing HTTP server - https://www.npmjs.com/package/supertest
 5. `dayjs` - date utility library - https://day.js.org/
+6. `express-validator` - https://express-validator.github.io/docs/
 
 # References
 

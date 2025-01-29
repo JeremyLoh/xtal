@@ -1,17 +1,28 @@
-import { Router, Request, Response } from "express"
 import dayjs from "dayjs"
+import { Router, Request, Response } from "express"
+import { checkSchema, matchedData, validationResult } from "express-validator"
 import { getTrendingPodcasts } from "../../service/podcastTrendingService.js"
 import { InvalidApiKeyError } from "../../error/invalidApiKeyError.js"
+import { getPodcastTrendingValidationSchema } from "../../validation/podcastTrendingValidation.js"
 
 const router = Router()
 
 router.get(
   "/podcast/trending",
+  checkSchema(getPodcastTrendingValidationSchema, ["query"]),
   async (request: Request, response: Response) => {
+    const result = validationResult(request)
+    if (!result.isEmpty()) {
+      response.status(400).send({
+        errors: result.array().map((error) => error.msg),
+      })
+      return
+    }
+    const data = matchedData(request)
     const threeDaysAgo = dayjs().subtract(3, "days").toDate()
-    const max = Number(request.query.max) || 10
-    const since: Date = request.query.since
-      ? new Date(Number(request.query.since) * 1000) // convert unix timestamp to milliseconds
+    const max = Number(data.max) || 10
+    const since: Date = data.since
+      ? new Date(Number(data.since) * 1000) // convert unix timestamp to milliseconds
       : threeDaysAgo
 
     try {
