@@ -1,29 +1,116 @@
+import dayjs from "dayjs"
 import request from "supertest"
 import { describe, expect, test } from "vitest"
 import { setupApp } from "../../index.js"
 
 describe("GET /podcast/trending", () => {
   describe("given invalid URL parameters", () => {
-    test("should respond with status 400 for max parameter of zero", async () => {
-      const app = setupApp()
-      const response = await request(app).get("/podcast/trending?max=0")
-      expect(response.status).toEqual(400)
-      expect(response.body).toEqual(
-        expect.objectContaining({
-          errors: expect.arrayContaining(["'max' should be between 1 and 100"]),
-        })
-      )
+    describe("max parameter (count of podcasts to return)", () => {
+      test("should respond with status 400 for max parameter of zero", async () => {
+        const app = setupApp()
+        const response = await request(app).get("/podcast/trending?max=0")
+        expect(response.status).toEqual(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'max' should be between 1 and 100",
+            ]),
+          })
+        )
+      })
+
+      test("should respond with status 400 for max parameter of 101", async () => {
+        const app = setupApp()
+        const response = await request(app).get("/podcast/trending?max=101")
+        expect(response.status).toEqual(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'max' should be between 1 and 100",
+            ]),
+          })
+        )
+      })
+
+      test("should respond with status 400 for negative max parameter", async () => {
+        const app = setupApp()
+        const response = await request(app).get("/podcast/trending?max=-1")
+        expect(response.status).toEqual(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'max' should be between 1 and 100",
+            ]),
+          })
+        )
+      })
     })
 
-    test("should respond with status 400 for max parameter of 101", async () => {
-      const app = setupApp()
-      const response = await request(app).get("/podcast/trending?max=101")
-      expect(response.status).toEqual(400)
-      expect(response.body).toEqual(
-        expect.objectContaining({
-          errors: expect.arrayContaining(["'max' should be between 1 and 100"]),
-        })
-      )
+    describe("since parameter (unix timestamp in seconds)", () => {
+      test("should respond with status 400 for since parameter with unix timestamp (in seconds) of a future date", async () => {
+        const futureUnixTimestampInSeconds = dayjs().add(20, "minute").unix()
+        const app = setupApp()
+        const response = await request(app).get(
+          `/podcast/trending?since=${futureUnixTimestampInSeconds}`
+        )
+        expect(response.status).toEqual(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'since' should be before current unix timestamp",
+            ]),
+          })
+        )
+      })
+
+      test("should respond with status 400 for since parameter with invalid unix timestamp of more than 120 days", async () => {
+        const before120days = dayjs().subtract(120, "day").unix()
+        const app = setupApp()
+        const response = await request(app).get(
+          `/podcast/trending?since=${before120days}`
+        )
+        expect(response.status).toEqual(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'since' should be between 120 days before current unix timestamp to current unix timestamp",
+            ]),
+          })
+        )
+      })
+
+      test("should respond with status 400 for since parameter with invalid unix timestamp that is too large", async () => {
+        // largest (32-bit) unix timestamp is 2147483647
+        const invalidLargeTimestamp = "2147483648"
+        const app = setupApp()
+        const response = await request(app).get(
+          `/podcast/trending?since=${invalidLargeTimestamp}`
+        )
+        expect(response.status).toEqual(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'since' should be before current unix timestamp",
+            ]),
+          })
+        )
+      })
+
+      test("should respond with status 400 for since parameter that is not a number", async () => {
+        const invalidStringInput = "3e"
+        const app = setupApp()
+        const response = await request(app).get(
+          `/podcast/trending?since=${invalidStringInput}`
+        )
+        expect(response.status).toEqual(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'since' should be a number representing a unix timestamp between 120 days before current unix timestamp to current unix timestamp",
+            ]),
+          })
+        )
+      })
     })
   })
 

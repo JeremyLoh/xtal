@@ -36,3 +36,4 @@ PODCAST_INDEX_API_SECRET="???"
 
 1. How to set up TypeScript with Node.js and Express - https://blog.logrocket.com/how-to-set-up-node-typescript-express/
 2. What is module option in tsconfig used for? - https://stackoverflow.com/questions/55471795/what-is-module-option-in-tsconfig-used-for
+3. Express-validator: How can i use date birthday validator with checkschema? - https://stackoverflow.com/questions/75091208/express-validator-how-can-i-use-date-birthday-validator-with-checkschema
