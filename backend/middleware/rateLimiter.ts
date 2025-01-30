@@ -1,0 +1,19 @@
+import rateLimit, { Options } from "express-rate-limit"
+import { NextFunction, Request, Response } from "express"
+
+const getTrendingPodcastLimiter = rateLimit({
+  windowMs: 2 * 1000,
+  limit: 1, // Limit each IP to "X" requests per window
+  standardHeaders: "draft-7",
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  handler: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    options: Options
+  ) => {
+    res.status(options.statusCode).send(options.message)
+  },
+})
+
+export default { getTrendingPodcastLimiter }
