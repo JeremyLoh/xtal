@@ -27,10 +27,12 @@ PODCAST_INDEX_API_SECRET="???"
 
 1. `ky` - performing web requests - https://www.npmjs.com/package/ky
 2. `vitest` - test framework - https://vitest.dev/
-3. `msw` - (mocking HTTP requests) - https://mswjs.io/
+3. `msw` - mocking HTTP requests - https://mswjs.io/
 4. `supertest` - testing HTTP server - https://www.npmjs.com/package/supertest
 5. `dayjs` - date utility library - https://day.js.org/
 6. `express-validator` - https://express-validator.github.io/docs/
+7. `dompurify` - html sanitization (**always update to the latest version**) - https://www.npmjs.com/package/dompurify
+8. `jsdom` - create DOM for DOMPurify (**always update to the latest version**) - https://github.com/jsdom/jsdom
 
 # References
 
