@@ -1,5 +1,6 @@
 import ky from "ky"
 import { Language, Podcast } from "../model/podcast.js"
+import { getSanitizedHtmlText } from "./dom/htmlSanitize.js"
 
 type PodcastApi = {
   getTrendingPodcasts(
@@ -48,11 +49,11 @@ class PodcastIndexApi implements PodcastApi {
       const language = feed.language.toLowerCase()
       return {
         id: feed.id,
-        url: feed.url,
-        title: feed.title,
-        description: feed.description,
-        author: feed.author,
-        image: feed.image,
+        url: feed.url || "",
+        title: feed.title || "",
+        description: getSanitizedHtmlText(feed.description || ""),
+        author: feed.author || "",
+        image: feed.image || "",
         latestPublishTime: feed.newestItemPublishTime || feed.newestItemPubdate,
         itunesId: feed.itunesId,
         trendScore: feed.trendScore,

@@ -200,7 +200,7 @@ describe("GET /podcast/trending", () => {
               url: "https://media.rss.com/episode-1-stephen-brown/feed.xml",
               title: "Bank on it: Life in Sports with Noah Banks",
               description:
-                '<p>Introducing <strong>Bank on it: A Life in Sports with Noah Banks</strong>, the networking podcast where Noah Banks connects with industry experts across the world of sports. Each episode dives deep into engaging conversations with athletes, executives, and innovators, providing listeners with insider insights and invaluable career advice. Whether you\'re looking to grow your network or just love hearing from the best in the business, this podcast gives you front-row access to the stories and strategies shaping the future of sports.</p><p>Follow Noah on <a target="_new" rel="noopener" href="https://twitter.com/Banx_Leaf">Twitter @Banx_Leaf</a> and never miss an episode. Join the conversation and expand your network today!</p>',
+                '<p>Introducing <strong>Bank on it: A Life in Sports with Noah Banks</strong>, the networking podcast where Noah Banks connects with industry experts across the world of sports. Each episode dives deep into engaging conversations with athletes, executives, and innovators, providing listeners with insider insights and invaluable career advice. Whether you\'re looking to grow your network or just love hearing from the best in the business, this podcast gives you front-row access to the stories and strategies shaping the future of sports.</p><p>Follow Noah on <a href="https://twitter.com/Banx_Leaf" rel="noopener">Twitter @Banx_Leaf</a> and never miss an episode. Join the conversation and expand your network today!</p>',
               author: "Noah Banks",
               image:
                 "https://media.rss.com/episode-1-stephen-brown/20241005_061038_717e6bec0151a051e602bf6f35e5f0b4.png",
@@ -238,7 +238,7 @@ describe("GET /podcast/trending", () => {
               url: "https://www.spreaker.com/show/3276901/episodes/feed",
               title: "Yaron Brook Show",
               description:
-                'Yaron Brook discusses news, culture and politics from the principled perspective of Ayn Rand\'s philosophy, Objectivism. <br /><br />Want more? Visit www.YaronBrookShow.com and become a Yaron Brook Show supporter to get exclusive content and support the creation of more content like this! https://www.patreon.com/YaronBrookShow.<br /><br />Become a supporter of this podcast: <a href="https://www.spreaker.com/podcast/yaron-brook-show--3276901/support?utm_source=rss&utm_medium=rss&utm_campaign=rss">https://www.spreaker.com/podcast/yaron-brook-show--3276901/support</a>.',
+                'Yaron Brook discusses news, culture and politics from the principled perspective of Ayn Rand\'s philosophy, Objectivism. <br><br>Want more? Visit www.YaronBrookShow.com and become a Yaron Brook Show supporter to get exclusive content and support the creation of more content like this! https://www.patreon.com/YaronBrookShow.<br><br>Become a supporter of this podcast: <a href="https://www.spreaker.com/podcast/yaron-brook-show--3276901/support?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=rss">https://www.spreaker.com/podcast/yaron-brook-show--3276901/support</a>.',
               author: "Yaron Brook",
               image:
                 "https://d3wo5wojvuv7l.cloudfront.net/t_rss_itunes_square_1400/images.spreaker.com/original/05714427c5ec56fdeaef37ed2defdfdd.jpg",
