@@ -4,8 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "esbuild index.ts --bundle --splitting --platform=node --format=esm --packages=external --sourcemap=external --outdir=dist",
-    "preview": "npm run build && node --enable-source-maps dist/index.js",
+    "prod:build": "esbuild index.ts --bundle --splitting --platform=node --format=esm --packages=external --sourcemap=external --outdir=dist",
+    "prod:preview": "npm run build && node --enable-source-maps dist/index.js",
+    "prod:start": "node --enable-source-maps dist/index.js",
     "start": "tsc --build && node dist/index.js",
     "dev": "npx tsx watch index.ts",
     "test": "set NODE_ENV=test && vitest"
