@@ -9,7 +9,7 @@ function getMockMiddleware() {
   return (request: Request, response: Response, next: NextFunction) => next()
 }
 
-describe("GET /podcast/trending", () => {
+describe("GET /api/podcast/trending", () => {
   const expectedOrigin = getFrontendOrigin() || ""
 
   beforeEach(() => {
@@ -30,7 +30,7 @@ describe("GET /podcast/trending", () => {
     test("should return status code 200 and allow environment variable FRONTEND_ORIGIN origin", async () => {
       const app = setupApp()
       const response = await request(app)
-        .get("/podcast/trending?limit=10")
+        .get("/api/podcast/trending?limit=10")
         .set("Origin", expectedOrigin)
       expect(response.status).toBe(200)
       expect(response.headers).toEqual(
@@ -45,7 +45,7 @@ describe("GET /podcast/trending", () => {
       const origin = new URL(expectedOrigin).origin + "?firstQueryString=first"
       const app = setupApp()
       const response = await request(app)
-        .get("/podcast/trending?limit=10")
+        .get("/api/podcast/trending?limit=10")
         .set("Origin", origin)
       expect(response.status).toBe(200)
       expect(response.headers).toEqual(
@@ -60,7 +60,7 @@ describe("GET /podcast/trending", () => {
       const origin = new URL(expectedOrigin).origin + "/nested/path"
       const app = setupApp()
       const response = await request(app)
-        .get("/podcast/trending?limit=10")
+        .get("/api/podcast/trending?limit=10")
         .set("Origin", origin)
       expect(response.status).toBe(200)
       expect(response.headers).toEqual(
@@ -77,7 +77,7 @@ describe("GET /podcast/trending", () => {
         "/nested/path?firstQueryString=first&secondQueryString=2b"
       const app = setupApp()
       const response = await request(app)
-        .get("/podcast/trending?limit=10")
+        .get("/api/podcast/trending?limit=10")
         .set("Origin", origin)
       expect(response.status).toBe(200)
       expect(response.headers).toEqual(
@@ -92,7 +92,7 @@ describe("GET /podcast/trending", () => {
       const origin = ""
       const app = setupApp()
       const response = await request(app)
-        .get("/podcast/trending?limit=10")
+        .get("/api/podcast/trending?limit=10")
         .set("Origin", origin)
       expect(response.status).toBe(500)
     })
@@ -101,7 +101,7 @@ describe("GET /podcast/trending", () => {
       const origin = "*"
       const app = setupApp()
       const response = await request(app)
-        .get("/podcast/trending?limit=10")
+        .get("/api/podcast/trending?limit=10")
         .set("Origin", origin)
       expect(response.status).toBe(500)
     })
@@ -110,7 +110,7 @@ describe("GET /podcast/trending", () => {
       const origin = "http://example.com"
       const app = setupApp()
       const response = await request(app)
-        .get("/podcast/trending?limit=10")
+        .get("/api/podcast/trending?limit=10")
         .set("Origin", origin)
       expect(response.status).toBe(500)
     })
@@ -121,7 +121,7 @@ describe("GET /podcast/trending", () => {
       test("should respond with status 400 for limit parameter of zero", async () => {
         const app = setupApp()
         const response = await request(app)
-          .get("/podcast/trending?limit=0")
+          .get("/api/podcast/trending?limit=0")
           .set("Origin", expectedOrigin)
         expect(response.status).toEqual(400)
         expect(response.body).toEqual(
@@ -136,7 +136,7 @@ describe("GET /podcast/trending", () => {
       test("should respond with status 400 for limit parameter of 101", async () => {
         const app = setupApp()
         const response = await request(app)
-          .get("/podcast/trending?limit=101")
+          .get("/api/podcast/trending?limit=101")
           .set("Origin", expectedOrigin)
         expect(response.status).toEqual(400)
         expect(response.body).toEqual(
@@ -151,7 +151,7 @@ describe("GET /podcast/trending", () => {
       test("should respond with status 400 for negative limit parameter", async () => {
         const app = setupApp()
         const response = await request(app)
-          .get("/podcast/trending?limit=-1")
+          .get("/api/podcast/trending?limit=-1")
           .set("Origin", expectedOrigin)
         expect(response.status).toEqual(400)
         expect(response.body).toEqual(
@@ -169,7 +169,7 @@ describe("GET /podcast/trending", () => {
         const futureUnixTimestampInSeconds = dayjs().add(20, "minute").unix()
         const app = setupApp()
         const response = await request(app)
-          .get(`/podcast/trending?since=${futureUnixTimestampInSeconds}`)
+          .get(`/api/podcast/trending?since=${futureUnixTimestampInSeconds}`)
           .set("Origin", expectedOrigin)
         expect(response.status).toEqual(400)
         expect(response.body).toEqual(
@@ -185,7 +185,7 @@ describe("GET /podcast/trending", () => {
         const before120days = dayjs().subtract(120, "day").unix()
         const app = setupApp()
         const response = await request(app)
-          .get(`/podcast/trending?since=${before120days}`)
+          .get(`/api/podcast/trending?since=${before120days}`)
           .set("Origin", expectedOrigin)
         expect(response.status).toEqual(400)
         expect(response.body).toEqual(
@@ -202,7 +202,7 @@ describe("GET /podcast/trending", () => {
         const invalidLargeTimestamp = "2147483648"
         const app = setupApp()
         const response = await request(app)
-          .get(`/podcast/trending?since=${invalidLargeTimestamp}`)
+          .get(`/api/podcast/trending?since=${invalidLargeTimestamp}`)
           .set("Origin", expectedOrigin)
         expect(response.status).toEqual(400)
         expect(response.body).toEqual(
@@ -218,7 +218,7 @@ describe("GET /podcast/trending", () => {
         const invalidStringInput = "3e"
         const app = setupApp()
         const response = await request(app)
-          .get(`/podcast/trending?since=${invalidStringInput}`)
+          .get(`/api/podcast/trending?since=${invalidStringInput}`)
           .set("Origin", expectedOrigin)
         expect(response.status).toEqual(400)
         expect(response.body).toEqual(
@@ -236,7 +236,7 @@ describe("GET /podcast/trending", () => {
     test("should respond with status 200", async () => {
       const app = setupApp()
       const response = await request(app)
-        .get("/podcast/trending")
+        .get("/api/podcast/trending")
         .set("Origin", expectedOrigin)
       expect(response.status).toEqual(200)
     })
@@ -244,7 +244,7 @@ describe("GET /podcast/trending", () => {
     test("should specify response content type header of application/json", async () => {
       const app = setupApp()
       const response = await request(app)
-        .get("/podcast/trending")
+        .get("/api/podcast/trending")
         .set("Origin", expectedOrigin)
       expect(response.headers["content-type"]).toEqual(
         expect.stringContaining("application/json")
@@ -254,7 +254,7 @@ describe("GET /podcast/trending", () => {
     test("should return list of 10 trending podcasts with no search parameters", async () => {
       const app = setupApp()
       const response = await request(app)
-        .get("/podcast/trending")
+        .get("/api/podcast/trending")
         .set("Origin", expectedOrigin)
       assertDefaultTrendingPodcasts(response.body)
     })
