@@ -15,11 +15,13 @@
 PORT=3000
 PODCAST_INDEX_API_KEY="???"
 PODCAST_INDEX_API_SECRET="???"
+FRONTEND_ORIGIN="http://localhost:5173"
 ```
 
 - `PODCAST_INDEX_API_KEY` and `PODCAST_INDEX_API_SECRET` is obtained from using an account created on https://podcastindex-org.github.io/docs-api/#overview--overview (enclosed in double quotes to escape characters such as `#`)
+- `FRONTEND_ORIGIN` is used to set the CORS headers for the backend endpoints. They will only allow the frontend origin (`(new URL()).origin` - https://developer.mozilla.org/en-US/docs/Web/API/URL/origin)
 
-# Running the application (Dev)
+# Running the backend application (Dev)
 
 1. Navigate to the `/backend` directory and run `npm run dev`. `tsx` is used to run the `index.ts` in watch mode (https://tsx.is/)
 
@@ -42,3 +44,4 @@ PODCAST_INDEX_API_SECRET="???"
 4. Multiple test file port 3000 already in use - https://stackoverflow.com/questions/54422849/jest-testing-multiple-test-file-port-3000-already-in-use
    - Put `app.listen` in a different file (run listen for each test file instead)
    - OR skip the `app.listen` for `NODE_ENV=test`. `supertest` without `app.listen` will use port 0. (port 0 for choose the first randomly available port that you find)
+5. Move your cors() middleware before express.json() and you won't have a CORS issue any more. The problem was due to an error in the express.json() middleware killing the request before CORS headers were added - https://stackoverflow.com/questions/71948888/cors-why-do-i-get-successful-preflight-options-but-still-get-cors-error-with-p

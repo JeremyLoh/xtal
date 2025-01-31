@@ -1,11 +1,14 @@
 import "dotenv/config"
-import router from "./route/index.js"
 import express from "express"
+import cors from "cors"
+import router from "./route/index.js"
+import { getCorsOptions } from "./middleware/cors.js"
 
 const PORT = process.env.PORT
 
 function setupApp() {
   const app = express()
+  app.use(cors(getCorsOptions()))
   app.use(router)
   return app
 }
