@@ -19,6 +19,7 @@
   "homepage": "https://github.com/JeremyLoh/xtal#readme",
   "description": "Backend for xtal application",
   "dependencies": {
+    "cors": "2.8.5",
     "dayjs": "1.11.13",
     "dompurify": "^3.2.4",
     "dotenv": "16.4.7",
@@ -29,6 +30,7 @@
     "ky": "1.7.4"
   },
   "devDependencies": {
+    "@types/cors": "2.8.17",
     "@types/express": "5.0.0",
     "@types/jsdom": "21.1.7",
     "@types/node": "22.12.0",
