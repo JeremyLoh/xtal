@@ -9,7 +9,7 @@ import rateLimiter from "../../middleware/rateLimiter.js"
 const router = Router()
 
 router.get(
-  "/podcast/trending",
+  "/api/podcast/trending",
   checkSchema(getPodcastTrendingValidationSchema, ["query"]),
   rateLimiter.getTrendingPodcastLimiter,
   async (request: Request, response: Response) => {
