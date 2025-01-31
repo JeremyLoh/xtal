@@ -4,8 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "prod:build": "esbuild index.ts --bundle --splitting --platform=node --format=esm --packages=external --sourcemap=external --outdir=dist",
-    "prod:preview": "npm run prod:build && node --enable-source-maps dist/index.js",
+    "prod:build": "tsc --build",
     "prod:start": "node --enable-source-maps dist/index.js",
     "start": "tsc --build && node dist/index.js",
     "dev": "npx tsx watch index.ts",
@@ -38,7 +37,6 @@
     "@types/jsdom": "21.1.7",
     "@types/node": "22.12.0",
     "@types/supertest": "6.0.2",
-    "esbuild": "0.24.2",
     "msw": "2.7.0",
     "supertest": "7.0.0",
     "tsx": "4.19.2",
