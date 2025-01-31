@@ -4,6 +4,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "build": "esbuild index.ts --bundle --splitting --platform=node --format=esm --packages=external --sourcemap=external --outdir=dist",
+    "preview": "npm run build && node --enable-source-maps dist/index.js",
     "start": "tsc --build && node dist/index.js",
     "dev": "npx tsx watch index.ts",
     "test": "set NODE_ENV=test && vitest"
@@ -35,6 +37,7 @@
     "@types/jsdom": "21.1.7",
     "@types/node": "22.12.0",
     "@types/supertest": "6.0.2",
+    "esbuild": "0.24.2",
     "msw": "2.7.0",
     "supertest": "7.0.0",
     "tsx": "4.19.2",
