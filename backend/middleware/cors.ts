@@ -22,7 +22,6 @@ export function getCorsOptions(): CorsOptions {
       }
     }, // Access-Control-Allow-Origin, allow only frontend origin
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // Access-Control-Allow-Credentials for cookies
   }
 }
 
