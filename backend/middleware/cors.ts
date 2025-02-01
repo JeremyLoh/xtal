@@ -1,4 +1,5 @@
 import { CorsOptions } from "cors"
+import { Request, Response, Router } from "express"
 
 export function getCorsOptions(): CorsOptions {
   const frontendOrigin = process.env.FRONTEND_ORIGIN
@@ -22,6 +23,7 @@ export function getCorsOptions(): CorsOptions {
       }
     }, // Access-Control-Allow-Origin, allow only frontend origin
     methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // Access-Control-Allow-Credentials for cookies
   }
 }
 
@@ -32,4 +34,20 @@ export function isValidUrl(url: string): boolean {
   } catch (error) {
     return false
   }
+}
+
+export function getProxyTroubleshootingRouter() {
+  //@ts-ignore
+  const troubleshootingRouter = new Router()
+  troubleshootingRouter.get("/ip", (request: Request, response: Response) =>
+    response.send(request.ip)
+  )
+  troubleshootingRouter.get(
+    "/x-forwarded-for",
+    (request: Request, response: Response) => {
+      console.log(request.headers)
+      response.send(request.headers["x-forwarded-for"])
+    }
+  )
+  return troubleshootingRouter
 }
