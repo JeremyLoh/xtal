@@ -9,7 +9,7 @@ const PORT = process.env.PORT
 function setupApp() {
   const app = express()
   // https://github.com/express-rate-limit/express-rate-limit/wiki/Troubleshooting-Proxy-Issues
-  app.set("trust proxy", 2) // Trust two proxy (reverse proxy)
+  app.set("trust proxy", 3) // Trust three proxy (reverse proxy)
 
   //@ts-ignore
   const testRouter = new Router()
