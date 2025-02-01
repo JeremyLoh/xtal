@@ -16,10 +16,12 @@ PORT=3000
 PODCAST_INDEX_API_KEY="???"
 PODCAST_INDEX_API_SECRET="???"
 FRONTEND_ORIGIN="http://localhost:5173"
+ENABLE_PROXY_TROUBLESHOOTING="false"
 ```
 
 - `PODCAST_INDEX_API_KEY` and `PODCAST_INDEX_API_SECRET` is obtained from using an account created on https://podcastindex-org.github.io/docs-api/#overview--overview (enclosed in double quotes to escape characters such as `#`)
 - `FRONTEND_ORIGIN` is used to set the CORS headers for the backend endpoints. They will only allow the frontend origin (`(new URL()).origin` - https://developer.mozilla.org/en-US/docs/Web/API/URL/origin)
+- `ENABLE_PROXY_TROUBLESHOOTING` provide "true" to enable routes `/ip` and `/x-forwarded-for` for troubleshooting the `app.set("trust proxy", 3)` value to put so that the client ip is returned from route `/ip` (allows for more accurate rate limiting of users)
 
 # Running the backend application (Dev)
 
