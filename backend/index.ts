@@ -1,5 +1,5 @@
 import "dotenv/config"
-import express from "express"
+import express, { Router } from "express"
 import cors from "cors"
 import router from "./route/index.js"
 import { getCorsOptions } from "./middleware/cors.js"
@@ -10,6 +10,18 @@ function setupApp() {
   const app = express()
   // https://github.com/express-rate-limit/express-rate-limit/wiki/Troubleshooting-Proxy-Issues
   app.set("trust proxy", 1) // Trust first proxy (reverse proxy)
+
+  //@ts-ignore
+  const testRouter = new Router()
+  //@ts-ignore
+  testRouter.get("/ip", (request, response) => response.send(request.ip))
+  //@ts-ignore
+  testRouter.get("/x-forwarded-for", (request, response) => {
+    console.log(request.headers)
+    response.send(request.headers["x-forwarded-for"])
+  })
+  app.use(testRouter)
+
   app.use(cors(getCorsOptions()))
   app.use(express.json()) // middleware to parse json request body
   app.use(router)
