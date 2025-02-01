@@ -11,6 +11,7 @@ function setupApp() {
   // https://github.com/express-rate-limit/express-rate-limit/wiki/Troubleshooting-Proxy-Issues
   app.set("trust proxy", 1) // Trust first proxy (reverse proxy)
   app.use(cors(getCorsOptions()))
+  app.use(express.json()) // middleware to parse json request body
   app.use(router)
   return app
 }
