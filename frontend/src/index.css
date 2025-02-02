@@ -41,12 +41,12 @@
 }
 
 .dark-theme {
-  /* https://www.realtimecolors.com/?colors=e8ebf5-0b0f1d-4846b6-143fc0-3059d2&fonts=Ubuntu-Ubuntu */
+  /* https://www.realtimecolors.com/?colors=e8ebf5-0b0f1d-068d7d-8f156a-FDF500&fonts=Ubuntu-Ubuntu */
   --text-color: #e8ebf5;
   --background-color: #0b0f1d;
-  --primary-color: #4846b6;
-  --secondary-color: #143fc0;
-  --accent-color: #3059d2;
+  --primary-color: #068d7d;
+  --secondary-color: #8f156a;
+  --accent-color: #fdf500;
   --error-color: #ff3535;
   --success-color: #22c55e;
   --link-color: #e6f0f7;
