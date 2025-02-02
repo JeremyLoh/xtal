@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "dayjs": "1.11.13",
     "dotenv": "16.4.7",
     "ky": "1.7.4",
     "leaflet": "1.9.4",
