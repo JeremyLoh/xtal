@@ -1,6 +1,8 @@
 import { test, expect, Page } from "@playwright/test"
 import {
   clickRandomRadioStationButton,
+  getNavbarPodcastLink,
+  getNavbarRadioLink,
   getRadioCardMapPopup,
   HOMEPAGE,
 } from "./constants/homepageConstants"
@@ -31,9 +33,36 @@ test("has title", async ({ page }) => {
   await expect(page).toHaveTitle(/xtal/)
 })
 
-test("has header", async ({ page }) => {
-  await page.goto(HOMEPAGE)
-  await expect(page.locator("header")).toBeVisible()
+test.describe("header", () => {
+  test("has header", async ({ page }) => {
+    await page.goto(HOMEPAGE)
+    await expect(page.locator("header")).toBeVisible()
+  })
+
+  test("has navigation to radio and podcast in header on desktop", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1920, height: 1080 })
+    await page.goto(HOMEPAGE)
+    await expect(getNavbarRadioLink(page)).toBeVisible()
+    await expect(getNavbarPodcastLink(page)).toBeVisible()
+  })
+
+  test("should navigate between radio and podcast header nav links on desktop", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1920, height: 1080 })
+    await page.goto(HOMEPAGE)
+    await expect(page).toHaveTitle(/^xtal$/)
+
+    await getNavbarPodcastLink(page).click()
+    await expect(page).toHaveTitle(/^xtal - podcasts$/)
+    expect(page.url()).toMatch(/\/podcasts$/)
+
+    await getNavbarRadioLink(page).click()
+    await expect(page).toHaveTitle(/^xtal$/)
+    expect(page.url()).not.toMatch(/\/podcasts$/)
+  })
 })
 
 test("has footer", async ({ page }) => {

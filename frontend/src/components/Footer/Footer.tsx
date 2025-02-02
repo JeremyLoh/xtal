@@ -1,9 +1,10 @@
-import { FaGithubSquare } from "react-icons/fa"
 import "./Footer.css"
+import { FaGithubSquare } from "react-icons/fa"
 
 function Footer() {
   return (
     <footer>
+      <p className="footer-subtitle">Listen to the World</p>
       <span>&copy; Jeremy_Loh</span>
       <a
         id="footer-github-link"

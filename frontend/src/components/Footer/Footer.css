@@ -16,6 +16,13 @@ footer span {
   align-items: center;
 }
 
+.footer-subtitle {
+  font-size: clamp(0.5rem, 0.5rem + 1vw, 0.8rem);
+  font-style: italic;
+  padding: 0;
+  margin: 0 auto 0 0.5rem;
+}
+
 #footer-github-link {
   display: flex;
   justify-content: center;

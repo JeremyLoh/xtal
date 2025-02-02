@@ -30,3 +30,11 @@ export async function getToastMessages(page: Page) {
   ).flat(1)
   return toastMessages
 }
+
+export function getNavbarRadioLink(page: Page) {
+  return page.locator(".header-navbar-radio-link")
+}
+
+export function getNavbarPodcastLink(page: Page) {
+  return page.locator(".header-navbar-podcast-link")
+}
