@@ -1,0 +1,24 @@
+#podcast-home-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.podcast-trending-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  max-width: 120ch;
+}
+
+.podcast-trending-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 0.2rem;
+  width: 100%;
+  font-size: clamp(1rem, 1rem + 1vw, 1.2rem);
+}

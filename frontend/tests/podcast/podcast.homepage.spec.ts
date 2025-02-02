@@ -13,6 +13,7 @@ import {
   getRadioCardFavouriteIcon,
 } from "../constants/favouriteStationConstants"
 import { unitedStatesStation } from "../mocks/station"
+import { defaultTenTrendingPodcasts } from "../mocks/podcast"
 
 test.describe("Podcast Homepage /podcasts", () => {
   test("should display title", async ({ page }) => {
@@ -59,5 +60,43 @@ test.describe("Podcast Homepage /podcasts", () => {
       })
     ).toBeVisible()
     expect(page.url()).not.toMatch(/\/podcasts$/)
+  })
+
+  test.describe("Trending Podcasts Section", () => {
+    test("should display default 10 trending podcasts and remove any duplicate entries", async ({
+      page,
+    }) => {
+      await page.route("*/**/api/podcast/trending?limit=10", async (route) => {
+        const json = defaultTenTrendingPodcasts
+        await route.fulfill({ json })
+      })
+      await page.goto(HOMEPAGE + "/podcasts")
+      await expect(page.locator(".podcast-trending-container")).toBeVisible()
+      for (const podcastData of defaultTenTrendingPodcasts.data) {
+        await page
+          .locator(".podcast-trending-container .podcast-trending-card")
+          .getByText(podcastData.title, { exact: true })
+          .scrollIntoViewIfNeeded()
+        await expect(
+          page
+            .locator(".podcast-trending-container .podcast-trending-card")
+            .getByText(podcastData.title, { exact: true })
+        ).toBeVisible()
+        await expect(
+          page
+            .locator(".podcast-trending-container .podcast-trending-card")
+            .getByText(podcastData.author, { exact: true })
+        ).toBeVisible()
+        await expect(
+          page
+            .locator(".podcast-trending-container .podcast-trending-card")
+            .getByRole("img", {
+              name: podcastData.title + " podcast image",
+              exact: true,
+            })
+        ).toBeVisible()
+        // TODO test for the other elements of a podcast card component
+      }
+    })
   })
 })
