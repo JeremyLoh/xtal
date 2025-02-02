@@ -33,7 +33,6 @@
 }
 .slider button:hover {
   background-color: var(--slider-chip-secondary-color);
-  border-color: transparent;
 }
 .slider button.selected {
   background-color: var(--slider-chip-selected-color);
