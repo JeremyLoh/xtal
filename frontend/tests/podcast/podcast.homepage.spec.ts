@@ -5,6 +5,7 @@ import {
   getNavbarRadioLink,
   getRadioCardMapPopup,
   getRadioStationMapPopupCloseButton,
+  getToastMessages,
   HOMEPAGE,
 } from "../constants/homepageConstants"
 import {
@@ -144,6 +145,30 @@ test.describe("Podcast Homepage /podcasts", () => {
           "should have mobile podcast artwork image height of 144"
         ).toBe("144")
       }
+    })
+
+    test("should display error toast when rate limit is reached", async ({
+      page,
+    }) => {
+      await page.route("*/**/api/podcast/trending?limit=10", async (route) => {
+        await route.fulfill({
+          status: 429,
+          // headers are missing in the error.response.headers - https://github.com/microsoft/playwright/issues/19788
+          headers: {
+            "access-control-expose-headers": "retry-after",
+            "retry-after": "2",
+          },
+          body: "Too many requests, please try again later.",
+        })
+      })
+      await page.goto(HOMEPAGE + "/podcasts")
+      await expect(page.locator(".podcast-trending-container")).toBeVisible()
+      const toastMessages = await getToastMessages(page)
+      expect(toastMessages).toEqual(
+        expect.arrayContaining([
+          "Rate Limit Exceeded, please try again after 2 seconds",
+        ])
+      )
     })
   })
 })

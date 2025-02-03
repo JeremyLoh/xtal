@@ -89,6 +89,27 @@ async function getCountryCoordinatesFromCsv() {
 
 9. How to access the clipboard contents using playwright in typescript - https://stackoverflow.com/questions/72265518/how-to-access-the-clipboard-contents-using-playwright-in-typescript
 10. Validate for UUID V4 - https://stackoverflow.com/questions/7905929/how-to-test-valid-uuid-guid
+11. Mocking the Playwright Headers (for Rate Limit HTTP 429 testing) - https://github.com/microsoft/playwright/issues/19788
+
+```typescript
+//I found out what is wrong with our approach. We are not exposing the headers!
+
+// While headers are visible within Playwright tests (because they are on the same server), once we want to see the headers in our app in the browser, we are actually in a CORS situation, in which we will only be able to see the exposed headers from the Playwright server (the mock acts like an external server)
+
+// So, given I want to implement a mock route returning a status 429 with a retry-after header, this is how the mock request should look:
+
+await page.route("*/**/api/podcast/trending?limit=10", async (route) => {
+  await route.fulfill({
+    status: 429,
+    // retry-after headers are missing - https://github.com/microsoft/playwright/issues/19788
+    headers: {
+      "access-control-expose-headers": "retry-after",
+      "retry-after": "2",
+    },
+    body: "Too many requests, please try again later.",
+  })
+})
+```
 
 # React + TypeScript + Vite
 

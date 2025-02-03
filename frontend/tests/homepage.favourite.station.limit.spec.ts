@@ -1,7 +1,8 @@
-import test, { expect, Page } from "@playwright/test"
+import test, { expect } from "@playwright/test"
 import process from "process"
 import { unitedStatesStation } from "./mocks/station"
 import {
+  assertToastMessage,
   clickRandomRadioStationButton,
   getToastMessages,
   HOMEPAGE,
@@ -16,10 +17,6 @@ import {
 test.describe("radio station favourite station limit feature", () => {
   function uuid() {
     return crypto.randomUUID()
-  }
-  async function assertToastMessage(page: Page, message: string) {
-    const toastMessages = await getToastMessages(page)
-    expect(toastMessages).toEqual(expect.arrayContaining([message]))
   }
   function assertMaxFavouriteStationsEnvProperty(max: number) {
     expect(

@@ -1,5 +1,6 @@
 import "./PodcastHomePage.css"
 import { useEffect, useRef, useState } from "react"
+import { toast } from "sonner"
 import { IoChevronForward } from "react-icons/io5"
 import { TrendingPodcast } from "../../../api/podcast/model/podcast"
 import { getTrendingPodcasts } from "../../../api/podcast/trendingPodcast"
@@ -24,10 +25,15 @@ export default function PodcastHomePage() {
   async function fetchTrendingPodcasts() {
     abortControllerRef?.current?.abort()
     abortControllerRef.current = new AbortController()
-    const podcasts = await getTrendingPodcasts(abortControllerRef.current, {
-      limit: 10,
-    })
-    return podcasts?.data
+    try {
+      const podcasts = await getTrendingPodcasts(abortControllerRef.current, {
+        limit: 10,
+      })
+      return podcasts?.data
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.message)
+    }
   }
   return (
     <div id="podcast-home-page-container">
