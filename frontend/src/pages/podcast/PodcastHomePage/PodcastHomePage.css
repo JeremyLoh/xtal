@@ -11,6 +11,7 @@
   flex-direction: column;
   width: 80%;
   max-width: 120ch;
+  margin-bottom: 1rem;
 }
 
 .podcast-trending-title {
@@ -21,4 +22,15 @@
   column-gap: 0.2rem;
   width: 100%;
   font-size: clamp(1rem, 1rem + 1vw, 1.2rem);
+}
+
+.podcast-trending-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.podcast-trending-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

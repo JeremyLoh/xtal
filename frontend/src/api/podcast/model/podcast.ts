@@ -1,3 +1,16 @@
+type Podcast = {
+  // representation of a podcast for PodcastCard
+  id: number
+  url: string
+  title: string
+  description: string // could contain html elements
+  author: string
+  image: string
+  language: string
+  categories: string[]
+  episodeCount?: number
+}
+
 type TrendingPodcast = {
   id: number
   url: string
@@ -12,4 +25,4 @@ type TrendingPodcast = {
   categories: string[]
 }
 
-export type { TrendingPodcast }
+export type { Podcast, TrendingPodcast }

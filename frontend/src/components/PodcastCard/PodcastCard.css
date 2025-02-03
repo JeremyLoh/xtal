@@ -1,0 +1,33 @@
+.podcast-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.podcast-card-artwork {
+  border-radius: 8px;
+}
+
+.podcast-card-title-author-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  word-break: break-all;
+}
+
+.podcast-card-title,
+.podcast-card-author {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.podcast-card-title {
+  font-weight: bold;
+  font-size: clamp(0.7rem, 0.7rem + 1vw, 1rem);
+}
+
+.podcast-card-author {
+  color: var(--subtitle-text-color);
+  font-size: clamp(0.6rem, 0.6rem + 1vw, 0.8rem);
+}

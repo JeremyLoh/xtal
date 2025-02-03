@@ -1,4 +1,4 @@
-import test, { expect } from "@playwright/test"
+import test, { expect, Page } from "@playwright/test"
 import {
   clickRandomRadioStationButton,
   getNavbarPodcastLink,
@@ -63,9 +63,19 @@ test.describe("Podcast Homepage /podcasts", () => {
   })
 
   test.describe("Trending Podcasts Section", () => {
-    test("should display default 10 trending podcasts and remove any duplicate entries", async ({
+    function getPodcastCards(page: Page) {
+      return page.locator(".podcast-trending-container .podcast-trending-card")
+    }
+
+    test("should display desktop view default 10 trending podcasts and remove any duplicate entries", async ({
       page,
+      isMobile,
     }) => {
+      if (isMobile) {
+        test.skip(isMobile)
+        return
+      }
+
       await page.route("*/**/api/podcast/trending?limit=10", async (route) => {
         const json = defaultTenTrendingPodcasts
         await route.fulfill({ json })
@@ -73,29 +83,66 @@ test.describe("Podcast Homepage /podcasts", () => {
       await page.goto(HOMEPAGE + "/podcasts")
       await expect(page.locator(".podcast-trending-container")).toBeVisible()
       for (const podcastData of defaultTenTrendingPodcasts.data) {
-        await page
-          .locator(".podcast-trending-container .podcast-trending-card")
+        await getPodcastCards(page)
           .getByText(podcastData.title, { exact: true })
           .scrollIntoViewIfNeeded()
         await expect(
-          page
-            .locator(".podcast-trending-container .podcast-trending-card")
-            .getByText(podcastData.title, { exact: true })
+          getPodcastCards(page).getByText(podcastData.title, { exact: true })
         ).toBeVisible()
         await expect(
-          page
-            .locator(".podcast-trending-container .podcast-trending-card")
-            .getByText(podcastData.author, { exact: true })
+          getPodcastCards(page).getByText(podcastData.author, { exact: true })
+        ).toBeVisible()
+
+        const imageLocator = getPodcastCards(page).getByRole("img", {
+          name: podcastData.title + " podcast image",
+          exact: true,
+        })
+        await expect(imageLocator).toBeVisible()
+        expect(
+          await imageLocator.getAttribute("width"),
+          "should have desktop podcast artwork image width of 200"
+        ).toBe("200")
+        expect(
+          await imageLocator.getAttribute("height"),
+          "should have desktop podcast artwork image height of 200"
+        ).toBe("200")
+      }
+    })
+
+    test("should display mobile view default 10 trending podcasts and remove any duplicate entries", async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width: 360, height: 800 })
+      await page.route("*/**/api/podcast/trending?limit=10", async (route) => {
+        const json = defaultTenTrendingPodcasts
+        await route.fulfill({ json })
+      })
+      await page.goto(HOMEPAGE + "/podcasts")
+      await expect(page.locator(".podcast-trending-container")).toBeVisible()
+      for (const podcastData of defaultTenTrendingPodcasts.data) {
+        await getPodcastCards(page)
+          .getByText(podcastData.title, { exact: true })
+          .scrollIntoViewIfNeeded()
+        await expect(
+          getPodcastCards(page).getByText(podcastData.title, { exact: true })
         ).toBeVisible()
         await expect(
-          page
-            .locator(".podcast-trending-container .podcast-trending-card")
-            .getByRole("img", {
-              name: podcastData.title + " podcast image",
-              exact: true,
-            })
+          getPodcastCards(page).getByText(podcastData.author, { exact: true })
         ).toBeVisible()
-        // TODO test for the other elements of a podcast card component
+
+        const imageLocator = getPodcastCards(page).getByRole("img", {
+          name: podcastData.title + " podcast image",
+          exact: true,
+        })
+        await expect(imageLocator).toBeVisible()
+        expect(
+          await imageLocator.getAttribute("width"),
+          "should have mobile podcast artwork image width of 144"
+        ).toBe("144")
+        expect(
+          await imageLocator.getAttribute("height"),
+          "should have mobile podcast artwork image height of 144"
+        ).toBe("144")
       }
     })
   })

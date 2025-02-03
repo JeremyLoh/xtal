@@ -3,9 +3,12 @@ import { useEffect, useRef, useState } from "react"
 import { IoChevronForward } from "react-icons/io5"
 import { TrendingPodcast } from "../../../api/podcast/model/podcast"
 import { getTrendingPodcasts } from "../../../api/podcast/trendingPodcast"
+import PodcastCard from "../../../components/PodcastCard/PodcastCard"
+import useScreenDimensions from "../../../hooks/useScreenDimensions"
 
 export default function PodcastHomePage() {
   const abortControllerRef = useRef<AbortController | null>(null)
+  const { isMobile } = useScreenDimensions()
   const [trendingPodcasts, setTrendingPodcasts] = useState<
     TrendingPodcast[] | null
   >(null)
@@ -33,24 +36,19 @@ export default function PodcastHomePage() {
           Trending
           <IoChevronForward size={20} />
         </h2>
-        {trendingPodcasts &&
-          // TODO refactor to a PodcastCard compound component
-          trendingPodcasts.map((podcast) => {
-            return (
-              <div key={podcast.id} className="podcast-trending-card">
-                {podcast.image && (
-                  <img
-                    src={podcast.image}
-                    height={144}
-                    width={144}
-                    title={podcast.title + " podcast image"}
-                  />
-                )}
-                <p>{podcast.title}</p>
-                <p>{podcast.author}</p>
-              </div>
-            )
-          })}
+        <div className="podcast-trending-card-container">
+          {trendingPodcasts &&
+            trendingPodcasts.map((podcast) => (
+              <PodcastCard
+                key={podcast.id}
+                customClassName="podcast-trending-card"
+                podcast={podcast}
+              >
+                <PodcastCard.Artwork size={isMobile ? 144 : 200} />
+                <PodcastCard.TitleAndAuthor />
+              </PodcastCard>
+            ))}
+        </div>
       </div>
     </div>
   )
