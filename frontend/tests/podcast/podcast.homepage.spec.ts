@@ -14,7 +14,10 @@ import {
   getRadioCardFavouriteIcon,
 } from "../constants/favouriteStationConstants"
 import { unitedStatesStation } from "../mocks/station"
-import { defaultTenTrendingPodcasts } from "../mocks/podcast"
+import {
+  defaultTenTrendingPodcasts,
+  zeroTrendingPodcasts,
+} from "../mocks/podcast"
 
 test.describe("Podcast Homepage /podcasts", () => {
   test("should display title", async ({ page }) => {
@@ -169,6 +172,67 @@ test.describe("Podcast Homepage /podcasts", () => {
           "Rate Limit Exceeded, please try again after 2 seconds",
         ])
       )
+    })
+
+    test.describe("empty trending podcast section", () => {
+      function getEmptyTrendingPodcastMessage(page: Page) {
+        return page
+          .locator(".podcast-trending-container")
+          .getByText("Zero podcasts found. Please try again later", {
+            exact: true,
+          })
+      }
+      function getRefreshTrendingPodcastButton(page: Page) {
+        return page.locator(".podcast-trending-container").getByRole("button", {
+          name: "refresh trending podcasts",
+          exact: true,
+        })
+      }
+
+      test("should display empty trending podcast section when no data is available", async ({
+        page,
+      }) => {
+        await page.route(
+          "*/**/api/podcast/trending?limit=10",
+          async (route) => {
+            const json = zeroTrendingPodcasts
+            await route.fulfill({ json })
+          }
+        )
+        await page.goto(HOMEPAGE + "/podcasts")
+        await expect(page.locator(".podcast-trending-container")).toBeVisible()
+        await expect(getEmptyTrendingPodcastMessage(page)).toBeVisible()
+        await expect(getRefreshTrendingPodcastButton(page)).toBeVisible()
+      })
+
+      test("should refresh empty trending podcast section with new data when refresh trending podcast button is clicked", async ({
+        page,
+      }) => {
+        let isDataMissing = true
+        await page.route(
+          "*/**/api/podcast/trending?limit=10",
+          async (route) => {
+            const json = isDataMissing
+              ? zeroTrendingPodcasts
+              : defaultTenTrendingPodcasts
+            await route.fulfill({ json })
+          }
+        )
+        await page.goto(HOMEPAGE + "/podcasts")
+        await expect(getEmptyTrendingPodcastMessage(page)).toBeVisible()
+
+        isDataMissing = false
+        await getRefreshTrendingPodcastButton(page).click()
+        await expect(getEmptyTrendingPodcastMessage(page)).not.toBeVisible()
+        for (const podcastData of defaultTenTrendingPodcasts.data) {
+          await getPodcastCards(page)
+            .getByText(podcastData.title, { exact: true })
+            .scrollIntoViewIfNeeded()
+          await expect(
+            getPodcastCards(page).getByText(podcastData.title, { exact: true })
+          ).toBeVisible()
+        }
+      })
     })
   })
 })

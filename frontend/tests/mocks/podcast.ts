@@ -1,6 +1,12 @@
+export const zeroTrendingPodcasts = {
+  // zero entries obtained from backend endpoint /api/podcast/trending
+  count: 0,
+  data: [],
+}
+
 export const defaultTenTrendingPodcasts = {
   // backend endpoint /api/podcast/trending?limit=10 (default backend endpoint value of "since" => 3 days from current timestamp)
-  // contains a duplicate entry "Book Chat W/Author Vivian E. Moore"
+  // contains a duplicate entry "Book Chat W/Author Vivian E. Moore" that should be removed from the frontend
   count: 10,
   data: [
     {

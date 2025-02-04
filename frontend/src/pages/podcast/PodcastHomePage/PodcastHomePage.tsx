@@ -1,7 +1,7 @@
 import "./PodcastHomePage.css"
 import { useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
-import { IoChevronForward } from "react-icons/io5"
+import { IoChevronForward, IoReload } from "react-icons/io5"
 import { TrendingPodcast } from "../../../api/podcast/model/podcast"
 import { getTrendingPodcasts } from "../../../api/podcast/trendingPodcast"
 import PodcastCard from "../../../components/PodcastCard/PodcastCard"
@@ -16,8 +16,10 @@ export default function PodcastHomePage() {
   useEffect(() => {
     document.title = "xtal - podcasts"
     fetchTrendingPodcasts().then((podcasts) => {
-      if (podcasts) {
+      if (podcasts && podcasts.length > 0) {
         setTrendingPodcasts(podcasts)
+      } else {
+        setTrendingPodcasts(null)
       }
     })
   }, [])
@@ -29,10 +31,20 @@ export default function PodcastHomePage() {
       const podcasts = await getTrendingPodcasts(abortControllerRef.current, {
         limit: 10,
       })
-      return podcasts?.data
+      return podcasts && podcasts.data ? podcasts.data : null
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.message)
+    }
+    return null
+  }
+
+  async function handleRefreshTrendingPodcasts() {
+    const podcasts = await fetchTrendingPodcasts()
+    if (podcasts && podcasts.length > 0) {
+      setTrendingPodcasts(podcasts)
+    } else {
+      setTrendingPodcasts(null)
     }
   }
   return (
@@ -43,7 +55,19 @@ export default function PodcastHomePage() {
           <IoChevronForward size={20} />
         </h2>
         <div className="podcast-trending-card-container">
-          {trendingPodcasts &&
+          {trendingPodcasts == null ? (
+            <div>
+              <p>Zero podcasts found. Please try again later</p>
+              <button
+                onClick={handleRefreshTrendingPodcasts}
+                className="refresh-trending-podcasts-btn"
+                aria-label="refresh trending podcasts"
+                title="refresh trending podcasts"
+              >
+                <IoReload size={20} /> Refresh
+              </button>
+            </div>
+          ) : (
             trendingPodcasts.map((podcast) => (
               <PodcastCard
                 key={podcast.id}
@@ -53,7 +77,8 @@ export default function PodcastHomePage() {
                 <PodcastCard.Artwork size={isMobile ? 144 : 200} />
                 <PodcastCard.TitleAndAuthor />
               </PodcastCard>
-            ))}
+            ))
+          )}
         </div>
       </div>
     </div>

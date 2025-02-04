@@ -24,6 +24,18 @@
   font-size: clamp(1rem, 1rem + 1vw, 1.2rem);
 }
 
+.refresh-trending-podcasts-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3em;
+  background-color: var(--primary-color);
+}
+.refresh-trending-podcasts-btn:hover {
+  filter: brightness(0.9);
+}
+
 .podcast-trending-card-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
