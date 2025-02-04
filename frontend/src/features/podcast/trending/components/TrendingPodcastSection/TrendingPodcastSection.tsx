@@ -81,6 +81,7 @@ export default function TrendingPodcastSection() {
             defaultValue={sinceDays}
             onChange={handleSinceChange}
           >
+            <option value="1">Last 24 hours</option>
             <option value="3">3 days ago</option>
           </select>
         </label>

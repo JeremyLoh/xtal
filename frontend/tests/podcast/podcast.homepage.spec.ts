@@ -1,3 +1,4 @@
+import dayjs from "dayjs"
 import test, { expect, Page } from "@playwright/test"
 import {
   clickRandomRadioStationButton,
@@ -16,6 +17,7 @@ import {
 import { unitedStatesStation } from "../mocks/station"
 import {
   defaultTenTrendingPodcasts,
+  threeTrendingPodcasts,
   zeroTrendingPodcasts,
 } from "../mocks/podcast"
 
@@ -183,27 +185,77 @@ test.describe("Podcast Homepage /podcasts", () => {
       )
     })
 
-    test("should display dropdown that shows the trending podcast 'since' date", async ({
-      page,
-    }) => {
-      await page.route(
-        "*/**/api/podcast/trending?limit=10&since=*",
-        async (route) => {
-          const json = defaultTenTrendingPodcasts
-          await route.fulfill({ json })
+    test.describe("since select element", () => {
+      test("should display <select> that shows the trending podcast 'since' date", async ({
+        page,
+      }) => {
+        await page.route(
+          "*/**/api/podcast/trending?limit=10&since=*",
+          async (route) => {
+            const json = defaultTenTrendingPodcasts
+            await route.fulfill({ json })
+          }
+        )
+        await page.goto(HOMEPAGE + "/podcasts")
+        await expect(
+          page.locator(
+            ".podcast-trending-container .podcast-trending-since-select"
+          )
+        ).toBeVisible()
+        await expect(
+          page.locator(
+            ".podcast-trending-container .podcast-trending-since-select"
+          )
+        ).toHaveValue("3")
+      })
+
+      test("should fetch new podcast entries on change to since <select> element of 'last 24 hours'", async ({
+        page,
+      }) => {
+        const oneDayAgo = dayjs().startOf("day").subtract(1, "days").unix()
+        const threeDaysAgo = dayjs().startOf("day").subtract(3, "days").unix()
+        let isFirstFetch = true
+        await page.route(
+          `*/**/api/podcast/trending?limit=10&since=${threeDaysAgo}`,
+          async (route) => {
+            if (isFirstFetch) {
+              const json = defaultTenTrendingPodcasts
+              await route.fulfill({ json })
+            }
+          }
+        )
+        await page.route(
+          `*/**/api/podcast/trending?limit=10&since=${oneDayAgo}`,
+          async (route) => {
+            if (!isFirstFetch) {
+              const json = threeTrendingPodcasts
+              await route.fulfill({ json })
+            }
+          }
+        )
+        await page.goto(HOMEPAGE + "/podcasts")
+        for (const podcastData of defaultTenTrendingPodcasts.data) {
+          await getPodcastCards(page)
+            .getByText(podcastData.title, { exact: true })
+            .scrollIntoViewIfNeeded()
+          await expect(
+            getPodcastCards(page).getByText(podcastData.title, { exact: true })
+          ).toBeVisible()
         }
-      )
-      await page.goto(HOMEPAGE + "/podcasts")
-      await expect(
-        page.locator(
-          ".podcast-trending-container .podcast-trending-since-select"
-        )
-      ).toBeVisible()
-      await expect(
-        page.locator(
-          ".podcast-trending-container .podcast-trending-since-select"
-        )
-      ).toHaveValue("3")
+
+        isFirstFetch = false
+        await page
+          .locator(".podcast-trending-container .podcast-trending-since-select")
+          .selectOption("1")
+        for (const podcastData of threeTrendingPodcasts.data) {
+          await getPodcastCards(page)
+            .getByText(podcastData.title, { exact: true })
+            .scrollIntoViewIfNeeded()
+          await expect(
+            getPodcastCards(page).getByText(podcastData.title, { exact: true })
+          ).toBeVisible()
+        }
+      })
     })
 
     test.describe("empty trending podcast section", () => {

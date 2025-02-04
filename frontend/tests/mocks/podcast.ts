@@ -172,3 +172,54 @@ export const defaultTenTrendingPodcasts = {
     },
   ],
 }
+
+export const threeTrendingPodcasts = {
+  // backend endpoint /api/podcast/trending
+  count: 3,
+  data: [
+    {
+      id: 3696245,
+      url: "https://www.spreaker.com/show/5023627/episodes/feed",
+      title: "Hack The Movies",
+      description:
+        "Join Tony and the Hack The Movies crew twice a week as they talk about tapes or discuss newer movies and film topics!",
+      author: "Screenwave Media",
+      image:
+        "https://d3wo5wojvuv7l.cloudfront.net/t_rss_itunes_square_1400/images.spreaker.com/original/0604a9b179d97957d1864e792e00e9db.jpg",
+      latestPublishTime: 1738648807,
+      itunesId: 1561818422,
+      trendScore: 9,
+      language: "English",
+      categories: ["Tv", "Film", "Reviews"],
+    },
+    {
+      id: 4768277,
+      url: "https://fast.wistia.com/channels/k0okf4g9ht/rss",
+      title: "Investing by the Books",
+      description:
+        "Investing by the Books is a podcast to educate sophisticated and aspiring investors. We believe books are an excellent source for timeless knowledge, enhanced through deep conversations with authors and other guests. Hosts: Eddie Palmgren and Niklas Sävås. Producer: Eddie S. Ahlgren Twitter: @IB_Redeye\n",
+      author: "Redeye AB",
+      image:
+        "https://embed-ssl.wistia.com/deliveries/ecf5f469550ab420cdea2324d24adb6d.jpg?image_crop_resized=3000x3000",
+      latestPublishTime: 1738648815,
+      itunesId: 1577368197,
+      trendScore: 9,
+      language: "English (United States)",
+      categories: ["Arts", "Books", "Business", "Investing"],
+    },
+    {
+      id: 842886,
+      url: "https://feeds.emilcar.fm/bacteriofagos",
+      title: "Bacteriófagos",
+      description:
+        "<p>Bacteriófagos, un podcast quincenal de curiosidades biológicas y actualidad científica para todos los públicos. Presentado por Carmela García Doval.</p>",
+      author: "Carmela García Doval",
+      image: "https://media.rss.com/bacteriofagos/podcast_cover.jpg",
+      latestPublishTime: 1738648830,
+      itunesId: 1212473460,
+      trendScore: 9,
+      language: "Spanish",
+      categories: ["Science"],
+    },
+  ],
+}
