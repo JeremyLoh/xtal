@@ -30,6 +30,7 @@ export const getPodcastTrendingValidationSchema: Schema = {
             "'since' should be between 120 days before current unix timestamp to current unix timestamp"
           )
         }
+        return true
       },
     },
   },

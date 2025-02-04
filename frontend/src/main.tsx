@@ -10,6 +10,7 @@ import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.tsx"
 import HomePage from "./pages/HomePage/HomePage.tsx"
 import RadioStation from "./pages/RadioStation/RadioStation.tsx"
 import HomeLayout from "./pages/HomeLayout/HomeLayout.tsx"
+import PodcastHomePage from "./pages/podcast/PodcastHomePage/PodcastHomePage.tsx"
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -26,6 +27,7 @@ createRoot(document.getElementById("root")!).render(
                     element={<RadioStation />}
                   />
                 </Route>
+                <Route path="/podcasts" element={<PodcastHomePage />} />
               </Route>
               <Route path="/404" element={<NotFoundPage />} />
               <Route path="*" element={<NotFoundPage />} />

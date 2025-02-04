@@ -1,6 +1,7 @@
+import "./FavouriteStationDrawer.css"
 import { useContext } from "react"
 import { GoStarFill } from "react-icons/go"
-import "./FavouriteStationDrawer.css"
+import { useLocation, useNavigate } from "react-router"
 import Drawer from "../../../components/Drawer/Drawer"
 import { Station } from "../../../api/radiobrowser/types"
 import { MapContext } from "../../../context/MapProvider/MapProvider"
@@ -18,6 +19,8 @@ function FavouriteStationDrawer({
 }: FavouriteStationDrawerProps) {
   const mapContext = useContext(MapContext)
   const favouriteStationsContext = useContext(FavouriteStationsContext)
+  const location = useLocation()
+  const navigate = useNavigate()
 
   function handleRemoveFavouriteStation(station: Station) {
     favouriteStationsContext?.setFavouriteStations(
@@ -27,6 +30,9 @@ function FavouriteStationDrawer({
     )
   }
   function handleLoadStation(station: Station) {
+    if (location.pathname.startsWith("/podcasts")) {
+      navigate("/")
+    }
     setOpen(false)
     mapContext?.setStation(station)
   }

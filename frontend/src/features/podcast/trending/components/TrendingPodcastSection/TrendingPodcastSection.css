@@ -1,0 +1,52 @@
+.podcast-trending-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  max-width: 120ch;
+  margin-bottom: 1rem;
+}
+
+.podcast-trending-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 0.2rem;
+  width: 100%;
+  font-size: clamp(1rem, 1rem + 1vw, 1.2rem);
+}
+.podcast-trending-title label {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+}
+.podcast-trending-title select,
+.podcast-trending-title option {
+  padding: 0 0.2em;
+  font-size: 1rem;
+}
+
+.refresh-trending-podcasts-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3em;
+  background-color: var(--primary-color);
+}
+.refresh-trending-podcasts-btn:hover {
+  filter: brightness(0.9);
+}
+
+.podcast-trending-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.podcast-trending-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

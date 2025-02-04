@@ -1,15 +1,27 @@
+import "./Header.css"
+import { Link } from "react-router"
 import FavouriteStationToggle from "../../features/favourite/FavouriteStationToggle/FavouriteStationToggle"
 import ThemeToggle from "../ThemeToggle/ThemeToggle"
-import "./Header.css"
 
 function Header() {
   return (
     <div id="header-container">
       <header>
-        <div className="header-title-container">
-          <p className="header-title">Xtal</p>
-          <p className="header-subtitle">Listen to the World</p>
-        </div>
+        <p className="header-title">Xtal</p>
+        <nav className="header-navbar">
+          <ul>
+            <li>
+              <Link to="/" className="header-navbar-radio-link">
+                Radio
+              </Link>
+            </li>
+            <li>
+              <Link to="/podcasts" className="header-navbar-podcast-link">
+                Podcast
+              </Link>
+            </li>
+          </ul>
+        </nav>
         <div className="header-actions">
           <ThemeToggle />
           <FavouriteStationToggle />
