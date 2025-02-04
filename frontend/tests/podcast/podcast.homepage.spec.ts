@@ -80,10 +80,13 @@ test.describe("Podcast Homepage /podcasts", () => {
         return
       }
 
-      await page.route("*/**/api/podcast/trending?limit=10", async (route) => {
-        const json = defaultTenTrendingPodcasts
-        await route.fulfill({ json })
-      })
+      await page.route(
+        "*/**/api/podcast/trending?limit=10&since=*",
+        async (route) => {
+          const json = defaultTenTrendingPodcasts
+          await route.fulfill({ json })
+        }
+      )
       await page.goto(HOMEPAGE + "/podcasts")
       await expect(page.locator(".podcast-trending-container")).toBeVisible()
       for (const podcastData of defaultTenTrendingPodcasts.data) {
@@ -117,10 +120,13 @@ test.describe("Podcast Homepage /podcasts", () => {
       page,
     }) => {
       await page.setViewportSize({ width: 360, height: 800 })
-      await page.route("*/**/api/podcast/trending?limit=10", async (route) => {
-        const json = defaultTenTrendingPodcasts
-        await route.fulfill({ json })
-      })
+      await page.route(
+        "*/**/api/podcast/trending?limit=10&since=*",
+        async (route) => {
+          const json = defaultTenTrendingPodcasts
+          await route.fulfill({ json })
+        }
+      )
       await page.goto(HOMEPAGE + "/podcasts")
       await expect(page.locator(".podcast-trending-container")).toBeVisible()
       for (const podcastData of defaultTenTrendingPodcasts.data) {
@@ -153,17 +159,20 @@ test.describe("Podcast Homepage /podcasts", () => {
     test("should display error toast when rate limit is reached", async ({
       page,
     }) => {
-      await page.route("*/**/api/podcast/trending?limit=10", async (route) => {
-        await route.fulfill({
-          status: 429,
-          // headers are missing in the error.response.headers - https://github.com/microsoft/playwright/issues/19788
-          headers: {
-            "access-control-expose-headers": "retry-after",
-            "retry-after": "2",
-          },
-          body: "Too many requests, please try again later.",
-        })
-      })
+      await page.route(
+        "*/**/api/podcast/trending?limit=10&since=*",
+        async (route) => {
+          await route.fulfill({
+            status: 429,
+            // headers are missing in the error.response.headers - https://github.com/microsoft/playwright/issues/19788
+            headers: {
+              "access-control-expose-headers": "retry-after",
+              "retry-after": "2",
+            },
+            body: "Too many requests, please try again later.",
+          })
+        }
+      )
       await page.goto(HOMEPAGE + "/podcasts")
       await expect(page.locator(".podcast-trending-container")).toBeVisible()
       const toastMessages = await getToastMessages(page)
@@ -172,6 +181,29 @@ test.describe("Podcast Homepage /podcasts", () => {
           "Rate Limit Exceeded, please try again after 2 seconds",
         ])
       )
+    })
+
+    test("should display dropdown that shows the trending podcast 'since' date", async ({
+      page,
+    }) => {
+      await page.route(
+        "*/**/api/podcast/trending?limit=10&since=*",
+        async (route) => {
+          const json = defaultTenTrendingPodcasts
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + "/podcasts")
+      await expect(
+        page.locator(
+          ".podcast-trending-container .podcast-trending-since-select"
+        )
+      ).toBeVisible()
+      await expect(
+        page.locator(
+          ".podcast-trending-container .podcast-trending-since-select"
+        )
+      ).toHaveValue("3")
     })
 
     test.describe("empty trending podcast section", () => {
@@ -193,7 +225,7 @@ test.describe("Podcast Homepage /podcasts", () => {
         page,
       }) => {
         await page.route(
-          "*/**/api/podcast/trending?limit=10",
+          "*/**/api/podcast/trending?limit=10&since=*",
           async (route) => {
             const json = zeroTrendingPodcasts
             await route.fulfill({ json })
@@ -210,7 +242,7 @@ test.describe("Podcast Homepage /podcasts", () => {
       }) => {
         let isDataMissing = true
         await page.route(
-          "*/**/api/podcast/trending?limit=10",
+          "*/**/api/podcast/trending?limit=10&since=*",
           async (route) => {
             const json = isDataMissing
               ? zeroTrendingPodcasts
