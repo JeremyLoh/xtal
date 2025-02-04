@@ -256,6 +256,54 @@ test.describe("Podcast Homepage /podcasts", () => {
           ).toBeVisible()
         }
       })
+
+      test("should fetch new podcast entries on change to since <select> element of 'last week'", async ({
+        page,
+      }) => {
+        const oneWeekAgo = dayjs().startOf("day").subtract(7, "days").unix()
+        const threeDaysAgo = dayjs().startOf("day").subtract(3, "days").unix()
+        let isFirstFetch = true
+        await page.route(
+          `*/**/api/podcast/trending?limit=10&since=${threeDaysAgo}`,
+          async (route) => {
+            if (isFirstFetch) {
+              const json = defaultTenTrendingPodcasts
+              await route.fulfill({ json })
+            }
+          }
+        )
+        await page.route(
+          `*/**/api/podcast/trending?limit=10&since=${oneWeekAgo}`,
+          async (route) => {
+            if (!isFirstFetch) {
+              const json = threeTrendingPodcasts
+              await route.fulfill({ json })
+            }
+          }
+        )
+        await page.goto(HOMEPAGE + "/podcasts")
+        for (const podcastData of defaultTenTrendingPodcasts.data) {
+          await getPodcastCards(page)
+            .getByText(podcastData.title, { exact: true })
+            .scrollIntoViewIfNeeded()
+          await expect(
+            getPodcastCards(page).getByText(podcastData.title, { exact: true })
+          ).toBeVisible()
+        }
+
+        isFirstFetch = false
+        await page
+          .locator(".podcast-trending-container .podcast-trending-since-select")
+          .selectOption("7")
+        for (const podcastData of threeTrendingPodcasts.data) {
+          await getPodcastCards(page)
+            .getByText(podcastData.title, { exact: true })
+            .scrollIntoViewIfNeeded()
+          await expect(
+            getPodcastCards(page).getByText(podcastData.title, { exact: true })
+          ).toBeVisible()
+        }
+      })
     })
 
     test.describe("empty trending podcast section", () => {
