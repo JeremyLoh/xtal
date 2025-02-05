@@ -4,10 +4,78 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest"
 import { NextFunction, Request, Response } from "express"
 import { setupApp } from "../../index.js"
 import { getFrontendOrigin } from "../cors/origin.js"
+import { PODCAST_BY_FEED_ID_75075 } from "../mocks/podcast.js"
+import { getSanitizedHtmlText } from "../../api/dom/htmlSanitize.js"
 
 function getMockMiddleware() {
   return (request: Request, response: Response, next: NextFunction) => next()
 }
+
+describe("GET /api/podcast/episodes", () => {
+  const expectedOrigin = getFrontendOrigin() || ""
+
+  function getExpectedEpisodeData(episodeItems: any[]) {
+    // convert PodcastIndex API episode "items" response array to expected /api/podcast/episodes json response for "data"
+    return episodeItems.map((episode) => {
+      return {
+        id: episode.id,
+        feedId: episode.feedId,
+        feedUrl: episode.feedUrl,
+        title: episode.title,
+        description: getSanitizedHtmlText(episode.description || ""),
+        contentUrl: episode.enclosureUrl, // url link to episode file
+        contentType: episode.enclosureType, // Content-Type of the episode file (e.g. mp3 => "audio\/mpeg")
+        contentSizeInBytes: episode.enclosureLength,
+        durationInSeconds: episode.duration,
+        datePublished: episode.datePublished, // unix epoch time in seconds
+        isExplicit: episode.explicit === 1, // Not explicit = 0. Explicit = 1
+        episodeType: episode.episodeType, // type of episode. May be null for "liveItem"
+        episodeNumber: episode.episode,
+        seasonNumber: episode.season,
+        image: episode.image || episode.feedImage,
+        language: episode.feedLanguage,
+        people: episode.persons,
+        externalWebsiteUrl: episode.link,
+        transcripts: episode.transcripts,
+        isActiveFeed: episode.feedDead !== 0,
+      }
+    })
+  }
+
+  beforeEach(() => {
+    vi.mock("../../middleware/rateLimiter.js", () => {
+      return {
+        default: {
+          getTrendingPodcastLimiter: getMockMiddleware(),
+        },
+      }
+    })
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  describe("limit parameter", () => {
+    test("should return 10 episodes based on a podcast id (PodcastIndex Feed Id)", async () => {
+      const podcastId = "75075"
+      const limit = "10"
+      const app = setupApp()
+      const response = await request(app)
+        .get(`/api/podcast/episodes?id=${podcastId}&limit=${limit}`)
+        .set("Origin", expectedOrigin)
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          count: 10,
+          data: getExpectedEpisodeData(
+            PODCAST_BY_FEED_ID_75075.items.slice(0, 10)
+          ),
+        })
+      )
+    })
+  })
+})
 
 describe("GET /api/podcast/trending", () => {
   const expectedOrigin = getFrontendOrigin() || ""
