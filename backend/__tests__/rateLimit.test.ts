@@ -36,7 +36,7 @@ describe("GET /api/podcast/episodes", () => {
     test("should return HTTP 429 when rate limit is exceeded", async () => {
       const podcastId = "75075"
       const limit = 10
-      const url = `/api/podcast/episodes?id=${podcastId}limit=${limit}`
+      const url = `/api/podcast/episodes?id=${podcastId}&limit=${limit}`
       const app = setupApp()
       const firstResponse = await request(app)
         .get(url)
@@ -44,6 +44,7 @@ describe("GET /api/podcast/episodes", () => {
       const secondResponse = await request(app)
         .get(url)
         .set("Origin", expectedOrigin)
+
       expect(firstResponse.status).toEqual(200)
       expect(secondResponse.status).toEqual(429)
       expect(secondResponse.error).toEqual(
