@@ -93,6 +93,23 @@ describe("GET /api/podcast/episodes", () => {
     })
 
     describe("limit parameter", () => {
+      test("should return status 400 for limit parameter of non numeric value", async () => {
+        const podcastId = "75075"
+        const limit = "a"
+        const app = setupApp()
+        const response = await request(app)
+          .get(`/api/podcast/episodes?id=${podcastId}&limit=${limit}`)
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'limit' should be between 1 and 100",
+            ]),
+          })
+        )
+      })
+
       test("should return status 400 for limit parameter of negative value", async () => {
         const podcastId = "75075"
         const limit = "-1"
@@ -144,6 +161,18 @@ describe("GET /api/podcast/episodes", () => {
         )
       })
     })
+  })
+
+  test("should specify response content type header of application/json", async () => {
+    const podcastId = "75075"
+    const limit = "10"
+    const app = setupApp()
+    const response = await request(app)
+      .get(`/api/podcast/episodes?id=${podcastId}&limit=${limit}`)
+      .set("Origin", expectedOrigin)
+    expect(response.headers["content-type"]).toEqual(
+      expect.stringContaining("application/json")
+    )
   })
 
   describe("limit parameter", () => {
