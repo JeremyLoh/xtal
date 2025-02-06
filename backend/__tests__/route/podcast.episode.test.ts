@@ -160,6 +160,88 @@ describe("GET /api/podcast/episodes", () => {
         )
       })
     })
+
+    describe("offset parameter", () => {
+      test("should return status 400 for negative offset parameter of -1", async () => {
+        const podcastId = "75075"
+        const limit = "10"
+        const offset = "-1"
+        const app = setupApp()
+        const response = await request(app)
+          .get(
+            `/api/podcast/episodes?id=${podcastId}&limit=${limit}&offset=${offset}`
+          )
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'offset' should be between 1 and 1000",
+            ]),
+          })
+        )
+      })
+
+      test("should return status 400 for offset parameter of zero", async () => {
+        const podcastId = "75075"
+        const limit = "10"
+        const offset = "0"
+        const app = setupApp()
+        const response = await request(app)
+          .get(
+            `/api/podcast/episodes?id=${podcastId}&limit=${limit}&offset=${offset}`
+          )
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'offset' should be between 1 and 1000",
+            ]),
+          })
+        )
+      })
+
+      test("should return status 400 for offset parameter of more than 1000", async () => {
+        const podcastId = "75075"
+        const limit = "10"
+        const offset = "1001"
+        const app = setupApp()
+        const response = await request(app)
+          .get(
+            `/api/podcast/episodes?id=${podcastId}&limit=${limit}&offset=${offset}`
+          )
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'offset' should be between 1 and 1000",
+            ]),
+          })
+        )
+      })
+
+      test("should return status 400 for non numeric offset parameter", async () => {
+        const podcastId = "75075"
+        const limit = "10"
+        const offset = "e"
+        const app = setupApp()
+        const response = await request(app)
+          .get(
+            `/api/podcast/episodes?id=${podcastId}&limit=${limit}&offset=${offset}`
+          )
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'offset' should be between 1 and 1000",
+            ]),
+          })
+        )
+      })
+    })
   })
 
   test("should specify response content type header of application/json", async () => {
@@ -223,6 +305,29 @@ describe("GET /api/podcast/episodes", () => {
           count: 10,
           data: getExpectedEpisodeData(
             PODCAST_BY_FEED_ID_75075.items.slice(0, 10)
+          ),
+        })
+      )
+    })
+  })
+
+  describe("offset parameter", () => {
+    test("should return 5 episodes with parameters offset of 10 and limit of 5", async () => {
+      const podcastId = "75075"
+      const limit = "5"
+      const offset = "10"
+      const app = setupApp()
+      const response = await request(app)
+        .get(
+          `/api/podcast/episodes?id=${podcastId}&limit=${limit}&offset=${offset}`
+        )
+        .set("Origin", expectedOrigin)
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          count: 5,
+          data: getExpectedEpisodeData(
+            PODCAST_BY_FEED_ID_75075.items.slice(10, 15)
           ),
         })
       )

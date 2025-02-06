@@ -40,6 +40,14 @@ export const handlers = [
           items: PODCAST_BY_FEED_ID_75075.items.slice(0, 1),
         })
       }
+      if (max === "15" && id === "75075") {
+        // "offset" parameter test for get podcast episodes (/api/podcast/episodes)
+        return HttpResponse.json({
+          ...PODCAST_BY_FEED_ID_75075,
+          count: 15,
+          items: PODCAST_BY_FEED_ID_75075.items.slice(0, 15),
+        })
+      }
     }
   ),
 ]
