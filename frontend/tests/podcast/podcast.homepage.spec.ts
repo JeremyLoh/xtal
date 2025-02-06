@@ -19,7 +19,7 @@ import {
   defaultTenTrendingPodcasts,
   threeTrendingPodcasts,
   zeroTrendingPodcasts,
-} from "../mocks/podcast"
+} from "../mocks/podcast.trending"
 
 test.describe("Podcast Homepage /podcasts", () => {
   test("should display title", async ({ page }) => {
