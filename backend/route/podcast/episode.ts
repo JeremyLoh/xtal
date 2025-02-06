@@ -20,7 +20,7 @@ router.get(
     }
     const data = matchedData(request)
     const podcastId = data.id as string
-    const limit = Number(data.limit)
+    const limit = Number(data.limit) || 10
 
     const episodes = await getPodcastEpisodes(podcastId, limit)
     response.status(200).send({

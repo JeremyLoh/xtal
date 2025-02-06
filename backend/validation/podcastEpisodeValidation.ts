@@ -9,6 +9,7 @@ export const getPodcastEpisodeValidationSchema: Schema = {
     errorMessage: "'id' should be present",
   },
   limit: {
+    optional: true,
     escape: true,
     isInt: {
       options: { min: 1, max: 100 },

@@ -182,6 +182,23 @@ describe("GET /api/podcast/episodes", () => {
         })
       )
     })
+
+    test("should return 10 episodes by default if no limit parameter is given", async () => {
+      const podcastId = "75075"
+      const app = setupApp()
+      const response = await request(app)
+        .get(`/api/podcast/episodes?id=${podcastId}`)
+        .set("Origin", expectedOrigin)
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          count: 10,
+          data: getExpectedEpisodeData(
+            PODCAST_BY_FEED_ID_75075.items.slice(0, 10)
+          ),
+        })
+      )
+    })
   })
 })
 
