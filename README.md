@@ -44,10 +44,32 @@ The Frontend end-to-end tests are written in Playwright - https://playwright.dev
 
    ```
    VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS=3
+   VITE_BACKEND_ORIGIN="http://localhost:3000"
    ```
 
 4. Install the required dependencies using `npm install`
 5. Run `npm run test` (to launch Playwright UI) OR run `npx playwright test` to run tests in headless mode
+
+## Running Backend Tests
+
+The Backend tests are written in vitest - https://vitest.dev/
+
+1. Ensure `node` is installed on your system - https://nodejs.org/en
+2. Navigate to the `backend/` directory
+3. Create a `.env` file with the following values:
+
+   ```
+   PORT=3000
+   PODCAST_INDEX_API_KEY="???"
+   PODCAST_INDEX_API_SECRET="???"
+   FRONTEND_ORIGIN="http://localhost:5173"
+   ENABLE_PROXY_TROUBLESHOOTING="false"
+   ```
+
+   - The `PODCAST_INDEX_API_KEY` and `PODCAST_INDEX_API_SECRET` are obtained from creating a developer account on https://api.podcastindex.org/signup
+
+4. Install the required dependencies using `npm install`
+5. Run `npm run test`
 
 # Found a bug?
 
