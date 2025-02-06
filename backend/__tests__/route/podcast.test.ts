@@ -11,6 +11,17 @@ function getMockMiddleware() {
   return (request: Request, response: Response, next: NextFunction) => next()
 }
 
+function mockRateLimiters() {
+  vi.mock("../../middleware/rateLimiter.js", () => {
+    return {
+      default: {
+        getTrendingPodcastLimiter: getMockMiddleware(),
+        getPodcastEpisodesLimiter: getMockMiddleware(),
+      },
+    }
+  })
+}
+
 describe("GET /api/podcast/episodes", () => {
   const expectedOrigin = getFrontendOrigin() || ""
 
@@ -43,13 +54,7 @@ describe("GET /api/podcast/episodes", () => {
   }
 
   beforeEach(() => {
-    vi.mock("../../middleware/rateLimiter.js", () => {
-      return {
-        default: {
-          getTrendingPodcastLimiter: getMockMiddleware(),
-        },
-      }
-    })
+    mockRateLimiters()
   })
 
   afterEach(() => {
@@ -81,13 +86,7 @@ describe("GET /api/podcast/trending", () => {
   const expectedOrigin = getFrontendOrigin() || ""
 
   beforeEach(() => {
-    vi.mock("../../middleware/rateLimiter.js", () => {
-      return {
-        default: {
-          getTrendingPodcastLimiter: getMockMiddleware(),
-        },
-      }
-    })
+    mockRateLimiters()
   })
 
   afterEach(() => {
