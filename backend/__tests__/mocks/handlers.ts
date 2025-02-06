@@ -33,6 +33,13 @@ export const handlers = [
           items: PODCAST_BY_FEED_ID_75075.items.slice(0, 10),
         })
       }
+      if (max === "1" && id === "75075") {
+        return HttpResponse.json({
+          ...PODCAST_BY_FEED_ID_75075,
+          count: 1,
+          items: PODCAST_BY_FEED_ID_75075.items.slice(0, 1),
+        })
+      }
     }
   ),
 ]

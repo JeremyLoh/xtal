@@ -61,6 +61,61 @@ describe("GET /api/podcast/episodes", () => {
     vi.restoreAllMocks()
   })
 
+  describe("invalid parameters", () => {
+    describe("limit parameter", () => {
+      test("should return status 400 for limit parameter of negative value", async () => {
+        const podcastId = "75075"
+        const limit = "-1"
+        const app = setupApp()
+        const response = await request(app)
+          .get(`/api/podcast/episodes?id=${podcastId}&limit=${limit}`)
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'limit' should be between 1 and 100",
+            ]),
+          })
+        )
+      })
+
+      test("should return status 400 for limit parameter of zero", async () => {
+        const podcastId = "75075"
+        const limit = "0"
+        const app = setupApp()
+        const response = await request(app)
+          .get(`/api/podcast/episodes?id=${podcastId}&limit=${limit}`)
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'limit' should be between 1 and 100",
+            ]),
+          })
+        )
+      })
+
+      test("should return status 400 for limit parameter of 101", async () => {
+        const podcastId = "75075"
+        const limit = "101"
+        const app = setupApp()
+        const response = await request(app)
+          .get(`/api/podcast/episodes?id=${podcastId}&limit=${limit}`)
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'limit' should be between 1 and 100",
+            ]),
+          })
+        )
+      })
+    })
+  })
+
   describe("limit parameter", () => {
     test("should return 10 episodes based on a podcast id (PodcastIndex Feed Id)", async () => {
       const podcastId = "75075"
@@ -75,6 +130,24 @@ describe("GET /api/podcast/episodes", () => {
           count: 10,
           data: getExpectedEpisodeData(
             PODCAST_BY_FEED_ID_75075.items.slice(0, 10)
+          ),
+        })
+      )
+    })
+
+    test("should return 1 episode based on a podcast id (PodcastIndex Feed Id)", async () => {
+      const podcastId = "75075"
+      const limit = "1"
+      const app = setupApp()
+      const response = await request(app)
+        .get(`/api/podcast/episodes?id=${podcastId}&limit=${limit}`)
+        .set("Origin", expectedOrigin)
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          count: 1,
+          data: getExpectedEpisodeData(
+            PODCAST_BY_FEED_ID_75075.items.slice(0, 1)
           ),
         })
       )
