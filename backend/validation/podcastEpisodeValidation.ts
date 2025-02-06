@@ -3,7 +3,10 @@ import { Schema } from "express-validator"
 export const getPodcastEpisodeValidationSchema: Schema = {
   id: {
     optional: false,
-    isString: true,
+    isLength: {
+      options: { min: 1 },
+    },
+    errorMessage: "'id' should be present",
   },
   limit: {
     escape: true,

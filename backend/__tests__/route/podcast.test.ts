@@ -62,6 +62,36 @@ describe("GET /api/podcast/episodes", () => {
   })
 
   describe("invalid parameters", () => {
+    describe("id parameter", () => {
+      test("should return status 400 for missing id parameter", async () => {
+        const limit = "10"
+        const app = setupApp()
+        const response = await request(app)
+          .get(`/api/podcast/episodes?limit=${limit}`)
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining(["'id' should be present"]),
+          })
+        )
+      })
+
+      test("should return status 400 for id parameter of empty string", async () => {
+        const limit = "10"
+        const app = setupApp()
+        const response = await request(app)
+          .get(`/api/podcast/episodes?id=&limit=${limit}`)
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining(["'id' should be present"]),
+          })
+        )
+      })
+    })
+
     describe("limit parameter", () => {
       test("should return status 400 for limit parameter of negative value", async () => {
         const podcastId = "75075"
