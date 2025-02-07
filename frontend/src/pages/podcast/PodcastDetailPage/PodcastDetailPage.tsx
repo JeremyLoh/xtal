@@ -53,18 +53,24 @@ export default function PodcastDetailPage() {
             <PodcastCard.Artwork size={144} />
             <div>
               <PodcastCard.TitleAndAuthor variant="large" />
-              <PodcastCard.EpisodeCount />
+              <div className="podcast-info-card-pill-container">
+                <PodcastCard.EpisodeCount />
+                <PodcastCard.Language />
+              </div>
+              <div className="podcast-info-card-pill-container">
+                <PodcastCard.Categories />
+              </div>
             </div>
           </PodcastCard>
         )}
       </div>
+
       <h2>Episodes</h2>
       <div className="podcast-episode-container">
         {podcastEpisodes &&
           podcastEpisodes.map((episode) => {
             return (
               <PodcastEpisodeCard key={episode.id} episode={episode}>
-                <PodcastEpisodeCard.Artwork size={144} />
                 <PodcastEpisodeCard.Title />
                 <PodcastEpisodeCard.Description />
               </PodcastEpisodeCard>

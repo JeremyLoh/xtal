@@ -27,6 +27,10 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       "Podcast Info Author should be present"
     ).toBeVisible()
     await expect(
+      getPodcastInfoElement(page, expectedPodcast.language),
+      "Podcast Info Language should be present"
+    ).toBeVisible()
+    await expect(
       getPodcastInfoElement(
         page,
         expectedPodcast.episodeCount
@@ -35,6 +39,12 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       ),
       "Podcast Info Episode Count should be present"
     ).toBeVisible()
+    for (const category of expectedPodcast.categories) {
+      await expect(
+        getPodcastInfoElement(page, category),
+        `Podcast Info Category '${category}' should be present`
+      ).toBeVisible()
+    }
   }
 
   test("should display podcast detail page", async ({ page }) => {
@@ -59,22 +69,28 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       const episode = defaultTenPodcastEpisodes.data.episodes[i]
       await expect(
         page
-          .locator(".podcast-episode-card .podcast-episode-card-artwork")
-          .nth(i),
-        `(Episode ${i + 1}) podcast episode card Artwork should be present`
-      ).toBeVisible()
-      await expect(
-        page
           .locator(".podcast-episode-card .podcast-episode-card-title")
           .getByText(episode.title, { exact: true }),
         `(Episode ${i + 1}) podcast episode card Title should be present`
       ).toBeVisible()
-      await expect(
-        page
+
+      // ensure description has no duplicates - remove all empty lines "" and newlines ("\n")
+      const descriptions = (
+        await page
           .locator(".podcast-episode-card .podcast-episode-card-description")
-          .nth(i),
-        `(Episode ${i + 1}) podcast episode card Description should be present`
-      ).toBeVisible()
+          .nth(i)
+          .allInnerTexts()
+      )
+        .join("")
+        .split("\n")
+        .filter((line) => line.trim() !== "")
+
+      expect(
+        new Set(descriptions).size,
+        `(Episode ${
+          i + 1
+        }) podcast episode card Description should not be duplicated due to React Strict Mode`
+      ).toBe(descriptions.length)
     }
   })
 })
