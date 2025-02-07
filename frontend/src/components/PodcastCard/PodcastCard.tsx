@@ -87,3 +87,25 @@ PodcastCard.EpisodeCount = function PodcastCardEpisodeCount() {
     </Pill>
   )
 }
+
+PodcastCard.Language = function PodcastCardLanguage() {
+  const { podcast } = usePodcastCardContext()
+  return podcast.language && <Pill>{podcast.language}</Pill>
+}
+
+PodcastCard.Categories = function PodcastCardCategories() {
+  const { podcast } = usePodcastCardContext()
+  return (
+    podcast.categories &&
+    podcast.categories.map((category, index) => {
+      return (
+        <Pill
+          className="podcast-card-category-pill"
+          key={`${category}-${index}`}
+        >
+          {category}
+        </Pill>
+      )
+    })
+  )
+}

@@ -42,3 +42,7 @@
   font-size: clamp(0.8rem, 0.8rem + 1vw, 1rem);
   margin: 0;
 }
+
+.podcast-card-category-pill {
+  background-color: var(--secondary-color);
+}
