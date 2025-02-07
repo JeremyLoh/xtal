@@ -12,6 +12,13 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
 
   async function assertPodcastInfo(page: Page, expectedPodcast: Podcast) {
     await expect(
+      page.locator(".podcast-info-container").getByRole("img", {
+        name: expectedPodcast.title + " podcast image",
+        exact: true,
+      }),
+      "Podcast Info Artwork should be present"
+    ).toBeVisible()
+    await expect(
       getPodcastInfoElement(page, expectedPodcast.title),
       "Podcast Info Title should be present"
     ).toBeVisible()

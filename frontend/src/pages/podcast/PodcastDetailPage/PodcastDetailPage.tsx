@@ -49,9 +49,12 @@ export default function PodcastDetailPage() {
     <div className="podcast-detail-container">
       <div className="podcast-info-container">
         {podcast && (
-          <PodcastCard podcast={podcast}>
-            <PodcastCard.TitleAndAuthor variant="large" />
-            <PodcastCard.EpisodeCount />
+          <PodcastCard podcast={podcast} customClassName="podcast-info-card">
+            <PodcastCard.Artwork size={144} />
+            <div>
+              <PodcastCard.TitleAndAuthor variant="large" />
+              <PodcastCard.EpisodeCount />
+            </div>
           </PodcastCard>
         )}
       </div>
