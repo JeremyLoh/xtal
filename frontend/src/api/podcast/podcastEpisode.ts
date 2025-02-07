@@ -1,5 +1,5 @@
 import ky from "ky"
-import { PodcastEpisode } from "./model/podcast"
+import { Podcast, PodcastEpisode } from "./model/podcast"
 
 const BACKEND_ORIGIN = import.meta.env.VITE_BACKEND_ORIGIN
 
@@ -11,7 +11,10 @@ type PodcastEpisodeSearchParams = {
 
 type PodcastEpisodeResponse = {
   count: number
-  data: PodcastEpisode[]
+  data: {
+    podcast: Podcast
+    episodes: PodcastEpisode[]
+  }
 }
 
 async function getPodcastEpisodes(

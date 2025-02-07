@@ -27,7 +27,7 @@ export default function PodcastDetailPage() {
           }
         )
         if (podcastEpisodes && podcastEpisodes.data) {
-          setPodcastEpisodes(podcastEpisodes.data)
+          setPodcastEpisodes(podcastEpisodes.data.episodes)
           // TODO update backend api for podcast episodes to return feed information as well
           // setPodcast({
           //   id: podcastEpisodes.data[0].feedId,

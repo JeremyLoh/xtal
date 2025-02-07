@@ -25,7 +25,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     //     .getByText("Batman University", { exact: true })
     // ).toBeVisible()
     for (let i = 0; i < defaultTenPodcastEpisodes.count; i++) {
-      const episode = defaultTenPodcastEpisodes.data[i]
+      const episode = defaultTenPodcastEpisodes.data.episodes[i]
       await expect(
         page
           .locator(".podcast-episode-card .podcast-episode-card-artwork")

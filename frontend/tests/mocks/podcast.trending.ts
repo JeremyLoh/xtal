@@ -189,7 +189,7 @@ export const threeTrendingPodcasts = {
       latestPublishTime: 1738648807,
       itunesId: 1561818422,
       trendScore: 9,
-      language: "English",
+      language: "English", // "en"
       categories: ["Tv", "Film", "Reviews"],
     },
     {
@@ -204,7 +204,7 @@ export const threeTrendingPodcasts = {
       latestPublishTime: 1738648815,
       itunesId: 1577368197,
       trendScore: 9,
-      language: "English (United States)",
+      language: "English (United States)", // "en-US"
       categories: ["Arts", "Books", "Business", "Investing"],
     },
     {
@@ -218,7 +218,7 @@ export const threeTrendingPodcasts = {
       latestPublishTime: 1738648830,
       itunesId: 1212473460,
       trendScore: 9,
-      language: "Spanish",
+      language: "Spanish", // "es"
       categories: ["Science"],
     },
   ],
