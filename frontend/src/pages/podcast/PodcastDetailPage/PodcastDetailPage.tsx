@@ -1,17 +1,18 @@
 import "./PodcastDetailPage.css"
 import { useEffect, useRef, useState } from "react"
 import { useParams } from "react-router"
-import { PodcastEpisode } from "../../../api/podcast/model/podcast"
+import { Podcast, PodcastEpisode } from "../../../api/podcast/model/podcast"
 import { getPodcastEpisodes } from "../../../api/podcast/podcastEpisode"
 import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/PodcastEpisodeCard"
+import PodcastCard from "../../../components/PodcastCard/PodcastCard"
 
 export default function PodcastDetailPage() {
   const { podcastId, podcastTitle } = useParams()
   const abortControllerRef = useRef<AbortController | null>(null)
+  const [podcast, setPodcast] = useState<Podcast | null>(null)
   const [podcastEpisodes, setPodcastEpisodes] = useState<
     PodcastEpisode[] | null
   >(null)
-  // const [podcast, setPodcast] = useState<Podcast | null>(null)
 
   useEffect(() => {
     async function fetchPodcastEpisodes(podcastId: string) {
@@ -28,17 +29,7 @@ export default function PodcastDetailPage() {
         )
         if (podcastEpisodes && podcastEpisodes.data) {
           setPodcastEpisodes(podcastEpisodes.data.episodes)
-          // TODO update backend api for podcast episodes to return feed information as well
-          // setPodcast({
-          //   id: podcastEpisodes.data[0].feedId,
-          //   url: podcastEpisodes.data[0].externalWebsiteUrl,
-          //   title: "",
-          //   description: "",
-          //   author: "",
-          //   image: "",
-          //   language: podcastEpisodes.data[0].language,
-          //   categories: [],
-          // })
+          setPodcast(podcastEpisodes.data.podcast)
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
@@ -57,6 +48,13 @@ export default function PodcastDetailPage() {
 
   return (
     <div className="podcast-detail-container">
+      <div className="podcast-info-container">
+        {podcast && (
+          <PodcastCard podcast={podcast}>
+            <PodcastCard.TitleAndAuthor variant="large" />
+          </PodcastCard>
+        )}
+      </div>
       <h2>Episodes</h2>
       <div className="podcast-episode-container">
         {podcastEpisodes &&

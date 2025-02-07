@@ -1,8 +1,24 @@
-import test, { expect } from "@playwright/test"
+import test, { expect, Page } from "@playwright/test"
 import { HOMEPAGE } from "../constants/homepageConstants"
 import { defaultTenPodcastEpisodes } from "../mocks/podcast.episode"
+import { Podcast } from "../../src/api/podcast/model/podcast"
 
 test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITLE/PODCAST-ID", () => {
+  async function assertPodcastInfo(page: Page, expectedPodcast: Podcast) {
+    await expect(
+      page.locator(".podcast-info-container").getByText(expectedPodcast.title, {
+        exact: true,
+      })
+    ).toBeVisible()
+    await expect(
+      page
+        .locator(".podcast-info-container")
+        .getByText(expectedPodcast.author, {
+          exact: true,
+        })
+    ).toBeVisible()
+  }
+
   test("should display podcast detail page", async ({ page }) => {
     // TODO url encode the podcast title during navigation
     const podcastTitle = encodeURIComponent("Batman University")
@@ -18,12 +34,9 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     )
     await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
     await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-    // TODO assert that the podcast feed <PodcastCard> is present
-    // await expect(
-    //   page
-    //     .locator(".podcast-card")
-    //     .getByText("Batman University", { exact: true })
-    // ).toBeVisible()
+
+    await assertPodcastInfo(page, defaultTenPodcastEpisodes.data.podcast)
+
     for (let i = 0; i < defaultTenPodcastEpisodes.count; i++) {
       const episode = defaultTenPodcastEpisodes.data.episodes[i]
       await expect(
