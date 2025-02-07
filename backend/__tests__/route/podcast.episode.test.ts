@@ -244,7 +244,7 @@ describe("GET /api/podcast/episodes", () => {
     })
   })
 
-  test.only("should specify response content type header of application/json", async () => {
+  test("should specify response content type header of application/json", async () => {
     const podcastId = "75075"
     const limit = "10"
     const app = setupApp()
@@ -254,7 +254,6 @@ describe("GET /api/podcast/episodes", () => {
     expect(response.headers["content-type"]).toEqual(
       expect.stringContaining("application/json")
     )
-    console.log(JSON.stringify(response.body))
   })
 
   describe("limit parameter", () => {
