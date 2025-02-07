@@ -13,5 +13,5 @@
 .podcast-episode-card-description {
   font-size: 0.9rem;
   overflow-y: scroll;
-  height: 200px;
+  max-height: 200px;
 }
