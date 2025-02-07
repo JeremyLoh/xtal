@@ -16,7 +16,6 @@ export default function PodcastDetailPage() {
 
   useEffect(() => {
     async function fetchPodcastEpisodes(podcastId: string) {
-      // TODO fetch data for the podcast based on podcast id. To get summary information
       abortControllerRef.current?.abort()
       abortControllerRef.current = new AbortController()
       try {
@@ -52,6 +51,7 @@ export default function PodcastDetailPage() {
         {podcast && (
           <PodcastCard podcast={podcast}>
             <PodcastCard.TitleAndAuthor variant="large" />
+            <PodcastCard.EpisodeCount />
           </PodcastCard>
         )}
       </div>

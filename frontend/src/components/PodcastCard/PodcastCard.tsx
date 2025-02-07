@@ -2,6 +2,7 @@ import "./PodcastCard.css"
 import { createContext, PropsWithChildren, useContext } from "react"
 import { MdOutlineImageNotSupported } from "react-icons/md"
 import { Podcast } from "../../api/podcast/model/podcast"
+import Pill from "../Pill/Pill"
 
 type PodcastCardProps = PropsWithChildren & {
   customClassName?: string
@@ -75,5 +76,14 @@ PodcastCard.TitleAndAuthor = function PodcastCardTitleAndAuthor({
       <p className="podcast-card-title">{podcast.title}</p>
       <p className="podcast-card-author">{podcast.author}</p>
     </div>
+  )
+}
+
+PodcastCard.EpisodeCount = function PodcastCardEpisodeCount() {
+  const { podcast } = usePodcastCardContext()
+  return (
+    <Pill>
+      {podcast.episodeCount ? `${podcast.episodeCount} episodes` : "0 episodes"}
+    </Pill>
   )
 }
