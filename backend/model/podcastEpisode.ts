@@ -1,4 +1,4 @@
-import { Transcript } from "../api/model/podcast.js"
+import { Transcript } from "../api/model/podcastEpisode.js"
 import { Language } from "./podcast.js"
 
 type Person = {
@@ -30,6 +30,6 @@ export type PodcastEpisode = {
   language: Language
   people: Person[] | null
   externalWebsiteUrl: string
-  transcripts: Transcript[]
+  transcripts: Transcript[] | null
   isActiveFeed: boolean
 }

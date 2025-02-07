@@ -222,8 +222,81 @@ export const PODCAST_TRENDING_DEFAULT_TEN_ENTRIES = {
   description: "Found trending feeds.",
 }
 
-// only search by id=75075 - https://podcastindex-org.github.io/docs-api/#get-/episodes/byfeedid
 export const PODCAST_BY_FEED_ID_75075 = {
+  // PodcastIndex.org GET /podcasts/byfeedid - https://podcastindex-org.github.io/docs-api/#get-/podcasts/byfeedid
+  status: "true",
+  query: {
+    id: "920666",
+  },
+  feed: {
+    id: 75075,
+    podcastGuid: "9b024349-ccf0-5f69-a609-6b82873eab3c",
+    title: "Batman University",
+    url: "https://feeds.theincomparable.com/batmanuniversity",
+    originalUrl: "https://feeds.theincomparable.com/batmanuniversity",
+    link: "https://www.theincomparable.com/batmanuniversity/",
+    description:
+      "Batman University is a seasonal podcast about you know who. It began with an analysis of episodes of “Batman: The Animated Series” but has now expanded to cover other series, movies, and media. Your professor is Tony Sindelar.",
+    author: "Tony Sindelar",
+    ownerName: "The Incomparable",
+    image:
+      "https://www.theincomparable.com/imgs/logos/logo-batmanuniversity-3x.jpg?cache-buster=2019-06-11",
+    artwork:
+      "https://www.theincomparable.com/imgs/logos/logo-batmanuniversity-3x.jpg?cache-buster=2019-06-11",
+    lastUpdateTime: 1613394044,
+    lastCrawlTime: 1613394034,
+    lastParseTime: 1613394045,
+    lastGoodHttpStatusTime: 1613394034,
+    lastHttpStatus: 200,
+    contentType: "application/rss+xml",
+    itunesId: 1441923632,
+    itunesType: "episodic",
+    generator: "my podcast host",
+    language: "en-us",
+    explicit: false,
+    type: 0,
+    medium: "music",
+    dead: 0,
+    chash: "ad651c60eaaf3344595c0dd0bd787993",
+    episodeCount: 19,
+    crawlErrors: 0,
+    parseErrors: 0,
+    categories: {
+      "104": "Tv",
+      "105": "Film",
+      "107": "Reviews",
+    },
+    locked: 0,
+    imageUrlHash: 3969216649,
+    value: {
+      model: {
+        type: "lightning",
+        method: "keysend",
+        suggested: "0.00000020000",
+      },
+      destinations: [
+        {
+          name: "podcaster",
+          address:
+            "03ae9f91a0cb8ff43840e3c322c4c61f019d8c1c3cea15a25cfc425ac605e61a4a",
+          type: "node",
+          split: 99,
+          fee: true,
+          customKey: "112111100",
+          customValue: "wal_ZmqFg13NB31oek",
+        },
+      ],
+    },
+    funding: {
+      url: "https://patreon.com/johnchidgey",
+      message: "Pragmatic on Patreon",
+    },
+  },
+  description: "Found matching feed",
+}
+
+// only search by id=75075 - https://podcastindex-org.github.io/docs-api/#get-/episodes/byfeedid
+export const PODCAST_EPISODES_BY_FEED_ID_75075 = {
   status: "true",
   liveItems: [],
   items: [
