@@ -48,12 +48,15 @@ export default function PodcastDetailPage() {
 
   return (
     <div className="podcast-detail-container">
-      <button className="podcast-detail-back-button">
-        <IoArrowBackSharp size={16} />
-        <Link to="/podcasts" style={{ textDecoration: "none" }}>
+      <Link
+        to="/podcasts"
+        style={{ textDecoration: "none", width: "fit-content" }}
+      >
+        <button className="podcast-detail-back-button">
+          <IoArrowBackSharp size={16} />
           Back
-        </Link>
-      </button>
+        </button>
+      </Link>
       <div className="podcast-info-container">
         {podcast && (
           <PodcastCard podcast={podcast} customClassName="podcast-info-card">
