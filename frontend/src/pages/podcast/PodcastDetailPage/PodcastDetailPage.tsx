@@ -1,6 +1,7 @@
 import "./PodcastDetailPage.css"
 import { useEffect, useRef, useState } from "react"
 import { useParams } from "react-router"
+import { toast } from "sonner"
 import { Podcast, PodcastEpisode } from "../../../api/podcast/model/podcast"
 import { getPodcastEpisodes } from "../../../api/podcast/podcastEpisode"
 import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/PodcastEpisodeCard"
@@ -32,8 +33,7 @@ export default function PodcastDetailPage() {
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
-        // TODO show error toast
-        console.error(error.message)
+        toast.error(error.message)
       }
     }
 

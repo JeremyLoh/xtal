@@ -1,5 +1,5 @@
 import test, { expect, Page } from "@playwright/test"
-import { HOMEPAGE } from "../constants/homepageConstants"
+import { getToastMessages, HOMEPAGE } from "../constants/homepageConstants"
 import { defaultTenPodcastEpisodes } from "../mocks/podcast.episode"
 import { Podcast } from "../../src/api/podcast/model/podcast"
 
@@ -92,5 +92,37 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
         }) podcast episode card Description should not be duplicated due to React Strict Mode`
       ).toBe(descriptions.length)
     }
+  })
+
+  test("should display error toast for rate limit exceeded", async ({
+    page,
+  }) => {
+    const podcastTitle = encodeURIComponent("Batman University")
+    const podcastId = "75075"
+    const limit = 10
+    await page.route(
+      `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+      async (route) => {
+        await route.fulfill({
+          status: 429,
+          // retry-after headers are missing - https://github.com/microsoft/playwright/issues/19788
+          headers: {
+            "access-control-expose-headers": "retry-after",
+            "retry-after": "2",
+          },
+          body: "Too many requests, please try again later.",
+        })
+      }
+    )
+    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+    const toastMessages = await getToastMessages(page)
+    expect(
+      toastMessages,
+      "should have rate limit exceeded error toast message"
+    ).toEqual(
+      expect.arrayContaining([
+        "Rate Limit Exceeded, please try again after 2 seconds",
+      ])
+    )
   })
 })

@@ -38,7 +38,12 @@ async function getPodcastEpisodes(
       console.log("Aborted getPodcastEpisodes request")
       return null
     }
-    // TODO handle rate limit and throw error
+    if (error.response && error.response.status === 429) {
+      const timeoutInSeconds = error.response.headers.get("retry-after")
+      throw new Error(
+        `Rate Limit Exceeded, please try again after ${timeoutInSeconds} seconds`
+      )
+    }
     return null // TODO throw generic error instead of null
   }
 }
