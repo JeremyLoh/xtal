@@ -115,6 +115,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       }
     )
     await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+    await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
     const toastMessages = await getToastMessages(page)
     expect(
       toastMessages,
@@ -122,6 +123,30 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     ).toEqual(
       expect.arrayContaining([
         "Rate Limit Exceeded, please try again after 2 seconds",
+      ])
+    )
+  })
+
+  test("should generic error toast for server HTTP 404 error", async ({
+    page,
+  }) => {
+    const podcastTitle = encodeURIComponent("Batman University")
+    const podcastId = "75075"
+    const limit = 10
+    await page.route(
+      `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+      async (route) => {
+        await route.fulfill({
+          status: 404,
+        })
+      }
+    )
+    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+    await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
+    const toastMessages = await getToastMessages(page)
+    expect(toastMessages, "should have server error toast message").toEqual(
+      expect.arrayContaining([
+        "Could not retrieve podcast episodes. Please try again later",
       ])
     )
   })

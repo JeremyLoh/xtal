@@ -44,7 +44,9 @@ async function getPodcastEpisodes(
         `Rate Limit Exceeded, please try again after ${timeoutInSeconds} seconds`
       )
     }
-    return null // TODO throw generic error instead of null
+    throw new Error(
+      "Could not retrieve podcast episodes. Please try again later"
+    )
   }
 }
 
