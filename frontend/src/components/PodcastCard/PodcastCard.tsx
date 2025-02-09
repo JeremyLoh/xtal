@@ -1,4 +1,5 @@
 import "./PodcastCard.css"
+import DOMPurify from "dompurify"
 import { createContext, PropsWithChildren, useContext } from "react"
 import { MdOutlineImageNotSupported } from "react-icons/md"
 import { Podcast } from "../../api/podcast/model/podcast"
@@ -28,8 +29,12 @@ export default function PodcastCard({
   customClassName,
   podcast,
 }: PodcastCardProps) {
+  const sanitizedPodcast = {
+    ...podcast,
+    description: DOMPurify.sanitize(podcast.description),
+  }
   return (
-    <PodcastCardContext.Provider value={{ podcast }}>
+    <PodcastCardContext.Provider value={{ podcast: sanitizedPodcast }}>
       <div className={`podcast-card ${customClassName || ""}`.trim()}>
         {children}
       </div>

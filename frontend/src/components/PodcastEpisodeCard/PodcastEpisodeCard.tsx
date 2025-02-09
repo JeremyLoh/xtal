@@ -1,4 +1,5 @@
 import "./PodcastEpisodeCard.css"
+import DOMPurify from "dompurify"
 import {
   createContext,
   PropsWithChildren,
@@ -36,8 +37,14 @@ export default function PodcastEpisodeCard({
   episode,
 }: PodcastEpisodeCardProps) {
   const descriptionDivRef = useRef<HTMLDivElement | null>(null)
+  const sanitizedEpisode = {
+    ...episode,
+    description: DOMPurify.sanitize(episode.description),
+  }
   return (
-    <PodcastEpisodeCardContext.Provider value={{ episode, descriptionDivRef }}>
+    <PodcastEpisodeCardContext.Provider
+      value={{ episode: sanitizedEpisode, descriptionDivRef }}
+    >
       <div className="podcast-episode-card">{children}</div>
     </PodcastEpisodeCardContext.Provider>
   )
