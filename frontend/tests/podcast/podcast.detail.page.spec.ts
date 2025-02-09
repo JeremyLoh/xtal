@@ -48,7 +48,6 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
   }
 
   test("should display podcast detail page", async ({ page }) => {
-    // TODO url encode the podcast title during navigation
     const podcastTitle = encodeURIComponent("Batman University")
     const podcastId = "75075"
     const limit = 10
