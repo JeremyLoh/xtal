@@ -1,0 +1,30 @@
+.audio-player {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.mobile,
+.desktop {
+  display: none;
+  width: 100%;
+}
+
+@media (max-width: 420px) {
+  .mobile {
+    display: block !important;
+  }
+  .desktop {
+    display: none !important;
+  }
+}
+
+@media (min-width: 421px) {
+  .mobile {
+    display: none !important;
+  }
+  .desktop {
+    display: block !important;
+  }
+}
