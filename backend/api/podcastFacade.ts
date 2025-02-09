@@ -10,6 +10,7 @@ interface PodcastFacade {
     podcastId: string,
     limit: number
   ): Promise<PodcastEpisode[]>
+  getPodcastInfo(podcastId: string): Promise<Podcast>
 }
 
 export class PodcastIndexFacade implements PodcastFacade {
@@ -41,5 +42,15 @@ export class PodcastIndexFacade implements PodcastFacade {
       searchParams
     )
     return episodes
+  }
+
+  async getPodcastInfo(podcastId: string) {
+    const authHeaders = this.authManager.getAuthTokenHeaders()
+    const searchParams = new URLSearchParams(`id=${podcastId}`)
+    const podcast = await this.podcastApi.getPodcastByFeedId(
+      authHeaders,
+      searchParams
+    )
+    return podcast
   }
 }

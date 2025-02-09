@@ -1,0 +1,17 @@
+.podcast-episode-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-bottom: 1mm solid var(--text-color);
+}
+
+.podcast-episode-card-title {
+  font-weight: bold;
+  font-size: large;
+}
+
+.podcast-episode-card-description {
+  font-size: 0.9rem;
+  overflow-y: scroll;
+  max-height: 200px;
+}

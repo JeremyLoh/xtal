@@ -105,9 +105,11 @@ export type Podcast = {
   description: string
   author: string
   image: string
-  latestPublishTime: number | undefined
-  itunesId: number | null
-  trendScore: number
   language: Language
+  latestPublishTime: number | undefined
   categories: string[]
+  itunesId?: number | null
+  trendScore?: number
+  episodeCount?: number
+  isExplicit?: boolean
 }

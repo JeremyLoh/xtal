@@ -4,6 +4,7 @@ import rateLimiter from "../../middleware/rateLimiter.js"
 import { getPodcastEpisodes } from "../../service/podcastEpisodeService.js"
 import { getPodcastEpisodeValidationSchema } from "../../validation/podcastEpisodeValidation.js"
 import { InvalidApiKeyError } from "../../error/invalidApiKeyError.js"
+import { getPodcastInfo } from "../../service/podcastInfoService.js"
 
 const router = Router()
 
@@ -25,6 +26,8 @@ router.get(
     const offset = Number(data.offset) || 0
 
     try {
+      // choose to not use Promise.allSettled() to respect PodcastIndex API rate limit
+      const podcast = await getPodcastInfo(podcastId)
       // there is no pagination based on offset available for PodcastIndex API endpoint
       const episodes = await getPodcastEpisodes(podcastId, limit + offset)
       response.status(200)
@@ -32,13 +35,13 @@ router.get(
       if (offset === 0) {
         response.send({
           count: episodes.length,
-          data: episodes,
+          data: { podcast, episodes },
         })
       } else {
         const offsetEpisodes = episodes.slice(offset, offset + limit)
         response.send({
           count: offsetEpisodes.length,
-          data: offsetEpisodes,
+          data: { podcast, episodes: offsetEpisodes },
         })
       }
     } catch (error: any) {

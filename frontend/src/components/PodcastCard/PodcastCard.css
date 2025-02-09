@@ -31,3 +31,18 @@
   color: var(--subtitle-text-color);
   font-size: clamp(0.6rem, 0.6rem + 1vw, 0.8rem);
 }
+
+.podcast-card-title-large {
+  font-weight: bold;
+  font-size: clamp(0.9rem, 0.9rem + 1vw, 1.2rem);
+  margin: 0;
+}
+.podcast-card-author-large {
+  color: var(--subtitle-text-color);
+  font-size: clamp(0.8rem, 0.8rem + 1vw, 1rem);
+  margin: 0;
+}
+
+.podcast-card-category-pill {
+  background-color: var(--secondary-color);
+}

@@ -2,6 +2,7 @@ import "./TrendingPodcastSection.css"
 import dayjs from "dayjs"
 import { toast } from "sonner"
 import { useEffect, useRef, useState } from "react"
+import { Link } from "react-router"
 import { IoChevronForward, IoReload } from "react-icons/io5"
 import { TrendingPodcast } from "../../../../../api/podcast/model/podcast"
 import PodcastCard from "../../../../../components/PodcastCard/PodcastCard"
@@ -68,6 +69,10 @@ export default function TrendingPodcastSection() {
     }
   }
 
+  function getPodcastDetailPath(podcast: TrendingPodcast) {
+    return `/podcasts/${encodeURIComponent(podcast.title)}/${podcast.id}`
+  }
+
   return (
     <div className="podcast-trending-container">
       <h2 className="podcast-trending-title">
@@ -108,7 +113,12 @@ export default function TrendingPodcastSection() {
               podcast={podcast}
             >
               <PodcastCard.Artwork size={isMobile ? 144 : 200} />
-              <PodcastCard.TitleAndAuthor />
+              <Link
+                to={getPodcastDetailPath(podcast)}
+                className="podcast-trending-card-detail-link"
+              >
+                <PodcastCard.TitleAndAuthor />
+              </Link>
             </PodcastCard>
           ))
         )}

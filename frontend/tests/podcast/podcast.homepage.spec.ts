@@ -19,7 +19,7 @@ import {
   defaultTenTrendingPodcasts,
   threeTrendingPodcasts,
   zeroTrendingPodcasts,
-} from "../mocks/podcast"
+} from "../mocks/podcast.trending"
 
 test.describe("Podcast Homepage /podcasts", () => {
   test("should display title", async ({ page }) => {
@@ -72,6 +72,61 @@ test.describe("Podcast Homepage /podcasts", () => {
     function getPodcastCards(page: Page) {
       return page.locator(".podcast-trending-container .podcast-trending-card")
     }
+    function getPodcastCardDetailLink(page: Page, elementIndex: number) {
+      return getPodcastCards(page)
+        .nth(elementIndex)
+        .locator(".podcast-trending-card-detail-link")
+    }
+
+    test.describe("navigation to podcast detail page", () => {
+      test("should have underline text decoration on hover of trending podcast title and description", async ({
+        page,
+      }) => {
+        await page.route(
+          "*/**/api/podcast/trending?limit=10&since=*",
+          async (route) => {
+            const json = defaultTenTrendingPodcasts
+            await route.fulfill({ json })
+          }
+        )
+        await page.goto(HOMEPAGE + "/podcasts")
+        await expect(page).toHaveTitle(/xtal - podcasts/)
+        await expect(page.locator(".podcast-trending-container")).toBeVisible()
+        await expect(
+          getPodcastCardDetailLink(page, 0),
+          "should not have underline text decoration without hover"
+        ).not.toHaveCSS("text-decoration", /underline/)
+        await getPodcastCardDetailLink(page, 0).hover({
+          position: { x: 1, y: 1 },
+        })
+        await expect(
+          getPodcastCardDetailLink(page, 0),
+          "should have underline text decoration on hover"
+        ).toHaveCSS("text-decoration", /underline/)
+      })
+
+      test("should navigate to podcast detail page on click of one trending podcast link", async ({
+        page,
+      }) => {
+        const podcastTitle = encodeURIComponent(
+          defaultTenTrendingPodcasts.data[0].title
+        )
+        const podcastId = defaultTenTrendingPodcasts.data[0].id
+        const expectedUrl = HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`
+        await page.route(
+          "*/**/api/podcast/trending?limit=10&since=*",
+          async (route) => {
+            const json = defaultTenTrendingPodcasts
+            await route.fulfill({ json })
+          }
+        )
+        await page.goto(HOMEPAGE + "/podcasts")
+        await expect(page).toHaveTitle(/xtal - podcasts/)
+        await expect(page.locator(".podcast-trending-container")).toBeVisible()
+        await getPodcastCardDetailLink(page, 0).click()
+        expect(page.url()).toBe(expectedUrl)
+      })
+    })
 
     test("should display desktop view default 10 trending podcasts and remove any duplicate entries", async ({
       page,
