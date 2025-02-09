@@ -24,6 +24,7 @@
 
 .podcast-card-title {
   font-weight: bold;
+  color: var(--text-color);
   font-size: clamp(0.7rem, 0.7rem + 1vw, 1rem);
 }
 
