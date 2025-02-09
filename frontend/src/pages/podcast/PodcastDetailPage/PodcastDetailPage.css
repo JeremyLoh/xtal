@@ -4,6 +4,22 @@
   width: 80%;
   max-width: 120ch;
   margin: 1rem auto;
+  gap: 1rem;
+}
+
+.podcast-detail-back-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.5em;
+  font-size: clamp(0.7rem, 0.7rem + 1vw, 1rem);
+  background-color: var(--primary-color);
+  width: fit-content;
+}
+.podcast-detail-back-button:hover {
+  filter: brightness(0.9);
 }
 
 .podcast-info-card {

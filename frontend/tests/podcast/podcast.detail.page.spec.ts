@@ -52,7 +52,6 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     const podcastTitle = encodeURIComponent("Batman University")
     const podcastId = "75075"
     const limit = 10
-
     await page.route(
       `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
       async (route) => {
@@ -92,6 +91,28 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
         }) podcast episode card Description should not be duplicated due to React Strict Mode`
       ).toBe(descriptions.length)
     }
+  })
+
+  test("should allow back button click to navigate back to /podcasts homepage", async ({
+    page,
+  }) => {
+    const podcastTitle = encodeURIComponent("Batman University")
+    const podcastId = "75075"
+    const limit = 10
+    await page.route(
+      `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+      async (route) => {
+        const json = defaultTenPodcastEpisodes
+        await route.fulfill({ json })
+      }
+    )
+    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+    await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
+    await assertPodcastInfo(page, defaultTenPodcastEpisodes.data.podcast)
+    await expect(page.locator(".podcast-detail-back-button")).toBeVisible()
+    await page.locator(".podcast-detail-back-button").click()
+    await expect(page).toHaveTitle("xtal - podcasts")
+    expect(page.url()).toMatch(/\/podcasts$/)
   })
 
   test("should display error toast for rate limit exceeded", async ({

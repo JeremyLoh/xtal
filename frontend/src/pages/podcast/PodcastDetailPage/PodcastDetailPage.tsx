@@ -1,7 +1,8 @@
 import "./PodcastDetailPage.css"
 import { useEffect, useRef, useState } from "react"
-import { useParams } from "react-router"
+import { Link, useParams } from "react-router"
 import { toast } from "sonner"
+import { IoArrowBackSharp } from "react-icons/io5"
 import { Podcast, PodcastEpisode } from "../../../api/podcast/model/podcast"
 import { getPodcastEpisodes } from "../../../api/podcast/podcastEpisode"
 import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/PodcastEpisodeCard"
@@ -47,6 +48,12 @@ export default function PodcastDetailPage() {
 
   return (
     <div className="podcast-detail-container">
+      <button className="podcast-detail-back-button">
+        <IoArrowBackSharp size={16} />
+        <Link to="/podcasts" style={{ textDecoration: "none" }}>
+          Back
+        </Link>
+      </button>
       <div className="podcast-info-container">
         {podcast && (
           <PodcastCard podcast={podcast} customClassName="podcast-info-card">
