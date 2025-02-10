@@ -13,6 +13,18 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       exact: true,
     })
   }
+  function getExpectedEpisodeDuration(durationInSeconds: number) {
+    const expectedHours = Math.floor(durationInSeconds / 3600)
+    const expectedMins =
+      expectedHours === 0
+        ? Math.floor(durationInSeconds / 60)
+        : Math.floor((durationInSeconds - expectedHours * 3600) / 60)
+    const expectedDuration =
+      expectedHours === 0
+        ? `${expectedMins} min`
+        : `${expectedHours} hr ${expectedMins} min`
+    return expectedDuration
+  }
 
   async function assertPodcastInfo(page: Page, expectedPodcast: Podcast) {
     await expect(
@@ -69,9 +81,9 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
 
     for (let i = 0; i < defaultTenPodcastEpisodes.count; i++) {
       const episode = defaultTenPodcastEpisodes.data.episodes[i]
-      const expectedEpisodeDuration = dayjs
-        .duration(episode.durationInSeconds, "seconds")
-        .minutes()
+      const expectedEpisodeDuration = getExpectedEpisodeDuration(
+        episode.durationInSeconds
+      )
       const expectedDate = dayjs
         .unix(episode.datePublished)
         .format("MMMM D, YYYY")
@@ -114,7 +126,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
         page
           .locator(".podcast-episode-card")
           .nth(i)
-          .getByText(`${expectedEpisodeDuration} min`, { exact: true }),
+          .getByText(expectedEpisodeDuration, { exact: true }),
         `(Episode ${
           i + 1
         }) podcast episode card Duration in Minutes should be present`
@@ -142,6 +154,59 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
         `(Episode ${i + 1}) podcast episode card Play button should be present`
       ).toBeVisible()
     }
+  })
+
+  test.describe("episode duration", () => {
+    test("should display duration of episode in hours and minutes", async ({
+      page,
+    }) => {
+      const expectedDurationsInSeconds = [
+        3600, 3601, 3602, 3603, 3604, 3605, 3606, 3607, 3608, 3609,
+      ]
+      const mockDurationPodcastEpisodes = {
+        ...defaultTenPodcastEpisodes,
+        data: {
+          ...defaultTenPodcastEpisodes.data,
+          episodes: defaultTenPodcastEpisodes.data.episodes.map(
+            (episode, index) => {
+              return {
+                ...episode,
+                durationInSeconds: expectedDurationsInSeconds[index],
+              }
+            }
+          ),
+        },
+      }
+      const podcastTitle = encodeURIComponent("Batman University")
+      const podcastId = "75075"
+      const limit = 10
+      await page.route(
+        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+        async (route) => {
+          const json = mockDurationPodcastEpisodes
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+      await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
+      for (
+        let i = 0;
+        i < mockDurationPodcastEpisodes.data.episodes.length;
+        i++
+      ) {
+        const episode = mockDurationPodcastEpisodes.data.episodes[i]
+        const expectedDuration = getExpectedEpisodeDuration(
+          episode.durationInSeconds
+        )
+        await expect(
+          page
+            .locator(".podcast-episode-card")
+            .nth(i)
+            .getByText(expectedDuration, { exact: true }),
+          `(Episode ${i + 1}) podcast episode card Duration should be present`
+        ).toBeVisible()
+      }
+    })
   })
 
   test.describe("podcast episode player", () => {

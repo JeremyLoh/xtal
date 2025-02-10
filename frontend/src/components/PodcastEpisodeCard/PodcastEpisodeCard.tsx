@@ -9,11 +9,8 @@ import {
 } from "react"
 import { IoPlaySharp } from "react-icons/io5"
 import dayjs from "dayjs"
-import duration from "dayjs/plugin/duration.js"
 import { PodcastEpisode } from "../../api/podcast/model/podcast"
 import Pill from "../Pill/Pill"
-
-dayjs.extend(duration)
 
 type PodcastEpisodeCardProps = PropsWithChildren & {
   episode: PodcastEpisode
@@ -131,11 +128,11 @@ PodcastEpisodeCard.Description = function PodcastEpisodeCardDescription() {
 
 PodcastEpisodeCard.EpisodeNumber = function PodcastEpisodeCardNumber() {
   const { episode } = usePodcastEpisodeCardContext()
-  return (
-    <Pill className="podcast-episode-card-episode-number">
-      Episode {episode.episodeNumber}
-    </Pill>
-  )
+  if (episode.episodeNumber == null) {
+    return null
+  }
+  const text = `Episode ${episode.episodeNumber}`
+  return <Pill className="podcast-episode-card-episode-number">{text}</Pill>
 }
 
 PodcastEpisodeCard.PlayButton = function PodcastEpisodeCardPlayButton({
@@ -163,8 +160,15 @@ PodcastEpisodeCard.PublishDate = function PodcastEpisodeCardPublishDate() {
 
 PodcastEpisodeCard.Duration = function PodcastEpisodeCardDuration() {
   const { episode } = usePodcastEpisodeCardContext()
-  const durationInMinutes = episode.durationInSeconds
-    ? `${dayjs.duration(episode.durationInSeconds, "seconds").minutes()} min`
-    : "Duration Not Available"
+  if (episode.durationInSeconds == null) {
+    return null
+  }
+  const hours = Math.floor(episode.durationInSeconds / 3600)
+  const minutes =
+    hours === 0
+      ? Math.floor(episode.durationInSeconds / 60)
+      : Math.floor((episode.durationInSeconds - hours * 3600) / 60)
+  const durationInMinutes =
+    hours === 0 ? `${minutes} min` : `${hours} hr ${minutes} min`
   return <p className="podcast-episode-card-duration">{durationInMinutes}</p>
 }
