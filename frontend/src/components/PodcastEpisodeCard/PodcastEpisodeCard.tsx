@@ -7,6 +7,7 @@ import {
   useEffect,
   useRef,
 } from "react"
+import { IoPlaySharp } from "react-icons/io5"
 import { PodcastEpisode } from "../../api/podcast/model/podcast"
 
 type PodcastEpisodeCardProps = PropsWithChildren & {
@@ -117,5 +118,22 @@ PodcastEpisodeCard.Description = function PodcastEpisodeCardDescription() {
       ref={descriptionDivRef}
       className="podcast-episode-card-description"
     ></div>
+  )
+}
+
+PodcastEpisodeCard.PlayButton = function PodcastEpisodePlayButton({
+  handlePlayClick,
+}: {
+  handlePlayClick: (podcastEpisode: PodcastEpisode) => void
+}) {
+  const { episode } = usePodcastEpisodeCardContext()
+  return (
+    <button
+      onClick={() => handlePlayClick(episode)}
+      className="podcast-episode-play-button"
+    >
+      <IoPlaySharp size={16} />
+      Play
+    </button>
   )
 }
