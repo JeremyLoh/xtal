@@ -89,10 +89,10 @@ export default function PodcastDetailPage() {
             return (
               <PodcastEpisodeCard key={episode.id} episode={episode}>
                 <PodcastEpisodeCard.Title />
+                <PodcastEpisodeCard.PublishDate />
                 <PodcastEpisodeCard.PlayButton
                   handlePlayClick={handlePlayClick}
                 />
-                <PodcastEpisodeCard.PublishDate />
                 <PodcastEpisodeCard.Description />
               </PodcastEpisodeCard>
             )
