@@ -1,9 +1,12 @@
 .podcast-episode-card {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem;
+  padding-bottom: 1rem;
   border-bottom: 2mm dotted var(--primary-color);
+}
+
+.podcast-episode-card-artwork {
+  margin-bottom: 1rem;
 }
 
 .podcast-episode-card-title {
@@ -26,6 +29,7 @@
   justify-content: center;
   align-items: center;
   gap: 0.1rem;
+  margin: 1rem 0;
   font-weight: bold;
   background-color: var(--secondary-color);
   width: fit-content;
