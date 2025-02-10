@@ -69,8 +69,10 @@ function convertHtmlStringToElement(htmlString: string) {
 
 PodcastEpisodeCard.Artwork = function PodcastEpisodeCardArtwork({
   size,
+  title,
 }: {
   size: number
+  title: string
 }) {
   const { episode } = usePodcastEpisodeCardContext()
   return (
@@ -79,6 +81,7 @@ PodcastEpisodeCard.Artwork = function PodcastEpisodeCardArtwork({
       src={episode.image}
       width={size}
       height={size}
+      title={title}
     />
   )
 }

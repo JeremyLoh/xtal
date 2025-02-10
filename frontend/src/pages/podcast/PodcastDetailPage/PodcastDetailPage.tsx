@@ -88,6 +88,10 @@ export default function PodcastDetailPage() {
             }
             return (
               <PodcastEpisodeCard key={episode.id} episode={episode}>
+                <PodcastEpisodeCard.Artwork
+                  size={144}
+                  title={`${episode.title} podcast image`}
+                />
                 <PodcastEpisodeCard.Title />
                 <PodcastEpisodeCard.PublishDate />
                 <PodcastEpisodeCard.PlayButton

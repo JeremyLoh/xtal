@@ -66,21 +66,34 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
 
     for (let i = 0; i < defaultTenPodcastEpisodes.count; i++) {
       const episode = defaultTenPodcastEpisodes.data.episodes[i]
+      const expectedDate = dayjs
+        .unix(episode.datePublished)
+        .format("MMMM D, YYYY")
+      const expectedArtworkSize = "144"
+      const artwork = page.locator(".podcast-episode-card").getByRole("img", {
+        name: episode.title + " podcast image",
+        exact: true,
+      })
+      await expect(
+        artwork,
+        `(Episode ${i + 1}) podcast episode card Artwork should be present`
+      ).toBeVisible()
+      expect(
+        await artwork.getAttribute("width"),
+        `should have podcast artwork image width of ${expectedArtworkSize}`
+      ).toBe(expectedArtworkSize)
       await expect(
         page
           .locator(".podcast-episode-card .podcast-episode-card-title")
           .getByText(episode.title, { exact: true }),
         `(Episode ${i + 1}) podcast episode card Title should be present`
       ).toBeVisible()
-      const expectedDate = dayjs
-        .unix(episode.datePublished)
-        .format("MMMM D, YYYY")
+
       await expect(
         page
           .locator(".podcast-episode-card")
           .getByText(expectedDate, { exact: true })
       ).toBeVisible()
-
       // ensure description has no duplicates - remove all empty lines "" and newlines ("\n")
       const descriptions = (
         await page
