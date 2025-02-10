@@ -35,7 +35,9 @@ export default function PodcastPlayer() {
             <p className="podcast-play-episode-date">
               {getDateFormat(episode.datePublished)}
             </p>
-            <Pill className="podcast-play-episode-number">{`Episode ${episode.episodeNumber}`}</Pill>
+            {episode.episodeNumber && (
+              <Pill className="podcast-play-episode-number">{`Episode ${episode.episodeNumber}`}</Pill>
+            )}
           </div>
         )}
       </AudioPlayer>
