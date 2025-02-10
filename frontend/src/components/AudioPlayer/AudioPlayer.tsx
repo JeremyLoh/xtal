@@ -22,8 +22,9 @@ function AudioPlayer(props: AudioPlayerProps) {
     <div className="audio-player">
       {props.children}
       <MediaController audio>
-        <audio slot="media" src={props.source}></audio>
-        <MediaControlBar>
+        <audio slot="media" src={props.source} autoPlay></audio>
+
+        <MediaControlBar style={{ padding: "0 0.5rem" }}>
           <div className="mobile">
             <MediaPlayButton data-testid="audio-player-mobile-play-button" />
             <MediaSeekBackwardButton
