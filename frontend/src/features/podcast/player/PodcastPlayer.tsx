@@ -7,7 +7,7 @@ import AudioPlayer from "../../../components/AudioPlayer/AudioPlayer"
 import Pill from "../../../components/Pill/Pill"
 
 function getDateFormat(unixTimestampInSeconds: number): string {
-  return dayjs.unix(unixTimestampInSeconds).format("MMMM D YYYY")
+  return dayjs.unix(unixTimestampInSeconds).format("MMMM D, YYYY")
 }
 
 export default function PodcastPlayer() {

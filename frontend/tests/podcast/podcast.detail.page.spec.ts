@@ -72,6 +72,14 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
           .getByText(episode.title, { exact: true }),
         `(Episode ${i + 1}) podcast episode card Title should be present`
       ).toBeVisible()
+      const expectedDate = dayjs
+        .unix(episode.datePublished)
+        .format("MMMM D, YYYY")
+      await expect(
+        page
+          .locator(".podcast-episode-card")
+          .getByText(expectedDate, { exact: true })
+      ).toBeVisible()
 
       // ensure description has no duplicates - remove all empty lines "" and newlines ("\n")
       const descriptions = (
@@ -163,7 +171,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       )
       const expectedDateFormat = dayjs
         .unix(expectedEpisode.datePublished)
-        .format("MMMM D YYYY")
+        .format("MMMM D, YYYY")
       await assertEpisodePlayerHasText(page, expectedDateFormat)
     })
   })

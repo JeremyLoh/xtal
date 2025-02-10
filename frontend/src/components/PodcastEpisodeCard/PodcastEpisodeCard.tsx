@@ -8,6 +8,7 @@ import {
   useRef,
 } from "react"
 import { IoPlaySharp } from "react-icons/io5"
+import dayjs from "dayjs"
 import { PodcastEpisode } from "../../api/podcast/model/podcast"
 
 type PodcastEpisodeCardProps = PropsWithChildren & {
@@ -136,4 +137,10 @@ PodcastEpisodeCard.PlayButton = function PodcastEpisodePlayButton({
       Play
     </button>
   )
+}
+
+PodcastEpisodeCard.PublishDate = function PodcastEpisodePublishDate() {
+  const { episode } = usePodcastEpisodeCardContext()
+  const date = dayjs.unix(episode.datePublished).format("MMMM D, YYYY")
+  return <p className="podcast-episode-card-publish-date">{date}</p>
 }
