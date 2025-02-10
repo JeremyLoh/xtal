@@ -1,4 +1,5 @@
 import test, { expect, Page } from "@playwright/test"
+import dayjs from "dayjs"
 import { getToastMessages, HOMEPAGE } from "../constants/homepageConstants"
 import { defaultTenPodcastEpisodes } from "../mocks/podcast.episode"
 import { Podcast } from "../../src/api/podcast/model/podcast"
@@ -82,14 +83,89 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
         .join("")
         .split("\n")
         .filter((line) => line.trim() !== "")
-
       expect(
         new Set(descriptions).size,
         `(Episode ${
           i + 1
         }) podcast episode card Description should not be duplicated due to React Strict Mode`
       ).toBe(descriptions.length)
+      await expect(
+        page
+          .locator(".podcast-episode-card .podcast-episode-play-button")
+          .nth(i),
+        `(Episode ${i + 1}) podcast episode card Play button should be present`
+      ).toBeVisible()
     }
+  })
+
+  test.describe("podcast episode player", () => {
+    function getEpisodePlayButton(page: Page, index: number) {
+      return page
+        .locator(".podcast-episode-card .podcast-episode-play-button")
+        .nth(index)
+    }
+    async function assertEpisodePlayerHasText(
+      page: Page,
+      expectedText: string
+    ) {
+      await expect(
+        page.locator(".audio-player").getByText(expectedText, {
+          exact: true,
+        })
+      ).toBeVisible()
+    }
+
+    test("should play podcast episode when podcast episode card play button is clicked", async ({
+      page,
+    }) => {
+      const i = 0
+      const expectedArtworkSize = "96"
+      const expectedEpisode = defaultTenPodcastEpisodes.data.episodes[i]
+      const podcastTitle = encodeURIComponent("Batman University")
+      const podcastId = "75075"
+      const limit = 10
+      await page.route(
+        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+        async (route) => {
+          const json = defaultTenPodcastEpisodes
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+      await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
+      await expect(
+        getEpisodePlayButton(page, i),
+        `(Episode ${i + 1}) podcast episode card Play button should be present`
+      ).toBeVisible()
+      await getEpisodePlayButton(page, i).click()
+
+      await expect(
+        page.locator(".audio-player audio"),
+        "should have <audio> loaded with podcast episode"
+      ).toHaveAttribute("src", expectedEpisode.contentUrl)
+      await expect(
+        page.locator(".audio-player audio"),
+        "should have <audio> autoplay with podcast episode"
+      ).toHaveAttribute("autoplay")
+      const artwork = page.locator(".audio-player").getByRole("img", {
+        name: expectedEpisode.title + " podcast image",
+        exact: true,
+      })
+      await expect(artwork).toBeVisible()
+      expect(
+        await artwork.getAttribute("width"),
+        `should have podcast artwork image width of ${expectedArtworkSize}`
+      ).toBe(expectedArtworkSize)
+      await assertEpisodePlayerHasText(page, expectedEpisode.title)
+      await assertEpisodePlayerHasText(
+        page,
+        `Episode ${expectedEpisode.episodeNumber}`
+      )
+      const expectedDateFormat = dayjs
+        .unix(expectedEpisode.datePublished)
+        .format("MMMM D YYYY")
+      await assertEpisodePlayerHasText(page, expectedDateFormat)
+    })
   })
 
   test("should allow back button click to navigate back to /podcasts homepage", async ({
