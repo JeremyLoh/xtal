@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: center;
   width: fit-content;
+  height: fit-content;
 }
 
 .mobile,
