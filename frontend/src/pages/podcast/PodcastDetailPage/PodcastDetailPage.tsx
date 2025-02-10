@@ -94,6 +94,7 @@ export default function PodcastDetailPage() {
                 />
                 <PodcastEpisodeCard.Title />
                 <PodcastEpisodeCard.PublishDate />
+                <PodcastEpisodeCard.Duration />
                 <PodcastEpisodeCard.EpisodeNumber />
                 <PodcastEpisodeCard.PlayButton
                   handlePlayClick={handlePlayClick}

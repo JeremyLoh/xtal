@@ -43,6 +43,7 @@
   filter: brightness(0.9);
 }
 
+.podcast-episode-card-duration,
 .podcast-episode-card-publish-date {
   color: var(--subtitle-text-color);
   margin: 0;

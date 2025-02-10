@@ -1,8 +1,11 @@
 import test, { expect, Page } from "@playwright/test"
 import dayjs from "dayjs"
+import duration from "dayjs/plugin/duration.js"
 import { getToastMessages, HOMEPAGE } from "../constants/homepageConstants"
 import { defaultTenPodcastEpisodes } from "../mocks/podcast.episode"
 import { Podcast } from "../../src/api/podcast/model/podcast"
+
+dayjs.extend(duration)
 
 test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITLE/PODCAST-ID", () => {
   function getPodcastInfoElement(page: Page, text: string) {
@@ -66,6 +69,9 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
 
     for (let i = 0; i < defaultTenPodcastEpisodes.count; i++) {
       const episode = defaultTenPodcastEpisodes.data.episodes[i]
+      const expectedEpisodeDuration = dayjs
+        .duration(episode.durationInSeconds, "seconds")
+        .minutes()
       const expectedDate = dayjs
         .unix(episode.datePublished)
         .format("MMMM D, YYYY")
@@ -80,7 +86,9 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       ).toBeVisible()
       expect(
         await artwork.getAttribute("width"),
-        `should have podcast artwork image width of ${expectedArtworkSize}`
+        `(Episode ${
+          i + 1
+        }) podcast episode card should have artwork image width of ${expectedArtworkSize}`
       ).toBe(expectedArtworkSize)
       await expect(
         page
@@ -91,12 +99,25 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       await expect(
         page
           .locator(".podcast-episode-card")
-          .getByText(expectedDate, { exact: true })
+          .getByText(expectedDate, { exact: true }),
+        `(Episode ${i + 1}) podcast episode card Episode Date should be present`
       ).toBeVisible()
       await expect(
         page
           .locator(".podcast-episode-card")
-          .getByText(`Episode ${episode.episodeNumber}`, { exact: true })
+          .getByText(`Episode ${episode.episodeNumber}`, { exact: true }),
+        `(Episode ${
+          i + 1
+        }) podcast episode card Episode Number should be present`
+      ).toBeVisible()
+      await expect(
+        page
+          .locator(".podcast-episode-card")
+          .nth(i)
+          .getByText(`${expectedEpisodeDuration} min`, { exact: true }),
+        `(Episode ${
+          i + 1
+        }) podcast episode card Duration in Minutes should be present`
       ).toBeVisible()
       // ensure description has no duplicates - remove all empty lines "" and newlines ("\n")
       const descriptions = (

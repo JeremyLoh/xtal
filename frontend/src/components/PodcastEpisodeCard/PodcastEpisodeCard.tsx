@@ -9,8 +9,11 @@ import {
 } from "react"
 import { IoPlaySharp } from "react-icons/io5"
 import dayjs from "dayjs"
+import duration from "dayjs/plugin/duration.js"
 import { PodcastEpisode } from "../../api/podcast/model/podcast"
 import Pill from "../Pill/Pill"
+
+dayjs.extend(duration)
 
 type PodcastEpisodeCardProps = PropsWithChildren & {
   episode: PodcastEpisode
@@ -156,4 +159,12 @@ PodcastEpisodeCard.PublishDate = function PodcastEpisodeCardPublishDate() {
   const { episode } = usePodcastEpisodeCardContext()
   const date = dayjs.unix(episode.datePublished).format("MMMM D, YYYY")
   return <p className="podcast-episode-card-publish-date">{date}</p>
+}
+
+PodcastEpisodeCard.Duration = function PodcastEpisodeCardDuration() {
+  const { episode } = usePodcastEpisodeCardContext()
+  const durationInMinutes = episode.durationInSeconds
+    ? `${dayjs.duration(episode.durationInSeconds, "seconds").minutes()} min`
+    : "Duration Not Available"
+  return <p className="podcast-episode-card-duration">{durationInMinutes}</p>
 }
