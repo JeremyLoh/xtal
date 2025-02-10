@@ -88,11 +88,15 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
           .getByText(episode.title, { exact: true }),
         `(Episode ${i + 1}) podcast episode card Title should be present`
       ).toBeVisible()
-
       await expect(
         page
           .locator(".podcast-episode-card")
           .getByText(expectedDate, { exact: true })
+      ).toBeVisible()
+      await expect(
+        page
+          .locator(".podcast-episode-card")
+          .getByText(`Episode ${episode.episodeNumber}`, { exact: true })
       ).toBeVisible()
       // ensure description has no duplicates - remove all empty lines "" and newlines ("\n")
       const descriptions = (
@@ -112,7 +116,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       ).toBe(descriptions.length)
       await expect(
         page
-          .locator(".podcast-episode-card .podcast-episode-play-button")
+          .locator(".podcast-episode-card .podcast-episode-card-play-button")
           .nth(i),
         `(Episode ${i + 1}) podcast episode card Play button should be present`
       ).toBeVisible()
@@ -122,7 +126,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
   test.describe("podcast episode player", () => {
     function getEpisodePlayButton(page: Page, index: number) {
       return page
-        .locator(".podcast-episode-card .podcast-episode-play-button")
+        .locator(".podcast-episode-card .podcast-episode-card-play-button")
         .nth(index)
     }
     async function assertEpisodePlayerHasText(

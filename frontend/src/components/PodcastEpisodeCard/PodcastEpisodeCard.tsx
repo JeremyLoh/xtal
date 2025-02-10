@@ -10,6 +10,7 @@ import {
 import { IoPlaySharp } from "react-icons/io5"
 import dayjs from "dayjs"
 import { PodcastEpisode } from "../../api/podcast/model/podcast"
+import Pill from "../Pill/Pill"
 
 type PodcastEpisodeCardProps = PropsWithChildren & {
   episode: PodcastEpisode
@@ -125,7 +126,16 @@ PodcastEpisodeCard.Description = function PodcastEpisodeCardDescription() {
   )
 }
 
-PodcastEpisodeCard.PlayButton = function PodcastEpisodePlayButton({
+PodcastEpisodeCard.EpisodeNumber = function PodcastEpisodeCardNumber() {
+  const { episode } = usePodcastEpisodeCardContext()
+  return (
+    <Pill className="podcast-episode-card-episode-number">
+      Episode {episode.episodeNumber}
+    </Pill>
+  )
+}
+
+PodcastEpisodeCard.PlayButton = function PodcastEpisodeCardPlayButton({
   handlePlayClick,
 }: {
   handlePlayClick: (podcastEpisode: PodcastEpisode) => void
@@ -134,7 +144,7 @@ PodcastEpisodeCard.PlayButton = function PodcastEpisodePlayButton({
   return (
     <button
       onClick={() => handlePlayClick(episode)}
-      className="podcast-episode-play-button"
+      className="podcast-episode-card-play-button"
     >
       <IoPlaySharp size={16} />
       Play
@@ -142,7 +152,7 @@ PodcastEpisodeCard.PlayButton = function PodcastEpisodePlayButton({
   )
 }
 
-PodcastEpisodeCard.PublishDate = function PodcastEpisodePublishDate() {
+PodcastEpisodeCard.PublishDate = function PodcastEpisodeCardPublishDate() {
   const { episode } = usePodcastEpisodeCardContext()
   const date = dayjs.unix(episode.datePublished).format("MMMM D, YYYY")
   return <p className="podcast-episode-card-publish-date">{date}</p>
