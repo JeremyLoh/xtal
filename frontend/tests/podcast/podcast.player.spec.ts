@@ -119,4 +119,32 @@ test.describe("podcast audio player", () => {
       await assertDesktopPlayerIsVisible(page)
     })
   })
+
+  test.describe("podcast home page", () => {
+    test("should display audio player on mobile view", async ({
+      page,
+      isMobile,
+    }) => {
+      if (!isMobile) {
+        test.skip(!isMobile)
+        return
+      }
+      await page.goto(HOMEPAGE + "/podcasts")
+      await expect(page.locator(".podcast-player")).toBeVisible()
+      await assertMobilePlayerIsVisible(page)
+    })
+
+    test("should display audio player on desktop view", async ({
+      page,
+      isMobile,
+    }) => {
+      if (isMobile) {
+        test.skip(isMobile)
+        return
+      }
+      await page.goto(HOMEPAGE + "/podcasts/")
+      await expect(page.locator(".podcast-player")).toBeVisible()
+      await assertDesktopPlayerIsVisible(page)
+    })
+  })
 })
