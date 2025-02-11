@@ -31,13 +31,15 @@ export default function PodcastPlayer() {
                 title="Podcast Artwork Not Available"
               />
             )}
-            <p className="podcast-play-episode-title">{episode.title}</p>
-            <p className="podcast-play-episode-date">
-              {getDateFormat(episode.datePublished)}
-            </p>
-            {episode.episodeNumber && (
-              <Pill className="podcast-play-episode-number">{`Episode ${episode.episodeNumber}`}</Pill>
-            )}
+            <div className="podcast-play-episode-info">
+              <p className="podcast-play-episode-title">{episode.title}</p>
+              <p className="podcast-play-episode-date">
+                {getDateFormat(episode.datePublished)}
+              </p>
+              {episode.episodeNumber && (
+                <Pill className="podcast-play-episode-number">{`Episode ${episode.episodeNumber}`}</Pill>
+              )}
+            </div>
           </div>
         )}
       </AudioPlayer>

@@ -9,23 +9,32 @@
 
 .podcast-play-episode-container {
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+  flex-direction: row;
   gap: 0.5rem;
   width: fit-content;
-  margin-bottom: 1rem;
+  margin-bottom: 0.2rem;
 }
+
+.podcast-play-episode-info {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
 .podcast-play-episode-title {
   color: var(--text-color);
-  font-size: clamp(0.9rem, 0.9rem + 1vw, 1.2rem);
+  font-size: clamp(0.7rem, 0.7rem + 1vw, 1.1rem);
   font-weight: bold;
   margin: 0;
 }
 .podcast-play-episode-date {
   color: var(--subtitle-text-color);
-  font-size: clamp(0.7rem, 0.7rem + 1vw, 1rem);
+  font-size: clamp(0.6rem, 0.6rem + 1vw, 1rem);
   margin: 0;
 }
 .podcast-play-episode-number {
   width: fit-content;
+  margin-top: 0.2rem;
 }
