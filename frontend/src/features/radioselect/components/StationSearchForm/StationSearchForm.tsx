@@ -1,5 +1,5 @@
 import "./StationSearchForm.css"
-import { useState } from "react"
+import { JSX, useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { FaSearch } from "react-icons/fa"
 import { languages, LanguageEnum } from "../../../../api/radiobrowser/languages"
