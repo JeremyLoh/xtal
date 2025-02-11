@@ -17,7 +17,8 @@ Made using TypeScript, React and Playwright (end-to-end testing)
 
 # Packages used
 
-- Radio Browser - https://www.radio-browser.info/
+- Radio Browser (API for radio stations) - https://www.radio-browser.info/
+- Podcast Index (API for podcasts) - https://podcastindex.org/
 - Leaflet (Map) - https://leafletjs.com/
 - OpenStreetMap tiles (Tiles for map) - https://operations.osmfoundation.org/policies/tiles/
 - sonner (Toasts) - https://sonner.emilkowal.ski/
@@ -26,6 +27,7 @@ Made using TypeScript, React and Playwright (end-to-end testing)
 - react-hook-form - https://www.npmjs.com/package/react-hook-form
 - React Router - https://reactrouter.com/
 - Video.js - https://videojs.com/
+- media-chrome - https://www.media-chrome.org/
 
 Favicon - https://favicon.io/emoji-favicons/dizzy/
 

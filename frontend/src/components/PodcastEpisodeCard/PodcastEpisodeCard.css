@@ -1,11 +1,17 @@
 .podcast-episode-card {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-  border-bottom: 1mm solid var(--text-color);
+  padding-bottom: 1rem;
+  border-bottom: 2mm dotted var(--primary-color);
+}
+
+.podcast-episode-card-artwork {
+  margin-bottom: 1rem;
 }
 
 .podcast-episode-card-title {
+  margin-top: 0;
+  margin-bottom: 0;
   font-weight: bold;
   font-size: large;
 }
@@ -14,4 +20,31 @@
   font-size: 0.9rem;
   overflow-y: scroll;
   max-height: 200px;
+}
+
+.podcast-episode-card-episode-number {
+  width: fit-content;
+  margin-top: 0.5rem;
+}
+
+.podcast-episode-card-play-button {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.1rem;
+  margin: 1rem 0;
+  font-weight: bold;
+  background-color: var(--secondary-color);
+  width: fit-content;
+}
+.podcast-episode-card-play-button:hover {
+  filter: brightness(0.9);
+}
+
+.podcast-episode-card-duration,
+.podcast-episode-card-publish-date {
+  color: var(--subtitle-text-color);
+  margin: 0;
 }

@@ -1,5 +1,5 @@
 import "./PodcastDetailPage.css"
-import { useEffect, useRef, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { Link, useParams } from "react-router"
 import { toast } from "sonner"
 import { IoArrowBackSharp } from "react-icons/io5"
@@ -7,9 +7,11 @@ import { Podcast, PodcastEpisode } from "../../../api/podcast/model/podcast"
 import { getPodcastEpisodes } from "../../../api/podcast/podcastEpisode"
 import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/PodcastEpisodeCard"
 import PodcastCard from "../../../components/PodcastCard/PodcastCard"
+import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider"
 
 export default function PodcastDetailPage() {
   const { podcastId, podcastTitle } = useParams()
+  const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const abortControllerRef = useRef<AbortController | null>(null)
   const [podcast, setPodcast] = useState<Podcast | null>(null)
   const [podcastEpisodes, setPodcastEpisodes] = useState<
@@ -48,12 +50,15 @@ export default function PodcastDetailPage() {
 
   return (
     <div className="podcast-detail-container">
-      <button className="podcast-detail-back-button">
-        <IoArrowBackSharp size={16} />
-        <Link to="/podcasts" style={{ textDecoration: "none" }}>
+      <Link
+        to="/podcasts"
+        style={{ textDecoration: "none", width: "fit-content" }}
+      >
+        <button className="podcast-detail-back-button">
+          <IoArrowBackSharp size={16} />
           Back
-        </Link>
-      </button>
+        </button>
+      </Link>
       <div className="podcast-info-container">
         {podcast && (
           <PodcastCard podcast={podcast} customClassName="podcast-info-card">
@@ -76,9 +81,24 @@ export default function PodcastDetailPage() {
       <div className="podcast-episode-container">
         {podcastEpisodes &&
           podcastEpisodes.map((episode) => {
+            function handlePlayClick(podcastEpisode: PodcastEpisode) {
+              if (podcastEpisodeContext) {
+                podcastEpisodeContext.setEpisode(podcastEpisode)
+              }
+            }
             return (
               <PodcastEpisodeCard key={episode.id} episode={episode}>
+                <PodcastEpisodeCard.Artwork
+                  size={144}
+                  title={`${episode.title} podcast image`}
+                />
                 <PodcastEpisodeCard.Title />
+                <PodcastEpisodeCard.PublishDate />
+                <PodcastEpisodeCard.Duration />
+                <PodcastEpisodeCard.EpisodeNumber />
+                <PodcastEpisodeCard.PlayButton
+                  handlePlayClick={handlePlayClick}
+                />
                 <PodcastEpisodeCard.Description />
               </PodcastEpisodeCard>
             )

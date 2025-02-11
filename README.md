@@ -1,6 +1,6 @@
 # xtal
 
-Listen to the world's radio with xtal, a fast and responsive mobile / desktop web application
+Listen to the world (radio & podcasts) with xtal, a fast and responsive mobile / desktop web application
 
 # Features
 
@@ -9,6 +9,7 @@ Listen to the world's radio with xtal, a fast and responsive mobile / desktop we
   - Search stations by filters
   - Add / Remove Favourite Stations
   - Share a radio station using a link
+- Discover trending podcasts
 
 # Built With
 
@@ -18,7 +19,8 @@ Listen to the world's radio with xtal, a fast and responsive mobile / desktop we
 
 ## Packages used (Frontend)
 
-- Radio Browser - https://www.radio-browser.info/
+- Radio Browser (API for radio stations) - https://www.radio-browser.info/
+- Podcast Index (API for podcasts) - https://podcastindex.org/
 - Leaflet (Map) - https://leafletjs.com/
 - OpenStreetMap tiles (Tiles for map) - https://operations.osmfoundation.org/policies/tiles/
 - sonner (Toasts) - https://sonner.emilkowal.ski/
@@ -27,6 +29,7 @@ Listen to the world's radio with xtal, a fast and responsive mobile / desktop we
 - react-hook-form - https://www.npmjs.com/package/react-hook-form
 - React Router - https://reactrouter.com/
 - Video.js - https://videojs.com/
+- media-chrome - https://www.media-chrome.org/
 
 # Setup
 

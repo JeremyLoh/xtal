@@ -35,8 +35,9 @@ ENABLE_PROXY_TROUBLESHOOTING="false"
 4. `supertest` - testing HTTP server - https://www.npmjs.com/package/supertest
 5. `dayjs` - date utility library - https://day.js.org/
 6. `express-validator` - https://express-validator.github.io/docs/
-7. `dompurify` - html sanitization (**always update to the latest version**) - https://www.npmjs.com/package/dompurify
-8. `jsdom` - create DOM for DOMPurify (**always update to the latest version**) - https://github.com/jsdom/jsdom
+7. `express-rate-limit` - https://www.npmjs.com/package/express-rate-limit
+8. `dompurify` - html sanitization (**always update to the latest version**) - https://www.npmjs.com/package/dompurify
+9. `jsdom` - create DOM for DOMPurify (**always update to the latest version**) - https://github.com/jsdom/jsdom
 
 # References
 

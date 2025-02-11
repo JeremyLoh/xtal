@@ -7,7 +7,10 @@ import {
   useEffect,
   useRef,
 } from "react"
+import { IoPlaySharp } from "react-icons/io5"
+import dayjs from "dayjs"
 import { PodcastEpisode } from "../../api/podcast/model/podcast"
+import Pill from "../Pill/Pill"
 
 type PodcastEpisodeCardProps = PropsWithChildren & {
   episode: PodcastEpisode
@@ -67,8 +70,10 @@ function convertHtmlStringToElement(htmlString: string) {
 
 PodcastEpisodeCard.Artwork = function PodcastEpisodeCardArtwork({
   size,
+  title,
 }: {
   size: number
+  title: string
 }) {
   const { episode } = usePodcastEpisodeCardContext()
   return (
@@ -77,6 +82,7 @@ PodcastEpisodeCard.Artwork = function PodcastEpisodeCardArtwork({
       src={episode.image}
       width={size}
       height={size}
+      title={title}
     />
   )
 }
@@ -118,4 +124,51 @@ PodcastEpisodeCard.Description = function PodcastEpisodeCardDescription() {
       className="podcast-episode-card-description"
     ></div>
   )
+}
+
+PodcastEpisodeCard.EpisodeNumber = function PodcastEpisodeCardNumber() {
+  const { episode } = usePodcastEpisodeCardContext()
+  if (episode.episodeNumber == null) {
+    return null
+  }
+  const text = `Episode ${episode.episodeNumber}`
+  return <Pill className="podcast-episode-card-episode-number">{text}</Pill>
+}
+
+PodcastEpisodeCard.PlayButton = function PodcastEpisodeCardPlayButton({
+  handlePlayClick,
+}: {
+  handlePlayClick: (podcastEpisode: PodcastEpisode) => void
+}) {
+  const { episode } = usePodcastEpisodeCardContext()
+  return (
+    <button
+      onClick={() => handlePlayClick(episode)}
+      className="podcast-episode-card-play-button"
+    >
+      <IoPlaySharp size={16} />
+      Play
+    </button>
+  )
+}
+
+PodcastEpisodeCard.PublishDate = function PodcastEpisodeCardPublishDate() {
+  const { episode } = usePodcastEpisodeCardContext()
+  const date = dayjs.unix(episode.datePublished).format("MMMM D, YYYY")
+  return <p className="podcast-episode-card-publish-date">{date}</p>
+}
+
+PodcastEpisodeCard.Duration = function PodcastEpisodeCardDuration() {
+  const { episode } = usePodcastEpisodeCardContext()
+  if (episode.durationInSeconds == null) {
+    return null
+  }
+  const hours = Math.floor(episode.durationInSeconds / 3600)
+  const minutes =
+    hours === 0
+      ? Math.floor(episode.durationInSeconds / 60)
+      : Math.floor((episode.durationInSeconds - hours * 3600) / 60)
+  const durationInMinutes =
+    hours === 0 ? `${minutes} min` : `${hours} hr ${minutes} min`
+  return <p className="podcast-episode-card-duration">{durationInMinutes}</p>
 }
