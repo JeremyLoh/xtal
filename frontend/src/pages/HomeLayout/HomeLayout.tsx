@@ -1,3 +1,4 @@
+import { preconnect, prefetchDNS, preload } from "react-dom"
 import { useContext, useRef, useState } from "react"
 import { Outlet } from "react-router"
 import { toast } from "sonner"
@@ -7,6 +8,15 @@ import { MapContext } from "../../context/MapProvider/MapProvider"
 import { StationSearchStrategy } from "../../api/radiobrowser/searchStrategy/StationSearchStrategy"
 
 export default function HomeLayout() {
+  preconnect("https://tile.openstreetmap.org")
+  prefetchDNS("https://tile.openstreetmap.org")
+  // This tilemap preload changes based on the initial map view LCP image
+  preload("https://tile.openstreetmap.org/4/7/7.png", {
+    as: "image",
+    fetchPriority: "high",
+    type: "image/png",
+  })
+
   const mapContext = useContext(MapContext)
   const abortControllerRef = useRef<AbortController | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
