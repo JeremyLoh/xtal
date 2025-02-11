@@ -24,13 +24,15 @@ function AudioPlayer(props: AudioPlayerProps) {
     <div className="audio-player">
       {props.children}
       <MediaController audio>
-        <audio
-          slot="media"
-          src={props.source}
-          autoPlay
-          onError={() => setError(props.source !== "")}
-          onCanPlay={() => setError(false)}
-        ></audio>
+        {props.source && (
+          <audio
+            slot="media"
+            src={props.source}
+            autoPlay
+            onError={() => setError(props.source !== "")}
+            onCanPlay={() => setError(false)}
+          ></audio>
+        )}
 
         {error ? (
           <>

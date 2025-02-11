@@ -18,7 +18,7 @@ export default function PodcastPlayer() {
       <AudioPlayer source={episode ? episode.contentUrl : ""}>
         {episode && (
           <div className="podcast-play-episode-container">
-            {episode.image ? (
+            {episode && episode.image ? (
               <img
                 src={episode.image}
                 height={96}
