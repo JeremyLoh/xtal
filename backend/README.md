@@ -6,6 +6,7 @@
 
 - TypeScript
 - Express
+- Supabase
 
 # Setup
 
@@ -17,11 +18,16 @@ PODCAST_INDEX_API_KEY="???"
 PODCAST_INDEX_API_SECRET="???"
 FRONTEND_ORIGIN="http://localhost:5173"
 ENABLE_PROXY_TROUBLESHOOTING="false"
+SUPABASE_PROJECT_URL="???_Supabase project url that has PostgreSQL database and Supabase Storage (AWS S3 bucket)"
+SUPABASE_PROJECT_SERVICE_ROLE_API_KEY="???_This is the secret service role value for the project. DO NOT COMMIT THIS OR MAKE THIS PUBLIC"
 ```
 
 - `PODCAST_INDEX_API_KEY` and `PODCAST_INDEX_API_SECRET` is obtained from using an account created on https://podcastindex-org.github.io/docs-api/#overview--overview (enclosed in double quotes to escape characters such as `#`)
 - `FRONTEND_ORIGIN` is used to set the CORS headers for the backend endpoints. They will only allow the frontend origin (`(new URL()).origin` - https://developer.mozilla.org/en-US/docs/Web/API/URL/origin)
 - `ENABLE_PROXY_TROUBLESHOOTING` provide "true" to enable routes `/ip` and `/x-forwarded-for` for troubleshooting the `app.set("trust proxy", 3)` value to put so that the client ip is returned from route `/ip` (allows for more accurate rate limiting of users)
+- For Supabase PostgreSQL, create a database table `podcast_images` with `url` as primary key (VARCHAR), `storage_file_name` VARCHAR Unique, `created_at` timestamptz (default of `now()`).
+- For Supabase Storage, create a bucket `podcast_image`. It uses folder structure => `public/w200_h200/<UUID>.webp` (e.g. for width 200 and height 200 px, we are also using the webp format)
+- Create the `supabase.ts` database types file using the Supabase UI, generate the types from the project in the UI. This needs to be done whenever the database schema changes - https://supabase.com/docs/reference/javascript/typescript-support
 
 # Running the backend application (Dev)
 
@@ -38,6 +44,7 @@ ENABLE_PROXY_TROUBLESHOOTING="false"
 7. `express-rate-limit` - https://www.npmjs.com/package/express-rate-limit
 8. `dompurify` - html sanitization (**always update to the latest version**) - https://www.npmjs.com/package/dompurify
 9. `jsdom` - create DOM for DOMPurify (**always update to the latest version**) - https://github.com/jsdom/jsdom
+10. `sharp` - https://sharp.pixelplumbing.com/
 
 # References
 
@@ -50,3 +57,10 @@ ENABLE_PROXY_TROUBLESHOOTING="false"
    - Put `app.listen` in a different file (run listen for each test file instead)
    - OR skip the `app.listen` for `NODE_ENV=test`. `supertest` without `app.listen` will use port 0. (port 0 for choose the first randomly available port that you find)
 6. Move your cors() middleware before express.json() and you won't have a CORS issue any more. The problem was due to an error in the express.json() middleware killing the request before CORS headers were added - https://stackoverflow.com/questions/71948888/cors-why-do-i-get-successful-preflight-options-but-still-get-cors-error-with-p
+7. For Supabase Storage, instead of using package `base64-arraybuffer`, use the `Buffer` built in Node.js - Memory leak in encode - https://github.com/niklasvh/base64-arraybuffer/issues/40
+
+```javascript
+const fileContent = "abc"
+const fileBase64 = Buffer.from(fileContent).toString("base64") // same as encode(fileContent)
+Buffer.from(fileBase64, "base64") // same as decode(fileBase64)
+```
