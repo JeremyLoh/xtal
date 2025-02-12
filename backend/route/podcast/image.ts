@@ -3,21 +3,15 @@ import { Request, Response, Router } from "express"
 import { checkSchema, matchedData, validationResult } from "express-validator"
 import { getPodcastImageValidationSchema } from "../../validation/podcastImageValidation.js"
 import { getImage } from "../../service/podcastImageService.js"
+import rateLimiter from "../../middleware/rateLimiter.js"
+import { isValidUrl } from "../../middleware/cors.js"
 
 const router = Router()
-
-function isValidUrl(url: string) {
-  try {
-    new URL(decodeHTML(url))
-    return true
-  } catch (error) {
-    return false
-  }
-}
 
 router.post(
   "/api/podcast/image",
   checkSchema(getPodcastImageValidationSchema, ["body"]),
+  rateLimiter.getPodcastImageConversionLimiter,
   async (request: Request, response: Response) => {
     const result = validationResult(request)
     const isInvalidUrl = !isValidUrl(decodeHTML(request.body.url))

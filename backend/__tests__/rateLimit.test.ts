@@ -58,3 +58,43 @@ describe("GET /api/podcast/episodes", () => {
     })
   })
 })
+
+describe("POST /api/podcast/image", () => {
+  const expectedOrigin = getFrontendOrigin() || ""
+
+  describe("rate limit", () => {
+    // enable selectively, it hits the actual Supabase endpoint
+    test.skip("should return HTTP 429 when rate limit is exceeded", async () => {
+      const url = "/api/podcast/image"
+      const payload = {
+        url: "https://placehold.co/3000x3000",
+        width: 200,
+        height: 200,
+      }
+      const app = setupApp()
+      const firstResponse = await request(app)
+        .post(`/api/podcast/image`)
+        .send(payload)
+        .set("Content-Type", "application/json")
+        .set("Accept", "application/json")
+        .set("Origin", expectedOrigin)
+      const secondResponse = await request(app)
+        .post(`/api/podcast/image`)
+        .send(payload)
+        .set("Content-Type", "application/json")
+        .set("Accept", "application/json")
+        .set("Origin", expectedOrigin)
+
+      expect(firstResponse.status).toEqual(200)
+      expect(secondResponse.status).toEqual(429)
+      expect(secondResponse.error).toEqual(
+        expect.objectContaining({
+          status: 429,
+          text: "Too many requests, please try again later.",
+          method: "POST",
+          path: url,
+        })
+      )
+    })
+  })
+})
