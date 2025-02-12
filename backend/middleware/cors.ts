@@ -1,3 +1,4 @@
+import { decodeHTML } from "entities"
 import { CorsOptions } from "cors"
 import { Request, Response, Router } from "express"
 
@@ -29,7 +30,7 @@ export function getCorsOptions(): CorsOptions {
 
 export function isValidUrl(url: string): boolean {
   try {
-    new URL(url)
+    new URL(decodeHTML(url))
     return true
   } catch (error) {
     return false

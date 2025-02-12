@@ -20,6 +20,7 @@ function mockRateLimiters() {
       default: {
         getTrendingPodcastLimiter: getMockMiddleware(),
         getPodcastEpisodesLimiter: getMockMiddleware(),
+        getPodcastImageConversionLimiter: getMockMiddleware(),
       },
     }
   })
@@ -27,6 +28,14 @@ function mockRateLimiters() {
 
 describe("GET /api/podcast/episodes", () => {
   const expectedOrigin = getFrontendOrigin() || ""
+
+  beforeEach(() => {
+    mockRateLimiters()
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
 
   function getExpectedEpisodeData(podcastResponse: any, episodeItems: any[]) {
     // convert PodcastIndex API episode "items" response array to expected /api/podcast/episodes json response for "data"
@@ -79,14 +88,6 @@ describe("GET /api/podcast/episodes", () => {
       }),
     }
   }
-
-  beforeEach(() => {
-    mockRateLimiters()
-  })
-
-  afterEach(() => {
-    vi.restoreAllMocks()
-  })
 
   describe("invalid parameters", () => {
     describe("id parameter", () => {
