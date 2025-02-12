@@ -38,7 +38,7 @@ router.post(
         Number(height)
       )
       response.contentType("image/webp")
-      response.status(200).send(Buffer.from(imageBuffer))
+      response.status(200).send(imageBuffer)
     } catch (error: any) {
       console.error("POST /api/podcast/image error:", error.message)
       response.status(500).send("Internal Server Error")

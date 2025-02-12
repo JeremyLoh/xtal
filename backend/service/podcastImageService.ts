@@ -7,7 +7,7 @@ export async function getImage(
   url: string,
   width: number,
   height: number
-): Promise<ArrayBuffer> {
+): Promise<Buffer> {
   const storageClient = StorageClient.getInstance()
   const { exists, fileName } = await checkForExistingImage(url)
   if (exists && fileName) {
