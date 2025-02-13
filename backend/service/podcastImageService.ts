@@ -9,7 +9,7 @@ export async function getImage(
   height: number
 ): Promise<Buffer> {
   const storageClient = StorageClient.getInstance()
-  const { exists, fileName } = await checkForExistingImage(url)
+  const { exists, fileName } = await checkForExistingImage(url, width, height)
   if (exists && fileName) {
     const filePublicUrl = storageClient.getFilePublicUrl(
       fileName,
@@ -46,9 +46,13 @@ async function storeNewImage(url: string, width: number, height: number) {
   return resizedAndCompressedImageBuffer
 }
 
-async function checkForExistingImage(url: string) {
+async function checkForExistingImage(
+  url: string,
+  width: number,
+  height: number
+) {
   const storageClient = StorageClient.getInstance()
-  const fileName = await storageClient.getExistingFile(url)
+  const fileName = await storageClient.getExistingFile(url, width, height)
   if (fileName) {
     return {
       exists: true,

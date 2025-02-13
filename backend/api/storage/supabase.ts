@@ -38,18 +38,18 @@ export type Database = {
       podcast_images: {
         Row: {
           created_at: string
+          image_width_image_height_url: string
           storage_file_name: string
-          url: string
         }
         Insert: {
           created_at?: string
+          image_width_image_height_url: string
           storage_file_name: string
-          url: string
         }
         Update: {
           created_at?: string
+          image_width_image_height_url?: string
           storage_file_name?: string
-          url?: string
         }
         Relationships: []
       }
