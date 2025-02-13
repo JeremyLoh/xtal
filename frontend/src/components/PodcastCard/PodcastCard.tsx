@@ -1,9 +1,9 @@
 import "./PodcastCard.css"
 import DOMPurify from "dompurify"
 import { createContext, PropsWithChildren, useContext } from "react"
-import { MdOutlineImageNotSupported } from "react-icons/md"
 import { Podcast } from "../../api/podcast/model/podcast"
 import Pill from "../Pill/Pill"
+import PodcastImage from "../PodcastImage/PodcastImage"
 
 type PodcastCardProps = PropsWithChildren & {
   customClassName?: string
@@ -44,21 +44,14 @@ export default function PodcastCard({
 
 PodcastCard.Artwork = function PodcastCardArtwork({ size }: { size: number }) {
   const { podcast } = usePodcastCardContext()
-  return podcast.image ? (
-    <img
-      className="podcast-card-artwork"
-      src={podcast.image}
-      height={size}
-      width={size}
-      title={podcast.title + " podcast image"}
+  return (
+    <PodcastImage
+      imageUrl={podcast.image}
+      size={size}
+      imageClassName="podcast-card-artwork"
+      imageTitle={podcast.title + " podcast image"}
+      imageNotAvailableTitle="Podcast Artwork Not Available"
     />
-  ) : (
-    <div className="podcast-card-artwork">
-      <MdOutlineImageNotSupported
-        size={size}
-        title="Podcast Artwork Not Available"
-      />
-    </div>
   )
 }
 

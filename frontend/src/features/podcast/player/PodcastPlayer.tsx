@@ -1,10 +1,10 @@
 import "./PodcastPlayer.css"
 import dayjs from "dayjs"
 import { useContext } from "react"
-import { MdOutlineImageNotSupported } from "react-icons/md"
 import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider"
 import AudioPlayer from "../../../components/AudioPlayer/AudioPlayer"
 import Pill from "../../../components/Pill/Pill"
+import PodcastImage from "../../../components/PodcastImage/PodcastImage"
 
 function getDateFormat(unixTimestampInSeconds: number): string {
   return dayjs.unix(unixTimestampInSeconds).format("MMMM D, YYYY")
@@ -18,19 +18,13 @@ export default function PodcastPlayer() {
       <AudioPlayer source={episode ? episode.contentUrl : ""}>
         {episode && (
           <div className="podcast-play-episode-container">
-            {episode && episode.image ? (
-              <img
-                src={episode.image}
-                height={96}
-                width={96}
-                title={episode.title + " podcast image"}
-              />
-            ) : (
-              <MdOutlineImageNotSupported
-                size={96}
-                title="Podcast Artwork Not Available"
-              />
-            )}
+            <PodcastImage
+              imageUrl={episode.image}
+              size={96}
+              imageClassName="podcast-play-episode-artwork"
+              imageTitle={episode.title + " podcast episode artwork"}
+              imageNotAvailableTitle="Podcast Play Episode Artwork Not Available"
+            />
             <div className="podcast-play-episode-info">
               <p className="podcast-play-episode-title">{episode.title}</p>
               <p className="podcast-play-episode-date">

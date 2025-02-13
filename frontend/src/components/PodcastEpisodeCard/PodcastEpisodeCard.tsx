@@ -8,10 +8,10 @@ import {
   useRef,
 } from "react"
 import { IoPlaySharp } from "react-icons/io5"
-import { MdOutlineImageNotSupported } from "react-icons/md"
 import dayjs from "dayjs"
 import { PodcastEpisode } from "../../api/podcast/model/podcast"
 import Pill from "../Pill/Pill"
+import PodcastImage from "../PodcastImage/PodcastImage"
 
 type PodcastEpisodeCardProps = PropsWithChildren & {
   episode: PodcastEpisode
@@ -77,21 +77,14 @@ PodcastEpisodeCard.Artwork = function PodcastEpisodeCardArtwork({
   title: string
 }) {
   const { episode } = usePodcastEpisodeCardContext()
-  return episode.image ? (
-    <img
-      className="podcast-episode-card-artwork"
-      src={episode.image}
-      width={size}
-      height={size}
-      title={title}
+  return (
+    <PodcastImage
+      imageUrl={episode.image}
+      size={size}
+      imageClassName="podcast-episode-card-artwork"
+      imageTitle={title}
+      imageNotAvailableTitle="Podcast Episode Artwork Not Available"
     />
-  ) : (
-    <div className="podcast-episode-card-artwork">
-      <MdOutlineImageNotSupported
-        size={size}
-        title="Podcast Episode Artwork Not Available"
-      />
-    </div>
   )
 }
 
