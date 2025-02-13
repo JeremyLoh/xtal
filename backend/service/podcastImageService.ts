@@ -77,6 +77,6 @@ async function resizeAndCompressImage(
 ) {
   return await sharp(buffer)
     .resize(width, height, { fit: "cover" })
-    .webp({ quality: 65, effort: 2, lossless: false })
+    .webp({ quality: 80, effort: 2, lossless: false })
     .toBuffer()
 }
