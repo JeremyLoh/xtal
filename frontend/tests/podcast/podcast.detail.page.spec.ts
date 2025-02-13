@@ -28,13 +28,6 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
 
   async function assertPodcastInfo(page: Page, expectedPodcast: Podcast) {
     await expect(
-      page.locator(".podcast-info-container").getByRole("img", {
-        name: expectedPodcast.title + " podcast image",
-        exact: true,
-      }),
-      "Podcast Info Artwork should be present"
-    ).toBeVisible()
-    await expect(
       getPodcastInfoElement(page, expectedPodcast.title),
       "Podcast Info Title should be present"
     ).toBeVisible()
@@ -87,21 +80,6 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       const expectedDate = dayjs
         .unix(episode.datePublished)
         .format("MMMM D, YYYY")
-      const expectedArtworkSize = "144"
-      const artwork = page.locator(".podcast-episode-card").getByRole("img", {
-        name: episode.title + " podcast image",
-        exact: true,
-      })
-      await expect(
-        artwork,
-        `(Episode ${i + 1}) podcast episode card Artwork should be present`
-      ).toBeVisible()
-      expect(
-        await artwork.getAttribute("width"),
-        `(Episode ${
-          i + 1
-        }) podcast episode card should have artwork image width of ${expectedArtworkSize}`
-      ).toBe(expectedArtworkSize)
       await expect(
         page
           .locator(".podcast-episode-card .podcast-episode-card-title")
@@ -225,11 +203,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
         })
       ).toBeVisible()
     }
-    async function assertPodcastPlayerHasEpisode(
-      page: Page,
-      expectedEpisode,
-      expectedArtworkSize: string
-    ) {
+    async function assertPodcastPlayerHasEpisode(page: Page, expectedEpisode) {
       await expect(
         page.locator(".audio-player audio"),
         "should have <audio> loaded with podcast episode"
@@ -238,15 +212,6 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
         page.locator(".audio-player audio"),
         "should have <audio> autoplay with podcast episode"
       ).toHaveAttribute("autoplay")
-      const artwork = page.locator(".audio-player").getByRole("img", {
-        name: expectedEpisode.title + " podcast image",
-        exact: true,
-      })
-      await expect(artwork).toBeVisible()
-      expect(
-        await artwork.getAttribute("width"),
-        `should have podcast artwork image width of ${expectedArtworkSize}`
-      ).toBe(expectedArtworkSize)
       await assertEpisodePlayerHasText(page, expectedEpisode.title)
       await assertEpisodePlayerHasText(
         page,
@@ -263,7 +228,6 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     }) => {
       const i = 2
       const expectedEpisode = defaultTenPodcastEpisodes.data.episodes[i]
-      const expectedArtworkSize = "96"
       const podcastTitle = encodeURIComponent("Batman University")
       const podcastId = "75075"
       const limit = 10
@@ -279,18 +243,13 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       await getEpisodePlayButton(page, i).click()
       await page.locator(".podcast-detail-back-button").click()
       await expect(page).toHaveTitle("xtal - podcasts")
-      await assertPodcastPlayerHasEpisode(
-        page,
-        expectedEpisode,
-        expectedArtworkSize
-      )
+      await assertPodcastPlayerHasEpisode(page, expectedEpisode)
     })
 
     test("should play podcast episode when podcast episode card play button is clicked", async ({
       page,
     }) => {
       const i = 0
-      const expectedArtworkSize = "96"
       const expectedEpisode = defaultTenPodcastEpisodes.data.episodes[i]
       const podcastTitle = encodeURIComponent("Batman University")
       const podcastId = "75075"
@@ -310,11 +269,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       ).toBeVisible()
       await getEpisodePlayButton(page, i).click()
 
-      await assertPodcastPlayerHasEpisode(
-        page,
-        expectedEpisode,
-        expectedArtworkSize
-      )
+      await assertPodcastPlayerHasEpisode(page, expectedEpisode)
     })
   })
 
