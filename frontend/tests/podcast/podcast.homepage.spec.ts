@@ -156,6 +156,20 @@ test.describe("Podcast Homepage /podcasts", () => {
         await expect(
           getPodcastCards(page).getByText(podcastData.author, { exact: true })
         ).toBeVisible()
+
+        const imageLocator = getPodcastCards(page).getByRole("img", {
+          name: podcastData.title + " podcast image",
+          exact: true,
+        })
+        await expect(imageLocator).toBeVisible()
+        expect(
+          await imageLocator.getAttribute("width"),
+          "should have desktop podcast artwork image width of 200"
+        ).toBe("200")
+        expect(
+          await imageLocator.getAttribute("height"),
+          "should have desktop podcast artwork image height of 200"
+        ).toBe("200")
       }
     })
 
@@ -182,6 +196,20 @@ test.describe("Podcast Homepage /podcasts", () => {
         await expect(
           getPodcastCards(page).getByText(podcastData.author, { exact: true })
         ).toBeVisible()
+
+        const imageLocator = getPodcastCards(page).getByRole("img", {
+          name: podcastData.title + " podcast image",
+          exact: true,
+        })
+        await expect(imageLocator).toBeVisible()
+        expect(
+          await imageLocator.getAttribute("width"),
+          "should have mobile podcast artwork image width of 144"
+        ).toBe("144")
+        expect(
+          await imageLocator.getAttribute("height"),
+          "should have mobile podcast artwork image height of 144"
+        ).toBe("144")
       }
     })
 

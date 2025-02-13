@@ -22,7 +22,7 @@ export default function PodcastPlayer() {
               imageUrl={episode.image}
               size={96}
               imageClassName="podcast-play-episode-artwork"
-              imageTitle={episode.title + " podcast episode artwork"}
+              imageTitle={episode.title + " podcast image"}
               imageNotAvailableTitle="Podcast Play Episode Artwork Not Available"
             />
             <div className="podcast-play-episode-info">

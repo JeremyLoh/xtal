@@ -35,6 +35,9 @@ export default function PodcastImage({
         )
         if (data) {
           setImageSrc(data)
+        } else {
+          // set to original image as backup image
+          setImageSrc(imageUrl)
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
