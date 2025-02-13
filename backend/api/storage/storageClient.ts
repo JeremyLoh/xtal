@@ -57,11 +57,14 @@ class StorageClient {
     const uploadFilePromise = this.supabase.storage
       .from("podcast-image") // bucket name
       .upload(filePath, this.decode(base64FileData), {
-        contentType: contentType, // e.g. "image/png"
+        contentType: contentType, // e.g. MIME Type "image/webp"
       })
     const insertDatabasePromise = this.supabase
       .from("podcast_images") // database name
-      .insert({ url: url, storage_file_name: fileName })
+      .insert({
+        image_width_image_height_url: `w${width}_h${height}_${url}`,
+        storage_file_name: fileName,
+      })
     const promises = await Promise.allSettled([
       uploadFilePromise,
       insertDatabasePromise,
@@ -77,19 +80,22 @@ class StorageClient {
             `uploadFileAndUpdateDatabase(): could not delete upload file. image url ${url}, storage file path: ${filePath}`
           )
         } else {
-          console.log(`uploadFileAndUpdateDatabase(): successful deletion of `)
+          console.log(
+            `uploadFileAndUpdateDatabase(): successful deletion of file at ${filePath}`
+          )
         }
       },
       async () => {
         // delete database row from table "podcast_images"
+        const key = `w${width}_h${height}_${url}`
         const { status } = await this.supabase
           .from("podcast_images")
           .delete()
-          .eq("url", url)
+          .eq("image_width_image_height_url", key)
           .select()
         if (status !== 200) {
           console.error(
-            `uploadFileAndUpdateDatabase(): could not delete database row for table 'podcast_images'. image url ${url}`
+            `uploadFileAndUpdateDatabase(): could not delete database row for table 'podcast_images' ${key}`
           )
         }
       },
@@ -117,11 +123,15 @@ class StorageClient {
     return data.publicUrl
   }
 
-  async getExistingFile(url: string): Promise<string | null> {
+  async getExistingFile(
+    url: string,
+    width: number,
+    height: number
+  ): Promise<string | null> {
     const { data, error, status } = await this.supabase
       .from("podcast_images") // database table
       .select("storage_file_name") // columns to return in data
-      .eq("url", url)
+      .eq("image_width_image_height_url", `w${width}_h${height}_${url}`)
       .limit(1)
     if (data == null) {
       return null
