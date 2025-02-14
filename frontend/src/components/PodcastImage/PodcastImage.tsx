@@ -19,6 +19,7 @@ export default function PodcastImage({
 }: PodcastImageProps) {
   const abortControllerRef = useRef<AbortController | null>(null)
   const [imageSrc, setImageSrc] = useState<string | null>(null)
+  const [srcSet, setSrcSet] = useState<string | undefined>(undefined)
   useEffect(() => {
     async function getImageData() {
       if (!imageUrl) {
@@ -27,17 +28,29 @@ export default function PodcastImage({
       abortControllerRef?.current?.abort()
       abortControllerRef.current = new AbortController()
       try {
-        const data = await getPodcastImage(
+        // reduce backend load (instead of using Promise.allSettled)
+        const smallImageData = await getPodcastImage(
           abortControllerRef.current,
           imageUrl,
           size,
           size
         )
-        if (data) {
-          setImageSrc(data)
+        const largeImageData = await getPodcastImage(
+          abortControllerRef.current,
+          imageUrl,
+          size * 2,
+          size * 2
+        )
+        const imageSrcSet = `${smallImageData} ${size}w, ${largeImageData} ${
+          size * 2
+        }w`
+        if (smallImageData && largeImageData) {
+          setImageSrc(largeImageData)
+          setSrcSet(imageSrcSet)
         } else {
           // set to original image as backup image
           setImageSrc(imageUrl)
+          setSrcSet(undefined)
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
@@ -55,7 +68,9 @@ export default function PodcastImage({
     <img
       className={imageClassName}
       decoding="async"
+      loading="lazy"
       src={imageSrc}
+      srcSet={srcSet}
       height={size}
       width={size}
       title={imageTitle}
