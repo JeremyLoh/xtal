@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest"
 import { NextFunction, Request, Response } from "express"
 import { setupApp } from "../../index.js"
 import { getFrontendOrigin } from "../cors/origin.js"
+import { ALL_PODCAST_CATEGORIES } from "../mocks/podcastCategory.js"
 
 function getMockMiddleware() {
   return (request: Request, response: Response, next: NextFunction) => next()
@@ -29,6 +30,21 @@ describe("GET /api/podcast/category", () => {
 
   afterEach(() => {
     vi.restoreAllMocks()
+  })
+
+  test("should retrieve all categories", async () => {
+    const expectedData = ALL_PODCAST_CATEGORIES.feeds
+    const app = setupApp()
+    const response = await request(app)
+      .get(`/api/podcast/category`)
+      .set("Origin", expectedOrigin)
+    expect(response.status).toEqual(200)
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        count: 112,
+        data: expect.arrayContaining(expectedData),
+      })
+    )
   })
 
   describe("invalid parameter", () => {
