@@ -68,7 +68,6 @@ export default function PodcastImage({
     <img
       className={imageClassName}
       decoding="async"
-      loading="lazy"
       src={imageSrc}
       srcSet={srcSet}
       height={size}
