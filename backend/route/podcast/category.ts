@@ -3,12 +3,14 @@ import { checkSchema, matchedData, validationResult } from "express-validator"
 import { getPodcastCategoryValidationSchema } from "../../validation/podcastCategoryValidation.js"
 import { getPodcastCategories } from "../../service/podcastCategoryService.js"
 import { InvalidApiKeyError } from "../../error/invalidApiKeyError.js"
+import rateLimiter from "../../middleware/rateLimiter.js"
 
 const router = Router()
 
 router.get(
   "/api/podcast/category",
-  checkSchema(getPodcastCategoryValidationSchema),
+  checkSchema(getPodcastCategoryValidationSchema, ["query"]),
+  rateLimiter.getPodcastCategoryLimiter,
   async (request: Request, response: Response) => {
     const result = validationResult(request)
     if (!result.isEmpty()) {
