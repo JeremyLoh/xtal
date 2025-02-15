@@ -69,4 +69,9 @@ type PodcastEpisode = {
   isActiveFeed: boolean
 }
 
-export type { Podcast, TrendingPodcast, PodcastEpisode }
+type PodcastCategory = {
+  id: number
+  name: string
+}
+
+export type { Podcast, TrendingPodcast, PodcastEpisode, PodcastCategory }
