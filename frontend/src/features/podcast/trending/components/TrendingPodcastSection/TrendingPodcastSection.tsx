@@ -7,10 +7,19 @@ import { IoChevronForward, IoReload } from "react-icons/io5"
 import { TrendingPodcast } from "../../../../../api/podcast/model/podcast"
 import PodcastCard from "../../../../../components/PodcastCard/PodcastCard"
 import useScreenDimensions from "../../../../../hooks/useScreenDimensions"
-import { getTrendingPodcasts } from "../../../../../api/podcast/trendingPodcast"
+import {
+  getTrendingPodcasts,
+  TrendingPodcastSearchParams,
+} from "../../../../../api/podcast/trendingPodcast"
 import Spinner from "../../../../../components/Spinner/Spinner"
 
-export default function TrendingPodcastSection() {
+type TrendingPodcastSectionProps = {
+  category?: string
+}
+
+export default function TrendingPodcastSection(
+  props: TrendingPodcastSectionProps
+) {
   const abortControllerRef = useRef<AbortController | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [sinceDays, setSinceDays] = useState<number>(3)
@@ -24,14 +33,26 @@ export default function TrendingPodcastSection() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  function getSearchParams(since: Date) {
+    const params: TrendingPodcastSearchParams = {
+      limit: 10,
+      since: since,
+    }
+    if (props.category) {
+      params.category = props.category
+    }
+    console.log({ params: JSON.stringify(params) })
+    return params
+  }
+
   async function fetchTrendingPodcasts(since: Date) {
     abortControllerRef?.current?.abort()
     abortControllerRef.current = new AbortController()
     try {
-      const podcasts = await getTrendingPodcasts(abortControllerRef.current, {
-        limit: 10,
-        since: since,
-      })
+      const podcasts = await getTrendingPodcasts(
+        abortControllerRef.current,
+        getSearchParams(since)
+      )
       return podcasts && podcasts.data ? podcasts.data : null
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
