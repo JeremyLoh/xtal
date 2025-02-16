@@ -22,13 +22,14 @@ router.get(
     }
     const data = matchedData(request)
     const threeDaysAgo = dayjs().subtract(3, "days").toDate()
-    const limit = Number(data.limit) || 10
+    const limit: number = Number(data.limit) || 10
     const since: Date = data.since
       ? new Date(Number(data.since) * 1000) // convert unix timestamp to milliseconds
       : threeDaysAgo
+    const category: string | null = data?.category || null
 
     try {
-      const podcasts = await getTrendingPodcasts(limit, since)
+      const podcasts = await getTrendingPodcasts(limit, since, category)
       response.status(200)
       response.type("application/json")
       response.send({

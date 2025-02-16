@@ -7,6 +7,11 @@ import { PodcastApi, PodcastIndexApi } from "./podcastApi.js"
 
 interface PodcastFacade {
   getTrendingPodcasts(limit: number, since: Date): Promise<Podcast[]>
+  getTrendingPodcastsByCategory(
+    limit: number,
+    since: Date,
+    category: string
+  ): Promise<Podcast[]>
   getPodcastEpisodes(
     podcastId: string,
     limit: number
@@ -28,6 +33,22 @@ export class PodcastIndexFacade implements PodcastFacade {
     const authHeaders = this.authManager.getAuthTokenHeaders()
     const searchParams = new URLSearchParams(
       `max=${limit}&since=${DateUtil.getUnixTimestamp(since)}`
+    )
+    const podcasts = await this.podcastApi.getTrendingPodcasts(
+      authHeaders,
+      searchParams
+    )
+    return podcasts
+  }
+
+  async getTrendingPodcastsByCategory(
+    limit: number,
+    since: Date,
+    category: string
+  ) {
+    const authHeaders = this.authManager.getAuthTokenHeaders()
+    const searchParams = new URLSearchParams(
+      `max=${limit}&since=${DateUtil.getUnixTimestamp(since)}&cat=${category}`
     )
     const podcasts = await this.podcastApi.getTrendingPodcasts(
       authHeaders,

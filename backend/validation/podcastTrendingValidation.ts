@@ -34,4 +34,15 @@ export const getPodcastTrendingValidationSchema: Schema = {
       },
     },
   },
+  category: {
+    optional: true,
+    escape: true,
+    isLength: {
+      options: {
+        min: 1,
+        max: 1000,
+      },
+      errorMessage: "'category' should have length between 1 and 1000",
+    },
+  },
 }
