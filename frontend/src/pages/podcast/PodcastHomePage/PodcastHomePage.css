@@ -1,7 +1,8 @@
 #podcast-home-page-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: 100%;
+  max-width: 120ch;
   height: 100%;
+  margin: 1rem auto;
 }

@@ -1,8 +1,7 @@
 .podcast-category-container {
   display: flex;
   flex-direction: column;
-  width: 80%;
-  max-width: 120ch;
+  width: 100%;
   margin: 1rem 0;
 }
 
