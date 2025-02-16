@@ -1,5 +1,6 @@
 import "./PodcastCategorySection.css"
 import { useEffect, useRef, useState } from "react"
+import { useNavigate } from "react-router"
 import { motion } from "motion/react"
 import { toast } from "sonner"
 import { IoReload } from "react-icons/io5"
@@ -10,6 +11,7 @@ import { PodcastCategory } from "../../../../../api/podcast/model/podcast"
 import useScreenDimensions from "../../../../../hooks/useScreenDimensions"
 
 export default function PodcastCategorySection() {
+  const navigate = useNavigate()
   const { isMobile } = useScreenDimensions()
   const SCROLL_AMOUNT = isMobile ? 500 : 700
   const abortControllerRef = useRef<AbortController | null>(null)
@@ -44,6 +46,10 @@ export default function PodcastCategorySection() {
     await getPodcastCategories()
   }
 
+  function handlePodcastCategorySelect(category: PodcastCategory) {
+    navigate(`/podcasts/${category.name}`)
+  }
+
   return (
     <div className="podcast-category-container">
       <h2 className="podcast-category-title">Categories</h2>
@@ -58,6 +64,7 @@ export default function PodcastCategorySection() {
                 <div key={category.id}>
                   <motion.button
                     className="podcast-category-slider-option"
+                    onClick={() => handlePodcastCategorySelect(category)}
                     whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
                   >
                     {category.name}
