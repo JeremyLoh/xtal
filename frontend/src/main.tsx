@@ -14,6 +14,7 @@ import RadioStation from "./pages/RadioStation/RadioStation.tsx"
 import PodcastLayout from "./pages/PodcastLayout/PodcastLayout.tsx"
 import PodcastHomePage from "./pages/podcast/PodcastHomePage/PodcastHomePage.tsx"
 import PodcastDetailPage from "./pages/podcast/PodcastDetailPage/PodcastDetailPage.tsx"
+import PodcastCategoryPage from "./pages/podcast/PodcastCategoryPage/PodcastCategoryPage.tsx"
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -36,6 +37,10 @@ createRoot(document.getElementById("root")!).render(
                     <Route
                       path="/podcasts/:podcastTitle/:podcastId"
                       element={<PodcastDetailPage />}
+                    />
+                    <Route
+                      path="/podcasts/:categoryName"
+                      element={<PodcastCategoryPage />}
                     />
                   </Route>
                 </Route>

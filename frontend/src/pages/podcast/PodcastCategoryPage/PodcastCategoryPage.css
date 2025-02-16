@@ -1,0 +1,14 @@
+.podcast-category-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 120ch;
+  height: 100%;
+  margin: 1rem auto;
+  gap: 1rem;
+}
+
+.podcast-category-title {
+  font-size: clamp(1rem, 1rem + 1vw, 1.2rem);
+  margin: 0;
+}
