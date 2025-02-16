@@ -23,6 +23,8 @@ test.describe("podcast audio player", () => {
       page.getByTestId("audio-player-mobile-mute-button"),
       "should display mobile mute button"
     ).toBeVisible()
+
+    await expect(page.getByTestId("loading-spinner")).not.toBeVisible()
   }
 
   async function assertDesktopPlayerIsVisible(page: Page) {
@@ -58,6 +60,8 @@ test.describe("podcast audio player", () => {
       page.getByTestId("audio-player-desktop-volume-range-button"),
       "should display desktop volume range button"
     ).toBeVisible()
+
+    await expect(page.getByTestId("loading-spinner")).not.toBeVisible()
   }
 
   test.describe("podcast homepage (/podcasts)", () => {

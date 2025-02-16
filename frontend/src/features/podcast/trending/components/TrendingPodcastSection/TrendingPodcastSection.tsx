@@ -8,9 +8,11 @@ import { TrendingPodcast } from "../../../../../api/podcast/model/podcast"
 import PodcastCard from "../../../../../components/PodcastCard/PodcastCard"
 import useScreenDimensions from "../../../../../hooks/useScreenDimensions"
 import { getTrendingPodcasts } from "../../../../../api/podcast/trendingPodcast"
+import Spinner from "../../../../../components/Spinner/Spinner"
 
 export default function TrendingPodcastSection() {
   const abortControllerRef = useRef<AbortController | null>(null)
+  const [loading, setLoading] = useState<boolean>(false)
   const [sinceDays, setSinceDays] = useState<number>(3)
   const [trendingPodcasts, setTrendingPodcasts] = useState<
     TrendingPodcast[] | null
@@ -55,12 +57,14 @@ export default function TrendingPodcastSection() {
   }
 
   async function updateTrendingPodcasts(daysBefore: number) {
+    setLoading(true)
     const podcasts = await fetchTrendingPodcasts(convertToDate(daysBefore))
     if (podcasts && podcasts.length > 0) {
       setTrendingPodcasts(podcasts)
     } else {
       setTrendingPodcasts(null)
     }
+    setLoading(false)
   }
 
   function getPodcastDetailPath(podcast: TrendingPodcast) {
@@ -69,6 +73,7 @@ export default function TrendingPodcastSection() {
 
   return (
     <div className="podcast-trending-container">
+      <Spinner isLoading={loading} />
       <h2 className="podcast-trending-title">
         Trending
         <IoChevronForward size={20} />

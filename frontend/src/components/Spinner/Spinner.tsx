@@ -10,7 +10,11 @@ const Spinner = ({ isLoading }: SpinnerProps) => {
   return (
     <AnimatePresence>
       {isLoading && (
-        <motion.div className="spinner-container" exit={{ opacity: 0 }}>
+        <motion.div
+          className="spinner-container"
+          data-testid="loading-spinner"
+          exit={{ opacity: 0 }}
+        >
           <div className="spinner-content">
             <motion.div
               className="spinner"

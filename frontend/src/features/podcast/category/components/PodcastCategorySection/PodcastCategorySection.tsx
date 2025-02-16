@@ -1,8 +1,10 @@
 import "./PodcastCategorySection.css"
 import { useEffect, useRef, useState } from "react"
 import { motion } from "motion/react"
+import { toast } from "sonner"
 import { IoReload } from "react-icons/io5"
 import Slider from "../../../../../components/Slider/Slider"
+import Spinner from "../../../../../components/Spinner/Spinner"
 import { getAllPodcastCategories } from "../../../../../api/podcast/podcastCategory"
 import { PodcastCategory } from "../../../../../api/podcast/model/podcast"
 import useScreenDimensions from "../../../../../hooks/useScreenDimensions"
@@ -12,23 +14,30 @@ export default function PodcastCategorySection() {
   const SCROLL_AMOUNT = isMobile ? 500 : 700
   const abortControllerRef = useRef<AbortController | null>(null)
   const [categories, setCategories] = useState<PodcastCategory[] | null>(null)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     getPodcastCategories()
   }, [])
 
   async function getPodcastCategories() {
-    setIsLoading(true)
+    setLoading(true)
     abortControllerRef.current?.abort()
     abortControllerRef.current = new AbortController()
-    const categories = await getAllPodcastCategories(abortControllerRef.current)
-    if (categories) {
-      setCategories(categories)
-    } else {
-      setCategories(null)
+    try {
+      const categories = await getAllPodcastCategories(
+        abortControllerRef.current
+      )
+      if (categories) {
+        setCategories(categories)
+      } else {
+        setCategories(null)
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.message)
     }
-    setIsLoading(false)
+    setLoading(false)
   }
 
   async function handleRefreshPodcastCategories() {
@@ -59,14 +68,13 @@ export default function PodcastCategorySection() {
         </Slider>
       ) : (
         <div className="podcast-category-placeholder-section">
-          <p>
-            {isLoading
-              ? "Loading..."
-              : "Could not get podcast categories. Please try again later"}
-          </p>
+          <Spinner isLoading={loading} />
+          {!loading && (
+            <p>Could not get podcast categories. Please try again later</p>
+          )}
           <button
             className="refresh-podcast-categories-button"
-            disabled={isLoading}
+            disabled={loading}
             onClick={handleRefreshPodcastCategories}
             aria-label="refresh podcast categories"
             title="refresh podcast categories"
