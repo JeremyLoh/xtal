@@ -76,5 +76,24 @@ test.describe("Podcast Homepage /podcasts", () => {
         ).toBeVisible()
       }
     })
+
+    test.describe("Select podcast category button", () => {
+      test("should redirect to podcast category page", async ({ page }) => {
+        const expectedCategoryName = allPodcastCategories.data[0].name
+        await page.route("*/**/api/podcast/category", async (route) => {
+          const json = allPodcastCategories
+          await route.fulfill({ json })
+        })
+        await page.goto(HOMEPAGE + "/podcasts")
+        await expect(page).toHaveTitle(/xtal - podcasts/)
+        await page
+          .locator(".podcast-category-slider")
+          .getByText(expectedCategoryName, { exact: true })
+          .click()
+        await expect(page).toHaveTitle(
+          new RegExp(`xtal - ${expectedCategoryName.toLowerCase()} podcasts`)
+        )
+      })
+    })
   })
 })
