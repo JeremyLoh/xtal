@@ -40,12 +40,6 @@ export default function TrendingPodcastSection() {
 
   async function handleRefreshTrendingPodcasts() {
     await updateTrendingPodcasts(sinceDays)
-    const podcasts = await fetchTrendingPodcasts(convertToDate(sinceDays))
-    if (podcasts && podcasts.length > 0) {
-      setTrendingPodcasts(podcasts)
-    } else {
-      setTrendingPodcasts(null)
-    }
   }
 
   async function handleSinceChange(
