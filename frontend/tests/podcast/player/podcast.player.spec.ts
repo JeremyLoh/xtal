@@ -1,5 +1,5 @@
 import test, { expect, Page } from "@playwright/test"
-import { HOMEPAGE } from "../constants/homepageConstants"
+import { HOMEPAGE } from "../../constants/homepageConstants"
 
 test.describe("podcast audio player", () => {
   async function assertMobilePlayerIsVisible(page: Page) {
