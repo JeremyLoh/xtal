@@ -1,16 +1,23 @@
+import DateUtil from "./dateUtil.js"
 import { Podcast } from "../model/podcast.js"
 import { PodcastEpisode } from "../model/podcastEpisode.js"
+import { PodcastCategory } from "../model/podcastCategory.js"
 import { PodcastIndexAuthManager } from "./authManager.js"
 import { PodcastApi, PodcastIndexApi } from "./podcastApi.js"
-import DateUtil from "./dateUtil.js"
 
 interface PodcastFacade {
   getTrendingPodcasts(limit: number, since: Date): Promise<Podcast[]>
+  getTrendingPodcastsByCategory(
+    limit: number,
+    since: Date,
+    category: string
+  ): Promise<Podcast[]>
   getPodcastEpisodes(
     podcastId: string,
     limit: number
   ): Promise<PodcastEpisode[]>
   getPodcastInfo(podcastId: string): Promise<Podcast>
+  getPodcastCategories(): Promise<PodcastCategory[]>
 }
 
 export class PodcastIndexFacade implements PodcastFacade {
@@ -26,6 +33,22 @@ export class PodcastIndexFacade implements PodcastFacade {
     const authHeaders = this.authManager.getAuthTokenHeaders()
     const searchParams = new URLSearchParams(
       `max=${limit}&since=${DateUtil.getUnixTimestamp(since)}`
+    )
+    const podcasts = await this.podcastApi.getTrendingPodcasts(
+      authHeaders,
+      searchParams
+    )
+    return podcasts
+  }
+
+  async getTrendingPodcastsByCategory(
+    limit: number,
+    since: Date,
+    category: string
+  ) {
+    const authHeaders = this.authManager.getAuthTokenHeaders()
+    const searchParams = new URLSearchParams(
+      `max=${limit}&since=${DateUtil.getUnixTimestamp(since)}&cat=${category}`
     )
     const podcasts = await this.podcastApi.getTrendingPodcasts(
       authHeaders,
@@ -52,5 +75,13 @@ export class PodcastIndexFacade implements PodcastFacade {
       searchParams
     )
     return podcast
+  }
+
+  async getPodcastCategories() {
+    const authHeaders = this.authManager.getAuthTokenHeaders()
+    const podcastCategories = await this.podcastApi.getPodcastCategories(
+      authHeaders
+    )
+    return podcastCategories
   }
 }

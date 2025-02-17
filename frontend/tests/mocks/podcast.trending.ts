@@ -223,3 +223,177 @@ export const threeTrendingPodcasts = {
     },
   ],
 }
+
+export const tenArtTrendingPodcasts = {
+  // backend endpoint => /api/podcast/trending?limit=10&since=1739624661&category=Arts
+  count: 10,
+  data: [
+    {
+      id: 2234623,
+      url: "https://www.ximalaya.com/album/43044571.xml",
+      title: "嘻谈录",
+      description:
+        "嘻谈录是最正能量的喜剧播客之一，喜剧演员的搞笑分贝制造机，专注嘻谈录。不定期邀请不同的单口喜剧演员和观众，基于各类话题聊天，旨在传播积极阳光的乐观主义精神，为人民群众的奋斗生活提供一种轻松的正能量解压方式，促进广大青年面向进步。\n每一期我们都会邀请听众来现场录制，如果你想当面和主播聊天并录入节目，欢迎关注微信听友群或者公众号【嘻谈录】。",
+      author: "嘻谈录",
+      image:
+        "https://fdfs.xmcdn.com/storages/2d4e-audiofreehighqps/A3/6F/CMCoOSIEFUiuAAhFeQCOIsiD.jpeg",
+      latestPublishTime: 1739684931,
+      itunesId: 1536887853,
+      trendScore: 9,
+      language: "Chinese (Simplified)",
+      categories: ["Arts", "Performing", "Comedy", "Interviews"],
+    },
+    {
+      id: 854189,
+      url: "https://fapi-top.prisasd.com/podcast/playser/un_libro_una_hora/itunestfp/podcast.xml",
+      title: "Un Libro Una Hora",
+      description:
+        "Aprende a leer, aprende de literatura escuchando. Un programa para contar un libro en una hora. Grandes clásicos de la literatura que te entran por el oído. Dirigido por Antonio Martínez Asensio, crítico literario, productor, escritor y guionista. En directo los domingos a las 05:00 y a cualquier hora si te suscribes. En Podimo, ¿Y ahora qué leo? nuestro spin off con los imprescindibles de la temporada https://go.podimo.com/es/ahoraqueleo",
+      author: "SER Podcast",
+      image:
+        "https://sdmedia.playser.cadenaser.com/playser/image/20244/10/1712744718917_318.jpeg",
+      latestPublishTime: 1739685600,
+      itunesId: 1470511654,
+      trendScore: 9,
+      language: "Spanish (Spain)",
+      categories: ["Arts"],
+    },
+    {
+      id: 1320027,
+      url: "https://feeds.buzzsprout.com/1429228.rss",
+      title: "Celebrate Poe",
+      description:
+        'This podcast is a deep dive into the life, times. works. and influences of Edgar Allan Poe - "America\'s Shakespeare."   Mr. Poe comes to life in this weekly podcast!',
+      author: "George Bartley",
+      image: "https://storage.buzzsprout.com/0py7ywli6pabgw17u8lxygq47qqz?.jpg",
+      latestPublishTime: 1739685600,
+      itunesId: 1536627038,
+      trendScore: 9,
+      language: "English (United States)",
+      categories: ["Arts", "Books", "Education", "History"],
+    },
+    {
+      id: 6269103,
+      url: "https://feeds.buzzsprout.com/2164615.rss",
+      title: "The Bible Breakdown",
+      description:
+        "<div>Welcome to \"The Bible Breakdown,\" where we break down God’s Word so we can know God better. I'm your host, Brandon Cannon, and I'm here to guide you through the pages of the Bible, one day at a time.</div><div><br><br></div><div>Each day, we'll read through a section of the Bible and explore key themes, motifs, and teachings. Whether you're new to the Bible or a seasoned veteran, I guarantee you'll find something insightful or inspiring. My hope is to encourage you to dive deeper and deeper.&nbsp;</div><div><br></div><div>So grab your Bible, your journal, your coffee, and join me on this journey of faith and discovery. And don't forget to hit that subscribe button to stay up-to-date with our daily readings and breakdowns.</div><div><br></div><div>Remember, as we journey through the pages of the Bible together, we're not just reading a book, we're unlocking the secrets to eternal life. The more we dig, the more we find! Let's get started!<br><br>Bible reading plan and SOAP guide: www.experiencerlc.com/the-bible&nbsp;<br><br>Subscribe to&nbsp; my weekly newsletter: www.brandoncannon.com</div>",
+      author: "Brandon Cannon",
+      image: "https://storage.buzzsprout.com/qu7qz0fhvf5520cfh3hjys97985q?.jpg",
+      latestPublishTime: 1739685600,
+      itunesId: 1680325750,
+      trendScore: 9,
+      language: "English (United States)",
+      categories: [
+        "Arts",
+        "Performing",
+        "Education",
+        "Christianity",
+        "Religion",
+        "Spirituality",
+      ],
+    },
+    {
+      id: 6720001,
+      url: "https://feeds.buzzsprout.com/2280335.rss",
+      title: "Small Ways To Live Well from The Simple Things",
+      description:
+        '<p>Small Ways to Live Well is a podcast from <a href="http://thesimplethings.com/">The Simple Things</a>, a monthly magazine about slowing down, remembering what’s important and making the most of where you live.&nbsp;</p><p><br></p><p>Hosted by the Editor, <a href="https://www.instagram.com/lisasthinks/">Lisa Sykes</a>, in Season 5: Return of the light, she’ll be seeking out glimpses of spring, shrugging off winter and embracing some self-care, alongside wellbeing editor <a href="https://www.instagram.com/becsfrank/?hl=en-gb">Becs Frank</a> and regular contributor <a href="https://www.instagram.com/slowjotinsley/">Jo Tinsley</a>.&nbsp;</p><p>&nbsp;</p><p>The beginning of February marks the half-way point between the winter solstice and the spring equinox, from here on in there are increasing glimpses of spring right through to the clocks going forward in late March when hopefully the proverbial lion turns into a lamb. This is an optimistic, forward-looking time, when we’re more than ready to come out of hibernation to take on new projects. And there are festivals and feasts to brighten the still grey days. February is the chilliest month but it’s all about cold hands and warm hearts.</p><p><br>Let our podcast be your soothing companion to see out winter and welcome in spring.&nbsp; Six episodes released weekly from 9 February. Plus don’t miss our Easter Special on Good Friday. Season 5: Return of the Light is supported by <a href="https://www.blackdownshepherdhuts.co.uk/">Blackdown Shepherd Huts</a></p><p>&nbsp;</p><p>To subscribe or order a copy of The Simple Things visit <a href="http://thesimplethings.com/">thesimplethings.com</a></p>',
+      author: "The Simple Things",
+      image: "https://storage.buzzsprout.com/pew3t9f93cc2n5uj1uu1g408ccso?.jpg",
+      latestPublishTime: 1739685600,
+      itunesId: 1721250552,
+      trendScore: 9,
+      language: "English (United Kingdom)",
+      categories: ["Arts", "Books", "Food", "Leisure", "Home", "Garden"],
+    },
+    {
+      id: 1244547,
+      url: "http://www.ximalaya.com/album/4346420.xml",
+      title: "九霄",
+      description: "我们是你的海盗电台",
+      author: "九霄",
+      image:
+        "https://fdfs.xmcdn.com/storages/28de-audiofreehighqps/CC/69/CMCoOSMEw_42AAoLtADHtlJE.jpeg",
+      latestPublishTime: 1739686229,
+      itunesId: 1513714789,
+      trendScore: 9,
+      language: "Chinese (Simplified)",
+      categories: [
+        "Arts",
+        "Performing",
+        "Leisure",
+        "Society",
+        "Culture",
+        "Personal",
+        "Journals",
+      ],
+    },
+    {
+      id: 326131,
+      url: "https://feeds.megaphone.fm/MJS8122694951",
+      title: "Italian Wine Podcast",
+      description:
+        "<p>The Italian Wine Podcast is a storytelling project dedicated to the fascinating world of Italian wine. New episodes are published every day – so stay tuned! With more grape varieties and more diverse grape growing regions than any other country in the world, the story of Italian wine is a rich and captivating one.&nbsp;While the popularity of Italian wine continues to grow in every corner of the globe, inspired by a deep affection for the Italian way of life, the Italian Wine Podcast seeks to entertain, educate and inform. Embracing Italian food, travel, lifestyle and culture, IWP has something for every taste!</p>",
+      author: "Italian Wine Podcast",
+      image:
+        "https://megaphone.imgix.net/podcasts/574248e4-87b2-11ee-ac3b-b71ab9b899c4/image/Italian_Wine_Podcast_Logo.png?ixlib=rails-4.3.1&max-w=3000&max-h=3000&fit=crop&auto=format,compress",
+      latestPublishTime: 1739689200,
+      itunesId: 1211622570,
+      trendScore: 9,
+      language: "English",
+      categories: ["Arts", "Food", "Education", "Society", "Culture"],
+    },
+    {
+      id: 7047251,
+      url: "https://feeds.simplecast.com/0KaqgeVz",
+      title: "مُلخص كتاب",
+      description:
+        '"استمع إلى عالم المعرفة في دقائق معدودة! بودكاستنا يقدم لك ملخصات شاملة لأفضل الكتب الصوتية في مختلف المجالات. سواء كنت مهتمًا بالتنمية الذاتية، التاريخ، الروايات، أو العلوم، ستجد هنا ما يناسبك. اكتشف أفكارًا جديدة وتعلم مهارات جديدة بسهولة وسرعة."',
+      author: "Podcast Record",
+      image:
+        "https://image.simplecastcdn.com/images/544c1a06-61e0-4953-a93b-b6db1f762553/7d771380-c071-4a0e-8e6f-e8a2e48442c5/3000x3000/brofyl-bodkst-15.jpg?aid=rss_feed",
+      latestPublishTime: 1739689200,
+      itunesId: 1772017897,
+      trendScore: 9,
+      language: "Arabic",
+      categories: [
+        "Arts",
+        "Books",
+        "Business",
+        "Management",
+        "Education",
+        "Self Improvement",
+      ],
+    },
+    {
+      id: 9027,
+      url: "https://feeds.podetize.com/rss/NVHM9NnC7k",
+      title: "Going North Podcast",
+      description:
+        '<p><span style="color: rgb(34, 34, 34);">Calling all aspiring authors and seasoned wordsmiths alike! This is your official invitation to live your best life and write the book that\'s burning inside you.</span></p><p><br></p><p><span style="color: rgb(34, 34, 34);">The Going North Podcast is your one-stop shop for inspiration, information, and motivation on your author journey. Every Monday, Thursday,&nbsp;and Saturday, host Dom Brightmon, the positive thought catalyst, bestselling author, and certified trainer with the Maxwell Leadership Team chats with incredible authors from around the world.</span></p><p><span style="color: rgb(34, 34, 34);"> </span></p><p><br></p><p><span style="color: rgb(34, 34, 34);">These inspiring guests share their unique stories, writing tips, and the power they\'ve found in the written word. With each episode, you\'ll discover a treasure trove of wisdom, actionable advice, and heartfelt stories that will ignite your creativity and fuel your journey to get your own manuscript moving!</span></p><p><span style="color: rgb(34, 34, 34);"> </span></p><p><br></p><p><span style="color: rgb(34, 34, 34);">But Going North isn\'t just about the craft – it\'s about you. Dom believes in the magic of "Advancing others to advance yourself," and this podcast is all about helping you become the best author and person you can be.</span></p><p><span style="color: rgb(34, 34, 34);"> </span></p><p><br></p><p><span style="color: rgb(34, 34, 34);">So, grab your notebook, unleash your creativity, and get ready to be a part of something special. With Going North as your guide, you\'ll be well on your way to living your best life and sharing your story with the world.</span></p><p><span style="color: rgb(34, 34, 34);"> </span></p><p><br></p><p><span style="color: rgb(34, 34, 34);">Ready to Go North? Subscribe today!</span></p>',
+      author: "Dom Brightmon",
+      image: "https://feeds.podetize.com/NqUc4INr4.jpg",
+      latestPublishTime: 1739689740,
+      itunesId: 1290656762,
+      trendScore: 9,
+      language: "English (United States)",
+      categories: ["Arts", "Books", "Education", "Self Improvement"],
+    },
+    {
+      id: 4382154,
+      url: "https://media.rss.com/tajrobati/feed.xml",
+      title: "Ne7ki shway",
+      description:
+        "<p>ان كل ما أبحث عنه هو العدل و ما الحرية الا جزء من العدل , ولا أبحث عن هذا لذاتي بل لكل من يتنفس على هذه الأرض </p><p>أتعلمُ أنّ جِراحَ <strong>الشهيد</strong> تظَلُّ عن الثأر <strong>تستفهِم</strong></p>",
+      author: "تجربتي",
+      image:
+        "https://media.rss.com/tajrobati/20220129_110132_f8f584d54507f90e4f8424d73c2106bc.jpg",
+      latestPublishTime: 1739690300,
+      itunesId: null,
+      trendScore: 9,
+      language: "Arabic",
+      categories: ["Arts", "Books", "Education", "Self Improvement"],
+    },
+  ],
+}

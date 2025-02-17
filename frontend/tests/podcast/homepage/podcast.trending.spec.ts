@@ -1,73 +1,13 @@
 import dayjs from "dayjs"
 import test, { expect, Page } from "@playwright/test"
 import {
-  clickRandomRadioStationButton,
-  getNavbarPodcastLink,
-  getNavbarRadioLink,
-  getRadioCardMapPopup,
-  getRadioStationMapPopupCloseButton,
-  getToastMessages,
-  HOMEPAGE,
-} from "../constants/homepageConstants"
-import {
-  getFavouriteStationsButton,
-  getFavouriteStationsDrawer,
-  getRadioCardFavouriteIcon,
-} from "../constants/favouriteStationConstants"
-import { unitedStatesStation } from "../mocks/station"
-import {
   defaultTenTrendingPodcasts,
   threeTrendingPodcasts,
   zeroTrendingPodcasts,
-} from "../mocks/podcast.trending"
+} from "../../mocks/podcast.trending"
+import { getToastMessages, HOMEPAGE } from "../../constants/homepageConstants"
 
 test.describe("Podcast Homepage /podcasts", () => {
-  test("should display title", async ({ page }) => {
-    await page.goto(HOMEPAGE + "/podcasts")
-    await expect(page).toHaveTitle(/xtal - podcasts/)
-  })
-
-  test("should navigate back to homepage (/) header navbar radio link is clicked", async ({
-    page,
-  }) => {
-    await page.goto(HOMEPAGE + "/podcasts")
-    await expect(page).toHaveTitle(/xtal - podcasts/)
-    expect(page.url()).toMatch(/\/podcasts$/)
-    await getNavbarRadioLink(page).click()
-    await expect(page).not.toHaveTitle(/xtal - podcasts/)
-    expect(page.url()).not.toMatch(/\/podcasts$/)
-  })
-
-  test("should load favourite station and navigate back to homepage when load station button is clicked in favourite stations drawer", async ({
-    page,
-  }) => {
-    await page.route("*/**/json/stations/search?*", async (route) => {
-      const json = [unitedStatesStation]
-      await route.fulfill({ json })
-    })
-    await page.goto(HOMEPAGE)
-    await clickRandomRadioStationButton(page)
-    await expect(getRadioCardFavouriteIcon(page)).toBeVisible()
-    await getRadioCardFavouriteIcon(page).click()
-    await getRadioStationMapPopupCloseButton(page).click()
-
-    await getNavbarPodcastLink(page).click()
-    await getFavouriteStationsButton(page).click()
-    await getFavouriteStationsDrawer(page)
-      .locator(".favourite-station")
-      .getByRole("button", {
-        name: "load station",
-      })
-      .click()
-    await expect(
-      getRadioCardMapPopup(page).getByRole("heading", {
-        name: unitedStatesStation.name,
-        exact: true,
-      })
-    ).toBeVisible()
-    expect(page.url()).not.toMatch(/\/podcasts$/)
-  })
-
   test.describe("Trending Podcasts Section", () => {
     function getPodcastCards(page: Page) {
       return page.locator(".podcast-trending-container .podcast-trending-card")
@@ -262,6 +202,7 @@ test.describe("Podcast Homepage /podcasts", () => {
             ".podcast-trending-container .podcast-trending-since-select"
           )
         ).toHaveValue("3")
+        await expect(page.getByTestId("loading-spinner")).not.toBeVisible()
       })
 
       test("should fetch new podcast entries on change to since <select> element of 'last 24 hours'", async ({
@@ -390,6 +331,7 @@ test.describe("Podcast Homepage /podcasts", () => {
         await expect(page.locator(".podcast-trending-container")).toBeVisible()
         await expect(getEmptyTrendingPodcastMessage(page)).toBeVisible()
         await expect(getRefreshTrendingPodcastButton(page)).toBeVisible()
+        await expect(page.getByTestId("loading-spinner")).not.toBeVisible()
       })
 
       test("should refresh empty trending podcast section with new data when refresh trending podcast button is clicked", async ({

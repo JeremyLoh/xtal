@@ -1,17 +1,16 @@
-import dayjs from "dayjs"
-import { Router, Request, Response } from "express"
+import { Request, Response, Router } from "express"
 import { checkSchema, matchedData, validationResult } from "express-validator"
-import { getTrendingPodcasts } from "../../service/podcastTrendingService.js"
+import { getPodcastCategoryValidationSchema } from "../../validation/podcastCategoryValidation.js"
+import { getPodcastCategories } from "../../service/podcastCategoryService.js"
 import { InvalidApiKeyError } from "../../error/invalidApiKeyError.js"
-import { getPodcastTrendingValidationSchema } from "../../validation/podcastTrendingValidation.js"
 import rateLimiter from "../../middleware/rateLimiter.js"
 
 const router = Router()
 
 router.get(
-  "/api/podcast/trending",
-  checkSchema(getPodcastTrendingValidationSchema, ["query"]),
-  rateLimiter.getTrendingPodcastLimiter,
+  "/api/podcast/category",
+  checkSchema(getPodcastCategoryValidationSchema, ["query"]),
+  rateLimiter.getPodcastCategoryLimiter,
   async (request: Request, response: Response) => {
     const result = validationResult(request)
     if (!result.isEmpty()) {
@@ -21,20 +20,21 @@ router.get(
       return
     }
     const data = matchedData(request)
-    const threeDaysAgo = dayjs().subtract(3, "days").toDate()
-    const limit: number = Number(data.limit) || 10
-    const since: Date = data.since
-      ? new Date(Number(data.since) * 1000) // convert unix timestamp to milliseconds
-      : threeDaysAgo
-    const category: string | null = data?.category || null
-
+    const limit = data.limit ? Number(data.limit) : null
+    const offset = data.offset ? Number(data.offset) : null
     try {
-      const podcasts = await getTrendingPodcasts(limit, since, category)
+      let podcastCategories = await getPodcastCategories()
+      if (offset) {
+        podcastCategories = podcastCategories.slice(offset)
+      }
+      if (limit) {
+        podcastCategories = podcastCategories.slice(0, limit)
+      }
       response.status(200)
       response.type("application/json")
       response.send({
-        count: podcasts.length,
-        data: podcasts,
+        count: podcastCategories.length,
+        data: podcastCategories,
       })
     } catch (error: any) {
       if (error instanceof InvalidApiKeyError) {
@@ -43,6 +43,7 @@ router.get(
       } else {
         console.error(error.message)
         response.status(500).send("Internal Server Error")
+        return
       }
     }
   }

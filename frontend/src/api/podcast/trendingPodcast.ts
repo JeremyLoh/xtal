@@ -4,9 +4,10 @@ import { TrendingPodcast } from "./model/podcast"
 
 const BACKEND_ORIGIN = import.meta.env.VITE_BACKEND_ORIGIN
 
-type TrendingPodcastSearchParams = {
+export type TrendingPodcastSearchParams = {
   limit: number
   since?: Date
+  category?: string
 }
 
 type TrendingPodcastResponse = {
@@ -54,6 +55,9 @@ function getTrendingSearchParams(
   if (params.since) {
     // convert to unix timestamp (in seconds)
     searchParams.append("since", "" + dayjs(params.since).unix())
+  }
+  if (params.category) {
+    searchParams.append("category", params.category)
   }
   return searchParams
 }

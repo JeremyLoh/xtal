@@ -31,15 +31,15 @@
     "express-rate-limit": "7.5.0",
     "express-validator": "7.2.1",
     "jsdom": "^26.0.0",
-    "ky": "1.7.4",
-    "nanoid": "5.0.9",
+    "ky": "1.7.5",
+    "nanoid": "5.1.0",
     "sharp": "0.33.5"
   },
   "devDependencies": {
     "@types/cors": "2.8.17",
     "@types/express": "5.0.0",
     "@types/jsdom": "21.1.7",
-    "@types/node": "22.13.1",
+    "@types/node": "22.13.4",
     "@types/supertest": "6.0.2",
     "msw": "2.7.0",
     "supertest": "7.0.0",

@@ -7,6 +7,8 @@ import {
   PodcastIndexEpisode,
   PodcastIndexLiveEpisode,
 } from "./model/podcastEpisode.js"
+import { PodcastCategory } from "../model/podcastCategory.js"
+import { PodcastIndexCategoryInfo } from "./model/podcastCategory.js"
 
 type PodcastApi = {
   getTrendingPodcasts(
@@ -21,6 +23,7 @@ type PodcastApi = {
     authHeaders: Headers,
     searchParams: URLSearchParams
   ): Promise<Podcast>
+  getPodcastCategories(authHeaders: Headers): Promise<PodcastCategory[]>
 }
 
 type PodcastIndexTrendingPodcastResponse = {
@@ -47,6 +50,14 @@ type PodcastIndexPodcastByFeedIdResponse = {
   // https://podcastindex-org.github.io/docs-api/#get-/podcasts/byfeedid
   status: "true" | "false"
   feed: PodcastIndexFeed
+  description: string // response description
+}
+
+type PodcastIndexCategoryResponse = {
+  // https://podcastindex-org.github.io/docs-api/#tag--Categories
+  status: "true" | "false"
+  feeds: PodcastIndexCategoryInfo[]
+  count: number
   description: string // response description
 }
 
@@ -163,6 +174,21 @@ class PodcastIndexApi implements PodcastApi {
     })
     const json: PodcastIndexPodcastByFeedIdResponse = await response.json()
     return this.parsePodcastFeed(json)
+  }
+
+  async getPodcastCategories(authHeaders: Headers): Promise<PodcastCategory[]> {
+    // https://api.podcastindex.org/api/1.0/categories/list
+    const response = await ky.get(this.url + "/categories/list", {
+      headers: authHeaders,
+      retry: 0,
+    })
+    const json: PodcastIndexCategoryResponse = await response.json()
+    return json.feeds.map((entry) => {
+      return {
+        id: entry.id,
+        name: entry.name,
+      }
+    })
   }
 }
 

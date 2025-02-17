@@ -3,9 +3,15 @@ import {
   PODCAST_BY_FEED_ID_75075,
   PODCAST_EPISODES_BY_FEED_ID_75075,
   PODCAST_TRENDING_DEFAULT_TEN_ENTRIES,
+  PODCAST_TRENDING_TEN_ARTS_PODCASTS,
 } from "./podcast.js"
+import { ALL_PODCAST_CATEGORIES } from "./podcastCategory.js"
 
 export const handlers = [
+  http.get("https://api.podcastindex.org/api/1.0/categories/list", () => {
+    // https://podcastindex-org.github.io/docs-api/#tag--Categories
+    return HttpResponse.json(ALL_PODCAST_CATEGORIES)
+  }),
   http.get(
     "https://api.podcastindex.org/api/1.0/podcasts/trending",
     ({ request }) => {
@@ -13,8 +19,11 @@ export const handlers = [
       const url = new URL(request.url)
       const max = url.searchParams.get("max")
       const since = url.searchParams.get("since")
-      if (max === "10" && since != null) {
+      const category = url.searchParams.get("cat")
+      if (max === "10" && since != null && category == null) {
         return HttpResponse.json(PODCAST_TRENDING_DEFAULT_TEN_ENTRIES)
+      } else if (max === "10" && category?.toLowerCase() === "arts") {
+        return HttpResponse.json(PODCAST_TRENDING_TEN_ARTS_PODCASTS)
       } else {
         return HttpResponse.error()
       }

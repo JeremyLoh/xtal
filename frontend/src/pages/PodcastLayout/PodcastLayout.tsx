@@ -13,7 +13,9 @@ export default function PodcastLayout() {
       <div className="sticky-top">
         <PodcastPlayer />
       </div>
-      <Outlet />
+      <div className="podcast-content-container">
+        <Outlet />
+      </div>
     </>
   )
 }
