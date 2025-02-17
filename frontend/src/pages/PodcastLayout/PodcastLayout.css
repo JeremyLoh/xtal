@@ -8,3 +8,14 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(5px);
 }
+
+.podcast-content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 80%; /* for mobile width */
+  max-width: 120ch;
+  height: 100%;
+  margin: 0 auto; /* center items */
+}
