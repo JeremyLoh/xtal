@@ -38,4 +38,23 @@ test.describe("Podcast Category Page /podcasts/<category_name>", () => {
       ).toBeVisible()
     }
   })
+
+  test("should navigate to podcast homepage (/podcasts) when back button is clicked", async ({
+    page,
+  }) => {
+    const category = "Arts"
+    await page.route(
+      `*/**/api/podcast/trending?limit=10&since=*&category=${category}`,
+      async (route) => {
+        const json = tenArtTrendingPodcasts
+        await route.fulfill({ json })
+      }
+    )
+    await page.goto(HOMEPAGE + `/podcasts/${category}`)
+    expect(page.locator(".podcast-trending-container")).toBeVisible()
+    await expect(page).toHaveTitle(`xtal - ${category.toLowerCase()} podcasts`)
+    await page.locator(".podcast-category-back-button").click()
+    await expect(page).toHaveTitle("xtal - podcasts")
+    expect(page.url()).toMatch(/\/podcasts$/)
+  })
 })

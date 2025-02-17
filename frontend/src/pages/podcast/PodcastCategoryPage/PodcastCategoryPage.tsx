@@ -1,6 +1,7 @@
 import "./PodcastCategoryPage.css"
 import { useEffect } from "react"
-import { useParams } from "react-router"
+import { Link, useParams } from "react-router"
+import { IoArrowBackSharp } from "react-icons/io5"
 import TrendingPodcastSection from "../../../features/podcast/trending/components/TrendingPodcastSection/TrendingPodcastSection"
 
 export default function PodcastCategoryPage() {
@@ -18,6 +19,15 @@ export default function PodcastCategoryPage() {
   }
   return (
     <div className="podcast-category-container">
+      <Link
+        to="/podcasts"
+        style={{ textDecoration: "none", width: "fit-content" }}
+      >
+        <button className="podcast-category-back-button">
+          <IoArrowBackSharp size={16} />
+          Back
+        </button>
+      </Link>
       <h2 className="podcast-category-title">
         {decodeURIComponent(categoryName)}
       </h2>
