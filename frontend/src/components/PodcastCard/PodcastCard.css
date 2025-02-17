@@ -16,6 +16,7 @@
 .podcast-card-author,
 .podcast-card-title-large,
 .podcast-card-author-large {
+  width: 100%;
   padding: 0 !important;
   margin: 0 !important;
   /* handle text overflow, limit to max-height before scrolling in y-axis */
