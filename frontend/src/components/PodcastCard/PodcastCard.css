@@ -13,9 +13,14 @@
 }
 
 .podcast-card-title,
-.podcast-card-author {
+.podcast-card-author,
+.podcast-card-title-large,
+.podcast-card-author-large {
   padding: 0 !important;
   margin: 0 !important;
+  /* handle text overflow, limit to max-height before scrolling in y-axis */
+  overflow-y: scroll;
+  max-height: 6rem;
 }
 
 .podcast-card-title {
@@ -31,13 +36,12 @@
 
 .podcast-card-title-large {
   font-weight: bold;
+  color: var(--text-color);
   font-size: clamp(0.9rem, 0.9rem + 1vw, 1.2rem);
-  margin: 0;
 }
 .podcast-card-author-large {
   color: var(--subtitle-text-color);
   font-size: clamp(0.8rem, 0.8rem + 1vw, 1rem);
-  margin: 0;
 }
 
 .podcast-card-category-pill {
