@@ -1,3 +1,4 @@
+import "./HomeLayout.css"
 import { preconnect, prefetchDNS, preload } from "react-dom"
 import { useContext, useRef, useState } from "react"
 import { Outlet } from "react-router"
