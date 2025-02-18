@@ -1,0 +1,15 @@
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  color: #070c03 !important;
+}
+.leaflet-control-attribution a {
+  color: #070c03 !important;
+}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+}
+.leaflet-popup-close-button {
+  font-size: 1.4rem !important;
+}

@@ -12,9 +12,7 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -63,22 +61,6 @@
 
 .error-text {
   color: var(--error-color);
-}
-
-.leaflet-control-zoom-in,
-.leaflet-control-zoom-out {
-  color: #070c03 !important;
-}
-.leaflet-control-attribution a {
-  color: #070c03 !important;
-}
-.leaflet-popup-content-wrapper,
-.leaflet-popup-tip {
-  background-color: var(--background-color) !important;
-  color: var(--text-color) !important;
-}
-.leaflet-popup-close-button {
-  font-size: 1.4rem !important;
 }
 
 #root {
