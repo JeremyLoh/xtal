@@ -5,6 +5,10 @@
   gap: 0.5rem;
 }
 
+.podcast-card-artwork {
+  margin-right: auto; /* align artwork to left */
+}
+
 .podcast-card-title-author-container {
   display: flex;
   flex-direction: column;
