@@ -18,6 +18,9 @@ export default function PodcastImage({
   imageNotAvailableTitle,
 }: PodcastImageProps) {
   const abortControllerRef = useRef<AbortController | null>(null)
+  const [fetchPriority, setFetchPriority] = useState<"high" | "low" | "auto">(
+    "auto"
+  )
   const [imageSrc, setImageSrc] = useState<string | null>(null)
   const [srcSet, setSrcSet] = useState<string | undefined>(undefined)
   useEffect(() => {
@@ -48,7 +51,8 @@ export default function PodcastImage({
           setImageSrc(largeImageData)
           setSrcSet(imageSrcSet)
         } else {
-          // set to original image as backup image
+          // set to original image as backup image, set fetch priority to high (larger image source)
+          setFetchPriority("high")
           setImageSrc(imageUrl)
           setSrcSet(undefined)
         }
@@ -70,6 +74,7 @@ export default function PodcastImage({
       decoding="async"
       src={imageSrc}
       srcSet={srcSet}
+      fetchPriority={fetchPriority}
       height={size}
       width={size}
       title={imageTitle}
