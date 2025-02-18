@@ -20,7 +20,7 @@
   padding: 0 !important;
   margin: 0 !important;
   /* handle text overflow, limit to max-height before scrolling in y-axis */
-  overflow-y: scroll;
+  overflow-y: auto; /* hide the scrollbar when it is not needed */
   max-height: 6rem;
 }
 
