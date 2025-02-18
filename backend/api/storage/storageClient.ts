@@ -1,4 +1,5 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js"
+import dayjs from "dayjs"
 import { Database } from "./supabase.js"
 
 // Create singleton for the supabase client
@@ -71,31 +72,21 @@ class StorageClient {
     ])
     const deleteOperationsBasedOnPromises = [
       async () => {
-        // delete upload file
-        const { error } = await this.supabase.storage
-          .from("podcast-image") // bucket name
-          .remove([filePath])
-        if (error) {
+        try {
+          await this.deleteImageStorage([filePath])
+        } catch (error: any) {
           console.error(
             `uploadFileAndUpdateDatabase(): could not delete upload file. image url ${url}, storage file path: ${filePath}`
-          )
-        } else {
-          console.log(
-            `uploadFileAndUpdateDatabase(): successful deletion of file at ${filePath}`
           )
         }
       },
       async () => {
-        // delete database row from table "podcast_images"
         const key = `w${width}_h${height}_${url}`
-        const { status } = await this.supabase
-          .from("podcast_images")
-          .delete()
-          .eq("image_width_image_height_url", key)
-          .select()
-        if (status !== 200) {
+        try {
+          await this.deleteImageDatabaseRows([key])
+        } catch (error: any) {
           console.error(
-            `uploadFileAndUpdateDatabase(): could not delete database row for table 'podcast_images' ${key}`
+            `uploadFileAndUpdateDatabase(): Delete row ${key} error: ${error.message}`
           )
         }
       },
@@ -133,13 +124,87 @@ class StorageClient {
       .select("storage_file_name") // columns to return in data
       .eq("image_width_image_height_url", `w${width}_h${height}_${url}`)
       .limit(1)
-    if (data == null) {
+    if (data == null || error || status !== 200) {
       return null
     }
     if (data[0] && data[0].storage_file_name) {
       return data[0].storage_file_name
     }
     return null
+  }
+
+  async deleteStorageFilesBefore(deleteBeforeDate: Date, limit: number) {
+    const deleteBeforeDateString = dayjs(deleteBeforeDate).format("YYYY-MM-DD")
+    const { data, error, status } = await this.supabase
+      .from("podcast_images") // database table
+      .select("image_width_image_height_url, storage_file_name") // columns to return in data
+      .lt("created_at", deleteBeforeDateString) // date format yyyy-mm-dd
+      .limit(limit)
+    if (status !== 200 || error) {
+      throw new Error(
+        `deleteStorageFilesBefore(): could not get entries to delete, deleteBeforeDate: ${deleteBeforeDateString}. Error: ${error?.details}`
+      )
+    }
+    const deleteDataSize = data.length
+    if (data && deleteDataSize === 0) {
+      console.log("deleteStorageFilesBefore(): zero entries found")
+      return
+    }
+    const chunkSize = 100
+    const totalChunks = Math.ceil(deleteDataSize / chunkSize)
+    const widthHeightRegex = new RegExp(/^(w\d+_h\d+)_/) // extract width and height from the database primary key
+    for (let i = 0; i < totalChunks; i++) {
+      const start = i * chunkSize
+      const end = start + chunkSize
+      const deleteChunk = data.slice(start, end)
+      try {
+        const filePaths = deleteChunk.map((data) => {
+          const matches =
+            data.image_width_image_height_url.match(widthHeightRegex)
+          return `public/${matches[1]}/${data.storage_file_name}`
+        })
+        const imageKeys = deleteChunk.map(
+          (data) => data.image_width_image_height_url
+        )
+        await this.deleteImageStorage(filePaths)
+        await this.deleteImageDatabaseRows(imageKeys)
+      } catch (error: any) {
+        console.error(
+          `deleteStorageFilesBefore(): Failed to delete files. Error: ${error.message}`
+        )
+      }
+    }
+  }
+
+  private async deleteImageDatabaseRows(imageKeys: string[]): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      const { status, error } = await this.supabase
+        .from("podcast_images")
+        .delete()
+        .in("image_width_image_height_url", imageKeys)
+      if (status !== 200 || error) {
+        reject(
+          `deleteImageDatabaseRows(): could not delete ${JSON.stringify(
+            imageKeys
+          )}. Error: ${error?.message}`
+        )
+      } else {
+        resolve()
+      }
+    })
+  }
+
+  private async deleteImageStorage(filePaths: string[]): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      const { error } = await this.supabase.storage
+        .from("podcast-image") // bucket name
+        .remove(filePaths)
+      if (error) {
+        reject(`deleteImageStorage(): Error: ${error.message}`)
+      } else {
+        resolve()
+      }
+    })
   }
 }
 
