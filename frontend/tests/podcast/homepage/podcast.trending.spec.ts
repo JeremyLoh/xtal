@@ -351,6 +351,7 @@ test.describe("Podcast Homepage /podcasts", () => {
         await page.goto(HOMEPAGE + "/podcasts")
         await expect(getEmptyTrendingPodcastMessage(page)).toBeVisible()
 
+        await expect(getRefreshTrendingPodcastButton(page)).toBeVisible()
         isDataMissing = false
         await getRefreshTrendingPodcastButton(page).click()
         await expect(getEmptyTrendingPodcastMessage(page)).not.toBeVisible()

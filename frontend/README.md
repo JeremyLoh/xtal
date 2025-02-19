@@ -113,6 +113,8 @@ await page.route("*/**/api/podcast/trending?limit=10", async (route) => {
 })
 ```
 
+12. Updating `browserslist` for `package-lock.json` - `npx update-browserslist-db@latest` - https://github.com/browserslist/update-db#readme
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
