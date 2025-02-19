@@ -6,6 +6,7 @@ import {
   zeroTrendingPodcasts,
 } from "../../mocks/podcast.trending"
 import { getToastMessages, HOMEPAGE } from "../../constants/homepageConstants"
+import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
 
 test.describe("Podcast Homepage /podcasts", () => {
   test.describe("Trending Podcasts Section", () => {
@@ -202,7 +203,7 @@ test.describe("Podcast Homepage /podcasts", () => {
             ".podcast-trending-container .podcast-trending-since-select"
           )
         ).toHaveValue("3")
-        await expect(page.getByTestId("loading-spinner")).not.toBeVisible()
+        await assertLoadingSpinnerIsMissing(page)
       })
 
       test("should fetch new podcast entries on change to since <select> element of 'last 24 hours'", async ({
@@ -331,7 +332,7 @@ test.describe("Podcast Homepage /podcasts", () => {
         await expect(page.locator(".podcast-trending-container")).toBeVisible()
         await expect(getEmptyTrendingPodcastMessage(page)).toBeVisible()
         await expect(getRefreshTrendingPodcastButton(page)).toBeVisible()
-        await expect(page.getByTestId("loading-spinner")).not.toBeVisible()
+        await assertLoadingSpinnerIsMissing(page)
       })
 
       test("should refresh empty trending podcast section with new data when refresh trending podcast button is clicked", async ({
