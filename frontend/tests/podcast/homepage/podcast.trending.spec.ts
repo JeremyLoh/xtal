@@ -352,6 +352,7 @@ test.describe("Podcast Homepage /podcasts", () => {
         await expect(getEmptyTrendingPodcastMessage(page)).toBeVisible()
 
         isDataMissing = false
+        await expect(getRefreshTrendingPodcastButton(page)).toBeVisible()
         await getRefreshTrendingPodcastButton(page).click()
         await expect(getEmptyTrendingPodcastMessage(page)).not.toBeVisible()
         for (const podcastData of defaultTenTrendingPodcasts.data) {
