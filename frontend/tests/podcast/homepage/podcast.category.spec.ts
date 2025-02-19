@@ -1,6 +1,7 @@
 import test, { expect, Page } from "@playwright/test"
 import { allPodcastCategories } from "../../mocks/podcast.category"
 import { HOMEPAGE } from "../../constants/homepageConstants"
+import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
 
 test.describe("Podcast Homepage /podcasts", () => {
   test.describe("Podcast Categories Section", () => {
@@ -50,7 +51,7 @@ test.describe("Podcast Homepage /podcasts", () => {
           )
       ).toBeVisible()
       await expect(getRefreshPodcastCategoryButton(page)).toBeVisible()
-      await expect(page.getByTestId("loading-spinner")).not.toBeVisible()
+      await assertLoadingSpinnerIsMissing(page)
     })
 
     test("should refresh podcast categories on button click", async ({

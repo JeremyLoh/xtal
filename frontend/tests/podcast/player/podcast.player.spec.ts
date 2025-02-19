@@ -1,5 +1,6 @@
 import test, { expect, Page } from "@playwright/test"
 import { HOMEPAGE } from "../../constants/homepageConstants"
+import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
 
 test.describe("podcast audio player", () => {
   async function assertMobilePlayerIsVisible(page: Page) {
@@ -24,7 +25,7 @@ test.describe("podcast audio player", () => {
       "should display mobile mute button"
     ).toBeVisible()
 
-    await expect(page.getByTestId("loading-spinner")).not.toBeVisible()
+    await assertLoadingSpinnerIsMissing(page)
   }
 
   async function assertDesktopPlayerIsVisible(page: Page) {
@@ -61,7 +62,7 @@ test.describe("podcast audio player", () => {
       "should display desktop volume range button"
     ).toBeVisible()
 
-    await expect(page.getByTestId("loading-spinner")).not.toBeVisible()
+    await assertLoadingSpinnerIsMissing(page)
   }
 
   test.describe("podcast homepage (/podcasts)", () => {

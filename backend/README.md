@@ -14,6 +14,7 @@
 
 ```shell
 PORT=3000
+ENABLE_CRON_JOBS="false" # ONLY ENABLE ("true") FOR PRODUCTION
 PODCAST_INDEX_API_KEY="???"
 PODCAST_INDEX_API_SECRET="???"
 FRONTEND_ORIGIN="http://localhost:5173"
@@ -22,6 +23,7 @@ SUPABASE_PROJECT_URL="???_Supabase project url that has PostgreSQL database and 
 SUPABASE_PROJECT_SERVICE_ROLE_API_KEY="???_This is the secret service role value for the project. DO NOT COMMIT THIS OR MAKE THIS PUBLIC"
 ```
 
+- `ENABLE_CRON_JOBS` is used to start the cron jobs that will clean podcast image files in Supabase database and Supabase storage
 - `PODCAST_INDEX_API_KEY` and `PODCAST_INDEX_API_SECRET` is obtained from using an account created on https://podcastindex-org.github.io/docs-api/#overview--overview (enclosed in double quotes to escape characters such as `#`)
 - `FRONTEND_ORIGIN` is used to set the CORS headers for the backend endpoints. They will only allow the frontend origin (`(new URL()).origin` - https://developer.mozilla.org/en-US/docs/Web/API/URL/origin)
 - `ENABLE_PROXY_TROUBLESHOOTING` provide "true" to enable routes `/ip` and `/x-forwarded-for` for troubleshooting the `app.set("trust proxy", 3)` value to put so that the client ip is returned from route `/ip` (allows for more accurate rate limiting of users)

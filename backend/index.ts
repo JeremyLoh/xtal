@@ -6,6 +6,7 @@ import {
   getCorsOptions,
   getProxyTroubleshootingRouter,
 } from "./middleware/cors.js"
+import startCronJobs from "./cron/index.js"
 
 const PORT = process.env.PORT
 
@@ -28,6 +29,9 @@ function startBackend() {
     throw new Error("[server]: process.env.PORT should be defined")
   }
   const app = setupApp()
+  if (process.env.ENABLE_CRON_JOBS === "true") {
+    startCronJobs()
+  }
   if (process.env.NODE_ENV !== "test") {
     // prevent test failure on parallel test runs on the same port. (supertest uses port 0 by default if no app.listen is executed)
     app.listen(PORT, () => {

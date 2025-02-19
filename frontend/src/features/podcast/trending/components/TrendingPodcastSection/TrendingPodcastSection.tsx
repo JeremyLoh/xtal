@@ -41,7 +41,6 @@ export default function TrendingPodcastSection(
     if (props.category) {
       params.category = props.category
     }
-    console.log({ params: JSON.stringify(params) })
     return params
   }
 
