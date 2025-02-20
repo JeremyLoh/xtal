@@ -3,7 +3,7 @@ import dayjs from "dayjs"
 import StorageClient from "../api/storage/storageClient.js"
 
 const cleanupPodcastImagesJob = CronJob.from({
-  cronTime: "*/14 * * * *", // run every 14 minutes, to prevent backend service from sleeping
+  cronTime: "1 0 * * *", // run every day at 12:01AM
   onTick: async () => {
     const deleteBeforeDate = dayjs().subtract(7, "day").toDate()
     const limit = 1000
