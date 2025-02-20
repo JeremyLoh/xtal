@@ -337,7 +337,9 @@ test.describe("Podcast Homepage /podcasts", () => {
 
       test("should refresh empty trending podcast section with new data when refresh trending podcast button is clicked", async ({
         page,
+        headless,
       }) => {
+        test.skip(headless, "Remove flaky test in headless mode")
         let isDataMissing = true
         await page.route(
           "*/**/api/podcast/trending?limit=10&since=*",

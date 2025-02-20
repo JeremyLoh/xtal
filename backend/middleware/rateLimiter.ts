@@ -65,9 +65,26 @@ const getPodcastCategoryLimiter = rateLimit({
   },
 })
 
+const getStatusLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  limit: 1, // Limit each IP to "X" requests per window
+  standardHeaders: "draft-7",
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  handler: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    options: Options
+  ) => {
+    res.setHeader("retry-after", 600) // in seconds
+    res.status(options.statusCode).send(options.message)
+  },
+})
+
 export default {
   getTrendingPodcastLimiter,
   getPodcastEpisodesLimiter,
   getPodcastImageConversionLimiter,
   getPodcastCategoryLimiter,
+  getStatusLimiter,
 }

@@ -3,6 +3,18 @@ import { describe, expect, test } from "vitest"
 import { setupApp } from "../index.js"
 import { getFrontendOrigin } from "./cors/origin.js"
 
+describe("GET /status", () => {
+  describe("rate limit", () => {
+    test("should return HTTP 429 when rate limit is exceeded", async () => {
+      const app = setupApp()
+      const firstResponse = await request(app).get("/status")
+      const secondResponse = await request(app).get("/status")
+      expect(firstResponse.status).toEqual(200)
+      expect(secondResponse.status).toEqual(429)
+    })
+  })
+})
+
 describe("GET /api/podcast/trending", () => {
   const expectedOrigin = getFrontendOrigin() || ""
 
