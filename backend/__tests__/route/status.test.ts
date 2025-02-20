@@ -15,6 +15,7 @@ function mockRateLimiters() {
         getPodcastEpisodesLimiter: getMockMiddleware(),
         getPodcastImageConversionLimiter: getMockMiddleware(),
         getPodcastCategoryLimiter: getMockMiddleware(),
+        getStatusLimiter: getMockMiddleware(),
       },
     }
   })
