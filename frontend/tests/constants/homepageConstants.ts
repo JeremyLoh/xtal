@@ -25,7 +25,7 @@ export function getRadioStationMapPopupCloseButton(page: Page) {
 
 export async function getToastMessages(page: Page) {
   // wait some time for toasts to load fully
-  await page.waitForTimeout(600)
+  await page.waitForTimeout(1000)
   const toasts = await page.locator(".toaster").all()
   const toastMessages = (
     await Promise.all(toasts.map((locator) => locator.allTextContents()))
