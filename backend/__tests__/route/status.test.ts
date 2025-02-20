@@ -33,7 +33,6 @@ describe("GET /status", () => {
   test("should return status code 200", async () => {
     const app = setupApp()
     const response = await request(app).get("/status")
-    console.log(response)
     expect(response.status).toBe(200)
   })
 })
