@@ -23,7 +23,8 @@ export default function PodcastHomePage() {
   const abortControllerTrending = useRef<AbortController | null>(null)
   const [sinceDaysBefore, setSinceDaysBefore] =
     useState<number>(DEFAULT_SINCE_DAYS)
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loadingCategories, setLoadingCategories] = useState<boolean>(true)
+  const [loadingPodcasts, setLoadingPodcasts] = useState<boolean>(true)
   const [categories, setCategories] = useState<PodcastCategory[] | null>(null)
   const [trendingPodcasts, setTrendingPodcasts] = useState<
     TrendingPodcast[] | null
@@ -45,7 +46,7 @@ export default function PodcastHomePage() {
   }
 
   const getPodcastCategories = useCallback(async () => {
-    setLoading(true)
+    setLoadingCategories(true)
     abortControllerCategory.current?.abort()
     abortControllerCategory.current = new AbortController()
     try {
@@ -56,17 +57,17 @@ export default function PodcastHomePage() {
         setCategories(categories)
       } else {
         setCategories(null)
+        setLoadingCategories(false) // prevent infinite load on no data
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.message)
-    } finally {
-      setLoading(false)
+      setLoadingCategories(false) // prevent infinite load on error
     }
   }, [])
 
   const getPodcasts = useCallback(async (since: Date) => {
-    setLoading(true)
+    setLoadingPodcasts(true)
     abortControllerTrending.current?.abort()
     abortControllerTrending.current = new AbortController()
     try {
@@ -82,12 +83,12 @@ export default function PodcastHomePage() {
         setTrendingPodcasts(podcasts.data)
       } else {
         setTrendingPodcasts(null)
+        setLoadingPodcasts(false) // prevent infinite load on no data
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.message)
-    } finally {
-      setLoading(false)
+      setLoadingPodcasts(false) // prevent infinite load on error
     }
   }, [])
 
@@ -103,16 +104,32 @@ export default function PodcastHomePage() {
     }
   }, [getPodcastCategories, getPodcasts, sinceDaysBefore])
 
+  useEffect(() => {
+    // update the loading state after the trending podcasts state has been set
+    // prevents display of "no podcasts available" element due to trendingPodcasts = null, and loading = false
+    if (trendingPodcasts) {
+      setLoadingPodcasts(false)
+    }
+  }, [trendingPodcasts])
+
+  useEffect(() => {
+    // update the category loading state to false after the state has been updated
+    // prevents display of "no categories available" element due to categories = null, and loading = false
+    if (categories) {
+      setLoadingCategories(false)
+    }
+  }, [categories])
+
   return (
     <div id="podcast-home-page-container">
-      <Spinner isLoading={loading} />
+      <Spinner isLoading={loadingCategories || loadingPodcasts} />
       <PodcastCategorySection
-        loading={loading}
+        loading={loadingCategories}
         categories={categories}
         onRefresh={getPodcastCategories}
       />
       <TrendingPodcastSection
-        loading={loading}
+        loading={loadingPodcasts}
         trendingPodcasts={trendingPodcasts}
         onRefresh={handlePodcastRefresh}
       />
