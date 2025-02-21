@@ -3,7 +3,7 @@ import ky from "ky"
 
 const keepServerAliveJob = CronJob.from({
   // https://stackoverflow.com/questions/20417600/quartz-cron-expression-to-run-job-at-every-14-minutes-from-now
-  cronTime: "0/10 * * * *", // run every 10 minutes, to prevent backend service from sleeping after 115 minutes of inactivity
+  cronTime: "0/10 * * * *", // run every 10 minutes, to prevent backend service from sleeping after 15 minutes of inactivity
   onTick: async () => {
     console.log(
       `keepServerAliveJob: cron job triggered at ${new Date().toString()} to keep backend alive`
