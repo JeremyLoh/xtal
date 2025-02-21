@@ -46,12 +46,12 @@ export default function PodcastCategoryPage() {
           setTrendingPodcasts(podcasts.data)
         } else {
           setTrendingPodcasts(null)
+          setLoading(false) // prevent infinite load on no data
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         toast.error(error.message)
-      } finally {
-        setLoading(false)
+        setLoading(false) // prevent infinite load on error
       }
     },
     [categoryName]
@@ -69,6 +69,14 @@ export default function PodcastCategoryPage() {
       abortControllerTrending.current?.abort()
     }
   }, [getPodcasts, categoryName, sinceDaysBefore])
+
+  useEffect(() => {
+    // update loading state to false after set state has been run on the trending podcasts
+    // prevents display of "no podcasts available" element due to trendingPodcasts = null, and loading = false
+    if (trendingPodcasts) {
+      setLoading(false)
+    }
+  }, [trendingPodcasts])
 
   async function handlePodcastRefresh(
     filters: {
