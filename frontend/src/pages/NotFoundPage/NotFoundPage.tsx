@@ -11,7 +11,9 @@ export default function NotFoundPage() {
       <div className="not-found-page-container">
         <HiOutlineFaceFrown size={64} />
         <h1 className="not-found-page-title">404 Not Found</h1>
-        <Link to="/">Return Home</Link>
+        <Link to="/" replace>
+          Return Home
+        </Link>
       </div>
       <Footer />
     </>
