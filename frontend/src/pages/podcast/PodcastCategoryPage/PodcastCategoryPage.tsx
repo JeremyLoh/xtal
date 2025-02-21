@@ -1,37 +1,116 @@
 import "./PodcastCategoryPage.css"
-import { useEffect } from "react"
-import { Link, useParams } from "react-router"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { Link, useNavigate, useParams } from "react-router"
 import { IoArrowBackSharp } from "react-icons/io5"
 import TrendingPodcastSection from "../../../features/podcast/trending/components/TrendingPodcastSection/TrendingPodcastSection"
+import { TrendingPodcast } from "../../../api/podcast/model/podcast"
+import { getTrendingPodcasts } from "../../../api/podcast/trendingPodcast"
+import { toast } from "sonner"
+import dayjs from "dayjs"
+
+const DEFAULT_SINCE_DAYS = 3
+
+function convertToDate(daysBefore: number): Date {
+  return dayjs().startOf("day").subtract(daysBefore, "days").toDate()
+}
 
 export default function PodcastCategoryPage() {
   const { categoryName } = useParams()
-  useEffect(() => {
-    if (categoryName) {
-      document.title = `xtal - ${decodeURIComponent(
-        categoryName
-      ).toLowerCase()} podcasts`
-    }
-  }, [categoryName])
+  const navigate = useNavigate()
 
-  if (!categoryName) {
-    return null
-  }
-  return (
-    <div className="podcast-category-container">
-      <Link
-        to="/podcasts"
-        style={{ textDecoration: "none", width: "fit-content" }}
-      >
-        <button className="podcast-category-back-button">
-          <IoArrowBackSharp size={16} />
-          Back
-        </button>
-      </Link>
-      <h2 className="podcast-category-title">
-        {decodeURIComponent(categoryName)}
-      </h2>
-      <TrendingPodcastSection category={categoryName} />
-    </div>
+  const abortControllerTrending = useRef<AbortController | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [sinceDaysBefore, setSinceDaysBefore] =
+    useState<number>(DEFAULT_SINCE_DAYS)
+  const [trendingPodcasts, setTrendingPodcasts] = useState<
+    TrendingPodcast[] | null
+  >(null)
+
+  const getPodcasts = useCallback(
+    async (since: Date) => {
+      setLoading(true)
+      abortControllerTrending.current?.abort()
+      abortControllerTrending.current = new AbortController()
+      try {
+        const params = {
+          limit: 10,
+          since: since,
+          category: categoryName,
+        }
+        const podcasts = await getTrendingPodcasts(
+          abortControllerTrending.current,
+          params
+        )
+        if (podcasts && podcasts.data) {
+          setTrendingPodcasts(podcasts.data)
+        } else {
+          setTrendingPodcasts(null)
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast.error(error.message)
+      } finally {
+        setLoading(false)
+      }
+    },
+    [categoryName]
   )
+
+  useEffect(() => {
+    if (!categoryName) {
+      return
+    }
+    document.title = `xtal - ${decodeURIComponent(
+      categoryName
+    ).toLowerCase()} podcasts`
+    getPodcasts(convertToDate(sinceDaysBefore))
+    return () => {
+      abortControllerTrending.current?.abort()
+    }
+  }, [getPodcasts, categoryName, sinceDaysBefore])
+
+  async function handlePodcastRefresh(
+    filters: {
+      since: number
+      category?: string
+    } | null
+  ) {
+    if (filters == null) {
+      await getPodcasts(convertToDate(DEFAULT_SINCE_DAYS))
+    } else {
+      const { since } = filters
+      setSinceDaysBefore(since)
+      await getPodcasts(convertToDate(since))
+    }
+  }
+
+  function renderPodcasts() {
+    if (!categoryName) {
+      navigate("/404")
+      return
+    }
+    return (
+      <>
+        <Link
+          to="/podcasts"
+          style={{ textDecoration: "none", width: "fit-content" }}
+        >
+          <button className="podcast-category-back-button">
+            <IoArrowBackSharp size={16} />
+            Back
+          </button>
+        </Link>
+        <h2 className="podcast-category-title">
+          {decodeURIComponent(categoryName)}
+        </h2>
+        <TrendingPodcastSection
+          loading={loading}
+          trendingPodcasts={trendingPodcasts}
+          onRefresh={handlePodcastRefresh}
+        />
+      </>
+    )
+  }
+
+  return <div className="podcast-category-container">{renderPodcasts()}</div>
 }
