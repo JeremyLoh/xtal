@@ -61,12 +61,16 @@ The Backend tests are written in vitest - https://vitest.dev/
 2. Navigate to the `backend/` directory
 3. Create a `.env` file with the following values:
 
-   ```
+   ```shell
    PORT=3000
+   ENABLE_CRON_JOBS="false" # ONLY ENABLE ("true") FOR PRODUCTION
    PODCAST_INDEX_API_KEY="???"
    PODCAST_INDEX_API_SECRET="???"
    FRONTEND_ORIGIN="http://localhost:5173"
+   BACKEND_ORIGIN="http://localhost:3000"
    ENABLE_PROXY_TROUBLESHOOTING="false"
+   SUPABASE_PROJECT_URL="???_Supabase project url that has PostgreSQL database and Supabase Storage (AWS S3 bucket)"
+   SUPABASE_PROJECT_SERVICE_ROLE_API_KEY="???_This is the secret service role value for the project. DO NOT COMMIT THIS OR MAKE THIS PUBLIC"
    ```
 
    - The `PODCAST_INDEX_API_KEY` and `PODCAST_INDEX_API_SECRET` are obtained from creating a developer account on https://api.podcastindex.org/signup
