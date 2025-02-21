@@ -1,12 +1,13 @@
 import "./PodcastCategoryPage.css"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router"
+import dayjs from "dayjs"
+import { toast } from "sonner"
 import { IoArrowBackSharp } from "react-icons/io5"
 import TrendingPodcastSection from "../../../features/podcast/trending/components/TrendingPodcastSection/TrendingPodcastSection"
 import { TrendingPodcast } from "../../../api/podcast/model/podcast"
 import { getTrendingPodcasts } from "../../../api/podcast/trendingPodcast"
-import { toast } from "sonner"
-import dayjs from "dayjs"
+import Spinner from "../../../components/Spinner/Spinner"
 
 const DEFAULT_SINCE_DAYS = 3
 
@@ -91,6 +92,7 @@ export default function PodcastCategoryPage() {
     }
     return (
       <>
+        <Spinner isLoading={loading} />
         <Link
           to="/podcasts"
           style={{ textDecoration: "none", width: "fit-content" }}
