@@ -2,7 +2,8 @@ import { CronJob } from "cron"
 import ky from "ky"
 
 const keepServerAliveJob = CronJob.from({
-  cronTime: "*/14 * * * *", // run every 14 minutes, to prevent backend service from sleeping
+  // https://stackoverflow.com/questions/20417600/quartz-cron-expression-to-run-job-at-every-14-minutes-from-now
+  cronTime: "0/10 * * * *", // run every 10 minutes, to prevent backend service from sleeping after 115 minutes of inactivity
   onTick: async () => {
     console.log(
       `keepServerAliveJob: cron job triggered at ${new Date().toString()} to keep backend alive`
@@ -12,9 +13,9 @@ const keepServerAliveJob = CronJob.from({
     }
     try {
       const url = process.env.BACKEND_ORIGIN + "/status"
-      const response = await ky.get(url)
+      const response = await ky.get(url, { retry: 0 })
       if (response.status === 200) {
-        console.log(`keepServerAliveJob: /status endpoint was available`)
+        console.log(`keepServerAliveJob: /status endpoint is available`)
       } else {
         console.error(
           `keepServerAliveJob: error with /status endpoint: ${response.statusText}`
