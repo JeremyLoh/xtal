@@ -1,6 +1,6 @@
 import { createContext, useState } from "react"
-import { Station } from "../../api/radiobrowser/types"
 import { LatLngExpression } from "leaflet"
+import { Station } from "../../api/radiobrowser/types.ts"
 
 type MapInfo = {
   station: Station | null
@@ -19,12 +19,17 @@ function MapProvider({ children }: { children: React.ReactNode }) {
   })
   const [station, setStation] = useState<Station | null>(null)
   function setMapStation(station: Station | null) {
-    setCurrentView({lat: station?.geo_lat || 0, lng: station?.geo_long || 0})
-    setStation(station == null ? null : {...station})
+    setCurrentView({ lat: station?.geo_lat || 0, lng: station?.geo_long || 0 })
+    setStation(station == null ? null : { ...station })
   }
   return (
     <MapContext.Provider
-      value={{ station, setStation: setMapStation, currentView, setCurrentView }}
+      value={{
+        station,
+        setStation: setMapStation,
+        currentView,
+        setCurrentView,
+      }}
     >
       {children}
     </MapContext.Provider>

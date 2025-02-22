@@ -1,10 +1,10 @@
 import "./TrendingPodcastSection.css"
 import { Link } from "react-router"
 import { IoChevronForward, IoReload } from "react-icons/io5"
-import { TrendingPodcast } from "../../../../../api/podcast/model/podcast"
-import PodcastCard from "../../../../../components/PodcastCard/PodcastCard"
-import useScreenDimensions from "../../../../../hooks/useScreenDimensions"
-import TrendingPodcastFilters from "../TrendingPodcastFilters/TrendingPodcastFilters"
+import { TrendingPodcast } from "../../../../../api/podcast/model/podcast.ts"
+import PodcastCard from "../../../../../components/PodcastCard/PodcastCard.tsx"
+import useScreenDimensions from "../../../../../hooks/useScreenDimensions.ts"
+import TrendingPodcastFilters from "../TrendingPodcastFilters/TrendingPodcastFilters.tsx"
 
 type TrendingPodcastSectionProps = {
   loading: boolean

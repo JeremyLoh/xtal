@@ -1,7 +1,7 @@
-import { getRandomServer } from "../servers"
-import { getAllStations } from "../station"
-import { Station } from "../types"
-import { StationSearchStrategy } from "./StationSearchStrategy"
+import { getRandomServer } from "../servers.ts"
+import { getAllStations } from "../station.ts"
+import { Station } from "../types.ts"
+import { StationSearchStrategy } from "./StationSearchStrategy.ts"
 
 export class UuidSearchStrategy implements StationSearchStrategy {
   private stationuuid: string

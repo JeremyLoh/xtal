@@ -1,9 +1,9 @@
 import "./FavouriteStationDrawer.css"
 import { lazy, useContext } from "react"
-import { GoStarFill } from "react-icons/go"
 import { useLocation, useNavigate } from "react-router"
+import { GoStarFill } from "react-icons/go"
 import Drawer from "../../../components/Drawer/Drawer.tsx"
-import { Station } from "../../../api/radiobrowser/types"
+import { Station } from "../../../api/radiobrowser/types.ts"
 import { MapContext } from "../../../context/MapProvider/MapProvider.tsx"
 import { FavouriteStationsContext } from "../../../context/FavouriteStationsProvider/FavouriteStationsProvider.tsx"
 const FavouriteStationCard = lazy(

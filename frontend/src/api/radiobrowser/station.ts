@@ -1,9 +1,9 @@
 import ky from "ky"
-import { Station } from "./types"
+import { Station } from "./types.ts"
 import {
   convertMissingInformation,
   convertTags,
-} from "./converter/stationConverter"
+} from "./converter/stationConverter.ts"
 
 async function getAllStations(
   abortController: AbortController,

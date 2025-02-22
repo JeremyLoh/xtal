@@ -1,16 +1,16 @@
 import {
   CountryStation,
   DEFAULT_COUNTRY_SEARCH,
-} from "../../location/countryStation"
-import { DEFAULT_GENRE_SEARCH, GenreInformation } from "../genreTags"
+} from "../../location/countryStation.ts"
+import { DEFAULT_GENRE_SEARCH, GenreInformation } from "../genreTags.ts"
 import {
   AdvancedStationSearchCriteria,
   AdvancedStationSearchStrategy,
-} from "./AdvancedStationSearchStrategy"
-import { CountryStationSearchStrategy } from "./CountryStationSearchStrategy"
-import { GenreStationSearchStrategy } from "./GenreStationSearchStrategy"
-import { StationSearchStrategy } from "./StationSearchStrategy"
-import { UuidSearchStrategy } from "./UuidSearchStrategy"
+} from "./AdvancedStationSearchStrategy.ts"
+import { CountryStationSearchStrategy } from "./CountryStationSearchStrategy.ts"
+import { GenreStationSearchStrategy } from "./GenreStationSearchStrategy.ts"
+import { StationSearchStrategy } from "./StationSearchStrategy.ts"
+import { UuidSearchStrategy } from "./UuidSearchStrategy.ts"
 
 export enum StationSearchType {
   GENRE = "genre",

@@ -4,14 +4,14 @@ import { motion } from "motion/react"
 import { toast } from "sonner"
 import { IoIosRadio } from "react-icons/io"
 import { IoAddSharp } from "react-icons/io5"
-import Drawer from "../../../../components/Drawer/Drawer"
+import Drawer from "../../../../components/Drawer/Drawer.tsx"
 import StationSearchForm, {
   StationSearchValues,
-} from "../StationSearchForm/StationSearchForm"
-import { SearchStrategyFactory } from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory"
-import { AdvancedStationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/AdvancedStationSearchStrategy"
-import { Station } from "../../../../api/radiobrowser/types"
-import StationCard from "../../../../components/StationCard/StationCard"
+} from "../StationSearchForm/StationSearchForm.tsx"
+import { SearchStrategyFactory } from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory.ts"
+import { AdvancedStationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/AdvancedStationSearchStrategy.ts"
+import { Station } from "../../../../api/radiobrowser/types.ts"
+import StationCard from "../../../../components/StationCard/StationCard.tsx"
 
 type StationSelectProps = {
   handleLoadStation: (station: Station) => void

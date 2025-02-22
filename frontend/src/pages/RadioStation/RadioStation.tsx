@@ -1,9 +1,9 @@
 import { useContext, useEffect, useRef } from "react"
 import { useNavigate, useParams } from "react-router"
 import { toast } from "sonner"
-import { MapContext } from "../../context/MapProvider/MapProvider"
-import { SearchStrategyFactory } from "../../api/radiobrowser/searchStrategy/SearchStrategyFactory"
-import Map from "../../features/map/components/Map/Map"
+import { MapContext } from "../../context/MapProvider/MapProvider.tsx"
+import { SearchStrategyFactory } from "../../api/radiobrowser/searchStrategy/SearchStrategyFactory.ts"
+import Map from "../../features/map/components/Map/Map.tsx"
 
 type RadioStationParams = {
   stationuuid: string

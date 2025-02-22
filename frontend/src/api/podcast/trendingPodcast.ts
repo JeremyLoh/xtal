@@ -1,6 +1,6 @@
 import ky from "ky"
 import dayjs from "dayjs"
-import { TrendingPodcast } from "./model/podcast"
+import { TrendingPodcast } from "./model/podcast.ts"
 
 const BACKEND_ORIGIN = import.meta.env.VITE_BACKEND_ORIGIN
 

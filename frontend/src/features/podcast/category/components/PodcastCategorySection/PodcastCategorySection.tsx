@@ -2,9 +2,9 @@ import "./PodcastCategorySection.css"
 import { useNavigate } from "react-router"
 import { motion } from "motion/react"
 import { IoReload } from "react-icons/io5"
-import Slider from "../../../../../components/Slider/Slider"
-import { PodcastCategory } from "../../../../../api/podcast/model/podcast"
-import useScreenDimensions from "../../../../../hooks/useScreenDimensions"
+import Slider from "../../../../../components/Slider/Slider.tsx"
+import { PodcastCategory } from "../../../../../api/podcast/model/podcast.ts"
+import useScreenDimensions from "../../../../../hooks/useScreenDimensions.ts"
 
 type PodcastCategorySectionProps = {
   loading: boolean

@@ -1,5 +1,5 @@
 import { toast } from "sonner"
-import { Station } from "../api/radiobrowser/types"
+import { Station } from "../api/radiobrowser/types.ts"
 
 function useClipboard() {
   function copyRadioStationShareUrl(station: Station) {

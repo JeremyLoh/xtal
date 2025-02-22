@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { MdOutlineImageNotSupported } from "react-icons/md"
-import { getPodcastImage } from "../../api/image/podcastImage"
+import { getPodcastImage } from "../../api/image/podcastImage.ts"
 
 type PodcastImageProps = {
   imageUrl: string

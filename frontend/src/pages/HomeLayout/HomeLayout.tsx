@@ -3,10 +3,10 @@ import { preconnect, prefetchDNS, preload } from "react-dom"
 import { useContext, useRef, useState } from "react"
 import { Outlet } from "react-router"
 import { toast } from "sonner"
-import RadioSelect from "../../features/radioselect/components/RadioSelect/RadioSelect"
-import { countryAlpha2ToCoordinate } from "../../api/location/countryCoordinate"
-import { MapContext } from "../../context/MapProvider/MapProvider"
-import { StationSearchStrategy } from "../../api/radiobrowser/searchStrategy/StationSearchStrategy"
+import RadioSelect from "../../features/radioselect/components/RadioSelect/RadioSelect.tsx"
+import { countryAlpha2ToCoordinate } from "../../api/location/countryCoordinate.ts"
+import { MapContext } from "../../context/MapProvider/MapProvider.tsx"
+import { StationSearchStrategy } from "../../api/radiobrowser/searchStrategy/StationSearchStrategy.ts"
 
 export default function HomeLayout() {
   preconnect("https://tile.openstreetmap.org")

@@ -1,10 +1,10 @@
 import "./StationSearch.css"
 import { useContext, useState } from "react"
 import { FaFlag, FaMusic, FaSearch } from "react-icons/fa"
-import { StationSearchType } from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory"
-import StationSelect from "../StationSelect/StationSelect"
-import { Station } from "../../../../api/radiobrowser/types"
-import { MapContext } from "../../../../context/MapProvider/MapProvider"
+import { StationSearchType } from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory.ts"
+import StationSelect from "../StationSelect/StationSelect.tsx"
+import { Station } from "../../../../api/radiobrowser/types.ts"
+import { MapContext } from "../../../../context/MapProvider/MapProvider.tsx"
 
 type StationSearchProps = {
   handleStationSearchType: (searchType: StationSearchType) => void

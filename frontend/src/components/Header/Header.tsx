@@ -1,7 +1,7 @@
 import "./Header.css"
 import { Link } from "react-router"
-import FavouriteStationToggle from "../../features/favourite/FavouriteStationToggle/FavouriteStationToggle"
-import ThemeToggle from "../ThemeToggle/ThemeToggle"
+import FavouriteStationToggle from "../../features/favourite/FavouriteStationToggle/FavouriteStationToggle.tsx"
+import ThemeToggle from "../ThemeToggle/ThemeToggle.tsx"
 
 function Header() {
   return (

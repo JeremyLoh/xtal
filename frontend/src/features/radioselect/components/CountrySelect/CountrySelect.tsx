@@ -3,8 +3,8 @@ import {
   CountryStation,
   countryStationInfo,
   DEFAULT_COUNTRY_SEARCH,
-} from "../../../../api/location/countryStation"
-import Slider from "../../../../components/Slider/Slider"
+} from "../../../../api/location/countryStation.ts"
+import Slider from "../../../../components/Slider/Slider.tsx"
 
 type CountrySelectProps = {
   handleCountrySelect: (country: CountryStation) => void

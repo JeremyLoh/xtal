@@ -1,8 +1,8 @@
-import { StationSearchStrategy } from "./StationSearchStrategy"
-import { CountryStation } from "../../location/countryStation"
-import { Station } from "../types"
-import { getRandomServer } from "../servers"
-import { getAllStations } from "../station"
+import { StationSearchStrategy } from "./StationSearchStrategy.ts"
+import { CountryStation } from "../../location/countryStation.ts"
+import { Station } from "../types.ts"
+import { getRandomServer } from "../servers.ts"
+import { getAllStations } from "../station.ts"
 
 export class CountryStationSearchStrategy implements StationSearchStrategy {
   private country: CountryStation

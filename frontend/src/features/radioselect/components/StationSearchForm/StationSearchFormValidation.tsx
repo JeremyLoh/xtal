@@ -1,5 +1,5 @@
 import { RegisterOptions } from "react-hook-form"
-import { Inputs } from "./StationSearchForm"
+import { Inputs } from "./StationSearchForm.tsx"
 
 export const stationNameValidation: RegisterOptions<Inputs, "stationName"> = {
   required: true,
