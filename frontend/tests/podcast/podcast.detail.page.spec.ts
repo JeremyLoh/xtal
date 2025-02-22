@@ -1,7 +1,7 @@
 import test, { expect, Page } from "@playwright/test"
 import dayjs from "dayjs"
 import duration from "dayjs/plugin/duration.js"
-import { getToastMessages, HOMEPAGE } from "../constants/homepageConstants"
+import { assertToastMessage, HOMEPAGE } from "../constants/homepageConstants"
 import { defaultTenPodcastEpisodes } from "../mocks/podcast.episode"
 import { Podcast } from "../../src/api/podcast/model/podcast"
 
@@ -362,14 +362,9 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     )
     await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
     await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-    const toastMessages = await getToastMessages(page)
-    expect(
-      toastMessages,
-      "should have rate limit exceeded error toast message"
-    ).toEqual(
-      expect.arrayContaining([
-        "Rate Limit Exceeded, please try again after 2 seconds",
-      ])
+    await assertToastMessage(
+      page,
+      "Rate Limit Exceeded, please try again after 2 seconds"
     )
   })
 
@@ -389,11 +384,9 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     )
     await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
     await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-    const toastMessages = await getToastMessages(page)
-    expect(toastMessages, "should have server error toast message").toEqual(
-      expect.arrayContaining([
-        "Could not retrieve podcast episodes. Please try again later",
-      ])
+    await assertToastMessage(
+      page,
+      "Could not retrieve podcast episodes. Please try again later"
     )
   })
 })

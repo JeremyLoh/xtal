@@ -23,19 +23,12 @@ export function getRadioStationMapPopupCloseButton(page: Page) {
   return page.locator(".leaflet-popup-close-button")
 }
 
-export async function getToastMessages(page: Page) {
-  // wait some time for toasts to load fully
-  await page.waitForTimeout(2000)
-  const toasts = await page.locator(".toaster").all()
-  const toastMessages = (
-    await Promise.all(toasts.map((locator) => locator.allTextContents()))
-  ).flat(1)
-  return toastMessages
+export async function assertToastMessage(page: Page, message: string) {
+  await expect(page.locator(".toaster").getByText(message)).toHaveCount(1)
 }
 
-export async function assertToastMessage(page: Page, message: string) {
-  const toastMessages = await getToastMessages(page)
-  expect(toastMessages).toEqual(expect.arrayContaining([message]))
+export async function assertToastMessageIsMissing(page: Page, message: string) {
+  await expect(page.locator(".toaster").getByText(message)).not.toHaveCount(1)
 }
 
 export function getNavbarRadioLink(page: Page) {

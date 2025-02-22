@@ -1,8 +1,8 @@
 import test, { expect, Page } from "@playwright/test"
 import {
+  assertToastMessage,
   clickRandomRadioStationButton,
   getRadioCardMapPopup,
-  getToastMessages,
   HOMEPAGE,
 } from "./constants/homepageConstants"
 import { stationWithLocationLatLng, unitedStatesStation } from "./mocks/station"
@@ -59,11 +59,7 @@ test.describe("share radio station feature", () => {
     await page.goto(HOMEPAGE)
     await clickRandomRadioStationButton(page)
     await getRadioCardShareIcon(page).click()
-    const toastMessages = await getToastMessages(page)
-    const expectedSuccessMessage = "Link Copied"
-    expect(toastMessages).toEqual(
-      expect.arrayContaining([expectedSuccessMessage])
-    )
+    await assertToastMessage(page, "Link Copied")
   })
 
   test("should load radio station when share radio station link is used", async ({
