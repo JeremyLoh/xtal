@@ -9,9 +9,9 @@ import {
 } from "react"
 import { IoPlaySharp } from "react-icons/io5"
 import dayjs from "dayjs"
-import { PodcastEpisode } from "../../api/podcast/model/podcast"
-import Pill from "../Pill/Pill"
-import PodcastImage from "../PodcastImage/PodcastImage"
+import { PodcastEpisode } from "../../api/podcast/model/podcast.ts"
+import Pill from "../Pill/Pill.tsx"
+import PodcastImage from "../PodcastImage/PodcastImage.tsx"
 
 type PodcastEpisodeCardProps = PropsWithChildren & {
   episode: PodcastEpisode

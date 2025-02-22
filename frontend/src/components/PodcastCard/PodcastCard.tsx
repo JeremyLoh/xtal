@@ -1,9 +1,9 @@
 import "./PodcastCard.css"
 import DOMPurify from "dompurify"
 import { createContext, PropsWithChildren, useContext } from "react"
-import { Podcast } from "../../api/podcast/model/podcast"
-import Pill from "../Pill/Pill"
-import PodcastImage from "../PodcastImage/PodcastImage"
+import { Podcast } from "../../api/podcast/model/podcast.ts"
+import Pill from "../Pill/Pill.tsx"
+import PodcastImage from "../PodcastImage/PodcastImage.tsx"
 
 type PodcastCardProps = PropsWithChildren & {
   customClassName?: string

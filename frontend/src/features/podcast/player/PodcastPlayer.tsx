@@ -1,10 +1,10 @@
 import "./PodcastPlayer.css"
-import dayjs from "dayjs"
 import { useContext } from "react"
-import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider"
-import AudioPlayer from "../../../components/AudioPlayer/AudioPlayer"
-import Pill from "../../../components/Pill/Pill"
-import PodcastImage from "../../../components/PodcastImage/PodcastImage"
+import dayjs from "dayjs"
+import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
+import AudioPlayer from "../../../components/AudioPlayer/AudioPlayer.tsx"
+import Pill from "../../../components/Pill/Pill.tsx"
+import PodcastImage from "../../../components/PodcastImage/PodcastImage.tsx"
 
 function getDateFormat(unixTimestampInSeconds: number): string {
   return dayjs.unix(unixTimestampInSeconds).format("MMMM D, YYYY")

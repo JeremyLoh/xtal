@@ -3,11 +3,11 @@ import { useContext, useEffect, useRef, useState } from "react"
 import { Link, useParams } from "react-router"
 import { toast } from "sonner"
 import { IoArrowBackSharp } from "react-icons/io5"
-import { Podcast, PodcastEpisode } from "../../../api/podcast/model/podcast"
-import { getPodcastEpisodes } from "../../../api/podcast/podcastEpisode"
-import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/PodcastEpisodeCard"
-import PodcastCard from "../../../components/PodcastCard/PodcastCard"
-import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider"
+import { Podcast, PodcastEpisode } from "../../../api/podcast/model/podcast.ts"
+import { getPodcastEpisodes } from "../../../api/podcast/podcastEpisode.ts"
+import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/PodcastEpisodeCard.tsx"
+import PodcastCard from "../../../components/PodcastCard/PodcastCard.tsx"
+import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 
 export default function PodcastDetailPage() {
   const { podcastId, podcastTitle } = useParams()

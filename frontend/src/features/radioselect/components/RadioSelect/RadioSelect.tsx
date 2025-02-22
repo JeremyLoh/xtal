@@ -1,19 +1,19 @@
 import "./RadioSelect.css"
 import { useState } from "react"
 import { FaRandom } from "react-icons/fa"
-import GenreSelect from "../GenreSelect/GenreSelect"
-import { GenreInformation } from "../../../../api/radiobrowser/genreTags"
-import { StationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/StationSearchStrategy"
-import StationSearch from "../StationSearch/StationSearch"
-import CountrySelect from "../CountrySelect/CountrySelect"
+import GenreSelect from "../GenreSelect/GenreSelect.tsx"
+import StationSearch from "../StationSearch/StationSearch.tsx"
+import CountrySelect from "../CountrySelect/CountrySelect.tsx"
+import { GenreInformation } from "../../../../api/radiobrowser/genreTags.ts"
 import {
   CountryStation,
   DEFAULT_COUNTRY_SEARCH,
-} from "../../../../api/location/countryStation"
+} from "../../../../api/location/countryStation.ts"
+import { StationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/StationSearchStrategy.ts"
 import {
   SearchStrategyFactory,
   StationSearchType,
-} from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory"
+} from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory.ts"
 
 type RadioSelectProps = {
   handleRandomSelect: (searchStrategy: StationSearchStrategy) => void

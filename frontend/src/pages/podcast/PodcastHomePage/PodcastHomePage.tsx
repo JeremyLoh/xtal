@@ -2,15 +2,15 @@ import "./PodcastHomePage.css"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 import dayjs from "dayjs"
-import TrendingPodcastSection from "../../../features/podcast/trending/components/TrendingPodcastSection/TrendingPodcastSection"
-import PodcastCategorySection from "../../../features/podcast/category/components/PodcastCategorySection/PodcastCategorySection"
+import TrendingPodcastSection from "../../../features/podcast/trending/components/TrendingPodcastSection/TrendingPodcastSection.tsx"
+import PodcastCategorySection from "../../../features/podcast/category/components/PodcastCategorySection/PodcastCategorySection.tsx"
 import {
   PodcastCategory,
   TrendingPodcast,
-} from "../../../api/podcast/model/podcast"
-import { getAllPodcastCategories } from "../../../api/podcast/podcastCategory"
-import Spinner from "../../../components/Spinner/Spinner"
-import { getTrendingPodcasts } from "../../../api/podcast/trendingPodcast"
+} from "../../../api/podcast/model/podcast.ts"
+import { getAllPodcastCategories } from "../../../api/podcast/podcastCategory.ts"
+import { getTrendingPodcasts } from "../../../api/podcast/trendingPodcast.ts"
+import Spinner from "../../../components/Spinner/Spinner.tsx"
 
 const DEFAULT_SINCE_DAYS = 3
 

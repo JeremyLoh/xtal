@@ -4,10 +4,10 @@ import { Link, useNavigate, useParams } from "react-router"
 import dayjs from "dayjs"
 import { toast } from "sonner"
 import { IoArrowBackSharp } from "react-icons/io5"
-import TrendingPodcastSection from "../../../features/podcast/trending/components/TrendingPodcastSection/TrendingPodcastSection"
-import { TrendingPodcast } from "../../../api/podcast/model/podcast"
-import { getTrendingPodcasts } from "../../../api/podcast/trendingPodcast"
-import Spinner from "../../../components/Spinner/Spinner"
+import TrendingPodcastSection from "../../../features/podcast/trending/components/TrendingPodcastSection/TrendingPodcastSection.tsx"
+import { TrendingPodcast } from "../../../api/podcast/model/podcast.ts"
+import { getTrendingPodcasts } from "../../../api/podcast/trendingPodcast.ts"
+import Spinner from "../../../components/Spinner/Spinner.tsx"
 
 const DEFAULT_SINCE_DAYS = 3
 

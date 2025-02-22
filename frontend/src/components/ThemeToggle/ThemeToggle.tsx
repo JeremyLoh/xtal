@@ -1,7 +1,7 @@
+import "./ThemeToggle.css"
 import { useContext } from "react"
 import { FaMoon, FaSun } from "react-icons/fa"
-import "./ThemeToggle.css"
-import { ThemeContext } from "../../context/ThemeProvider/ThemeProvider"
+import { ThemeContext } from "../../context/ThemeProvider/ThemeProvider.tsx"
 
 function ThemeToggle() {
   const theme = useContext(ThemeContext)

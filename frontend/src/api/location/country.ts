@@ -1,4 +1,4 @@
-import { countryAlpha2ToCoordinate } from "./countryCoordinate"
+import { countryAlpha2ToCoordinate } from "./countryCoordinate.ts"
 
 type Coordinates = {
   latitude: number

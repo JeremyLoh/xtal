@@ -2,11 +2,14 @@ import "./StationSearchForm.css"
 import { JSX, useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { FaSearch } from "react-icons/fa"
-import { languages, LanguageEnum } from "../../../../api/radiobrowser/languages"
+import {
+  languages,
+  LanguageEnum,
+} from "../../../../api/radiobrowser/languages.ts"
 import {
   stationNameValidation,
   stationTagValidation,
-} from "./StationSearchFormValidation"
+} from "./StationSearchFormValidation.tsx"
 
 export type StationSearchValues = {
   stationName: string

@@ -1,5 +1,5 @@
-import { getCountryCoordinateBasedOn } from "../../location/country"
-import { Station } from "../types"
+import { getCountryCoordinateBasedOn } from "../../location/country.ts"
+import { Station } from "../types.ts"
 
 const MAX_TAG_COUNT = 8
 const MAX_TAG_LENGTH = 50

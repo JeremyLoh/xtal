@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react"
-import Map from "../../features/map/components/Map/Map"
-import { MapContext } from "../../context/MapProvider/MapProvider"
+import Map from "../../features/map/components/Map/Map.tsx"
+import { MapContext } from "../../context/MapProvider/MapProvider.tsx"
 
 export default function HomePage() {
   const mapContext = useContext(MapContext)

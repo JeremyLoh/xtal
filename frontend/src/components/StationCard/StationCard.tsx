@@ -1,12 +1,12 @@
 import "./StationCard.css"
 import { createContext, PropsWithChildren, useContext } from "react"
-import { Station } from "../../api/radiobrowser/types"
-import Pill from "../Pill/Pill"
 import { FaMapMarkerAlt } from "react-icons/fa"
 import { BiSolidLike } from "react-icons/bi"
 import { IoLanguageSharp, IoShareSocialSharp } from "react-icons/io5"
 import { GoStar, GoStarFill } from "react-icons/go"
 import { MdOutlineImageNotSupported } from "react-icons/md"
+import { Station } from "../../api/radiobrowser/types.ts"
+import Pill from "../Pill/Pill.tsx"
 
 type StationCardContext = {
   station: Station

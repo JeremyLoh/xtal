@@ -1,10 +1,10 @@
 import { useState } from "react"
-import Slider from "../../../../components/Slider/Slider"
+import Slider from "../../../../components/Slider/Slider.tsx"
 import {
   DEFAULT_GENRE_SEARCH,
   GenreInformation,
   genres,
-} from "../../../../api/radiobrowser/genreTags"
+} from "../../../../api/radiobrowser/genreTags.ts"
 
 type GenreSelectProps = {
   handleGenreSelect: (genre: GenreInformation) => void

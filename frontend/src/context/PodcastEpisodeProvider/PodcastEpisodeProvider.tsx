@@ -1,5 +1,5 @@
 import { createContext, useState } from "react"
-import { PodcastEpisode } from "../../api/podcast/model/podcast"
+import { PodcastEpisode } from "../../api/podcast/model/podcast.ts"
 
 type PodcastEpisodeInfo = {
   episode: PodcastEpisode | null

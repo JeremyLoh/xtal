@@ -1,6 +1,6 @@
 import { createContext } from "react"
-import useLocalStorage from "../../hooks/useLocalStorage"
-import { Station } from "../../api/radiobrowser/types"
+import useLocalStorage from "../../hooks/useLocalStorage.ts"
+import { Station } from "../../api/radiobrowser/types.ts"
 
 type FavouriteStations = {
   favouriteStations: Station[]
