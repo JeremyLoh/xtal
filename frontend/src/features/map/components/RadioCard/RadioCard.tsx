@@ -1,11 +1,13 @@
 import "./RadioCard.css"
-import { useContext, useEffect, useState } from "react"
+import { lazy, useContext, useEffect, useState } from "react"
 import { toast } from "sonner"
-import RadioPlayer from "../../../player/components/RadioPlayer/RadioPlayer"
-import { Station } from "../../../../api/radiobrowser/types"
-import StationCard from "../../../../components/StationCard/StationCard"
-import { FavouriteStationsContext } from "../../../../context/FavouriteStationsProvider/FavouriteStationsProvider"
-import useClipboard from "../../../../hooks/useClipboard"
+import { Station } from "../../../../api/radiobrowser/types.ts"
+import { FavouriteStationsContext } from "../../../../context/FavouriteStationsProvider/FavouriteStationsProvider.tsx"
+import useClipboard from "../../../../hooks/useClipboard.ts"
+import StationCard from "../../../../components/StationCard/StationCard.tsx"
+const RadioPlayer = lazy(
+  () => import("../../../player/components/RadioPlayer/RadioPlayer.tsx")
+)
 
 type RadioCardProps = {
   station: Station
@@ -15,7 +17,6 @@ type RadioCardProps = {
 function RadioCard(props: RadioCardProps) {
   const { station } = props
   const { copyRadioStationShareUrl } = useClipboard()
-  const options = getPlayerOptions(station)
   const favouriteStationsContext = useContext(FavouriteStationsContext)
   const [error, setError] = useState<string | null>(null)
   const [isFavourite, setFavourite] = useState<boolean>(
@@ -122,7 +123,7 @@ function RadioCard(props: RadioCardProps) {
         </p>
       ) : (
         <RadioPlayer
-          options={options}
+          options={getPlayerOptions(station)}
           onReady={handleReady}
           handleError={handleError}
         />

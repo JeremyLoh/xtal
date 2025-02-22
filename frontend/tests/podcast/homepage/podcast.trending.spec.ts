@@ -5,7 +5,7 @@ import {
   threeTrendingPodcasts,
   zeroTrendingPodcasts,
 } from "../../mocks/podcast.trending"
-import { getToastMessages, HOMEPAGE } from "../../constants/homepageConstants"
+import { assertToastMessage, HOMEPAGE } from "../../constants/homepageConstants"
 import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
 
 test.describe("Podcast Homepage /podcasts", () => {
@@ -173,11 +173,9 @@ test.describe("Podcast Homepage /podcasts", () => {
       )
       await page.goto(HOMEPAGE + "/podcasts")
       await expect(page.locator(".podcast-trending-container")).toBeVisible()
-      const toastMessages = await getToastMessages(page)
-      expect(toastMessages).toEqual(
-        expect.arrayContaining([
-          "Rate Limit Exceeded, please try again after 2 seconds",
-        ])
+      await assertToastMessage(
+        page,
+        "Rate Limit Exceeded, please try again after 2 seconds"
       )
     })
 

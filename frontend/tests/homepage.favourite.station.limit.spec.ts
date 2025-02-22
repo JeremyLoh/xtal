@@ -3,8 +3,8 @@ import process from "process"
 import { unitedStatesStation } from "./mocks/station"
 import {
   assertToastMessage,
+  assertToastMessageIsMissing,
   clickRandomRadioStationButton,
-  getToastMessages,
   HOMEPAGE,
 } from "./constants/homepageConstants"
 import {
@@ -13,6 +13,7 @@ import {
   getFavouriteStationsDrawer,
   getRadioCardFavouriteIcon,
 } from "./constants/favouriteStationConstants"
+import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
 
 test.describe("radio station favourite station limit feature", () => {
   function uuid() {
@@ -88,6 +89,7 @@ test.describe("radio station favourite station limit feature", () => {
     }
     // remove one station from the favourite stations drawer
     await getFavouriteStationsButton(page).click()
+    await assertLoadingSpinnerIsMissing(page) // wait for lazy loaded component to render
     const stations = await getFavouriteStationsDrawer(page)
       .locator(".favourite-station")
       .all()
@@ -97,14 +99,13 @@ test.describe("radio station favourite station limit feature", () => {
     // generate one more random radio station and add it, no error should come at all
     await clickRandomRadioStationButton(page)
     await getRadioCardFavouriteIcon(page).click()
-    expect(await getToastMessages(page)).not.toEqual(
-      expect.arrayContaining([
-        `Could not add favourite station. Exceeded limit of ${MAX_FAVOURITE_STATIONS}`,
-      ])
-    )
     await assertToastMessage(
       page,
       `Favourite station limit of ${MAX_FAVOURITE_STATIONS} reached`
+    )
+    await assertToastMessageIsMissing(
+      page,
+      `Could not add favourite station. Exceeded limit of ${MAX_FAVOURITE_STATIONS}`
     )
   })
 })

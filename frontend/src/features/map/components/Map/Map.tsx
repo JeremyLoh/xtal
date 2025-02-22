@@ -1,11 +1,11 @@
 import "./Map.css"
 import "leaflet/dist/leaflet.css"
 import L from "leaflet"
-import { useEffect, useState } from "react"
+import { lazy, useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import { toast } from "sonner"
-import { Station } from "../../../../api/radiobrowser/types"
-import RadioCard from "../RadioCard/RadioCard"
+import { Station } from "../../../../api/radiobrowser/types.ts"
+const RadioCard = lazy(() => import("../RadioCard/RadioCard.tsx"))
 
 let map: L.Map
 
