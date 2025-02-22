@@ -1,7 +1,8 @@
 import "./RadioPlayer.css"
-import "video.js/dist/video-js.css"
+import "video.js/dist/video-js.min.css"
 import { useEffect, useRef } from "react"
-import videojs from "video.js"
+// @ts-expect-error import smaller version of videojs to reduce bundle size
+import videojs from "video.js/dist/alt/video.core.js"
 import Player, { PlayerReadyCallback } from "video.js/dist/types/player"
 
 // https://github.com/videojs/video.js/issues/8646
@@ -25,15 +26,17 @@ function RadioPlayer(props: RadioPlayerProps) {
     videoRef.current.appendChild(videoElement)
 
     playerRef.current = videojs(videoElement, options, onReady)
-    playerRef.current.autoplay(options.autoplay)
-    playerRef.current.src(options.sources)
-    playerRef.current.on("error", () => {
-      // https://stackoverflow.com/questions/30887908/how-to-write-error-message-object-of-videojs-on-server
-      const errorMessage = playerRef.current?.error()?.message
-      if (errorMessage) {
-        handleError(errorMessage)
-      }
-    })
+    if (playerRef.current) {
+      playerRef.current.autoplay(options.autoplay)
+      playerRef.current.src(options.sources)
+      playerRef.current.on("error", () => {
+        // https://stackoverflow.com/questions/30887908/how-to-write-error-message-object-of-videojs-on-server
+        const errorMessage = playerRef.current?.error()?.message
+        if (errorMessage) {
+          handleError(errorMessage)
+        }
+      })
+    }
   }, [options, onReady, handleError])
   // dispose Video.js player when component unmounts
   useEffect(() => {
