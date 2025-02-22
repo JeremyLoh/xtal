@@ -17,7 +17,6 @@ type RadioCardProps = {
 function RadioCard(props: RadioCardProps) {
   const { station } = props
   const { copyRadioStationShareUrl } = useClipboard()
-  const options = getPlayerOptions(station)
   const favouriteStationsContext = useContext(FavouriteStationsContext)
   const [error, setError] = useState<string | null>(null)
   const [isFavourite, setFavourite] = useState<boolean>(
@@ -124,7 +123,7 @@ function RadioCard(props: RadioCardProps) {
         </p>
       ) : (
         <RadioPlayer
-          options={options}
+          options={getPlayerOptions(station)}
           onReady={handleReady}
           handleError={handleError}
         />
