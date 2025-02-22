@@ -83,6 +83,7 @@ test.describe("radio station favourite station limit feature", () => {
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
+    await page.evaluate(() => localStorage.setItem("FAVOURITE_STATIONS", "[]")) // remove any possible favourite station
     for (let i = 0; i < MAX_FAVOURITE_STATIONS; i++) {
       await clickRandomRadioStationButton(page)
       await getRadioCardFavouriteIcon(page).click()
