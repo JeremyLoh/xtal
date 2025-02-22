@@ -2,6 +2,7 @@ import "./PodcastLayout.css"
 import { preconnect, prefetchDNS } from "react-dom"
 import { Outlet } from "react-router"
 import PodcastPlayer from "../../features/podcast/player/PodcastPlayer"
+import PodcastEpisodeProvider from "../../context/PodcastEpisodeProvider/PodcastEpisodeProvider"
 
 const BACKEND_ORIGIN: string = import.meta.env.VITE_BACKEND_ORIGIN
 
@@ -10,13 +11,13 @@ export default function PodcastLayout() {
   prefetchDNS(BACKEND_ORIGIN)
 
   return (
-    <>
+    <PodcastEpisodeProvider>
       <div className="sticky-top">
         <PodcastPlayer />
       </div>
       <div className="podcast-content-container">
         <Outlet />
       </div>
-    </>
+    </PodcastEpisodeProvider>
   )
 }
