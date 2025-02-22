@@ -1,7 +1,9 @@
-import { useState } from "react"
-import { GoStarFill } from "react-icons/go"
 import "./FavouriteStationToggle.css"
-import FavouriteStationDrawer from "../FavouriteStationDrawer/FavouriteStationDrawer"
+import { lazy, useState } from "react"
+import { GoStarFill } from "react-icons/go"
+const FavouriteStationDrawer = lazy(
+  () => import("../FavouriteStationDrawer/FavouriteStationDrawer.tsx")
+)
 
 function FavouriteStationToggle() {
   const [open, setOpen] = useState<boolean>(false)
