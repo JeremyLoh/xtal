@@ -170,7 +170,7 @@ class StorageClient {
         await this.deleteImageDatabaseRows(imageKeys)
       } catch (error: any) {
         console.error(
-          `deleteStorageFilesBefore(): Failed to delete files. Error: ${error.message}`
+          `deleteStorageFilesBefore(): Failed to delete files. Error: ${error.message}. Delete Chunk: ${deleteChunk}`
         )
       }
     }
@@ -178,6 +178,10 @@ class StorageClient {
 
   private async deleteImageDatabaseRows(imageKeys: string[]): Promise<void> {
     return new Promise(async (resolve, reject) => {
+      if (imageKeys == null || imageKeys.length === 0) {
+        resolve()
+        return
+      }
       const { status, error } = await this.supabase
         .from("podcast_images")
         .delete()
@@ -196,6 +200,10 @@ class StorageClient {
 
   private async deleteImageStorage(filePaths: string[]): Promise<void> {
     return new Promise(async (resolve, reject) => {
+      if (filePaths == null || filePaths.length === 0) {
+        resolve()
+        return
+      }
       const { error } = await this.supabase.storage
         .from("podcast-image") // bucket name
         .remove(filePaths)
