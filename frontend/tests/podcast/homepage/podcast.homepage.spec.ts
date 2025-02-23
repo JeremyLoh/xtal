@@ -1,4 +1,5 @@
-import test, { expect } from "@playwright/test"
+import { test } from "../../fixture/test"
+import { expect } from "@playwright/test"
 import {
   clickRandomRadioStationButton,
   getNavbarPodcastLink,
@@ -13,6 +14,10 @@ import {
   getRadioCardFavouriteIcon,
 } from "../../constants/favouriteStationConstants"
 import { unitedStatesStation } from "../../mocks/station"
+
+test.beforeEach(async ({ mapPage }) => {
+  await mapPage.mockMapTile()
+})
 
 test.describe("Podcast Homepage /podcasts", () => {
   test("should display title", async ({ page }) => {

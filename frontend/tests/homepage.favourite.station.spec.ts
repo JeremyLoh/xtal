@@ -1,4 +1,5 @@
-import test, { expect, Page } from "@playwright/test"
+import { test } from "./fixture/test"
+import { expect, Page } from "@playwright/test"
 import {
   clickRandomRadioStationButton,
   getRadioCardMapPopup,
@@ -13,6 +14,10 @@ import {
   getRadioCardFavouriteIcon,
 } from "./constants/favouriteStationConstants"
 import { getClipboardContent } from "./constants/shareStationConstants"
+
+test.beforeEach(async ({ mapPage }) => {
+  await mapPage.mockMapTile()
+})
 
 test.describe("radio station favourite feature", () => {
   async function assertEmptyFavouriteList(page: Page) {

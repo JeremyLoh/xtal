@@ -1,4 +1,5 @@
-import test, { expect, Page } from "@playwright/test"
+import { test } from "./fixture/test"
+import { expect, Page } from "@playwright/test"
 import { HOMEPAGE } from "./constants/homepageConstants"
 import {
   getDrawerStationResultCard,
@@ -9,6 +10,10 @@ import {
 } from "./constants/searchStationConstants"
 import { StationBuilder } from "./mocks/station"
 import { Station } from "../src/api/radiobrowser/types"
+
+test.beforeEach(async ({ mapPage }) => {
+  await mapPage.mockMapTile()
+})
 
 test.describe("radio station search form tag filter", () => {
   function getTagFilterInput(page: Page) {
