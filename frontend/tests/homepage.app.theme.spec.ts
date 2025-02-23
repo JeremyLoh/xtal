@@ -1,4 +1,5 @@
-import test, { expect, Page } from "@playwright/test"
+import { test } from "./fixture/test"
+import { expect, Page } from "@playwright/test"
 import { HOMEPAGE } from "./constants/homepageConstants"
 import {
   closeFavouriteStationsDrawer,
@@ -12,6 +13,10 @@ import {
 // https://playwright.dev/docs/emulation#color-scheme-and-media
 test.use({
   colorScheme: "dark",
+})
+
+test.beforeEach(async ({ mapPage }) => {
+  await mapPage.mockMapTile()
 })
 
 test.describe("header app theme (start with dark mode)", () => {

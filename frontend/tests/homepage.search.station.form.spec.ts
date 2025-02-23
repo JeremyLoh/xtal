@@ -1,4 +1,5 @@
-import test, { expect, Page } from "@playwright/test"
+import { test } from "./fixture/test"
+import { expect, Page } from "@playwright/test"
 import {
   getGenreSearchButton,
   getRadioCardMapPopup,
@@ -12,6 +13,10 @@ import {
   getSearchStationDrawer,
   getStationSearchByNameInput,
 } from "./constants/searchStationConstants"
+
+test.beforeEach(async ({ mapPage }) => {
+  await mapPage.mockMapTile()
+})
 
 test.describe("radio station search form", () => {
   function getDrawerLoadMoreStationButton(page: Page) {

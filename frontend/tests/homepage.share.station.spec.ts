@@ -1,4 +1,5 @@
-import test, { expect, Page } from "@playwright/test"
+import { test } from "./fixture/test"
+import { expect, Page } from "@playwright/test"
 import {
   assertToastMessage,
   clickRandomRadioStationButton,
@@ -7,6 +8,10 @@ import {
 } from "./constants/homepageConstants"
 import { stationWithLocationLatLng, unitedStatesStation } from "./mocks/station"
 import { getClipboardContent } from "./constants/shareStationConstants"
+
+test.beforeEach(async ({ mapPage }) => {
+  await mapPage.mockMapTile()
+})
 
 test.describe("share radio station feature", () => {
   function getRadioCardShareIcon(page: Page) {

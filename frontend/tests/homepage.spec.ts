@@ -1,4 +1,5 @@
-import { test, expect, Page } from "@playwright/test"
+import { test } from "./fixture/test"
+import { expect, Page } from "@playwright/test"
 import {
   clickRandomRadioStationButton,
   getNavbarPodcastLink,
@@ -12,6 +13,10 @@ import {
   stationWithNoLocationLatLng,
   unitedStatesStation,
 } from "./mocks/station"
+
+test.beforeEach(async ({ mapPage }) => {
+  await mapPage.mockMapTile()
+})
 
 function getAudioPlayButton(page: Page) {
   // play button will have title="Play"

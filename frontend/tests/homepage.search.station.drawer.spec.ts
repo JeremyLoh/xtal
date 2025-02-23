@@ -1,4 +1,5 @@
-import test, { expect, Page } from "@playwright/test"
+import { test } from "./fixture/test"
+import { expect, Page } from "@playwright/test"
 import {
   getCountrySearchButton,
   getGenreSearchButton,
@@ -9,6 +10,10 @@ import {
   getSearchStationButton,
   getSearchStationDrawer,
 } from "./constants/searchStationConstants"
+
+test.beforeEach(async ({ mapPage }) => {
+  await mapPage.mockMapTile()
+})
 
 test.describe("search station drawer for finding radio stations", () => {
   test.beforeEach(({ headless }) => {

@@ -1,4 +1,5 @@
-import test, { expect, Page } from "@playwright/test"
+import { test } from "./fixture/test"
+import { expect, Page } from "@playwright/test"
 import { StationBuilder } from "./mocks/station"
 import { Station } from "../src/api/radiobrowser/types"
 import { HOMEPAGE } from "./constants/homepageConstants"
@@ -8,6 +9,10 @@ import {
   getSearchStationButton,
   getStationSearchByNameInput,
 } from "./constants/searchStationConstants"
+
+test.beforeEach(async ({ mapPage }) => {
+  await mapPage.mockMapTile()
+})
 
 test.describe("radio station search form sort options", () => {
   function getSortSelect(page: Page) {

@@ -1,4 +1,5 @@
-import test, { expect } from "@playwright/test"
+import { test } from "./fixture/test"
+import { expect } from "@playwright/test"
 import process from "process"
 import { unitedStatesStation } from "./mocks/station"
 import {
@@ -14,6 +15,10 @@ import {
   getRadioCardFavouriteIcon,
 } from "./constants/favouriteStationConstants"
 import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
+
+test.beforeEach(async ({ mapPage }) => {
+  await mapPage.mockMapTile()
+})
 
 test.describe("radio station favourite station limit feature", () => {
   function uuid() {
@@ -83,6 +88,7 @@ test.describe("radio station favourite station limit feature", () => {
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
+    await page.evaluate(() => localStorage.setItem("FAVOURITE_STATIONS", "[]")) // remove any possible favourite station
     for (let i = 0; i < MAX_FAVOURITE_STATIONS; i++) {
       await clickRandomRadioStationButton(page)
       await getRadioCardFavouriteIcon(page).click()

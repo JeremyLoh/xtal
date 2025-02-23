@@ -1,4 +1,5 @@
-import test, { expect } from "@playwright/test"
+import { test } from "./fixture/test"
+import { expect } from "@playwright/test"
 import { HOMEPAGE } from "./constants/homepageConstants"
 import { cantoneseStation } from "./mocks/station"
 import {
@@ -7,6 +8,10 @@ import {
   getSearchStationButton,
   getStationSearchByNameInput,
 } from "./constants/searchStationConstants"
+
+test.beforeEach(async ({ mapPage }) => {
+  await mapPage.mockMapTile()
+})
 
 test.describe("radio station search form language filter", () => {
   test("should display languages in select options", async ({ page }) => {
