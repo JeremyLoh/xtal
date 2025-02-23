@@ -2,7 +2,6 @@ import "./index.css"
 import { lazy, StrictMode, Suspense } from "react"
 import { createRoot } from "react-dom/client"
 import { BrowserRouter, Routes, Route } from "react-router"
-import ThemeProvider from "./context/ThemeProvider/ThemeProvider.tsx"
 import MapProvider from "./context/MapProvider/MapProvider.tsx"
 import FavouriteStationsProvider from "./context/FavouriteStationsProvider/FavouriteStationsProvider.tsx"
 import Root from "./Root.tsx"
@@ -28,41 +27,39 @@ const PodcastCategoryPage = lazy(
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ThemeProvider>
-      <MapProvider>
-        <FavouriteStationsProvider>
-          <BrowserRouter>
-            <ErrorBoundary fallback={<NotFoundPage />}>
-              <Suspense fallback={<Spinner isLoading={true} />}>
-                <Routes>
-                  <Route path="/" element={<Root />}>
-                    <Route element={<HomeLayout />}>
-                      <Route index element={<HomePage />} />
-                      <Route
-                        path="radio-station/:stationuuid"
-                        element={<RadioStation />}
-                      />
-                    </Route>
-                    <Route element={<PodcastLayout />}>
-                      <Route path="/podcasts" element={<PodcastHomePage />} />
-                      <Route
-                        path="/podcasts/:podcastTitle/:podcastId"
-                        element={<PodcastDetailPage />}
-                      />
-                      <Route
-                        path="/podcasts/:categoryName"
-                        element={<PodcastCategoryPage />}
-                      />
-                    </Route>
+    <MapProvider>
+      <FavouriteStationsProvider>
+        <BrowserRouter>
+          <ErrorBoundary fallback={<NotFoundPage />}>
+            <Suspense fallback={<Spinner isLoading={true} />}>
+              <Routes>
+                <Route path="/" element={<Root />}>
+                  <Route element={<HomeLayout />}>
+                    <Route index element={<HomePage />} />
+                    <Route
+                      path="radio-station/:stationuuid"
+                      element={<RadioStation />}
+                    />
                   </Route>
-                  <Route path="/404" element={<NotFoundPage />} />
-                  <Route path="*" element={<NotFoundPage />} />
-                </Routes>
-              </Suspense>
-            </ErrorBoundary>
-          </BrowserRouter>
-        </FavouriteStationsProvider>
-      </MapProvider>
-    </ThemeProvider>
+                  <Route element={<PodcastLayout />}>
+                    <Route path="/podcasts" element={<PodcastHomePage />} />
+                    <Route
+                      path="/podcasts/:podcastTitle/:podcastId"
+                      element={<PodcastDetailPage />}
+                    />
+                    <Route
+                      path="/podcasts/:categoryName"
+                      element={<PodcastCategoryPage />}
+                    />
+                  </Route>
+                </Route>
+                <Route path="/404" element={<NotFoundPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            </Suspense>
+          </ErrorBoundary>
+        </BrowserRouter>
+      </FavouriteStationsProvider>
+    </MapProvider>
   </StrictMode>
 )

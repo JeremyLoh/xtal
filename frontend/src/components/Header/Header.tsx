@@ -1,5 +1,6 @@
 import "./Header.css"
 import { Link } from "react-router"
+import ThemeProvider from "../../context/ThemeProvider/ThemeProvider.tsx"
 import FavouriteStationToggle from "../../features/favourite/FavouriteStationToggle/FavouriteStationToggle.tsx"
 import ThemeToggle from "../ThemeToggle/ThemeToggle.tsx"
 
@@ -23,7 +24,9 @@ function Header() {
           </ul>
         </nav>
         <div className="header-actions">
-          <ThemeToggle />
+          <ThemeProvider>
+            <ThemeToggle />
+          </ThemeProvider>
           <FavouriteStationToggle />
         </div>
       </header>
