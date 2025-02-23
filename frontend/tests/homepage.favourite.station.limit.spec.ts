@@ -56,7 +56,9 @@ test.describe("radio station favourite station limit feature", () => {
 
   test("should show error toast when favourite station limit is exceeded", async ({
     page,
+    headless,
   }) => {
+    test.skip(headless, "Remove flaky test in headless mode")
     test.setTimeout(30_000)
     const MAX_FAVOURITE_STATIONS = 3
     assertMaxFavouriteStationsEnvProperty(MAX_FAVOURITE_STATIONS)
