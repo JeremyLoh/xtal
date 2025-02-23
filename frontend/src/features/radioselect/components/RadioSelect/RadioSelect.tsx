@@ -1,9 +1,9 @@
 import "./RadioSelect.css"
-import { useState } from "react"
+import { lazy, useState } from "react"
 import { FaRandom } from "react-icons/fa"
-import GenreSelect from "../GenreSelect/GenreSelect.tsx"
+const GenreSelect = lazy(() => import("../GenreSelect/GenreSelect.tsx"))
+const CountrySelect = lazy(() => import("../CountrySelect/CountrySelect.tsx"))
 import StationSearch from "../StationSearch/StationSearch.tsx"
-import CountrySelect from "../CountrySelect/CountrySelect.tsx"
 import { GenreInformation } from "../../../../api/radiobrowser/genreTags.ts"
 import {
   CountryStation,
