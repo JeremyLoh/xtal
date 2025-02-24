@@ -61,7 +61,6 @@ describe("GET /api/podcast/image", () => {
   })
 
   describe("invalid parameters", () => {
-    // TODO check for "height" in request body, check that the size is valid
     describe("height parameter", () => {
       test("should return status 400 for missing 'height' in request body", async () => {
         const payload = { url: "https://example.com", width: 100 }

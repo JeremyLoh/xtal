@@ -62,7 +62,6 @@ function useTrendingPodcasts({ limit, category }: UseTrendingPodcastsProps) {
         await getPodcasts(convertToDate(DEFAULT_SINCE_DAYS))
       } else {
         const { since } = filters
-        // setSinceDaysBefore(since) // TODO handle the since change in the parent component instead of here
         await getPodcasts(convertToDate(since))
       }
     },
