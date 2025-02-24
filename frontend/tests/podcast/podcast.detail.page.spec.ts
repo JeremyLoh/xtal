@@ -236,8 +236,8 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       ).toHaveAttribute("src", expectedEpisode.contentUrl)
       await expect(
         page.locator(".audio-player audio"),
-        "should have <audio> autoplay with podcast episode"
-      ).toHaveAttribute("autoplay")
+        "should not have <audio> autoplay with podcast episode"
+      ).not.toHaveAttribute("autoplay")
       const artwork = page.locator(".audio-player").getByRole("img", {
         name: expectedEpisode.title + " podcast image",
         exact: true,

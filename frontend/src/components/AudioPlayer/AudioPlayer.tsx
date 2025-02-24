@@ -1,5 +1,5 @@
 import "./AudioPlayer.css"
-import { PropsWithChildren, useState } from "react"
+import { PropsWithChildren, useRef, useState } from "react"
 import {
   MediaControlBar,
   MediaController,
@@ -20,17 +20,28 @@ type AudioPlayerProps = PropsWithChildren & {
 
 function AudioPlayer(props: AudioPlayerProps) {
   const [error, setError] = useState<boolean>(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  function handleError() {
+    setError(props.source !== "")
+  }
+  function handlePlay() {
+    setError(false)
+    if (audioRef.current) {
+      audioRef.current.play()
+    }
+  }
   return (
     <div className="audio-player">
       {props.children}
       <MediaController audio>
         {props.source && (
           <audio
+            ref={audioRef}
             slot="media"
             src={props.source}
-            autoPlay
-            onError={() => setError(props.source !== "")}
-            onCanPlay={() => setError(false)}
+            onError={handleError}
+            onCanPlay={handlePlay}
           ></audio>
         )}
 
