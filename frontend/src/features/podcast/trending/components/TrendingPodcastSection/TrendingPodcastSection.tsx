@@ -1,4 +1,5 @@
 import "./TrendingPodcastSection.css"
+import { memo } from "react"
 import { Link } from "react-router"
 import { IoChevronForward, IoReload } from "react-icons/io5"
 import { TrendingPodcast } from "../../../../../api/podcast/model/podcast.ts"
@@ -17,7 +18,7 @@ type TrendingPodcastSectionProps = {
   ) => Promise<void>
 }
 
-export default function TrendingPodcastSection(
+export default memo(function TrendingPodcastSection(
   props: TrendingPodcastSectionProps
 ) {
   const { isMobile } = useScreenDimensions()
@@ -83,4 +84,4 @@ export default function TrendingPodcastSection(
       </div>
     </div>
   )
-}
+})

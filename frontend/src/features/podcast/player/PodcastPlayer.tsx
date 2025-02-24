@@ -1,10 +1,12 @@
 import "./PodcastPlayer.css"
-import { useContext } from "react"
+import { lazy, useContext } from "react"
 import dayjs from "dayjs"
 import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import AudioPlayer from "../../../components/AudioPlayer/AudioPlayer.tsx"
-import Pill from "../../../components/Pill/Pill.tsx"
-import PodcastImage from "../../../components/PodcastImage/PodcastImage.tsx"
+const Pill = lazy(() => import("../../../components/Pill/Pill.tsx"))
+const PodcastImage = lazy(
+  () => import("../../../components/PodcastImage/PodcastImage.tsx")
+)
 
 function getDateFormat(unixTimestampInSeconds: number): string {
   return dayjs.unix(unixTimestampInSeconds).format("MMMM D, YYYY")

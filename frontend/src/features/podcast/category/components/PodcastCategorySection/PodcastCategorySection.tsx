@@ -1,4 +1,5 @@
 import "./PodcastCategorySection.css"
+import { memo } from "react"
 import { useNavigate } from "react-router"
 import { motion } from "motion/react"
 import { IoReload } from "react-icons/io5"
@@ -12,7 +13,7 @@ type PodcastCategorySectionProps = {
   onRefresh: () => Promise<void>
 }
 
-export default function PodcastCategorySection({
+export default memo(function PodcastCategorySection({
   loading,
   categories,
   onRefresh,
@@ -74,4 +75,4 @@ export default function PodcastCategorySection({
       {renderCategories()}
     </div>
   )
-}
+})
