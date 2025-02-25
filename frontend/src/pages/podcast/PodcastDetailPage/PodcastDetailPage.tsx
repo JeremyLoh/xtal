@@ -3,12 +3,12 @@ import { useCallback, useContext, useEffect, useRef, useState } from "react"
 import { Link, useParams } from "react-router"
 import { toast } from "sonner"
 import { IoArrowBackSharp, IoReload } from "react-icons/io5"
+import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import { Podcast, PodcastEpisode } from "../../../api/podcast/model/podcast.ts"
 import { getPodcastEpisodes } from "../../../api/podcast/podcastEpisode.ts"
 import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/PodcastEpisodeCard.tsx"
 import PodcastCard from "../../../components/PodcastCard/PodcastCard.tsx"
 import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
-import Spinner from "../../../components/Spinner/Spinner.tsx"
 
 export default function PodcastDetailPage() {
   const { podcastId, podcastTitle } = useParams()
@@ -39,8 +39,7 @@ export default function PodcastDetailPage() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.message)
-    } finally {
-      setLoading(false)
+      setLoading(false) // prevent infinite loading on error
     }
   }, [])
 
@@ -59,79 +58,87 @@ export default function PodcastDetailPage() {
     }
   }, [fetchPodcastEpisodes, podcastTitle, podcastId])
 
-  return (
-    <div className="podcast-detail-container">
-      <Spinner isLoading={loading} />
-      <Link
-        to="/podcasts"
-        style={{ textDecoration: "none", width: "fit-content" }}
-      >
-        <button className="podcast-detail-back-button">
-          <IoArrowBackSharp size={16} />
-          Back
-        </button>
-      </Link>
-      <div className="podcast-info-container">
-        {podcast && (
-          <PodcastCard podcast={podcast} customClassName="podcast-info-card">
-            <PodcastCard.Artwork size={144} />
-            <div>
-              <PodcastCard.TitleAndAuthor variant="large" />
-              <div className="podcast-info-card-pill-container">
-                <PodcastCard.EpisodeCount />
-                <PodcastCard.Language />
-              </div>
-              <div className="podcast-info-card-pill-container">
-                <PodcastCard.Categories />
-              </div>
-            </div>
-          </PodcastCard>
-        )}
-      </div>
+  useEffect(() => {
+    // prevent race condition between setLoading and set podcast episodes, display of "no episode found" placeholder before podcast data set state
+    if (podcast && podcastEpisodes) {
+      setLoading(false)
+    }
+  }, [podcast, podcastEpisodes])
 
-      <h2>Episodes</h2>
-      <div className="podcast-episode-container">
-        {podcastEpisodes ? (
-          podcastEpisodes.map((episode) => {
-            function handlePlayClick(podcastEpisode: PodcastEpisode) {
-              if (podcastEpisodeContext) {
-                podcastEpisodeContext.setEpisode(podcastEpisode)
+  return (
+    <LoadingDisplay loading={loading}>
+      <div className="podcast-detail-container">
+        <Link
+          to="/podcasts"
+          style={{ textDecoration: "none", width: "fit-content" }}
+        >
+          <button className="podcast-detail-back-button">
+            <IoArrowBackSharp size={16} />
+            Back
+          </button>
+        </Link>
+        <div className="podcast-info-container">
+          {podcast && !loading && (
+            <PodcastCard podcast={podcast} customClassName="podcast-info-card">
+              <PodcastCard.Artwork size={144} />
+              <div>
+                <PodcastCard.TitleAndAuthor variant="large" />
+                <div className="podcast-info-card-pill-container">
+                  <PodcastCard.EpisodeCount />
+                  <PodcastCard.Language />
+                </div>
+                <div className="podcast-info-card-pill-container">
+                  <PodcastCard.Categories />
+                </div>
+              </div>
+            </PodcastCard>
+          )}
+        </div>
+
+        <h2>Episodes</h2>
+        <div className="podcast-episode-container">
+          {podcastEpisodes && !loading ? (
+            podcastEpisodes.map((episode) => {
+              function handlePlayClick(podcastEpisode: PodcastEpisode) {
+                if (podcastEpisodeContext) {
+                  podcastEpisodeContext.setEpisode(podcastEpisode)
+                }
               }
-            }
-            return (
-              <PodcastEpisodeCard key={episode.id} episode={episode}>
-                <PodcastEpisodeCard.Artwork
-                  size={144}
-                  title={`${episode.title} podcast image`}
-                />
-                <PodcastEpisodeCard.Title />
-                <PodcastEpisodeCard.PublishDate />
-                <PodcastEpisodeCard.Duration />
-                <PodcastEpisodeCard.EpisodeNumber />
-                <PodcastEpisodeCard.PlayButton
-                  handlePlayClick={handlePlayClick}
-                />
-                <PodcastEpisodeCard.Description />
-              </PodcastEpisodeCard>
-            )
-          })
-        ) : (
-          <div className="podcast-episode-placeholder-section">
-            <p className="podcast-episode-error-text">
-              Could not get podcast episodes. Please try again later
-            </p>
-            <button
-              className="refresh-podcast-episode-button"
-              disabled={loading}
-              onClick={handleRefreshPodcastEpisodes}
-              aria-label="refresh podcast episodes"
-              title="refresh podcast episodes"
-            >
-              <IoReload size={20} /> Refresh
-            </button>
-          </div>
-        )}
+              return (
+                <PodcastEpisodeCard key={episode.id} episode={episode}>
+                  <PodcastEpisodeCard.Artwork
+                    size={144}
+                    title={`${episode.title} podcast image`}
+                  />
+                  <PodcastEpisodeCard.Title />
+                  <PodcastEpisodeCard.PublishDate />
+                  <PodcastEpisodeCard.Duration />
+                  <PodcastEpisodeCard.EpisodeNumber />
+                  <PodcastEpisodeCard.PlayButton
+                    handlePlayClick={handlePlayClick}
+                  />
+                  <PodcastEpisodeCard.Description />
+                </PodcastEpisodeCard>
+              )
+            })
+          ) : (
+            <div className="podcast-episode-placeholder-section">
+              <p className="podcast-episode-error-text">
+                Could not get podcast episodes. Please try again later
+              </p>
+              <button
+                className="refresh-podcast-episode-button"
+                disabled={loading}
+                onClick={handleRefreshPodcastEpisodes}
+                aria-label="refresh podcast episodes"
+                title="refresh podcast episodes"
+              >
+                <IoReload size={20} /> Refresh
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </LoadingDisplay>
   )
 }
