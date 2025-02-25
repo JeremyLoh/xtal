@@ -44,3 +44,27 @@
   overflow-y: scroll;
   padding-right: 2rem; /* Add space for vertical scroll of episodes */
 }
+
+.podcast-episode-placeholder-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.podcast-episode-error-text {
+  margin: 0;
+  color: var(--error-color);
+}
+
+.refresh-podcast-episode-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-color);
+  gap: 0.2rem;
+}
+.refresh-podcast-episode-button:hover {
+  filter: brightness(0.9);
+}

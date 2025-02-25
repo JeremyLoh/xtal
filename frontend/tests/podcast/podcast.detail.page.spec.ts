@@ -4,6 +4,7 @@ import duration from "dayjs/plugin/duration.js"
 import { assertToastMessage, HOMEPAGE } from "../constants/homepageConstants"
 import { defaultTenPodcastEpisodes } from "../mocks/podcast.episode"
 import { Podcast } from "../../src/api/podcast/model/podcast"
+import { assertLoadingSpinnerIsMissing } from "../constants/loadingConstants"
 
 dayjs.extend(duration)
 
@@ -63,24 +64,9 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     }
   }
 
-  test("should display podcast detail page", async ({ page }) => {
-    const podcastTitle = encodeURIComponent("Batman University")
-    const podcastId = "75075"
-    const limit = 10
-    await page.route(
-      `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-      async (route) => {
-        const json = defaultTenPodcastEpisodes
-        await route.fulfill({ json })
-      }
-    )
-    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-    await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-
-    await assertPodcastInfo(page, defaultTenPodcastEpisodes.data.podcast)
-
-    for (let i = 0; i < defaultTenPodcastEpisodes.count; i++) {
-      const episode = defaultTenPodcastEpisodes.data.episodes[i]
+  async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
+    for (let i = 0; i < expectedEpisodes.count; i++) {
+      const episode = expectedEpisodes.data.episodes[i]
       const expectedEpisodeDuration = getExpectedEpisodeDuration(
         episode.durationInSeconds
       )
@@ -154,6 +140,83 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
         `(Episode ${i + 1}) podcast episode card Play button should be present`
       ).toBeVisible()
     }
+  }
+
+  test("should display podcast detail page", async ({ page }) => {
+    const podcastTitle = encodeURIComponent("Batman University")
+    const podcastId = "75075"
+    const limit = 10
+    await page.route(
+      `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+      async (route) => {
+        const json = defaultTenPodcastEpisodes
+        await route.fulfill({ json })
+      }
+    )
+    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+    await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
+    await assertPodcastInfo(page, defaultTenPodcastEpisodes.data.podcast)
+    await assertPodcastEpisodes(page, defaultTenPodcastEpisodes)
+  })
+
+  test.describe("data fetch failed", () => {
+    function getPodcastEpisodeRefreshButton(page: Page) {
+      return page.locator(".podcast-episode-container").getByRole("button", {
+        name: "refresh podcast episodes",
+        exact: true,
+      })
+    }
+
+    test("should display podcast detail page refresh episode button on data fetch error", async ({
+      page,
+    }) => {
+      const podcastTitle = encodeURIComponent("Batman University")
+      const podcastId = "75075"
+      const limit = 10
+      await page.route(
+        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+        async (route) => {
+          const json = []
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+      await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
+      await assertLoadingSpinnerIsMissing(page)
+      await expect(
+        page.getByText("Could not get podcast episodes. Please try again later")
+      ).toBeVisible()
+      await expect(getPodcastEpisodeRefreshButton(page)).toBeVisible()
+    })
+
+    test("should fetch podcast episode on refresh button click", async ({
+      page,
+    }) => {
+      const podcastTitle = encodeURIComponent("Batman University")
+      const podcastId = "75075"
+      const limit = 10
+      let shouldFetchData = false
+      await page.route(
+        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+        async (route) => {
+          if (shouldFetchData) {
+            const json = defaultTenPodcastEpisodes
+            await route.fulfill({ json })
+          } else {
+            const json = []
+            await route.fulfill({ json })
+          }
+        }
+      )
+      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+      await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
+      await assertLoadingSpinnerIsMissing(page)
+      await expect(getPodcastEpisodeRefreshButton(page)).toBeVisible()
+      shouldFetchData = true
+      await getPodcastEpisodeRefreshButton(page).click()
+      await assertPodcastInfo(page, defaultTenPodcastEpisodes.data.podcast)
+      await assertPodcastEpisodes(page, defaultTenPodcastEpisodes)
+    })
   })
 
   test.describe("episode duration", () => {
