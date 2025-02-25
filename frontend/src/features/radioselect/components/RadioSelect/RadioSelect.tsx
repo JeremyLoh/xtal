@@ -1,9 +1,9 @@
 import "./RadioSelect.css"
-import { lazy, useState } from "react"
+import { useState } from "react"
 import { FaRandom } from "react-icons/fa"
-const GenreSelect = lazy(() => import("../GenreSelect/GenreSelect.tsx"))
-const CountrySelect = lazy(() => import("../CountrySelect/CountrySelect.tsx"))
 import StationSearch from "../StationSearch/StationSearch.tsx"
+import CountrySelect from "../CountrySelect/CountrySelect.tsx"
+import GenreSelect from "../GenreSelect/GenreSelect.tsx"
 import { GenreInformation } from "../../../../api/radiobrowser/genreTags.ts"
 import {
   CountryStation,
@@ -41,6 +41,7 @@ function RadioSelect(props: RadioSelectProps) {
       return
     }
     if (searchType === StationSearchType.COUNTRY) {
+      console.log("RadioSelect handleStationSearchType", searchType)
       // load default country for first time switching to country search type
       props.handleCountryChange(DEFAULT_COUNTRY_SEARCH.countryCode)
     }
