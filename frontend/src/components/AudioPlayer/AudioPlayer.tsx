@@ -50,7 +50,7 @@ function AudioPlayer(props: AudioPlayerProps) {
             <MediaErrorDialog />
           </>
         ) : (
-          <MediaControlBar style={{ padding: "0 0.5rem" }}>
+          <MediaControlBar style={{ padding: "0 0.5rem", width: "100%" }}>
             <div className="mobile">
               <MediaPlayButton data-testid="audio-player-mobile-play-button" />
               <MediaSeekBackwardButton
