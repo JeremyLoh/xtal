@@ -1,55 +1,67 @@
 import "./PodcastDetailPage.css"
-import { useContext, useEffect, useRef, useState } from "react"
+import { useCallback, useContext, useEffect, useRef, useState } from "react"
 import { Link, useParams } from "react-router"
 import { toast } from "sonner"
-import { IoArrowBackSharp } from "react-icons/io5"
+import { IoArrowBackSharp, IoReload } from "react-icons/io5"
 import { Podcast, PodcastEpisode } from "../../../api/podcast/model/podcast.ts"
 import { getPodcastEpisodes } from "../../../api/podcast/podcastEpisode.ts"
 import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/PodcastEpisodeCard.tsx"
 import PodcastCard from "../../../components/PodcastCard/PodcastCard.tsx"
 import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
+import Spinner from "../../../components/Spinner/Spinner.tsx"
 
 export default function PodcastDetailPage() {
   const { podcastId, podcastTitle } = useParams()
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const abortControllerRef = useRef<AbortController | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
   const [podcast, setPodcast] = useState<Podcast | null>(null)
   const [podcastEpisodes, setPodcastEpisodes] = useState<
     PodcastEpisode[] | null
   >(null)
 
-  useEffect(() => {
-    async function fetchPodcastEpisodes(podcastId: string) {
-      abortControllerRef.current?.abort()
-      abortControllerRef.current = new AbortController()
-      try {
-        const podcastEpisodes = await getPodcastEpisodes(
-          abortControllerRef.current,
-          {
-            id: podcastId,
-            limit: 10,
-          }
-        )
-        if (podcastEpisodes && podcastEpisodes.data) {
-          setPodcastEpisodes(podcastEpisodes.data.episodes)
-          setPodcast(podcastEpisodes.data.podcast)
+  const fetchPodcastEpisodes = useCallback(async (podcastId: string) => {
+    setLoading(true)
+    abortControllerRef.current?.abort()
+    abortControllerRef.current = new AbortController()
+    try {
+      const podcastEpisodes = await getPodcastEpisodes(
+        abortControllerRef.current,
+        {
+          id: podcastId,
+          limit: 10,
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        toast.error(error.message)
+      )
+      if (podcastEpisodes && podcastEpisodes.data) {
+        setPodcastEpisodes(podcastEpisodes.data.episodes)
+        setPodcast(podcastEpisodes.data.podcast)
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.message)
+    } finally {
+      setLoading(false)
     }
+  }, [])
 
+  async function handleRefreshPodcastEpisodes() {
+    if (podcastId) {
+      await fetchPodcastEpisodes(podcastId)
+    }
+  }
+
+  useEffect(() => {
     if (podcastTitle) {
       document.title = `${decodeURIComponent(podcastTitle)} - xtal - podcasts`
     }
     if (podcastId) {
       fetchPodcastEpisodes(podcastId)
     }
-  }, [podcastTitle, podcastId])
+  }, [fetchPodcastEpisodes, podcastTitle, podcastId])
 
   return (
     <div className="podcast-detail-container">
+      <Spinner isLoading={loading} />
       <Link
         to="/podcasts"
         style={{ textDecoration: "none", width: "fit-content" }}
@@ -79,7 +91,7 @@ export default function PodcastDetailPage() {
 
       <h2>Episodes</h2>
       <div className="podcast-episode-container">
-        {podcastEpisodes &&
+        {podcastEpisodes ? (
           podcastEpisodes.map((episode) => {
             function handlePlayClick(podcastEpisode: PodcastEpisode) {
               if (podcastEpisodeContext) {
@@ -102,7 +114,23 @@ export default function PodcastDetailPage() {
                 <PodcastEpisodeCard.Description />
               </PodcastEpisodeCard>
             )
-          })}
+          })
+        ) : (
+          <div className="podcast-episode-placeholder-section">
+            <p className="podcast-episode-error-text">
+              Could not get podcast episodes. Please try again later
+            </p>
+            <button
+              className="refresh-podcast-episode-button"
+              disabled={loading}
+              onClick={handleRefreshPodcastEpisodes}
+              aria-label="refresh podcast episodes"
+              title="refresh podcast episodes"
+            >
+              <IoReload size={20} /> Refresh
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
