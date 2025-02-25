@@ -35,6 +35,8 @@ export default function PodcastDetailPage() {
       if (podcastEpisodes && podcastEpisodes.data) {
         setPodcastEpisodes(podcastEpisodes.data.episodes)
         setPodcast(podcastEpisodes.data.podcast)
+      } else {
+        setLoading(false) // prevent infinite load on no data
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -78,7 +80,7 @@ export default function PodcastDetailPage() {
           </button>
         </Link>
         <div className="podcast-info-container">
-          {podcast && !loading && (
+          {podcast && (
             <PodcastCard podcast={podcast} customClassName="podcast-info-card">
               <PodcastCard.Artwork size={144} />
               <div>
@@ -97,7 +99,7 @@ export default function PodcastDetailPage() {
 
         <h2>Episodes</h2>
         <div className="podcast-episode-container">
-          {podcastEpisodes && !loading ? (
+          {podcastEpisodes ? (
             podcastEpisodes.map((episode) => {
               function handlePlayClick(podcastEpisode: PodcastEpisode) {
                 if (podcastEpisodeContext) {
