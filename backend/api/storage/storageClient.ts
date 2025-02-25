@@ -150,69 +150,72 @@ class StorageClient {
       console.log("deleteStorageFilesBefore(): zero entries found")
       return
     }
-    const chunkSize = 100
+    const chunkSize = 50
     const totalChunks = Math.ceil(deleteDataSize / chunkSize)
     const widthHeightRegex = new RegExp(/^(w\d+_h\d+)_/) // extract width and height from the database primary key
     for (let i = 0; i < totalChunks; i++) {
       const start = i * chunkSize
       const end = start + chunkSize
       const deleteChunk = data.slice(start, end)
+      const filePaths = deleteChunk.map((data) => {
+        const matches =
+          data.image_width_image_height_url.match(widthHeightRegex)
+        return `public/${matches[1]}/${data.storage_file_name}`
+      })
+      const imageKeys = deleteChunk.map(
+        (data) => data.image_width_image_height_url
+      )
       try {
-        const filePaths = deleteChunk.map((data) => {
-          const matches =
-            data.image_width_image_height_url.match(widthHeightRegex)
-          return `public/${matches[1]}/${data.storage_file_name}`
-        })
-        const imageKeys = deleteChunk.map(
-          (data) => data.image_width_image_height_url
-        )
         await this.deleteImageStorage(filePaths)
+      } catch (error: any) {
+        console.error(
+          `deleteStorageFilesBefore(): Failed to delete image files. Start Index: ${start}, End Index: ${end} Error: ${
+            error.message
+          }. Image file Paths: ${JSON.stringify(filePaths)}`
+        )
+        continue // do not proceed if image deletion has failed, leave the database row intact
+      }
+      try {
         await this.deleteImageDatabaseRows(imageKeys)
       } catch (error: any) {
         console.error(
-          `deleteStorageFilesBefore(): Failed to delete files. Error: ${error.message}. Delete Chunk: ${deleteChunk}`
+          `deleteStorageFilesBefore(): Failed to delete image database rows. Start Index: ${start}, End Index: ${end} Error: ${
+            error.message
+          }. Database rows: ${JSON.stringify(imageKeys)}`
         )
       }
+      // sleep after deleting a chunk
+      await new Promise((resolve) => setTimeout(resolve, 2000))
     }
   }
 
   private async deleteImageDatabaseRows(imageKeys: string[]): Promise<void> {
-    return new Promise(async (resolve, reject) => {
-      if (imageKeys == null || imageKeys.length === 0) {
-        resolve()
-        return
-      }
-      const { status, error } = await this.supabase
-        .from("podcast_images")
-        .delete()
-        .in("image_width_image_height_url", imageKeys)
-      if (status !== 200 || error) {
-        reject(
-          `deleteImageDatabaseRows(): could not delete ${JSON.stringify(
-            imageKeys
-          )}. Error: ${error?.message}`
-        )
-      } else {
-        resolve()
-      }
-    })
+    if (imageKeys == null || imageKeys.length === 0) {
+      return
+    }
+    const { status, error } = await this.supabase
+      .from("podcast_images")
+      .delete()
+      .in("image_width_image_height_url", imageKeys)
+    if (status !== 200 || error) {
+      throw new Error(
+        `deleteImageDatabaseRows(): could not delete ${JSON.stringify(
+          imageKeys
+        )}. Status: ${status}. Error: ${error?.message}`
+      )
+    }
   }
 
   private async deleteImageStorage(filePaths: string[]): Promise<void> {
-    return new Promise(async (resolve, reject) => {
-      if (filePaths == null || filePaths.length === 0) {
-        resolve()
-        return
-      }
-      const { error } = await this.supabase.storage
-        .from("podcast-image") // bucket name
-        .remove(filePaths)
-      if (error) {
-        reject(`deleteImageStorage(): Error: ${error.message}`)
-      } else {
-        resolve()
-      }
-    })
+    if (filePaths == null || filePaths.length === 0) {
+      return
+    }
+    const { error } = await this.supabase.storage
+      .from("podcast-image") // bucket name
+      .remove(filePaths)
+    if (error) {
+      throw new Error(`deleteImageStorage(): Error: ${error.message}`)
+    }
   }
 }
 
