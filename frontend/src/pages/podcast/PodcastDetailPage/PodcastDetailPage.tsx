@@ -8,11 +8,13 @@ import { getPodcastEpisodes } from "../../../api/podcast/podcastEpisode.ts"
 import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/PodcastEpisodeCard.tsx"
 import PodcastCard from "../../../components/PodcastCard/PodcastCard.tsx"
 import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
+import Spinner from "../../../components/Spinner/Spinner.tsx"
 
 export default function PodcastDetailPage() {
   const { podcastId, podcastTitle } = useParams()
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const abortControllerRef = useRef<AbortController | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
   const [podcast, setPodcast] = useState<Podcast | null>(null)
   const [podcastEpisodes, setPodcastEpisodes] = useState<
     PodcastEpisode[] | null
@@ -20,6 +22,7 @@ export default function PodcastDetailPage() {
 
   useEffect(() => {
     async function fetchPodcastEpisodes(podcastId: string) {
+      setLoading(true)
       abortControllerRef.current?.abort()
       abortControllerRef.current = new AbortController()
       try {
@@ -37,6 +40,8 @@ export default function PodcastDetailPage() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         toast.error(error.message)
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -50,6 +55,7 @@ export default function PodcastDetailPage() {
 
   return (
     <div className="podcast-detail-container">
+      <Spinner isLoading={loading} />
       <Link
         to="/podcasts"
         style={{ textDecoration: "none", width: "fit-content" }}
