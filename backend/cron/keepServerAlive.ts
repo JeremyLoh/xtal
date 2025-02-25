@@ -1,6 +1,7 @@
 import { CronJob } from "cron"
 import ky from "ky"
 
+// NOTE: Replaced with 10 minute calls to /status using https://cron-job.org/en/
 const keepServerAliveJob = CronJob.from({
   // https://stackoverflow.com/questions/20417600/quartz-cron-expression-to-run-job-at-every-14-minutes-from-now
   cronTime: "0/10 * * * *", // run every 10 minutes, to prevent backend service from sleeping after 15 minutes of inactivity

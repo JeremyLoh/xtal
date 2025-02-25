@@ -21,9 +21,9 @@
   "homepage": "https://github.com/JeremyLoh/xtal#readme",
   "description": "Backend for xtal application",
   "dependencies": {
-    "@supabase/supabase-js": "2.48.1",
+    "@supabase/supabase-js": "2.49.1",
     "cors": "2.8.5",
-    "cron": "3.5.0",
+    "cron": "4.1.0",
     "dayjs": "1.11.13",
     "dompurify": "^3.2.4",
     "dotenv": "16.4.7",
@@ -33,19 +33,19 @@
     "express-validator": "7.2.1",
     "jsdom": "^26.0.0",
     "ky": "1.7.5",
-    "nanoid": "5.1.0",
+    "nanoid": "5.1.2",
     "sharp": "0.33.5"
   },
   "devDependencies": {
     "@types/cors": "2.8.17",
     "@types/express": "5.0.0",
     "@types/jsdom": "21.1.7",
-    "@types/node": "22.13.4",
+    "@types/node": "22.13.5",
     "@types/supertest": "6.0.2",
-    "msw": "2.7.0",
+    "msw": "2.7.3",
     "supertest": "7.0.0",
     "tsx": "4.19.3",
     "typescript": "5.7.3",
-    "vitest": "3.0.6"
+    "vitest": "3.0.7"
   }
 }
