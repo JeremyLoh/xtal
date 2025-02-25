@@ -1,0 +1,10 @@
+const BACKEND_ORIGIN = import.meta.env.VITE_BACKEND_ORIGIN
+const MAX_FAVOURITE_STATIONS_ANONYMOUS = import.meta.env
+  .VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS
+
+export function getEnv() {
+  return {
+    BACKEND_ORIGIN,
+    MAX_FAVOURITE_STATIONS_ANONYMOUS,
+  }
+}

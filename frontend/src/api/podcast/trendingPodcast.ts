@@ -1,8 +1,7 @@
 import ky from "ky"
 import dayjs from "dayjs"
 import { TrendingPodcast } from "./model/podcast.ts"
-
-const BACKEND_ORIGIN = import.meta.env.VITE_BACKEND_ORIGIN
+import { getEnv } from "../env/environmentVariables.ts"
 
 export type TrendingPodcastSearchParams = {
   limit: number
@@ -19,6 +18,7 @@ async function getTrendingPodcasts(
   abortController: AbortController,
   params: TrendingPodcastSearchParams
 ) {
+  const { BACKEND_ORIGIN } = getEnv()
   const url = BACKEND_ORIGIN + "/api/podcast/trending"
   const searchParams = getTrendingSearchParams(params)
   try {
