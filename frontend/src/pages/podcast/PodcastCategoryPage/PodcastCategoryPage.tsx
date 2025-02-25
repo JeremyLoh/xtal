@@ -2,8 +2,8 @@ import "./PodcastCategoryPage.css"
 import { useCallback, useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router"
 import { IoArrowBackSharp } from "react-icons/io5"
+import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import TrendingPodcastSection from "../../../features/podcast/trending/components/TrendingPodcastSection/TrendingPodcastSection.tsx"
-import Spinner from "../../../components/Spinner/Spinner.tsx"
 import useTrendingPodcasts from "../../../hooks/podcast/useTrendingPodcasts.ts"
 
 export default function PodcastCategoryPage() {
@@ -52,8 +52,7 @@ export default function PodcastCategoryPage() {
       return
     }
     return (
-      <>
-        <Spinner isLoading={loading} />
+      <LoadingDisplay loading={loading}>
         <Link
           to="/podcasts"
           style={{ textDecoration: "none", width: "fit-content" }}
@@ -71,7 +70,7 @@ export default function PodcastCategoryPage() {
           trendingPodcasts={trendingPodcasts}
           onRefresh={handlePodcastRefresh}
         />
-      </>
+      </LoadingDisplay>
     )
   }
 

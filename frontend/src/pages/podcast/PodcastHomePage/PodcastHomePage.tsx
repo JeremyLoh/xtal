@@ -1,8 +1,8 @@
 import "./PodcastHomePage.css"
 import { useCallback, useEffect, useState } from "react"
+import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import TrendingPodcastSection from "../../../features/podcast/trending/components/TrendingPodcastSection/TrendingPodcastSection.tsx"
 import PodcastCategorySection from "../../../features/podcast/category/components/PodcastCategorySection/PodcastCategorySection.tsx"
-import Spinner from "../../../components/Spinner/Spinner.tsx"
 import useTrendingPodcasts from "../../../hooks/podcast/useTrendingPodcasts.ts"
 import usePodcastCategory from "../../../hooks/podcast/usePodcastCategory.ts"
 
@@ -49,18 +49,19 @@ export default function PodcastHomePage() {
   }, [handlePodcastCategoryRefresh, handlePodcastRefresh, sinceDaysBefore])
 
   return (
-    <div id="podcast-home-page-container">
-      <Spinner isLoading={loadingCategories || loadingPodcasts} />
-      <PodcastCategorySection
-        loading={loadingCategories}
-        categories={categories}
-        onRefresh={handlePodcastCategoryRefresh}
-      />
-      <TrendingPodcastSection
-        loading={loadingPodcasts}
-        trendingPodcasts={trendingPodcasts}
-        onRefresh={handlePodcastRefresh}
-      />
-    </div>
+    <LoadingDisplay loading={loadingCategories || loadingPodcasts}>
+      <div id="podcast-home-page-container">
+        <PodcastCategorySection
+          loading={loadingCategories}
+          categories={categories}
+          onRefresh={handlePodcastCategoryRefresh}
+        />
+        <TrendingPodcastSection
+          loading={loadingPodcasts}
+          trendingPodcasts={trendingPodcasts}
+          onRefresh={handlePodcastRefresh}
+        />
+      </div>
+    </LoadingDisplay>
   )
 }

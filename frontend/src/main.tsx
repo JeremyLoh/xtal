@@ -6,7 +6,7 @@ import MapProvider from "./context/MapProvider/MapProvider.tsx"
 import FavouriteStationsProvider from "./context/FavouriteStationsProvider/FavouriteStationsProvider.tsx"
 import Root from "./Root.tsx"
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary.tsx"
-import Spinner from "./components/Spinner/Spinner.tsx"
+import LoadingDisplay from "./components/LoadingDisplay/LoadingDisplay.tsx"
 
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage/NotFoundPage.tsx"))
 const HomeLayout = lazy(() => import("./pages/HomeLayout/HomeLayout.tsx"))
@@ -31,7 +31,7 @@ createRoot(document.getElementById("root")!).render(
       <FavouriteStationsProvider>
         <BrowserRouter>
           <ErrorBoundary fallback={<NotFoundPage />}>
-            <Suspense fallback={<Spinner isLoading={true} />}>
+            <Suspense fallback={<LoadingDisplay loading={true} />}>
               <Routes>
                 <Route path="/" element={<Root />}>
                   <Route element={<HomeLayout />}>
