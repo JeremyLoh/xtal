@@ -15,7 +15,8 @@
 
 @media (max-width: 430px) {
   .mobile {
-    display: block !important;
+    display: flex !important;
+    justify-content: center;
   }
   .desktop {
     display: none !important;
@@ -27,6 +28,7 @@
     display: none !important;
   }
   .desktop {
-    display: block !important;
+    display: flex !important;
+    justify-content: center;
   }
 }
