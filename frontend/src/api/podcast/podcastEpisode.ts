@@ -1,7 +1,6 @@
 import ky from "ky"
 import { Podcast, PodcastEpisode } from "./model/podcast.ts"
-
-const BACKEND_ORIGIN = import.meta.env.VITE_BACKEND_ORIGIN
+import { getEnv } from "../env/environmentVariables.ts"
 
 type PodcastEpisodeSearchParams = {
   id: string
@@ -21,6 +20,7 @@ async function getPodcastEpisodes(
   abortController: AbortController,
   params: PodcastEpisodeSearchParams
 ) {
+  const { BACKEND_ORIGIN } = getEnv()
   const url = BACKEND_ORIGIN + "/api/podcast/episodes"
   const searchParams = getPodcastEpisodeSearchParams(params)
   try {

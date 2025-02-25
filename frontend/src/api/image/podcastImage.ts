@@ -1,6 +1,5 @@
 import ky from "ky"
-
-const BACKEND_ORIGIN = import.meta.env.VITE_BACKEND_ORIGIN
+import { getEnv } from "../env/environmentVariables.ts"
 
 export async function getPodcastImage(
   abortController: AbortController,
@@ -8,6 +7,7 @@ export async function getPodcastImage(
   width: number,
   height: number
 ): Promise<string | null> {
+  const { BACKEND_ORIGIN } = getEnv()
   const backendUrl = BACKEND_ORIGIN + "/api/podcast/image"
   try {
     const blob = await ky

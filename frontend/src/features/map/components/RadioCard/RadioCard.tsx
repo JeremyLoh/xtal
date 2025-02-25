@@ -5,6 +5,7 @@ import { Station } from "../../../../api/radiobrowser/types.ts"
 import { FavouriteStationsContext } from "../../../../context/FavouriteStationsProvider/FavouriteStationsProvider.tsx"
 import useClipboard from "../../../../hooks/useClipboard.ts"
 import StationCard from "../../../../components/StationCard/StationCard.tsx"
+import { getEnv } from "../../../../api/env/environmentVariables.ts"
 const RadioPlayer = lazy(
   () => import("../../../player/components/RadioPlayer/RadioPlayer.tsx")
 )
@@ -49,8 +50,7 @@ function RadioCard(props: RadioCardProps) {
   }
   function handleAddFavouriteStation(previousStations: Station[]) {
     const previousStationCount = previousStations.length
-    const MAX_FAVOURITE_STATIONS_ANONYMOUS = import.meta.env
-      .VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS
+    const { MAX_FAVOURITE_STATIONS_ANONYMOUS } = getEnv()
     const isFavouriteStationLimitReached =
       MAX_FAVOURITE_STATIONS_ANONYMOUS != undefined &&
       previousStationCount + 1 === parseInt(MAX_FAVOURITE_STATIONS_ANONYMOUS)

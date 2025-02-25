@@ -1,7 +1,6 @@
 import ky from "ky"
 import { PodcastCategory } from "./model/podcast.ts"
-
-const BACKEND_ORIGIN = import.meta.env.VITE_BACKEND_ORIGIN
+import { getEnv } from "../env/environmentVariables.ts"
 
 type PodcastCategoryResponse = {
   count: number
@@ -11,6 +10,7 @@ type PodcastCategoryResponse = {
 async function getAllPodcastCategories(
   abortController: AbortController
 ): Promise<PodcastCategory[] | null> {
+  const { BACKEND_ORIGIN } = getEnv()
   const backendUrl = BACKEND_ORIGIN + "/api/podcast/category"
   try {
     const json: PodcastCategoryResponse = await ky
