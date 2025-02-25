@@ -11,7 +11,7 @@ const cleanupPodcastImagesJob = CronJob.from({
       `Cron job triggered at ${new Date().toString()} to remove podcast image storage older than ${deleteBeforeDate.toDateString()}`
     )
     try {
-      StorageClient.deleteStorageFilesBefore(deleteBeforeDate, limit)
+      await StorageClient.deleteStorageFilesBefore(deleteBeforeDate, limit)
     } catch (error: any) {
       console.error(`cleanupPodcastImages(): Cron job error ${error.message}`)
     }
