@@ -35,7 +35,7 @@ const getPodcastEpisodesLimiter = rateLimit({
 
 const getPodcastImageConversionLimiter = rateLimit({
   windowMs: 1 * 1000,
-  limit: 30, // Limit each IP to "X" requests per window
+  limit: 40, // Limit each IP to "X" requests per window
   standardHeaders: "draft-7",
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
   handler: (
