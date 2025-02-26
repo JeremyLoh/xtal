@@ -1,10 +1,10 @@
-import { createContext } from "react"
+import { createContext, useCallback, useState } from "react"
 import useLocalStorage from "../../hooks/useLocalStorage.ts"
 import { Station } from "../../api/radiobrowser/types.ts"
 
 type FavouriteStations = {
-  favouriteStations: Station[]
-  setFavouriteStations: React.Dispatch<Station[]>
+  getFavouriteStations: () => Station[]
+  setFavouriteStations: (value: Station[]) => void
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -17,13 +17,24 @@ function FavouriteStationsProvider({
 }: {
   children: React.ReactNode
 }) {
-  const [favouriteStations, setFavouriteStations] = useLocalStorage<Station[]>(
-    "FAVOURITE_STATIONS",
-    []
+  const { getItem, setItem } = useLocalStorage("FAVOURITE_STATIONS")
+  const [favouriteStations, setFavouriteStations] = useState<Station[]>(
+    getItem() || []
+  )
+  const setStations = useCallback(
+    (value: Station[]) => {
+      setItem(value)
+      setFavouriteStations(value)
+    },
+    [setItem]
+  )
+  const getFavouriteStations = useCallback(
+    () => favouriteStations,
+    [favouriteStations]
   )
   return (
     <FavouriteStationsContext.Provider
-      value={{ favouriteStations, setFavouriteStations }}
+      value={{ getFavouriteStations, setFavouriteStations: setStations }}
     >
       {children}
     </FavouriteStationsContext.Provider>

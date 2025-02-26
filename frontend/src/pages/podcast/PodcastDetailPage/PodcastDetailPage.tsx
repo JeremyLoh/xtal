@@ -1,49 +1,19 @@
 import "./PodcastDetailPage.css"
-import { useCallback, useContext, useEffect, useRef, useState } from "react"
+import { useContext, useEffect } from "react"
 import { Link, useParams } from "react-router"
-import { toast } from "sonner"
 import { IoArrowBackSharp, IoReload } from "react-icons/io5"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
-import { Podcast, PodcastEpisode } from "../../../api/podcast/model/podcast.ts"
-import { getPodcastEpisodes } from "../../../api/podcast/podcastEpisode.ts"
+import { PodcastEpisode } from "../../../api/podcast/model/podcast.ts"
 import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/PodcastEpisodeCard.tsx"
 import PodcastCard from "../../../components/PodcastCard/PodcastCard.tsx"
 import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
+import usePodcastEpisodes from "../../../hooks/podcast/usePodcastEpisodes.ts"
 
 export default function PodcastDetailPage() {
   const { podcastId, podcastTitle } = useParams()
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
-  const abortControllerRef = useRef<AbortController | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
-  const [podcast, setPodcast] = useState<Podcast | null>(null)
-  const [podcastEpisodes, setPodcastEpisodes] = useState<
-    PodcastEpisode[] | null
-  >(null)
-
-  const fetchPodcastEpisodes = useCallback(async (podcastId: string) => {
-    setLoading(true)
-    abortControllerRef.current?.abort()
-    abortControllerRef.current = new AbortController()
-    try {
-      const podcastEpisodes = await getPodcastEpisodes(
-        abortControllerRef.current,
-        {
-          id: podcastId,
-          limit: 10,
-        }
-      )
-      if (podcastEpisodes && podcastEpisodes.data) {
-        setPodcastEpisodes(podcastEpisodes.data.episodes)
-        setPodcast(podcastEpisodes.data.podcast)
-      } else {
-        setLoading(false) // prevent infinite load on no data
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      toast.error(error.message)
-      setLoading(false) // prevent infinite loading on error
-    }
-  }, [])
+  const { loading, podcast, podcastEpisodes, fetchPodcastEpisodes } =
+    usePodcastEpisodes(podcastId)
 
   async function handleRefreshPodcastEpisodes() {
     if (podcastId) {
@@ -55,17 +25,13 @@ export default function PodcastDetailPage() {
     if (podcastTitle) {
       document.title = `${decodeURIComponent(podcastTitle)} - xtal - podcasts`
     }
+  }, [podcastTitle])
+
+  useEffect(() => {
     if (podcastId) {
       fetchPodcastEpisodes(podcastId)
     }
-  }, [fetchPodcastEpisodes, podcastTitle, podcastId])
-
-  useEffect(() => {
-    // prevent race condition between setLoading and set podcast episodes, display of "no episode found" placeholder before podcast data set state
-    if (podcast && podcastEpisodes) {
-      setLoading(false)
-    }
-  }, [podcast, podcastEpisodes])
+  }, [fetchPodcastEpisodes, podcastId])
 
   return (
     <LoadingDisplay loading={loading}>

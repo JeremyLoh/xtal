@@ -21,22 +21,23 @@ function RadioCard(props: RadioCardProps) {
   const favouriteStationsContext = useContext(FavouriteStationsContext)
   const [error, setError] = useState<string | null>(null)
   const [isFavourite, setFavourite] = useState<boolean>(
-    favouriteStationsContext?.favouriteStations.some(
-      (s: Station) => s.stationuuid === station.stationuuid
-    ) || false
+    favouriteStationsContext
+      ?.getFavouriteStations()
+      .some((s: Station) => s.stationuuid === station.stationuuid) || false
   )
   useEffect(() => {
     // handle favourite station change by other components
     setFavourite(
-      favouriteStationsContext?.favouriteStations.some(
-        (s: Station) => s.stationuuid === station.stationuuid
-      ) || false
+      favouriteStationsContext
+        ?.getFavouriteStations()
+        .some((s: Station) => s.stationuuid === station.stationuuid) || false
     )
-  }, [favouriteStationsContext?.favouriteStations, station.stationuuid])
+  }, [favouriteStationsContext, station.stationuuid])
 
   function handleFavouriteToggle() {
     const isRemoveStationAction = isFavourite
-    const previousStations = favouriteStationsContext?.favouriteStations || []
+    const previousStations =
+      favouriteStationsContext?.getFavouriteStations() || []
     if (isRemoveStationAction) {
       favouriteStationsContext?.setFavouriteStations(
         previousStations.filter(

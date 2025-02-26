@@ -1,22 +1,44 @@
-import { useEffect, useState } from "react"
+import { useCallback, useMemo } from "react"
 
-function getStoredValue(key: string, defaultValue: unknown) {
-  const savedValue = localStorage.getItem(key)
-  if (savedValue == null) {
-    return defaultValue
-  }
-  return JSON.parse(savedValue)
-}
+function useLocalStorage(key: string) {
+  const getItem = useCallback(() => {
+    try {
+      const savedValue = localStorage.getItem(key)
+      if (savedValue) {
+        return JSON.parse(savedValue)
+      } else {
+        return null
+      }
+    } catch (error) {
+      console.error("useLocalStorage getItem: ", error)
+      return null
+    }
+  }, [key])
 
-function useLocalStorage<T>(
-  key: string,
-  defaultValue: unknown
-): [T, React.Dispatch<T>] {
-  const [value, setValue] = useState(() => getStoredValue(key, defaultValue))
-  useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(value))
-  }, [key, value])
-  return [value, setValue]
+  const setItem = useCallback(
+    (value: unknown) => {
+      try {
+        localStorage.setItem(key, JSON.stringify(value))
+      } catch (error) {
+        console.error("useLocalStorage setItem: ", error)
+      }
+    },
+    [key]
+  )
+
+  const removeItem = useCallback(() => {
+    try {
+      localStorage.removeItem(key)
+    } catch (error) {
+      console.error("useLocalStorage removeItem: ", error)
+    }
+  }, [key])
+
+  const output = useMemo(() => {
+    return { getItem, setItem, removeItem }
+  }, [getItem, setItem, removeItem])
+
+  return output
 }
 
 export default useLocalStorage

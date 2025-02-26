@@ -25,10 +25,13 @@ function FavouriteStationDrawer({
   const navigate = useNavigate()
 
   function handleRemoveFavouriteStation(station: Station) {
-    favouriteStationsContext?.setFavouriteStations(
-      favouriteStationsContext?.favouriteStations.filter(
-        (s: Station) => s.stationuuid !== station.stationuuid
-      )
+    if (favouriteStationsContext == null) {
+      return
+    }
+    favouriteStationsContext.setFavouriteStations(
+      favouriteStationsContext
+        .getFavouriteStations()
+        .filter((s: Station) => s.stationuuid !== station.stationuuid)
     )
   }
   function handleLoadStation(station: Station) {
@@ -40,19 +43,19 @@ function FavouriteStationDrawer({
   }
   return (
     <Drawer title="Favourite Stations" open={open} setOpen={setOpen}>
-      {favouriteStationsContext?.favouriteStations &&
-      favouriteStationsContext.favouriteStations.length > 0 ? (
+      {favouriteStationsContext?.getFavouriteStations() &&
+      favouriteStationsContext.getFavouriteStations().length > 0 ? (
         <div className="favourite-stations">
-          {favouriteStationsContext.favouriteStations.map(
-            (station: Station, index: number) => (
+          {favouriteStationsContext
+            .getFavouriteStations()
+            .map((station: Station, index: number) => (
               <FavouriteStationCard
                 key={`favourite-station-card-${station.stationuuid}-${index}`}
                 station={station}
                 onRemoveFavouriteStation={handleRemoveFavouriteStation}
                 onLoadStation={handleLoadStation}
               />
-            )
-          )}
+            ))}
         </div>
       ) : (
         <p className="empty-favourites">
