@@ -7,7 +7,7 @@
   padding: 1rem;
 }
 
-.radio-select-random-btn {
+.radio-select-random-button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,10 +17,10 @@
   color: var(--text-color);
   font-size: clamp(0.6rem, 0.6rem + 0.2vw, 1rem);
 }
-.radio-select-random-btn:hover {
+.radio-select-random-button:hover {
   filter: brightness(0.9);
 }
-.radio-select-random-btn:disabled {
+.radio-select-random-button:disabled {
   background-color: var(--disabled-element-color);
   pointer-events: none;
 }
