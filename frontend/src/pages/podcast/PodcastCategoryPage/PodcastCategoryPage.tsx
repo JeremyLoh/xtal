@@ -70,7 +70,6 @@ export default function PodcastCategoryPage() {
           {decodeURIComponent(categoryName)}
         </h2>
         <TrendingPodcastSection
-          loading={loading}
           trendingPodcasts={trendingPodcasts}
           onRefresh={handlePodcastRefresh}
         />

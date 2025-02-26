@@ -8,7 +8,6 @@ import useScreenDimensions from "../../../../../hooks/useScreenDimensions.ts"
 import TrendingPodcastFilters from "../TrendingPodcastFilters/TrendingPodcastFilters.tsx"
 
 type TrendingPodcastSectionProps = {
-  loading: boolean
   trendingPodcasts: TrendingPodcast[] | null
   onRefresh: (
     filters: {
@@ -37,9 +36,6 @@ export default memo(function TrendingPodcastSection(
   }
 
   function renderTrendingPodcasts() {
-    if (props.loading) {
-      return
-    }
     if (props.trendingPodcasts == null || props.trendingPodcasts.length === 0) {
       return (
         <div>

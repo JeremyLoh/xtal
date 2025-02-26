@@ -56,12 +56,10 @@ export default function PodcastHomePage() {
     <LoadingDisplay loading={loadingCategories || loadingPodcasts}>
       <div id="podcast-home-page-container">
         <PodcastCategorySection
-          loading={loadingCategories}
           categories={categories}
           onRefresh={handlePodcastCategoryRefresh}
         />
         <TrendingPodcastSection
-          loading={loadingPodcasts}
           trendingPodcasts={trendingPodcasts}
           onRefresh={handlePodcastRefresh}
         />
