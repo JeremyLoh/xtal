@@ -153,7 +153,7 @@ test.describe("radio station favourite feature", () => {
 
     // check hover color for remove favourite station button (do not hover in button center, where icon is)
     await getFavouriteStationsDrawer(page)
-      .locator(".favourite-station .remove-favourite-station-btn")
+      .locator(".favourite-station .remove-favourite-station-button")
       .hover({ position: { x: 5, y: 2 } })
     await expect(
       getFavouriteStationsDrawer(page).locator(
