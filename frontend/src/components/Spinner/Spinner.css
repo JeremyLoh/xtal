@@ -10,21 +10,11 @@
   z-index: 1000;
   /* Glass effect background */
   background: rgba(var(--text-color), 0.6);
-  border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
-.spinner-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20vh;
-}
-
-.spinner-text {
-  font-size: 1.2rem;
-  font-weight: bold;
+.spinner {
+  margin-bottom: 10vh;
 }
