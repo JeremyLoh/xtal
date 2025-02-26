@@ -11,7 +11,9 @@ import LoadingDisplay from "./components/LoadingDisplay/LoadingDisplay.tsx"
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage/NotFoundPage.tsx"))
 const HomeLayout = lazy(() => import("./pages/HomeLayout/HomeLayout.tsx"))
 const HomePage = lazy(() => import("./pages/HomePage/HomePage.tsx"))
-const RadioStation = lazy(() => import("./pages/RadioStation/RadioStation.tsx"))
+const RadioStationDisplayPage = lazy(
+  () => import("./pages/RadioStationDisplayPage/RadioStationDisplayPage.tsx")
+)
 const PodcastLayout = lazy(
   () => import("./pages/PodcastLayout/PodcastLayout.tsx")
 )
@@ -38,7 +40,7 @@ createRoot(document.getElementById("root")!).render(
                     <Route index element={<HomePage />} />
                     <Route
                       path="radio-station/:stationuuid"
-                      element={<RadioStation />}
+                      element={<RadioStationDisplayPage />}
                     />
                   </Route>
                   <Route element={<PodcastLayout />}>

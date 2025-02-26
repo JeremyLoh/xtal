@@ -5,7 +5,7 @@ import { MapContext } from "../../context/MapProvider/MapProvider.tsx"
 import { SearchStrategyFactory } from "../../api/radiobrowser/searchStrategy/SearchStrategyFactory.ts"
 import Map from "../../features/map/components/Map/Map.tsx"
 
-type RadioStationParams = {
+type RadioStationDisplayPageParams = {
   stationuuid: string
 }
 
@@ -17,8 +17,8 @@ function isInvalidUuid(uuid: string) {
   return !uuidregex.test(uuid)
 }
 
-export default function RadioStation() {
-  const { stationuuid } = useParams<RadioStationParams>()
+export default function RadioStationDisplayPage() {
+  const { stationuuid } = useParams<RadioStationDisplayPageParams>()
   const navigate = useNavigate()
   const mapContext = useContext(MapContext)
   const abortControllerRef = useRef<AbortController | null>(null)
@@ -52,11 +52,9 @@ export default function RadioStation() {
   }, [stationuuid])
 
   return (
-    <>
-      <Map
-        station={mapContext ? mapContext.station : null}
-        latLng={mapContext ? mapContext.currentView : { lat: 0, lng: 0 }}
-      />
-    </>
+    <Map
+      station={mapContext ? mapContext.station : null}
+      latLng={mapContext ? mapContext.currentView : { lat: 0, lng: 0 }}
+    />
   )
 }
