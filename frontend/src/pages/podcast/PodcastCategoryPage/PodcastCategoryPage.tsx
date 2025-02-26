@@ -1,20 +1,24 @@
 import "./PodcastCategoryPage.css"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router"
 import { IoArrowBackSharp } from "react-icons/io5"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import TrendingPodcastSection from "../../../features/podcast/trending/components/TrendingPodcastSection/TrendingPodcastSection.tsx"
 import useTrendingPodcasts from "../../../hooks/podcast/useTrendingPodcasts.ts"
 
+const LIMIT = 10
+
 export default function PodcastCategoryPage() {
   const { categoryName } = useParams()
   const navigate = useNavigate()
-  const limit = 10
-  const { DEFAULT_SINCE_DAYS, loading, trendingPodcasts, onRefresh } =
-    useTrendingPodcasts({
-      limit: limit,
+  const options = useMemo(() => {
+    return {
+      limit: LIMIT,
       category: categoryName,
-    })
+    }
+  }, [categoryName])
+  const { DEFAULT_SINCE_DAYS, loading, trendingPodcasts, onRefresh } =
+    useTrendingPodcasts(options)
   const [sinceDaysBefore, setSinceDaysBefore] =
     useState<number>(DEFAULT_SINCE_DAYS)
 
