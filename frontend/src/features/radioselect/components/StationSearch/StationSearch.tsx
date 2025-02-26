@@ -7,7 +7,7 @@ import { Station } from "../../../../api/radiobrowser/types.ts"
 import { MapContext } from "../../../../context/MapProvider/MapProvider.tsx"
 
 type StationSearchProps = {
-  handleStationSearchType: (searchType: StationSearchType) => void
+  onStationSearchTypeSelect: (searchType: StationSearchType) => void
 }
 
 function StationSearch(props: StationSearchProps) {
@@ -18,7 +18,7 @@ function StationSearch(props: StationSearchProps) {
   )
   function handleClick(searchType: StationSearchType) {
     setSelectedSearch(searchType)
-    props.handleStationSearchType(searchType)
+    props.onStationSearchTypeSelect(searchType)
   }
   function handleAdvancedClick() {
     setSelectedSearch(StationSearchType.ADVANCED)
@@ -32,7 +32,7 @@ function StationSearch(props: StationSearchProps) {
     if (!isOpen) {
       // revert back to default first station search type
       setSelectedSearch(StationSearchType.GENRE)
-      props.handleStationSearchType(StationSearchType.GENRE)
+      props.onStationSearchTypeSelect(StationSearchType.GENRE)
     }
   }
   return (
@@ -64,7 +64,7 @@ function StationSearch(props: StationSearchProps) {
         <FaSearch size={16} /> Search Stations
       </button>
       <StationSelect
-        handleLoadStation={handleLoadStation}
+        onLoadStation={handleLoadStation}
         open={showSearchStation}
         setOpen={handleOpen}
       />

@@ -7,7 +7,7 @@ import {
 } from "../../../../api/radiobrowser/genreTags.ts"
 
 type GenreSelectProps = {
-  handleGenreSelect: (genre: GenreInformation) => void
+  onGenreSelect: (genre: GenreInformation) => void
 }
 
 function GenreSelect(props: GenreSelectProps) {
@@ -23,7 +23,7 @@ function GenreSelect(props: GenreSelectProps) {
             className={selectedGenre === genreInfo.genre ? "selected" : ""}
             onClick={() => {
               setSelectedGenre(genreInfo.genre)
-              props.handleGenreSelect(genreInfo)
+              props.onGenreSelect(genreInfo)
             }}
           >
             {genreInfo.genre}

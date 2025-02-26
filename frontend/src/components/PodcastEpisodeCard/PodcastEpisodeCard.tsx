@@ -137,14 +137,14 @@ PodcastEpisodeCard.EpisodeNumber = function PodcastEpisodeCardNumber() {
 }
 
 PodcastEpisodeCard.PlayButton = function PodcastEpisodeCardPlayButton({
-  handlePlayClick,
+  onPlayClick,
 }: {
-  handlePlayClick: (podcastEpisode: PodcastEpisode) => void
+  onPlayClick: (podcastEpisode: PodcastEpisode) => void
 }) {
   const { episode } = usePodcastEpisodeCardContext()
   return (
     <button
-      onClick={() => handlePlayClick(episode)}
+      onClick={() => onPlayClick(episode)}
       className="podcast-episode-card-play-button"
     >
       <IoPlaySharp size={16} />

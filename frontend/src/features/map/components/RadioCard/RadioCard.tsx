@@ -125,7 +125,7 @@ function RadioCard(props: RadioCardProps) {
         <RadioPlayer
           options={getPlayerOptions(station)}
           onReady={handleReady}
-          handleError={handleError}
+          onError={handleError}
         />
       )}
     </div>

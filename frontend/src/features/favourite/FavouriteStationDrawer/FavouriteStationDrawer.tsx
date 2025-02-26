@@ -48,8 +48,8 @@ function FavouriteStationDrawer({
               <FavouriteStationCard
                 key={`favourite-station-card-${station.stationuuid}-${index}`}
                 station={station}
-                handleRemoveFavouriteStation={handleRemoveFavouriteStation}
-                handleLoadStation={handleLoadStation}
+                onRemoveFavouriteStation={handleRemoveFavouriteStation}
+                onLoadStation={handleLoadStation}
               />
             )
           )}

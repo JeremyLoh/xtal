@@ -14,7 +14,7 @@ import { Station } from "../../../../api/radiobrowser/types.ts"
 import StationCard from "../../../../components/StationCard/StationCard.tsx"
 
 type StationSelectProps = {
-  handleLoadStation: (station: Station) => void
+  onLoadStation: (station: Station) => void
   open: boolean
   setOpen: (isOpen: boolean) => void
 }
@@ -28,7 +28,7 @@ function StationSelect(props: StationSelectProps) {
 
   function handleLoadStation(station: Station) {
     props.setOpen(false)
-    props.handleLoadStation(station)
+    props.onLoadStation(station)
   }
   async function handleNewStationSearch(data: StationSearchValues) {
     setStations(null)

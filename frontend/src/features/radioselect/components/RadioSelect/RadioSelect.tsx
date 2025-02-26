@@ -16,8 +16,8 @@ import {
 } from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory.ts"
 
 type RadioSelectProps = {
-  handleRandomSelect: (searchStrategy: StationSearchStrategy) => void
-  handleCountryChange: (countryCode: string) => void
+  onRandomSelect: (searchStrategy: StationSearchStrategy) => void
+  onCountryChange: (countryCode: string) => void
   isLoading: boolean
 }
 
@@ -41,9 +41,8 @@ function RadioSelect(props: RadioSelectProps) {
       return
     }
     if (searchType === StationSearchType.COUNTRY) {
-      console.log("RadioSelect handleStationSearchType", searchType)
       // load default country for first time switching to country search type
-      props.handleCountryChange(DEFAULT_COUNTRY_SEARCH.countryCode)
+      props.onCountryChange(DEFAULT_COUNTRY_SEARCH.countryCode)
     }
     setActiveSearch({
       type: searchType,
@@ -62,22 +61,22 @@ function RadioSelect(props: RadioSelectProps) {
       type: StationSearchType.COUNTRY,
       strategy: SearchStrategyFactory.createCountrySearchStrategy(country),
     })
-    props.handleCountryChange(country.countryCode)
+    props.onCountryChange(country.countryCode)
   }
   return (
     <div className="radio-select-container">
-      <StationSearch handleStationSearchType={handleStationSearchType} />
+      <StationSearch onStationSearchTypeSelect={handleStationSearchType} />
       {activeSearch && activeSearch.type === StationSearchType.GENRE && (
-        <GenreSelect handleGenreSelect={handleGenreSelect} />
+        <GenreSelect onGenreSelect={handleGenreSelect} />
       )}
       {activeSearch && activeSearch.type === StationSearchType.COUNTRY && (
-        <CountrySelect handleCountrySelect={handleCountrySelect} />
+        <CountrySelect onCountrySelect={handleCountrySelect} />
       )}
       <button
         className="radio-select-random-button"
         disabled={props.isLoading}
         onClick={() =>
-          activeSearch && props.handleRandomSelect(activeSearch.strategy)
+          activeSearch && props.onRandomSelect(activeSearch.strategy)
         }
         data-testid="random-radio-station-button"
       >
