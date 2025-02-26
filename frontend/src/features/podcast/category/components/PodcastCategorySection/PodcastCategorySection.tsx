@@ -8,13 +8,11 @@ import { PodcastCategory } from "../../../../../api/podcast/model/podcast.ts"
 import useScreenDimensions from "../../../../../hooks/useScreenDimensions.ts"
 
 type PodcastCategorySectionProps = {
-  loading: boolean
   categories: PodcastCategory[] | null
   onRefresh: () => Promise<void>
 }
 
 export default memo(function PodcastCategorySection({
-  loading,
   categories,
   onRefresh,
 }: PodcastCategorySectionProps) {
@@ -31,16 +29,12 @@ export default memo(function PodcastCategorySection({
   }
 
   function renderCategories() {
-    if (loading) {
-      return
-    }
     if (!categories) {
       return (
         <div className="podcast-category-placeholder-section">
           <p>Could not get podcast categories. Please try again later</p>
           <button
             className="refresh-podcast-categories-button"
-            disabled={loading}
             onClick={handleRefreshPodcastCategories}
             aria-label="refresh podcast categories"
             title="refresh podcast categories"

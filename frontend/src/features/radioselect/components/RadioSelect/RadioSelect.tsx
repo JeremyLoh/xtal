@@ -74,12 +74,12 @@ function RadioSelect(props: RadioSelectProps) {
         <CountrySelect handleCountrySelect={handleCountrySelect} />
       )}
       <button
-        className="radio-select-random-btn"
+        className="radio-select-random-button"
         disabled={props.isLoading}
         onClick={() =>
           activeSearch && props.handleRandomSelect(activeSearch.strategy)
         }
-        data-testid="random-radio-station-btn"
+        data-testid="random-radio-station-button"
       >
         <FaRandom
           size={window.innerWidth < 500 ? 16 : 20}

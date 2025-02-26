@@ -14,8 +14,8 @@ function FavouriteStationToggle() {
     <>
       <button
         onClick={handleClick}
-        data-testid="favourite-station-toggle-btn"
-        className="favourite-station-toggle-btn"
+        data-testid="favourite-station-toggle-button"
+        className="favourite-station-toggle-button"
         title="View Favourites List"
       >
         <GoStarFill size={24} color="#facc15" />

@@ -13,8 +13,9 @@ function convertToDate(daysBefore: number): Date {
   return dayjs().startOf("day").subtract(daysBefore, "days").toDate()
 }
 
+const DEFAULT_SINCE_DAYS = 3
+
 function useTrendingPodcasts({ limit, category }: UseTrendingPodcastsProps) {
-  const DEFAULT_SINCE_DAYS = 3
   const abortController = useRef<AbortController | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [trendingPodcasts, setTrendingPodcasts] = useState<

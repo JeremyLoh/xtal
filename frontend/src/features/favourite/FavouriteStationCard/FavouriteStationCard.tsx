@@ -29,7 +29,7 @@ function FavouriteStationCard({
         <StationCard.Tags />
         <div className="favourite-station-actions">
           <button
-            className="remove-favourite-station-btn"
+            className="remove-favourite-station-button"
             title="Remove from favourites"
             onClick={() => handleRemoveFavouriteStation(station)}
           >

@@ -1,7 +1,7 @@
 import { Page } from "@playwright/test"
 
 export function getFavouriteStationsButton(page: Page) {
-  return page.getByTestId("favourite-station-toggle-btn")
+  return page.getByTestId("favourite-station-toggle-button")
 }
 
 export function getFavouriteStationsDrawer(page: Page) {

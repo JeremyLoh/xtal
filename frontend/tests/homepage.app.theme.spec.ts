@@ -21,10 +21,10 @@ test.beforeEach(async ({ mapPage }) => {
 
 test.describe("header app theme (start with dark mode)", () => {
   function getDarkModeIcon(page: Page) {
-    return page.getByTestId("theme-toggle-btn").locator(".dark-mode-icon")
+    return page.getByTestId("theme-toggle-button").locator(".dark-mode-icon")
   }
   function getLightModeIcon(page: Page) {
-    return page.getByTestId("theme-toggle-btn").locator(".light-mode-icon")
+    return page.getByTestId("theme-toggle-button").locator(".light-mode-icon")
   }
   async function assertElementHasLightTheme(
     page: Page,
@@ -59,7 +59,7 @@ test.describe("header app theme (start with dark mode)", () => {
     await page.goto(HOMEPAGE)
     await assertElementHasDarkTheme(page, "#root")
     await expect(getDarkModeIcon(page)).toBeVisible()
-    await page.getByTestId("theme-toggle-btn").click()
+    await page.getByTestId("theme-toggle-button").click()
     await expect(getLightModeIcon(page)).toBeVisible()
     await expect(getDarkModeIcon(page)).not.toBeVisible()
     await assertElementHasLightTheme(page, "#root")
@@ -72,7 +72,7 @@ test.describe("header app theme (start with dark mode)", () => {
     await getFavouriteStationsButton(page).click()
     await assertElementHasDarkTheme(page, "#drawer-root")
     await closeFavouriteStationsDrawer(page)
-    await page.getByTestId("theme-toggle-btn").click()
+    await page.getByTestId("theme-toggle-button").click()
     await getFavouriteStationsButton(page).click()
     await assertElementHasLightTheme(page, "#drawer-root")
   })
@@ -84,7 +84,7 @@ test.describe("header app theme (start with dark mode)", () => {
     await getSearchStationButton(page).click()
     await assertElementHasDarkTheme(page, "#drawer-root")
     await closeSearchStationDrawer(page)
-    await page.getByTestId("theme-toggle-btn").click()
+    await page.getByTestId("theme-toggle-button").click()
     await getSearchStationButton(page).click()
     await assertElementHasLightTheme(page, "#drawer-root")
   })

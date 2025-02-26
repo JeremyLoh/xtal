@@ -14,7 +14,7 @@
   gap: 0.2rem;
 }
 
-.remove-favourite-station-btn,
+.remove-favourite-station-button,
 .favourite-station-share-button,
 .favourite-station-load-button {
   width: fit-content;
@@ -22,7 +22,7 @@
   background-color: transparent;
 }
 
-.remove-favourite-station-btn:hover .station-card-favourite-icon.selected {
+.remove-favourite-station-button:hover .station-card-favourite-icon.selected {
   /* Ensure that hover on button causes inner icon color change */
   fill: var(--favourite-icon-hover-remove-color) !important;
 }

@@ -8,7 +8,6 @@ import useScreenDimensions from "../../../../../hooks/useScreenDimensions.ts"
 import TrendingPodcastFilters from "../TrendingPodcastFilters/TrendingPodcastFilters.tsx"
 
 type TrendingPodcastSectionProps = {
-  loading: boolean
   trendingPodcasts: TrendingPodcast[] | null
   onRefresh: (
     filters: {
@@ -37,16 +36,13 @@ export default memo(function TrendingPodcastSection(
   }
 
   function renderTrendingPodcasts() {
-    if (props.loading) {
-      return
-    }
     if (props.trendingPodcasts == null || props.trendingPodcasts.length === 0) {
       return (
         <div>
           <p>Zero podcasts found. Please try again later</p>
           <button
             onClick={handleRefreshTrendingPodcasts}
-            className="refresh-trending-podcasts-btn"
+            className="refresh-trending-podcasts-button"
             aria-label="refresh trending podcasts"
             title="refresh trending podcasts"
           >
