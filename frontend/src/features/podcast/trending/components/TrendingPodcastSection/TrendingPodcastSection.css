@@ -27,7 +27,7 @@
   font-size: 1rem;
 }
 
-.refresh-trending-podcasts-btn {
+.refresh-trending-podcasts-button {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -35,7 +35,7 @@
   gap: 0.3em;
   background-color: var(--primary-color);
 }
-.refresh-trending-podcasts-btn:hover {
+.refresh-trending-podcasts-button:hover {
   filter: brightness(0.9);
 }
 
