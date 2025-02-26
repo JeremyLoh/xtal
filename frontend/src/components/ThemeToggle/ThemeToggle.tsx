@@ -8,8 +8,8 @@ function ThemeToggle() {
   return theme == undefined ? null : (
     <button
       onClick={() => theme.toggle()}
-      className="theme-toggle-btn"
-      data-testid="theme-toggle-btn"
+      className="theme-toggle-button"
+      data-testid="theme-toggle-button"
       title="Toggle Theme"
     >
       {theme.isDark ? (
