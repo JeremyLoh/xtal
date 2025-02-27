@@ -1,6 +1,7 @@
 import "dotenv/config"
 import express from "express"
 import cors from "cors"
+import compression from "compression"
 import router from "./route/index.js"
 import statusRouter from "./route/status.js"
 import {
@@ -22,6 +23,7 @@ function setupApp() {
   app.use(statusRouter) // place before CORS to remove CORS for /status endpoint
   app.use(cors(getCorsOptions()))
   app.use(express.json()) // middleware to parse json request body
+  app.use(compression())
   app.use(router)
   return app
 }
