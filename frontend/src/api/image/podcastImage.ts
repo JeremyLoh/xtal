@@ -29,10 +29,7 @@ export async function getPodcastImage(
       return null
     }
     if (error.response && error.response.status === 429) {
-      const timeoutInSeconds = error.response.headers.get("retry-after")
-      throw new Error(
-        `Image Rate Limit Exceeded, please try again after ${timeoutInSeconds} seconds`
-      )
+      throw new Error(`Image Rate Limit Exceeded, please try again later`)
     }
     return null
   }

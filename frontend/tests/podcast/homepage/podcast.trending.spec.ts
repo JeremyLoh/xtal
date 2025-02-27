@@ -175,7 +175,7 @@ test.describe("Podcast Homepage /podcasts", () => {
       await expect(page.locator(".podcast-trending-container")).toBeVisible()
       await assertToastMessage(
         page,
-        "Rate Limit Exceeded, please try again after 2 seconds"
+        "Rate Limit Exceeded, please try again later"
       )
     })
 
