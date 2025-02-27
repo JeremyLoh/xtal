@@ -4,6 +4,7 @@ import { getPodcastCategoryValidationSchema } from "../../validation/podcastCate
 import { getPodcastCategories } from "../../service/podcastCategoryService.js"
 import { InvalidApiKeyError } from "../../error/invalidApiKeyError.js"
 import rateLimiter from "../../middleware/rateLimiter.js"
+import logger from "../../logger.js"
 
 const router = Router()
 
@@ -41,7 +42,7 @@ router.get(
         response.status(500).send(error.message)
         return
       } else {
-        console.error(error.message)
+        logger.error(error.message)
         response.status(500).send("Internal Server Error")
         return
       }

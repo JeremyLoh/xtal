@@ -5,6 +5,7 @@ import { getPodcastEpisodes } from "../../service/podcastEpisodeService.js"
 import { getPodcastEpisodeValidationSchema } from "../../validation/podcastEpisodeValidation.js"
 import { InvalidApiKeyError } from "../../error/invalidApiKeyError.js"
 import { getPodcastInfo } from "../../service/podcastInfoService.js"
+import logger from "../../logger.js"
 
 const router = Router()
 
@@ -49,7 +50,7 @@ router.get(
         response.status(500).send(error.message)
         return
       } else {
-        console.error(error.message)
+        logger.error(error.message)
         response.status(500).send("Internal Server Error")
       }
     }

@@ -1,6 +1,7 @@
 import { decodeHTML } from "entities"
 import { CorsOptions } from "cors"
 import { Request, Response, Router } from "express"
+import logger from "../logger.js"
 
 export function getCorsOptions(): CorsOptions {
   const frontendOrigin = process.env.FRONTEND_ORIGIN
@@ -46,7 +47,7 @@ export function getProxyTroubleshootingRouter() {
   troubleshootingRouter.get(
     "/x-forwarded-for",
     (request: Request, response: Response) => {
-      console.log(request.headers)
+      logger.info(request.headers)
       response.send(request.headers["x-forwarded-for"])
     }
   )

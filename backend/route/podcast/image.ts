@@ -5,6 +5,7 @@ import { getPodcastImageValidationSchema } from "../../validation/podcastImageVa
 import { getImage } from "../../service/podcastImageService.js"
 import rateLimiter from "../../middleware/rateLimiter.js"
 import { isValidUrl } from "../../middleware/cors.js"
+import logger from "../../logger.js"
 
 const router = Router()
 
@@ -34,7 +35,7 @@ router.post(
       response.contentType("image/webp")
       response.status(200).send(imageBuffer)
     } catch (error: any) {
-      console.error("POST /api/podcast/image error:", error.message)
+      logger.error("POST /api/podcast/image error:", error.message)
       response.status(500).send("Internal Server Error")
     }
   }
