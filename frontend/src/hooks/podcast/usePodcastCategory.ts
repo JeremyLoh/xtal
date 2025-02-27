@@ -11,7 +11,7 @@ type CacheCategory = {
 function usePodcastCategory() {
   const cacheKey = useMemo(() => `usePodcastCategory`, [])
   const { setCacheItem: setCategoryCache, getCacheItem: getCategoryCache } =
-    useCache<CacheCategory>(cacheKey, 30)
+    useCache<CacheCategory>(cacheKey, 60)
   const categoryCache = getCategoryCache()
 
   const abortController = useRef<AbortController | null>(null)
