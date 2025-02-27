@@ -27,12 +27,7 @@ function useCache<V>(key: string, cacheStaleTimeInMinutes: number) {
       cacheStaleTimeInMinutes,
       "minute"
     )
-    console.log({
-      before: currentTimestamp.isBefore(expiredTimestamp),
-      after: currentTimestamp.isAfter(expiredTimestamp),
-    })
     if (cachedData && currentTimestamp.isBefore(expiredTimestamp)) {
-      console.log(JSON.stringify(cachedData, null, 2))
       return cachedData
     } else if (cachedData && currentTimestamp.isAfter(expiredTimestamp)) {
       removeItem()
