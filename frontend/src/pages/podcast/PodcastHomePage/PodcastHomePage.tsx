@@ -50,7 +50,8 @@ export default function PodcastHomePage() {
       handlePodcastCategoryRefresh(),
       handlePodcastRefresh({ since: sinceDaysBefore }),
     ])
-  }, [handlePodcastCategoryRefresh, handlePodcastRefresh, sinceDaysBefore])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <LoadingDisplay loading={loadingCategories || loadingPodcasts}>
