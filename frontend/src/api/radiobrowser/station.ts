@@ -19,7 +19,7 @@ async function getAllStations(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.name === "AbortError") {
-      console.log("Aborted getAllStations request")
+      return null
     }
     return null
   }

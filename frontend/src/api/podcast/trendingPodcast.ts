@@ -33,7 +33,6 @@ async function getTrendingPodcasts(
     // eslint-disable-next-line
   } catch (error: any) {
     if (error.name === "AbortError") {
-      console.log("Aborted getTrendingPodcasts request")
       return null
     }
     if (error.response && error.response.status === 429) {
