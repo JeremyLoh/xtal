@@ -33,14 +33,10 @@ async function getTrendingPodcasts(
     // eslint-disable-next-line
   } catch (error: any) {
     if (error.name === "AbortError") {
-      console.log("Aborted getTrendingPodcasts request")
       return null
     }
     if (error.response && error.response.status === 429) {
-      const timeoutInSeconds = error.response.headers.get("retry-after")
-      throw new Error(
-        `Rate Limit Exceeded, please try again after ${timeoutInSeconds} seconds`
-      )
+      throw new Error(`Rate Limit Exceeded, please try again later`)
     }
     throw new Error(
       "Could not retrieve trending podcasts. Please try again later"

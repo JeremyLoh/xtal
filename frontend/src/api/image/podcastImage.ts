@@ -26,14 +26,10 @@ export async function getPodcastImage(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.name === "AbortError") {
-      console.log("Aborted getPodcastImage request")
       return null
     }
     if (error.response && error.response.status === 429) {
-      const timeoutInSeconds = error.response.headers.get("retry-after")
-      throw new Error(
-        `Image Rate Limit Exceeded, please try again after ${timeoutInSeconds} seconds`
-      )
+      throw new Error(`Image Rate Limit Exceeded, please try again later`)
     }
     return null
   }
