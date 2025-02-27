@@ -2,6 +2,7 @@ import "dotenv/config"
 import express from "express"
 import cors from "cors"
 import compression from "compression"
+import logger from "./logger.js"
 import router from "./route/index.js"
 import statusRouter from "./route/status.js"
 import {
@@ -39,7 +40,7 @@ function startBackend() {
   if (process.env.NODE_ENV !== "test") {
     // prevent test failure on parallel test runs on the same port. (supertest uses port 0 by default if no app.listen is executed)
     app.listen(PORT, () => {
-      console.log(`[server]: Server started on port ${PORT}`)
+      logger.info(`[server]: Server started on port ${PORT}`)
       app.emit("serverStarted")
     })
   }

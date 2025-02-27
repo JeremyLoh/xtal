@@ -2,6 +2,7 @@ import ky from "ky"
 import sharp from "sharp"
 import { nanoid } from "nanoid"
 import StorageClient from "../api/storage/storageClient.js"
+import logger from "../logger.js"
 
 export async function getImage(
   url: string,
@@ -16,7 +17,7 @@ export async function getImage(
       width,
       height
     )
-    console.log(`getImage(): file already exists ${fileName}`)
+    logger.info(`getImage(): file already exists ${fileName}`)
     const existingImageBuffer = await downloadImageFromUrl(filePublicUrl)
     return existingImageBuffer
   } else {

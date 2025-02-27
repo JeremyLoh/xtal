@@ -1,6 +1,7 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js"
 import dayjs from "dayjs"
 import { Database } from "./supabase.js"
+import logger from "../../logger.js"
 
 // Create singleton for the supabase client
 let instance: StorageClient
@@ -75,7 +76,7 @@ class StorageClient {
         try {
           await this.deleteImageStorage([filePath])
         } catch (error: any) {
-          console.error(
+          logger.error(
             `uploadFileAndUpdateDatabase(): could not delete upload file. image url ${url}, storage file path: ${filePath}`
           )
         }
@@ -85,7 +86,7 @@ class StorageClient {
         try {
           await this.deleteImageDatabaseRows([key])
         } catch (error: any) {
-          console.error(
+          logger.error(
             `uploadFileAndUpdateDatabase(): Delete row ${key} error: ${error.message}`
           )
         }
@@ -96,7 +97,7 @@ class StorageClient {
         const p = promises[i]
         // if any promise has "status": "rejected", we need to perform a delete for those that were fulfilled
         if (p.status === "fulfilled") {
-          console.error(
+          logger.error(
             `uploadFileAndUpdateDatabase(): attempt to delete for index ${i}. image url: ${url}, width: ${width}, height: ${height}`
           )
           await deleteOperationsBasedOnPromises[i]()
@@ -147,7 +148,7 @@ class StorageClient {
     }
     const deleteDataSize = data.length
     if (data && deleteDataSize === 0) {
-      console.log("deleteStorageFilesBefore(): zero entries found")
+      logger.info("deleteStorageFilesBefore(): zero entries found")
       return
     }
     const chunkSize = 50
@@ -168,7 +169,7 @@ class StorageClient {
       try {
         await this.deleteImageStorage(filePaths)
       } catch (error: any) {
-        console.error(
+        logger.error(
           `deleteStorageFilesBefore(): Failed to delete image files. Start Index: ${start}, End Index: ${end} Error: ${
             error.message
           }. Image file Paths: ${JSON.stringify(filePaths)}`
@@ -178,7 +179,7 @@ class StorageClient {
       try {
         await this.deleteImageDatabaseRows(imageKeys)
       } catch (error: any) {
-        console.error(
+        logger.error(
           `deleteStorageFilesBefore(): Failed to delete image database rows. Start Index: ${start}, End Index: ${end} Error: ${
             error.message
           }. Database rows: ${JSON.stringify(imageKeys)}`
