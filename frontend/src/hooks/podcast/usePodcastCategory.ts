@@ -1,12 +1,24 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
 import { PodcastCategory } from "../../api/podcast/model/podcast.ts"
 import { getAllPodcastCategories } from "../../api/podcast/podcastCategory.ts"
+import useCache from "../useCache.ts"
+
+type CacheCategory = {
+  categories: PodcastCategory[]
+}
 
 function usePodcastCategory() {
+  const cacheKey = useMemo(() => `usePodcastCategory`, [])
+  const { setCacheItem: setCategoryCache, getCacheItem: getCategoryCache } =
+    useCache<CacheCategory>(cacheKey, 30)
+  const categoryCache = getCategoryCache()
+
   const abortController = useRef<AbortController | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
-  const [categories, setCategories] = useState<PodcastCategory[] | null>(null)
+  const [categories, setCategories] = useState<PodcastCategory[] | null>(
+    categoryCache ? categoryCache.value.categories : null
+  )
 
   const handleCategoryRefresh = useCallback(async () => {
     setLoading(true)
@@ -17,7 +29,6 @@ function usePodcastCategory() {
       if (categories) {
         setCategories(categories)
       } else {
-        setCategories(null)
         setLoading(false) // prevent infinite load on no data
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,14 +43,19 @@ function usePodcastCategory() {
     // prevents display of "no categories available" element due to categories = null, and loading = false
     if (categories) {
       setLoading(false)
+      setCategoryCache({ categories })
     }
-  }, [categories])
+  }, [categories, setCategoryCache])
 
-  return {
-    loading,
-    categories,
-    onRefresh: handleCategoryRefresh,
-  }
+  const output = useMemo(() => {
+    return {
+      loading,
+      categories,
+      onRefresh: handleCategoryRefresh,
+    }
+  }, [loading, categories, handleCategoryRefresh])
+
+  return output
 }
 
 export default usePodcastCategory

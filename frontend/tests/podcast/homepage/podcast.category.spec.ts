@@ -12,6 +12,20 @@ test.describe("Podcast Homepage /podcasts", () => {
       })
     }
 
+    async function assertPodcastCategoriesInSlider(
+      page: Page,
+      podcastCategories: typeof allPodcastCategories
+    ) {
+      for (const category of podcastCategories.data) {
+        await expect(
+          page
+            .locator(".podcast-category-slider")
+            .getByText(category.name, { exact: true }),
+          `Podcast category "${category.name}" should be visible`
+        ).toBeVisible()
+      }
+    }
+
     test("should display podcast categories in slider", async ({ page }) => {
       await page.route("*/**/api/podcast/category", async (route) => {
         const json = allPodcastCategories
@@ -23,14 +37,7 @@ test.describe("Podcast Homepage /podcasts", () => {
       await expect(
         page.locator(".podcast-category-container .podcast-category-title")
       ).toBeVisible()
-      for (const category of allPodcastCategories.data) {
-        await expect(
-          page
-            .locator(".podcast-category-slider")
-            .getByText(category.name, { exact: true }),
-          `Podcast category "${category.name}" should be visible`
-        ).toBeVisible()
-      }
+      await assertPodcastCategoriesInSlider(page, allPodcastCategories)
     })
 
     test("should display error message and refresh category button when podcast categories cannot be fetched", async ({
@@ -68,14 +75,7 @@ test.describe("Podcast Homepage /podcasts", () => {
 
       shouldFetchData = true
       await getRefreshPodcastCategoryButton(page).click()
-      for (const category of allPodcastCategories.data) {
-        await expect(
-          page
-            .locator(".podcast-category-slider")
-            .getByText(category.name, { exact: true }),
-          `Podcast category "${category.name}" should be visible`
-        ).toBeVisible()
-      }
+      await assertPodcastCategoriesInSlider(page, allPodcastCategories)
     })
 
     test.describe("Select podcast category button", () => {
@@ -94,6 +94,25 @@ test.describe("Podcast Homepage /podcasts", () => {
         await expect(page).toHaveTitle(
           new RegExp(`xtal - ${expectedCategoryName.toLowerCase()} podcasts`)
         )
+      })
+    })
+
+    test.describe("podcast category cache data", () => {
+      test("should return cache of categories on page refresh after successful first fetch", async ({
+        page,
+      }) => {
+        let shouldFetchData = true
+        await page.route("*/**/api/podcast/category", async (route) => {
+          const json = shouldFetchData ? allPodcastCategories : []
+          await route.fulfill({ json })
+        })
+        await page.goto(HOMEPAGE + "/podcasts")
+        await expect(page).toHaveTitle(/xtal - podcasts/)
+        await assertPodcastCategoriesInSlider(page, allPodcastCategories)
+
+        shouldFetchData = false
+        await page.reload()
+        await assertPodcastCategoriesInSlider(page, allPodcastCategories)
       })
     })
   })
