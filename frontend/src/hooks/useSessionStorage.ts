@@ -1,26 +1,25 @@
 import { useCallback, useMemo } from "react"
 
-function useLocalStorage(key: string) {
+function useSessionStorage(key: string) {
   const getItem = useCallback(() => {
     try {
-      const savedValue = localStorage.getItem(key)
+      const savedValue = sessionStorage.getItem(key)
       if (savedValue) {
         return JSON.parse(savedValue)
       } else {
         return null
       }
     } catch (error) {
-      console.error("useLocalStorage getItem error: ", error)
-      return null
+      console.error("useSessionStorage getItem error: ", error)
     }
   }, [key])
 
   const setItem = useCallback(
     (value: unknown) => {
       try {
-        localStorage.setItem(key, JSON.stringify(value))
+        sessionStorage.setItem(key, JSON.stringify(value))
       } catch (error) {
-        console.error("useLocalStorage setItem error: ", error)
+        console.error("useSessionStorage setItem error: ", error)
       }
     },
     [key]
@@ -28,17 +27,17 @@ function useLocalStorage(key: string) {
 
   const removeItem = useCallback(() => {
     try {
-      localStorage.removeItem(key)
+      sessionStorage.removeItem(key)
     } catch (error) {
-      console.error("useLocalStorage removeItem error: ", error)
+      console.error("useSessionStorage removeItem error: ", error)
     }
   }, [key])
 
-  const localStorageFunctions = useMemo(() => {
+  const sessionStorageFunctions = useMemo(() => {
     return { getItem, setItem, removeItem }
   }, [getItem, setItem, removeItem])
 
-  return localStorageFunctions
+  return sessionStorageFunctions
 }
 
-export default useLocalStorage
+export default useSessionStorage

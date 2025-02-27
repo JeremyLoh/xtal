@@ -9,11 +9,11 @@ import Player, { PlayerReadyCallback } from "video.js/dist/types/player"
 type RadioPlayerProps = {
   options: typeof videojs.options
   onReady: PlayerReadyCallback
-  handleError: (error: string) => void
+  onError: (error: string) => void
 }
 
 function RadioPlayer(props: RadioPlayerProps) {
-  const { options, onReady, handleError } = props
+  const { options, onReady, onError } = props
   const videoRef = useRef<HTMLDivElement | null>(null)
   const playerRef = useRef<Player | null>(null)
   useEffect(() => {
@@ -33,11 +33,11 @@ function RadioPlayer(props: RadioPlayerProps) {
         // https://stackoverflow.com/questions/30887908/how-to-write-error-message-object-of-videojs-on-server
         const errorMessage = playerRef.current?.error()?.message
         if (errorMessage) {
-          handleError(errorMessage)
+          onError(errorMessage)
         }
       })
     }
-  }, [options, onReady, handleError])
+  }, [options, onReady, onError])
   // dispose Video.js player when component unmounts
   useEffect(() => {
     const player = playerRef.current

@@ -53,8 +53,8 @@ export default function HomeLayout() {
   return (
     <>
       <RadioSelect
-        handleRandomSelect={displayRandomStation}
-        handleCountryChange={handleCountryChange}
+        onRandomSelect={displayRandomStation}
+        onCountryChange={handleCountryChange}
         isLoading={isLoading}
       />
       <Outlet />

@@ -7,7 +7,7 @@ import {
 import Slider from "../../../../components/Slider/Slider.tsx"
 
 type CountrySelectProps = {
-  handleCountrySelect: (country: CountryStation) => void
+  onCountrySelect: (country: CountryStation) => void
 }
 
 function CountrySelect(props: CountrySelectProps) {
@@ -25,7 +25,7 @@ function CountrySelect(props: CountrySelectProps) {
             }`}
             onClick={() => {
               setSelectedCountry(country.name)
-              props.handleCountrySelect(country)
+              props.onCountrySelect(country)
             }}
           >
             {country.name}

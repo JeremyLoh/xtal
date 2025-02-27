@@ -6,14 +6,14 @@ import useClipboard from "../../../hooks/useClipboard.ts"
 
 type FavouriteStationCardProps = {
   station: Station
-  handleRemoveFavouriteStation: (station: Station) => void
-  handleLoadStation: (station: Station) => void
+  onRemoveFavouriteStation: (station: Station) => void
+  onLoadStation: (station: Station) => void
 }
 
 function FavouriteStationCard({
   station,
-  handleRemoveFavouriteStation,
-  handleLoadStation,
+  onRemoveFavouriteStation,
+  onLoadStation,
 }: FavouriteStationCardProps) {
   const { copyRadioStationShareUrl } = useClipboard()
 
@@ -31,7 +31,7 @@ function FavouriteStationCard({
           <button
             className="remove-favourite-station-button"
             title="Remove from favourites"
-            onClick={() => handleRemoveFavouriteStation(station)}
+            onClick={() => onRemoveFavouriteStation(station)}
           >
             <StationCard.FavouriteIconFilled />
           </button>
@@ -45,7 +45,7 @@ function FavouriteStationCard({
           <button
             className="favourite-station-load-button"
             title="Load Station"
-            onClick={() => handleLoadStation(station)}
+            onClick={() => onLoadStation(station)}
           >
             <FaMapLocationDot size={20} />
           </button>
