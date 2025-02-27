@@ -10,7 +10,7 @@ function useLocalStorage(key: string) {
         return null
       }
     } catch (error) {
-      console.error("useLocalStorage getItem: ", error)
+      console.error("useLocalStorage getItem error: ", error)
       return null
     }
   }, [key])
@@ -20,7 +20,7 @@ function useLocalStorage(key: string) {
       try {
         localStorage.setItem(key, JSON.stringify(value))
       } catch (error) {
-        console.error("useLocalStorage setItem: ", error)
+        console.error("useLocalStorage setItem error: ", error)
       }
     },
     [key]
@@ -30,15 +30,15 @@ function useLocalStorage(key: string) {
     try {
       localStorage.removeItem(key)
     } catch (error) {
-      console.error("useLocalStorage removeItem: ", error)
+      console.error("useLocalStorage removeItem error: ", error)
     }
   }, [key])
 
-  const output = useMemo(() => {
+  const localStorageFunctions = useMemo(() => {
     return { getItem, setItem, removeItem }
   }, [getItem, setItem, removeItem])
 
-  return output
+  return localStorageFunctions
 }
 
 export default useLocalStorage
