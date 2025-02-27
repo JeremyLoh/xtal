@@ -6,7 +6,7 @@ import useCache from "../useCache.ts"
 
 const LIMIT = 10
 
-type CachePodcastType = {
+type CachePodcast = {
   podcast: Podcast | null
   episodes: PodcastEpisode[] | null
 }
@@ -22,7 +22,7 @@ function usePodcastEpisodes(podcastId: string | undefined) {
   )
 
   const { setCacheItem: setPodcastCache, getCacheItem: getPodcastCache } =
-    useCache<CachePodcastType>(cacheKey)
+    useCache<CachePodcast>(cacheKey, 5)
   const podcastCache = getPodcastCache()
 
   const abortController = useRef<AbortController | null>(null)

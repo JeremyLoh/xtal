@@ -1,16 +1,14 @@
 import { useCallback, useMemo } from "react"
 import dayjs from "dayjs"
-import useLocalStorage from "./useLocalStorage.ts"
-
-const STALE_TIME_MINUTES = 5
+import useSessionStorage from "./useSessionStorage.ts"
 
 type CacheType<V> = {
   lastFetchedEpochMs: number
   value: V
 }
 
-function useCache<V>(key: string) {
-  const { getItem, setItem, removeItem } = useLocalStorage(key)
+function useCache<V>(key: string, cacheStaleTimeInMinutes: number) {
+  const { getItem, setItem, removeItem } = useSessionStorage(key)
   const setCacheItem = useCallback(
     (value: V) => {
       setItem({ lastFetchedEpochMs: dayjs().unix(), value })
@@ -25,8 +23,16 @@ function useCache<V>(key: string) {
     }
     const currentTimestamp = dayjs()
     const cachedTimestamp = dayjs.unix(cachedData.lastFetchedEpochMs)
-    const expiredTimestamp = cachedTimestamp.add(STALE_TIME_MINUTES, "minute")
+    const expiredTimestamp = cachedTimestamp.add(
+      cacheStaleTimeInMinutes,
+      "minute"
+    )
+    console.log({
+      before: currentTimestamp.isBefore(expiredTimestamp),
+      after: currentTimestamp.isAfter(expiredTimestamp),
+    })
     if (cachedData && currentTimestamp.isBefore(expiredTimestamp)) {
+      console.log(JSON.stringify(cachedData, null, 2))
       return cachedData
     } else if (cachedData && currentTimestamp.isAfter(expiredTimestamp)) {
       removeItem()
@@ -34,7 +40,7 @@ function useCache<V>(key: string) {
     } else {
       return null
     }
-  }, [getItem, removeItem])
+  }, [getItem, removeItem, cacheStaleTimeInMinutes])
 
   const cacheFunctions = useMemo(() => {
     return { setCacheItem, getCacheItem }
