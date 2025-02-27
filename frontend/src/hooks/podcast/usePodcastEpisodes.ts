@@ -22,7 +22,7 @@ function usePodcastEpisodes(podcastId: string | undefined) {
   )
 
   const { setCacheItem: setPodcastCache, getCacheItem: getPodcastCache } =
-    useCache<CachePodcast>(cacheKey, 5)
+    useCache<CachePodcast>(cacheKey, 10)
   const podcastCache = getPodcastCache()
 
   const abortController = useRef<AbortController | null>(null)
