@@ -9,6 +9,7 @@ type PaginationProps = {
   totalPages: number
   onPreviousPageClick: (currentPage: number) => void
   onNextPageClick: (currentPage: number) => void
+  onPageClick: (pageNumber: number) => void
 }
 
 function Pagination({
@@ -17,6 +18,7 @@ function Pagination({
   totalPages,
   onPreviousPageClick,
   onNextPageClick,
+  onPageClick,
 }: PaginationProps) {
   const { isMobile } = useScreenDimensions()
 
@@ -27,6 +29,16 @@ function Pagination({
   const handleNextClick = useCallback(() => {
     onNextPageClick(currentPage)
   }, [currentPage, onNextPageClick])
+
+  const handlePageClick = useCallback(
+    (pageNumber: number) => {
+      if (pageNumber === currentPage) {
+        return
+      }
+      onPageClick(pageNumber)
+    },
+    [currentPage, onPageClick]
+  )
 
   const pages = useMemo(() => {
     return isMobile
@@ -63,9 +75,11 @@ function Pagination({
           }
           return (
             <li
+              key={`pagination-page-${pageNumber}`}
               className={`pagination-item ${
                 pageNumber === currentPage ? "active" : ""
               }`}
+              onClick={() => handlePageClick(pageNumber)}
             >
               {pageNumber}
             </li>

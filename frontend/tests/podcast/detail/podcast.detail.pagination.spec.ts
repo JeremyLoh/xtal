@@ -218,6 +218,68 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
         }
       })
 
+      test("should navigate to clicked pagination page", async ({ page }) => {
+        // NOTE: there must be at least 50 episodes for the mocked podcast data
+        const podcastTitle = encodeURIComponent("Infinite Loops")
+        const podcastId = "259760"
+        const limit = 10
+        const pageNumber = 1
+        await page.route(
+          `*/**/api/podcast/episodes?id=${podcastId}**`,
+          async (route) => {
+            const requestUrl = route.request().url()
+            const isFirstPageRequest =
+              !requestUrl.includes(`offset=`) &&
+              requestUrl.includes(`limit=${limit}`)
+            const isThirdPageRequest =
+              requestUrl.includes(`offset=20`) &&
+              requestUrl.includes(`limit=${limit}`)
+
+            if (isThirdPageRequest) {
+              // use offset ten episodes as the third page data
+              const json = podcastId_259760_OffsetTenEpisodes
+              await route.fulfill({ json })
+            } else if (isFirstPageRequest) {
+              // ensure backend api call does not have offset parameter
+              const json = podcastId_259760_FirstTenEpisodes
+              await route.fulfill({ json })
+            } else {
+              const json = []
+              await route.fulfill({ json })
+            }
+          }
+        )
+        await page.goto(
+          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
+        )
+        await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
+        await assertPodcastInfo(
+          page,
+          podcastId_259760_FirstTenEpisodes.data.podcast
+        )
+        await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
+        await expect(getPageNumberElement(page, "-1")).not.toBeVisible()
+        await expect(getPageNumberElement(page, "0")).not.toBeVisible()
+        await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+        await expect(getActivePageNumberElement(page, "2")).toBeVisible()
+        await expect(getActivePageNumberElement(page, "3")).toBeVisible()
+        await expect(getActivePageNumberElement(page, "4")).toBeVisible()
+        expect(page.url(), "should match url param of page=1").toMatch(
+          /page=1$/
+        )
+
+        await getActivePageNumberElement(page, "3").click()
+
+        await assertPodcastInfo(
+          page,
+          podcastId_259760_OffsetTenEpisodes.data.podcast
+        )
+        await assertPodcastEpisodes(page, podcastId_259760_OffsetTenEpisodes)
+        expect(page.url(), "should match url param of page=3").toMatch(
+          /page=3$/
+        )
+      })
+
       test("should display pages 1, 2, 3, 4 on first page (?page=1)", async ({
         page,
       }) => {
