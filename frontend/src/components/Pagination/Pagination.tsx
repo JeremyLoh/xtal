@@ -1,6 +1,7 @@
 import "./Pagination.css"
-import { memo, useCallback } from "react"
+import { memo, useCallback, useMemo } from "react"
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6"
+import useScreenDimensions from "../../hooks/useScreenDimensions.ts"
 
 type PaginationProps = {
   className?: string
@@ -17,6 +18,8 @@ function Pagination({
   onPreviousPageClick,
   onNextPageClick,
 }: PaginationProps) {
+  const { isMobile } = useScreenDimensions()
+
   const handlePreviousClick = useCallback(() => {
     onPreviousPageClick(currentPage)
   }, [currentPage, onPreviousPageClick])
@@ -24,6 +27,20 @@ function Pagination({
   const handleNextClick = useCallback(() => {
     onNextPageClick(currentPage)
   }, [currentPage, onNextPageClick])
+
+  const pages = useMemo(() => {
+    return isMobile
+      ? [currentPage]
+      : [
+          currentPage - 3,
+          currentPage - 2,
+          currentPage - 1,
+          currentPage,
+          currentPage + 1,
+          currentPage + 2,
+          currentPage + 3,
+        ]
+  }, [currentPage, isMobile])
 
   return (
     <nav
@@ -40,7 +57,20 @@ function Pagination({
         <span>Previous</span>
       </button>
       <ul className="pagination-content">
-        <li className="pagination-item active">{currentPage}</li>
+        {pages.map((pageNumber: number) => {
+          if (pageNumber > totalPages || pageNumber <= 0) {
+            return null
+          }
+          return (
+            <li
+              className={`pagination-item ${
+                pageNumber === currentPage ? "active" : ""
+              }`}
+            >
+              {pageNumber}
+            </li>
+          )
+        })}
       </ul>
       <button
         className="pagination-next-button"

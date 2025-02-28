@@ -25,6 +25,11 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       .locator(".podcast-episode-pagination")
       .getByText(activePageNumber)
   }
+  function getPageNumberElement(page: Page, expectedPageNumber: string) {
+    return page
+      .locator(".podcast-episode-pagination")
+      .getByText(expectedPageNumber)
+  }
 
   test.describe("Pagination using url parameter '?page=PAGE-NUMBER'", () => {
     test("should display latest ten podcasts for first page", async ({
@@ -152,6 +157,237 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       await expect(getNextPaginationButton(page)).not.toBeDisabled()
       await expect(getPreviousPaginationButton(page)).toBeVisible()
       await expect(getPreviousPaginationButton(page)).not.toBeDisabled()
+    })
+  })
+
+  test.describe("Pagination Pages (display 3 surrounding pages)", () => {
+    test.describe("mobile view", () => {
+      test.beforeEach(({ isMobile }) => {
+        if (!isMobile) {
+          test.skip(!isMobile)
+        }
+      })
+
+      test("should display only current page for mobile view", async ({
+        page,
+      }) => {
+        // NOTE: there must be at least 50 episodes for the mocked podcast data
+        const podcastTitle = encodeURIComponent("Infinite Loops")
+        const podcastId = "259760"
+        const limit = 10
+        const pageNumber = 1
+        await page.route(
+          `*/**/api/podcast/episodes?id=${podcastId}**`,
+          async (route) => {
+            const requestUrl = route.request().url()
+            if (
+              !requestUrl.includes(`offset=`) &&
+              requestUrl.includes(`limit=${limit}`)
+            ) {
+              // ensure backend api call does not have offset parameter
+              const json = podcastId_259760_FirstTenEpisodes
+              await route.fulfill({ json })
+            } else {
+              const json = []
+              await route.fulfill({ json })
+            }
+          }
+        )
+        await page.goto(
+          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
+        )
+        await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
+        await assertPodcastInfo(
+          page,
+          podcastId_259760_FirstTenEpisodes.data.podcast
+        )
+        await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
+        await expect(getPageNumberElement(page, "-1")).not.toBeVisible()
+        await expect(getPageNumberElement(page, "0")).not.toBeVisible()
+        await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+        await expect(getPageNumberElement(page, "2")).not.toBeVisible()
+        await expect(getPageNumberElement(page, "3")).not.toBeVisible()
+        await expect(getPageNumberElement(page, "4")).not.toBeVisible()
+      })
+    })
+
+    test.describe("desktop view", () => {
+      test.beforeEach(({ isMobile }) => {
+        if (isMobile) {
+          test.skip(isMobile)
+        }
+      })
+
+      test("should display pages 1, 2, 3, 4 on first page (?page=1)", async ({
+        page,
+      }) => {
+        // NOTE: there must be at least 50 episodes for the mocked podcast data
+        const podcastTitle = encodeURIComponent("Infinite Loops")
+        const podcastId = "259760"
+        const limit = 10
+        const pageNumber = 1
+        await page.route(
+          `*/**/api/podcast/episodes?id=${podcastId}**`,
+          async (route) => {
+            const requestUrl = route.request().url()
+            if (
+              !requestUrl.includes(`offset=`) &&
+              requestUrl.includes(`limit=${limit}`)
+            ) {
+              // ensure backend api call does not have offset parameter
+              const json = podcastId_259760_FirstTenEpisodes
+              await route.fulfill({ json })
+            } else {
+              const json = []
+              await route.fulfill({ json })
+            }
+          }
+        )
+        await page.goto(
+          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
+        )
+        await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
+        await assertPodcastInfo(
+          page,
+          podcastId_259760_FirstTenEpisodes.data.podcast
+        )
+        await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
+        await expect(getPageNumberElement(page, "-1")).not.toBeVisible()
+        await expect(getPageNumberElement(page, "0")).not.toBeVisible()
+        await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+        await expect(getPageNumberElement(page, "2")).toBeVisible()
+        await expect(getPageNumberElement(page, "3")).toBeVisible()
+        await expect(getPageNumberElement(page, "4")).toBeVisible()
+      })
+
+      test("should display pages 1, 2, 3, 4, 5 on first page (?page=2)", async ({
+        page,
+      }) => {
+        // NOTE: there must be at least 60 episodes for the mocked podcast data
+        const podcastTitle = encodeURIComponent("Infinite Loops")
+        const podcastId = "259760"
+        const limit = 10
+        const pageNumber = 2
+        await page.route(
+          `*/**/api/podcast/episodes?id=${podcastId}**`,
+          async (route) => {
+            const requestUrl = route.request().url()
+            if (
+              requestUrl.includes(`offset=10`) &&
+              requestUrl.includes(`limit=${limit}`)
+            ) {
+              const json = podcastId_259760_FirstTenEpisodes
+              await route.fulfill({ json })
+            } else {
+              const json = []
+              await route.fulfill({ json })
+            }
+          }
+        )
+        await page.goto(
+          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
+        )
+        await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
+        await assertPodcastInfo(
+          page,
+          podcastId_259760_FirstTenEpisodes.data.podcast
+        )
+        await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
+        await expect(getPageNumberElement(page, "-1")).not.toBeVisible()
+        await expect(getPageNumberElement(page, "0")).not.toBeVisible()
+        await expect(getPageNumberElement(page, "1")).toBeVisible()
+        await expect(getActivePageNumberElement(page, "2")).toBeVisible()
+        await expect(getPageNumberElement(page, "3")).toBeVisible()
+        await expect(getPageNumberElement(page, "4")).toBeVisible()
+        await expect(getPageNumberElement(page, "5")).toBeVisible()
+      })
+
+      test("should display pages 1, 2, 3, 4, 5, 6 on first page (?page=3)", async ({
+        page,
+      }) => {
+        // NOTE: there must be at least 70 episodes for the mocked podcast data
+        const podcastTitle = encodeURIComponent("Infinite Loops")
+        const podcastId = "259760"
+        const limit = 10
+        const pageNumber = 3
+        await page.route(
+          `*/**/api/podcast/episodes?id=${podcastId}**`,
+          async (route) => {
+            const requestUrl = route.request().url()
+            if (
+              requestUrl.includes(`offset=20`) &&
+              requestUrl.includes(`limit=${limit}`)
+            ) {
+              const json = podcastId_259760_FirstTenEpisodes
+              await route.fulfill({ json })
+            } else {
+              const json = []
+              await route.fulfill({ json })
+            }
+          }
+        )
+        await page.goto(
+          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
+        )
+        await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
+        await assertPodcastInfo(
+          page,
+          podcastId_259760_FirstTenEpisodes.data.podcast
+        )
+        await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
+        await expect(getPageNumberElement(page, "-1")).not.toBeVisible()
+        await expect(getPageNumberElement(page, "0")).not.toBeVisible()
+        await expect(getPageNumberElement(page, "1")).toBeVisible()
+        await expect(getPageNumberElement(page, "2")).toBeVisible()
+        await expect(getActivePageNumberElement(page, "3")).toBeVisible()
+        await expect(getPageNumberElement(page, "4")).toBeVisible()
+        await expect(getPageNumberElement(page, "5")).toBeVisible()
+        await expect(getPageNumberElement(page, "6")).toBeVisible()
+      })
+
+      test("should display pages 1, 2, 3, 4, 5, 6, 7 on first page (?page=4)", async ({
+        page,
+      }) => {
+        // NOTE: there must be at least 70 episodes for the mocked podcast data
+        const podcastTitle = encodeURIComponent("Infinite Loops")
+        const podcastId = "259760"
+        const limit = 10
+        const pageNumber = 4
+        await page.route(
+          `*/**/api/podcast/episodes?id=${podcastId}**`,
+          async (route) => {
+            const requestUrl = route.request().url()
+            if (
+              requestUrl.includes(`offset=30`) &&
+              requestUrl.includes(`limit=${limit}`)
+            ) {
+              const json = podcastId_259760_FirstTenEpisodes
+              await route.fulfill({ json })
+            } else {
+              const json = []
+              await route.fulfill({ json })
+            }
+          }
+        )
+        await page.goto(
+          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
+        )
+        await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
+        await assertPodcastInfo(
+          page,
+          podcastId_259760_FirstTenEpisodes.data.podcast
+        )
+        await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
+        await expect(getPageNumberElement(page, "-1")).not.toBeVisible()
+        await expect(getPageNumberElement(page, "0")).not.toBeVisible()
+        await expect(getPageNumberElement(page, "1")).toBeVisible()
+        await expect(getPageNumberElement(page, "2")).toBeVisible()
+        await expect(getPageNumberElement(page, "3")).toBeVisible()
+        await expect(getActivePageNumberElement(page, "4")).toBeVisible()
+        await expect(getPageNumberElement(page, "5")).toBeVisible()
+        await expect(getPageNumberElement(page, "6")).toBeVisible()
+        await expect(getPageNumberElement(page, "7")).toBeVisible()
+      })
     })
   })
 

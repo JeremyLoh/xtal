@@ -30,6 +30,7 @@
   border-radius: 8px;
   color: var(--text-color);
   border: 2px solid transparent; /* have same size as active pagination item */
+  font-size: clamp(0.8rem, 0.8rem + 1vw, 1.1rem);
 }
 
 .pagination-previous-button,
