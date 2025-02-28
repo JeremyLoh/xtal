@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 type ScreenSize = {
   width: number
@@ -26,9 +26,13 @@ export default function useScreenDimensions() {
     }
   }, [])
 
-  return {
-    width: screenSize.width,
-    height: screenSize.height,
-    isMobile: screenSize.width <= 576,
-  }
+  const output = useMemo(() => {
+    return {
+      width: screenSize.width,
+      height: screenSize.height,
+      isMobile: screenSize.width <= 576,
+    }
+  }, [screenSize.width, screenSize.height])
+
+  return output
 }
