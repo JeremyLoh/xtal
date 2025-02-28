@@ -7,6 +7,9 @@
 }
 
 .pagination-content {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.2rem;
   list-style: none;
 }
 
@@ -15,8 +18,11 @@
   font-weight: bold;
   padding: 0.5rem 1rem;
   border-radius: 8px;
-  border: 2px solid #e5e5e5;
   color: var(--text-color);
+  border: 2px solid transparent; /* have same size as active pagination item */
+}
+.pagination-item.active {
+  border: 2px solid #e5e5e5;
 }
 .pagination-item:hover {
   cursor: pointer;

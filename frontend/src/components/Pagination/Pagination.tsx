@@ -13,7 +13,7 @@ function Pagination(props: PaginationProps) {
       aria-label="pagination"
     >
       <ul className="pagination-content">
-        <li className="pagination-item">{props.currentPage}</li>
+        <li className="pagination-item active">{props.currentPage}</li>
       </ul>
     </nav>
   )
