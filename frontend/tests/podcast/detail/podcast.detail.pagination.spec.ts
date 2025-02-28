@@ -106,6 +106,53 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       await expect(getPreviousPaginationButton(page)).not.toBeDisabled()
       await expect(getNextPaginationButton(page)).toBeVisible()
     })
+
+    test("should not have disabled pagination buttons on second last page", async ({
+      page,
+    }) => {
+      const podcastTitle = encodeURIComponent("Infinite Loops")
+      const podcastId = "259760"
+      const limit = 10
+      const expectedTotalEpisodes =
+        podcastId_259760_FirstTenEpisodes.data.podcast.episodeCount
+      const expectedTotalPages = Math.ceil(expectedTotalEpisodes / limit)
+      const pageNumber = expectedTotalPages - 1
+      await page.route(
+        `*/**/api/podcast/episodes?id=${podcastId}**`,
+        async (route) => {
+          const requestUrl = route.request().url()
+          const isSecondLastPageRequest =
+            requestUrl.includes(
+              `offset=${expectedTotalEpisodes - limit - limit}`
+            ) && requestUrl.includes(`limit=${limit}`)
+
+          if (isSecondLastPageRequest) {
+            // treat the second last page request as the first ten episode data
+            const json = podcastId_259760_FirstTenEpisodes
+            await route.fulfill({ json })
+          } else {
+            const json = []
+            await route.fulfill({ json })
+          }
+        }
+      )
+      await page.goto(
+        HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
+      )
+      await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
+      await assertPodcastInfo(
+        page,
+        podcastId_259760_FirstTenEpisodes.data.podcast
+      )
+      await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
+      await expect(
+        getActivePageNumberElement(page, `${pageNumber}`)
+      ).toBeVisible()
+      await expect(getNextPaginationButton(page)).toBeVisible()
+      await expect(getNextPaginationButton(page)).not.toBeDisabled()
+      await expect(getPreviousPaginationButton(page)).toBeVisible()
+      await expect(getPreviousPaginationButton(page)).not.toBeDisabled()
+    })
   })
 
   test.describe("Previous Pagination Button", () => {
@@ -209,6 +256,8 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       ).toBeVisible()
       await expect(getNextPaginationButton(page)).toBeVisible()
       await expect(getNextPaginationButton(page)).toBeDisabled()
+
+      await expect(getPreviousPaginationButton(page)).toBeVisible()
       await expect(getPreviousPaginationButton(page)).not.toBeDisabled()
     })
 
