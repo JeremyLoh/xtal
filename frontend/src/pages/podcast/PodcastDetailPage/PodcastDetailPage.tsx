@@ -1,5 +1,5 @@
 import "./PodcastDetailPage.css"
-import { useContext, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
 import { Link, useParams, useSearchParams } from "react-router"
 import { IoArrowBackSharp, IoReload } from "react-icons/io5"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
@@ -14,9 +14,9 @@ const LIMIT = 10
 
 export default function PodcastDetailPage() {
   const { podcastId, podcastTitle } = useParams()
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const pageParam = searchParams.get("page")
-  const [page] = useState<number>(parseToPageInt(pageParam))
+  const [page, setPage] = useState<number>(parseToPageInt(pageParam))
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const { loading, podcast, podcastEpisodes, fetchPodcastEpisodes } =
     usePodcastEpisodes({ podcastId, page, limit: LIMIT })
@@ -26,6 +26,19 @@ export default function PodcastDetailPage() {
       await fetchPodcastEpisodes(podcastId)
     }
   }
+
+  const handlePreviousPageClick = useCallback(
+    (currentPage: number) => {
+      setSearchParams((previous) => {
+        return {
+          ...previous,
+          page: currentPage - 1,
+        }
+      })
+      setPage(currentPage - 1)
+    },
+    [setSearchParams]
+  )
 
   useEffect(() => {
     if (podcastTitle) {
@@ -70,7 +83,11 @@ export default function PodcastDetailPage() {
         </div>
 
         <h2 className="podcast-episode-section-title">Episodes</h2>
-        <Pagination className="podcast-episode-pagination" currentPage={page} />
+        <Pagination
+          className="podcast-episode-pagination"
+          currentPage={page}
+          onPreviousPageClick={handlePreviousPageClick}
+        />
         <div className="podcast-episode-container">
           {podcastEpisodes ? (
             podcastEpisodes.map((episode) => {

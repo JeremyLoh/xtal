@@ -1,4 +1,4 @@
-import test, { expect } from "@playwright/test"
+import test, { expect, Page } from "@playwright/test"
 import { HOMEPAGE } from "../../constants/homepageConstants.ts"
 import {
   podcastId_259760_FirstTenEpisodes,
@@ -10,6 +10,22 @@ import {
 } from "../../constants/podcast/detail/podcastDetailConstants.ts"
 
 test.describe("Pagination of Podcast Detail Page for individual podcast /podcasts/PODCAST-TITLE/PODCAST-ID", () => {
+  function getPreviousPaginationButton(page: Page) {
+    return page
+      .locator(".podcast-episode-pagination")
+      .getByRole("button", { name: "Previous" })
+  }
+  function getNextPaginationButton(page: Page) {
+    return page
+      .locator(".podcast-episode-pagination")
+      .getByRole("button", { name: "Next" })
+  }
+  function getActivePageNumberElement(page: Page, activePageNumber: string) {
+    return page
+      .locator(".podcast-episode-pagination")
+      .getByText(activePageNumber)
+  }
+
   test.describe("Pagination using url parameter '?page=PAGE-NUMBER'", () => {
     test("should display latest ten podcasts for first page", async ({
       page,
@@ -45,9 +61,10 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       )
       await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
       await expect(page.locator(".podcast-episode-pagination")).toBeVisible()
-      await expect(
-        page.locator(".podcast-episode-pagination").getByText("1")
-      ).toBeVisible()
+      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      await expect(getPreviousPaginationButton(page)).toBeVisible()
+      await expect(getPreviousPaginationButton(page)).toBeDisabled()
+      await expect(getNextPaginationButton(page)).toBeVisible()
     })
 
     test("should display second page of podcast episodes when url param ?page=2 is given", async ({
@@ -84,9 +101,65 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       )
       await assertPodcastEpisodes(page, podcastId_259760_OffsetTenEpisodes)
       await expect(page.locator(".podcast-episode-pagination")).toBeVisible()
-      await expect(
-        page.locator(".podcast-episode-pagination").getByText("2")
-      ).toBeVisible()
+      await expect(getActivePageNumberElement(page, "2")).toBeVisible()
+      await expect(getPreviousPaginationButton(page)).toBeVisible()
+      await expect(getPreviousPaginationButton(page)).not.toBeDisabled()
+      await expect(getNextPaginationButton(page)).toBeVisible()
+    })
+  })
+
+  test.describe("Previous Pagination Button", () => {
+    test("should navigate to first page when previous pagination button is clicked from second page", async ({
+      page,
+    }) => {
+      const podcastTitle = encodeURIComponent("Infinite Loops")
+      const podcastId = "259760"
+      const limit = 10
+      const pageNumber = 2
+      await page.route(
+        `*/**/api/podcast/episodes?id=${podcastId}**`,
+        async (route) => {
+          const requestUrl = route.request().url()
+          const isFirstPageRequest =
+            !requestUrl.includes("offset=") &&
+            requestUrl.includes(`limit=${limit}`)
+          const isSecondPageRequest =
+            requestUrl.includes("offset=10") &&
+            requestUrl.includes(`limit=${limit}`)
+
+          if (isSecondPageRequest) {
+            const json = podcastId_259760_OffsetTenEpisodes
+            await route.fulfill({ json })
+          } else if (isFirstPageRequest) {
+            const json = podcastId_259760_FirstTenEpisodes
+            await route.fulfill({ json })
+          } else {
+            const json = []
+            await route.fulfill({ json })
+          }
+        }
+      )
+      await page.goto(
+        HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
+      )
+      await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
+      await assertPodcastInfo(
+        page,
+        podcastId_259760_OffsetTenEpisodes.data.podcast
+      )
+      await assertPodcastEpisodes(page, podcastId_259760_OffsetTenEpisodes)
+      await expect(getActivePageNumberElement(page, "2")).toBeVisible()
+      await expect(getPreviousPaginationButton(page)).toBeVisible()
+      await expect(getPreviousPaginationButton(page)).not.toBeDisabled()
+
+      await getPreviousPaginationButton(page).click()
+      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      await expect(getPreviousPaginationButton(page)).toBeDisabled()
+      await assertPodcastInfo(
+        page,
+        podcastId_259760_FirstTenEpisodes.data.podcast
+      )
+      await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
     })
   })
 })
