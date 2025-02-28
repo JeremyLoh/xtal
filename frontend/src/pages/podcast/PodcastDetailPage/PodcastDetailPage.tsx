@@ -40,6 +40,19 @@ export default function PodcastDetailPage() {
     [setSearchParams]
   )
 
+  const handleNextPageClick = useCallback(
+    (currentPage: number) => {
+      setSearchParams((previous) => {
+        return {
+          ...previous,
+          page: currentPage + 1,
+        }
+      })
+      setPage(currentPage + 1)
+    },
+    [setSearchParams]
+  )
+
   useEffect(() => {
     if (podcastTitle) {
       document.title = `${decodeURIComponent(podcastTitle)} - xtal - podcasts`
@@ -87,6 +100,7 @@ export default function PodcastDetailPage() {
           className="podcast-episode-pagination"
           currentPage={page}
           onPreviousPageClick={handlePreviousPageClick}
+          onNextPageClick={handleNextPageClick}
         />
         <div className="podcast-episode-container">
           {podcastEpisodes ? (

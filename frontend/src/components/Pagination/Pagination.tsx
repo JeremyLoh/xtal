@@ -6,16 +6,22 @@ type PaginationProps = {
   className?: string
   currentPage: number
   onPreviousPageClick: (currentPage: number) => void
+  onNextPageClick: (currentPage: number) => void
 }
 
 function Pagination({
   className,
   currentPage,
   onPreviousPageClick,
+  onNextPageClick,
 }: PaginationProps) {
   const handlePreviousClick = useCallback(() => {
     onPreviousPageClick(currentPage)
   }, [currentPage, onPreviousPageClick])
+
+  const handleNextClick = useCallback(() => {
+    onNextPageClick(currentPage)
+  }, [currentPage, onNextPageClick])
 
   return (
     <nav
@@ -34,7 +40,7 @@ function Pagination({
       <ul className="pagination-content">
         <li className="pagination-item active">{currentPage}</li>
       </ul>
-      <button className="pagination-next-button">
+      <button className="pagination-next-button" onClick={handleNextClick}>
         <span>Next</span>
         <FaChevronRight size={16} />
       </button>
