@@ -388,6 +388,58 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
         await expect(getPageNumberElement(page, "6")).toBeVisible()
         await expect(getPageNumberElement(page, "7")).toBeVisible()
       })
+
+      test("should display last 4 pages on last page (?page=<LAST_PAGE>)", async ({
+        page,
+      }) => {
+        // NOTE: there must be at least 50 episodes for the mocked podcast data
+        const podcastTitle = encodeURIComponent("Infinite Loops")
+        const podcastId = "259760"
+        const limit = 10
+        const totalEpisodes =
+          podcastId_259760_FirstTenEpisodes.data.podcast.episodeCount
+        const totalPages = Math.ceil(totalEpisodes / limit)
+        const pageNumber = totalPages
+        await page.route(
+          `*/**/api/podcast/episodes?id=${podcastId}**`,
+          async (route) => {
+            const requestUrl = route.request().url()
+            if (
+              requestUrl.includes(`offset=${totalEpisodes - limit}`) &&
+              requestUrl.includes(`limit=${limit}`)
+            ) {
+              const json = podcastId_259760_FirstTenEpisodes
+              await route.fulfill({ json })
+            } else {
+              const json = []
+              await route.fulfill({ json })
+            }
+          }
+        )
+        await page.goto(
+          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
+        )
+        await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
+        await assertPodcastInfo(
+          page,
+          podcastId_259760_FirstTenEpisodes.data.podcast
+        )
+        await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
+        await expect(getPageNumberElement(page, "-1")).not.toBeVisible()
+        await expect(getPageNumberElement(page, "0")).not.toBeVisible()
+        await expect(
+          getPageNumberElement(page, `${pageNumber - 3}`)
+        ).toBeVisible()
+        await expect(
+          getPageNumberElement(page, `${pageNumber - 2}`)
+        ).toBeVisible()
+        await expect(
+          getPageNumberElement(page, `${pageNumber - 1}`)
+        ).toBeVisible()
+        await expect(
+          getActivePageNumberElement(page, `${pageNumber}`)
+        ).toBeVisible()
+      })
     })
   })
 
