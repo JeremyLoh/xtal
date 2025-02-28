@@ -1,0 +1,25 @@
+.pagination-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  max-width: 120ch;
+}
+
+.pagination-content {
+  list-style: none;
+}
+
+.pagination-item {
+  width: fit-content;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 2px solid #e5e5e5;
+  color: var(--text-color);
+}
+.pagination-item:hover {
+  cursor: pointer;
+  filter: brightness(0.8);
+  background-color: var(--background-color);
+}

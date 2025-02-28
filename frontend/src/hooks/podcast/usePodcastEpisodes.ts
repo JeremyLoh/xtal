@@ -4,25 +4,40 @@ import { getPodcastEpisodes } from "../../api/podcast/podcastEpisode.ts"
 import { Podcast, PodcastEpisode } from "../../api/podcast/model/podcast.ts"
 import useCache from "../useCache.ts"
 
-const LIMIT = 10
+const CACHE_STALE_TIME_IN_MINUTES = 10
 
 type CachePodcast = {
   podcast: Podcast | null
   episodes: PodcastEpisode[] | null
 }
 
-function usePodcastEpisodes(podcastId: string | undefined) {
-  const offset = 0
+type FetchPodcastEpisodesParams = {
+  id: string
+  limit: number
+  offset?: number
+}
+
+type UsePodcastEpisodesProps = {
+  podcastId: string | undefined
+  limit: number
+  page: number
+}
+
+function usePodcastEpisodes({
+  podcastId,
+  page,
+  limit,
+}: UsePodcastEpisodesProps) {
+  const offset = useMemo(() => Math.max(0, page - 1) * limit, [page, limit])
   const cacheKey = useMemo(
     () =>
       `usePodcastEpisodes-podcastId-${
         podcastId || ""
-      }-offset-${offset}-limit-${LIMIT}`,
-    [podcastId]
+      }-offset-${offset}-limit-${limit}`,
+    [podcastId, offset, limit]
   )
-
   const { setCacheItem: setPodcastCache, getCacheItem: getPodcastCache } =
-    useCache<CachePodcast>(cacheKey, 10)
+    useCache<CachePodcast>(cacheKey, CACHE_STALE_TIME_IN_MINUTES)
   const podcastCache = getPodcastCache()
 
   const abortController = useRef<AbortController | null>(null)
@@ -34,30 +49,35 @@ function usePodcastEpisodes(podcastId: string | undefined) {
     PodcastEpisode[] | null
   >(podcastCache ? podcastCache.value.episodes : null)
 
-  const fetchPodcastEpisodes = useCallback(async (podcastId: string) => {
-    setLoading(true)
-    abortController.current?.abort()
-    abortController.current = new AbortController()
-    try {
-      const podcastEpisodes = await getPodcastEpisodes(
-        abortController.current,
-        {
-          id: podcastId,
-          limit: LIMIT,
-        }
-      )
-      if (podcastEpisodes && podcastEpisodes.data) {
-        setPodcastEpisodes(podcastEpisodes.data.episodes)
-        setPodcast(podcastEpisodes.data.podcast)
-      } else {
-        setLoading(false) // prevent infinite load on no data
+  const fetchPodcastEpisodes = useCallback(
+    async (podcastId: string) => {
+      setLoading(true)
+      abortController.current?.abort()
+      abortController.current = new AbortController()
+      const params: FetchPodcastEpisodesParams = { id: podcastId, limit: limit }
+      if (offset > 0) {
+        // backend endpoint throws validation error for offset <= 0
+        params.offset = offset
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      toast.error(error.message)
-      setLoading(false) // prevent infinite loading on error
-    }
-  }, [])
+      try {
+        const podcastEpisodes = await getPodcastEpisodes(
+          abortController.current,
+          params
+        )
+        if (podcastEpisodes && podcastEpisodes.data) {
+          setPodcastEpisodes(podcastEpisodes.data.episodes)
+          setPodcast(podcastEpisodes.data.podcast)
+        } else {
+          setLoading(false) // prevent infinite load on no data
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast.error(error.message)
+        setLoading(false) // prevent infinite loading on error
+      }
+    },
+    [limit, offset]
+  )
 
   useEffect(() => {
     if (podcast && podcastEpisodes) {

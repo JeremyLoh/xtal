@@ -1,147 +1,21 @@
 import test, { expect, Page } from "@playwright/test"
 import dayjs from "dayjs"
 import duration from "dayjs/plugin/duration.js"
-import { assertToastMessage, HOMEPAGE } from "../constants/homepageConstants"
-import { defaultTenPodcastEpisodes } from "../mocks/podcast.episode"
-import { Podcast } from "../../src/api/podcast/model/podcast"
-import { assertLoadingSpinnerIsMissing } from "../constants/loadingConstants"
+import {
+  assertToastMessage,
+  HOMEPAGE,
+} from "../../constants/homepageConstants.ts"
+import { defaultTenPodcastEpisodes } from "../../mocks/podcast.episode.ts"
+import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants.ts"
+import {
+  assertPodcastEpisodes,
+  assertPodcastInfo,
+  getExpectedEpisodeDuration,
+} from "../../constants/podcast/detail/podcastDetailConstants.ts"
 
 dayjs.extend(duration)
 
 test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITLE/PODCAST-ID", () => {
-  function getPodcastInfoElement(page: Page, text: string) {
-    return page.locator(".podcast-info-container").getByText(text, {
-      exact: true,
-    })
-  }
-  function getExpectedEpisodeDuration(durationInSeconds: number) {
-    const expectedHours = Math.floor(durationInSeconds / 3600)
-    const expectedMins =
-      expectedHours === 0
-        ? Math.floor(durationInSeconds / 60)
-        : Math.floor((durationInSeconds - expectedHours * 3600) / 60)
-    const expectedDuration =
-      expectedHours === 0
-        ? `${expectedMins} min`
-        : `${expectedHours} hr ${expectedMins} min`
-    return expectedDuration
-  }
-
-  async function assertPodcastInfo(page: Page, expectedPodcast: Podcast) {
-    await expect(
-      page.locator(".podcast-info-container").getByRole("img", {
-        name: expectedPodcast.title + " podcast image",
-        exact: true,
-      }),
-      "Podcast Info Artwork should be present"
-    ).toBeVisible()
-    await expect(
-      getPodcastInfoElement(page, expectedPodcast.title),
-      "Podcast Info Title should be present"
-    ).toBeVisible()
-    await expect(
-      getPodcastInfoElement(page, expectedPodcast.author),
-      "Podcast Info Author should be present"
-    ).toBeVisible()
-    await expect(
-      getPodcastInfoElement(page, expectedPodcast.language),
-      "Podcast Info Language should be present"
-    ).toBeVisible()
-    await expect(
-      getPodcastInfoElement(
-        page,
-        expectedPodcast.episodeCount
-          ? `${expectedPodcast.episodeCount} episodes`
-          : "0 episodes"
-      ),
-      "Podcast Info Episode Count should be present"
-    ).toBeVisible()
-    for (const category of expectedPodcast.categories) {
-      await expect(
-        getPodcastInfoElement(page, category),
-        `Podcast Info Category '${category}' should be present`
-      ).toBeVisible()
-    }
-  }
-
-  async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
-    for (let i = 0; i < expectedEpisodes.count; i++) {
-      const episode = expectedEpisodes.data.episodes[i]
-      const expectedEpisodeDuration = getExpectedEpisodeDuration(
-        episode.durationInSeconds
-      )
-      const expectedDate = dayjs
-        .unix(episode.datePublished)
-        .format("MMMM D, YYYY")
-      const expectedArtworkSize = "144"
-      const artwork = page.locator(".podcast-episode-card").getByRole("img", {
-        name: episode.title + " podcast image",
-        exact: true,
-      })
-      await expect(
-        artwork,
-        `(Episode ${i + 1}) podcast episode card Artwork should be present`
-      ).toBeVisible()
-      expect(
-        await artwork.getAttribute("width"),
-        `(Episode ${
-          i + 1
-        }) podcast episode card should have artwork image width of ${expectedArtworkSize}`
-      ).toBe(expectedArtworkSize)
-      await expect(
-        page
-          .locator(".podcast-episode-card .podcast-episode-card-title")
-          .getByText(episode.title, { exact: true }),
-        `(Episode ${i + 1}) podcast episode card Title should be present`
-      ).toBeVisible()
-      await expect(
-        page
-          .locator(".podcast-episode-card")
-          .getByText(expectedDate, { exact: true }),
-        `(Episode ${i + 1}) podcast episode card Episode Date should be present`
-      ).toBeVisible()
-      await expect(
-        page
-          .locator(".podcast-episode-card")
-          .getByText(`Episode ${episode.episodeNumber}`, { exact: true }),
-        `(Episode ${
-          i + 1
-        }) podcast episode card Episode Number should be present`
-      ).toBeVisible()
-      await expect(
-        page
-          .locator(".podcast-episode-card")
-          .nth(i)
-          .getByText(expectedEpisodeDuration, { exact: true }),
-        `(Episode ${
-          i + 1
-        }) podcast episode card Duration in Minutes should be present`
-      ).toBeVisible()
-      // ensure description has no duplicates - remove all empty lines "" and newlines ("\n")
-      const descriptions = (
-        await page
-          .locator(".podcast-episode-card .podcast-episode-card-description")
-          .nth(i)
-          .allInnerTexts()
-      )
-        .join("")
-        .split("\n")
-        .filter((line) => line.trim() !== "")
-      expect(
-        new Set(descriptions).size,
-        `(Episode ${
-          i + 1
-        }) podcast episode card Description should not be duplicated due to React Strict Mode`
-      ).toBe(descriptions.length)
-      await expect(
-        page
-          .locator(".podcast-episode-card .podcast-episode-card-play-button")
-          .nth(i),
-        `(Episode ${i + 1}) podcast episode card Play button should be present`
-      ).toBeVisible()
-    }
-  }
-
   test("should display podcast detail page", async ({ page }) => {
     const podcastTitle = encodeURIComponent("Batman University")
     const podcastId = "75075"
