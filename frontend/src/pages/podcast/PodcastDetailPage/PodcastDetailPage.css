@@ -45,6 +45,10 @@
   padding-right: 2rem; /* Add space for vertical scroll of episodes */
 }
 
+.podcast-episode-section-title {
+  margin: 0;
+}
+
 .podcast-episode-placeholder-section {
   display: flex;
   flex-direction: column;
