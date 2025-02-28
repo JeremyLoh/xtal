@@ -99,6 +99,9 @@ export default function PodcastDetailPage() {
         <Pagination
           className="podcast-episode-pagination"
           currentPage={page}
+          totalPages={
+            podcast ? Math.ceil((podcast.episodeCount || 0) / LIMIT) : 0
+          }
           onPreviousPageClick={handlePreviousPageClick}
           onNextPageClick={handleNextPageClick}
         />

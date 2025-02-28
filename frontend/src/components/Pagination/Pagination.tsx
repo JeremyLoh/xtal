@@ -5,6 +5,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa6"
 type PaginationProps = {
   className?: string
   currentPage: number
+  totalPages: number
   onPreviousPageClick: (currentPage: number) => void
   onNextPageClick: (currentPage: number) => void
 }
@@ -12,6 +13,7 @@ type PaginationProps = {
 function Pagination({
   className,
   currentPage,
+  totalPages,
   onPreviousPageClick,
   onNextPageClick,
 }: PaginationProps) {
@@ -40,7 +42,11 @@ function Pagination({
       <ul className="pagination-content">
         <li className="pagination-item active">{currentPage}</li>
       </ul>
-      <button className="pagination-next-button" onClick={handleNextClick}>
+      <button
+        className="pagination-next-button"
+        disabled={totalPages <= 0 || totalPages === currentPage}
+        onClick={handleNextClick}
+      >
         <span>Next</span>
         <FaChevronRight size={16} />
       </button>
