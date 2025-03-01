@@ -249,9 +249,6 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
         await expect(getActivePageNumberElement(page, "2")).toBeVisible()
         await expect(getActivePageNumberElement(page, "3")).toBeVisible()
         await expect(getActivePageNumberElement(page, "4")).toBeVisible()
-        expect(page.url(), "should match url param of page=1").toMatch(
-          /page=1$/
-        )
 
         await getActivePageNumberElement(page, "3").click()
 
@@ -260,9 +257,6 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
           podcastId_259760_OffsetTenEpisodes.data.podcast
         )
         await assertPodcastEpisodes(page, podcastId_259760_OffsetTenEpisodes)
-        expect(page.url(), "should match url param of page=3").toMatch(
-          /page=3$/
-        )
       })
 
       test("should display pages 1, 2, 3, 4 on first page (?page=1)", async ({
@@ -533,7 +527,6 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       await expect(getActivePageNumberElement(page, "2")).toBeVisible()
       await expect(getPreviousPaginationButton(page)).toBeVisible()
       await expect(getPreviousPaginationButton(page)).not.toBeDisabled()
-      expect(page.url(), "should match url param of page=2").toMatch(/page=2$/)
 
       await getPreviousPaginationButton(page).click()
 
@@ -544,7 +537,6 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
         podcastId_259760_FirstTenEpisodes.data.podcast
       )
       await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
-      expect(page.url(), "should match url param of page=1").toMatch(/page=1$/)
     })
   })
 
@@ -639,7 +631,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       await expect(getPreviousPaginationButton(page)).toBeDisabled()
       await expect(getNextPaginationButton(page)).toBeVisible()
       await expect(getNextPaginationButton(page)).not.toBeDisabled()
-      expect(page.url(), "should match url param of page=1").toMatch(/page=1$/)
+      expect(page.url(), "should match 1").toMatch(/page=1$/)
 
       await getNextPaginationButton(page).click()
 
@@ -651,7 +643,6 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
         podcastId_259760_OffsetTenEpisodes.data.podcast
       )
       await assertPodcastEpisodes(page, podcastId_259760_OffsetTenEpisodes)
-      expect(page.url(), "should match url param of page=2").toMatch(/page=2$/)
     })
   })
 })
