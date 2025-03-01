@@ -1,6 +1,6 @@
 import "./PodcastDetailPage.css"
 import { useCallback, useContext, useEffect, useState } from "react"
-import { Link, useParams, useSearchParams } from "react-router"
+import { useNavigate, useParams, useSearchParams } from "react-router"
 import { IoArrowBackSharp, IoReload } from "react-icons/io5"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import { PodcastEpisode } from "../../../api/podcast/model/podcast.ts"
@@ -14,6 +14,7 @@ const LIMIT = 10
 
 export default function PodcastDetailPage() {
   const { podcastId, podcastTitle } = useParams()
+  const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const pageParam = searchParams.get("page")
   const [page, setPage] = useState<number>(parseToPageInt(pageParam))
@@ -66,6 +67,17 @@ export default function PodcastDetailPage() {
     [setSearchParams]
   )
 
+  const handleBackButtonNavigation = useCallback(() => {
+    // depends on how react router stores in window.history.state (we use index (idx) that is zero based to check)
+    const hasPreviousHistoryRoute =
+      window.history && window.history.state.idx >= 1
+    if (hasPreviousHistoryRoute) {
+      navigate(-1)
+    } else {
+      navigate("/podcasts")
+    }
+  }, [navigate])
+
   useEffect(() => {
     if (podcastTitle) {
       document.title = `${decodeURIComponent(podcastTitle)} - xtal - podcasts`
@@ -81,15 +93,13 @@ export default function PodcastDetailPage() {
   return (
     <LoadingDisplay loading={loading}>
       <div className="podcast-detail-container">
-        <Link
-          to="/podcasts"
-          style={{ textDecoration: "none", width: "fit-content" }}
+        <button
+          className="podcast-detail-back-button"
+          onClick={handleBackButtonNavigation}
         >
-          <button className="podcast-detail-back-button">
-            <IoArrowBackSharp size={16} />
-            Back
-          </button>
-        </Link>
+          <IoArrowBackSharp size={16} />
+          Back
+        </button>
         <div className="podcast-info-container">
           {podcast && (
             <PodcastCard podcast={podcast} customClassName="podcast-info-card">

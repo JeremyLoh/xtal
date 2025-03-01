@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { memo, useEffect, useRef, useState } from "react"
 import { MdOutlineImageNotSupported } from "react-icons/md"
 import { getPodcastImage } from "../../api/image/podcastImage.ts"
 
@@ -10,7 +10,7 @@ type PodcastImageProps = {
   imageNotAvailableTitle: string
 }
 
-export default function PodcastImage({
+export default memo(function PodcastImage({
   imageUrl,
   size,
   imageClassName,
@@ -80,4 +80,4 @@ export default function PodcastImage({
       title={imageTitle}
     />
   )
-}
+})
