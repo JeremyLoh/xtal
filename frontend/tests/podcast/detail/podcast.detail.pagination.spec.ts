@@ -1,4 +1,4 @@
-import test, { expect, Page } from "@playwright/test"
+import test, { expect } from "@playwright/test"
 import { HOMEPAGE } from "../../constants/homepageConstants.ts"
 import {
   podcastId_259760_FirstTenEpisodes,
@@ -8,29 +8,14 @@ import {
   assertPodcastEpisodes,
   assertPodcastInfo,
 } from "../../constants/podcast/detail/podcastDetailConstants.ts"
+import {
+  getNextPaginationButton,
+  getPageNumberElement,
+  getPreviousPaginationButton,
+  getActivePageNumberElement,
+} from "../../constants/podcast/pagination/podcastDetailPagination.ts"
 
 test.describe("Pagination of Podcast Detail Page for individual podcast /podcasts/PODCAST-TITLE/PODCAST-ID", () => {
-  function getPreviousPaginationButton(page: Page) {
-    return page
-      .locator(".podcast-episode-pagination")
-      .getByRole("button", { name: "Previous" })
-  }
-  function getNextPaginationButton(page: Page) {
-    return page
-      .locator(".podcast-episode-pagination")
-      .getByRole("button", { name: "Next" })
-  }
-  function getActivePageNumberElement(page: Page, activePageNumber: string) {
-    return page
-      .locator(".podcast-episode-pagination")
-      .getByText(activePageNumber)
-  }
-  function getPageNumberElement(page: Page, expectedPageNumber: string) {
-    return page
-      .locator(".podcast-episode-pagination")
-      .getByText(expectedPageNumber)
-  }
-
   test.describe("Pagination using url parameter '?page=PAGE-NUMBER'", () => {
     test("should display latest ten podcasts for first page", async ({
       page,
