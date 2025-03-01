@@ -127,13 +127,26 @@ PodcastEpisodeCard.Description = function PodcastEpisodeCardDescription() {
   )
 }
 
-PodcastEpisodeCard.EpisodeNumber = function PodcastEpisodeCardNumber() {
+PodcastEpisodeCard.EpisodeNumber = function PodcastEpisodeCardEpisodeNumber() {
   const { episode } = usePodcastEpisodeCardContext()
   if (episode.episodeNumber == null) {
     return null
   }
   const text = `Episode ${episode.episodeNumber}`
   return <Pill className="podcast-episode-card-episode-number">{text}</Pill>
+}
+
+PodcastEpisodeCard.SeasonNumber = function PodcastEpisodeCardSeasonNumber() {
+  const { episode } = usePodcastEpisodeCardContext()
+  if (episode.seasonNumber == null || episode.seasonNumber <= 0) {
+    return null
+  }
+  const seasonNumberText = `Season ${episode.seasonNumber}`
+  return (
+    <Pill className="podcast-episode-card-season-number">
+      {seasonNumberText}
+    </Pill>
+  )
 }
 
 PodcastEpisodeCard.PlayButton = function PodcastEpisodeCardPlayButton({
