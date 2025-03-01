@@ -1,5 +1,5 @@
 import "./PodcastPlayer.css"
-import { lazy, useContext } from "react"
+import { lazy, memo, useContext } from "react"
 import dayjs from "dayjs"
 import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import AudioPlayer from "../../../components/AudioPlayer/AudioPlayer.tsx"
@@ -12,7 +12,7 @@ function getDateFormat(unixTimestampInSeconds: number): string {
   return dayjs.unix(unixTimestampInSeconds).format("MMMM D, YYYY")
 }
 
-export default function PodcastPlayer() {
+export default memo(function PodcastPlayer() {
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const episode = podcastEpisodeContext?.episode
   return (
@@ -41,4 +41,4 @@ export default function PodcastPlayer() {
       </AudioPlayer>
     </div>
   )
-}
+})
