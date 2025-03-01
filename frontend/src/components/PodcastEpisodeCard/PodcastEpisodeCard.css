@@ -4,6 +4,9 @@
   padding-bottom: 1rem;
   border-bottom: 2mm dotted var(--primary-color);
 }
+.podcast-episode-card:last-child {
+  border-bottom: none;
+}
 
 .podcast-episode-card-artwork {
   margin-bottom: 1rem;
@@ -20,9 +23,13 @@
   font-size: 0.9rem;
   overflow-y: scroll;
   max-height: 200px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border: 2px solid var(--disabled-element-color);
 }
 
-.podcast-episode-card-episode-number {
+.podcast-episode-card-episode-number,
+.podcast-episode-card-season-number {
   width: fit-content;
   margin-top: 0.5rem;
 }
