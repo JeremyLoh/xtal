@@ -41,8 +41,6 @@
   flex-direction: column;
   gap: 1rem;
   height: 100%;
-  overflow-y: scroll;
-  padding-right: 2rem; /* Add space for vertical scroll of episodes */
 }
 
 .podcast-episode-section-title {
