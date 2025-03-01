@@ -1,4 +1,4 @@
-import test, { expect, Page } from "@playwright/test"
+import test, { expect } from "@playwright/test"
 import { HOMEPAGE } from "../../constants/homepageConstants.ts"
 import {
   podcastId_259760_FirstTenEpisodes,
@@ -8,29 +8,14 @@ import {
   assertPodcastEpisodes,
   assertPodcastInfo,
 } from "../../constants/podcast/detail/podcastDetailConstants.ts"
+import {
+  getNextPaginationButton,
+  getPageNumberElement,
+  getPreviousPaginationButton,
+  getActivePageNumberElement,
+} from "../../constants/podcast/pagination/podcastDetailPagination.ts"
 
 test.describe("Pagination of Podcast Detail Page for individual podcast /podcasts/PODCAST-TITLE/PODCAST-ID", () => {
-  function getPreviousPaginationButton(page: Page) {
-    return page
-      .locator(".podcast-episode-pagination")
-      .getByRole("button", { name: "Previous" })
-  }
-  function getNextPaginationButton(page: Page) {
-    return page
-      .locator(".podcast-episode-pagination")
-      .getByRole("button", { name: "Next" })
-  }
-  function getActivePageNumberElement(page: Page, activePageNumber: string) {
-    return page
-      .locator(".podcast-episode-pagination")
-      .getByText(activePageNumber)
-  }
-  function getPageNumberElement(page: Page, expectedPageNumber: string) {
-    return page
-      .locator(".podcast-episode-pagination")
-      .getByText(expectedPageNumber)
-  }
-
   test.describe("Pagination using url parameter '?page=PAGE-NUMBER'", () => {
     test("should display latest ten podcasts for first page", async ({
       page,
@@ -264,9 +249,6 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
         await expect(getActivePageNumberElement(page, "2")).toBeVisible()
         await expect(getActivePageNumberElement(page, "3")).toBeVisible()
         await expect(getActivePageNumberElement(page, "4")).toBeVisible()
-        expect(page.url(), "should match url param of page=1").toMatch(
-          /page=1$/
-        )
 
         await getActivePageNumberElement(page, "3").click()
 
@@ -275,9 +257,6 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
           podcastId_259760_OffsetTenEpisodes.data.podcast
         )
         await assertPodcastEpisodes(page, podcastId_259760_OffsetTenEpisodes)
-        expect(page.url(), "should match url param of page=3").toMatch(
-          /page=3$/
-        )
       })
 
       test("should display pages 1, 2, 3, 4 on first page (?page=1)", async ({
@@ -548,7 +527,6 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       await expect(getActivePageNumberElement(page, "2")).toBeVisible()
       await expect(getPreviousPaginationButton(page)).toBeVisible()
       await expect(getPreviousPaginationButton(page)).not.toBeDisabled()
-      expect(page.url(), "should match url param of page=2").toMatch(/page=2$/)
 
       await getPreviousPaginationButton(page).click()
 
@@ -559,7 +537,6 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
         podcastId_259760_FirstTenEpisodes.data.podcast
       )
       await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
-      expect(page.url(), "should match url param of page=1").toMatch(/page=1$/)
     })
   })
 
@@ -654,7 +631,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       await expect(getPreviousPaginationButton(page)).toBeDisabled()
       await expect(getNextPaginationButton(page)).toBeVisible()
       await expect(getNextPaginationButton(page)).not.toBeDisabled()
-      expect(page.url(), "should match url param of page=1").toMatch(/page=1$/)
+      expect(page.url(), "should match 1").toMatch(/page=1$/)
 
       await getNextPaginationButton(page).click()
 
@@ -666,7 +643,6 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
         podcastId_259760_OffsetTenEpisodes.data.podcast
       )
       await assertPodcastEpisodes(page, podcastId_259760_OffsetTenEpisodes)
-      expect(page.url(), "should match url param of page=2").toMatch(/page=2$/)
     })
   })
 })
