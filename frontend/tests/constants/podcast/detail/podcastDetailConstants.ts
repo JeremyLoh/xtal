@@ -103,6 +103,29 @@ export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
         .getByText(`Episode ${episode.episodeNumber}`, { exact: true }),
       `(Episode ${i + 1}) podcast episode card Episode Number should be present`
     ).toBeVisible()
+
+    if (episode.seasonNumber && episode.seasonNumber > 0) {
+      await expect(
+        page
+          .locator(".podcast-episode-card")
+          .nth(i)
+          .getByText(`Season ${episode.seasonNumber}`, { exact: true }),
+        `(Episode ${
+          i + 1
+        }) podcast episode card Season Number should be present`
+      ).toBeVisible()
+    } else {
+      await expect(
+        page
+          .locator(".podcast-episode-card")
+          .nth(i)
+          .getByText(`Season ${episode.seasonNumber}`, { exact: true }),
+        `(Episode ${
+          i + 1
+        }) podcast episode card Season Number should not be present`
+      ).not.toBeVisible()
+    }
+
     await expect(
       page
         .locator(".podcast-episode-card")
