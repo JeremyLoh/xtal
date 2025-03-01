@@ -15,7 +15,7 @@ const LIMIT = 10
 export default function PodcastDetailPage() {
   const { podcastId, podcastTitle } = useParams()
   const navigate = useNavigate()
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
   const pageParam = searchParams.get("page")
   const [page, setPage] = useState<number>(parseToPageInt(pageParam))
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
@@ -28,44 +28,17 @@ export default function PodcastDetailPage() {
     }
   }
 
-  const handlePreviousPageClick = useCallback(
-    (currentPage: number) => {
-      setSearchParams((previous) => {
-        return {
-          ...previous,
-          page: currentPage - 1,
-        }
-      })
-      setPage(currentPage - 1)
-    },
-    [setSearchParams]
-  )
+  const handlePreviousPageClick = useCallback((currentPage: number) => {
+    setPage(currentPage - 1)
+  }, [])
 
-  const handleNextPageClick = useCallback(
-    (currentPage: number) => {
-      setSearchParams((previous) => {
-        return {
-          ...previous,
-          page: currentPage + 1,
-        }
-      })
-      setPage(currentPage + 1)
-    },
-    [setSearchParams]
-  )
+  const handleNextPageClick = useCallback((currentPage: number) => {
+    setPage(currentPage + 1)
+  }, [])
 
-  const handlePageClick = useCallback(
-    (pageNumber: number) => {
-      setSearchParams((previous) => {
-        return {
-          ...previous,
-          page: pageNumber,
-        }
-      })
-      setPage(pageNumber)
-    },
-    [setSearchParams]
-  )
+  const handlePageClick = useCallback((pageNumber: number) => {
+    setPage(pageNumber)
+  }, [])
 
   const handleBackButtonNavigation = useCallback(() => {
     // depends on how react router stores in window.history.state (we use index (idx) that is zero based to check)
