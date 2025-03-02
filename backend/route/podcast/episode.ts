@@ -18,6 +18,7 @@ const router = Router()
 router.get(
   "/api/podcast/episode",
   checkSchema(getSinglePodcastEpisodeValidationSchema),
+  rateLimiter.getPodcastEpisodeLimiter,
   async (request: Request, response: Response) => {
     const result = validationResult(request)
     if (!result.isEmpty()) {
