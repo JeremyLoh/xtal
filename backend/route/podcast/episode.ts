@@ -1,7 +1,10 @@
 import { Request, Response, Router } from "express"
 import { checkSchema, matchedData, validationResult } from "express-validator"
 import rateLimiter from "../../middleware/rateLimiter.js"
-import { getPodcastEpisodes } from "../../service/podcastEpisodeService.js"
+import {
+  getPodcastEpisodeById,
+  getPodcastEpisodes,
+} from "../../service/podcastEpisodeService.js"
 import {
   getPodcastEpisodesValidationSchema,
   getSinglePodcastEpisodeValidationSchema,
@@ -23,7 +26,22 @@ router.get(
       })
       return
     }
-    response.sendStatus(200)
+    const data = matchedData(request)
+    const episodeId = data.id as string
+    try {
+      const episode = await getPodcastEpisodeById(episodeId)
+      response
+        .status(200)
+        .send(episode ? { count: 1, data: episode } : { count: 0, data: null })
+    } catch (error: any) {
+      if (error instanceof InvalidApiKeyError) {
+        response.status(500).send(error.message)
+        return
+      } else {
+        logger.error(error.message)
+        response.status(500).send("Internal Server Error")
+      }
+    }
   }
 )
 

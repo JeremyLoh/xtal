@@ -6,6 +6,7 @@ import {
   PODCAST_TRENDING_TEN_ARTS_PODCASTS,
 } from "./podcast.js"
 import { ALL_PODCAST_CATEGORIES } from "./podcastCategory.js"
+import { PODCAST_EPISODE_ID_16795090 } from "./podcastEpisode.js"
 
 export const handlers = [
   http.get("https://api.podcastindex.org/api/1.0/categories/list", () => {
@@ -39,6 +40,26 @@ export const handlers = [
         return HttpResponse.json(PODCAST_BY_FEED_ID_75075)
       }
       return HttpResponse.error()
+    }
+  ),
+  http.get(
+    "https://api.podcastindex.org/api/1.0/episodes/byid",
+    ({ request }) => {
+      // https://podcastindex-org.github.io/docs-api/#get-/episodes/byid
+      const url = new URL(request.url)
+      const id = url.searchParams.get("id")
+      const fulltext = url.searchParams.get("fulltext")
+      if (id === "16795090" && fulltext === "description") {
+        return HttpResponse.json(PODCAST_EPISODE_ID_16795090)
+      } else {
+        return HttpResponse.json({
+          status: "true",
+          episode: [],
+          count: 0,
+          id: id,
+          description: "Episode not found.",
+        })
+      }
     }
   ),
   http.get(

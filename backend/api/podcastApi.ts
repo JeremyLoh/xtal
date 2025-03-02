@@ -5,6 +5,7 @@ import { PodcastEpisode } from "../model/podcastEpisode.js"
 import { PodcastIndexFeed } from "./model/podcast.js"
 import {
   PodcastIndexEpisode,
+  PodcastIndexEpisodeById,
   PodcastIndexLiveEpisode,
 } from "./model/podcastEpisode.js"
 import { PodcastCategory } from "../model/podcastCategory.js"
@@ -19,6 +20,10 @@ type PodcastApi = {
     authHeaders: Headers,
     searchParams: URLSearchParams
   ): Promise<PodcastEpisode[]>
+  getPodcastEpisodeById(
+    authHeaders: Headers,
+    searchParams: URLSearchParams
+  ): Promise<PodcastEpisode | null>
   getPodcastByFeedId(
     authHeaders: Headers,
     searchParams: URLSearchParams
@@ -34,6 +39,14 @@ type PodcastIndexTrendingPodcastResponse = {
   max: number | null
   since: string | null
   description: string // response description
+}
+
+type PodcastIndexEpisodeByIdResponse = {
+  // https://podcastindex-org.github.io/docs-api/#get-/episodes/byid
+  status: "true" | "false"
+  episode: PodcastIndexEpisodeById
+  description: string // response description
+  count?: number
 }
 
 type PodcastIndexEpisodeByFeedIdResponse = {
@@ -117,6 +130,35 @@ class PodcastIndexApi implements PodcastApi {
     return episodes
   }
 
+  private parsePodcastEpisode(
+    response: PodcastIndexEpisodeByIdResponse
+  ): PodcastEpisode {
+    const episode = response.episode
+    const language = episode.feedLanguage.toLowerCase()
+    // feedUrl and isActiveFeed is not available from the API response
+    return {
+      id: episode.id,
+      feedId: episode.feedId,
+      feedTitle: episode.feedTitle,
+      title: episode.title,
+      description: getSanitizedHtmlText(episode.description || ""),
+      contentUrl: episode.enclosureUrl, // url link to episode file
+      contentType: episode.enclosureType, // Content-Type of the episode file (e.g. mp3 => "audio\/mpeg")
+      contentSizeInBytes: episode.enclosureLength,
+      durationInSeconds: episode.duration,
+      datePublished: episode.datePublished, // unix epoch time in seconds
+      isExplicit: episode.explicit === 1, // Not explicit = 0. Explicit = 1
+      episodeType: episode.episodeType, // type of episode. May be null for "liveItem"
+      episodeNumber: episode.episode,
+      seasonNumber: episode.season,
+      image: episode.image || episode.feedImage,
+      language: Language[language as keyof typeof Language],
+      people: episode.persons || null,
+      externalWebsiteUrl: episode.link,
+      transcripts: episode.transcripts || null,
+    }
+  }
+
   private parsePodcastFeed(
     response: PodcastIndexPodcastByFeedIdResponse
   ): Podcast {
@@ -141,6 +183,7 @@ class PodcastIndexApi implements PodcastApi {
     authHeaders: Headers,
     searchParams: URLSearchParams
   ): Promise<Podcast[]> {
+    // https://podcastindex-org.github.io/docs-api/#get-/podcasts/trending
     const response = await ky.get(this.url + "/podcasts/trending", {
       searchParams: searchParams,
       headers: authHeaders,
@@ -154,6 +197,7 @@ class PodcastIndexApi implements PodcastApi {
     authHeaders: Headers,
     searchParams: URLSearchParams
   ): Promise<PodcastEpisode[]> {
+    // https://podcastindex-org.github.io/docs-api/#get-/episodes/byfeedid
     const response = await ky.get(this.url + "/episodes/byfeedid", {
       searchParams: searchParams,
       headers: authHeaders,
@@ -163,10 +207,28 @@ class PodcastIndexApi implements PodcastApi {
     return this.parsePodcastEpisodes(json)
   }
 
+  async getPodcastEpisodeById(
+    authHeaders: Headers,
+    searchParams: URLSearchParams
+  ): Promise<PodcastEpisode | null> {
+    // https://podcastindex-org.github.io/docs-api/#get-/episodes/byid
+    const response = await ky.get(this.url + "/episodes/byid", {
+      searchParams: searchParams,
+      headers: authHeaders,
+      retry: 0,
+    })
+    const json: PodcastIndexEpisodeByIdResponse = await response.json()
+    if (json && json.count === 0) {
+      return null
+    }
+    return this.parsePodcastEpisode(json)
+  }
+
   async getPodcastByFeedId(
     authHeaders: Headers,
     searchParams: URLSearchParams
   ): Promise<Podcast> {
+    // https://podcastindex-org.github.io/docs-api/#get-/podcasts/byfeedid
     const response = await ky.get(this.url + "/podcasts/byfeedid", {
       searchParams: searchParams,
       headers: authHeaders,
@@ -177,7 +239,7 @@ class PodcastIndexApi implements PodcastApi {
   }
 
   async getPodcastCategories(authHeaders: Headers): Promise<PodcastCategory[]> {
-    // https://api.podcastindex.org/api/1.0/categories/list
+    // https://podcastindex-org.github.io/docs-api/#get-/categories/list
     const response = await ky.get(this.url + "/categories/list", {
       headers: authHeaders,
       retry: 0,

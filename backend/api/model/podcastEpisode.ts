@@ -66,6 +66,38 @@ export type PodcastIndexEpisode = {
   socialInteract: SocialInteract[] | null
 }
 
+export type PodcastIndexEpisodeById = {
+  // https://podcastindex-org.github.io/docs-api/#get-/episodes/byid
+  id: number
+  title: string
+  link: string // url to episode website
+  description: string
+  guid: string // unique identifier for episode
+  datePublished: number // date and time episode was published (unix epoch in seconds)
+  datePublishedPretty: string // human readable string of date and time episode was published
+  dateCrawled: number // time episode was found in feed
+  enclosureUrl: string // URL / link to the episode file
+  enclosureType: string // Content-Type for the item specified in "enclosureUrl"
+  enclosureLength: number // length of item specified in "enclosureUrl" in bytes
+  duration: number | null // estimated length of "enclosureUrl" in seconds. Will be null for "liveItem"
+  explicit: 0 | 1 // Not explicit = 0. Explicit = 1
+  episode: number | null // episode number
+  episodeType: "full" | "trailer" | "bonus" | null // type of episode. May be null for "liveItem"
+  season: number | null // season number. May be null for "liveItem"
+  image: string // episode image
+  imageUrlHash: number // CRC32 hash of the "image" URL with  protocol (http:// or https://) removed. 64 bit integer
+  feedItunesId: number | null // iTunes ID of the feed if there is one, and we know what it is
+  feedImage: string // feed image url
+  feedImageUrlHash: number // CRC32 hash of the "feedImage" URL with the protocol (http:// or https://) removed.
+  feedId: number // podcast feed id
+  feedTitle: string // podcast name
+  feedLanguage: Language // based on RSS Language Spec
+  chaptersUrl: string | null // URL link to JSON file containing the episode chapters
+  transcripts: Transcript[] | null
+  persons: Person[] | null
+  socialInteract: SocialInteract[] | null
+}
+
 export type Transcript = {
   // https://github.com/Podcastindex-org/podcast-namespace/blob/main/transcripts/transcripts.md
   url: string
