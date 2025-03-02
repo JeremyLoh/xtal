@@ -2,14 +2,16 @@ import ky from "ky"
 import { Language, Podcast } from "../model/podcast.js"
 import { getSanitizedHtmlText } from "./dom/htmlSanitize.js"
 import { PodcastEpisode } from "../model/podcastEpisode.js"
-import { PodcastIndexFeed } from "./model/podcast.js"
-import {
-  PodcastIndexEpisode,
-  PodcastIndexEpisodeById,
-  PodcastIndexLiveEpisode,
-} from "./model/podcastEpisode.js"
 import { PodcastCategory } from "../model/podcastCategory.js"
-import { PodcastIndexCategoryInfo } from "./model/podcastCategory.js"
+import {
+  PodcastIndexPodcastByFeedIdResponse,
+  PodcastIndexTrendingPodcastResponse,
+} from "./responseType/podcastIndexPodcastTypes.js"
+import {
+  PodcastIndexEpisodeByFeedIdResponse,
+  PodcastIndexEpisodeByIdResponse,
+} from "./responseType/podcastIndexEpisodeTypes.js"
+import { PodcastIndexCategoryResponse } from "./responseType/podcastIndexCategoryTypes.js"
 
 type PodcastApi = {
   getTrendingPodcasts(
@@ -29,49 +31,6 @@ type PodcastApi = {
     searchParams: URLSearchParams
   ): Promise<Podcast>
   getPodcastCategories(authHeaders: Headers): Promise<PodcastCategory[]>
-}
-
-type PodcastIndexTrendingPodcastResponse = {
-  // "/podcasts/trending" - https://podcastindex-org.github.io/docs-api/#get-/podcasts/trending
-  status: "true" | "false"
-  feeds: PodcastIndexFeed[]
-  count: number
-  max: number | null
-  since: string | null
-  description: string // response description
-}
-
-type PodcastIndexEpisodeByIdResponse = {
-  // https://podcastindex-org.github.io/docs-api/#get-/episodes/byid
-  status: "true" | "false"
-  episode: PodcastIndexEpisodeById
-  description: string // response description
-  count?: number
-}
-
-type PodcastIndexEpisodeByFeedIdResponse = {
-  // https://podcastindex-org.github.io/docs-api/#get-/episodes/byfeedid
-  status: "true" | "false"
-  liveItems: PodcastIndexLiveEpisode[]
-  items: PodcastIndexEpisode[]
-  count: number
-  query: string | string[] // single id passed to request (feed id), or multiple feed id (string[])
-  description: string // response description
-}
-
-type PodcastIndexPodcastByFeedIdResponse = {
-  // https://podcastindex-org.github.io/docs-api/#get-/podcasts/byfeedid
-  status: "true" | "false"
-  feed: PodcastIndexFeed
-  description: string // response description
-}
-
-type PodcastIndexCategoryResponse = {
-  // https://podcastindex-org.github.io/docs-api/#tag--Categories
-  status: "true" | "false"
-  feeds: PodcastIndexCategoryInfo[]
-  count: number
-  description: string // response description
 }
 
 class PodcastIndexApi implements PodcastApi {
