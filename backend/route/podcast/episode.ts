@@ -2,7 +2,10 @@ import { Request, Response, Router } from "express"
 import { checkSchema, matchedData, validationResult } from "express-validator"
 import rateLimiter from "../../middleware/rateLimiter.js"
 import { getPodcastEpisodes } from "../../service/podcastEpisodeService.js"
-import { getPodcastEpisodeValidationSchema } from "../../validation/podcastEpisodeValidation.js"
+import {
+  getPodcastEpisodesValidationSchema,
+  getSinglePodcastEpisodeValidationSchema,
+} from "../../validation/podcastEpisodeValidation.js"
 import { InvalidApiKeyError } from "../../error/invalidApiKeyError.js"
 import { getPodcastInfo } from "../../service/podcastInfoService.js"
 import logger from "../../logger.js"
@@ -10,8 +13,23 @@ import logger from "../../logger.js"
 const router = Router()
 
 router.get(
+  "/api/podcast/episode",
+  checkSchema(getSinglePodcastEpisodeValidationSchema),
+  async (request: Request, response: Response) => {
+    const result = validationResult(request)
+    if (!result.isEmpty()) {
+      response.status(400).send({
+        errors: result.array().map((error) => error.msg),
+      })
+      return
+    }
+    response.sendStatus(200)
+  }
+)
+
+router.get(
   "/api/podcast/episodes",
-  checkSchema(getPodcastEpisodeValidationSchema),
+  checkSchema(getPodcastEpisodesValidationSchema),
   rateLimiter.getPodcastEpisodesLimiter,
   async (request: Request, response: Response) => {
     const result = validationResult(request)

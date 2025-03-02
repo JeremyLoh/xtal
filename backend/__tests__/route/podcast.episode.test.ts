@@ -28,6 +28,68 @@ function mockRateLimiters() {
   })
 }
 
+describe("GET /api/podcast/episode (single episode information)", () => {
+  const expectedOrigin = getFrontendOrigin() || ""
+
+  beforeEach(() => {
+    mockRateLimiters()
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  describe("invalid parameters", () => {
+    describe("id parameter", () => {
+      test("should return status 400 for missing id parameter", async () => {
+        const app = setupApp()
+        const response = await request(app)
+          .get(`/api/podcast/episode`)
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'id' should exist and have less than 100 characters",
+            ]),
+          })
+        )
+      })
+
+      test("should return status 400 for empty string id parameter", async () => {
+        const app = setupApp()
+        const response = await request(app)
+          .get(`/api/podcast/episode?id=`)
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'id' should exist and have less than 100 characters",
+            ]),
+          })
+        )
+      })
+
+      test("should return status 400 for id parameter more than 100 characters", async () => {
+        const invalidLongId = "2".repeat(101)
+        const app = setupApp()
+        const response = await request(app)
+          .get(`/api/podcast/episode?id=${invalidLongId}`)
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'id' should exist and have less than 100 characters",
+            ]),
+          })
+        )
+      })
+    })
+  })
+})
+
 describe("GET /api/podcast/episodes", () => {
   const expectedOrigin = getFrontendOrigin() || ""
 
