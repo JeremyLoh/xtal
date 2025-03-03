@@ -17,6 +17,10 @@
   margin-bottom: 0;
   font-weight: bold;
   font-size: large;
+  color: var(--text-color);
+}
+.podcast-episode-card-title:hover {
+  text-decoration: underline;
 }
 
 .podcast-episode-card-description {

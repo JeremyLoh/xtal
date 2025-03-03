@@ -5,7 +5,11 @@ import {
   assertToastMessage,
   HOMEPAGE,
 } from "../../constants/homepageConstants.ts"
-import { defaultTenPodcastEpisodes } from "../../mocks/podcast.episode.ts"
+import {
+  defaultTenPodcastEpisodes,
+  podcastId_259760_episodeId_34000697601,
+  podcastId_259760_FirstTenEpisodes,
+} from "../../mocks/podcast.episode.ts"
 import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants.ts"
 import {
   assertPodcastEpisodes,
@@ -31,6 +35,53 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
     await assertPodcastInfo(page, defaultTenPodcastEpisodes.data.podcast)
     await assertPodcastEpisodes(page, defaultTenPodcastEpisodes)
+  })
+
+  test.describe("navigate to podcast episode detail page", () => {
+    test("should navigate to podcast episode detail page on click of episode title", async ({
+      page,
+    }) => {
+      const podcastTitle = encodeURIComponent("Infinite Loops")
+      const podcastId = "259760"
+      const limit = 10
+      await page.route(
+        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+        async (route) => {
+          const json = podcastId_259760_FirstTenEpisodes
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+      await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
+      await assertPodcastInfo(
+        page,
+        podcastId_259760_FirstTenEpisodes.data.podcast
+      )
+      await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
+
+      const expectedEpisodeTitle =
+        podcastId_259760_episodeId_34000697601.data.title
+      await expect(
+        page
+          .locator(".podcast-episode-card")
+          .getByText(expectedEpisodeTitle, { exact: true })
+      ).toBeVisible()
+      await page
+        .locator(".podcast-episode-card")
+        .getByText(expectedEpisodeTitle, { exact: true })
+        .click()
+      await expect(
+        page.locator(".podcast-episode-detail-container")
+      ).toBeVisible()
+      const { id: podcastEpisodeId } =
+        podcastId_259760_episodeId_34000697601.data
+      const expectedEpisodeDetailRoute = new RegExp(
+        `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}$`
+      )
+      expect(page.url(), "should be on podcast detail page url").toMatch(
+        expectedEpisodeDetailRoute
+      )
+    })
   })
 
   test.describe("cache data", () => {

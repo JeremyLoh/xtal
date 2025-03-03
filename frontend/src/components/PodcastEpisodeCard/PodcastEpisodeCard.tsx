@@ -1,4 +1,5 @@
 import "./PodcastEpisodeCard.css"
+import { Link } from "react-router"
 import DOMPurify from "dompurify"
 import {
   createContext,
@@ -88,9 +89,17 @@ PodcastEpisodeCard.Artwork = function PodcastEpisodeCardArtwork({
   )
 }
 
-PodcastEpisodeCard.Title = function PodcastEpisodeCardTitle() {
+PodcastEpisodeCard.Title = function PodcastEpisodeCardTitle({
+  url,
+}: {
+  url: string
+}) {
   const { episode } = usePodcastEpisodeCardContext()
-  return <p className="podcast-episode-card-title">{episode.title}</p>
+  return (
+    <Link to={url} style={{ textDecoration: "none", width: "fit-content" }}>
+      <p className="podcast-episode-card-title">{episode.title}</p>
+    </Link>
+  )
 }
 
 PodcastEpisodeCard.Description = function PodcastEpisodeCardDescription() {

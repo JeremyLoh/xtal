@@ -23,6 +23,12 @@ const PodcastHomePage = lazy(
 const PodcastDetailPage = lazy(
   () => import("./pages/podcast/PodcastDetailPage/PodcastDetailPage.tsx")
 )
+const PodcastEpisodeDetailPage = lazy(
+  () =>
+    import(
+      "./pages/podcast/PodcastEpisodeDetailPage/PodcastEpisodeDetailPage.tsx"
+    )
+)
 const PodcastCategoryPage = lazy(
   () => import("./pages/podcast/PodcastCategoryPage/PodcastCategoryPage.tsx")
 )
@@ -48,6 +54,10 @@ createRoot(document.getElementById("root")!).render(
                     <Route
                       path="/podcasts/:podcastTitle/:podcastId"
                       element={<PodcastDetailPage />}
+                    />
+                    <Route
+                      path="/podcasts/:podcastTitle/:podcastId/:podcastEpisodeId"
+                      element={<PodcastEpisodeDetailPage />}
                     />
                     <Route
                       path="/podcasts/:categoryName"

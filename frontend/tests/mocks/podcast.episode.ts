@@ -1118,3 +1118,33 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
     ],
   },
 }
+
+export const podcastId_259760_episodeId_34000697601 = {
+  // second episode id from "podcastId_259760_FirstTenEpisodes"
+  // backend endpoint /api/podcast/episode?id=34000697601
+  count: 1,
+  data: {
+    id: 34000697601,
+    feedId: 259760,
+    feedTitle: "Infinite Loops",
+    title: "Luke Fehily — Ireland's Innovation Playbook (EP.256)",
+    description:
+      '<p>Luke Fehily is the Director of Innovation Policy at Progress Ireland — an independent think tank backed by the likes of the Collison brothers — that’s on a mission to connect Ireland to proven policy solutions from around the world.</p> <p>Before joining Progress Ireland, Luke cut his teeth in both public and private sectors, developing a unique perspective on how to navigate bureaucratic challenges while maintaining ambitious visions for change. His current work spans housing, infrastructure, and innovation policy, with a particular emphasis on meta-scientific approaches to research funding and development.</p> <p>In this episode we discuss why Ireland should embrace techno-optimism, how to beat the NIMBY challenge with win-win solutions, why young scientists need more research funding, and MUCH more. Plus, we even touch on drone coffee deliveries (happening now in Dublin) and the things needed to unleash Ireland\'s entrepreneurial spirit.</p> <p>I hope you enjoy this conversation as much as I did. For the full transcript, episode takeaways, and bucketloads of other goodies designed to make you go, “<em>Hmm, that’s interesting!”,</em>&nbsp;check out our&nbsp;<a href="https://8ca54796.streaklinks.com/CJPd0z7cXCh07hc4JAiMaKTC/https%3A%2F%2Fnewsletter.osv.llc%2F">Substack</a>.</p> <p><strong>Important Links:</strong></p> <ul> <li><a href="https://progressireland.org/">Progress Ireland Website</a></li> <li><a href="https://x.com/fehelium">Twitter</a></li> <li><a href="https://www.linkedin.com/in/luke-fehily/">LinkedIn</a></li> </ul> <p><strong>Show Notes:</strong></p> <ul> <li>The Irish GDP Boom</li> <li>The Origins of Progress Ireland</li> <li>The Path Past Bureaucratic Barriers</li> <li>Where the State Meets the Street</li> <li>How Bad Political Vibes Can Seep in</li> <li>Where the Creme De La Creme Goes in State Projects</li> <li>Innovation Amidst EU’s Strict Restrictions</li> <li>National EU Friction</li> <li>Densification Dilemmas</li> <li>Balancing Efficiency and Equity in Public Procurement</li> <li>How to Handle NIMBYs</li> <li>Pushing Past Infrastructural Comfort Zones</li> <li>Fostering Cultural Shifts</li> <li>What is Metascience?</li> <li>Recalibrating Success Metrics</li> <li>The Irish Brain Drain</li> </ul> <p><strong>Books Mentioned:</strong></p> <ul> <li>Where the State Meets the Street by Bernardo Zacka</li> </ul> <p></p>',
+    contentUrl:
+      "https://traffic.libsyn.com/secure/infiniteloops/256._Audio-only_1.3.mp3?dest-id=1666472",
+    contentType: "audio/mpeg",
+    contentSizeInBytes: 68509477,
+    durationInSeconds: 4238,
+    datePublished: 1740042000,
+    isExplicit: false,
+    episodeType: "full",
+    episodeNumber: 256,
+    seasonNumber: 0,
+    image:
+      "https://static.libsyn.com/p/assets/9/6/6/1/9661967bd8874260d959afa2a1bf1c87/256_-_Square.png",
+    language: "English",
+    people: null,
+    externalWebsiteUrl: "https://www.infiniteloopspodcast.com/256",
+    transcripts: null,
+  },
+}

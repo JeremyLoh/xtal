@@ -116,7 +116,9 @@ export default function PodcastDetailPage() {
                     size={144}
                     title={`${episode.title} podcast image`}
                   />
-                  <PodcastEpisodeCard.Title />
+                  <PodcastEpisodeCard.Title
+                    url={`/podcasts/${podcastTitle}/${podcastId}/${episode.id}`}
+                  />
                   <PodcastEpisodeCard.PublishDate />
                   <PodcastEpisodeCard.Duration />
                   <PodcastEpisodeCard.EpisodeNumber />

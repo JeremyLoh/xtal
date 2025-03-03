@@ -49,8 +49,9 @@ type Person = {
 type PodcastEpisode = {
   id: number
   feedId: number
-  feedUrl: string
+  feedUrl?: string
   title: string
+  feedTitle?: string
   description: string
   contentUrl: string // url link to episode file
   contentType: string // Content-Type of the episode file (e.g. mp3 => "audio\/mpeg")
@@ -65,8 +66,8 @@ type PodcastEpisode = {
   language: string
   people: Person[] | null
   externalWebsiteUrl: string
-  transcripts: Transcript[]
-  isActiveFeed: boolean
+  transcripts: Transcript[] | null
+  isActiveFeed?: boolean
 }
 
 type PodcastCategory = {
