@@ -1,8 +1,14 @@
 import { Request, Response, Router } from "express"
 import { checkSchema, matchedData, validationResult } from "express-validator"
 import rateLimiter from "../../middleware/rateLimiter.js"
-import { getPodcastEpisodes } from "../../service/podcastEpisodeService.js"
-import { getPodcastEpisodeValidationSchema } from "../../validation/podcastEpisodeValidation.js"
+import {
+  getPodcastEpisodeById,
+  getPodcastEpisodes,
+} from "../../service/podcastEpisodeService.js"
+import {
+  getPodcastEpisodesValidationSchema,
+  getSinglePodcastEpisodeValidationSchema,
+} from "../../validation/podcastEpisodeValidation.js"
 import { InvalidApiKeyError } from "../../error/invalidApiKeyError.js"
 import { getPodcastInfo } from "../../service/podcastInfoService.js"
 import logger from "../../logger.js"
@@ -10,8 +16,39 @@ import logger from "../../logger.js"
 const router = Router()
 
 router.get(
+  "/api/podcast/episode",
+  checkSchema(getSinglePodcastEpisodeValidationSchema),
+  rateLimiter.getPodcastEpisodeLimiter,
+  async (request: Request, response: Response) => {
+    const result = validationResult(request)
+    if (!result.isEmpty()) {
+      response.status(400).send({
+        errors: result.array().map((error) => error.msg),
+      })
+      return
+    }
+    const data = matchedData(request)
+    const episodeId = data.id as string
+    try {
+      const episode = await getPodcastEpisodeById(episodeId)
+      response
+        .status(200)
+        .send(episode ? { count: 1, data: episode } : { count: 0, data: null })
+    } catch (error: any) {
+      if (error instanceof InvalidApiKeyError) {
+        response.status(500).send(error.message)
+        return
+      } else {
+        logger.error(error.message)
+        response.status(500).send("Internal Server Error")
+      }
+    }
+  }
+)
+
+router.get(
   "/api/podcast/episodes",
-  checkSchema(getPodcastEpisodeValidationSchema),
+  checkSchema(getPodcastEpisodesValidationSchema),
   rateLimiter.getPodcastEpisodesLimiter,
   async (request: Request, response: Response) => {
     const result = validationResult(request)

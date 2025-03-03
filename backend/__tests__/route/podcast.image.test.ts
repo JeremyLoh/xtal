@@ -13,6 +13,7 @@ function mockRateLimiters() {
     return {
       default: {
         getTrendingPodcastLimiter: getMockMiddleware(),
+        getPodcastEpisodeLimiter: getMockMiddleware(),
         getPodcastEpisodesLimiter: getMockMiddleware(),
         getPodcastImageConversionLimiter: getMockMiddleware(),
         getPodcastCategoryLimiter: getMockMiddleware(),

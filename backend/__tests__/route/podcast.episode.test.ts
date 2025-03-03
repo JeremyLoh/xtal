@@ -9,6 +9,7 @@ import { setupApp } from "../../index.js"
 import { getFrontendOrigin } from "../cors/origin.js"
 import { getSanitizedHtmlText } from "../../api/dom/htmlSanitize.js"
 import { Language } from "../../model/podcast.js"
+import { PODCAST_EPISODE_ID_16795090 } from "../mocks/podcastEpisode.js"
 
 function getMockMiddleware() {
   return (request: Request, response: Response, next: NextFunction) => next()
@@ -19,6 +20,7 @@ function mockRateLimiters() {
     return {
       default: {
         getTrendingPodcastLimiter: getMockMiddleware(),
+        getPodcastEpisodeLimiter: getMockMiddleware(),
         getPodcastEpisodesLimiter: getMockMiddleware(),
         getPodcastImageConversionLimiter: getMockMiddleware(),
         getPodcastCategoryLimiter: getMockMiddleware(),
@@ -27,6 +29,170 @@ function mockRateLimiters() {
     }
   })
 }
+
+describe("GET /api/podcast/episode (single episode information)", () => {
+  const expectedOrigin = getFrontendOrigin() || ""
+
+  type PodcastEpisodeByIdResponse = {
+    // https://podcastindex-org.github.io/docs-api/#get-/episodes/byid
+    status: string // "true" | "false"
+    id: string
+    description: string
+    episode: {
+      id: number
+      title: string
+      link: string
+      description: string
+      guid: string
+      datePublished: number
+      datePublishedPretty: string
+      dateCrawled: number
+      enclosureUrl: string
+      enclosureType: string
+      enclosureLength: number
+      duration: number | null
+      explicit: number
+      episode: number
+      episodeType: string | null // "full" | "trailer" | "bonus"
+      season: number | null
+      image: string
+      feedImage: string
+      feedItunesId: number
+      feedId: number
+      feedTitle: string
+      feedLanguage: string
+      chaptersUrl: string | null
+      podcastGuid: string
+      persons?: any
+      transcripts?: any
+    }
+  }
+
+  beforeEach(() => {
+    mockRateLimiters()
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  function getExpectedSingleEpisodeData(
+    episodeResponse: PodcastEpisodeByIdResponse
+  ) {
+    const episode = episodeResponse.episode
+    return {
+      id: episode.id,
+      title: episode.title,
+      externalWebsiteUrl: episode.link, // link to official episode page on website
+      description: getSanitizedHtmlText(episode.description || ""),
+      datePublished: episode.datePublished, // unix epoch time in seconds
+      contentUrl: episode.enclosureUrl, // url link to episode file
+      contentType: episode.enclosureType, // Content-Type of the episode file (e.g. mp3 => "audio\/mpeg" or "audio/mp3")
+      contentSizeInBytes: episode.enclosureLength,
+      durationInSeconds: episode.duration,
+      isExplicit: episode.explicit === 1, // Not explicit = 0. Explicit = 1
+      episodeType: episode.episodeType, // type of episode. May be null for "liveItem"
+      episodeNumber: episode.episode,
+      seasonNumber: episode.season,
+      image: episode.image || episode.feedImage,
+      language:
+        Language[episode.feedLanguage.toLowerCase() as keyof typeof Language],
+      feedId: episode.feedId,
+      feedTitle: episode.feedTitle,
+      people: episode.persons || null,
+      transcripts: episode.transcripts || null,
+    }
+  }
+
+  describe("invalid parameters", () => {
+    describe("id parameter", () => {
+      test("should return status 400 for missing id parameter", async () => {
+        const app = setupApp()
+        const response = await request(app)
+          .get(`/api/podcast/episode`)
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'id' should exist and have less than 100 characters",
+            ]),
+          })
+        )
+      })
+
+      test("should return status 400 for empty string id parameter", async () => {
+        const app = setupApp()
+        const response = await request(app)
+          .get(`/api/podcast/episode?id=`)
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'id' should exist and have less than 100 characters",
+            ]),
+          })
+        )
+      })
+
+      test("should return status 400 for id parameter more than 100 characters", async () => {
+        const invalidLongId = "2".repeat(101)
+        const app = setupApp()
+        const response = await request(app)
+          .get(`/api/podcast/episode?id=${invalidLongId}`)
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'id' should exist and have less than 100 characters",
+            ]),
+          })
+        )
+      })
+    })
+  })
+
+  test("should specify response content type header of application/json", async () => {
+    const podcastEpisodeId = "16795090"
+    const app = setupApp()
+    const response = await request(app)
+      .get(`/api/podcast/episode?id=${podcastEpisodeId}`)
+      .set("Origin", expectedOrigin)
+    expect(response.headers["content-type"]).toEqual(
+      expect.stringContaining("application/json")
+    )
+  })
+
+  test("should return podcast episode data when valid podcast episode id is given", async () => {
+    const podcastEpisodeId = "16795090"
+    const app = setupApp()
+    const response = await request(app)
+      .get(`/api/podcast/episode?id=${podcastEpisodeId}`)
+      .set("Origin", expectedOrigin)
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        count: 1,
+        data: getExpectedSingleEpisodeData(PODCAST_EPISODE_ID_16795090),
+      })
+    )
+  })
+
+  test("should return no podcast episode data when podcast episode id is not found", async () => {
+    const invalidPodcastEpisodeId = "123"
+    const app = setupApp()
+    const response = await request(app)
+      .get(`/api/podcast/episode?id=${invalidPodcastEpisodeId}`)
+      .set("Origin", expectedOrigin)
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        count: 0,
+        data: null,
+      })
+    )
+  })
+})
 
 describe("GET /api/podcast/episodes", () => {
   const expectedOrigin = getFrontendOrigin() || ""

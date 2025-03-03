@@ -16,6 +16,7 @@ interface PodcastFacade {
     podcastId: string,
     limit: number
   ): Promise<PodcastEpisode[]>
+  getPodcastEpisodeById(episodeId: string): Promise<PodcastEpisode | null>
   getPodcastInfo(podcastId: string): Promise<Podcast>
   getPodcastCategories(): Promise<PodcastCategory[]>
 }
@@ -65,6 +66,18 @@ export class PodcastIndexFacade implements PodcastFacade {
       searchParams
     )
     return episodes
+  }
+
+  async getPodcastEpisodeById(episodeId: string) {
+    const authHeaders = this.authManager.getAuthTokenHeaders()
+    const searchParams = new URLSearchParams(
+      `id=${episodeId}&fulltext=description`
+    )
+    const episode = await this.podcastApi.getPodcastEpisodeById(
+      authHeaders,
+      searchParams
+    )
+    return episode
   }
 
   async getPodcastInfo(podcastId: string) {
