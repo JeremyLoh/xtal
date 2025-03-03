@@ -106,7 +106,11 @@ PodcastEpisodeCard.Title = function PodcastEpisodeCardTitle({
   }
 }
 
-PodcastEpisodeCard.Description = function PodcastEpisodeCardDescription() {
+PodcastEpisodeCard.Description = function PodcastEpisodeCardDescription({
+  className,
+}: {
+  className: string
+}) {
   const { episode, descriptionDivRef } = usePodcastEpisodeCardContext()
   useEffect(() => {
     if (
@@ -135,7 +139,9 @@ PodcastEpisodeCard.Description = function PodcastEpisodeCardDescription() {
   return (
     <div
       ref={descriptionDivRef}
-      className="podcast-episode-card-description"
+      className={`podcast-episode-card-description ${
+        className ? className : ""
+      }`}
     ></div>
   )
 }

@@ -33,8 +33,9 @@ export default function PodcastEpisodeDetailPage() {
               title={episode.title + " podcast image"}
             />
             <PodcastEpisodeCard.Title />
+            <PodcastEpisodeCard.Duration />
             <PodcastEpisodeCard.PlayButton onPlayClick={handlePlayClick} />
-            <PodcastEpisodeCard.Description />
+            <PodcastEpisodeCard.Description className="podcast-episode-detail-description" />
           </PodcastEpisodeCard>
         )}
       </div>
