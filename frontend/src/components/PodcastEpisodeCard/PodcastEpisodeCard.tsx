@@ -1,5 +1,6 @@
 import "./PodcastEpisodeCard.css"
 import { Link } from "react-router"
+import dayjs from "dayjs"
 import DOMPurify from "dompurify"
 import {
   createContext,
@@ -9,10 +10,10 @@ import {
   useRef,
 } from "react"
 import { IoPlaySharp } from "react-icons/io5"
-import dayjs from "dayjs"
+import { TbExplicit, TbExplicitOff } from "react-icons/tb"
 import { PodcastEpisode } from "../../api/podcast/model/podcast.ts"
-import Pill from "../Pill/Pill.tsx"
 import PodcastImage from "../PodcastImage/PodcastImage.tsx"
+import Pill from "../Pill/Pill.tsx"
 
 type PodcastEpisodeCardProps = PropsWithChildren & {
   episode: PodcastEpisode
@@ -207,6 +208,24 @@ PodcastEpisodeCard.Duration = function PodcastEpisodeCardDuration() {
     hours === 0 ? `${minutes} min` : `${hours} hr ${minutes} min`
   return <p className="podcast-episode-card-duration">{durationInMinutes}</p>
 }
+
+PodcastEpisodeCard.ExplicitIndicator =
+  function PodcastEpisodeCardExplicitIndicator() {
+    const { episode } = usePodcastEpisodeCardContext()
+    if (episode.isExplicit) {
+      return (
+        <p className="podcast-episode-card-explicit-indicator">
+          <TbExplicit size={24} /> Explicit
+        </p>
+      )
+    } else {
+      return (
+        <p className="podcast-episode-card-explicit-indicator">
+          <TbExplicitOff size={24} /> Not Explicit
+        </p>
+      )
+    }
+  }
 
 PodcastEpisodeCard.EpisodeWebsiteLink =
   function PodcastEpisodeCardExternalWebsiteLink() {

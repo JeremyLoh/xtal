@@ -39,7 +39,6 @@
 
 .podcast-episode-card-play-button {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
@@ -54,7 +53,17 @@
 }
 
 .podcast-episode-card-duration,
-.podcast-episode-card-publish-date {
+.podcast-episode-card-publish-date,
+.podcast-episode-card-explicit-indicator {
   color: var(--subtitle-text-color);
   margin: 0;
+}
+
+.podcast-episode-card-explicit-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  width: fit-content;
 }

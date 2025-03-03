@@ -208,6 +208,15 @@ export async function assertPodcastEpisodeOnPodcastEpisodeDetailPage(
   await expect(
     page
       .locator(".podcast-episode-card")
+      .getByText(`${episode.isExplicit ? "Explicit" : "Not Explicit"}`, {
+        exact: true,
+      }),
+    `Podcast episode card Explicit Indicator should be present`
+  ).toBeVisible()
+
+  await expect(
+    page
+      .locator(".podcast-episode-card")
       .getByRole("link", { name: episode.externalWebsiteUrl, exact: true })
   ).toBeVisible()
 
