@@ -164,10 +164,12 @@ export async function assertPodcastEpisodeOnPodcastEpisodeDetailPage(
   page: Page,
   expectedEpisode
 ) {
-  const expectedTitle = expectedEpisode.data.title
+  const episode = expectedEpisode.data
+  const expectedTitle = episode.title
   const expectedEpisodeDuration = getExpectedEpisodeDuration(
-    expectedEpisode.data.durationInSeconds
+    episode.durationInSeconds
   )
+  const expectedDate = dayjs.unix(episode.datePublished).format("MMMM D, YYYY")
   const artwork = page.locator(".podcast-episode-card").getByRole("img", {
     name: expectedTitle + " podcast image",
     exact: true,
@@ -189,6 +191,20 @@ export async function assertPodcastEpisodeOnPodcastEpisodeDetailPage(
     "Podcast episode card Title should be present"
   ).toBeVisible()
 
+  await expect(
+    page
+      .locator(".podcast-episode-card")
+      .getByText(expectedDate, { exact: true }),
+    `Podcast episode card Episode Date should be present`
+  ).toBeVisible()
+
+  await expect(
+    page
+      .locator(".podcast-episode-card")
+      .getByText(expectedEpisodeDuration, { exact: true }),
+    `Podcast episode card Duration in Minutes should be present`
+  ).toBeVisible()
+
   // ensure description has no duplicates - remove all empty lines "" and newlines ("\n")
   const descriptions = (
     await page
@@ -206,12 +222,5 @@ export async function assertPodcastEpisodeOnPodcastEpisodeDetailPage(
   await expect(
     page.locator(".podcast-episode-card .podcast-episode-card-play-button"),
     `Podcast episode card Play button should be present`
-  ).toBeVisible()
-
-  await expect(
-    page
-      .locator(".podcast-episode-card")
-      .getByText(expectedEpisodeDuration, { exact: true }),
-    `Podcast episode card Duration in Minutes should be present`
   ).toBeVisible()
 }

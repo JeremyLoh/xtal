@@ -10,5 +10,5 @@
 .podcast-episode-detail-description {
   overflow-y: auto !important;
   height: 100% !important;
-  max-height: 50vh !important;
+  max-height: 60vh !important;
 }

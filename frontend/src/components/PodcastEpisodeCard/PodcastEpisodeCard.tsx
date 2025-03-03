@@ -98,7 +98,9 @@ PodcastEpisodeCard.Title = function PodcastEpisodeCardTitle({
   if (url) {
     return (
       <Link to={url} style={{ textDecoration: "none", width: "fit-content" }}>
-        <p className="podcast-episode-card-title">{episode.title}</p>
+        <p className="podcast-episode-card-title active-link">
+          {episode.title}
+        </p>
       </Link>
     )
   } else {

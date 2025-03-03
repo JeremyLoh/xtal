@@ -18,12 +18,12 @@
   font-weight: bold;
   font-size: large;
 }
-.podcast-episode-card-title:hover {
+.podcast-episode-card-title.active-link:hover {
   text-decoration: underline;
 }
 
 .podcast-episode-card-description {
-  font-size: 0.9rem;
+  font-size: 1rem;
   overflow-y: scroll;
   max-height: 200px;
   padding-left: 1rem;
