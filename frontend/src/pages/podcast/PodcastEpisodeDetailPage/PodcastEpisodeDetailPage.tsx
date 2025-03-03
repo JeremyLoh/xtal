@@ -1,12 +1,14 @@
 import "./PodcastEpisodeDetailPage.css"
-import { useEffect } from "react"
+import { useCallback, useContext, useEffect } from "react"
 import { useParams } from "react-router"
+import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/PodcastEpisodeCard.tsx"
 import usePodcastEpisode from "../../../hooks/podcast/usePodcastEpisode.ts"
 
 export default function PodcastEpisodeDetailPage() {
   const { podcastEpisodeId } = useParams()
+  const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const { loading, episode, fetchPodcastEpisode } = usePodcastEpisode()
 
   useEffect(() => {
@@ -14,6 +16,12 @@ export default function PodcastEpisodeDetailPage() {
       fetchPodcastEpisode(podcastEpisodeId)
     }
   }, [podcastEpisodeId, fetchPodcastEpisode])
+
+  const handlePlayClick = useCallback(() => {
+    if (podcastEpisodeContext) {
+      podcastEpisodeContext.setEpisode(episode)
+    }
+  }, [podcastEpisodeContext, episode])
 
   return (
     <LoadingDisplay loading={loading}>
@@ -25,6 +33,7 @@ export default function PodcastEpisodeDetailPage() {
               title={episode.title + " podcast image"}
             />
             <PodcastEpisodeCard.Title />
+            <PodcastEpisodeCard.PlayButton onPlayClick={handlePlayClick} />
             <PodcastEpisodeCard.Description />
           </PodcastEpisodeCard>
         )}

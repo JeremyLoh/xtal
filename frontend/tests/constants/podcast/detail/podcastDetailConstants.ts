@@ -178,6 +178,7 @@ export async function assertPodcastEpisodeOnPodcastEpisodeDetailPage(
     await artwork.getAttribute("width"),
     `Podcast episode card should have artwork image width of ${expectedArtworkSize}`
   ).toBe(expectedArtworkSize)
+
   await expect(
     page
       .locator(".podcast-episode-card .podcast-episode-card-title")
@@ -197,4 +198,9 @@ export async function assertPodcastEpisodeOnPodcastEpisodeDetailPage(
     new Set(descriptions).size,
     `Podcast episode card Description should not be duplicated due to React Strict Mode`
   ).toBe(descriptions.length)
+
+  await expect(
+    page.locator(".podcast-episode-card .podcast-episode-card-play-button"),
+    `Podcast episode card Play button should be present`
+  ).toBeVisible()
 }
