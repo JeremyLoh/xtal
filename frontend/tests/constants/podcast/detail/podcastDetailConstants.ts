@@ -159,3 +159,42 @@ export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
     ).toBeVisible()
   }
 }
+
+export async function assertPodcastEpisodeOnPodcastEpisodeDetailPage(
+  page: Page,
+  expectedEpisode
+) {
+  const expectedTitle = expectedEpisode.data.title
+  const artwork = page.locator(".podcast-episode-card").getByRole("img", {
+    name: expectedTitle + " podcast image",
+    exact: true,
+  })
+  const expectedArtworkSize = "200"
+  await expect(
+    artwork,
+    "Podcast episode card Artwork should be present"
+  ).toBeVisible()
+  expect(
+    await artwork.getAttribute("width"),
+    `Podcast episode card should have artwork image width of ${expectedArtworkSize}`
+  ).toBe(expectedArtworkSize)
+  await expect(
+    page
+      .locator(".podcast-episode-card .podcast-episode-card-title")
+      .getByText(expectedTitle, { exact: true }),
+    "Podcast episode card Title should be present"
+  ).toBeVisible()
+  // ensure description has no duplicates - remove all empty lines "" and newlines ("\n")
+  const descriptions = (
+    await page
+      .locator(".podcast-episode-card .podcast-episode-card-description")
+      .allInnerTexts()
+  )
+    .join("")
+    .split("\n")
+    .filter((line) => line.trim() !== "")
+  expect(
+    new Set(descriptions).size,
+    `Podcast episode card Description should not be duplicated due to React Strict Mode`
+  ).toBe(descriptions.length)
+}

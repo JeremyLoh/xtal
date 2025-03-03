@@ -51,6 +51,18 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
           await route.fulfill({ json })
         }
       )
+      const { id: podcastEpisodeId } =
+        podcastId_259760_episodeId_34000697601.data
+      const expectedEpisodeDetailRoute = new RegExp(
+        `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}$`
+      )
+      await page.route(
+        `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
+        async (route) => {
+          const json = podcastId_259760_episodeId_34000697601
+          await route.fulfill({ json })
+        }
+      )
       await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
       await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
       await assertPodcastInfo(
@@ -73,11 +85,6 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       await expect(
         page.locator(".podcast-episode-detail-container")
       ).toBeVisible()
-      const { id: podcastEpisodeId } =
-        podcastId_259760_episodeId_34000697601.data
-      const expectedEpisodeDetailRoute = new RegExp(
-        `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}$`
-      )
       expect(page.url(), "should be on podcast detail page url").toMatch(
         expectedEpisodeDetailRoute
       )

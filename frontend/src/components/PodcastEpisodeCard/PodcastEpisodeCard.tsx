@@ -92,14 +92,18 @@ PodcastEpisodeCard.Artwork = function PodcastEpisodeCardArtwork({
 PodcastEpisodeCard.Title = function PodcastEpisodeCardTitle({
   url,
 }: {
-  url: string
+  url?: string
 }) {
   const { episode } = usePodcastEpisodeCardContext()
-  return (
-    <Link to={url} style={{ textDecoration: "none", width: "fit-content" }}>
-      <p className="podcast-episode-card-title">{episode.title}</p>
-    </Link>
-  )
+  if (url) {
+    return (
+      <Link to={url} style={{ textDecoration: "none", width: "fit-content" }}>
+        <p className="podcast-episode-card-title">{episode.title}</p>
+      </Link>
+    )
+  } else {
+    return <p className="podcast-episode-card-title">{episode.title}</p>
+  }
 }
 
 PodcastEpisodeCard.Description = function PodcastEpisodeCardDescription() {
