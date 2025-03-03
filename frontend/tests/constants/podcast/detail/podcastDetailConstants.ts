@@ -205,6 +205,12 @@ export async function assertPodcastEpisodeOnPodcastEpisodeDetailPage(
     `Podcast episode card Duration in Minutes should be present`
   ).toBeVisible()
 
+  await expect(
+    page
+      .locator(".podcast-episode-card")
+      .getByRole("link", { name: episode.externalWebsiteUrl, exact: true })
+  ).toBeVisible()
+
   // ensure description has no duplicates - remove all empty lines "" and newlines ("\n")
   const descriptions = (
     await page

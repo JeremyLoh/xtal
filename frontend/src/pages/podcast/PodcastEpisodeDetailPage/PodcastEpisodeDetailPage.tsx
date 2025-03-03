@@ -35,6 +35,7 @@ export default function PodcastEpisodeDetailPage() {
             <PodcastEpisodeCard.Title />
             <PodcastEpisodeCard.PublishDate />
             <PodcastEpisodeCard.Duration />
+            <PodcastEpisodeCard.EpisodeWebsiteLink />
             <PodcastEpisodeCard.PlayButton onPlayClick={handlePlayClick} />
             <PodcastEpisodeCard.Description className="podcast-episode-detail-description" />
           </PodcastEpisodeCard>

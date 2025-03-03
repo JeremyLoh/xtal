@@ -111,7 +111,7 @@ PodcastEpisodeCard.Title = function PodcastEpisodeCardTitle({
 PodcastEpisodeCard.Description = function PodcastEpisodeCardDescription({
   className,
 }: {
-  className: string
+  className?: string
 }) {
   const { episode, descriptionDivRef } = usePodcastEpisodeCardContext()
   useEffect(() => {
@@ -207,3 +207,19 @@ PodcastEpisodeCard.Duration = function PodcastEpisodeCardDuration() {
     hours === 0 ? `${minutes} min` : `${hours} hr ${minutes} min`
   return <p className="podcast-episode-card-duration">{durationInMinutes}</p>
 }
+
+PodcastEpisodeCard.EpisodeWebsiteLink =
+  function PodcastEpisodeCardExternalWebsiteLink() {
+    const { episode } = usePodcastEpisodeCardContext()
+    if (episode.externalWebsiteUrl == null) {
+      return null
+    }
+    return (
+      <Link
+        to={episode.externalWebsiteUrl}
+        style={{ textDecoration: "none", width: "fit-content" }}
+      >
+        {episode.externalWebsiteUrl}
+      </Link>
+    )
+  }
