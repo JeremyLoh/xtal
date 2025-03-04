@@ -16,3 +16,11 @@ export type PodcastIndexPodcastByFeedIdResponse = {
   feed: PodcastIndexFeed
   description: string // response description
 }
+
+export type PodcastIndexPodcastBySearchTermResponse = {
+  // https://podcastindex-org.github.io/docs-api/#get-/search/byterm
+  status: "true" | "false"
+  count: number
+  description: string // response description
+  feeds: PodcastIndexFeed[]
+}

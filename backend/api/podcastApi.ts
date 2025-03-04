@@ -5,6 +5,7 @@ import { PodcastEpisode } from "../model/podcastEpisode.js"
 import { PodcastCategory } from "../model/podcastCategory.js"
 import {
   PodcastIndexPodcastByFeedIdResponse,
+  PodcastIndexPodcastBySearchTermResponse,
   PodcastIndexTrendingPodcastResponse,
 } from "./responseType/podcastIndexPodcastTypes.js"
 import {
@@ -15,6 +16,10 @@ import { PodcastIndexCategoryResponse } from "./responseType/podcastIndexCategor
 
 type PodcastApi = {
   getTrendingPodcasts(
+    authHeaders: Headers,
+    searchParams: URLSearchParams
+  ): Promise<Podcast[]>
+  getPodcastBySearchTerm(
     authHeaders: Headers,
     searchParams: URLSearchParams
   ): Promise<Podcast[]>
@@ -47,12 +52,35 @@ class PodcastIndexApi implements PodcastApi {
         title: feed.title || "",
         description: getSanitizedHtmlText(feed.description || ""),
         author: feed.author || "",
-        image: feed.image || "",
+        image: feed.image || feed.artwork || "",
         latestPublishTime: feed.newestItemPublishTime || feed.newestItemPubdate,
         itunesId: feed.itunesId,
         trendScore: feed.trendScore,
         language: Language[language as keyof typeof Language],
         categories: Object.values<string>(feed.categories),
+      }
+    })
+    return podcasts
+  }
+
+  private parsePodcastBySearchTerm(
+    response: PodcastIndexPodcastBySearchTermResponse
+  ): Podcast[] {
+    const podcasts = response.feeds.map((feed) => {
+      const language = feed.language.toLowerCase()
+      return {
+        id: feed.id,
+        url: feed.url || "",
+        title: feed.title || "",
+        description: getSanitizedHtmlText(feed.description || ""),
+        author: feed.author || "",
+        image: feed.image || feed.artwork || "",
+        latestPublishTime: feed.newestItemPubdate,
+        itunesId: feed.itunesId,
+        language: Language[language as keyof typeof Language],
+        categories: Object.values<string>(feed.categories),
+        episodeCount: feed.episodeCount,
+        isExplicit: feed.explicit,
       }
     })
     return podcasts
@@ -150,6 +178,20 @@ class PodcastIndexApi implements PodcastApi {
     })
     const json: PodcastIndexTrendingPodcastResponse = await response.json()
     return this.parseTrendingPodcasts(json)
+  }
+
+  async getPodcastBySearchTerm(
+    authHeaders: Headers,
+    searchParams: URLSearchParams
+  ): Promise<Podcast[]> {
+    // https://podcastindex-org.github.io/docs-api/#get-/search/byterm
+    const response = await ky.get(this.url + "/search/byterm", {
+      searchParams: searchParams,
+      headers: authHeaders,
+      retry: 0,
+    })
+    const json: PodcastIndexPodcastBySearchTermResponse = await response.json()
+    return this.parsePodcastBySearchTerm(json)
   }
 
   async getPodcastEpisodes(

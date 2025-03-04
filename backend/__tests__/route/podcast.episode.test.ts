@@ -20,6 +20,7 @@ function mockRateLimiters() {
     return {
       default: {
         getTrendingPodcastLimiter: getMockMiddleware(),
+        getPodcastSearchLimiter: getMockMiddleware(),
         getPodcastEpisodeLimiter: getMockMiddleware(),
         getPodcastEpisodesLimiter: getMockMiddleware(),
         getPodcastImageConversionLimiter: getMockMiddleware(),
@@ -32,6 +33,14 @@ function mockRateLimiters() {
 
 describe("GET /api/podcast/episode (single episode information)", () => {
   const expectedOrigin = getFrontendOrigin() || ""
+
+  beforeEach(() => {
+    mockRateLimiters()
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
 
   type PodcastEpisodeByIdResponse = {
     // https://podcastindex-org.github.io/docs-api/#get-/episodes/byid
@@ -67,14 +76,6 @@ describe("GET /api/podcast/episode (single episode information)", () => {
       transcripts?: any
     }
   }
-
-  beforeEach(() => {
-    mockRateLimiters()
-  })
-
-  afterEach(() => {
-    vi.restoreAllMocks()
-  })
 
   function getExpectedSingleEpisodeData(
     episodeResponse: PodcastEpisodeByIdResponse

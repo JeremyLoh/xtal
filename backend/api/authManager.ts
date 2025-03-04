@@ -1,5 +1,6 @@
 import crypto from "node:crypto"
 import DateUtil from "./dateUtil.js"
+import { InvalidApiKeyError } from "../error/invalidApiKeyError.js"
 
 type AuthManager = {
   getAuthTokenHeaders(): Headers
@@ -34,4 +35,21 @@ class PodcastIndexAuthManager implements AuthManager {
   }
 }
 
-export { AuthManager, PodcastIndexAuthManager }
+function getPodcastIndexAuthManager() {
+  const apiKey = process.env.PODCAST_INDEX_API_KEY
+  const apiSecret = process.env.PODCAST_INDEX_API_SECRET
+  if (
+    apiKey == null ||
+    apiKey === "" ||
+    apiSecret == null ||
+    apiSecret === ""
+  ) {
+    throw new InvalidApiKeyError(
+      "Server configuration error: Invalid Podcast API Key"
+    )
+  }
+  const podcastAuthManager = new PodcastIndexAuthManager(apiKey, apiSecret)
+  return podcastAuthManager
+}
+
+export { AuthManager, PodcastIndexAuthManager, getPodcastIndexAuthManager }

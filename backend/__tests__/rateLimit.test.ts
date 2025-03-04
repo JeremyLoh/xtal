@@ -41,6 +41,35 @@ describe("GET /api/podcast/trending", () => {
   })
 })
 
+describe("GET /api/podcast/search", () => {
+  const expectedOrigin = getFrontendOrigin() || ""
+
+  describe("rate limit", () => {
+    test("should return HTTP 429 when rate limit is exceeded", async () => {
+      const limit = "10"
+      const query = "syntax"
+      const url = `/api/podcast/search?q=${query}&limit=${limit}`
+      const app = setupApp()
+      const firstResponse = await request(app)
+        .get(url)
+        .set("Origin", expectedOrigin)
+      const secondResponse = await request(app)
+        .get(url)
+        .set("Origin", expectedOrigin)
+      expect(firstResponse.status).toEqual(200)
+      expect(secondResponse.status).toEqual(429)
+      expect(secondResponse.error).toEqual(
+        expect.objectContaining({
+          status: 429,
+          text: "Too many requests, please try again later.",
+          method: "GET",
+          path: url,
+        })
+      )
+    })
+  })
+})
+
 describe("GET /api/podcast/episode", () => {
   const expectedOrigin = getFrontendOrigin() || ""
 
