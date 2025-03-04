@@ -5,6 +5,9 @@ import TrendingPodcastSection from "../../../features/podcast/trending/component
 import PodcastCategorySection from "../../../features/podcast/category/components/PodcastCategorySection/PodcastCategorySection.tsx"
 import useTrendingPodcasts from "../../../hooks/podcast/useTrendingPodcasts.ts"
 import usePodcastCategory from "../../../hooks/podcast/usePodcastCategory.ts"
+import SearchBar from "../../../components/SearchBar/SearchBar.tsx"
+import usePodcastSearch from "../../../hooks/podcast/usePodcastSearch.ts"
+import PodcastSearchResultList from "../../../components/PodcastSearchResultList/PodcastSearchResultList.tsx"
 
 const LIMIT = 10
 
@@ -14,6 +17,8 @@ export default function PodcastHomePage() {
       limit: LIMIT,
     }
   }, [])
+  const { podcasts: searchPodcasts, fetchPodcastsBySearchQuery } =
+    usePodcastSearch()
   const {
     DEFAULT_SINCE_DAYS,
     loading: loadingPodcasts,
@@ -44,6 +49,14 @@ export default function PodcastHomePage() {
     [handleTrendingPodcastRefresh]
   )
 
+  const handlePodcastSearch = useCallback(
+    async (query: string) => {
+      const podcastSearchLimit = 10
+      fetchPodcastsBySearchQuery(query, podcastSearchLimit)
+    },
+    [fetchPodcastsBySearchQuery]
+  )
+
   useEffect(() => {
     document.title = "xtal - podcasts"
     Promise.allSettled([
@@ -56,6 +69,13 @@ export default function PodcastHomePage() {
   return (
     <LoadingDisplay loading={loadingCategories || loadingPodcasts}>
       <div id="podcast-home-page-container">
+        <SearchBar
+          className="podcast-search-bar"
+          placeholder="Search Podcasts..."
+          onChange={handlePodcastSearch}
+        />
+        <PodcastSearchResultList results={searchPodcasts} />
+
         <PodcastCategorySection
           categories={categories}
           onRefresh={handlePodcastCategoryRefresh}
