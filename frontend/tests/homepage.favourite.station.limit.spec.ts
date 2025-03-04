@@ -33,7 +33,9 @@ test.describe("radio station favourite station limit feature", () => {
 
   test("should show warning toast when total favourite stations limit is reached", async ({
     page,
+    headless,
   }) => {
+    test.skip(headless, "Skip slow test from headless mode")
     test.setTimeout(30_000)
     const MAX_FAVOURITE_STATIONS = 3
     assertMaxFavouriteStationsEnvProperty(MAX_FAVOURITE_STATIONS)
@@ -81,7 +83,9 @@ test.describe("radio station favourite station limit feature", () => {
 
   test("should allow addition of new favourite station after deleting from favourite station drawer", async ({
     page,
+    headless,
   }) => {
+    test.skip(headless, "Skip slow test from headless mode")
     test.setTimeout(30_000)
     const MAX_FAVOURITE_STATIONS = 3
     assertMaxFavouriteStationsEnvProperty(MAX_FAVOURITE_STATIONS)

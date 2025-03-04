@@ -159,3 +159,83 @@ export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
     ).toBeVisible()
   }
 }
+
+export async function assertPodcastEpisodeOnPodcastEpisodeDetailPage(
+  page: Page,
+  expectedEpisode
+) {
+  const episode = expectedEpisode.data
+  const expectedTitle = episode.title
+  const expectedEpisodeDuration = getExpectedEpisodeDuration(
+    episode.durationInSeconds
+  )
+  const expectedDate = dayjs.unix(episode.datePublished).format("MMMM D, YYYY")
+  const artwork = page.locator(".podcast-episode-card").getByRole("img", {
+    name: expectedTitle + " podcast image",
+    exact: true,
+  })
+  const expectedArtworkSize = "200"
+  await expect(
+    artwork,
+    "Podcast episode card Artwork should be present"
+  ).toBeVisible()
+  expect(
+    await artwork.getAttribute("width"),
+    `Podcast episode card should have artwork image width of ${expectedArtworkSize}`
+  ).toBe(expectedArtworkSize)
+
+  await expect(
+    page
+      .locator(".podcast-episode-card .podcast-episode-card-title")
+      .getByText(expectedTitle, { exact: true }),
+    "Podcast episode card Title should be present"
+  ).toBeVisible()
+
+  await expect(
+    page
+      .locator(".podcast-episode-card")
+      .getByText(expectedDate, { exact: true }),
+    `Podcast episode card Episode Date should be present`
+  ).toBeVisible()
+
+  await expect(
+    page
+      .locator(".podcast-episode-card")
+      .getByText(expectedEpisodeDuration, { exact: true }),
+    `Podcast episode card Duration in Minutes should be present`
+  ).toBeVisible()
+
+  await expect(
+    page
+      .locator(".podcast-episode-card")
+      .getByText(`${episode.isExplicit ? "Explicit" : "Not Explicit"}`, {
+        exact: true,
+      }),
+    `Podcast episode card Explicit Indicator should be present`
+  ).toBeVisible()
+
+  await expect(
+    page
+      .locator(".podcast-episode-card")
+      .getByRole("link", { name: episode.externalWebsiteUrl, exact: true })
+  ).toBeVisible()
+
+  // ensure description has no duplicates - remove all empty lines "" and newlines ("\n")
+  const descriptions = (
+    await page
+      .locator(".podcast-episode-card .podcast-episode-card-description")
+      .allInnerTexts()
+  )
+    .join("")
+    .split("\n")
+    .filter((line) => line.trim() !== "")
+  expect(
+    new Set(descriptions).size,
+    `Podcast episode card Description should not be duplicated due to React Strict Mode`
+  ).toBe(descriptions.length)
+
+  await expect(
+    page.locator(".podcast-episode-card .podcast-episode-card-play-button"),
+    `Podcast episode card Play button should be present`
+  ).toBeVisible()
+}

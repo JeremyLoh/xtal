@@ -1,4 +1,6 @@
 import "./PodcastEpisodeCard.css"
+import { Link } from "react-router"
+import dayjs from "dayjs"
 import DOMPurify from "dompurify"
 import {
   createContext,
@@ -8,10 +10,10 @@ import {
   useRef,
 } from "react"
 import { IoPlaySharp } from "react-icons/io5"
-import dayjs from "dayjs"
+import { TbExplicit, TbExplicitOff } from "react-icons/tb"
 import { PodcastEpisode } from "../../api/podcast/model/podcast.ts"
-import Pill from "../Pill/Pill.tsx"
 import PodcastImage from "../PodcastImage/PodcastImage.tsx"
+import Pill from "../Pill/Pill.tsx"
 
 type PodcastEpisodeCardProps = PropsWithChildren & {
   episode: PodcastEpisode
@@ -88,12 +90,30 @@ PodcastEpisodeCard.Artwork = function PodcastEpisodeCardArtwork({
   )
 }
 
-PodcastEpisodeCard.Title = function PodcastEpisodeCardTitle() {
+PodcastEpisodeCard.Title = function PodcastEpisodeCardTitle({
+  url,
+}: {
+  url?: string
+}) {
   const { episode } = usePodcastEpisodeCardContext()
-  return <p className="podcast-episode-card-title">{episode.title}</p>
+  if (url) {
+    return (
+      <Link to={url} style={{ textDecoration: "none", width: "fit-content" }}>
+        <p className="podcast-episode-card-title active-link">
+          {episode.title}
+        </p>
+      </Link>
+    )
+  } else {
+    return <p className="podcast-episode-card-title">{episode.title}</p>
+  }
 }
 
-PodcastEpisodeCard.Description = function PodcastEpisodeCardDescription() {
+PodcastEpisodeCard.Description = function PodcastEpisodeCardDescription({
+  className,
+}: {
+  className?: string
+}) {
   const { episode, descriptionDivRef } = usePodcastEpisodeCardContext()
   useEffect(() => {
     if (
@@ -122,7 +142,9 @@ PodcastEpisodeCard.Description = function PodcastEpisodeCardDescription() {
   return (
     <div
       ref={descriptionDivRef}
-      className="podcast-episode-card-description"
+      className={`podcast-episode-card-description ${
+        className ? className : ""
+      }`}
     ></div>
   )
 }
@@ -186,3 +208,37 @@ PodcastEpisodeCard.Duration = function PodcastEpisodeCardDuration() {
     hours === 0 ? `${minutes} min` : `${hours} hr ${minutes} min`
   return <p className="podcast-episode-card-duration">{durationInMinutes}</p>
 }
+
+PodcastEpisodeCard.ExplicitIndicator =
+  function PodcastEpisodeCardExplicitIndicator() {
+    const { episode } = usePodcastEpisodeCardContext()
+    if (episode.isExplicit) {
+      return (
+        <p className="podcast-episode-card-explicit-indicator">
+          <TbExplicit size={24} /> Explicit
+        </p>
+      )
+    } else {
+      return (
+        <p className="podcast-episode-card-explicit-indicator">
+          <TbExplicitOff size={24} /> Not Explicit
+        </p>
+      )
+    }
+  }
+
+PodcastEpisodeCard.EpisodeWebsiteLink =
+  function PodcastEpisodeCardExternalWebsiteLink() {
+    const { episode } = usePodcastEpisodeCardContext()
+    if (episode.externalWebsiteUrl == null) {
+      return null
+    }
+    return (
+      <Link
+        to={episode.externalWebsiteUrl}
+        style={{ textDecoration: "none", width: "fit-content" }}
+      >
+        {episode.externalWebsiteUrl}
+      </Link>
+    )
+  }
