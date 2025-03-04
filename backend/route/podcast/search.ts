@@ -3,6 +3,7 @@ import { checkSchema, matchedData, validationResult } from "express-validator"
 import { getPodcastSearchValidationSchema } from "../../validation/podcastSearchValidation.js"
 import { getPodcastsBySearchTerm } from "../../service/podcastSearchService.js"
 import { InvalidApiKeyError } from "../../error/invalidApiKeyError.js"
+import rateLimiter from "../../middleware/rateLimiter.js"
 import logger from "../../logger.js"
 
 const router = Router()
@@ -10,6 +11,7 @@ const router = Router()
 router.get(
   "/api/podcast/search",
   checkSchema(getPodcastSearchValidationSchema),
+  rateLimiter.getPodcastSearchLimiter,
   async (request: Request, response: Response) => {
     const result = validationResult(request)
     if (!result.isEmpty()) {
