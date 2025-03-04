@@ -27,6 +27,60 @@ test.describe("Podcast Episode Detail Page for viewing single podcast episode /p
     )
   })
 
+  test("should display error message if no podcast data is found", async ({
+    page,
+  }) => {
+    const expectedErrorMessage = "Podcast episode data is not available"
+    const podcastTitle = encodeURIComponent("No Podcast Data")
+    const podcastId = "2"
+    const podcastEpisodeId = "3"
+    await page.route(
+      `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
+      async (route) => {
+        const json = { count: 0, data: null }
+        await route.fulfill({ json })
+      }
+    )
+    await page.goto(
+      HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
+    )
+    await expect(
+      page
+        .locator(".error-text")
+        .getByText(expectedErrorMessage, { exact: true })
+    ).toBeVisible()
+    await expect(
+      page.locator(".podcast-episode-detail-back-button")
+    ).toBeVisible()
+  })
+
+  test("should display error message when request is aborted", async ({
+    page,
+  }) => {
+    const expectedErrorMessage =
+      "Could not retrieve podcast episode by episode id. Please try again later"
+    const podcastTitle = encodeURIComponent("Aborted Request")
+    const podcastId = "2"
+    const podcastEpisodeId = "3"
+    await page.route(
+      `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
+      async (route) => {
+        await route.abort("aborted")
+      }
+    )
+    await page.goto(
+      HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
+    )
+    await expect(
+      page
+        .locator(".error-text")
+        .getByText(expectedErrorMessage, { exact: true })
+    ).toBeVisible()
+    await expect(
+      page.locator(".podcast-episode-detail-back-button")
+    ).toBeVisible()
+  })
+
   test("should navigate back to the podcast detail page when back button is clicked", async ({
     page,
   }) => {

@@ -85,6 +85,11 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       await expect(
         page.locator(".podcast-episode-detail-container")
       ).toBeVisible()
+      // podcast no data error message should not be shown
+      await expect(
+        page.getByText("Podcast episode data is not available")
+      ).not.toBeVisible()
+
       expect(page.url(), "should be on podcast detail page url").toMatch(
         expectedEpisodeDetailRoute
       )

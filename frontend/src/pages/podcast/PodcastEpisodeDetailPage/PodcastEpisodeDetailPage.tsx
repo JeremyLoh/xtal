@@ -11,7 +11,7 @@ export default function PodcastEpisodeDetailPage() {
   const { podcastId, podcastTitle, podcastEpisodeId } = useParams()
   const navigate = useNavigate()
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
-  const { loading, episode, fetchPodcastEpisode } = usePodcastEpisode()
+  const { loading, error, episode, fetchPodcastEpisode } = usePodcastEpisode()
 
   useEffect(() => {
     if (podcastEpisodeId) {
@@ -35,29 +35,28 @@ export default function PodcastEpisodeDetailPage() {
   return (
     <LoadingDisplay loading={loading}>
       <div className="podcast-episode-detail-container">
+        <button
+          className="podcast-episode-detail-back-button"
+          onClick={handleBackButtonNavigation}
+        >
+          <IoArrowBackSharp size={16} />
+          Back
+        </button>
+        {!episode && error && <p className="error-text">{error}</p>}
         {episode && (
-          <>
-            <button
-              className="podcast-episode-detail-back-button"
-              onClick={handleBackButtonNavigation}
-            >
-              <IoArrowBackSharp size={16} />
-              Back
-            </button>
-            <PodcastEpisodeCard episode={episode}>
-              <PodcastEpisodeCard.Artwork
-                size={200}
-                title={episode.title + " podcast image"}
-              />
-              <PodcastEpisodeCard.Title />
-              <PodcastEpisodeCard.PublishDate />
-              <PodcastEpisodeCard.Duration />
-              <PodcastEpisodeCard.ExplicitIndicator />
-              <PodcastEpisodeCard.EpisodeWebsiteLink />
-              <PodcastEpisodeCard.PlayButton onPlayClick={handlePlayClick} />
-              <PodcastEpisodeCard.Description className="podcast-episode-detail-description" />
-            </PodcastEpisodeCard>
-          </>
+          <PodcastEpisodeCard episode={episode}>
+            <PodcastEpisodeCard.Artwork
+              size={200}
+              title={episode.title + " podcast image"}
+            />
+            <PodcastEpisodeCard.Title />
+            <PodcastEpisodeCard.PublishDate />
+            <PodcastEpisodeCard.Duration />
+            <PodcastEpisodeCard.ExplicitIndicator />
+            <PodcastEpisodeCard.EpisodeWebsiteLink />
+            <PodcastEpisodeCard.PlayButton onPlayClick={handlePlayClick} />
+            <PodcastEpisodeCard.Description className="podcast-episode-detail-description" />
+          </PodcastEpisodeCard>
         )}
       </div>
     </LoadingDisplay>
