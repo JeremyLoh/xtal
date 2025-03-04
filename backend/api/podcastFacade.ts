@@ -12,6 +12,11 @@ interface PodcastFacade {
     since: Date,
     category: string
   ): Promise<Podcast[]>
+  getPodcastBySearchTerm(
+    query: string,
+    limit: number,
+    offset: number
+  ): Promise<Podcast[]>
   getPodcastEpisodes(
     podcastId: string,
     limit: number
@@ -55,6 +60,21 @@ export class PodcastIndexFacade implements PodcastFacade {
       authHeaders,
       searchParams
     )
+    return podcasts
+  }
+
+  async getPodcastBySearchTerm(query: string, limit: number, offset: number) {
+    const authHeaders = this.authManager.getAuthTokenHeaders()
+    const searchParams = new URLSearchParams(
+      `q=${query}&fulltext=description&similar=true&max=${limit + offset}`
+    )
+    const podcasts = await this.podcastApi.getPodcastBySearchTerm(
+      authHeaders,
+      searchParams
+    )
+    if (offset > 0) {
+      return podcasts.slice(offset, offset + limit)
+    }
     return podcasts
   }
 

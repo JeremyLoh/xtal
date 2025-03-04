@@ -33,6 +33,14 @@ function mockRateLimiters() {
 describe("GET /api/podcast/episode (single episode information)", () => {
   const expectedOrigin = getFrontendOrigin() || ""
 
+  beforeEach(() => {
+    mockRateLimiters()
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
   type PodcastEpisodeByIdResponse = {
     // https://podcastindex-org.github.io/docs-api/#get-/episodes/byid
     status: string // "true" | "false"
@@ -67,14 +75,6 @@ describe("GET /api/podcast/episode (single episode information)", () => {
       transcripts?: any
     }
   }
-
-  beforeEach(() => {
-    mockRateLimiters()
-  })
-
-  afterEach(() => {
-    vi.restoreAllMocks()
-  })
 
   function getExpectedSingleEpisodeData(
     episodeResponse: PodcastEpisodeByIdResponse
