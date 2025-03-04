@@ -3,7 +3,10 @@ import request from "supertest"
 import { NextFunction, Request, Response } from "express"
 import { getFrontendOrigin } from "../cors/origin.js"
 import { setupApp } from "../../index.js"
-import { PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_10 } from "../mocks/podcastSearch.js"
+import {
+  PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_10,
+  PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_12,
+} from "../mocks/podcastSearch.js"
 import { Language, Podcast } from "../../model/podcast.js"
 import { getSanitizedHtmlText } from "../../api/dom/htmlSanitize.js"
 
@@ -315,6 +318,32 @@ describe("GET /api/podcast/search", () => {
         data: getExpectedPodcastData(
           PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_10
         ),
+      })
+    )
+  })
+
+  test("should return offset similar podcast data based on search term", async () => {
+    const query = "syntax"
+    const limit = 10
+    const offset = 2
+    const expectedPodcasts =
+      PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_12.feeds.slice(
+        offset,
+        offset + limit
+      )
+    const app = setupApp()
+    const response = await request(app)
+      .get(`/api/podcast/search?q=${query}&limit=${limit}&offset=${offset}`)
+      .set("Origin", expectedOrigin)
+    expect(response.status).toBe(200)
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        count: limit,
+        data: getExpectedPodcastData({
+          ...PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_12,
+          count: expectedPodcasts.length,
+          feeds: expectedPodcasts,
+        }),
       })
     )
   })

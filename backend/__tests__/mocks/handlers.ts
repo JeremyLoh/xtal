@@ -7,7 +7,10 @@ import {
 } from "./podcast.js"
 import { ALL_PODCAST_CATEGORIES } from "./podcastCategory.js"
 import { PODCAST_EPISODE_ID_16795090 } from "./podcastEpisode.js"
-import { PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_10 } from "./podcastSearch.js"
+import {
+  PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_10,
+  PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_12,
+} from "./podcastSearch.js"
 
 export const handlers = [
   http.get("https://api.podcastindex.org/api/1.0/categories/list", () => {
@@ -59,6 +62,13 @@ export const handlers = [
         max === "10"
       ) {
         return HttpResponse.json(PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_10)
+      } else if (
+        query === "syntax" &&
+        similar === "true" &&
+        fulltext === "description" &&
+        max === "12"
+      ) {
+        return HttpResponse.json(PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_12)
       }
 
       return HttpResponse.error()
