@@ -8,6 +8,13 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
     return page.locator(".podcast-search-bar .search-input")
   }
 
+  async function clickSearchResultTitle(page: Page, index: number) {
+    await expect(
+      page.locator(".podcast-search-result-title").nth(index)
+    ).toBeVisible()
+    await page.locator(".podcast-search-result-title").nth(index).click()
+  }
+
   async function assertPodcastSearchResults(
     page: Page,
     expectedPodcasts: Podcast[]
@@ -117,5 +124,37 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
       page,
       podcastSearch_similarTerm_syntax_limit_10.data.slice(0, 2)
     )
+  })
+
+  test("should redirect user to podcast detail page on click of a search result title", async ({
+    page,
+  }) => {
+    const query = "syntax"
+    const limit = 10
+    const podcastIndex = 0
+    const expectedPodcast =
+      podcastSearch_similarTerm_syntax_limit_10.data[podcastIndex]
+    const expectedPodcastDetailPageUrl = new RegExp(
+      `/podcasts/${encodeURIComponent(expectedPodcast.title)}/${
+        expectedPodcast.id
+      }$`
+    )
+    await page.route(
+      `*/**/api/podcast/search?q=${query}&limit=${limit}`,
+      async (route) => {
+        const json = podcastSearch_similarTerm_syntax_limit_10
+        await route.fulfill({ json })
+      }
+    )
+    await page.goto(HOMEPAGE + "/podcasts")
+    await expect(page.locator(".podcast-search-bar")).toBeVisible()
+    await getPodcastSearchInput(page).fill(query)
+    await assertPodcastSearchResults(
+      page,
+      podcastSearch_similarTerm_syntax_limit_10.data
+    )
+
+    await clickSearchResultTitle(page, podcastIndex)
+    expect(page.url()).toMatch(expectedPodcastDetailPageUrl)
   })
 })
