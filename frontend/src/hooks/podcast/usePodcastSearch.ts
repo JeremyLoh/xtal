@@ -25,7 +25,9 @@ function usePodcastSearch() {
         if (response && response.data) {
           setPodcasts(response.data)
         } else {
+          toast.info("No podcasts found for search term")
           setLoading(false) // prevent infinite load on no data
+          setPodcasts(null)
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
