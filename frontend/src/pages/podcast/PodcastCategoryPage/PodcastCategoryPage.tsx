@@ -42,9 +42,7 @@ export default function PodcastCategoryPage() {
     if (!categoryName) {
       return
     }
-    document.title = `xtal - ${decodeURIComponent(
-      categoryName
-    ).toLowerCase()} podcasts`
+    document.title = `xtal - ${categoryName.toLowerCase()} podcasts`
     onRefresh({ since: sinceDaysBefore, category: categoryName })
     // remove useEffect dependencies for initial page load run
     // eslint-disable-next-line react-hooks/exhaustive-deps
