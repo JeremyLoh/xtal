@@ -9,6 +9,7 @@ import {
   defaultTenPodcastEpisodes,
   podcastId_259760_episodeId_34000697601,
   podcastId_259760_FirstTenEpisodes,
+  podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes,
 } from "../../mocks/podcast.episode.ts"
 import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants.ts"
 import {
@@ -35,6 +36,34 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
     await assertPodcastInfo(page, defaultTenPodcastEpisodes.data.podcast)
     await assertPodcastEpisodes(page, defaultTenPodcastEpisodes)
+  })
+
+  test("should display podcast detail page where podcast title has % symbol", async ({
+    page,
+  }) => {
+    const podcastTitle = "99%25%20Invisible" // "99% Invisible"
+    const podcastId = "387129"
+    const limit = 10
+    await page.route(
+      `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+      async (route) => {
+        const json =
+          podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes
+        await route.fulfill({ json })
+      }
+    )
+    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+    await expect(page).toHaveTitle(/99% Invisible - xtal - podcasts/)
+    await expect(page.getByText("404 Not Found")).not.toBeVisible()
+    await assertPodcastInfo(
+      page,
+      podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes.data
+        .podcast
+    )
+    await assertPodcastEpisodes(
+      page,
+      podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes
+    )
   })
 
   test.describe("navigate to podcast episode detail page", () => {

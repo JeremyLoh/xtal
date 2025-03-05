@@ -97,12 +97,16 @@ export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
         .getByText(expectedDate, { exact: true }),
       `(Episode ${i + 1}) podcast episode card Episode Date should be present`
     ).toBeVisible()
-    await expect(
-      page
-        .locator(".podcast-episode-card")
-        .getByText(`Episode ${episode.episodeNumber}`, { exact: true }),
-      `(Episode ${i + 1}) podcast episode card Episode Number should be present`
-    ).toBeVisible()
+    if (episode.episodeNumber != null) {
+      await expect(
+        page
+          .locator(".podcast-episode-card")
+          .getByText(`Episode ${episode.episodeNumber}`, { exact: true }),
+        `(Episode ${
+          i + 1
+        }) podcast episode card Episode Number should be present`
+      ).toBeVisible()
+    }
 
     if (episode.seasonNumber && episode.seasonNumber > 0) {
       await expect(

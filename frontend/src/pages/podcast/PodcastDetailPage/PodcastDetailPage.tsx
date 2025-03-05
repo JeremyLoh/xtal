@@ -53,7 +53,7 @@ export default function PodcastDetailPage() {
 
   useEffect(() => {
     if (podcastTitle) {
-      document.title = `${decodeURIComponent(podcastTitle)} - xtal - podcasts`
+      document.title = `${podcastTitle} - xtal - podcasts`
     }
   }, [podcastTitle])
 
