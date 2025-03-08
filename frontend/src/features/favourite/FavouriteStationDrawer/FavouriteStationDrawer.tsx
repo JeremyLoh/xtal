@@ -1,5 +1,5 @@
 import "./FavouriteStationDrawer.css"
-import { lazy, useCallback, useContext, useState } from "react"
+import { lazy, memo, useCallback, useContext, useState } from "react"
 import { useLocation, useNavigate } from "react-router"
 import { GoStarFill } from "react-icons/go"
 import Drawer from "../../../components/Drawer/Drawer.tsx"
@@ -33,26 +33,35 @@ function FavouriteStationDrawer({
   const navigate = useNavigate()
   const [filters, setFilters] = useState<FavouriteStationFilters | null>(null)
 
-  function handleRemoveFavouriteStation(station: Station) {
-    if (favouriteStationsContext == null) {
-      return
-    }
-    favouriteStationsContext.setFavouriteStations(
-      favouriteStationsContext
-        .getFavouriteStations()
-        .filter((s: Station) => s.stationuuid !== station.stationuuid)
-    )
-  }
-  function handleLoadStation(station: Station) {
-    if (location.pathname.startsWith("/podcasts")) {
-      navigate("/")
-    }
-    setOpen(false)
-    mapContext?.setStation(station)
-  }
+  const handleRemoveFavouriteStation = useCallback(
+    (station: Station) => {
+      if (favouriteStationsContext == null) {
+        return
+      }
+      favouriteStationsContext.setFavouriteStations(
+        favouriteStationsContext
+          .getFavouriteStations()
+          .filter((s: Station) => s.stationuuid !== station.stationuuid)
+      )
+    },
+    [favouriteStationsContext]
+  )
+
+  const handleLoadStation = useCallback(
+    (station: Station) => {
+      if (location.pathname.startsWith("/podcasts")) {
+        navigate("/")
+      }
+      setOpen(false)
+      mapContext?.setStation(station)
+    },
+    [location.pathname, navigate, mapContext, setOpen]
+  )
+
   const handleFilterChange = useCallback((filters: FavouriteStationFilters) => {
     setFilters(filters)
   }, [])
+
   const filterFavouriteStations = useCallback(
     (station: Station) => {
       let isStationShown = true
@@ -118,4 +127,4 @@ function FavouriteStationDrawer({
   )
 }
 
-export default FavouriteStationDrawer
+export default memo(FavouriteStationDrawer)
