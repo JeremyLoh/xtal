@@ -14,7 +14,7 @@
   gap: 0.5rem;
   background-color: var(--primary-color);
   /* Icon color can be changed with "color" property */
-  color: var(--text-color);
+  color: var(--primary-text-color);
   font-size: clamp(0.6rem, 0.6rem + 0.2vw, 1rem);
 }
 .radio-select-random-button:hover {

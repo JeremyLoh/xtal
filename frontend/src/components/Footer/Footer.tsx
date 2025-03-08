@@ -13,7 +13,7 @@ function Footer() {
         rel="noopener noreferrer"
         aria-label="Github link for Jeremy Loh"
       >
-        <FaGithubSquare size={28} />
+        <FaGithubSquare size={28} className="footer-icon" />
       </a>
     </footer>
   )

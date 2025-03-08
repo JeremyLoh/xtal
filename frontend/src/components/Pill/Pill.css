@@ -3,6 +3,7 @@
   border-radius: 8px;
   font-size: clamp(0.5rem, 0.5rem + 1vw, 0.8rem);
   background-color: var(--primary-color);
+  color: var(--primary-text-color);
   border-bottom: 1mm solid var(--accent-color);
   word-break: break-all;
 }

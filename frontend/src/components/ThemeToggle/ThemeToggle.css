@@ -4,5 +4,6 @@
   border-radius: 25%;
   aspect-ratio: 1;
   padding: 0.3rem;
-  background-color: var(--secondary-color);
+  background-color: var(--accent-color);
+  color: var(--text-color);
 }
