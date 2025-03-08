@@ -364,7 +364,7 @@ test.describe("radio station favourite feature", () => {
 
     test("should filter favourite station by name", async ({ page }) => {
       test.slow()
-      const nameFilter = unitedStatesStation.name
+      const nameFilter = unitedStatesStation.name.toLowerCase()
       let requestCount = 1
       await page.route("*/**/json/stations/search?*", async (route) => {
         if (requestCount === 1) {
@@ -393,11 +393,12 @@ test.describe("radio station favourite feature", () => {
       ).toBeVisible()
       await page.getByLabel("Name").fill(nameFilter)
 
-      await assertFavouriteStationName(page, unitedStatesStation.name)
       await assertMissingFavouriteStationName(
         page,
         stationWithMultipleTags.name
       )
+      // assert filtered station is present after other station is removed
+      await assertFavouriteStationName(page, unitedStatesStation.name)
     })
   })
 })

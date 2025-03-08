@@ -68,7 +68,9 @@ function FavouriteStationDrawer({
             .getFavouriteStations()
             .filter((station: Station) => {
               if (filters && filters.name !== "") {
-                return station.name.includes(filters.name)
+                return station.name
+                  .toLowerCase()
+                  .includes(filters.name.toLowerCase())
               }
               return true
             })
