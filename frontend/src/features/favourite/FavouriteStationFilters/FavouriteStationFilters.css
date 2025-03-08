@@ -1,0 +1,25 @@
+.favourite-station-filter-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0.5rem 0;
+}
+
+.favourite-station-filter-title {
+  margin: 0;
+}
+
+.favourite-station-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  width: 100%;
+}
+
+.favourite-station-filter input {
+  padding: 0.2rem;
+  font-size: 1rem;
+  color: var(--text-color);
+  background-color: transparent;
+}

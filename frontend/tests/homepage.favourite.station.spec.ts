@@ -341,4 +341,63 @@ test.describe("radio station favourite feature", () => {
       getFavouriteStationsDrawer(page).locator(".station-card-icon title")
     ).toHaveText("Icon Not Available")
   })
+
+  test.describe("favourite station filters", () => {
+    async function assertFavouriteStationName(page: Page, stationName: string) {
+      await expect(
+        getFavouriteStationsDrawer(page)
+          .locator(".favourite-station")
+          .getByText(stationName, { exact: true })
+      ).toBeVisible()
+    }
+
+    async function assertMissingFavouriteStationName(
+      page: Page,
+      stationName: string
+    ) {
+      await expect(
+        getFavouriteStationsDrawer(page)
+          .locator(".favourite-station")
+          .getByText(stationName, { exact: true })
+      ).not.toBeVisible()
+    }
+
+    test("should filter favourite station by name", async ({ page }) => {
+      test.slow()
+      const nameFilter = unitedStatesStation.name
+      let requestCount = 1
+      await page.route("*/**/json/stations/search?*", async (route) => {
+        if (requestCount === 1) {
+          requestCount++
+          const json = [unitedStatesStation]
+          await route.fulfill({ json })
+        } else {
+          const json = [stationWithMultipleTags]
+          await route.fulfill({ json })
+        }
+      })
+      await page.goto(HOMEPAGE)
+      await clickRandomRadioStationButton(page)
+      await getRadioCardFavouriteIcon(page).click()
+      requestCount = 2
+      await clickRandomRadioStationButton(page)
+      await getRadioCardFavouriteIcon(page).click()
+
+      await getFavouriteStationsButton(page).click()
+
+      await assertFavouriteStationName(page, unitedStatesStation.name)
+      await assertFavouriteStationName(page, stationWithMultipleTags.name)
+
+      await expect(
+        page.locator(".favourite-station-filter-container")
+      ).toBeVisible()
+      await page.getByLabel("Name").fill(nameFilter)
+
+      await assertFavouriteStationName(page, unitedStatesStation.name)
+      await assertMissingFavouriteStationName(
+        page,
+        stationWithMultipleTags.name
+      )
+    })
+  })
 })

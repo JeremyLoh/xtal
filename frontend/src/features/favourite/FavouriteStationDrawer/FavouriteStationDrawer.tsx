@@ -1,14 +1,21 @@
 import "./FavouriteStationDrawer.css"
-import { lazy, useContext } from "react"
+import { lazy, useCallback, useContext, useState } from "react"
 import { useLocation, useNavigate } from "react-router"
 import { GoStarFill } from "react-icons/go"
 import Drawer from "../../../components/Drawer/Drawer.tsx"
 import { Station } from "../../../api/radiobrowser/types.ts"
 import { MapContext } from "../../../context/MapProvider/MapProvider.tsx"
 import { FavouriteStationsContext } from "../../../context/FavouriteStationsProvider/FavouriteStationsProvider.tsx"
+const FavouriteStationFilters = lazy(
+  () => import("../FavouriteStationFilters/FavouriteStationFilters.tsx")
+)
 const FavouriteStationCard = lazy(
   () => import("../FavouriteStationCard/FavouriteStationCard.tsx")
 )
+
+type FavouriteStationFilters = {
+  name: string
+}
 
 type FavouriteStationDrawerProps = {
   open: boolean
@@ -23,6 +30,7 @@ function FavouriteStationDrawer({
   const favouriteStationsContext = useContext(FavouriteStationsContext)
   const location = useLocation()
   const navigate = useNavigate()
+  const [filters, setFilters] = useState<FavouriteStationFilters | null>(null)
 
   function handleRemoveFavouriteStation(station: Station) {
     if (favouriteStationsContext == null) {
@@ -41,13 +49,29 @@ function FavouriteStationDrawer({
     setOpen(false)
     mapContext?.setStation(station)
   }
+  const handleFilterChange = useCallback((filters: FavouriteStationFilters) => {
+    setFilters(filters)
+  }, [])
+
   return (
     <Drawer title="Favourite Stations" open={open} setOpen={setOpen}>
+      {favouriteStationsContext?.getFavouriteStations() && (
+        <>
+          <FavouriteStationFilters onChange={handleFilterChange} />
+          <hr />
+        </>
+      )}
       {favouriteStationsContext?.getFavouriteStations() &&
       favouriteStationsContext.getFavouriteStations().length > 0 ? (
         <div className="favourite-stations">
           {favouriteStationsContext
             .getFavouriteStations()
+            .filter((station: Station) => {
+              if (filters && filters.name !== "") {
+                return station.name.includes(filters.name)
+              }
+              return true
+            })
             .map((station: Station, index: number) => (
               <FavouriteStationCard
                 key={`favourite-station-card-${station.stationuuid}-${index}`}
