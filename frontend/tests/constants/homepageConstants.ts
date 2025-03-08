@@ -28,7 +28,7 @@ export async function assertToastMessage(page: Page, message: string) {
 }
 
 export async function assertToastMessageIsMissing(page: Page, message: string) {
-  await expect(page.locator(".toaster").getByText(message)).not.toHaveCount(1)
+  await expect(page.locator(".toaster").getByText(message)).toHaveCount(0)
 }
 
 export function getNavbarRadioLink(page: Page) {

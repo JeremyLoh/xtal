@@ -15,6 +15,7 @@ const FavouriteStationCard = lazy(
 
 type FavouriteStationFilters = {
   name: string
+  countryCode: string
 }
 
 type FavouriteStationDrawerProps = {
@@ -52,12 +53,38 @@ function FavouriteStationDrawer({
   const handleFilterChange = useCallback((filters: FavouriteStationFilters) => {
     setFilters(filters)
   }, [])
+  const filterFavouriteStations = useCallback(
+    (station: Station) => {
+      let isStationShown = true
+      if (filters && filters.name !== "") {
+        isStationShown =
+          isStationShown &&
+          station.name.toLowerCase().includes(filters.name.toLowerCase())
+      }
+      if (filters && filters.countryCode !== "") {
+        isStationShown =
+          isStationShown && station.countrycode === filters.countryCode
+      }
+      return isStationShown
+    },
+    [filters]
+  )
 
   return (
     <Drawer title="Favourite Stations" open={open} setOpen={setOpen}>
       {favouriteStationsContext?.getFavouriteStations() && (
         <>
-          <FavouriteStationFilters onChange={handleFilterChange} />
+          <FavouriteStationFilters
+            onChange={handleFilterChange}
+            countries={favouriteStationsContext
+              .getFavouriteStations()
+              .map((station: Station) => {
+                return {
+                  name: station.country,
+                  countryCode: station.countrycode,
+                }
+              })}
+          />
           <hr />
         </>
       )}
@@ -66,14 +93,7 @@ function FavouriteStationDrawer({
         <div className="favourite-stations">
           {favouriteStationsContext
             .getFavouriteStations()
-            .filter((station: Station) => {
-              if (filters && filters.name !== "") {
-                return station.name
-                  .toLowerCase()
-                  .includes(filters.name.toLowerCase())
-              }
-              return true
-            })
+            .filter(filterFavouriteStations)
             .map((station: Station, index: number) => (
               <FavouriteStationCard
                 key={`favourite-station-card-${station.stationuuid}-${index}`}

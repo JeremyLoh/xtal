@@ -2,6 +2,7 @@ import { test } from "./fixture/test"
 import { expect, Page } from "@playwright/test"
 import {
   assertToastMessage,
+  assertToastMessageIsMissing,
   clickRandomRadioStationButton,
   getRadioCardMapPopup,
   HOMEPAGE,
@@ -132,10 +133,14 @@ test.describe("share radio station feature", () => {
     ).toBeVisible()
     await clickRandomRadioStationButton(page)
     await getRadioCardShareIcon(page).click()
+
+    await assertToastMessage(page, "Link Copied")
+    await assertToastMessageIsMissing(page, "Link Copied")
+    await assertToastMessageIsMissing(page, "Found a new station!")
+    await assertToastMessageIsMissing(page, "Could not play radio station")
     const expectedUrl =
       new URL(await page.evaluate(() => window.location.href)).origin +
       `/radio-station/${stationWithLocationLatLng.stationuuid}`
-    await assertToastMessage(page, "Link Copied")
     expect(await getClipboardContent(page)).toBe(expectedUrl)
   })
 

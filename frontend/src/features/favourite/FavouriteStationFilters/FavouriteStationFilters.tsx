@@ -2,13 +2,27 @@ import "./FavouriteStationFilters.css"
 import { memo, useCallback, useEffect, useState } from "react"
 import useDebounce from "../../../hooks/useDebounce.ts"
 
+type CountryInfo = {
+  name: string
+  countryCode: string // ISO 3166 2 letter country code (e.g. "US")
+}
+
 type FavouriteStationFiltersProps = {
-  onChange: ({ name }: { name: string }) => void
+  onChange: ({
+    name,
+    countryCode,
+  }: {
+    name: string
+    countryCode: string
+  }) => void
+  countries: CountryInfo[]
 }
 
 export default memo(function FavouriteStationFilters({
   onChange,
+  countries,
 }: FavouriteStationFiltersProps) {
+  const [countryCode, setCountryCode] = useState<string>("")
   const [name, setName] = useState<string>("")
   const debouncedName = useDebounce<string>(name, 400)
 
@@ -20,10 +34,19 @@ export default memo(function FavouriteStationFilters({
     []
   )
 
+  const handleCountrySelect = useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      const countryCode = event.target.value
+      setCountryCode(countryCode)
+      onChange({ name: debouncedName, countryCode: countryCode })
+    },
+    [onChange, debouncedName]
+  )
+
   useEffect(() => {
-    onChange({ name: debouncedName })
+    onChange({ name: debouncedName, countryCode: countryCode })
     setName(debouncedName)
-  }, [onChange, debouncedName])
+  }, [onChange, debouncedName, countryCode])
 
   return (
     <div className="favourite-station-filter-container">
@@ -37,6 +60,17 @@ export default memo(function FavouriteStationFilters({
           value={name}
           onChange={handleNameChange}
         />
+      </div>
+      <div className="favourite-station-filter">
+        <label htmlFor="Country">Country</label>
+        <select id="Country" value={countryCode} onChange={handleCountrySelect}>
+          <option value="">Any</option>
+          {countries.map(({ name, countryCode }) => (
+            <option key={countryCode} value={countryCode}>
+              {name}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   )
