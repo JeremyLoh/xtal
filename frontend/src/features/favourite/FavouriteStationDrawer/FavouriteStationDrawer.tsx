@@ -72,22 +72,23 @@ function FavouriteStationDrawer({
 
   return (
     <Drawer title="Favourite Stations" open={open} setOpen={setOpen}>
-      {favouriteStationsContext?.getFavouriteStations() && (
-        <>
-          <FavouriteStationFilters
-            onChange={handleFilterChange}
-            countries={favouriteStationsContext
-              .getFavouriteStations()
-              .map((station: Station) => {
-                return {
-                  name: station.country,
-                  countryCode: station.countrycode,
-                }
-              })}
-          />
-          <hr />
-        </>
-      )}
+      {favouriteStationsContext?.getFavouriteStations() &&
+        favouriteStationsContext.getFavouriteStations().length > 0 && (
+          <>
+            <FavouriteStationFilters
+              onChange={handleFilterChange}
+              countries={favouriteStationsContext
+                .getFavouriteStations()
+                .map((station: Station) => {
+                  return {
+                    name: station.country,
+                    countryCode: station.countrycode,
+                  }
+                })}
+            />
+            <hr />
+          </>
+        )}
       {favouriteStationsContext?.getFavouriteStations() &&
       favouriteStationsContext.getFavouriteStations().length > 0 ? (
         <div className="favourite-stations">
