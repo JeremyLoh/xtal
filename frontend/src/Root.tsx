@@ -12,6 +12,7 @@ export default function Root() {
         richColors
         toastOptions={{
           className: "toaster",
+          duration: 2000,
         }}
       />
       <Header />
