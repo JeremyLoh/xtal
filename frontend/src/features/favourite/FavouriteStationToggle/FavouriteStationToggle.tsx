@@ -1,5 +1,5 @@
 import "./FavouriteStationToggle.css"
-import { lazy, useState } from "react"
+import { lazy, memo, useState } from "react"
 import { GoStarFill } from "react-icons/go"
 const FavouriteStationDrawer = lazy(
   () => import("../FavouriteStationDrawer/FavouriteStationDrawer.tsx")
@@ -25,4 +25,4 @@ function FavouriteStationToggle() {
   )
 }
 
-export default FavouriteStationToggle
+export default memo(FavouriteStationToggle)
