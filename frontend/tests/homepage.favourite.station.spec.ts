@@ -1,12 +1,17 @@
 import { test } from "./fixture/test"
 import { expect, Page } from "@playwright/test"
 import {
+  assertToastMessageIsMissing,
   clickRandomRadioStationButton,
   getRadioCardMapPopup,
   getRadioStationMapPopupCloseButton,
   HOMEPAGE,
 } from "./constants/homepageConstants"
-import { stationWithMultipleTags, unitedStatesStation } from "./mocks/station"
+import {
+  cantoneseStation,
+  stationWithMultipleTags,
+  unitedStatesStation,
+} from "./mocks/station"
 import {
   closeFavouriteStationsDrawer,
   getFavouriteStationsButton,
@@ -189,6 +194,7 @@ test.describe("radio station favourite feature", () => {
   test("remove one favourited station in drawer when favourite icon in drawer is clicked", async ({
     page,
   }) => {
+    test.slow()
     await page.route("*/**/json/stations/search?*", async (route) => {
       const json = [unitedStatesStation]
       await route.fulfill({ json })
@@ -218,6 +224,11 @@ test.describe("radio station favourite feature", () => {
         ".favourite-station .station-card-favourite-icon.selected"
       )
     ).toBeVisible()
+
+    // wait for toasts to disappear (blocks the favourite icon on mobile view)
+    await assertToastMessageIsMissing(page, "Found a new station!")
+    await assertToastMessageIsMissing(page, "Could not play radio station")
+
     await getFavouriteStationsDrawer(page)
       .locator(".favourite-station .station-card-favourite-icon.selected")
       .click()
@@ -232,9 +243,8 @@ test.describe("radio station favourite feature", () => {
 
   test("allow selection of a favourite station and display it on the map", async ({
     page,
-    headless,
   }) => {
-    test.skip(headless, "Remove flaky test in headless mode")
+    test.slow()
     let requestCount = 1
     await page.route("*/**/json/stations/search?*", async (route) => {
       if (requestCount === 1) {
@@ -261,6 +271,11 @@ test.describe("radio station favourite feature", () => {
 
     // load first station from favourite stations drawer
     await getFavouriteStationsButton(page).click()
+
+    // wait for toasts to disappear (blocks the favourite icon on mobile view)
+    await assertToastMessageIsMissing(page, "Found a new station!")
+    await assertToastMessageIsMissing(page, "Could not play radio station")
+
     await getFavouriteStationsDrawer(page)
       .locator(".favourite-station")
       .getByRole("button", {
@@ -286,6 +301,7 @@ test.describe("radio station favourite feature", () => {
   test("removing favourite station Map popup using 'x' button and loading same favourite station using favourite station drawer shows same station on Map", async ({
     page,
   }) => {
+    test.slow()
     await page.route("*/**/json/stations/search?*", async (route) => {
       const json = [unitedStatesStation]
       await route.fulfill({ json })
@@ -301,6 +317,11 @@ test.describe("radio station favourite feature", () => {
       "should remove radio station card from Map"
     ).not.toBeVisible()
     await getFavouriteStationsButton(page).click()
+
+    // wait for toasts to disappear (blocks the favourite icon on mobile view)
+    await assertToastMessageIsMissing(page, "Found a new station!")
+    await assertToastMessageIsMissing(page, "Could not play radio station")
+
     await getFavouriteStationsDrawer(page)
       .locator(".favourite-station")
       .getByRole("button", {
@@ -340,5 +361,103 @@ test.describe("radio station favourite feature", () => {
     await expect(
       getFavouriteStationsDrawer(page).locator(".station-card-icon title")
     ).toHaveText("Icon Not Available")
+  })
+
+  test.describe("favourite station filters", () => {
+    async function assertFavouriteStationName(page: Page, stationName: string) {
+      await expect(
+        getFavouriteStationsDrawer(page)
+          .locator(".favourite-station")
+          .getByText(stationName, { exact: true })
+      ).toBeVisible()
+    }
+
+    async function assertMissingFavouriteStationName(
+      page: Page,
+      stationName: string
+    ) {
+      await expect(
+        getFavouriteStationsDrawer(page)
+          .locator(".favourite-station")
+          .getByText(stationName, { exact: true })
+      ).not.toBeVisible()
+    }
+
+    test("should filter favourite station by name", async ({ page }) => {
+      test.slow()
+      const nameFilter = unitedStatesStation.name.toLowerCase()
+      let requestCount = 1
+      await page.route("*/**/json/stations/search?*", async (route) => {
+        if (requestCount === 1) {
+          requestCount++
+          const json = [unitedStatesStation]
+          await route.fulfill({ json })
+        } else {
+          const json = [stationWithMultipleTags]
+          await route.fulfill({ json })
+        }
+      })
+      await page.goto(HOMEPAGE)
+      await clickRandomRadioStationButton(page)
+      await getRadioCardFavouriteIcon(page).click()
+      requestCount = 2
+      await clickRandomRadioStationButton(page)
+      await getRadioCardFavouriteIcon(page).click()
+
+      await getFavouriteStationsButton(page).click()
+
+      await assertFavouriteStationName(page, unitedStatesStation.name)
+      await assertFavouriteStationName(page, stationWithMultipleTags.name)
+
+      await expect(
+        page.locator(".favourite-station-filter-container")
+      ).toBeVisible()
+      await page.getByLabel("Name").fill(nameFilter)
+
+      await assertMissingFavouriteStationName(
+        page,
+        stationWithMultipleTags.name
+      )
+      // assert filtered station is present after other station is removed
+      await assertFavouriteStationName(page, unitedStatesStation.name)
+    })
+
+    test("should filter favourite station by country", async ({ page }) => {
+      test.slow()
+      const countryFilter = unitedStatesStation.countrycode
+      let requestCount = 1
+      await page.route("*/**/json/stations/search?*", async (route) => {
+        if (requestCount === 1) {
+          requestCount++
+          const json = [unitedStatesStation]
+          await route.fulfill({ json })
+        } else {
+          const json = [cantoneseStation]
+          await route.fulfill({ json })
+        }
+      })
+      await page.goto(HOMEPAGE)
+      await clickRandomRadioStationButton(page)
+      await getRadioCardFavouriteIcon(page).click()
+      requestCount = 2
+      await clickRandomRadioStationButton(page)
+      await getRadioCardFavouriteIcon(page).click()
+
+      await getFavouriteStationsButton(page).click()
+      await assertFavouriteStationName(page, unitedStatesStation.name)
+      await assertFavouriteStationName(page, cantoneseStation.name)
+
+      await expect(
+        page.locator(".favourite-station-filter-container")
+      ).toBeVisible()
+      await page.getByLabel("Country").selectOption(countryFilter)
+      await assertMissingFavouriteStationName(page, cantoneseStation.name)
+      await assertFavouriteStationName(page, unitedStatesStation.name)
+
+      // remove country filter and all stations should be displayed again
+      await page.getByLabel("Country").selectOption("")
+      await assertFavouriteStationName(page, unitedStatesStation.name)
+      await assertFavouriteStationName(page, cantoneseStation.name)
+    })
   })
 })

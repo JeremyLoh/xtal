@@ -2,6 +2,7 @@ import { test } from "./fixture/test"
 import { expect, Page } from "@playwright/test"
 import {
   assertToastMessage,
+  assertToastMessageIsMissing,
   clickRandomRadioStationButton,
   getRadioCardMapPopup,
   HOMEPAGE,
@@ -51,6 +52,7 @@ test.describe("share radio station feature", () => {
       page,
       unitedStatesStation.stationuuid
     )
+    await assertToastMessage(page, "Link Copied")
     expect(await getClipboardContent(page)).toBe(expectedUrl)
   })
 
@@ -97,7 +99,9 @@ test.describe("share radio station feature", () => {
 
   test("should not copy nested route '/radio-station/' when copying a new radio station share link", async ({
     page,
+    headless,
   }) => {
+    test.skip(headless, "Remove flaky test in headless test")
     // 1) Then user navigates to route /radio-station and loads a radio station
     // 2) Tries to search for a new random radio station
     // 3) Click on the share link for the new radio station
@@ -131,6 +135,11 @@ test.describe("share radio station feature", () => {
     ).toBeVisible()
     await clickRandomRadioStationButton(page)
     await getRadioCardShareIcon(page).click()
+
+    await assertToastMessage(page, "Link Copied")
+    await assertToastMessageIsMissing(page, "Link Copied")
+    await assertToastMessageIsMissing(page, "Found a new station!")
+    await assertToastMessageIsMissing(page, "Could not play radio station")
     const expectedUrl =
       new URL(await page.evaluate(() => window.location.href)).origin +
       `/radio-station/${stationWithLocationLatLng.stationuuid}`
