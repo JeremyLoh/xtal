@@ -51,6 +51,7 @@ test.describe("share radio station feature", () => {
       page,
       unitedStatesStation.stationuuid
     )
+    await assertToastMessage(page, "Link Copied")
     expect(await getClipboardContent(page)).toBe(expectedUrl)
   })
 
@@ -134,6 +135,7 @@ test.describe("share radio station feature", () => {
     const expectedUrl =
       new URL(await page.evaluate(() => window.location.href)).origin +
       `/radio-station/${stationWithLocationLatLng.stationuuid}`
+    await assertToastMessage(page, "Link Copied")
     expect(await getClipboardContent(page)).toBe(expectedUrl)
   })
 
