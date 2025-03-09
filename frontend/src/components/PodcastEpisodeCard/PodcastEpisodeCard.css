@@ -24,10 +24,9 @@
 
 .podcast-episode-card-description {
   font-size: 1rem;
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: 200px;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: 0.5rem 1rem;
   border: 2px solid var(--disabled-element-color);
 }
 .podcast-episode-card-description * {

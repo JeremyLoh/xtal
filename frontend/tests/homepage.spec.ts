@@ -18,19 +18,50 @@ test.beforeEach(async ({ mapPage }) => {
   await mapPage.mockMapTile()
 })
 
-function getAudioPlayButton(page: Page) {
-  // play button will have title="Play"
-  return getRadioCardMapPopup(page).getByRole("button", {
-    name: "Play",
-    exact: true,
-  })
+async function assertMobileAudioPlayButtonIsMissing(page: Page) {
+  const element = getRadioCardMapPopup(page).getByTestId(
+    "audio-player-mobile-play-button"
+  )
+  await expect(element).not.toBeVisible()
 }
-function getAudioPauseButton(page: Page) {
-  // pause button will have title="Pause"
-  return getRadioCardMapPopup(page).getByRole("button", {
-    name: "Pause",
-    exact: true,
-  })
+
+async function assertDesktopAudioPlayButtonIsMissing(page: Page) {
+  const element = getRadioCardMapPopup(page).getByTestId(
+    "audio-player-desktop-play-button"
+  )
+  await expect(element).not.toBeVisible()
+}
+
+async function getMobileAudioPlayButton(page: Page) {
+  const element = getRadioCardMapPopup(page).getByTestId(
+    "audio-player-mobile-play-button"
+  )
+  await expect(element).toHaveAttribute("mediapaused")
+  return element
+}
+
+async function getDesktopAudioPlayButton(page: Page) {
+  const element = getRadioCardMapPopup(page).getByTestId(
+    "audio-player-desktop-play-button"
+  )
+  await expect(element).toHaveAttribute("mediapaused")
+  return element
+}
+
+async function getMobileAudioPauseButton(page: Page) {
+  const element = getRadioCardMapPopup(page).getByTestId(
+    "audio-player-mobile-play-button"
+  )
+  await expect(element).not.toHaveAttribute("mediapaused")
+  return element
+}
+
+async function getDesktopAudioPauseButton(page: Page) {
+  const element = getRadioCardMapPopup(page).getByTestId(
+    "audio-player-desktop-play-button"
+  )
+  await expect(element).not.toHaveAttribute("mediapaused")
+  return element
 }
 
 test("has title", async ({ page }) => {
@@ -105,7 +136,7 @@ test.describe("404 Not Found page", () => {
 })
 
 test.describe("random radio station", () => {
-  test("display random station on map", async ({ page }) => {
+  test("display random station on map", async ({ page, isMobile }) => {
     // mock radio browser api with any query params
     await page.route("*/**/json/stations/search?*", async (route) => {
       const json = [stationWithNoLocationLatLng]
@@ -136,12 +167,18 @@ test.describe("random radio station", () => {
         }
       )
     ).toBeVisible()
-    await getAudioPlayButton(page).click()
-    await getAudioPauseButton(page).click()
+    if (isMobile) {
+      await (await getMobileAudioPlayButton(page)).click()
+      await (await getMobileAudioPauseButton(page)).click()
+    } else {
+      await (await getDesktopAudioPlayButton(page)).click()
+      await (await getDesktopAudioPauseButton(page)).click()
+    }
   })
 
   test("get random station with blocked access HTTP 403 should display error message", async ({
     page,
+    isMobile,
   }) => {
     // mock radio browser api with any query params
     await page.route("*/**/json/stations/search?*", async (route) => {
@@ -173,7 +210,11 @@ test.describe("random radio station", () => {
         exact: true,
       })
     ).toBeVisible()
-    await expect(getAudioPlayButton(page)).not.toBeVisible()
+    if (isMobile) {
+      await assertMobileAudioPlayButtonIsMissing(page)
+    } else {
+      await assertDesktopAudioPlayButtonIsMissing(page)
+    }
     await expect(
       getRadioCardMapPopup(page).getByTestId("radio-card-playback-error")
     ).toBeVisible()
@@ -186,6 +227,7 @@ test.describe("random radio station", () => {
 
   test("random station with multiple tags should have visible audio player component", async ({
     page,
+    isMobile,
   }) => {
     await page.route("*/**/json/stations/search?*", async (route) => {
       const json = [stationWithMultipleTags]
@@ -213,7 +255,11 @@ test.describe("random radio station", () => {
         exact: true,
       })
     ).toBeVisible()
-    await expect(getAudioPlayButton(page)).toBeInViewport()
+    if (isMobile) {
+      await expect(await getMobileAudioPlayButton(page)).toBeInViewport()
+    } else {
+      await expect(await getDesktopAudioPlayButton(page)).toBeInViewport()
+    }
   })
 
   test("random station with bitrate information displays bitrate on card", async ({

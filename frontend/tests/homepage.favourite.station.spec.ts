@@ -310,7 +310,6 @@ test.describe("radio station favourite feature", () => {
     await clickRandomRadioStationButton(page)
     await expect(page.locator("#map")).toBeVisible()
     await getRadioCardFavouriteIcon(page).click()
-    await getRadioStationMapPopupCloseButton(page).scrollIntoViewIfNeeded()
     await getRadioStationMapPopupCloseButton(page).click()
     await expect(
       getRadioCardMapPopup(page),

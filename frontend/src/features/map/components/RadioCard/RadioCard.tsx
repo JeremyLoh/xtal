@@ -1,5 +1,5 @@
 import "./RadioCard.css"
-import { lazy, useContext, useEffect, useState } from "react"
+import { lazy, useCallback, useContext, useEffect, useState } from "react"
 import { toast } from "sonner"
 import { Station } from "../../../../api/radiobrowser/types.ts"
 import { FavouriteStationsContext } from "../../../../context/FavouriteStationsProvider/FavouriteStationsProvider.tsx"
@@ -49,6 +49,7 @@ function RadioCard(props: RadioCardProps) {
       handleAddFavouriteStation(previousStations)
     }
   }
+
   function handleAddFavouriteStation(previousStations: Station[]) {
     const previousStationCount = previousStations.length
     const { MAX_FAVOURITE_STATIONS_ANONYMOUS } = getEnv()
@@ -77,18 +78,22 @@ function RadioCard(props: RadioCardProps) {
       )
     }
   }
-  function handleShareStation() {
+
+  const handleShareStation = useCallback(() => {
     copyRadioStationShareUrl(station)
-  }
-  function handleError() {
+  }, [copyRadioStationShareUrl, station])
+
+  const handleError = useCallback(() => {
     setError(
       "The media could not be loaded. Server failed or the playback format is not supported"
     )
     toast.error("Could not play radio station")
-  }
-  function handleReady() {
+  }, [])
+
+  const handleReady = useCallback(() => {
     toast.success("Found a new station!")
-  }
+  }, [])
+
   return (
     <div className="radio-card">
       <StationCard station={station}>
@@ -124,78 +129,13 @@ function RadioCard(props: RadioCardProps) {
         </p>
       ) : (
         <RadioPlayer
-          options={getPlayerOptions(station)}
-          onReady={handleReady}
+          source={station.url_resolved}
           onError={handleError}
+          onReady={handleReady}
         />
       )}
     </div>
   )
-}
-
-function getPlayerOptions(station: Station) {
-  // https://videojs.com/guides/options/
-  return {
-    liveui: true,
-    audioOnlyMode: true,
-    errorDisplay: true,
-    autoplay: false,
-    controls: true,
-    fill: true,
-    sources: getAudioSources(station),
-    controlBar: {
-      // Define order of elements in the video-js control bar
-      // https://docs.videojs.com/control-bar_control-bar.js
-      children: {
-        playToggle: true,
-        currentTimeDisplay: true,
-        volumePanel: true,
-        fullscreenToggle: false,
-      },
-    },
-  }
-}
-
-function getAudioSources(station: Station) {
-  // https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Containers
-  const codecToType = new Map([
-    ["AAC", ["audio/aac", "audio/x-mpegurl", "application/x-mpegURL"]],
-    ["AAC+", ["audio/aac", "audio/x-mpegurl", "application/x-mpegURL"]],
-    ["OGG", ["audio/ogg"]],
-    ["MP3", ["audio/mpeg"]],
-  ])
-  const codec = station.codec ? station.codec.toUpperCase() : ""
-  if (codecToType.has(codec)) {
-    // @ts-expect-error codec has been checked to be in the map
-    return codecToType.get(codec).map((codecTypes) => {
-      return {
-        src: station.url_resolved,
-        type: codecTypes,
-      }
-    })
-  }
-  return [
-    {
-      src: station.url_resolved,
-      type: "audio/aac",
-    },
-    {
-      src: station.url_resolved,
-      type: "audio/mpeg",
-    },
-    {
-      src: station.url_resolved,
-      type: "audio/ogg",
-    },
-    {
-      src: station.url_resolved,
-      type: "audio/x-mpegurl",
-    },
-    {
-      src: station.url_resolved,
-      type: "application/x-mpegURL",
-    },
-  ]
 }
 
 export default RadioCard

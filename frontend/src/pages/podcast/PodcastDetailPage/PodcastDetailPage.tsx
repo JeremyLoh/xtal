@@ -91,7 +91,6 @@ export default function PodcastDetailPage() {
           )}
         </div>
 
-        <h2 className="podcast-episode-section-title">Episodes</h2>
         <Pagination
           className="podcast-episode-pagination"
           currentPage={page}
@@ -102,6 +101,7 @@ export default function PodcastDetailPage() {
           onNextPageClick={handleNextPageClick}
           onPageClick={handlePageClick}
         />
+        <h2 className="podcast-episode-section-title">Episodes</h2>
         <div className="podcast-episode-container">
           {podcastEpisodes ? (
             podcastEpisodes.map((episode) => {
