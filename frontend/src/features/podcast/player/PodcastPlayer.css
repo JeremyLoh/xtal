@@ -1,3 +1,9 @@
+media-time-range {
+  --media-primary-color: var(--primary-color);
+  --media-preview-background: var(--primary-text-color);
+  width: 50%;
+}
+
 .podcast-player {
   display: flex;
   flex-direction: row;
