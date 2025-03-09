@@ -5,6 +5,13 @@
   gap: 0.5rem;
 }
 
+.station-search-form input,
+.language-select,
+.sort-select {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
 .station-search-form input {
   padding: 0.3rem;
   font-size: 1rem;
@@ -17,6 +24,7 @@
   gap: 0.4rem;
   background-color: var(--secondary-color);
   transition: all 0.3s;
+  margin: 1rem 0;
 }
 .station-search-form button[type="submit"]:hover {
   background-color: var(--accent-color);

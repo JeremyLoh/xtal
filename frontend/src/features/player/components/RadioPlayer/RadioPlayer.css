@@ -17,13 +17,12 @@
   display: flex !important;
   gap: 0.5rem;
   justify-content: center !important;
-  color: var(--text-color);
+  color: var(--primary-text-color);
   font-weight: bold;
   font-size: 110%;
 }
 .vjs-play-control {
   padding: 1rem !important;
-  background-color: var(--background-color) !important;
 }
 /* To make currentTimeDisplay, timeDivider and durationDisplay to work
 https://stackoverflow.com/questions/48715817/video-js-customizing-player-controls */

@@ -8,6 +8,7 @@ footer {
   font-size: 0.7rem;
   font-weight: bold;
   background-color: var(--primary-color);
+  color: var(--primary-text-color);
   border-left: 2mm dotted var(--accent-color);
   border-right: 2mm dotted var(--accent-color);
 }
@@ -30,4 +31,8 @@ footer span {
 }
 #footer-github-link:hover {
   filter: brightness(0.5);
+}
+
+.footer-icon {
+  color: var(--primary-text-color);
 }

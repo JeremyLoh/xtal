@@ -36,6 +36,7 @@
 }
 .drawer-close-button {
   background-color: transparent;
+  color: var(--text-color);
   padding: 0;
 }
 .drawer-info-container,
@@ -51,6 +52,7 @@
   background-color: var(
     --drawer-background-color
   ); /* Same color as drawer background */
+  color: var(--text-color);
   outline: none !important;
 }
 .drawer-drag-button:hover {
