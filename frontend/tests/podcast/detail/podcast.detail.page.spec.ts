@@ -373,6 +373,41 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
         expectedArtworkSize
       )
     })
+
+    test("should redirect to podcast episode detail page on click of episode title in podcast player", async ({
+      page,
+    }) => {
+      const i = 0
+      const podcastTitle = encodeURIComponent("Batman University")
+      const podcastId = "75075"
+      const limit = 10
+      await page.route(
+        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+        async (route) => {
+          const json = defaultTenPodcastEpisodes
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+      await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
+      await expect(
+        getEpisodePlayButton(page, i),
+        `(Episode ${i + 1}) podcast episode card Play button should be present`
+      ).toBeVisible()
+      await getEpisodePlayButton(page, i).click()
+      const expectedPodcastEpisodeId =
+        defaultTenPodcastEpisodes.data.episodes[i].id
+      const expectedEpisodeTitle =
+        defaultTenPodcastEpisodes.data.episodes[i].title
+      await page
+        .locator(".audio-player")
+        .getByRole("link", { name: expectedEpisodeTitle, exact: true })
+        .click()
+      expect(page.url()).toBe(
+        HOMEPAGE +
+          `/podcasts/${podcastTitle}/${podcastId}/${expectedPodcastEpisodeId}`
+      )
+    })
   })
 
   test("should allow back button click to navigate back to /podcasts homepage", async ({
