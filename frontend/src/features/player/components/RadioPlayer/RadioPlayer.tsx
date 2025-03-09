@@ -1,60 +1,88 @@
 import "./RadioPlayer.css"
-import "video.js/dist/video-js.min.css"
-import { useEffect, useRef } from "react"
-// @ts-expect-error import smaller version of videojs to reduce bundle size
-import videojs from "video.js/dist/alt/video.core.js"
-import Player, { PlayerReadyCallback } from "video.js/dist/types/player"
+import { memo, useRef, useState } from "react"
+import {
+  MediaControlBar,
+  MediaController,
+  MediaErrorDialog,
+  MediaMuteButton,
+  MediaPlayButton,
+  MediaSeekBackwardButton,
+  MediaTimeDisplay,
+  MediaVolumeRange,
+} from "media-chrome/react"
 
-// https://github.com/videojs/video.js/issues/8646
 type RadioPlayerProps = {
-  options: typeof videojs.options
-  onReady: PlayerReadyCallback
-  onError: (error: string) => void
+  source: string
+  onError: () => void
+  onReady: () => void
 }
 
 function RadioPlayer(props: RadioPlayerProps) {
-  const { options, onReady, onError } = props
-  const videoRef = useRef<HTMLDivElement | null>(null)
-  const playerRef = useRef<Player | null>(null)
-  useEffect(() => {
-    if (!(playerRef.current == null && videoRef.current)) {
-      return
-    }
-    // Video.js player needs to be inside the component el for React 18 Strict Mode
-    const videoElement = document.createElement("video-js")
-    videoElement.classList.add("vjs-big-play-centered")
-    videoRef.current.appendChild(videoElement)
+  const [error, setError] = useState<boolean>(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
 
-    playerRef.current = videojs(videoElement, options, onReady)
-    if (playerRef.current) {
-      playerRef.current.autoplay(options.autoplay)
-      playerRef.current.src(options.sources)
-      playerRef.current.on("error", () => {
-        // https://stackoverflow.com/questions/30887908/how-to-write-error-message-object-of-videojs-on-server
-        const errorMessage = playerRef.current?.error()?.message
-        if (errorMessage) {
-          onError(errorMessage)
-        }
-      })
+  function handleError() {
+    setError(props.source !== "")
+    props.onError()
+  }
+  function handlePlay() {
+    setError(false)
+    if (audioRef.current) {
+      props.onReady()
     }
-  }, [options, onReady, onError])
-  // dispose Video.js player when component unmounts
-  useEffect(() => {
-    const player = playerRef.current
-    return () => {
-      if (player && !player.isDisposed()) {
-        player.dispose()
-        playerRef.current = null
-      }
-    }
-  }, [playerRef])
-  // Wrap the player in a `div` with `data-vjs-player` attribute, so Video.js won't create additional wrapper in the DOM
-  // https://github.com/videojs/video.js/pull/3856
+  }
+
   return (
-    <div data-vjs-player className="radio-player-container">
-      <div ref={videoRef} />
+    <div className="radio-player-container">
+      <div className="audio-player">
+        <MediaController audio>
+          {props.source && (
+            <audio
+              ref={audioRef}
+              slot="media"
+              src={props.source}
+              onError={handleError}
+              onCanPlay={handlePlay}
+            ></audio>
+          )}
+          {error ? (
+            <>
+              <MediaErrorDialog />
+            </>
+          ) : (
+            <MediaControlBar style={{ padding: "0 0.5rem", width: "100%" }}>
+              <div className="mobile">
+                <MediaPlayButton data-testid="audio-player-mobile-play-button" />
+                <MediaSeekBackwardButton
+                  seekOffset={15}
+                  data-testid="audio-player-mobile-seek-backward-button"
+                />
+                <MediaTimeDisplay
+                  showDuration
+                  data-testid="audio-player-mobile-time-display-button"
+                />
+                <MediaMuteButton data-testid="audio-player-mobile-mute-button" />
+              </div>
+
+              <div className="desktop">
+                <MediaPlayButton data-testid="audio-player-desktop-play-button" />
+                <MediaSeekBackwardButton
+                  seekOffset={15}
+                  data-testid="audio-player-desktop-seek-backward-button"
+                />
+                <MediaTimeDisplay
+                  showDuration
+                  data-testid="audio-player-desktop-time-display-button"
+                />
+                <MediaMuteButton data-testid="audio-player-desktop-mute-button" />
+                <MediaVolumeRange data-testid="audio-player-desktop-volume-range-button" />
+              </div>
+            </MediaControlBar>
+          )}
+        </MediaController>
+      </div>
     </div>
   )
 }
 
-export default RadioPlayer
+export default memo(RadioPlayer)

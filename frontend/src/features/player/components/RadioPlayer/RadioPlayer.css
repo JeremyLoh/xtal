@@ -3,49 +3,30 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color: var(--secondary-color);
-  border-radius: 8px;
-  padding: 0.8rem;
 }
 
-/* Video.js styles, require "!important" to override default styles */
-.video-js {
-  /* To remove black background color on audio controls - not sure why this works */
+.mobile,
+.desktop {
+  display: none;
   width: 100%;
 }
-.video-js .vjs-control-bar {
-  display: flex !important;
-  gap: 0.5rem;
-  justify-content: center !important;
-  color: var(--primary-text-color);
-  font-weight: bold;
-  font-size: 110%;
+
+@media (max-width: 430px) {
+  .mobile {
+    display: flex !important;
+    justify-content: center;
+  }
+  .desktop {
+    display: none !important;
+  }
 }
-.vjs-play-control {
-  padding: 1rem !important;
-}
-/* To make currentTimeDisplay, timeDivider and durationDisplay to work
-https://stackoverflow.com/questions/48715817/video-js-customizing-player-controls */
-.vjs-current-time {
-  display: inline-block !important;
-}
-.vjs-time-divider {
-  display: inline-block !important;
-}
-.vjs-duration {
-  display: inline-block !important;
-}
-/* https://stackoverflow.com/questions/72654727/expand-volume-level-by-default */
-.video-js .vjs-volume-panel.vjs-volume-panel-horizontal {
-  /* Fix the width to prevent hover expansion to default width of 10em */
-  width: 10em !important;
-}
-.video-js .vjs-volume-panel .vjs-volume-control.vjs-volume-horizontal {
-  width: 5em;
-  height: 2em;
-  margin-right: 0;
-  opacity: 1;
-}
-.video-js {
-  vertical-align: middle !important;
+
+@media (min-width: 431px) {
+  .mobile {
+    display: none !important;
+  }
+  .desktop {
+    display: flex !important;
+    justify-content: center;
+  }
 }

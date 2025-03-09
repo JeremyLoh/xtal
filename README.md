@@ -28,7 +28,6 @@ Listen to the world (radio & podcasts) with xtal, a fast and responsive mobile /
 - ky (HTTP requests) - https://www.npmjs.com/package/ky
 - react-hook-form - https://www.npmjs.com/package/react-hook-form
 - React Router - https://reactrouter.com/
-- Video.js - https://videojs.com/
 - media-chrome - https://www.media-chrome.org/
 
 # Setup
