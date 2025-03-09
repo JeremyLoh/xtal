@@ -2,35 +2,31 @@ footer {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  column-gap: 0.2rem;
+  column-gap: 0.5rem;
   width: 100%;
-  padding: 0.2rem;
-  font-size: 0.7rem;
-  font-weight: bold;
+  padding-right: 1rem;
   background-color: var(--primary-color);
   color: var(--primary-text-color);
-  border-left: 2mm dotted var(--accent-color);
-  border-right: 2mm dotted var(--accent-color);
 }
+
+footer span,
+.footer-subtitle {
+  font-size: clamp(0.5rem, 0.5rem + 1vw, 0.8rem);
+}
+
 footer span {
-  display: flex;
-  align-items: center;
+  font-weight: bold;
 }
 
 .footer-subtitle {
-  font-size: clamp(0.5rem, 0.5rem + 1vw, 0.8rem);
   font-style: italic;
-  padding: 0;
-  margin: 0 auto 0 0.5rem;
+  margin: 0.5rem 0;
 }
 
 #footer-github-link {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-#footer-github-link:hover {
-  filter: brightness(0.5);
 }
 
 .footer-icon {
