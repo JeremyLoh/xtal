@@ -52,7 +52,7 @@ async function getPodcastEpisode(
 async function getPodcastEpisodes(
   abortController: AbortController,
   params: PodcastEpisodesSearchParams
-) {
+): Promise<PodcastEpisodesResponse | null> {
   const { BACKEND_ORIGIN } = getEnv()
   const url = BACKEND_ORIGIN + "/api/podcast/episodes"
   const searchParams = getPodcastEpisodeSearchParams(params)
@@ -64,7 +64,7 @@ async function getPodcastEpisodes(
         searchParams,
       })
       .json()
-    return json
+    return addMissingFeedTitleToEpisodes(json)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.name === "AbortError") {
@@ -89,6 +89,20 @@ function getPodcastEpisodeSearchParams(
     searchParams.append("offset", "" + params.offset)
   }
   return searchParams
+}
+
+function addMissingFeedTitleToEpisodes(json: PodcastEpisodesResponse) {
+  // IMPORTANT: set podcast title in episode if not in response (to navigate to episode detail page)
+  // missing feedTitle in the episodes data retrieved from backend endpoint "/api/podcast/episodes"
+  return {
+    ...json,
+    data: {
+      podcast: json.data.podcast,
+      episodes: json.data.episodes.map((episode) => {
+        return { ...episode, feedTitle: json.data.podcast.title }
+      }),
+    },
+  }
 }
 
 export { getPodcastEpisode, getPodcastEpisodes }
