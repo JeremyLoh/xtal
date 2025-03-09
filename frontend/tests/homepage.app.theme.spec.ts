@@ -1,14 +1,14 @@
-import { test } from "./fixture/test"
+import { test } from "./fixture/test.ts"
 import { expect, Page } from "@playwright/test"
-import { HOMEPAGE } from "./constants/homepageConstants"
+import { HOMEPAGE } from "./constants/homepageConstants.ts"
 import {
   closeFavouriteStationsDrawer,
   getFavouriteStationsButton,
-} from "./constants/favouriteStationConstants"
+} from "./constants/favouriteStationConstants.ts"
 import {
   closeSearchStationDrawer,
   getSearchStationButton,
-} from "./constants/searchStationConstants"
+} from "./constants/searchStationConstants.ts"
 
 // https://playwright.dev/docs/emulation#color-scheme-and-media
 test.use({
@@ -46,11 +46,11 @@ test.describe("header app theme (start with dark mode)", () => {
     await expect(
       page.locator(elementSelector),
       "should have dark theme background color"
-    ).toHaveCSS("background-color", "rgb(11, 15, 29)")
+    ).toHaveCSS("background-color", "rgb(25, 25, 11)")
     await expect(
       page.locator(elementSelector),
       "should have dark theme text color"
-    ).toHaveCSS("color", "rgb(232, 235, 245)")
+    ).toHaveCSS("color", "rgb(246, 247, 236)")
   }
 
   test("should switch theme when app theme button is clicked", async ({
