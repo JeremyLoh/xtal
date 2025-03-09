@@ -1,3 +1,9 @@
+media-controller {
+  --media-primary-color: #fafafa; /* text color */
+  --media-secondary-color: #0a0a0a; /* background color */
+  --media-control-hover-background: #404040; /* hover background */
+}
+
 media-time-range {
   --media-primary-color: var(--primary-color);
   --media-preview-background: var(--primary-text-color);
