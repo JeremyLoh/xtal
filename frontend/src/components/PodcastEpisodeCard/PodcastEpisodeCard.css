@@ -30,6 +30,11 @@
   padding-right: 1rem;
   border: 2px solid var(--disabled-element-color);
 }
+.podcast-episode-card-description * {
+  /* Override any child with style attribute that sets text color */
+  color: var(--text-color) !important;
+  background-color: var(--background-color) !important;
+}
 
 .podcast-episode-card-episode-number,
 .podcast-episode-card-season-number {
