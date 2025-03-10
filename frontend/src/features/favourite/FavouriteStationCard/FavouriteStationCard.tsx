@@ -1,4 +1,5 @@
 import "./FavouriteStationCard.css"
+import { memo, useCallback } from "react"
 import { FaMapLocationDot } from "react-icons/fa6"
 import { Station } from "../../../api/radiobrowser/types.ts"
 import StationCard from "../../../components/StationCard/index.tsx"
@@ -17,9 +18,18 @@ function FavouriteStationCard({
 }: FavouriteStationCardProps) {
   const { copyRadioStationShareUrl } = useClipboard()
 
-  function handleShareStation() {
+  const handleRemoveFavouriteStation = useCallback(() => {
+    onRemoveFavouriteStation(station)
+  }, [onRemoveFavouriteStation, station])
+
+  const handleShareStation = useCallback(() => {
     copyRadioStationShareUrl(station)
-  }
+  }, [copyRadioStationShareUrl, station])
+
+  const handleLoadStation = useCallback(() => {
+    onLoadStation(station)
+  }, [onLoadStation, station])
+
   return (
     <div className="favourite-station">
       <StationCard station={station}>
@@ -31,7 +41,7 @@ function FavouriteStationCard({
           <button
             className="remove-favourite-station-button"
             title="Remove from favourites"
-            onClick={() => onRemoveFavouriteStation(station)}
+            onClick={handleRemoveFavouriteStation}
           >
             <StationCard.FavouriteIconFilled />
           </button>
@@ -45,7 +55,7 @@ function FavouriteStationCard({
           <button
             className="favourite-station-load-button"
             title="Load Station"
-            onClick={() => onLoadStation(station)}
+            onClick={handleLoadStation}
           >
             <FaMapLocationDot size={20} />
           </button>
@@ -55,4 +65,4 @@ function FavouriteStationCard({
   )
 }
 
-export default FavouriteStationCard
+export default memo(FavouriteStationCard)
