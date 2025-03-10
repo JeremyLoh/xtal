@@ -5,7 +5,7 @@ import { IoArrowBackSharp, IoReload } from "react-icons/io5"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import { PodcastEpisode } from "../../../api/podcast/model/podcast.ts"
 import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/PodcastEpisodeCard.tsx"
-import PodcastCard from "../../../components/PodcastCard/PodcastCard.tsx"
+import PodcastCard from "../../../components/PodcastCard/index.tsx"
 import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import usePodcastEpisodes from "../../../hooks/podcast/usePodcastEpisodes.ts"
 import Pagination from "../../../components/Pagination/Pagination.tsx"
@@ -22,11 +22,11 @@ export default function PodcastDetailPage() {
   const { loading, podcast, podcastEpisodes, fetchPodcastEpisodes } =
     usePodcastEpisodes({ podcastId, page, limit: LIMIT })
 
-  async function handleRefreshPodcastEpisodes() {
+  const handleRefreshPodcastEpisodes = useCallback(async () => {
     if (podcastId) {
       await fetchPodcastEpisodes(podcastId)
     }
-  }
+  }, [fetchPodcastEpisodes, podcastId])
 
   const handlePreviousPageClick = useCallback((currentPage: number) => {
     setPage(currentPage - 1)
