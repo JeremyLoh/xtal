@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react"
-import Spinner from "../Spinner/Spinner"
+import Spinner from "../Spinner/Spinner.tsx"
 
 type LoadingDisplayProps = PropsWithChildren & {
   loading: boolean
