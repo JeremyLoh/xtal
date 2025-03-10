@@ -3,7 +3,7 @@ import { memo } from "react"
 import { Link } from "react-router"
 import { IoChevronForward, IoReload } from "react-icons/io5"
 import { TrendingPodcast } from "../../../../../api/podcast/model/podcast.ts"
-import PodcastCard from "../../../../../components/PodcastCard/PodcastCard.tsx"
+import PodcastCard from "../../../../../components/PodcastCard/index.tsx"
 import useScreenDimensions from "../../../../../hooks/useScreenDimensions.ts"
 import TrendingPodcastFilters from "../TrendingPodcastFilters/TrendingPodcastFilters.tsx"
 
