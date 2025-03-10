@@ -1,4 +1,4 @@
-import { createContext, useState } from "react"
+import { createContext, useMemo, useState } from "react"
 import { PodcastEpisode } from "../../api/podcast/model/podcast.ts"
 
 type PodcastEpisodeInfo = {
@@ -17,10 +17,9 @@ export default function PodcastEpisodeProvider({
   children: React.ReactNode
 }) {
   const [episode, setEpisode] = useState<PodcastEpisode | null>(null)
-  const value: PodcastEpisodeInfo = {
-    episode,
-    setEpisode,
-  }
+  const value: PodcastEpisodeInfo = useMemo(() => {
+    return { episode, setEpisode }
+  }, [episode])
   return (
     <PodcastEpisodeContext.Provider value={value}>
       {children}

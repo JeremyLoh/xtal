@@ -1,40 +1,40 @@
 import "./Slider.css"
-import { useRef } from "react"
+import { memo, PropsWithChildren, useCallback, useRef } from "react"
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6"
 
-type SliderProps = {
-  children: React.ReactNode
+type SliderProps = PropsWithChildren & {
   scrollAmount: number
   className?: string
 }
 
-function Slider(props: SliderProps) {
+function Slider({ children, scrollAmount, className }: SliderProps) {
   const sliderRef = useRef<HTMLDivElement | null>(null)
-  function slideLeft() {
+
+  const slideLeft = useCallback(() => {
     if (sliderRef.current == null) {
       return
     }
-    const nextPosition = sliderRef.current.scrollLeft - props.scrollAmount
+    const nextPosition = sliderRef.current.scrollLeft - scrollAmount
     sliderRef.current.scroll({ left: nextPosition, behavior: "smooth" })
-  }
-  function slideRight() {
+  }, [scrollAmount])
+
+  const slideRight = useCallback(() => {
     if (sliderRef.current == null) {
       return
     }
-    const nextPosition = sliderRef.current.scrollLeft + props.scrollAmount
+    const nextPosition = sliderRef.current.scrollLeft + scrollAmount
     sliderRef.current.scroll({ left: nextPosition, behavior: "smooth" })
-  }
+  }, [scrollAmount])
+
   return (
-    <div
-      className={`slider-container ${props.className ? props.className : ""}`}
-    >
+    <div className={`slider-container ${className ? className : ""}`}>
       <FaChevronLeft
         size={16}
         className="icon slide-left-icon"
         onClick={slideLeft}
       />
       <div ref={sliderRef} className="slider">
-        {props.children}
+        {children}
       </div>
       <FaChevronRight
         size={16}
@@ -45,4 +45,4 @@ function Slider(props: SliderProps) {
   )
 }
 
-export default Slider
+export default memo(Slider)

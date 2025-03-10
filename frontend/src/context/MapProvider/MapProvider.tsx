@@ -1,4 +1,4 @@
-import { createContext, useState } from "react"
+import { createContext, useCallback, useMemo, useState } from "react"
 import { LatLngExpression } from "leaflet"
 import { Station } from "../../api/radiobrowser/types.ts"
 
@@ -13,27 +13,26 @@ type MapInfo = {
 export const MapContext = createContext<MapInfo | null>(null)
 
 function MapProvider({ children }: { children: React.ReactNode }) {
-  const [currentView, setCurrentView] = useState<LatLngExpression>({
-    lat: 0,
-    lng: 0,
-  })
+  const initialPosition = useMemo(() => {
+    return { lat: 0, lng: 0 }
+  }, [])
+  const [currentView, setCurrentView] =
+    useState<LatLngExpression>(initialPosition)
   const [station, setStation] = useState<Station | null>(null)
-  function setMapStation(station: Station | null) {
+
+  const setMapStation = useCallback((station: Station | null) => {
     setCurrentView({ lat: station?.geo_lat || 0, lng: station?.geo_long || 0 })
     setStation(station == null ? null : { ...station })
-  }
-  return (
-    <MapContext.Provider
-      value={{
-        station,
-        setStation: setMapStation,
-        currentView,
-        setCurrentView,
-      }}
-    >
-      {children}
-    </MapContext.Provider>
-  )
+  }, [])
+  const output = useMemo(() => {
+    return {
+      station,
+      setStation: setMapStation,
+      currentView,
+      setCurrentView,
+    }
+  }, [station, currentView, setMapStation])
+  return <MapContext.Provider value={output}>{children}</MapContext.Provider>
 }
 
 export default MapProvider

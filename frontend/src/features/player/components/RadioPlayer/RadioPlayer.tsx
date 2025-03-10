@@ -1,5 +1,5 @@
 import "./RadioPlayer.css"
-import { memo, useRef, useState } from "react"
+import { memo, useCallback, useRef, useState } from "react"
 import {
   MediaControlBar,
   MediaController,
@@ -17,38 +17,37 @@ type RadioPlayerProps = {
   onReady: () => void
 }
 
-function RadioPlayer(props: RadioPlayerProps) {
+function RadioPlayer({ source, onError, onReady }: RadioPlayerProps) {
   const [error, setError] = useState<boolean>(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
-  function handleError() {
-    setError(props.source !== "")
-    props.onError()
-  }
-  function handlePlay() {
+  const handleError = useCallback(() => {
+    setError(source !== "")
+    onError()
+  }, [source, onError])
+
+  const handlePlay = useCallback(() => {
     setError(false)
     if (audioRef.current) {
-      props.onReady()
+      onReady()
     }
-  }
+  }, [onReady])
 
   return (
     <div className="radio-player-container">
       <div className="audio-player">
         <MediaController audio>
-          {props.source && (
+          {source && (
             <audio
               ref={audioRef}
               slot="media"
-              src={props.source}
+              src={source}
               onError={handleError}
               onCanPlay={handlePlay}
             ></audio>
           )}
           {error ? (
-            <>
-              <MediaErrorDialog />
-            </>
+            <MediaErrorDialog />
           ) : (
             <MediaControlBar style={{ padding: "0 0.5rem", width: "100%" }}>
               <div className="mobile">
