@@ -1,4 +1,4 @@
-import { createContext, useCallback, useState } from "react"
+import { createContext, useCallback, useMemo, useState } from "react"
 import useLocalStorage from "../../hooks/useLocalStorage.ts"
 import { Station } from "../../api/radiobrowser/types.ts"
 
@@ -32,10 +32,11 @@ function FavouriteStationsProvider({
     () => favouriteStations,
     [favouriteStations]
   )
+  const output = useMemo(() => {
+    return { getFavouriteStations, setFavouriteStations: setStations }
+  }, [getFavouriteStations, setStations])
   return (
-    <FavouriteStationsContext.Provider
-      value={{ getFavouriteStations, setFavouriteStations: setStations }}
-    >
+    <FavouriteStationsContext.Provider value={output}>
       {children}
     </FavouriteStationsContext.Provider>
   )
