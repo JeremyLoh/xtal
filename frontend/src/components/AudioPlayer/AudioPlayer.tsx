@@ -1,5 +1,5 @@
 import "./AudioPlayer.css"
-import { PropsWithChildren, useRef, useState } from "react"
+import { memo, PropsWithChildren, useCallback, useRef, useState } from "react"
 import {
   MediaControlBar,
   MediaController,
@@ -18,37 +18,36 @@ type AudioPlayerProps = PropsWithChildren & {
   source: string
 }
 
-function AudioPlayer(props: AudioPlayerProps) {
+function AudioPlayer({ source, children }: AudioPlayerProps) {
   const [error, setError] = useState<boolean>(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
-  function handleError() {
-    setError(props.source !== "")
-  }
-  function handlePlay() {
+  const handleError = useCallback(() => {
+    setError(source !== "")
+  }, [source])
+
+  const handlePlay = useCallback(() => {
     setError(false)
     if (audioRef.current) {
       audioRef.current.play()
     }
-  }
+  }, [])
+
   return (
     <div className="audio-player">
-      {props.children}
+      {children}
       <MediaController audio>
-        {props.source && (
+        {source && (
           <audio
             ref={audioRef}
             slot="media"
-            src={props.source}
+            src={source}
             onError={handleError}
             onCanPlay={handlePlay}
           ></audio>
         )}
-
         {error ? (
-          <>
-            <MediaErrorDialog />
-          </>
+          <MediaErrorDialog />
         ) : (
           <MediaControlBar style={{ padding: "0 0.5rem", width: "100%" }}>
             <div className="mobile">
@@ -91,4 +90,4 @@ function AudioPlayer(props: AudioPlayerProps) {
   )
 }
 
-export default AudioPlayer
+export default memo(AudioPlayer)
