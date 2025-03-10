@@ -1,7 +1,7 @@
 import "./FavouriteStationCard.css"
 import { FaMapLocationDot } from "react-icons/fa6"
 import { Station } from "../../../api/radiobrowser/types.ts"
-import StationCard from "../../../components/StationCard/StationCard.tsx"
+import StationCard from "../../../components/StationCard/index.tsx"
 import useClipboard from "../../../hooks/useClipboard.ts"
 
 type FavouriteStationCardProps = {

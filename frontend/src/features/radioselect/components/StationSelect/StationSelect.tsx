@@ -11,7 +11,7 @@ import StationSearchForm, {
 import { SearchStrategyFactory } from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory.ts"
 import { AdvancedStationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/AdvancedStationSearchStrategy.ts"
 import { Station } from "../../../../api/radiobrowser/types.ts"
-import StationCard from "../../../../components/StationCard/StationCard.tsx"
+import StationCard from "../../../../components/StationCard/index.tsx"
 
 type StationSelectProps = {
   onLoadStation: (station: Station) => void
