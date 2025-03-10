@@ -1,13 +1,19 @@
 import "./ThemeToggle.css"
-import { useContext } from "react"
+import { useCallback, useContext } from "react"
 import { FaMoon, FaSun } from "react-icons/fa"
 import { ThemeContext } from "../../context/ThemeProvider/ThemeProvider.tsx"
 
 function ThemeToggle() {
   const theme = useContext(ThemeContext)
+  const handleClick = useCallback(() => {
+    if (theme) {
+      theme.toggle()
+    }
+  }, [theme])
+
   return theme == undefined ? null : (
     <button
-      onClick={() => theme.toggle()}
+      onClick={handleClick}
       className="theme-toggle-button"
       data-testid="theme-toggle-button"
       title="Toggle Theme"
