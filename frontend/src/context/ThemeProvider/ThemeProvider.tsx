@@ -1,4 +1,4 @@
-import { createContext, useState } from "react"
+import { createContext, useCallback, useState } from "react"
 
 const lightTheme = "light-theme"
 const darkTheme = "dark-theme"
@@ -15,15 +15,15 @@ function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [isDark, setIsDark] = useState<boolean>(
     window.matchMedia("(prefers-color-scheme: dark)").matches
   )
-  function applyTheme(theme: string) {
+  const applyTheme = useCallback((theme: string) => {
     const root = document.getElementsByTagName("html")[0]
     root.className = theme
-  }
-  function toggle() {
+  }, [])
+  const toggle = useCallback(() => {
     const theme = isDark ? lightTheme : darkTheme
     applyTheme(theme)
     setIsDark(!isDark)
-  }
+  }, [applyTheme, isDark])
 
   applyTheme(isDark ? darkTheme : lightTheme)
   return (
