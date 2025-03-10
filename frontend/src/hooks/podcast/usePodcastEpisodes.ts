@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
 import { getPodcastEpisodes } from "../../api/podcast/podcastEpisode.ts"
 import { Podcast, PodcastEpisode } from "../../api/podcast/model/podcast.ts"
-import useCache from "../useCache.ts"
+import useCache, { CacheType } from "../useCache.ts"
 
 const CACHE_STALE_TIME_IN_MINUTES = 10
 
@@ -36,9 +36,12 @@ function usePodcastEpisodes({
       }-offset-${offset}-limit-${limit}`,
     [podcastId, offset, limit]
   )
-  const { setCacheItem: setPodcastCache, getCacheItem: getPodcastCache } =
-    useCache<CachePodcast>(cacheKey, CACHE_STALE_TIME_IN_MINUTES)
-  const podcastCache = getPodcastCache()
+  const { setCacheItem, getCacheItem } = useCache<CachePodcast>(
+    cacheKey,
+    CACHE_STALE_TIME_IN_MINUTES
+  )
+  const [podcastCache, setPodcastCache] =
+    useState<CacheType<CachePodcast> | null>(null)
 
   const abortController = useRef<AbortController | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
@@ -84,12 +87,23 @@ function usePodcastEpisodes({
       // prevent race condition between setLoading and set podcast episodes, display of "no episode found" placeholder before podcast data set state
       setLoading(false)
       // set cache when data is available
-      setPodcastCache({
+      setCacheItem({
         podcast,
         episodes: podcastEpisodes,
       })
     }
-  }, [setPodcastCache, podcast, podcastEpisodes])
+  }, [setCacheItem, podcast, podcastEpisodes])
+
+  useEffect(() => {
+    async function getCache() {
+      const podcastCache = await getCacheItem()
+      if (podcastCache) {
+        setCacheItem(podcastCache.value)
+        setPodcastCache(podcastCache)
+      }
+    }
+    getCache()
+  }, [getCacheItem, setCacheItem])
 
   const output = useMemo(() => {
     return {

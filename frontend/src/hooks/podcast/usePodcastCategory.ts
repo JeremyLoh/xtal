@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
 import { PodcastCategory } from "../../api/podcast/model/podcast.ts"
 import { getAllPodcastCategories } from "../../api/podcast/podcastCategory.ts"
-import useCache from "../useCache.ts"
+import useCache, { CacheType } from "../useCache.ts"
 
 type CacheCategory = {
   categories: PodcastCategory[]
@@ -10,9 +10,9 @@ type CacheCategory = {
 
 function usePodcastCategory() {
   const cacheKey = useMemo(() => `usePodcastCategory`, [])
-  const { setCacheItem: setCategoryCache, getCacheItem: getCategoryCache } =
-    useCache<CacheCategory>(cacheKey, 60)
-  const categoryCache = getCategoryCache()
+  const { setCacheItem, getCacheItem } = useCache<CacheCategory>(cacheKey, 60)
+  const [categoryCache, setCategoryCache] =
+    useState<CacheType<CacheCategory> | null>(null)
 
   const abortController = useRef<AbortController | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
@@ -43,9 +43,20 @@ function usePodcastCategory() {
     // prevents display of "no categories available" element due to categories = null, and loading = false
     if (categories) {
       setLoading(false)
-      setCategoryCache({ categories })
+      setCacheItem({ categories })
     }
-  }, [categories, setCategoryCache])
+  }, [categories, setCacheItem])
+
+  useEffect(() => {
+    async function getCache() {
+      const categoryCache = await getCacheItem()
+      if (categoryCache) {
+        setCacheItem(categoryCache.value)
+        setCategoryCache(categoryCache)
+      }
+    }
+    getCache()
+  }, [getCacheItem, setCacheItem])
 
   const output = useMemo(() => {
     return {

@@ -1,13 +1,15 @@
 import { useCallback, useMemo } from "react"
 import dayjs from "dayjs"
 import useSessionStorage from "./useSessionStorage.ts"
+import useThreadScheduler from "./useThreadScheduler.ts"
 
-type CacheType<V> = {
+export type CacheType<V> = {
   expiryEpochMs: number
   value: V
 }
 
 function useCache<V>(key: string, cacheStaleTimeInMinutes: number) {
+  const { yieldToMainThread } = useThreadScheduler()
   const { getItem, setItem, removeItem } = useSessionStorage(key)
   const setCacheItem = useCallback(
     (value: V) => {
@@ -19,9 +21,9 @@ function useCache<V>(key: string, cacheStaleTimeInMinutes: number) {
     [setItem, cacheStaleTimeInMinutes]
   )
 
-  const getCacheItem = useCallback(() => {
-    clearExpiredCacheItems()
-
+  const getCacheItem = useCallback(async () => {
+    const deadlineInMs = 50
+    let lastYield = performance.now()
     const cachedData = getItem() as CacheType<V>
     if (cachedData == null) {
       return null
@@ -32,11 +34,14 @@ function useCache<V>(key: string, cacheStaleTimeInMinutes: number) {
       return cachedData
     } else if (cachedData && currentTimestamp.isAfter(cachedExpiredTimestamp)) {
       removeItem()
-      return null
-    } else {
-      return null
     }
-  }, [getItem, removeItem])
+    if (performance.now() - lastYield > deadlineInMs) {
+      await yieldToMainThread()
+      lastYield = performance.now()
+    }
+    await clearExpiredCacheItems(yieldToMainThread)
+    return null
+  }, [getItem, removeItem, yieldToMainThread])
 
   const cacheFunctions = useMemo(() => {
     return { setCacheItem, getCacheItem }
@@ -45,9 +50,17 @@ function useCache<V>(key: string, cacheStaleTimeInMinutes: number) {
   return cacheFunctions
 }
 
-function clearExpiredCacheItems() {
+async function clearExpiredCacheItems(
+  yieldToMainThread: () => Promise<unknown>
+) {
+  const deadlineInMs = 50
+  let lastYield = performance.now()
   const currentTimestamp = dayjs()
   for (const key of Object.keys(sessionStorage)) {
+    if (performance.now() - lastYield > deadlineInMs) {
+      await yieldToMainThread()
+      lastYield = performance.now()
+    }
     const savedValue = sessionStorage.getItem(key)
     if (!savedValue) {
       return
