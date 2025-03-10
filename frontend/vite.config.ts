@@ -4,9 +4,15 @@ import react from "@vitejs/plugin-react"
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  build: { minify: "esbuild", target: "es2022" },
+  build: {
+    target: "es2022",
+    minify: "esbuild",
+    cssMinify: "esbuild",
+    sourcemap: true,
+    cssCodeSplit: true,
+  },
   esbuild: {
-    legalComments: "none",
+    legalComments: "external",
     minifySyntax: true,
     minifyIdentifiers: true,
     minifyWhitespace: true,
