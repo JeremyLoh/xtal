@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router"
 import { IoArrowBackSharp } from "react-icons/io5"
 import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
-import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/PodcastEpisodeCard.tsx"
+import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/index.tsx"
 import usePodcastEpisode from "../../../hooks/podcast/usePodcastEpisode.ts"
 
 export default function PodcastEpisodeDetailPage() {
