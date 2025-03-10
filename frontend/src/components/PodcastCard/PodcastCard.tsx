@@ -1,6 +1,6 @@
 import "./PodcastCard.css"
 import DOMPurify from "dompurify"
-import { PropsWithChildren } from "react"
+import { memo, PropsWithChildren, useMemo } from "react"
 import { PodcastCardContext } from "./PodcastCardContext.ts"
 import { Podcast } from "../../api/podcast/model/podcast.ts"
 
@@ -10,12 +10,16 @@ type PodcastCardProps = PropsWithChildren & {
 }
 
 function PodcastCard({ children, customClassName, podcast }: PodcastCardProps) {
-  const sanitizedPodcast = {
-    ...podcast,
-    description: DOMPurify.sanitize(podcast.description),
-  }
+  const output = useMemo(() => {
+    const sanitizedPodcast = {
+      ...podcast,
+      description: DOMPurify.sanitize(podcast.description),
+    }
+    return { podcast: sanitizedPodcast }
+  }, [podcast])
+
   return (
-    <PodcastCardContext.Provider value={{ podcast: sanitizedPodcast }}>
+    <PodcastCardContext.Provider value={output}>
       <div className={`podcast-card ${customClassName || ""}`.trim()}>
         {children}
       </div>
@@ -23,5 +27,5 @@ function PodcastCard({ children, customClassName, podcast }: PodcastCardProps) {
   )
 }
 
-export default PodcastCard
+export default memo(PodcastCard)
 export type { PodcastCardProps }
