@@ -1,6 +1,7 @@
 import "./Map.css"
 import "leaflet/dist/leaflet.css"
-import L from "leaflet"
+// @ts-expect-error import minified version - https://leafletjs.com/download.html
+import L from "leaflet/dist/leaflet.js"
 import { lazy, useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import { toast } from "sonner"
