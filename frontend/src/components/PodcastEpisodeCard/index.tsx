@@ -1,12 +1,11 @@
 import { FunctionComponent, lazy } from "react"
-import PodcastEpisodeCard, {
-  PodcastEpisodeCardProps,
-} from "./PodcastEpisodeCard.tsx"
+import { PodcastEpisodeCardProps } from "./PodcastEpisodeCard.tsx"
 import { ArtworkProps } from "./Artwork.tsx"
 import { TitleProps } from "./Title.tsx"
 import { DescriptionProps } from "./Description.tsx"
 import { PlayButtonProps } from "./PlayButton.tsx"
 
+const PodcastEpisodeCard = lazy(() => import("./PodcastEpisodeCard.tsx"))
 const Artwork = lazy(() => import("./Artwork.tsx"))
 const Title = lazy(() => import("./Title.tsx"))
 const Description = lazy(() => import("./Description.tsx"))

@@ -9,11 +9,9 @@ export default function HomePage() {
   }, [])
 
   return (
-    <>
-      <Map
-        station={mapContext ? mapContext.station : null}
-        latLng={mapContext ? mapContext.currentView : { lat: 0, lng: 0 }}
-      />
-    </>
+    <Map
+      station={mapContext ? mapContext.station : null}
+      latLng={mapContext ? mapContext.currentView : { lat: 0, lng: 0 }}
+    />
   )
 }

@@ -4,7 +4,7 @@ import { toast } from "sonner"
 import { Station } from "../../../../api/radiobrowser/types.ts"
 import { FavouriteStationsContext } from "../../../../context/FavouriteStationsProvider/FavouriteStationsProvider.tsx"
 import useClipboard from "../../../../hooks/useClipboard.ts"
-import StationCard from "../../../../components/StationCard/StationCard.tsx"
+import StationCard from "../../../../components/StationCard/index.tsx"
 import { getEnv } from "../../../../api/env/environmentVariables.ts"
 const RadioPlayer = lazy(
   () => import("../../../player/components/RadioPlayer/RadioPlayer.tsx")
@@ -25,6 +25,7 @@ function RadioCard(props: RadioCardProps) {
       ?.getFavouriteStations()
       .some((s: Station) => s.stationuuid === station.stationuuid) || false
   )
+
   useEffect(() => {
     // handle favourite station change by other components
     setFavourite(
