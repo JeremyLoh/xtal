@@ -1,5 +1,5 @@
 import "./RadioSelect.css"
-import { useState } from "react"
+import { memo, useCallback, useState } from "react"
 import { FaRandom } from "react-icons/fa"
 import StationSearch from "../StationSearch/StationSearch.tsx"
 import CountrySelect from "../CountrySelect/CountrySelect.tsx"
@@ -33,36 +33,49 @@ const initialActiveSearch: ActiveSearch = {
   ),
 }
 
-function RadioSelect(props: RadioSelectProps) {
+function RadioSelect({
+  onRandomSelect,
+  onCountryChange,
+  isLoading,
+}: RadioSelectProps) {
   const [activeSearch, setActiveSearch] =
     useState<ActiveSearch>(initialActiveSearch)
-  function handleStationSearchType(searchType: StationSearchType) {
-    if (activeSearch && searchType === activeSearch.type) {
-      return
-    }
-    if (searchType === StationSearchType.COUNTRY) {
-      // load default country for first time switching to country search type
-      props.onCountryChange(DEFAULT_COUNTRY_SEARCH.countryCode)
-    }
-    setActiveSearch({
-      type: searchType,
-      strategy: SearchStrategyFactory.createDefaultSearchStrategy(searchType),
-    })
-  }
 
-  function handleGenreSelect(genre: GenreInformation) {
+  const handleStationSearchType = useCallback(
+    (searchType: StationSearchType) => {
+      if (activeSearch && searchType === activeSearch.type) {
+        return
+      }
+      if (searchType === StationSearchType.COUNTRY) {
+        // load default country for first time switching to country search type
+        onCountryChange(DEFAULT_COUNTRY_SEARCH.countryCode)
+      }
+      setActiveSearch({
+        type: searchType,
+        strategy: SearchStrategyFactory.createDefaultSearchStrategy(searchType),
+      })
+    },
+    [activeSearch, onCountryChange]
+  )
+
+  const handleGenreSelect = useCallback((genre: GenreInformation) => {
     setActiveSearch({
       type: StationSearchType.GENRE,
       strategy: SearchStrategyFactory.createGenreSearchStrategy(genre),
     })
-  }
-  function handleCountrySelect(country: CountryStation) {
-    setActiveSearch({
-      type: StationSearchType.COUNTRY,
-      strategy: SearchStrategyFactory.createCountrySearchStrategy(country),
-    })
-    props.onCountryChange(country.countryCode)
-  }
+  }, [])
+
+  const handleCountrySelect = useCallback(
+    (country: CountryStation) => {
+      setActiveSearch({
+        type: StationSearchType.COUNTRY,
+        strategy: SearchStrategyFactory.createCountrySearchStrategy(country),
+      })
+      onCountryChange(country.countryCode)
+    },
+    [onCountryChange]
+  )
+
   return (
     <div className="radio-select-container">
       <StationSearch onStationSearchTypeSelect={handleStationSearchType} />
@@ -74,10 +87,8 @@ function RadioSelect(props: RadioSelectProps) {
       )}
       <button
         className="radio-select-random-button"
-        disabled={props.isLoading}
-        onClick={() =>
-          activeSearch && props.onRandomSelect(activeSearch.strategy)
-        }
+        disabled={isLoading}
+        onClick={() => activeSearch && onRandomSelect(activeSearch.strategy)}
         data-testid="random-radio-station-button"
       >
         <FaRandom
@@ -90,4 +101,4 @@ function RadioSelect(props: RadioSelectProps) {
   )
 }
 
-export default RadioSelect
+export default memo(RadioSelect)
