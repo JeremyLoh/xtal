@@ -63,6 +63,8 @@ export function getExpectedEpisodeDuration(durationInSeconds: number) {
 
 export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
   for (let i = 0; i < expectedEpisodes.count; i++) {
+    await expect(page.locator(".podcast-episode-card").nth(i)).toBeVisible()
+    await page.locator(".podcast-episode-card").nth(i).scrollIntoViewIfNeeded()
     const episode = expectedEpisodes.data.episodes[i]
     const expectedEpisodeDuration = getExpectedEpisodeDuration(
       episode.durationInSeconds
