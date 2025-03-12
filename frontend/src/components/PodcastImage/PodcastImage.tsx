@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useRef, useState } from "react"
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { MdOutlineImageNotSupported } from "react-icons/md"
 import { getPodcastImage } from "../../api/image/podcastImage.ts"
 
@@ -23,6 +23,9 @@ export default memo(function PodcastImage({
   )
   const [imageSrc, setImageSrc] = useState<string | null>(null)
   const [srcSet, setSrcSet] = useState<string | undefined>(undefined)
+  const PODCAST_IMAGE_CONTAINER_STYLE = useMemo(() => {
+    return { width: size, height: size, padding: 0, margin: 0 }
+  }, [])
 
   const getImageSrcSet = useCallback(
     (smallImageData: string | null, largeImageData: string | null) => {
@@ -85,20 +88,25 @@ export default memo(function PodcastImage({
     getImageData()
   }, [imageUrl, size])
 
-  return !imageSrc ? (
-    <div className={imageClassName}>
-      <MdOutlineImageNotSupported size={size} title={imageNotAvailableTitle} />
+  return (
+    <div className={imageClassName} style={PODCAST_IMAGE_CONTAINER_STYLE}>
+      {imageSrc ? (
+        <img
+          className={imageClassName}
+          decoding="async"
+          src={imageSrc}
+          srcSet={srcSet}
+          fetchPriority={fetchPriority}
+          height={size}
+          width={size}
+          title={imageTitle}
+        />
+      ) : (
+        <MdOutlineImageNotSupported
+          size={size}
+          title={imageNotAvailableTitle}
+        />
+      )}
     </div>
-  ) : (
-    <img
-      className={imageClassName}
-      decoding="async"
-      src={imageSrc}
-      srcSet={srcSet}
-      fetchPriority={fetchPriority}
-      height={size}
-      width={size}
-      title={imageTitle}
-    />
   )
 })
