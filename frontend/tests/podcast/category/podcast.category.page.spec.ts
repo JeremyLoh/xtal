@@ -18,7 +18,7 @@ test.describe("Podcast Category Page /podcasts/<category_name>", () => {
       }
     )
     await page.goto(HOMEPAGE + `/podcasts/${category}`)
-    expect(page.locator(".podcast-trending-container")).toBeVisible()
+    await expect(page.locator(".podcast-trending-container")).toBeVisible()
     for (let i = 0; i < tenArtTrendingPodcasts.count; i++) {
       const expectedPodcast = tenArtTrendingPodcasts.data[i]
       await expect(
@@ -56,7 +56,7 @@ test.describe("Podcast Category Page /podcasts/<category_name>", () => {
       }
     )
     await page.goto(HOMEPAGE + `/podcasts/${category}`)
-    expect(page.locator(".podcast-trending-container")).toBeVisible()
+    await expect(page.locator(".podcast-trending-container")).toBeVisible()
     await expect(page).toHaveTitle(`xtal - ${category.toLowerCase()} podcasts`)
     await page.locator(".podcast-category-back-button").click()
     await expect(page).toHaveTitle("xtal - podcasts")
@@ -77,7 +77,7 @@ test.describe("Podcast Category Page /podcasts/<category_name>", () => {
       }
     )
     await page.goto(HOMEPAGE + `/podcasts/${category}`)
-    expect(page.locator(".podcast-trending-container")).toBeVisible()
+    await expect(page.locator(".podcast-trending-container")).toBeVisible()
     await expect(page).toHaveTitle(`xtal - ${category.toLowerCase()} podcasts`)
     await page
       .locator(".podcast-trending-card-container .podcast-card-title")
@@ -135,7 +135,7 @@ test.describe("Podcast Category Page /podcasts/<category_name>", () => {
     )
 
     await page.goto(HOMEPAGE + `/podcasts/${category}`)
-    expect(page.locator(".podcast-trending-container")).toBeVisible()
+    await expect(page.locator(".podcast-trending-container")).toBeVisible()
     await expect(page).toHaveTitle(`xtal - ${category.toLowerCase()} podcasts`)
     await page
       .locator(".podcast-trending-card-container .podcast-card-title")

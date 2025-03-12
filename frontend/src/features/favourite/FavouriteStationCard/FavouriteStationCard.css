@@ -20,6 +20,7 @@
   width: fit-content;
   padding: 0.3rem;
   background-color: transparent;
+  color: var(--text-color);
 }
 
 .remove-favourite-station-button:hover .station-card-favourite-icon.selected {

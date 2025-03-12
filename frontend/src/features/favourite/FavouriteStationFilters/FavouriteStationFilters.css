@@ -17,9 +17,13 @@
   width: 100%;
 }
 
+.favourite-station-filter input,
+.favourite-station-filter select {
+  color: var(--text-color);
+  background-color: transparent;
+}
+
 .favourite-station-filter input {
   padding: 0.2rem;
   font-size: 1rem;
-  color: var(--text-color);
-  background-color: transparent;
 }

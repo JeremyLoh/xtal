@@ -1,14 +1,18 @@
-import { defineConfig } from "vite"
+import { defineConfig, type PluginOption } from "vite"
 import react from "@vitejs/plugin-react"
+import { visualizer } from "rollup-plugin-visualizer"
+
+const ENABLE_VISUALIZER = false
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react()].concat(
+    ENABLE_VISUALIZER ? [visualizer({ open: true }) as PluginOption] : []
+  ),
   build: {
     target: "es2022",
     minify: "esbuild",
     cssMinify: "esbuild",
-    sourcemap: true,
     cssCodeSplit: true,
   },
   esbuild: {
