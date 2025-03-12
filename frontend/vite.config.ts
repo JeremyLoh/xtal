@@ -1,12 +1,13 @@
 import { defineConfig, type PluginOption } from "vite"
 import react from "@vitejs/plugin-react"
+import { compression } from "vite-plugin-compression2"
 import { visualizer } from "rollup-plugin-visualizer"
 
 const ENABLE_VISUALIZER = false
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()].concat(
+  plugins: [react(), compression({ algorithm: "brotliCompress" })].concat(
     ENABLE_VISUALIZER ? [visualizer({ open: true }) as PluginOption] : []
   ),
   build: {
