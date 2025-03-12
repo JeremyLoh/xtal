@@ -27,9 +27,13 @@ describe("GET /api/podcast/trending", () => {
       const secondResponse = await request(app)
         .get("/api/podcast/trending?limit=10")
         .set("Origin", expectedOrigin)
+      const thirdResponse = await request(app)
+        .get("/api/podcast/trending?limit=10")
+        .set("Origin", expectedOrigin)
       expect(firstResponse.status).toEqual(200)
-      expect(secondResponse.status).toEqual(429)
-      expect(secondResponse.error).toEqual(
+      expect(secondResponse.status).toEqual(200)
+      expect(thirdResponse.status).toEqual(429)
+      expect(thirdResponse.error).toEqual(
         expect.objectContaining({
           status: 429,
           text: "Too many requests, please try again later.",
@@ -56,9 +60,13 @@ describe("GET /api/podcast/search", () => {
       const secondResponse = await request(app)
         .get(url)
         .set("Origin", expectedOrigin)
+      const thirdResponse = await request(app)
+        .get(url)
+        .set("Origin", expectedOrigin)
       expect(firstResponse.status).toEqual(200)
-      expect(secondResponse.status).toEqual(429)
-      expect(secondResponse.error).toEqual(
+      expect(secondResponse.status).toEqual(200)
+      expect(thirdResponse.status).toEqual(429)
+      expect(thirdResponse.error).toEqual(
         expect.objectContaining({
           status: 429,
           text: "Too many requests, please try again later.",
@@ -84,9 +92,13 @@ describe("GET /api/podcast/episode", () => {
       const secondResponse = await request(app)
         .get(url)
         .set("Origin", expectedOrigin)
+      const thirdResponse = await request(app)
+        .get(url)
+        .set("Origin", expectedOrigin)
       expect(firstResponse.status).toEqual(200)
-      expect(secondResponse.status).toEqual(429)
-      expect(secondResponse.error).toEqual(
+      expect(secondResponse.status).toEqual(200)
+      expect(thirdResponse.status).toEqual(429)
+      expect(thirdResponse.error).toEqual(
         expect.objectContaining({
           status: 429,
           text: "Too many requests, please try again later.",
@@ -113,10 +125,13 @@ describe("GET /api/podcast/episodes", () => {
       const secondResponse = await request(app)
         .get(url)
         .set("Origin", expectedOrigin)
-
+      const thirdResponse = await request(app)
+        .get(url)
+        .set("Origin", expectedOrigin)
       expect(firstResponse.status).toEqual(200)
-      expect(secondResponse.status).toEqual(429)
-      expect(secondResponse.error).toEqual(
+      expect(secondResponse.status).toEqual(200)
+      expect(thirdResponse.status).toEqual(429)
+      expect(thirdResponse.error).toEqual(
         expect.objectContaining({
           status: 429,
           text: "Too many requests, please try again later.",

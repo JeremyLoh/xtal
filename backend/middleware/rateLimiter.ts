@@ -2,8 +2,8 @@ import rateLimit, { Options } from "express-rate-limit"
 import { NextFunction, Request, Response } from "express"
 
 const getTrendingPodcastLimiter = rateLimit({
-  windowMs: 2 * 1000,
-  limit: 1, // Limit each IP to "X" requests per window
+  windowMs: 1 * 1000,
+  limit: 2, // Limit each IP to "X" requests per window
   standardHeaders: "draft-7",
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
   handler: (
@@ -12,14 +12,14 @@ const getTrendingPodcastLimiter = rateLimit({
     next: NextFunction,
     options: Options
   ) => {
-    res.setHeader("retry-after", 2) // in seconds
+    res.setHeader("retry-after", 1) // in seconds
     res.status(options.statusCode).send(options.message)
   },
 })
 
 const getPodcastSearchLimiter = rateLimit({
   windowMs: 1 * 1000,
-  limit: 1, // Limit each IP to "X" requests per window
+  limit: 2, // Limit each IP to "X" requests per window
   standardHeaders: "draft-7",
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
   handler: (
@@ -28,14 +28,14 @@ const getPodcastSearchLimiter = rateLimit({
     next: NextFunction,
     options: Options
   ) => {
-    res.setHeader("retry-after", 2) // in seconds
+    res.setHeader("retry-after", 1) // in seconds
     res.status(options.statusCode).send(options.message)
   },
 })
 
 const getPodcastEpisodesLimiter = rateLimit({
-  windowMs: 2 * 1000,
-  limit: 1, // Limit each IP to "X" requests per window
+  windowMs: 1 * 1000,
+  limit: 2, // Limit each IP to "X" requests per window
   standardHeaders: "draft-7",
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
   handler: (
@@ -44,15 +44,15 @@ const getPodcastEpisodesLimiter = rateLimit({
     next: NextFunction,
     options: Options
   ) => {
-    res.setHeader("retry-after", 2) // in seconds
+    res.setHeader("retry-after", 1) // in seconds
     res.status(options.statusCode).send(options.message)
   },
 })
 
 const getPodcastEpisodeLimiter = rateLimit({
   // rate limit for get single podcast episode by podcast episode id
-  windowMs: 2 * 1000,
-  limit: 1, // Limit each IP to "X" requests per window
+  windowMs: 1 * 1000,
+  limit: 2, // Limit each IP to "X" requests per window
   standardHeaders: "draft-7",
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
   handler: (
@@ -61,7 +61,7 @@ const getPodcastEpisodeLimiter = rateLimit({
     next: NextFunction,
     options: Options
   ) => {
-    res.setHeader("retry-after", 2) // in seconds
+    res.setHeader("retry-after", 1) // in seconds
     res.status(options.statusCode).send(options.message)
   },
 })
