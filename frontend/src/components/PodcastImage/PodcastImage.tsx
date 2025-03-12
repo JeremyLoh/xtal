@@ -24,17 +24,22 @@ export default memo(function PodcastImage({
   const [imageSrc, setImageSrc] = useState<string | null>(null)
   const [srcSet, setSrcSet] = useState<string | undefined>(undefined)
 
-  const getImageSrcSet = useCallback((smallImageData: string | null, largeImageData: string | null) => {
-    let imageSrcSet = null // populate with both image or any one that was successful
-    if (smallImageData && largeImageData) {
-      imageSrcSet = `${smallImageData} ${size}w, ${largeImageData} ${size * 2}w`
-    } else if (smallImageData) {
-      imageSrcSet = `${smallImageData} ${size}w`
-    } else if (largeImageData) {
-      imageSrcSet = `${largeImageData} ${size * 2}w`
-    }
-    return imageSrcSet
-  }, [])
+  const getImageSrcSet = useCallback(
+    (smallImageData: string | null, largeImageData: string | null) => {
+      let imageSrcSet = null // populate with both image or any one that was successful
+      if (smallImageData && largeImageData) {
+        imageSrcSet = `${smallImageData} ${size}w, ${largeImageData} ${
+          size * 2
+        }w`
+      } else if (smallImageData) {
+        imageSrcSet = `${smallImageData} ${size}w`
+      } else if (largeImageData) {
+        imageSrcSet = `${largeImageData} ${size * 2}w`
+      }
+      return imageSrcSet
+    },
+    []
+  )
 
   useEffect(() => {
     async function getImageData() {
@@ -45,21 +50,22 @@ export default memo(function PodcastImage({
       abortControllerRef.current = new AbortController()
       try {
         const promiseResult = await Promise.allSettled([
-          getPodcastImage(
-            abortControllerRef.current,
-            imageUrl,
-            size,
-            size
-          ),
+          getPodcastImage(abortControllerRef.current, imageUrl, size, size),
           getPodcastImage(
             abortControllerRef.current,
             imageUrl,
             size * 2,
             size * 2
-          )
+          ),
         ])
-        const smallImageData = promiseResult[0].status === "fulfilled" ? promiseResult[0].value : null
-        const largeImageData = promiseResult[1].status === "fulfilled" ? promiseResult[1].value : null
+        const smallImageData =
+          promiseResult[0].status === "fulfilled"
+            ? promiseResult[0].value
+            : null
+        const largeImageData =
+          promiseResult[1].status === "fulfilled"
+            ? promiseResult[1].value
+            : null
         const imageSrcSet = getImageSrcSet(smallImageData, largeImageData)
         if (imageSrcSet != null) {
           setImageSrc(largeImageData)
