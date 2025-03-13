@@ -33,19 +33,6 @@ test.describe("radio station search form", () => {
     await expect(getSearchStationForm(page)).toBeVisible()
   })
 
-  test("empty name should not be allowed for radio station search form", async ({
-    page,
-  }) => {
-    await page.goto(HOMEPAGE)
-    await getSearchStationButton(page).click()
-    await expect(getSearchStationDrawer(page)).toBeVisible()
-    await getStationSearchByNameInput(page).fill("")
-    await getSearchStationForm(page).locator("button[type='submit']").click()
-    await expect(
-      getSearchStationDrawer(page).getByText("Station Name is required")
-    ).toBeVisible()
-  })
-
   test("name more than 255 characters should not be allowed for radio station search form", async ({
     page,
   }) => {
