@@ -53,6 +53,7 @@ function usePodcastCategory() {
       if (categoryCache) {
         setCacheItem(categoryCache.value)
         setCategoryCache(categoryCache)
+        setCategories(categoryCache.value.categories)
       }
     }
     getCache()
