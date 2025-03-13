@@ -18,9 +18,10 @@
 }
 
 .favourite-station-filter input,
-.favourite-station-filter select {
+.favourite-station-filter select,
+.favourite-station-filter option {
   color: var(--text-color);
-  background-color: transparent;
+  background-color: var(--background-color);
 }
 
 .favourite-station-filter input {
