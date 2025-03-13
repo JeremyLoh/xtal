@@ -20,6 +20,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
     test("should display latest ten podcasts for first page", async ({
       page,
     }) => {
+      test.slow()
       const podcastTitle = encodeURIComponent("Infinite Loops")
       const podcastId = "259760"
       const limit = 10
@@ -60,6 +61,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
     test("should display second page of podcast episodes when url param ?page=2 is given", async ({
       page,
     }) => {
+      test.slow()
       const podcastTitle = encodeURIComponent("Infinite Loops")
       const podcastId = "259760"
       const limit = 10
@@ -100,6 +102,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
     test("should not have disabled pagination buttons on second last page", async ({
       page,
     }) => {
+      test.slow()
       const podcastTitle = encodeURIComponent("Infinite Loops")
       const podcastId = "259760"
       const limit = 10
@@ -156,6 +159,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       test("should display only current page for mobile view", async ({
         page,
       }) => {
+        test.slow()
         // NOTE: there must be at least 50 episodes for the mocked podcast data
         const podcastTitle = encodeURIComponent("Infinite Loops")
         const podcastId = "259760"
@@ -204,6 +208,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       })
 
       test("should navigate to clicked pagination page", async ({ page }) => {
+        test.slow()
         // NOTE: there must be at least 50 episodes for the mocked podcast data
         const podcastTitle = encodeURIComponent("Infinite Loops")
         const podcastId = "259760"
@@ -262,6 +267,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       test("should display pages 1, 2, 3, 4 on first page (?page=1)", async ({
         page,
       }) => {
+        test.slow()
         // NOTE: there must be at least 50 episodes for the mocked podcast data
         const podcastTitle = encodeURIComponent("Infinite Loops")
         const podcastId = "259760"
@@ -304,6 +310,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       test("should display pages 1, 2, 3, 4, 5 on first page (?page=2)", async ({
         page,
       }) => {
+        test.slow()
         // NOTE: there must be at least 60 episodes for the mocked podcast data
         const podcastTitle = encodeURIComponent("Infinite Loops")
         const podcastId = "259760"
@@ -346,6 +353,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       test("should display pages 1, 2, 3, 4, 5, 6 on first page (?page=3)", async ({
         page,
       }) => {
+        test.slow()
         // NOTE: there must be at least 70 episodes for the mocked podcast data
         const podcastTitle = encodeURIComponent("Infinite Loops")
         const podcastId = "259760"
@@ -389,6 +397,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       test("should display pages 1, 2, 3, 4, 5, 6, 7 on first page (?page=4)", async ({
         page,
       }) => {
+        test.slow()
         // NOTE: there must be at least 70 episodes for the mocked podcast data
         const podcastTitle = encodeURIComponent("Infinite Loops")
         const podcastId = "259760"
@@ -433,6 +442,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       test("should display last 4 pages on last page (?page=<LAST_PAGE>)", async ({
         page,
       }) => {
+        test.slow()
         // NOTE: there must be at least 50 episodes for the mocked podcast data
         const podcastTitle = encodeURIComponent("Infinite Loops")
         const podcastId = "259760"
@@ -488,6 +498,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
     test("should navigate to first page when previous pagination button is clicked from second page", async ({
       page,
     }) => {
+      test.slow()
       const podcastTitle = encodeURIComponent("Infinite Loops")
       const podcastId = "259760"
       const limit = 10
@@ -544,6 +555,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
     test("should disable next pagination button on last page", async ({
       page,
     }) => {
+      test.slow()
       const podcastTitle = encodeURIComponent("Infinite Loops")
       const podcastId = "259760"
       const limit = 10
@@ -591,6 +603,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
     test("should navigate to second page when next pagination button is clicked from first page", async ({
       page,
     }) => {
+      test.slow()
       const podcastTitle = encodeURIComponent("Infinite Loops")
       const podcastId = "259760"
       const limit = 10

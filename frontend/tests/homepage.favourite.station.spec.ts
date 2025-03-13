@@ -18,6 +18,7 @@ import {
   getFavouriteStationsDrawer,
   getRadioCardFavouriteIcon,
 } from "./constants/favouriteStationConstants"
+import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
 import { getClipboardContent } from "./constants/shareStationConstants"
 
 test.beforeEach(async ({ mapPage }) => {
@@ -93,6 +94,7 @@ test.describe("radio station favourite feature", () => {
     await expect(getRadioCardFavouriteIcon(page)).toBeVisible()
     await expect(getRadioCardFavouriteIcon(page)).not.toHaveClass(/selected/)
     await getRadioCardFavouriteIcon(page).click()
+    await assertLoadingSpinnerIsMissing(page)
     await expect(getRadioCardFavouriteIcon(page)).toHaveClass(/selected/)
   })
 

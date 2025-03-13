@@ -100,6 +100,8 @@ function usePodcastEpisodes({
       if (podcastCache) {
         setCacheItem(podcastCache.value)
         setPodcastCache(podcastCache)
+        setPodcast(podcastCache.value.podcast)
+        setPodcastEpisodes(podcastCache.value.episodes)
       }
     }
     getCache()
