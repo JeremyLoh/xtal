@@ -120,12 +120,12 @@ class StorageClient {
     width: number,
     height: number
   ): Promise<string | null> {
-    const { data, error, status } = await this.supabase
+    const { data, error } = await this.supabase
       .from("podcast_images") // database table
       .select("storage_file_name") // columns to return in data
       .eq("image_width_image_height_url", `w${width}_h${height}_${url}`)
       .limit(1)
-    if (data == null || error || status !== 200) {
+    if (data == null || error) {
       return null
     }
     if (data[0] && data[0].storage_file_name) {
@@ -136,18 +136,18 @@ class StorageClient {
 
   async deleteStorageFilesBefore(deleteBeforeDate: Date, limit: number) {
     const deleteBeforeDateString = dayjs(deleteBeforeDate).format("YYYY-MM-DD")
-    const { data, error, status } = await this.supabase
+    const { data, error } = await this.supabase
       .from("podcast_images") // database table
       .select("image_width_image_height_url, storage_file_name") // columns to return in data
       .lt("created_at", deleteBeforeDateString) // date format yyyy-mm-dd
       .limit(limit)
-    if (status !== 200 || error) {
+    if (error) {
       throw new Error(
         `deleteStorageFilesBefore(): could not get entries to delete, deleteBeforeDate: ${deleteBeforeDateString}. Error: ${error?.details}`
       )
     }
     const deleteDataSize = data.length
-    if (data && deleteDataSize === 0) {
+    if (deleteDataSize === 0) {
       logger.info("deleteStorageFilesBefore(): zero entries found")
       return
     }
@@ -198,7 +198,7 @@ class StorageClient {
       .from("podcast_images")
       .delete()
       .in("image_width_image_height_url", imageKeys)
-    if (status !== 200 || error) {
+    if (error) {
       throw new Error(
         `deleteImageDatabaseRows(): could not delete ${JSON.stringify(
           imageKeys
