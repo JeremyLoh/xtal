@@ -198,7 +198,7 @@ class StorageClient {
       .from("podcast_images")
       .delete()
       .in("image_width_image_height_url", imageKeys)
-    if (status !== 200 || error) {
+    if (error) {
       throw new Error(
         `deleteImageDatabaseRows(): could not delete ${JSON.stringify(
           imageKeys
