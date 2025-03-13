@@ -120,12 +120,12 @@ class StorageClient {
     width: number,
     height: number
   ): Promise<string | null> {
-    const { data, error, status } = await this.supabase
+    const { data, error } = await this.supabase
       .from("podcast_images") // database table
       .select("storage_file_name") // columns to return in data
       .eq("image_width_image_height_url", `w${width}_h${height}_${url}`)
       .limit(1)
-    if (data == null || error || status !== 200) {
+    if (data == null || error) {
       return null
     }
     if (data[0] && data[0].storage_file_name) {
