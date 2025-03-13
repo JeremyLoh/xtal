@@ -228,7 +228,6 @@ test.describe("radio station favourite feature", () => {
     ).toBeVisible()
 
     // wait for toasts to disappear (blocks the favourite icon on mobile view)
-    await assertToastMessageIsMissing(page, "Found a new station!")
     await assertToastMessageIsMissing(page, "Could not play radio station")
 
     await getFavouriteStationsDrawer(page)
@@ -275,7 +274,6 @@ test.describe("radio station favourite feature", () => {
     await getFavouriteStationsButton(page).click()
 
     // wait for toasts to disappear (blocks the favourite icon on mobile view)
-    await assertToastMessageIsMissing(page, "Found a new station!")
     await assertToastMessageIsMissing(page, "Could not play radio station")
 
     await getFavouriteStationsDrawer(page)
@@ -320,7 +318,6 @@ test.describe("radio station favourite feature", () => {
     await getFavouriteStationsButton(page).click()
 
     // wait for toasts to disappear (blocks the favourite icon on mobile view)
-    await assertToastMessageIsMissing(page, "Found a new station!")
     await assertToastMessageIsMissing(page, "Could not play radio station")
 
     await getFavouriteStationsDrawer(page)
