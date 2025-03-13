@@ -14,7 +14,7 @@ import {
 type RadioPlayerProps = {
   source: string
   onError: () => void
-  onReady: () => void
+  onReady?: () => void
 }
 
 function RadioPlayer({ source, onError, onReady }: RadioPlayerProps) {
@@ -28,7 +28,7 @@ function RadioPlayer({ source, onError, onReady }: RadioPlayerProps) {
 
   const handlePlay = useCallback(() => {
     setError(false)
-    if (audioRef.current) {
+    if (audioRef.current && onReady) {
       onReady()
     }
   }, [onReady])

@@ -91,10 +91,6 @@ function RadioCard(props: RadioCardProps) {
     toast.error("Could not play radio station")
   }, [])
 
-  const handleReady = useCallback(() => {
-    toast.success("Found a new station!")
-  }, [])
-
   return (
     <div className="radio-card">
       <StationCard station={station}>
@@ -129,11 +125,7 @@ function RadioCard(props: RadioCardProps) {
           {error}
         </p>
       ) : (
-        <RadioPlayer
-          source={station.url_resolved}
-          onError={handleError}
-          onReady={handleReady}
-        />
+        <RadioPlayer source={station.url_resolved} onError={handleError} />
       )}
     </div>
   )
