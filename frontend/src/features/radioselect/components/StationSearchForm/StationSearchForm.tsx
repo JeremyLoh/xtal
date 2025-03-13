@@ -72,12 +72,7 @@ function StationSearchForm(props: StationSearchFormProps) {
         id="stationName"
         {...register("stationName", stationNameValidation)}
       />
-      {errors.stationName &&
-        getErrorElement(
-          errors.stationName.type === "required"
-            ? "Station Name is required"
-            : errors.stationName.message
-        )}
+      {errors.stationName && getErrorElement(errors.stationName.message)}
       <label htmlFor="language">Language</label>
       <select
         className="language-select"

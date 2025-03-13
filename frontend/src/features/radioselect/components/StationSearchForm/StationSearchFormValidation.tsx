@@ -2,7 +2,7 @@ import { RegisterOptions } from "react-hook-form"
 import { Inputs } from "./StationSearchForm.tsx"
 
 export const stationNameValidation: RegisterOptions<Inputs, "stationName"> = {
-  required: true,
+  required: false,
   maxLength: {
     value: 255,
     message: "Station Name cannot be longer than 255 characters",
