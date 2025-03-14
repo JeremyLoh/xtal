@@ -15,6 +15,8 @@ function getScreenSize() {
   }
 }
 
+const MIN_DEVICE_PIXEL_RATIO = 1
+
 export default function useScreenDimensions() {
   // https://stackoverflow.com/a/36862446
   const [screenSize, setScreenSize] = useState<ScreenSize>(getScreenSize())
@@ -32,7 +34,10 @@ export default function useScreenDimensions() {
     return {
       width: screenSize.width,
       height: screenSize.height,
-      devicePixelRatio: Math.floor(screenSize.devicePixelRatio), // round down to nearest int
+      devicePixelRatio: Math.max(
+        MIN_DEVICE_PIXEL_RATIO,
+        Math.floor(screenSize.devicePixelRatio)
+      ),
       isMobile: screenSize.width <= 576,
     }
   }, [screenSize.width, screenSize.height])
