@@ -3,15 +3,19 @@ import { useEffect, useMemo, useState } from "react"
 type ScreenSize = {
   width: number
   height: number
+  devicePixelRatio: number
 }
 
 function getScreenSize() {
-  const { innerWidth, innerHeight } = window
+  const { innerWidth, innerHeight, devicePixelRatio } = window
   return {
     width: innerWidth,
     height: innerHeight,
+    devicePixelRatio,
   }
 }
+
+const MIN_DEVICE_PIXEL_RATIO = 1
 
 export default function useScreenDimensions() {
   // https://stackoverflow.com/a/36862446
@@ -30,6 +34,10 @@ export default function useScreenDimensions() {
     return {
       width: screenSize.width,
       height: screenSize.height,
+      devicePixelRatio: Math.max(
+        MIN_DEVICE_PIXEL_RATIO,
+        Math.floor(screenSize.devicePixelRatio)
+      ),
       isMobile: screenSize.width <= 576,
     }
   }, [screenSize.width, screenSize.height])

@@ -1,6 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { MdOutlineImageNotSupported } from "react-icons/md"
 import { getPodcastImage } from "../../api/image/podcastImage.ts"
+import useScreenDimensions from "../../hooks/useScreenDimensions.ts"
 
 type PodcastImageProps = {
   imageUrl: string
@@ -17,6 +18,7 @@ export default memo(function PodcastImage({
   imageTitle,
   imageNotAvailableTitle,
 }: PodcastImageProps) {
+  const { devicePixelRatio } = useScreenDimensions()
   const abortControllerRef = useRef<AbortController | null>(null)
   const [fetchPriority, setFetchPriority] = useState<"high" | "low" | "auto">(
     "auto"
@@ -26,23 +28,24 @@ export default memo(function PodcastImage({
   const PODCAST_IMAGE_CONTAINER_STYLE = useMemo(() => {
     return { width: size, height: size, padding: 0, margin: 0 }
   }, [])
-
-  const getImageSrcSet = useCallback(
-    (smallImageData: string | null, largeImageData: string | null) => {
-      let imageSrcSet = null // populate with both image or any one that was successful
-      if (smallImageData && largeImageData) {
-        imageSrcSet = `${smallImageData} ${size}w, ${largeImageData} ${
-          size * 2
-        }w`
-      } else if (smallImageData) {
-        imageSrcSet = `${smallImageData} ${size}w`
-      } else if (largeImageData) {
-        imageSrcSet = `${largeImageData} ${size * 2}w`
-      }
-      return imageSrcSet
-    },
-    []
-  )
+  const setBackupImage = useCallback(() => {
+    // set to original image as backup image, set fetch priority to high (larger image source)
+    setFetchPriority("high")
+    setImageSrc(imageUrl)
+    setSrcSet(undefined)
+  }, [])
+  const getImage = useCallback(async (abortController: AbortController) => {
+    const MAX_BACKEND_IMAGE_SIZE = 500 // backend has validation for image size of max 500px
+    const newSize = Math.min(size * devicePixelRatio, MAX_BACKEND_IMAGE_SIZE)
+    const imageData = await getPodcastImage(
+      abortController,
+      imageUrl,
+      newSize,
+      newSize
+    )
+    const imageSrcSet = imageData ? `${imageData} ${newSize}w` : null
+    return { imageData, imageSrcSet }
+  }, [])
 
   useEffect(() => {
     async function getImageData() {
@@ -52,35 +55,18 @@ export default memo(function PodcastImage({
       abortControllerRef?.current?.abort()
       abortControllerRef.current = new AbortController()
       try {
-        const promiseResult = await Promise.allSettled([
-          getPodcastImage(abortControllerRef.current, imageUrl, size, size),
-          getPodcastImage(
-            abortControllerRef.current,
-            imageUrl,
-            size * 2,
-            size * 2
-          ),
-        ])
-        const smallImageData =
-          promiseResult[0].status === "fulfilled"
-            ? promiseResult[0].value
-            : null
-        const largeImageData =
-          promiseResult[1].status === "fulfilled"
-            ? promiseResult[1].value
-            : null
-        const imageSrcSet = getImageSrcSet(smallImageData, largeImageData)
-        if (imageSrcSet != null) {
-          setImageSrc(largeImageData)
+        const { imageData, imageSrcSet } = await getImage(
+          abortControllerRef.current
+        )
+        if (imageData != null && imageSrcSet != null) {
+          setImageSrc(imageData)
           setSrcSet(imageSrcSet)
         } else {
-          // set to original image as backup image, set fetch priority to high (larger image source)
-          setFetchPriority("high")
-          setImageSrc(imageUrl)
-          setSrcSet(undefined)
+          setBackupImage()
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
+        setBackupImage()
         console.error("Failed to load podcast image", error.message)
       }
     }
