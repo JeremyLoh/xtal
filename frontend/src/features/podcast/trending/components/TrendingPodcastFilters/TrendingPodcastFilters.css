@@ -1,0 +1,5 @@
+.podcast-trending-since-select,
+.podcast-trending-since-select option {
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
