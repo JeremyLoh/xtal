@@ -1,3 +1,4 @@
+import "./TrendingPodcastFilters.css"
 import { useState } from "react"
 
 type TrendingPodcastFiltersProps = {
