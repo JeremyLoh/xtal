@@ -36,7 +36,7 @@ export default function useScreenDimensions() {
       height: screenSize.height,
       devicePixelRatio: Math.max(
         MIN_DEVICE_PIXEL_RATIO,
-        Math.floor(screenSize.devicePixelRatio)
+        Math.round(screenSize.devicePixelRatio / 0.5) * 0.5 // round to nearest 0.5 multiple
       ),
       isMobile: screenSize.width <= 576,
     }
