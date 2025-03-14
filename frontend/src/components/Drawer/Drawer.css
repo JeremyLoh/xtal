@@ -34,17 +34,19 @@
   padding: 0 1rem;
   width: 100%;
 }
-.drawer-close-button {
-  background-color: transparent;
-  color: var(--text-color);
-  padding: 0;
-}
+
 .drawer-info-container,
 .drawer-content {
   max-width: clamp(90ch, 90ch + 5vw, 120ch);
 }
 
-.drawer-drag-button {
+button.drawer-close-button {
+  background-color: transparent;
+  color: var(--text-color);
+  padding: 0;
+}
+
+button.drawer-drag-button {
   cursor: grab;
   touch-action: none; /* for touchscreens */
   border-radius: 16px;
@@ -55,10 +57,10 @@
   color: var(--text-color);
   outline: none !important;
 }
-.drawer-drag-button:hover {
+button.drawer-drag-button:hover {
   border: 1px solid transparent;
 }
-.drawer-drag-button:active {
+button.drawer-drag-button:active {
   cursor: grabbing;
 }
 
