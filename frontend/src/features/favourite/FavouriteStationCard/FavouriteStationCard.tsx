@@ -4,6 +4,7 @@ import { FaMapLocationDot } from "react-icons/fa6"
 import { Station } from "../../../api/radiobrowser/types.ts"
 import StationCard from "../../../components/StationCard/index.tsx"
 import useClipboard from "../../../hooks/useClipboard.ts"
+import Button from "../../../components/ui/button/Button.tsx"
 
 type FavouriteStationCardProps = {
   station: Station
@@ -38,27 +39,27 @@ function FavouriteStationCard({
         <StationCard.Country />
         <StationCard.Tags />
         <div className="favourite-station-actions">
-          <button
+          <Button
             className="remove-favourite-station-button"
             title="Remove from favourites"
             onClick={handleRemoveFavouriteStation}
           >
             <StationCard.FavouriteIconFilled />
-          </button>
-          <button
+          </Button>
+          <Button
             className="favourite-station-share-button"
             title="Share Station"
             onClick={handleShareStation}
           >
             <StationCard.ShareIcon />
-          </button>
-          <button
+          </Button>
+          <Button
             className="favourite-station-load-button"
             title="Load Station"
             onClick={handleLoadStation}
           >
             <FaMapLocationDot size={20} />
-          </button>
+          </Button>
         </div>
       </StationCard>
     </div>
