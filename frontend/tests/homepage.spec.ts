@@ -169,9 +169,7 @@ test.describe("random radio station", () => {
       )
     ).toBeVisible()
 
-    await page.waitForSelector("[data-testid='radio-card-playback-error']", {
-      timeout: 1000,
-    })
+    await page.waitForTimeout(1000) // wait for possible radio playback error message
     const isPlaybackErrorMessagePresent =
       (await getRadioCardMapPopup(page)
         .getByTestId("radio-card-playback-error")
