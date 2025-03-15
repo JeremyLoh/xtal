@@ -1,4 +1,10 @@
 .button {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -10,7 +16,15 @@
 }
 
 .button:hover {
+  cursor: pointer;
   border-color: var(--accent-color);
+  filter: brightness(0.8);
+}
+.button:disabled {
+  cursor: default;
+  pointer-events: none;
+  background-color: var(--disabled-element-color);
+  border: none;
 }
 
 .button:focus,
@@ -24,18 +38,6 @@
 }
 
 .button.secondary {
+  color: var(--primary-text-color);
   background-color: var(--secondary-color);
-}
-
-.button.slider {
-  color: var(--text-color);
-  background-color: var(--slider-chip-primary-color);
-  transition: all 200ms;
-}
-.button.slider:hover {
-  background-color: var(--slider-chip-secondary-color);
-}
-.button.slider.selected {
-  background-color: var(--slider-chip-selected-color);
-  color: var(--slider-chip-selected-text-color);
 }

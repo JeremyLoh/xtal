@@ -43,6 +43,7 @@ export default memo(function TrendingPodcastSection(
           <p>Zero podcasts found. Please try again later</p>
           <Button
             onClick={handleRefreshTrendingPodcasts}
+            variant="primary"
             className="refresh-trending-podcasts-button"
             aria-label="refresh trending podcasts"
             title="refresh trending podcasts"

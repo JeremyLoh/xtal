@@ -103,6 +103,7 @@ function StationSelect(props: StationSelectProps) {
                     <StationCard.Country />
                   </StationCard>
                   <Button
+                    variant="secondary"
                     className="station-search-card-load-button"
                     onClick={() => handleLoadStation(station)}
                   >
@@ -115,6 +116,7 @@ function StationSelect(props: StationSelectProps) {
           </div>
           {stations.length > 0 && (
             <Button
+              variant="secondary"
               className="station-search-load-more-results-button"
               onClick={handleLoadMoreResults}
               disabled={hasNoFurtherEntries}

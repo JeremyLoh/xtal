@@ -3,7 +3,7 @@ import { ComponentPropsWithoutRef, memo, PropsWithChildren } from "react"
 
 type ButtonProps = PropsWithChildren &
   ComponentPropsWithoutRef<"button"> & {
-    variant?: "primary" | "secondary" | "slider"
+    variant?: "primary" | "secondary"
     className?: string
   }
 

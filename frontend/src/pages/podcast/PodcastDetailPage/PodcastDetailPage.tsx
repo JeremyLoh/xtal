@@ -9,6 +9,7 @@ import PodcastCard from "../../../components/PodcastCard/index.tsx"
 import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import usePodcastEpisodes from "../../../hooks/podcast/usePodcastEpisodes.ts"
 import Pagination from "../../../components/Pagination/Pagination.tsx"
+import Button from "../../../components/ui/button/Button.tsx"
 
 const LIMIT = 10
 
@@ -66,13 +67,14 @@ export default function PodcastDetailPage() {
   return (
     <LoadingDisplay loading={loading}>
       <div className="podcast-detail-container">
-        <button
+        <Button
+          variant="primary"
           className="podcast-detail-back-button"
           onClick={handleBackButtonNavigation}
         >
           <IoArrowBackSharp size={16} />
           Back
-        </button>
+        </Button>
         <div className="podcast-info-container">
           {podcast && (
             <PodcastCard podcast={podcast} customClassName="podcast-info-card">

@@ -7,13 +7,10 @@
 .genre-search-button,
 .country-search-button,
 .search-station-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-size: clamp(0.5rem, 0.5rem + 1vw, 1rem);
-  gap: 0.5rem;
   padding: 0.5rem;
   color: var(--text-color);
+  background-color: var(--slider-chip-primary-color);
 }
 .genre-search-button.selected,
 .country-search-button.selected,

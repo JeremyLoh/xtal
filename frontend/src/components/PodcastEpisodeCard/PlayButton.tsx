@@ -14,7 +14,11 @@ const PlayButton = function PodcastEpisodeCardPlayButton({
   const { episode } = usePodcastEpisodeCardContext()
   const handleClick = useCallback(() => onPlayClick(episode), [])
   return (
-    <Button onClick={handleClick} className="podcast-episode-card-play-button">
+    <Button
+      variant="secondary"
+      className="podcast-episode-card-play-button"
+      onClick={handleClick}
+    >
       <IoPlaySharp size={16} />
       Play
     </Button>

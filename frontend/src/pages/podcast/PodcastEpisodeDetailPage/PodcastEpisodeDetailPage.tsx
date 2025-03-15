@@ -6,6 +6,7 @@ import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/P
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/index.tsx"
 import usePodcastEpisode from "../../../hooks/podcast/usePodcastEpisode.ts"
+import Button from "../../../components/ui/button/Button.tsx"
 
 export default function PodcastEpisodeDetailPage() {
   const { podcastId, podcastTitle, podcastEpisodeId } = useParams()
@@ -35,13 +36,14 @@ export default function PodcastEpisodeDetailPage() {
   return (
     <LoadingDisplay loading={loading}>
       <div className="podcast-episode-detail-container">
-        <button
+        <Button
           className="podcast-episode-detail-back-button"
+          variant="primary"
           onClick={handleBackButtonNavigation}
         >
           <IoArrowBackSharp size={16} />
           Back
-        </button>
+        </Button>
         {!episode && error && <p className="error-text">{error}</p>}
         {episode && (
           <PodcastEpisodeCard episode={episode}>

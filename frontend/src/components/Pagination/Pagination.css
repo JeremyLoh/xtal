@@ -23,29 +23,21 @@ button.pagination-next-button {
   list-style-type: none;
 }
 
+.pagination-item,
 button.pagination-previous-button,
-button.pagination-next-button,
-.pagination-item {
+button.pagination-next-button {
   width: fit-content;
-  border-radius: 8px;
   color: var(--text-color);
   border: 2px solid transparent; /* have same size as active pagination item */
   font-size: clamp(0.8rem, 0.8rem + 1vw, 1.1rem);
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 button.pagination-previous-button,
 button.pagination-next-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.2rem;
-  background-color: transparent;
-}
-button.pagination-previous-button:disabled,
-button.pagination-next-button:disabled {
-  cursor: default;
-  border: none;
-  color: var(--disabled-element-color);
+  background-color: transparent !important;
+  padding: 0 0.5rem;
 }
 
 .pagination-item {
@@ -58,11 +50,7 @@ button.pagination-next-button:disabled {
 .pagination-item.active {
   border: 2px solid #d4d4d4;
 }
-
-button.pagination-previous-button:enabled:hover,
-button.pagination-next-button:enabled:hover,
 .pagination-item:hover {
-  cursor: pointer;
   filter: brightness(0.8);
-  background-color: var(--background-color);
+  background-color: var(--background-color) !important;
 }

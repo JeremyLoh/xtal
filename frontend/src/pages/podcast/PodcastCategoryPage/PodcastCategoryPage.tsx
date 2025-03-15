@@ -5,6 +5,7 @@ import { IoArrowBackSharp } from "react-icons/io5"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import TrendingPodcastSection from "../../../features/podcast/trending/components/TrendingPodcastSection/TrendingPodcastSection.tsx"
 import useTrendingPodcasts from "../../../hooks/podcast/useTrendingPodcasts.ts"
+import Button from "../../../components/ui/button/Button.tsx"
 
 const LIMIT = 10
 
@@ -59,10 +60,10 @@ export default function PodcastCategoryPage() {
           to="/podcasts"
           style={{ textDecoration: "none", width: "fit-content" }}
         >
-          <button className="podcast-category-back-button">
+          <Button className="podcast-category-back-button" variant="primary">
             <IoArrowBackSharp size={16} />
             Back
-          </button>
+          </Button>
         </Link>
         <h2 className="podcast-category-title">
           {decodeURIComponent(categoryName)}

@@ -35,6 +35,7 @@ export default memo(function PodcastCategorySection({
         <div className="podcast-category-placeholder-section">
           <p>Could not get podcast categories. Please try again later</p>
           <Button
+            variant="primary"
             className="refresh-podcast-categories-button"
             onClick={handleRefreshPodcastCategories}
             aria-label="refresh podcast categories"
