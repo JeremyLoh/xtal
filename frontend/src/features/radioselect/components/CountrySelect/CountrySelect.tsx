@@ -5,6 +5,7 @@ import {
   DEFAULT_COUNTRY_SEARCH,
 } from "../../../../api/location/countryStation.ts"
 import Slider from "../../../../components/Slider/Slider.tsx"
+import Button from "../../../../components/ui/button/Button.tsx"
 
 type CountrySelectProps = {
   onCountrySelect: (country: CountryStation) => void
@@ -19,7 +20,7 @@ function CountrySelect(props: CountrySelectProps) {
     <Slider scrollAmount={SCROLL_AMOUNT}>
       {countryStationInfo.map((country: CountryStation) => (
         <div key={country.countryCode}>
-          <button
+          <Button
             className={`country-slider-option ${
               selectedCountry === country.name ? "selected" : ""
             }`}
@@ -29,7 +30,7 @@ function CountrySelect(props: CountrySelectProps) {
             }}
           >
             {country.name}
-          </button>
+          </Button>
         </div>
       ))}
     </Slider>

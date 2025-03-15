@@ -4,6 +4,7 @@ import { FaFlag, FaMusic, FaSearch } from "react-icons/fa"
 import { StationSearchType } from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory.ts"
 import StationSelect from "../StationSelect/StationSelect.tsx"
 import { Station } from "../../../../api/radiobrowser/types.ts"
+import Button from "../../../../components/ui/button/Button.tsx"
 import { MapContext } from "../../../../context/MapProvider/MapProvider.tsx"
 
 type StationSearchProps = {
@@ -37,23 +38,23 @@ function StationSearch(props: StationSearchProps) {
   }
   return (
     <div id="station-search-type-container">
-      <button
+      <Button
         className={`genre-search-button ${
           selectedSearch === StationSearchType.GENRE ? "selected" : ""
         }`}
         onClick={() => handleClick(StationSearchType.GENRE)}
       >
         <FaMusic size={16} /> Genres
-      </button>
-      <button
+      </Button>
+      <Button
         className={`country-search-button ${
           selectedSearch === StationSearchType.COUNTRY ? "selected" : ""
         }`}
         onClick={() => handleClick(StationSearchType.COUNTRY)}
       >
         <FaFlag size={16} /> Countries
-      </button>
-      <button
+      </Button>
+      <Button
         onClick={handleAdvancedClick}
         className={`search-station-button ${
           showSearchStation ? "selected" : ""
@@ -62,7 +63,7 @@ function StationSearch(props: StationSearchProps) {
         title="Search Radio Stations with more filters"
       >
         <FaSearch size={16} /> Search Stations
-      </button>
+      </Button>
       <StationSelect
         onLoadStation={handleLoadStation}
         open={showSearchStation}

@@ -10,6 +10,7 @@ import StationSearchForm, {
 } from "../StationSearchForm/StationSearchForm.tsx"
 import { SearchStrategyFactory } from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory.ts"
 import { AdvancedStationSearchStrategy } from "../../../../api/radiobrowser/searchStrategy/AdvancedStationSearchStrategy.ts"
+import Button from "../../../../components/ui/button/Button.tsx"
 import { Station } from "../../../../api/radiobrowser/types.ts"
 import StationCard from "../../../../components/StationCard/index.tsx"
 
@@ -101,26 +102,26 @@ function StationSelect(props: StationSelectProps) {
                     <StationCard.Tags />
                     <StationCard.Country />
                   </StationCard>
-                  <button
+                  <Button
                     className="station-search-card-load-button"
                     onClick={() => handleLoadStation(station)}
                   >
                     <IoIosRadio size={24} />
                     Load Station
-                  </button>
+                  </Button>
                 </motion.div>
               )
             })}
           </div>
           {stations.length > 0 && (
-            <button
+            <Button
               className="station-search-load-more-results-button"
               onClick={handleLoadMoreResults}
               disabled={hasNoFurtherEntries}
             >
               <IoAddSharp size={24} />
               Load More Results
-            </button>
+            </Button>
           )}
         </>
       )}
