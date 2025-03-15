@@ -173,20 +173,20 @@ test.describe("random radio station", () => {
         .getByTestId("radio-card-playback-error")
         .count()) === 1
     if (isPlaybackErrorMessagePresent) {
+      // skip assertion on play button as playback error happened for this test run
       await expect(
         getRadioCardMapPopup(page).getByTestId("radio-card-playback-error")
       ).toHaveText(
         /The media could not be loaded. Server failed or the playback format is not supported/
       )
-      // skip assertion on play button as playback error happened for this test run
-      return
-    }
-    if (isMobile) {
-      await (await getMobileAudioPlayButton(page)).click()
-      await (await getMobileAudioPauseButton(page)).click()
     } else {
-      await (await getDesktopAudioPlayButton(page)).click()
-      await (await getDesktopAudioPauseButton(page)).click()
+      if (isMobile) {
+        await (await getMobileAudioPlayButton(page)).click()
+        await (await getMobileAudioPauseButton(page)).click()
+      } else {
+        await (await getDesktopAudioPlayButton(page)).click()
+        await (await getDesktopAudioPauseButton(page)).click()
+      }
     }
   })
 
