@@ -19,7 +19,6 @@ type TrendingPodcast = {
   author: string
   image: string
   latestPublishTime: number | undefined // unix timestamp in seconds
-  itunesId: number | null
   language: string
   categories: string[]
 }

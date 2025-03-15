@@ -101,7 +101,6 @@ describe("GET /api/podcast/search", () => {
         latestPublishTime: podcast.newestItemPubdate,
         // @ts-ignore
         categories: Object.values<string>(podcast.categories),
-        itunesId: podcast.itunesId || null,
         episodeCount: podcast.episodeCount,
         isExplicit: podcast.explicit,
       }

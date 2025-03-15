@@ -253,7 +253,6 @@ export type Podcast = {
   language: Language
   latestPublishTime: number | undefined
   categories: string[]
-  itunesId?: number | null
   episodeCount?: number
   isExplicit?: boolean
 }
