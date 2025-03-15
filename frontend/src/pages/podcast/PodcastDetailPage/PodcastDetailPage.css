@@ -14,11 +14,7 @@
   gap: 0.2rem;
   padding: 0.5em;
   font-size: clamp(0.7rem, 0.7rem + 1vw, 1rem);
-  background-color: var(--primary-color);
   width: fit-content;
-}
-.podcast-detail-back-button:hover {
-  filter: brightness(0.9);
 }
 
 .podcast-info-card {
@@ -61,12 +57,5 @@
 }
 
 .refresh-podcast-episode-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--primary-color);
   gap: 0.2rem;
-}
-.refresh-podcast-episode-button:hover {
-  filter: brightness(0.9);
 }

@@ -1,4 +1,4 @@
-.favourite-station-toggle-button {
+button.favourite-station-toggle-button {
   display: grid;
   place-items: center;
   border-radius: 25%;

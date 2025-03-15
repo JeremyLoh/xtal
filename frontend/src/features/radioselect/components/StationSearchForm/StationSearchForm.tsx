@@ -10,6 +10,7 @@ import {
   stationNameValidation,
   stationTagValidation,
 } from "./StationSearchFormValidation.tsx"
+import Button from "../../../../components/ui/button/Button.tsx"
 
 export type StationSearchValues = {
   stationName: string
@@ -107,9 +108,9 @@ function StationSearchForm(props: StationSearchFormProps) {
         {...register("tag", stationTagValidation)}
       />
       {errors.tag && getErrorElement(errors.tag.message)}
-      <button type="submit">
+      <Button type="submit" variant="secondary">
         <FaSearch size={16} /> Search
-      </button>
+      </Button>
     </form>
   )
 }

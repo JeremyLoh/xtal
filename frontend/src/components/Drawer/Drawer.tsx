@@ -9,6 +9,7 @@ import {
   useDragControls,
   useMotionValue,
 } from "motion/react"
+import Button from "../ui/button/Button.tsx"
 
 type DrawerProps = {
   open: boolean
@@ -75,15 +76,15 @@ function Drawer(props: DrawerProps) {
           }}
         >
           <div>
-            <button className="drawer-drag-button" onPointerDown={startDrag}>
+            <Button className="drawer-drag-button" onPointerDown={startDrag}>
               <MdOutlineHorizontalRule size={40} />
-            </button>
+            </Button>
           </div>
           <div className="drawer-info-container">
             <h3 className="drawer-title">{props.title}</h3>
-            <button className="drawer-close-button" onClick={handleClose}>
+            <Button className="drawer-close-button" onClick={handleClose}>
               <IoClose size={28} />
-            </button>
+            </Button>
           </div>
           {props.children && (
             <div className="drawer-content">{props.children}</div>

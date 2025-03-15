@@ -18,11 +18,7 @@
 }
 
 .station-search-form button[type="submit"] {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 0.4rem;
-  background-color: var(--secondary-color);
   transition: all 0.3s;
   margin: 1rem 0;
 }

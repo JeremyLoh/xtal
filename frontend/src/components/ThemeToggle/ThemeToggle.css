@@ -1,4 +1,4 @@
-.theme-toggle-button {
+button.theme-toggle-button {
   display: grid;
   place-items: center;
   border-radius: 25%;

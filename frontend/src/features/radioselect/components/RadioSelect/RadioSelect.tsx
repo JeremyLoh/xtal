@@ -4,6 +4,7 @@ import { FaRandom } from "react-icons/fa"
 import StationSearch from "../StationSearch/StationSearch.tsx"
 import CountrySelect from "../CountrySelect/CountrySelect.tsx"
 import GenreSelect from "../GenreSelect/GenreSelect.tsx"
+import Button from "../../../../components/ui/button/Button.tsx"
 import { GenreInformation } from "../../../../api/radiobrowser/genreTags.ts"
 import {
   CountryStation,
@@ -85,7 +86,7 @@ function RadioSelect({
       {activeSearch && activeSearch.type === StationSearchType.COUNTRY && (
         <CountrySelect onCountrySelect={handleCountrySelect} />
       )}
-      <button
+      <Button
         className="radio-select-random-button"
         disabled={isLoading}
         onClick={() => activeSearch && onRandomSelect(activeSearch.strategy)}
@@ -96,7 +97,7 @@ function RadioSelect({
           title="Select a random radio station"
         />
         <b>Random</b>
-      </button>
+      </Button>
     </div>
   )
 }

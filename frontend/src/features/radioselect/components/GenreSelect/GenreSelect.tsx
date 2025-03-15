@@ -1,5 +1,6 @@
 import { useState } from "react"
 import Slider from "../../../../components/Slider/Slider.tsx"
+import Button from "../../../../components/ui/button/Button.tsx"
 import {
   DEFAULT_GENRE_SEARCH,
   GenreInformation,
@@ -19,7 +20,7 @@ function GenreSelect(props: GenreSelectProps) {
     <Slider className="genre-slider-container" scrollAmount={SCROLL_AMOUNT}>
       {genres.map((genreInfo: GenreInformation) => (
         <div key={genreInfo.genre}>
-          <button
+          <Button
             className={selectedGenre === genreInfo.genre ? "selected" : ""}
             onClick={() => {
               setSelectedGenre(genreInfo.genre)
@@ -27,7 +28,7 @@ function GenreSelect(props: GenreSelectProps) {
             }}
           >
             {genreInfo.genre}
-          </button>
+          </Button>
         </div>
       ))}
     </Slider>

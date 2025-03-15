@@ -2,6 +2,7 @@ import "./ThemeToggle.css"
 import { useCallback, useContext } from "react"
 import { FaMoon, FaSun } from "react-icons/fa"
 import { ThemeContext } from "../../context/ThemeProvider/ThemeProvider.tsx"
+import Button from "../ui/button/Button.tsx"
 
 function ThemeToggle() {
   const theme = useContext(ThemeContext)
@@ -12,7 +13,7 @@ function ThemeToggle() {
   }, [theme])
 
   return theme == undefined ? null : (
-    <button
+    <Button
       onClick={handleClick}
       className="theme-toggle-button"
       data-testid="theme-toggle-button"
@@ -23,7 +24,7 @@ function ThemeToggle() {
       ) : (
         <FaSun className="light-mode-icon" size={24} />
       )}
-    </button>
+    </Button>
   )
 }
 

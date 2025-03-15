@@ -1,0 +1,43 @@
+.button {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.button:hover {
+  cursor: pointer;
+  border-color: var(--accent-color);
+  filter: brightness(0.8);
+}
+.button:disabled {
+  cursor: default;
+  pointer-events: none;
+  background-color: var(--disabled-element-color);
+  border: none;
+}
+
+.button:focus,
+.button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.button.primary {
+  color: var(--primary-text-color);
+  background-color: var(--primary-color);
+}
+
+.button.secondary {
+  color: var(--primary-text-color);
+  background-color: var(--secondary-color);
+}

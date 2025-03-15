@@ -6,6 +6,7 @@ import { IoReload } from "react-icons/io5"
 import Slider from "../../../../../components/Slider/Slider.tsx"
 import { PodcastCategory } from "../../../../../api/podcast/model/podcast.ts"
 import useScreenDimensions from "../../../../../hooks/useScreenDimensions.ts"
+import Button from "../../../../../components/ui/button/Button.tsx"
 
 type PodcastCategorySectionProps = {
   categories: PodcastCategory[] | null
@@ -33,14 +34,15 @@ export default memo(function PodcastCategorySection({
       return (
         <div className="podcast-category-placeholder-section">
           <p>Could not get podcast categories. Please try again later</p>
-          <button
+          <Button
+            variant="primary"
             className="refresh-podcast-categories-button"
             onClick={handleRefreshPodcastCategories}
             aria-label="refresh podcast categories"
             title="refresh podcast categories"
           >
             <IoReload size={20} /> Refresh
-          </button>
+          </Button>
         </div>
       )
     }

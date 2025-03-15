@@ -2,6 +2,7 @@ import "./Pagination.css"
 import { memo, useCallback, useMemo } from "react"
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6"
 import useScreenDimensions from "../../hooks/useScreenDimensions.ts"
+import Button from "../ui/button/Button.tsx"
 
 type PaginationProps = {
   className?: string
@@ -60,14 +61,14 @@ function Pagination({
       role="navigation"
       aria-label="pagination"
     >
-      <button
+      <Button
         className="pagination-previous-button"
         disabled={currentPage <= 1}
         onClick={handlePreviousClick}
       >
         <FaChevronLeft size={16} />
         <span>Previous</span>
-      </button>
+      </Button>
       <ul className="pagination-content">
         {pages.map((pageNumber: number) => {
           if (pageNumber > totalPages || pageNumber <= 0) {
@@ -86,14 +87,14 @@ function Pagination({
           )
         })}
       </ul>
-      <button
+      <Button
         className="pagination-next-button"
         disabled={totalPages <= 0 || totalPages === currentPage}
         onClick={handleNextClick}
       >
         <span>Next</span>
         <FaChevronRight size={16} />
-      </button>
+      </Button>
     </nav>
   )
 }
