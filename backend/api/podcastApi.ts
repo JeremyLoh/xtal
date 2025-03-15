@@ -54,8 +54,6 @@ class PodcastIndexApi implements PodcastApi {
         author: feed.author || "",
         image: feed.image || feed.artwork || "",
         latestPublishTime: feed.newestItemPublishTime || feed.newestItemPubdate,
-        itunesId: feed.itunesId,
-        trendScore: feed.trendScore,
         language: Language[language as keyof typeof Language],
         categories: Object.values<string>(feed.categories),
       }
@@ -76,7 +74,6 @@ class PodcastIndexApi implements PodcastApi {
         author: feed.author || "",
         image: feed.image || feed.artwork || "",
         latestPublishTime: feed.newestItemPubdate,
-        itunesId: feed.itunesId,
         language: Language[language as keyof typeof Language],
         categories: Object.values<string>(feed.categories),
         episodeCount: feed.episodeCount,
@@ -160,7 +157,6 @@ class PodcastIndexApi implements PodcastApi {
       language: Language[language as keyof typeof Language],
       latestPublishTime: response.feed.lastUpdateTime,
       categories: Object.values<string>(response.feed.categories),
-      itunesId: response.feed.itunesId,
       episodeCount: response.feed.episodeCount,
       isExplicit: response.feed.explicit,
     }

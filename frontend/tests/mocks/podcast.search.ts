@@ -12,7 +12,6 @@ export const podcastSearch_similarTerm_syntax_limit_10 = {
       image:
         "https://static.libsyn.com/p/assets/6/4/b/8/64b8ee9cb432ec4188c4a68c3ddbc4f2/Syntax_Cover_Art.png",
       latestPublishTime: 1741003200,
-      itunesId: 1253186678,
       language: "English",
       categories: ["News", "Technology"],
       episodeCount: 882,
@@ -28,7 +27,6 @@ export const podcastSearch_similarTerm_syntax_limit_10 = {
       image:
         "https://img.transistor.fm/13p2NZxfiu6UR9VjTnWsQnaRS9IMlyvRlNKob_m7s5g/rs:fill:3000:3000:1/q:60/aHR0cHM6Ly9pbWct/dXBsb2FkLXByb2R1/Y3Rpb24udHJhbnNp/c3Rvci5mbS9zaG93/LzM1NTE3LzE2NjYw/MjQ5NTctYXJ0d29y/ay5qcGc.jpg",
       latestPublishTime: 1702461600,
-      itunesId: 1653015767,
       language: "English",
       categories: [
         "Business",
@@ -50,7 +48,6 @@ export const podcastSearch_similarTerm_syntax_limit_10 = {
       image:
         "https://assets.pippa.io/shows/6222b99d81c40a0012bdb466/1646973844329-00a05abcfa7f56ca08bdf4a0c545ef8a.jpeg",
       latestPublishTime: 1729839646,
-      itunesId: 1613894378,
       language: "English",
       categories: ["Fiction", "Drama", "Science"],
       episodeCount: 58,
@@ -66,7 +63,6 @@ export const podcastSearch_similarTerm_syntax_limit_10 = {
       image:
         "https://img.transistor.fm/UXfZBG6kXKX4HHIEoB-be_W_dShn8Wg0YnnoIfiJ92g/rs:fill:3000:3000:1/q:60/aHR0cHM6Ly9pbWct/dXBsb2FkLXByb2R1/Y3Rpb24udHJhbnNp/c3Rvci5mbS8yYTAx/ZTI1ZmViMWM3ZGRk/ODI4NDI3NjFhY2Zh/NzMyMi5wbmc.jpg",
       latestPublishTime: 1734350400,
-      itunesId: 1742853142,
       language: "English",
       categories: ["Health", "Fitness", "Medicine", "Science"],
       episodeCount: 8,
@@ -81,7 +77,6 @@ export const podcastSearch_similarTerm_syntax_limit_10 = {
       author: "Centric81",
       image: "https://i1.sndcdn.com/avatars-000686805345-32sjiy-original.jpg",
       latestPublishTime: 1574726400,
-      itunesId: 1050562929,
       language: "English",
       categories: ["Music"],
       episodeCount: 55,
@@ -97,7 +92,6 @@ export const podcastSearch_similarTerm_syntax_limit_10 = {
       image:
         "https://img.transistor.fm/Qx2hdd2B0nMUybGePg5MfbqkQAEvlD6vKT6oSPCbQvY/rs:fill:3000:3000:1/q:60/aHR0cHM6Ly9pbWct/dXBsb2FkLXByb2R1/Y3Rpb24udHJhbnNp/c3Rvci5mbS9zaG93/LzUwOTEwLzE3MTA1/MzQ5NTMtYXJ0d29y/ay5qcGc.jpg",
       latestPublishTime: 1741082400,
-      itunesId: 1740398430,
       language: "English",
       categories: ["Arts", "Design", "Business", "Entrepreneurship"],
       episodeCount: 20,
@@ -113,7 +107,6 @@ export const podcastSearch_similarTerm_syntax_limit_10 = {
       image:
         "https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/17179980/17179980-1706446909771-fb4b0c5d1adf5.jpg",
       latestPublishTime: 1740917223,
-      itunesId: 1580379261,
       language: "Japanese",
       categories: ["Tv", "Film", "Reviews"],
       episodeCount: 152,
@@ -129,7 +122,6 @@ export const podcastSearch_similarTerm_syntax_limit_10 = {
       image:
         "https://i1.sndcdn.com/avatars-8TQqizn0L9L150Ww-Pf4Gdw-original.jpg",
       latestPublishTime: 1729706407,
-      itunesId: 1501344414,
       language: "English",
       categories: ["Music"],
       episodeCount: 114,
@@ -145,7 +137,6 @@ export const podcastSearch_similarTerm_syntax_limit_10 = {
       image:
         "https://img.transistor.fm/sjg89UtPyMWtRC4vB8jgWYM2bZA5s9PbNo6GuTxU4yk/rs:fill:3000:3000:1/q:60/aHR0cHM6Ly9pbWct/dXBsb2FkLXByb2R1/Y3Rpb24udHJhbnNp/c3Rvci5mbS9zaG93/LzUxMTMzLzE3MTA4/NjE1MTgtYXJ0d29y/ay5qcGc.jpg",
       latestPublishTime: 1713250800,
-      itunesId: 1342795377,
       language: "English",
       categories: ["Business", "Education", "Self Improvement"],
       episodeCount: 183,
@@ -161,7 +152,6 @@ export const podcastSearch_similarTerm_syntax_limit_10 = {
       image:
         "https://img.transistor.fm/WicCRo2tKcJ_s95Al6p6bqHwOiA0goz40EMDOa6smYk/rs:fill:3000:3000:1/q:60/aHR0cHM6Ly9pbWct/dXBsb2FkLXByb2R1/Y3Rpb24udHJhbnNp/c3Rvci5mbS9zaG93/LzQyODIxLzE2ODgw/ODEyOTktYXJ0d29y/ay5qcGc.jpg",
       latestPublishTime: 1698262335,
-      itunesId: 1695218438,
       language: "English",
       categories: [
         "Education",

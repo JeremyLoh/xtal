@@ -223,7 +223,6 @@ describe("GET /api/podcast/episodes", () => {
             podcastResponse.feed.language.toLowerCase() as keyof typeof Language
           ],
         latestPublishTime: podcastResponse.feed.lastUpdateTime,
-        itunesId: podcastResponse.feed.itunesId,
         isExplicit: podcastResponse.feed.explicit,
         episodeCount: podcastResponse.feed.episodeCount,
         categories: Object.values(podcastResponse.feed.categories),
