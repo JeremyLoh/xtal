@@ -55,7 +55,6 @@ class PodcastIndexApi implements PodcastApi {
         image: feed.image || feed.artwork || "",
         latestPublishTime: feed.newestItemPublishTime || feed.newestItemPubdate,
         itunesId: feed.itunesId,
-        trendScore: feed.trendScore,
         language: Language[language as keyof typeof Language],
         categories: Object.values<string>(feed.categories),
       }

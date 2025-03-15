@@ -19,7 +19,6 @@ export const defaultTenTrendingPodcasts = {
         "https://wradio.com.mx/especiales/podcast/mx-wradio-alc-loret-040724.jpg",
       latestPublishTime: 1737835320,
       itunesId: 1488142226,
-      trendScore: 9,
       language: "Spanish (Spain)", // "es-ES"
       categories: ["News", "Daily"],
     },
@@ -34,7 +33,6 @@ export const defaultTenTrendingPodcasts = {
         "http://voicesofvr.com/wp-content/uploads/2022/08/Voices-of-VR.jpg",
       latestPublishTime: 1737835575,
       itunesId: 874947046,
-      trendScore: 9,
       language: "English (United States)", // "en-US"
       categories: [
         "Arts",
@@ -56,7 +54,6 @@ export const defaultTenTrendingPodcasts = {
         "https://media.rss.com/episode-1-stephen-brown/20241005_061038_717e6bec0151a051e602bf6f35e5f0b4.png",
       latestPublishTime: 1737835652,
       itunesId: 1771227892,
-      trendScore: 9,
       language: "English", // "en"
       categories: ["Sports", "Business", "Entrepreneurship"],
     },
@@ -70,7 +67,6 @@ export const defaultTenTrendingPodcasts = {
       image: "https://audioboom.com/i/41822321.jpg",
       latestPublishTime: 1737835698,
       itunesId: 1657458632,
-      trendScore: 9,
       language: "English", // "en"
       categories: ["Comedy", "Interviews", "Stand-up", "Improv"],
     },
@@ -85,7 +81,6 @@ export const defaultTenTrendingPodcasts = {
         "https://d3wo5wojvuv7l.cloudfront.net/t_rss_itunes_square_1400/images.spreaker.com/original/05714427c5ec56fdeaef37ed2defdfdd.jpg",
       latestPublishTime: 1737835746,
       itunesId: 964330550,
-      trendScore: 9,
       language: "English", // "en"
       categories: ["Religion", "Spirituality"],
     },
@@ -99,7 +94,6 @@ export const defaultTenTrendingPodcasts = {
         "https://pbcdn1.podbean.com/imglogo/image-logo/15892259/e8c023c481d071de8827991bed3af7e8.jpg",
       latestPublishTime: 1737835800,
       itunesId: 1239048003,
-      trendScore: 9,
       language: "English", // "en"
       categories: ["Arts", "Education", "How To"],
     },
@@ -113,7 +107,6 @@ export const defaultTenTrendingPodcasts = {
         "https://pbcdn1.podbean.com/imglogo/image-logo/15892259/e8c023c481d071de8827991bed3af7e8.jpg",
       latestPublishTime: 1737835800,
       itunesId: 1467520154,
-      trendScore: 9,
       language: "English", // "en"
       categories: ["Arts", "Education", "How To"],
     },
@@ -128,7 +121,6 @@ export const defaultTenTrendingPodcasts = {
         "https://d3wo5wojvuv7l.cloudfront.net/t_rss_itunes_square_1400/images.spreaker.com/original/1177dcea21e81aea019d14a423e66544.jpg",
       latestPublishTime: 1737835832,
       itunesId: 1253130544,
-      trendScore: 9,
       language: "English", // "en"
       categories: ["Society", "Culture", "Places", "Travel"],
     },
@@ -143,7 +135,6 @@ export const defaultTenTrendingPodcasts = {
         "https://anesthesiaguidebook.com/wp-content/uploads/powerpress/Anesthesia_Guidebook_subtitle_border_scaled-640.jpg",
       latestPublishTime: 1737836048,
       itunesId: 1528907211,
-      trendScore: 9,
       language: "English", // "en"
       categories: [
         "Health",
@@ -166,7 +157,6 @@ export const defaultTenTrendingPodcasts = {
         "https://pbcdn1.podbean.com/imglogo/image-logo/14303876/The_Sovereign_Soul_show_host_The_Bling_d_Buddhapodcast_image_3k_x_3k6i3mg.jpeg",
       latestPublishTime: 1737836195,
       itunesId: 1625157350,
-      trendScore: 9,
       language: "English", // "en"
       categories: ["Education", "Society", "Culture", "Self Improvement"],
     },
@@ -188,7 +178,6 @@ export const threeTrendingPodcasts = {
         "https://d3wo5wojvuv7l.cloudfront.net/t_rss_itunes_square_1400/images.spreaker.com/original/0604a9b179d97957d1864e792e00e9db.jpg",
       latestPublishTime: 1738648807,
       itunesId: 1561818422,
-      trendScore: 9,
       language: "English", // "en"
       categories: ["Tv", "Film", "Reviews"],
     },
@@ -203,7 +192,6 @@ export const threeTrendingPodcasts = {
         "https://embed-ssl.wistia.com/deliveries/ecf5f469550ab420cdea2324d24adb6d.jpg?image_crop_resized=3000x3000",
       latestPublishTime: 1738648815,
       itunesId: 1577368197,
-      trendScore: 9,
       language: "English (United States)", // "en-US"
       categories: ["Arts", "Books", "Business", "Investing"],
     },
@@ -217,7 +205,6 @@ export const threeTrendingPodcasts = {
       image: "https://media.rss.com/bacteriofagos/podcast_cover.jpg",
       latestPublishTime: 1738648830,
       itunesId: 1212473460,
-      trendScore: 9,
       language: "Spanish", // "es"
       categories: ["Science"],
     },
@@ -239,7 +226,6 @@ export const tenArtTrendingPodcasts = {
         "https://fdfs.xmcdn.com/storages/2d4e-audiofreehighqps/A3/6F/CMCoOSIEFUiuAAhFeQCOIsiD.jpeg",
       latestPublishTime: 1739684931,
       itunesId: 1536887853,
-      trendScore: 9,
       language: "Chinese (Simplified)",
       categories: ["Arts", "Performing", "Comedy", "Interviews"],
     },
@@ -254,7 +240,6 @@ export const tenArtTrendingPodcasts = {
         "https://sdmedia.playser.cadenaser.com/playser/image/20244/10/1712744718917_318.jpeg",
       latestPublishTime: 1739685600,
       itunesId: 1470511654,
-      trendScore: 9,
       language: "Spanish (Spain)",
       categories: ["Arts"],
     },
@@ -268,7 +253,6 @@ export const tenArtTrendingPodcasts = {
       image: "https://storage.buzzsprout.com/0py7ywli6pabgw17u8lxygq47qqz?.jpg",
       latestPublishTime: 1739685600,
       itunesId: 1536627038,
-      trendScore: 9,
       language: "English (United States)",
       categories: ["Arts", "Books", "Education", "History"],
     },
@@ -282,7 +266,6 @@ export const tenArtTrendingPodcasts = {
       image: "https://storage.buzzsprout.com/qu7qz0fhvf5520cfh3hjys97985q?.jpg",
       latestPublishTime: 1739685600,
       itunesId: 1680325750,
-      trendScore: 9,
       language: "English (United States)",
       categories: [
         "Arts",
@@ -303,7 +286,6 @@ export const tenArtTrendingPodcasts = {
       image: "https://storage.buzzsprout.com/pew3t9f93cc2n5uj1uu1g408ccso?.jpg",
       latestPublishTime: 1739685600,
       itunesId: 1721250552,
-      trendScore: 9,
       language: "English (United Kingdom)",
       categories: ["Arts", "Books", "Food", "Leisure", "Home", "Garden"],
     },
@@ -317,7 +299,6 @@ export const tenArtTrendingPodcasts = {
         "https://fdfs.xmcdn.com/storages/28de-audiofreehighqps/CC/69/CMCoOSMEw_42AAoLtADHtlJE.jpeg",
       latestPublishTime: 1739686229,
       itunesId: 1513714789,
-      trendScore: 9,
       language: "Chinese (Simplified)",
       categories: [
         "Arts",
@@ -340,7 +321,6 @@ export const tenArtTrendingPodcasts = {
         "https://megaphone.imgix.net/podcasts/574248e4-87b2-11ee-ac3b-b71ab9b899c4/image/Italian_Wine_Podcast_Logo.png?ixlib=rails-4.3.1&max-w=3000&max-h=3000&fit=crop&auto=format,compress",
       latestPublishTime: 1739689200,
       itunesId: 1211622570,
-      trendScore: 9,
       language: "English",
       categories: ["Arts", "Food", "Education", "Society", "Culture"],
     },
@@ -355,7 +335,6 @@ export const tenArtTrendingPodcasts = {
         "https://image.simplecastcdn.com/images/544c1a06-61e0-4953-a93b-b6db1f762553/7d771380-c071-4a0e-8e6f-e8a2e48442c5/3000x3000/brofyl-bodkst-15.jpg?aid=rss_feed",
       latestPublishTime: 1739689200,
       itunesId: 1772017897,
-      trendScore: 9,
       language: "Arabic",
       categories: [
         "Arts",
@@ -376,7 +355,6 @@ export const tenArtTrendingPodcasts = {
       image: "https://feeds.podetize.com/NqUc4INr4.jpg",
       latestPublishTime: 1739689740,
       itunesId: 1290656762,
-      trendScore: 9,
       language: "English (United States)",
       categories: ["Arts", "Books", "Education", "Self Improvement"],
     },
@@ -391,7 +369,6 @@ export const tenArtTrendingPodcasts = {
         "https://media.rss.com/tajrobati/20220129_110132_f8f584d54507f90e4f8424d73c2106bc.jpg",
       latestPublishTime: 1739690300,
       itunesId: null,
-      trendScore: 9,
       language: "Arabic",
       categories: ["Arts", "Books", "Education", "Self Improvement"],
     },
