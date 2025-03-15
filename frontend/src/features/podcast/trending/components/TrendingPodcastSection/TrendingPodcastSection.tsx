@@ -6,6 +6,7 @@ import { TrendingPodcast } from "../../../../../api/podcast/model/podcast.ts"
 import PodcastCard from "../../../../../components/PodcastCard/index.tsx"
 import useScreenDimensions from "../../../../../hooks/useScreenDimensions.ts"
 import TrendingPodcastFilters from "../TrendingPodcastFilters/TrendingPodcastFilters.tsx"
+import Button from "../../../../../components/ui/button/Button.tsx"
 
 type TrendingPodcastSectionProps = {
   trendingPodcasts: TrendingPodcast[] | null
@@ -40,14 +41,14 @@ export default memo(function TrendingPodcastSection(
       return (
         <div>
           <p>Zero podcasts found. Please try again later</p>
-          <button
+          <Button
             onClick={handleRefreshTrendingPodcasts}
             className="refresh-trending-podcasts-button"
             aria-label="refresh trending podcasts"
             title="refresh trending podcasts"
           >
             <IoReload size={20} /> Refresh
-          </button>
+          </Button>
         </div>
       )
     }
