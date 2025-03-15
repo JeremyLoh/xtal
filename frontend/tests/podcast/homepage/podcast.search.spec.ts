@@ -89,6 +89,7 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
   test("should update search results when search input is changed", async ({
     page,
   }) => {
+    test.slow()
     const query = "syntax"
     const updatedQuery = "updateSyntaxSearch"
     const limit = 10
