@@ -12,6 +12,7 @@ import Pagination from "../../../components/Pagination/Pagination.tsx"
 import Button from "../../../components/ui/button/Button.tsx"
 
 const LIMIT = 10
+const IMAGE_LAZY_LOAD_START_INDEX = 2 // zero based index
 
 export default function PodcastDetailPage() {
   const { podcastId, podcastTitle } = useParams()
@@ -106,7 +107,7 @@ export default function PodcastDetailPage() {
         <h2 className="podcast-episode-section-title">Episodes</h2>
         <div className="podcast-episode-container">
           {podcastEpisodes ? (
-            podcastEpisodes.map((episode) => {
+            podcastEpisodes.map((episode, index) => {
               function handlePlayClick(podcastEpisode: PodcastEpisode) {
                 if (podcastEpisodeContext) {
                   podcastEpisodeContext.setEpisode(podcastEpisode)
@@ -114,10 +115,18 @@ export default function PodcastDetailPage() {
               }
               return (
                 <PodcastEpisodeCard key={episode.id} episode={episode}>
-                  <PodcastEpisodeCard.Artwork
-                    size={144}
-                    title={`${episode.title} podcast image`}
-                  />
+                  {index < IMAGE_LAZY_LOAD_START_INDEX ? (
+                    <PodcastEpisodeCard.Artwork
+                      size={144}
+                      title={`${episode.title} podcast image`}
+                    />
+                  ) : (
+                    <PodcastEpisodeCard.Artwork
+                      size={144}
+                      title={`${episode.title} podcast image`}
+                      lazyLoad={true}
+                    />
+                  )}
                   <PodcastEpisodeCard.Title
                     url={`/podcasts/${podcastTitle}/${podcastId}/${episode.id}`}
                   />

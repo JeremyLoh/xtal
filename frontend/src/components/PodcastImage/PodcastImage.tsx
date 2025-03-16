@@ -9,6 +9,7 @@ type PodcastImageProps = {
   imageClassName: string
   imageTitle: string
   imageNotAvailableTitle: string
+  lazyLoad?: boolean
 }
 
 export default memo(function PodcastImage({
@@ -17,6 +18,7 @@ export default memo(function PodcastImage({
   imageClassName,
   imageTitle,
   imageNotAvailableTitle,
+  lazyLoad,
 }: PodcastImageProps) {
   const { devicePixelRatio } = useScreenDimensions()
   const abortControllerRef = useRef<AbortController | null>(null)
@@ -78,6 +80,7 @@ export default memo(function PodcastImage({
     <div className={imageClassName} style={PODCAST_IMAGE_CONTAINER_STYLE}>
       {imageSrc ? (
         <img
+          {...(lazyLoad && { loading: "lazy" })}
           className={imageClassName}
           decoding="async"
           src={imageSrc}
