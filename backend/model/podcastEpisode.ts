@@ -20,11 +20,9 @@ export type PodcastEpisode = {
   description: string
   contentUrl: string // url link to episode file
   contentType: string // Content-Type of the episode file (e.g. mp3 => "audio\/mpeg")
-  contentSizeInBytes: number
   durationInSeconds: number | null
   datePublished: number // unix epoch time in seconds
   isExplicit: boolean
-  episodeType: "full" | "trailer" | "bonus" | null // type of episode. May be null for "liveItem"
   episodeNumber: number | null
   seasonNumber: number | null
   image: string
@@ -32,5 +30,4 @@ export type PodcastEpisode = {
   people: Person[] | null
   externalWebsiteUrl: string
   transcripts: Transcript[] | null
-  isActiveFeed?: boolean
 }

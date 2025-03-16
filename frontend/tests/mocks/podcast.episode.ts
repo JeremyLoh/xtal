@@ -33,11 +33,9 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity302.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 26385472,
         durationInSeconds: 3297,
         datePublished: 1546399813,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 19,
         seasonNumber: 3,
         image:
@@ -47,7 +45,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/19/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795089,
@@ -59,11 +56,9 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity301.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 26670520,
         durationInSeconds: 3333,
         datePublished: 1533430856,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 18,
         seasonNumber: 3,
         image:
@@ -73,7 +68,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/18/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795090,
@@ -85,11 +79,9 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity209.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 0,
         durationInSeconds: 5657,
         datePublished: 1505270293,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 17,
         seasonNumber: 2,
         image:
@@ -99,7 +91,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/17/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795091,
@@ -111,11 +102,9 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity208.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 28033067,
         durationInSeconds: 3503,
         datePublished: 1504621260,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 16,
         seasonNumber: 0,
         image:
@@ -125,7 +114,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/16/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795092,
@@ -137,11 +125,9 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity207.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 20359127,
         durationInSeconds: 2544,
         datePublished: 1504022400,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 15,
         seasonNumber: 2,
         image:
@@ -151,7 +137,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/15/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795093,
@@ -163,11 +148,9 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity206.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 22098047,
         durationInSeconds: 2761,
         datePublished: 1503406800,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 14,
         seasonNumber: 2,
         image:
@@ -177,7 +160,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/14/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795094,
@@ -189,11 +171,9 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity205.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 19495206,
         durationInSeconds: 2436,
         datePublished: 1502807410,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 13,
         seasonNumber: 2,
         image:
@@ -203,7 +183,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/13/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795095,
@@ -215,11 +194,9 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity204.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 25644221,
         durationInSeconds: 3205,
         datePublished: 1502208000,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 12,
         seasonNumber: 2,
         image:
@@ -229,7 +206,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/12/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795096,
@@ -241,11 +217,9 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity203.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 0,
         durationInSeconds: 3525,
         datePublished: 1501603200,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 11,
         seasonNumber: 2,
         image:
@@ -255,7 +229,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/11/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795097,
@@ -267,11 +240,9 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity202.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 17533723,
         durationInSeconds: 2191,
         datePublished: 1500995400,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 10,
         seasonNumber: 2,
         image:
@@ -281,7 +252,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/10/",
         transcripts: null,
-        isActiveFeed: false,
       },
     ],
   },
@@ -317,11 +287,9 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/9521361d-1c28-4a59-b1b9-1da72c8e47c7/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=9521361d-1c28-4a59-b1b9-1da72c8e47c7&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 27491220,
         durationInSeconds: 1698,
         datePublished: 1741119803,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 618,
         seasonNumber: 0,
         image:
@@ -330,7 +298,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43974",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 34209037742,
@@ -342,11 +309,9 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/7777e6ec-a309-491d-b12a-bbb68b55eb98/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=7777e6ec-a309-491d-b12a-bbb68b55eb98&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 37393079,
         durationInSeconds: 2317,
         datePublished: 1740518153,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 617,
         seasonNumber: 0,
         image:
@@ -355,7 +320,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43972",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 33947433228,
@@ -367,11 +331,9 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/95f132cb-72fc-4865-8fdf-812398fdd508/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=95f132cb-72fc-4865-8fdf-812398fdd508&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 36428429,
         durationInSeconds: 2257,
         datePublished: 1739922291,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 616,
         seasonNumber: 0,
         image:
@@ -380,7 +342,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43853",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 33788287729,
@@ -392,11 +353,9 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/6802ef4a-a3fd-40e5-8537-ae84372050f3/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=6802ef4a-a3fd-40e5-8537-ae84372050f3&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 62192573,
         durationInSeconds: 3605,
         datePublished: 1739558686,
         isExplicit: false,
-        episodeType: "bonus",
         episodeNumber: null,
         seasonNumber: 0,
         image:
@@ -405,7 +364,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=44064",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 33673883691,
@@ -417,11 +375,9 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/039140a5-be96-4d93-9609-8b6b3c4a1b7f/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=039140a5-be96-4d93-9609-8b6b3c4a1b7f&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 31290048,
         durationInSeconds: 1935,
         datePublished: 1739307204,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 615,
         seasonNumber: 0,
         image:
@@ -430,7 +386,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43850",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 33386011603,
@@ -442,11 +397,9 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/e1b15f67-84d8-4e05-884d-284f262df24c/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=e1b15f67-84d8-4e05-884d-284f262df24c&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 59817424,
         durationInSeconds: 3718,
         datePublished: 1738704340,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 614,
         seasonNumber: 0,
         image:
@@ -455,7 +408,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43807",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 33079223904,
@@ -467,11 +419,9 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/510b2e1d-0107-4402-8a3f-11ce90bd1fea/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=510b2e1d-0107-4402-8a3f-11ce90bd1fea&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 32953933,
         durationInSeconds: 2039,
         datePublished: 1738107127,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 613,
         seasonNumber: 0,
         image:
@@ -480,7 +430,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43886",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 32891030404,
@@ -492,11 +441,9 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/d134d628-47bc-4ca5-80b9-29dfcd0c11b2/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=d134d628-47bc-4ca5-80b9-29dfcd0c11b2&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 20753176,
         durationInSeconds: 1015,
         datePublished: 1737744969,
         isExplicit: false,
-        episodeType: "bonus",
         episodeNumber: null,
         seasonNumber: 0,
         image:
@@ -505,7 +452,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43867",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 32762003344,
@@ -517,11 +463,9 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/1935f5fd-3716-4d78-988f-ba379a5b442b/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=1935f5fd-3716-4d78-988f-ba379a5b442b&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 50566729,
         durationInSeconds: 3140,
         datePublished: 1737496869,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 612,
         seasonNumber: 0,
         image:
@@ -530,7 +474,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43845",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 32446846707,
@@ -542,11 +485,9 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/9617c75b-c5f9-4acd-b37a-f76853083f4a/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=9617c75b-c5f9-4acd-b37a-f76853083f4a&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 33208886,
         durationInSeconds: 2055,
         datePublished: 1736882778,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 611,
         seasonNumber: 0,
         image:
@@ -555,7 +496,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43752",
         transcripts: null,
-        isActiveFeed: false,
       },
     ],
   },
@@ -591,11 +531,9 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/257._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 70821642,
         durationInSeconds: 4383,
         datePublished: 1740654000,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 257,
         seasonNumber: 0,
         image:
@@ -604,7 +542,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/257",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 34000697601,
@@ -616,11 +553,9 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/256._Audio-only_1.3.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 68509477,
         durationInSeconds: 4238,
         datePublished: 1740042000,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 256,
         seasonNumber: 0,
         image:
@@ -629,7 +564,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/256",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 33731265817,
@@ -642,11 +576,9 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/255._Audio-only_1.5.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 96771725,
         durationInSeconds: 6011,
         datePublished: 1739433600,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 255,
         seasonNumber: 0,
         image:
@@ -655,7 +587,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/255",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 33458281535,
@@ -667,11 +598,9 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/254._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 83755747,
         durationInSeconds: 5191,
         datePublished: 1738832400,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 254,
         seasonNumber: 0,
         image:
@@ -680,7 +609,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/254",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 33140642338,
@@ -693,11 +621,9 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/253._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 68252819,
         durationInSeconds: 4231,
         datePublished: 1738227600,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 253,
         seasonNumber: 0,
         image:
@@ -706,7 +632,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/253",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 32829687814,
@@ -718,11 +643,9 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/252._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 88692075,
         durationInSeconds: 5496,
         datePublished: 1737627480,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 252,
         seasonNumber: 0,
         image:
@@ -731,7 +654,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/252",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 32522737544,
@@ -743,11 +665,9 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/251._Audio-only_1.3.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 66951941,
         durationInSeconds: 4150,
         datePublished: 1737025200,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 251,
         seasonNumber: 0,
         image:
@@ -756,7 +676,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/251",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 32200160925,
@@ -768,11 +687,9 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/250._Audio-only_1.5.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 81855876,
         durationInSeconds: 5071,
         datePublished: 1736409600,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 250,
         seasonNumber: 0,
         image:
@@ -781,7 +698,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/250",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 31894639218,
@@ -793,11 +709,9 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/249._Audio-only_1.5.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 98542414,
         durationInSeconds: 6108,
         datePublished: 1735804800,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 249,
         seasonNumber: 0,
         image:
@@ -806,7 +720,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/249",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 31600382155,
@@ -818,11 +731,9 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/248._Audio-only_1.6.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 77772869,
         durationInSeconds: 4795,
         datePublished: 1735203600,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 248,
         seasonNumber: 0,
         image:
@@ -831,7 +742,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/248",
         transcripts: null,
-        isActiveFeed: false,
       },
     ],
   },
@@ -867,11 +777,9 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/247._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 72903256,
         durationInSeconds: 4512,
         datePublished: 1734600360,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 247,
         seasonNumber: 0,
         image:
@@ -880,7 +788,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/247",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 31071818522,
@@ -892,11 +799,9 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/246._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 77192620,
         durationInSeconds: 4784,
         datePublished: 1733990400,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 246,
         seasonNumber: 0,
         image:
@@ -905,7 +810,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/246",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 30852731547,
@@ -918,11 +822,9 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/245._Audio-only_1.6.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 72625620,
         durationInSeconds: 4497,
         datePublished: 1733389200,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 245,
         seasonNumber: 0,
         image:
@@ -931,7 +833,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/245",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 30643062471,
@@ -943,11 +844,9 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/244._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 88230888,
         durationInSeconds: 5455,
         datePublished: 1732784400,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 244,
         seasonNumber: 0,
         image:
@@ -956,7 +855,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/244",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 30423408961,
@@ -969,11 +867,9 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/243._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 82502796,
         durationInSeconds: 5107,
         datePublished: 1732179600,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 243,
         seasonNumber: 0,
         image:
@@ -982,7 +878,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/243",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 30206873558,
@@ -994,11 +889,9 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/242._Audio-only_1.5.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 67850778,
         durationInSeconds: 4195,
         datePublished: 1731574800,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 242,
         seasonNumber: 0,
         image:
@@ -1007,7 +900,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/242",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 29986971671,
@@ -1019,11 +911,9 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/241._Audio-only_1.6.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 85870135,
         durationInSeconds: 5302,
         datePublished: 1730959200,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 241,
         seasonNumber: 0,
         image:
@@ -1032,7 +922,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/241",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 29775812033,
@@ -1044,11 +933,9 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/240._Audio-only_1.5.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 70125175,
         durationInSeconds: 4331,
         datePublished: 1730361600,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 240,
         seasonNumber: 0,
         image:
@@ -1057,7 +944,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/240",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 29545937244,
@@ -1069,11 +955,9 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/239._Audio-only_1.5_44.1_HZ.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 81437545,
         durationInSeconds: 5033,
         datePublished: 1729756800,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 239,
         seasonNumber: 0,
         image:
@@ -1082,7 +966,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/239",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 29317890951,
@@ -1095,11 +978,9 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/238.__Audio-only_2.1.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 86016585,
         durationInSeconds: 5296,
         datePublished: 1729148400,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 238,
         seasonNumber: 0,
         image:
@@ -1108,7 +989,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/238",
         transcripts: null,
-        isActiveFeed: false,
       },
     ],
   },
@@ -1144,11 +1024,9 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/237._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 83397102,
         durationInSeconds: 5148,
         datePublished: 1728543600,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 237,
         seasonNumber: 0,
         image:
@@ -1157,7 +1035,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/237",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 28723832628,
@@ -1169,11 +1046,9 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/236.._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 100778927,
         durationInSeconds: 6263,
         datePublished: 1727956800,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 236,
         seasonNumber: 0,
         image:
@@ -1182,7 +1057,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/236",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 28392950849,
@@ -1194,11 +1068,9 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/235._Audio-only_1.2.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 67479182,
         durationInSeconds: 4184,
         datePublished: 1727344800,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 235,
         seasonNumber: 0,
         image:
@@ -1207,7 +1079,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/235",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 28055075836,
@@ -1219,11 +1090,9 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/234._Audio-only_1.5.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 85061668,
         durationInSeconds: 5278,
         datePublished: 1726729200,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 234,
         seasonNumber: 0,
         image:
@@ -1232,7 +1101,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/234",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 27722005591,
@@ -1245,11 +1113,9 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/233._Audio-only.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 90360546,
         durationInSeconds: 5604,
         datePublished: 1726124400,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 233,
         seasonNumber: 0,
         image:
@@ -1258,7 +1124,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/233",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 27400504823,
@@ -1270,11 +1135,9 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/232._Audio-only_V1.2.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 87997510,
         durationInSeconds: 5447,
         datePublished: 1725523200,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 232,
         seasonNumber: 0,
         image:
@@ -1283,7 +1146,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/232",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 27074339995,
@@ -1295,11 +1157,9 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/231._Audio-only.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 96864483,
         durationInSeconds: 6013,
         datePublished: 1724914800,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 231,
         seasonNumber: 0,
         image:
@@ -1308,7 +1168,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/231",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 26762373061,
@@ -1320,11 +1179,9 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/230._Audio-only.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 82277441,
         durationInSeconds: 5097,
         datePublished: 1724310000,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 230,
         seasonNumber: 0,
         image:
@@ -1333,7 +1190,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/230",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 26448979605,
@@ -1345,11 +1201,9 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/229._Audio-only.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 96488252,
         durationInSeconds: 5992,
         datePublished: 1723705200,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 229,
         seasonNumber: 0,
         image:
@@ -1358,7 +1212,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/229",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 26149900530,
@@ -1370,11 +1223,9 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/228.._audio-only.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 83162524,
         durationInSeconds: 5153,
         datePublished: 1723100400,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 228,
         seasonNumber: 0,
         image:
@@ -1383,7 +1234,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/228",
         transcripts: null,
-        isActiveFeed: false,
       },
     ],
   },
@@ -1403,11 +1253,9 @@ export const podcastId_259760_episodeId_34000697601 = {
     contentUrl:
       "https://traffic.libsyn.com/secure/infiniteloops/256._Audio-only_1.3.mp3?dest-id=1666472",
     contentType: "audio/mpeg",
-    contentSizeInBytes: 68509477,
     durationInSeconds: 4238,
     datePublished: 1740042000,
     isExplicit: false,
-    episodeType: "full",
     episodeNumber: 256,
     seasonNumber: 0,
     image:
