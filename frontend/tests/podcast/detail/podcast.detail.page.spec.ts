@@ -344,6 +344,48 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       )
     })
 
+    test("should have lazy loaded podcast image from third episode image onwards", async ({
+      page,
+    }) => {
+      const lazyLoadedImageStartIndex = 2 // zero based index
+      const episodeCount = defaultTenPodcastEpisodes.data.episodes.length
+      expect(
+        episodeCount,
+        "should have episode count greater than lazyLoadedImageStartIndex"
+      ).toBeGreaterThanOrEqual(lazyLoadedImageStartIndex + 1)
+
+      const podcastTitle = encodeURIComponent("Batman University")
+      const podcastId = "75075"
+      const limit = 10
+      await page.route(
+        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+        async (route) => {
+          const json = defaultTenPodcastEpisodes
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+      await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
+      for (let i = 0; i < episodeCount; i++) {
+        const episode = defaultTenPodcastEpisodes.data.episodes[i]
+        const artwork = page.locator(".podcast-episode-card").getByRole("img", {
+          name: episode.title + " podcast image",
+          exact: true,
+        })
+        if (i < lazyLoadedImageStartIndex) {
+          await expect(
+            artwork,
+            `Artwork ${i + 1} should not have <img> loading='lazy' attribute`
+          ).not.toHaveAttribute("loading", "lazy")
+        } else {
+          await expect(
+            artwork,
+            `Artwork ${i + 1} should have <img> loading='lazy' attribute`
+          ).toHaveAttribute("loading", "lazy")
+        }
+      }
+    })
+
     test("should play podcast episode when podcast episode card play button is clicked", async ({
       page,
     }) => {

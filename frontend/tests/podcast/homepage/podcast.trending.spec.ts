@@ -2,6 +2,7 @@ import dayjs from "dayjs"
 import test, { expect, Page } from "@playwright/test"
 import {
   defaultTenTrendingPodcasts,
+  tenArtTrendingPodcasts,
   threeTrendingPodcasts,
   zeroTrendingPodcasts,
 } from "../../mocks/podcast.trending"
@@ -151,6 +152,46 @@ test.describe("Podcast Homepage /podcasts", () => {
           await imageLocator.getAttribute("height"),
           "should have mobile podcast artwork image height of 144"
         ).toBe("144")
+      }
+    })
+
+    test("should have lazy loaded podcast image from third podcast image onwards", async ({
+      page,
+    }) => {
+      const lazyLoadedImageStartIndex = 2 // zero based index
+      const podcastCount = tenArtTrendingPodcasts.data.length
+      expect(
+        podcastCount,
+        "should have podcast count greater than lazyLoadedImageStartIndex"
+      ).toBeGreaterThanOrEqual(lazyLoadedImageStartIndex + 1)
+      await page.route(
+        "*/**/api/podcast/trending?limit=10&since=*",
+        async (route) => {
+          const json = tenArtTrendingPodcasts
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + "/podcasts")
+      await expect(page.locator(".podcast-trending-container")).toBeVisible()
+      for (let i = 0; i < podcastCount; i++) {
+        const podcastData = tenArtTrendingPodcasts.data[i]
+        const artwork = getPodcastCards(page)
+          .nth(i)
+          .getByRole("img", {
+            name: podcastData.title + " podcast image",
+            exact: true,
+          })
+        if (i < lazyLoadedImageStartIndex) {
+          await expect(
+            artwork,
+            `Artwork ${i + 1} should not have <img> loading='lazy' attribute`
+          ).not.toHaveAttribute("loading", "lazy")
+        } else {
+          await expect(
+            artwork,
+            `Artwork ${i + 1} should have <img> loading='lazy' attribute`
+          ).toHaveAttribute("loading", "lazy")
+        }
       }
     })
 
