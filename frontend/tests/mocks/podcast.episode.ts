@@ -36,7 +36,6 @@ export const defaultTenPodcastEpisodes = {
         durationInSeconds: 3297,
         datePublished: 1546399813,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 19,
         seasonNumber: 3,
         image:
@@ -60,7 +59,6 @@ export const defaultTenPodcastEpisodes = {
         durationInSeconds: 3333,
         datePublished: 1533430856,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 18,
         seasonNumber: 3,
         image:
@@ -84,7 +82,6 @@ export const defaultTenPodcastEpisodes = {
         durationInSeconds: 5657,
         datePublished: 1505270293,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 17,
         seasonNumber: 2,
         image:
@@ -108,7 +105,6 @@ export const defaultTenPodcastEpisodes = {
         durationInSeconds: 3503,
         datePublished: 1504621260,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 16,
         seasonNumber: 0,
         image:
@@ -132,7 +128,6 @@ export const defaultTenPodcastEpisodes = {
         durationInSeconds: 2544,
         datePublished: 1504022400,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 15,
         seasonNumber: 2,
         image:
@@ -156,7 +151,6 @@ export const defaultTenPodcastEpisodes = {
         durationInSeconds: 2761,
         datePublished: 1503406800,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 14,
         seasonNumber: 2,
         image:
@@ -180,7 +174,6 @@ export const defaultTenPodcastEpisodes = {
         durationInSeconds: 2436,
         datePublished: 1502807410,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 13,
         seasonNumber: 2,
         image:
@@ -204,7 +197,6 @@ export const defaultTenPodcastEpisodes = {
         durationInSeconds: 3205,
         datePublished: 1502208000,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 12,
         seasonNumber: 2,
         image:
@@ -228,7 +220,6 @@ export const defaultTenPodcastEpisodes = {
         durationInSeconds: 3525,
         datePublished: 1501603200,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 11,
         seasonNumber: 2,
         image:
@@ -252,7 +243,6 @@ export const defaultTenPodcastEpisodes = {
         durationInSeconds: 2191,
         datePublished: 1500995400,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 10,
         seasonNumber: 2,
         image:
@@ -300,7 +290,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         durationInSeconds: 1698,
         datePublished: 1741119803,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 618,
         seasonNumber: 0,
         image:
@@ -323,7 +312,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         durationInSeconds: 2317,
         datePublished: 1740518153,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 617,
         seasonNumber: 0,
         image:
@@ -346,7 +334,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         durationInSeconds: 2257,
         datePublished: 1739922291,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 616,
         seasonNumber: 0,
         image:
@@ -369,7 +356,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         durationInSeconds: 3605,
         datePublished: 1739558686,
         isExplicit: false,
-        episodeType: "bonus",
         episodeNumber: null,
         seasonNumber: 0,
         image:
@@ -392,7 +378,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         durationInSeconds: 1935,
         datePublished: 1739307204,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 615,
         seasonNumber: 0,
         image:
@@ -415,7 +400,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         durationInSeconds: 3718,
         datePublished: 1738704340,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 614,
         seasonNumber: 0,
         image:
@@ -438,7 +422,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         durationInSeconds: 2039,
         datePublished: 1738107127,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 613,
         seasonNumber: 0,
         image:
@@ -461,7 +444,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         durationInSeconds: 1015,
         datePublished: 1737744969,
         isExplicit: false,
-        episodeType: "bonus",
         episodeNumber: null,
         seasonNumber: 0,
         image:
@@ -484,7 +466,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         durationInSeconds: 3140,
         datePublished: 1737496869,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 612,
         seasonNumber: 0,
         image:
@@ -507,7 +488,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         durationInSeconds: 2055,
         datePublished: 1736882778,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 611,
         seasonNumber: 0,
         image:
@@ -554,7 +534,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         durationInSeconds: 4383,
         datePublished: 1740654000,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 257,
         seasonNumber: 0,
         image:
@@ -577,7 +556,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         durationInSeconds: 4238,
         datePublished: 1740042000,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 256,
         seasonNumber: 0,
         image:
@@ -601,7 +579,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         durationInSeconds: 6011,
         datePublished: 1739433600,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 255,
         seasonNumber: 0,
         image:
@@ -624,7 +601,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         durationInSeconds: 5191,
         datePublished: 1738832400,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 254,
         seasonNumber: 0,
         image:
@@ -648,7 +624,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         durationInSeconds: 4231,
         datePublished: 1738227600,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 253,
         seasonNumber: 0,
         image:
@@ -671,7 +646,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         durationInSeconds: 5496,
         datePublished: 1737627480,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 252,
         seasonNumber: 0,
         image:
@@ -694,7 +668,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         durationInSeconds: 4150,
         datePublished: 1737025200,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 251,
         seasonNumber: 0,
         image:
@@ -717,7 +690,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         durationInSeconds: 5071,
         datePublished: 1736409600,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 250,
         seasonNumber: 0,
         image:
@@ -740,7 +712,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         durationInSeconds: 6108,
         datePublished: 1735804800,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 249,
         seasonNumber: 0,
         image:
@@ -763,7 +734,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         durationInSeconds: 4795,
         datePublished: 1735203600,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 248,
         seasonNumber: 0,
         image:
@@ -810,7 +780,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         durationInSeconds: 4512,
         datePublished: 1734600360,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 247,
         seasonNumber: 0,
         image:
@@ -833,7 +802,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         durationInSeconds: 4784,
         datePublished: 1733990400,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 246,
         seasonNumber: 0,
         image:
@@ -857,7 +825,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         durationInSeconds: 4497,
         datePublished: 1733389200,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 245,
         seasonNumber: 0,
         image:
@@ -880,7 +847,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         durationInSeconds: 5455,
         datePublished: 1732784400,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 244,
         seasonNumber: 0,
         image:
@@ -904,7 +870,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         durationInSeconds: 5107,
         datePublished: 1732179600,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 243,
         seasonNumber: 0,
         image:
@@ -927,7 +892,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         durationInSeconds: 4195,
         datePublished: 1731574800,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 242,
         seasonNumber: 0,
         image:
@@ -950,7 +914,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         durationInSeconds: 5302,
         datePublished: 1730959200,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 241,
         seasonNumber: 0,
         image:
@@ -973,7 +936,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         durationInSeconds: 4331,
         datePublished: 1730361600,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 240,
         seasonNumber: 0,
         image:
@@ -996,7 +958,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         durationInSeconds: 5033,
         datePublished: 1729756800,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 239,
         seasonNumber: 0,
         image:
@@ -1020,7 +981,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         durationInSeconds: 5296,
         datePublished: 1729148400,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 238,
         seasonNumber: 0,
         image:
@@ -1067,7 +1027,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         durationInSeconds: 5148,
         datePublished: 1728543600,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 237,
         seasonNumber: 0,
         image:
@@ -1090,7 +1049,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         durationInSeconds: 6263,
         datePublished: 1727956800,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 236,
         seasonNumber: 0,
         image:
@@ -1113,7 +1071,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         durationInSeconds: 4184,
         datePublished: 1727344800,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 235,
         seasonNumber: 0,
         image:
@@ -1136,7 +1093,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         durationInSeconds: 5278,
         datePublished: 1726729200,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 234,
         seasonNumber: 0,
         image:
@@ -1160,7 +1116,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         durationInSeconds: 5604,
         datePublished: 1726124400,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 233,
         seasonNumber: 0,
         image:
@@ -1183,7 +1138,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         durationInSeconds: 5447,
         datePublished: 1725523200,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 232,
         seasonNumber: 0,
         image:
@@ -1206,7 +1160,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         durationInSeconds: 6013,
         datePublished: 1724914800,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 231,
         seasonNumber: 0,
         image:
@@ -1229,7 +1182,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         durationInSeconds: 5097,
         datePublished: 1724310000,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 230,
         seasonNumber: 0,
         image:
@@ -1252,7 +1204,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         durationInSeconds: 5992,
         datePublished: 1723705200,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 229,
         seasonNumber: 0,
         image:
@@ -1275,7 +1226,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         durationInSeconds: 5153,
         datePublished: 1723100400,
         isExplicit: false,
-        episodeType: "full",
         episodeNumber: 228,
         seasonNumber: 0,
         image:
@@ -1306,7 +1256,6 @@ export const podcastId_259760_episodeId_34000697601 = {
     durationInSeconds: 4238,
     datePublished: 1740042000,
     isExplicit: false,
-    episodeType: "full",
     episodeNumber: 256,
     seasonNumber: 0,
     image:

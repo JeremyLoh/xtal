@@ -99,7 +99,6 @@ class PodcastIndexApi implements PodcastApi {
         durationInSeconds: episode.duration,
         datePublished: episode.datePublished, // unix epoch time in seconds
         isExplicit: episode.explicit === 1, // Not explicit = 0. Explicit = 1
-        episodeType: episode.episodeType, // type of episode. May be null for "liveItem"
         episodeNumber: episode.episode,
         seasonNumber: episode.season,
         image: episode.image || episode.feedImage,
@@ -129,7 +128,6 @@ class PodcastIndexApi implements PodcastApi {
       durationInSeconds: episode.duration,
       datePublished: episode.datePublished, // unix epoch time in seconds
       isExplicit: episode.explicit === 1, // Not explicit = 0. Explicit = 1
-      episodeType: episode.episodeType, // type of episode. May be null for "liveItem"
       episodeNumber: episode.episode,
       seasonNumber: episode.season,
       image: episode.image || episode.feedImage,

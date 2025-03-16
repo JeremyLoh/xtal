@@ -23,7 +23,6 @@ export type PodcastEpisode = {
   durationInSeconds: number | null
   datePublished: number // unix epoch time in seconds
   isExplicit: boolean
-  episodeType: "full" | "trailer" | "bonus" | null // type of episode. May be null for "liveItem"
   episodeNumber: number | null
   seasonNumber: number | null
   image: string
