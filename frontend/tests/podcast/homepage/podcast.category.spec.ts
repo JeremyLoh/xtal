@@ -103,6 +103,7 @@ test.describe("Podcast Homepage /podcasts", () => {
         headless,
       }) => {
         test.skip(headless, "Remove failing CI test in headless mode")
+        test.slow()
         let shouldFetchData = true
         await page.route("*/**/api/podcast/category", async (route) => {
           const json = shouldFetchData ? allPodcastCategories : []

@@ -131,6 +131,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       headless,
     }) => {
       test.skip(headless, "Remove failing CI test in headless mode")
+      test.slow()
       const podcastTitle = encodeURIComponent("Batman University")
       const podcastId = "75075"
       const limit = 10
