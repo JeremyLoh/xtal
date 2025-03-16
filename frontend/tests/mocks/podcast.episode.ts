@@ -33,7 +33,6 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity302.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 26385472,
         durationInSeconds: 3297,
         datePublished: 1546399813,
         isExplicit: false,
@@ -59,7 +58,6 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity301.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 26670520,
         durationInSeconds: 3333,
         datePublished: 1533430856,
         isExplicit: false,
@@ -85,7 +83,6 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity209.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 0,
         durationInSeconds: 5657,
         datePublished: 1505270293,
         isExplicit: false,
@@ -111,7 +108,6 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity208.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 28033067,
         durationInSeconds: 3503,
         datePublished: 1504621260,
         isExplicit: false,
@@ -137,7 +133,6 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity207.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 20359127,
         durationInSeconds: 2544,
         datePublished: 1504022400,
         isExplicit: false,
@@ -163,7 +158,6 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity206.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 22098047,
         durationInSeconds: 2761,
         datePublished: 1503406800,
         isExplicit: false,
@@ -189,7 +183,6 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity205.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 19495206,
         durationInSeconds: 2436,
         datePublished: 1502807410,
         isExplicit: false,
@@ -215,7 +208,6 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity204.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 25644221,
         durationInSeconds: 3205,
         datePublished: 1502208000,
         isExplicit: false,
@@ -241,7 +233,6 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity203.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 0,
         durationInSeconds: 3525,
         datePublished: 1501603200,
         isExplicit: false,
@@ -267,7 +258,6 @@ export const defaultTenPodcastEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/www.theincomparable.com/podcast/batmanuniversity202.mp3",
         contentType: "audio/mp3",
-        contentSizeInBytes: 17533723,
         durationInSeconds: 2191,
         datePublished: 1500995400,
         isExplicit: false,
@@ -317,7 +307,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/9521361d-1c28-4a59-b1b9-1da72c8e47c7/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=9521361d-1c28-4a59-b1b9-1da72c8e47c7&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 27491220,
         durationInSeconds: 1698,
         datePublished: 1741119803,
         isExplicit: false,
@@ -342,7 +331,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/7777e6ec-a309-491d-b12a-bbb68b55eb98/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=7777e6ec-a309-491d-b12a-bbb68b55eb98&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 37393079,
         durationInSeconds: 2317,
         datePublished: 1740518153,
         isExplicit: false,
@@ -367,7 +355,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/95f132cb-72fc-4865-8fdf-812398fdd508/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=95f132cb-72fc-4865-8fdf-812398fdd508&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 36428429,
         durationInSeconds: 2257,
         datePublished: 1739922291,
         isExplicit: false,
@@ -392,7 +379,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/6802ef4a-a3fd-40e5-8537-ae84372050f3/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=6802ef4a-a3fd-40e5-8537-ae84372050f3&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 62192573,
         durationInSeconds: 3605,
         datePublished: 1739558686,
         isExplicit: false,
@@ -417,7 +403,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/039140a5-be96-4d93-9609-8b6b3c4a1b7f/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=039140a5-be96-4d93-9609-8b6b3c4a1b7f&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 31290048,
         durationInSeconds: 1935,
         datePublished: 1739307204,
         isExplicit: false,
@@ -442,7 +427,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/e1b15f67-84d8-4e05-884d-284f262df24c/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=e1b15f67-84d8-4e05-884d-284f262df24c&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 59817424,
         durationInSeconds: 3718,
         datePublished: 1738704340,
         isExplicit: false,
@@ -467,7 +451,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/510b2e1d-0107-4402-8a3f-11ce90bd1fea/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=510b2e1d-0107-4402-8a3f-11ce90bd1fea&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 32953933,
         durationInSeconds: 2039,
         datePublished: 1738107127,
         isExplicit: false,
@@ -492,7 +475,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/d134d628-47bc-4ca5-80b9-29dfcd0c11b2/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=d134d628-47bc-4ca5-80b9-29dfcd0c11b2&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 20753176,
         durationInSeconds: 1015,
         datePublished: 1737744969,
         isExplicit: false,
@@ -517,7 +499,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/1935f5fd-3716-4d78-988f-ba379a5b442b/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=1935f5fd-3716-4d78-988f-ba379a5b442b&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 50566729,
         durationInSeconds: 3140,
         datePublished: 1737496869,
         isExplicit: false,
@@ -542,7 +523,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         contentUrl:
           "https://dts.podtrac.com/redirect.mp3/tracking.swap.fm/track/0bDcdoop59bdTYSfajQW/stitcher.simplecastaudio.com/3bb687b0-04af-4257-90f1-39eef4e631b6/episodes/9617c75b-c5f9-4acd-b37a-f76853083f4a/audio/128/default.mp3?aid=rss_feed&awCollectionId=3bb687b0-04af-4257-90f1-39eef4e631b6&awEpisodeId=9617c75b-c5f9-4acd-b37a-f76853083f4a&feed=BqbsxVfO",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 33208886,
         durationInSeconds: 2055,
         datePublished: 1736882778,
         isExplicit: false,
@@ -591,7 +571,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/257._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 70821642,
         durationInSeconds: 4383,
         datePublished: 1740654000,
         isExplicit: false,
@@ -616,7 +595,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/256._Audio-only_1.3.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 68509477,
         durationInSeconds: 4238,
         datePublished: 1740042000,
         isExplicit: false,
@@ -642,7 +620,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/255._Audio-only_1.5.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 96771725,
         durationInSeconds: 6011,
         datePublished: 1739433600,
         isExplicit: false,
@@ -667,7 +644,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/254._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 83755747,
         durationInSeconds: 5191,
         datePublished: 1738832400,
         isExplicit: false,
@@ -693,7 +669,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/253._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 68252819,
         durationInSeconds: 4231,
         datePublished: 1738227600,
         isExplicit: false,
@@ -718,7 +693,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/252._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 88692075,
         durationInSeconds: 5496,
         datePublished: 1737627480,
         isExplicit: false,
@@ -743,7 +717,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/251._Audio-only_1.3.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 66951941,
         durationInSeconds: 4150,
         datePublished: 1737025200,
         isExplicit: false,
@@ -768,7 +741,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/250._Audio-only_1.5.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 81855876,
         durationInSeconds: 5071,
         datePublished: 1736409600,
         isExplicit: false,
@@ -793,7 +765,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/249._Audio-only_1.5.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 98542414,
         durationInSeconds: 6108,
         datePublished: 1735804800,
         isExplicit: false,
@@ -818,7 +789,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/248._Audio-only_1.6.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 77772869,
         durationInSeconds: 4795,
         datePublished: 1735203600,
         isExplicit: false,
@@ -867,7 +837,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/247._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 72903256,
         durationInSeconds: 4512,
         datePublished: 1734600360,
         isExplicit: false,
@@ -892,7 +861,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/246._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 77192620,
         durationInSeconds: 4784,
         datePublished: 1733990400,
         isExplicit: false,
@@ -918,7 +886,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/245._Audio-only_1.6.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 72625620,
         durationInSeconds: 4497,
         datePublished: 1733389200,
         isExplicit: false,
@@ -943,7 +910,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/244._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 88230888,
         durationInSeconds: 5455,
         datePublished: 1732784400,
         isExplicit: false,
@@ -969,7 +935,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/243._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 82502796,
         durationInSeconds: 5107,
         datePublished: 1732179600,
         isExplicit: false,
@@ -994,7 +959,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/242._Audio-only_1.5.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 67850778,
         durationInSeconds: 4195,
         datePublished: 1731574800,
         isExplicit: false,
@@ -1019,7 +983,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/241._Audio-only_1.6.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 85870135,
         durationInSeconds: 5302,
         datePublished: 1730959200,
         isExplicit: false,
@@ -1044,7 +1007,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/240._Audio-only_1.5.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 70125175,
         durationInSeconds: 4331,
         datePublished: 1730361600,
         isExplicit: false,
@@ -1069,7 +1031,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/239._Audio-only_1.5_44.1_HZ.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 81437545,
         durationInSeconds: 5033,
         datePublished: 1729756800,
         isExplicit: false,
@@ -1095,7 +1056,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/238.__Audio-only_2.1.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 86016585,
         durationInSeconds: 5296,
         datePublished: 1729148400,
         isExplicit: false,
@@ -1144,7 +1104,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/237._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 83397102,
         durationInSeconds: 5148,
         datePublished: 1728543600,
         isExplicit: false,
@@ -1169,7 +1128,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/236.._Audio-only_1.4.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 100778927,
         durationInSeconds: 6263,
         datePublished: 1727956800,
         isExplicit: false,
@@ -1194,7 +1152,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/235._Audio-only_1.2.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 67479182,
         durationInSeconds: 4184,
         datePublished: 1727344800,
         isExplicit: false,
@@ -1219,7 +1176,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/234._Audio-only_1.5.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 85061668,
         durationInSeconds: 5278,
         datePublished: 1726729200,
         isExplicit: false,
@@ -1245,7 +1201,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/233._Audio-only.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 90360546,
         durationInSeconds: 5604,
         datePublished: 1726124400,
         isExplicit: false,
@@ -1270,7 +1225,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/232._Audio-only_V1.2.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 87997510,
         durationInSeconds: 5447,
         datePublished: 1725523200,
         isExplicit: false,
@@ -1295,7 +1249,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/231._Audio-only.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 96864483,
         durationInSeconds: 6013,
         datePublished: 1724914800,
         isExplicit: false,
@@ -1320,7 +1273,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/230._Audio-only.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 82277441,
         durationInSeconds: 5097,
         datePublished: 1724310000,
         isExplicit: false,
@@ -1345,7 +1297,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/229._Audio-only.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 96488252,
         durationInSeconds: 5992,
         datePublished: 1723705200,
         isExplicit: false,
@@ -1370,7 +1321,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         contentUrl:
           "https://traffic.libsyn.com/secure/infiniteloops/228.._audio-only.mp3?dest-id=1666472",
         contentType: "audio/mpeg",
-        contentSizeInBytes: 83162524,
         durationInSeconds: 5153,
         datePublished: 1723100400,
         isExplicit: false,
@@ -1403,7 +1353,6 @@ export const podcastId_259760_episodeId_34000697601 = {
     contentUrl:
       "https://traffic.libsyn.com/secure/infiniteloops/256._Audio-only_1.3.mp3?dest-id=1666472",
     contentType: "audio/mpeg",
-    contentSizeInBytes: 68509477,
     durationInSeconds: 4238,
     datePublished: 1740042000,
     isExplicit: false,

@@ -96,7 +96,6 @@ class PodcastIndexApi implements PodcastApi {
         description: getSanitizedHtmlText(episode.description || ""),
         contentUrl: episode.enclosureUrl, // url link to episode file
         contentType: episode.enclosureType, // Content-Type of the episode file (e.g. mp3 => "audio\/mpeg")
-        contentSizeInBytes: episode.enclosureLength,
         durationInSeconds: episode.duration,
         datePublished: episode.datePublished, // unix epoch time in seconds
         isExplicit: episode.explicit === 1, // Not explicit = 0. Explicit = 1
@@ -128,7 +127,6 @@ class PodcastIndexApi implements PodcastApi {
       description: getSanitizedHtmlText(episode.description || ""),
       contentUrl: episode.enclosureUrl, // url link to episode file
       contentType: episode.enclosureType, // Content-Type of the episode file (e.g. mp3 => "audio\/mpeg")
-      contentSizeInBytes: episode.enclosureLength,
       durationInSeconds: episode.duration,
       datePublished: episode.datePublished, // unix epoch time in seconds
       isExplicit: episode.explicit === 1, // Not explicit = 0. Explicit = 1

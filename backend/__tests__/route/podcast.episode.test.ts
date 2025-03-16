@@ -89,7 +89,6 @@ describe("GET /api/podcast/episode (single episode information)", () => {
       datePublished: episode.datePublished, // unix epoch time in seconds
       contentUrl: episode.enclosureUrl, // url link to episode file
       contentType: episode.enclosureType, // Content-Type of the episode file (e.g. mp3 => "audio\/mpeg" or "audio/mp3")
-      contentSizeInBytes: episode.enclosureLength,
       durationInSeconds: episode.duration,
       isExplicit: episode.explicit === 1, // Not explicit = 0. Explicit = 1
       episodeType: episode.episodeType, // type of episode. May be null for "liveItem"
@@ -236,7 +235,6 @@ describe("GET /api/podcast/episodes", () => {
           description: getSanitizedHtmlText(episode.description || ""),
           contentUrl: episode.enclosureUrl, // url link to episode file
           contentType: episode.enclosureType, // Content-Type of the episode file (e.g. mp3 => "audio\/mpeg")
-          contentSizeInBytes: episode.enclosureLength,
           durationInSeconds: episode.duration,
           datePublished: episode.datePublished, // unix epoch time in seconds
           isExplicit: episode.explicit === 1, // Not explicit = 0. Explicit = 1
