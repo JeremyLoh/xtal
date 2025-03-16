@@ -46,7 +46,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/19/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795089,
@@ -71,7 +70,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/18/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795090,
@@ -96,7 +94,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/17/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795091,
@@ -121,7 +118,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/16/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795092,
@@ -146,7 +142,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/15/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795093,
@@ -171,7 +166,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/14/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795094,
@@ -196,7 +190,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/13/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795095,
@@ -221,7 +214,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/12/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795096,
@@ -246,7 +238,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/11/",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 16795097,
@@ -271,7 +262,6 @@ export const defaultTenPodcastEpisodes = {
         externalWebsiteUrl:
           "https://www.theincomparable.com/batmanuniversity/10/",
         transcripts: null,
-        isActiveFeed: false,
       },
     ],
   },
@@ -319,7 +309,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43974",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 34209037742,
@@ -343,7 +332,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43972",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 33947433228,
@@ -367,7 +355,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43853",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 33788287729,
@@ -391,7 +378,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=44064",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 33673883691,
@@ -415,7 +401,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43850",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 33386011603,
@@ -439,7 +424,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43807",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 33079223904,
@@ -463,7 +447,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43886",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 32891030404,
@@ -487,7 +470,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43867",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 32762003344,
@@ -511,7 +493,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43845",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 32446846707,
@@ -535,7 +516,6 @@ export const podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://99percentinvisible.org/?p=43752",
         transcripts: null,
-        isActiveFeed: false,
       },
     ],
   },
@@ -583,7 +563,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/257",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 34000697601,
@@ -607,7 +586,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/256",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 33731265817,
@@ -632,7 +610,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/255",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 33458281535,
@@ -656,7 +633,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/254",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 33140642338,
@@ -681,7 +657,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/253",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 32829687814,
@@ -705,7 +680,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/252",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 32522737544,
@@ -729,7 +703,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/251",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 32200160925,
@@ -753,7 +726,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/250",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 31894639218,
@@ -777,7 +749,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/249",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 31600382155,
@@ -801,7 +772,6 @@ export const podcastId_259760_FirstTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/248",
         transcripts: null,
-        isActiveFeed: false,
       },
     ],
   },
@@ -849,7 +819,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/247",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 31071818522,
@@ -873,7 +842,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/246",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 30852731547,
@@ -898,7 +866,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/245",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 30643062471,
@@ -922,7 +889,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/244",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 30423408961,
@@ -947,7 +913,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/243",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 30206873558,
@@ -971,7 +936,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/242",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 29986971671,
@@ -995,7 +959,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/241",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 29775812033,
@@ -1019,7 +982,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/240",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 29545937244,
@@ -1043,7 +1005,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/239",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 29317890951,
@@ -1068,7 +1029,6 @@ export const podcastId_259760_OffsetTenEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/238",
         transcripts: null,
-        isActiveFeed: false,
       },
     ],
   },
@@ -1116,7 +1076,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/237",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 28723832628,
@@ -1140,7 +1099,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/236",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 28392950849,
@@ -1164,7 +1122,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/235",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 28055075836,
@@ -1188,7 +1145,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/234",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 27722005591,
@@ -1213,7 +1169,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/233",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 27400504823,
@@ -1237,7 +1192,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/232",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 27074339995,
@@ -1261,7 +1215,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/231",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 26762373061,
@@ -1285,7 +1238,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/230",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 26448979605,
@@ -1309,7 +1261,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/229",
         transcripts: null,
-        isActiveFeed: false,
       },
       {
         id: 26149900530,
@@ -1333,7 +1284,6 @@ export const podcastId_259760_OffsetTwentyEpisodes = {
         people: null,
         externalWebsiteUrl: "https://www.infiniteloopspodcast.com/228",
         transcripts: null,
-        isActiveFeed: false,
       },
     ],
   },

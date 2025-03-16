@@ -249,7 +249,6 @@ describe("GET /api/podcast/episodes", () => {
           people: episode.persons || null,
           externalWebsiteUrl: episode.link,
           transcripts: episode.transcripts || null,
-          isActiveFeed: episode.feedDead !== 0,
         }
       }),
     }

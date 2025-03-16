@@ -107,7 +107,6 @@ class PodcastIndexApi implements PodcastApi {
         people: episode.persons || null,
         externalWebsiteUrl: episode.link,
         transcripts: episode.transcripts || null,
-        isActiveFeed: episode.feedDead !== 0,
       }
     })
     return episodes

@@ -64,7 +64,6 @@ type PodcastEpisode = {
   people: Person[] | null
   externalWebsiteUrl: string
   transcripts: Transcript[] | null
-  isActiveFeed?: boolean
 }
 
 type PodcastCategory = {
