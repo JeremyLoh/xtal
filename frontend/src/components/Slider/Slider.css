@@ -30,6 +30,8 @@
   color: var(--text-color);
   background-color: var(--slider-chip-primary-color);
   transition: all 200ms;
+  border: none;
+  border-radius: 8px;
 }
 .slider button:hover {
   background-color: var(--slider-chip-secondary-color);
