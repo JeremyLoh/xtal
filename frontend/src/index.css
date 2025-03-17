@@ -1,7 +1,7 @@
+/* https://stackoverflow.com/questions/21621584/padding-causes-horizontal-scroll-it-increases-the-width */
 *,
 *::before,
 *::after {
-  /* https://stackoverflow.com/questions/21621584/padding-causes-horizontal-scroll-it-increases-the-width */
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -79,6 +79,13 @@
   color: var(--text-color);
 }
 
+/* https://kilianvalkhof.com/2022/css-html/your-css-reset-needs-text-size-adjust-probably/ */
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
 main {
   display: flex;
   flex-direction: column;
@@ -92,9 +99,44 @@ body {
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
+/* https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html */
+[role="list"] {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+button,
+input,
+label {
   line-height: 1.1;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: 3rem;
+  line-height: 1.1;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+li {
+  text-wrap: pretty;
 }
 
 a {
