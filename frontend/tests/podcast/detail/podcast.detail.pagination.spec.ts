@@ -251,17 +251,18 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
         await expect(getPageNumberElement(page, "-1")).not.toBeVisible()
         await expect(getPageNumberElement(page, "0")).not.toBeVisible()
         await expect(getActivePageNumberElement(page, "1")).toBeVisible()
-        await expect(getActivePageNumberElement(page, "2")).toBeVisible()
-        await expect(getActivePageNumberElement(page, "3")).toBeVisible()
-        await expect(getActivePageNumberElement(page, "4")).toBeVisible()
+        await expect(getPageNumberElement(page, "2")).toBeVisible()
+        await expect(getPageNumberElement(page, "3")).toBeVisible()
+        await expect(getPageNumberElement(page, "4")).toBeVisible()
 
-        await getActivePageNumberElement(page, "3").click()
+        await getPageNumberElement(page, "3").click()
 
         await assertPodcastInfo(
           page,
           podcastId_259760_OffsetTenEpisodes.data.podcast
         )
         await assertPodcastEpisodes(page, podcastId_259760_OffsetTenEpisodes)
+        await expect(getActivePageNumberElement(page, "3")).toBeVisible()
       })
 
       test("should display pages 1, 2, 3, 4 on first page (?page=1)", async ({

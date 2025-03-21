@@ -10,7 +10,9 @@ export function getActivePageNumberElement(
   page: Page,
   activePageNumber: string
 ) {
-  return page.locator(".podcast-episode-pagination").getByText(activePageNumber)
+  return page
+    .locator(".podcast-episode-pagination .active")
+    .getByText(activePageNumber)
 }
 
 export function getNextPaginationButton(page: Page) {
