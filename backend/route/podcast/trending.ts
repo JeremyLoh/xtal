@@ -28,15 +28,28 @@ router.get(
       ? new Date(Number(data.since) * 1000) // convert unix timestamp to milliseconds
       : threeDaysAgo
     const category: string | null = data?.category || null
+    const offset = Number(data.offset) || 0
 
     try {
-      const podcasts = await getTrendingPodcasts(limit, since, category)
+      const podcasts = await getTrendingPodcasts({
+        limit: limit + offset,
+        since,
+        category,
+      })
       response.status(200)
       response.type("application/json")
-      response.send({
-        count: podcasts.length,
-        data: podcasts,
-      })
+      if (offset === 0) {
+        response.send({
+          count: podcasts.length,
+          data: podcasts,
+        })
+      } else {
+        const offsetPodcasts = podcasts.slice(offset, offset + limit)
+        response.send({
+          count: offsetPodcasts.length,
+          data: offsetPodcasts,
+        })
+      }
     } catch (error: any) {
       if (error instanceof InvalidApiKeyError) {
         response.status(500).send(error.message)

@@ -29,6 +29,9 @@ export const handlers = [
         return HttpResponse.json(PODCAST_TRENDING_DEFAULT_TEN_ENTRIES)
       } else if (max === "10" && category?.toLowerCase() === "arts") {
         return HttpResponse.json(PODCAST_TRENDING_TEN_ARTS_PODCASTS)
+      } else if (max === "15") {
+        // backend ?offset=5&limit=10 trending podcast test. PodcastIndex API doesn't have offset
+        return HttpResponse.json(PODCAST_TRENDING_DEFAULT_TEN_ENTRIES)
       } else {
         return HttpResponse.error()
       }
