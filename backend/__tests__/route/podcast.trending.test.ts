@@ -257,6 +257,40 @@ describe("GET /api/podcast/trending", () => {
         )
       })
     })
+
+    describe("offset parameter", () => {
+      test("should respond with status 400 for negative offset parameter", async () => {
+        const invalidNegativeOffset = "-1"
+        const app = setupApp()
+        const response = await request(app)
+          .get(`/api/podcast/trending?offset=${invalidNegativeOffset}`)
+          .set("Origin", expectedOrigin)
+        expect(response.status).toEqual(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'offset' should be between 0 and 1000",
+            ]),
+          })
+        )
+      })
+
+      test("should respond with status 400 for 1001 offset parameter", async () => {
+        const invalidMaxOffset = "1001"
+        const app = setupApp()
+        const response = await request(app)
+          .get(`/api/podcast/trending?offset=${invalidMaxOffset}`)
+          .set("Origin", expectedOrigin)
+        expect(response.status).toEqual(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              "'offset' should be between 0 and 1000",
+            ]),
+          })
+        )
+      })
+    })
   })
 
   describe("given one category", () => {
