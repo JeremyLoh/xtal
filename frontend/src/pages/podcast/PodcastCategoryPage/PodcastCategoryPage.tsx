@@ -9,6 +9,12 @@ import Button from "../../../components/ui/button/Button.tsx"
 
 const LIMIT = 10
 
+type PodcastCategoryFilters = {
+  since: number
+  offset?: number
+  category?: string
+} | null
+
 export default function PodcastCategoryPage() {
   const { categoryName } = useParams()
   const navigate = useNavigate()
@@ -22,14 +28,12 @@ export default function PodcastCategoryPage() {
     useTrendingPodcasts(options)
   const [sinceDaysBefore, setSinceDaysBefore] =
     useState<number>(DEFAULT_SINCE_DAYS)
+  const initialFilters: PodcastCategoryFilters = useMemo(() => {
+    return { since: DEFAULT_SINCE_DAYS }
+  }, [DEFAULT_SINCE_DAYS])
 
   const handlePodcastRefresh = useCallback(
-    async (
-      filters: {
-        since: number
-        category?: string
-      } | null
-    ) => {
+    async (filters: PodcastCategoryFilters) => {
       if (filters != null) {
         const { since } = filters
         setSinceDaysBefore(since)
@@ -71,6 +75,7 @@ export default function PodcastCategoryPage() {
         <TrendingPodcastSection
           trendingPodcasts={trendingPodcasts}
           onRefresh={handlePodcastRefresh}
+          filters={initialFilters}
         />
       </LoadingDisplay>
     )

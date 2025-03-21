@@ -23,6 +23,12 @@ type TrendingPodcast = {
   categories: string[]
 }
 
+type TrendingPodcastFiltersType = {
+  since: number
+  offset?: number
+  category?: string
+} | null
+
 type Transcript = {
   url: string
   type:
@@ -70,4 +76,10 @@ type PodcastCategory = {
   name: string
 }
 
-export type { Podcast, TrendingPodcast, PodcastEpisode, PodcastCategory }
+export type {
+  Podcast,
+  TrendingPodcast,
+  TrendingPodcastFiltersType,
+  PodcastEpisode,
+  PodcastCategory,
+}

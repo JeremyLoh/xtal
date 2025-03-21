@@ -8,6 +8,7 @@ import usePodcastCategory from "../../../hooks/podcast/usePodcastCategory.ts"
 import SearchBar from "../../../components/SearchBar/SearchBar.tsx"
 import usePodcastSearch from "../../../hooks/podcast/usePodcastSearch.ts"
 import PodcastSearchResultList from "../../../components/PodcastSearchResultList/PodcastSearchResultList.tsx"
+import { TrendingPodcastFiltersType } from "../../../api/podcast/model/podcast.ts"
 
 const LIMIT = 10
 
@@ -17,16 +18,21 @@ export default function PodcastHomePage() {
       limit: LIMIT,
     }
   }, [])
-  const { podcasts: searchPodcasts, fetchPodcastsBySearchQuery } =
-    usePodcastSearch()
+  const {
+    loading: loadingSearchPodcasts,
+    podcasts: searchPodcasts,
+    fetchPodcastsBySearchQuery,
+  } = usePodcastSearch()
   const {
     DEFAULT_SINCE_DAYS,
-    loading: loadingPodcasts,
     trendingPodcasts,
     onRefresh: handleTrendingPodcastRefresh,
   } = useTrendingPodcasts(options)
   const [sinceDaysBefore, setSinceDaysBefore] =
     useState<number>(DEFAULT_SINCE_DAYS)
+  const initialFilters: TrendingPodcastFiltersType = useMemo(() => {
+    return { since: DEFAULT_SINCE_DAYS }
+  }, [DEFAULT_SINCE_DAYS])
   const {
     loading: loadingCategories,
     categories,
@@ -34,12 +40,7 @@ export default function PodcastHomePage() {
   } = usePodcastCategory()
 
   const handlePodcastRefresh = useCallback(
-    async (
-      filters: {
-        since: number
-        category?: string
-      } | null
-    ) => {
+    async (filters: TrendingPodcastFiltersType) => {
       if (filters != null) {
         const { since } = filters
         setSinceDaysBefore(since)
@@ -67,24 +68,27 @@ export default function PodcastHomePage() {
   }, [])
 
   return (
-    <LoadingDisplay loading={loadingCategories || loadingPodcasts}>
-      <div id="podcast-home-page-container">
-        <SearchBar
-          className="podcast-search-bar"
-          placeholder="Search Podcasts..."
-          onChange={handlePodcastSearch}
-        />
+    <div id="podcast-home-page-container">
+      <SearchBar
+        className="podcast-search-bar"
+        placeholder="Search Podcasts..."
+        onChange={handlePodcastSearch}
+      />
+      <LoadingDisplay loading={loadingSearchPodcasts}>
         <PodcastSearchResultList results={searchPodcasts} />
-
+      </LoadingDisplay>
+      <LoadingDisplay loading={loadingCategories}>
         <PodcastCategorySection
           categories={categories}
           onRefresh={handlePodcastCategoryRefresh}
         />
-        <TrendingPodcastSection
-          trendingPodcasts={trendingPodcasts}
-          onRefresh={handlePodcastRefresh}
-        />
-      </div>
-    </LoadingDisplay>
+      </LoadingDisplay>
+      {/* <LoadingDisplay> rerender causes TrendingPodcastSection pagination component to break */}
+      <TrendingPodcastSection
+        trendingPodcasts={trendingPodcasts}
+        onRefresh={handlePodcastRefresh}
+        filters={initialFilters}
+      />
+    </div>
   )
 }

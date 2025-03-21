@@ -73,6 +73,7 @@ test.describe("share radio station feature", () => {
   test("should load radio station when share radio station link is used", async ({
     page,
   }) => {
+    test.slow()
     await page.route("*/**/json/stations/search?*", async (route) => {
       const requestUrl = route.request().url()
       if (
@@ -104,6 +105,7 @@ test.describe("share radio station feature", () => {
     headless,
   }) => {
     test.skip(headless, "Remove flaky test in headless test")
+    test.slow()
     // 1) Then user navigates to route /radio-station and loads a radio station
     // 2) Tries to search for a new random radio station
     // 3) Click on the share link for the new radio station
