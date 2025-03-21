@@ -8,18 +8,13 @@ import {
 } from "../../mocks/podcast.trending"
 import { assertToastMessage, HOMEPAGE } from "../../constants/homepageConstants"
 import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
+import {
+  getPodcastCardDetailLink,
+  getPodcastCards,
+} from "../../constants/podcast/trending/podcastTrendingConstants"
 
 test.describe("Podcast Homepage /podcasts", () => {
   test.describe("Trending Podcasts Section", () => {
-    function getPodcastCards(page: Page) {
-      return page.locator(".podcast-trending-container .podcast-trending-card")
-    }
-    function getPodcastCardDetailLink(page: Page, elementIndex: number) {
-      return getPodcastCards(page)
-        .nth(elementIndex)
-        .locator(".podcast-trending-card-detail-link")
-    }
-
     test.describe("navigation to podcast detail page", () => {
       test("should have underline text decoration on hover of trending podcast title and description", async ({
         page,
