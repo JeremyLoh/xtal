@@ -90,7 +90,8 @@ test.describe("share radio station feature", () => {
       page,
       unitedStatesStation.stationuuid
     )
-    await page.goto(shareUrl)
+    await page.goto(shareUrl, { waitUntil: "domcontentloaded" })
+    await page.waitForTimeout(500) // fix race condition of spinner presence
     await assertLoadingSpinnerIsMissing(page)
     await expect(
       getRadioCardMapPopup(page).getByRole("heading", {
