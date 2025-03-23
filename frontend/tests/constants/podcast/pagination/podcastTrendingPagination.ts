@@ -1,5 +1,11 @@
 import { Page } from "@playwright/test"
 
+export function getPageNumberElement(page: Page, expectedPageNumber: string) {
+  return page
+    .locator(".trending-podcast-pagination")
+    .getByText(expectedPageNumber)
+}
+
 export function getActivePageNumberElement(
   page: Page,
   activePageNumber: string

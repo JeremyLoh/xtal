@@ -6,6 +6,7 @@ import {
 import { HOMEPAGE } from "../../constants/homepageConstants"
 import {
   getActivePageNumberElement,
+  getPageNumberElement,
   getNextPaginationButton,
   getPreviousPaginationButton,
 } from "../../constants/podcast/pagination/podcastTrendingPagination"
@@ -126,6 +127,48 @@ test.describe("Podcast Homepage /podcasts", () => {
       }
       await expect(getActivePageNumberElement(page, "1")).toBeVisible()
       await expect(getPreviousPaginationButton(page)).toBeDisabled()
+    })
+
+    test("should allow desktop pagination via page number button between first and second page", async ({
+      page,
+      isMobile,
+    }) => {
+      test.skip(isMobile, "skip desktop test")
+      const limit = 10
+      await page.route(
+        `*/**/api/podcast/trending?limit=${limit}&since=*`,
+        async (route) => {
+          const requestUrl = route.request().url()
+          const isFirstPageRequest = !requestUrl.includes(`offset=${limit}`)
+          const json = isFirstPageRequest ? defaultTenTrendingPodcasts : []
+          await route.fulfill({ json })
+        }
+      )
+      await page.route(
+        `*/**/api/podcast/trending?limit=${limit}&offset=${limit}&since=*`,
+        async (route) => {
+          const json = threeTrendingPodcasts
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + "/podcasts")
+      await expect(page.locator(".podcast-trending-container")).toBeVisible()
+      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      for (const podcastData of defaultTenTrendingPodcasts.data) {
+        await assertTrendingPodcastIsShown(page, podcastData)
+      }
+
+      await getPageNumberElement(page, "2").click()
+      await expect(getActivePageNumberElement(page, "2")).toBeVisible()
+      for (const podcastData of threeTrendingPodcasts.data) {
+        await assertTrendingPodcastIsShown(page, podcastData)
+      }
+
+      await getPageNumberElement(page, "1").click()
+      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      for (const podcastData of defaultTenTrendingPodcasts.data) {
+        await assertTrendingPodcastIsShown(page, podcastData)
+      }
     })
   })
 })

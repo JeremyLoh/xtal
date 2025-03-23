@@ -95,10 +95,24 @@ export default memo(function TrendingPodcastSection({
     [onRefresh, podcastFilters]
   )
 
-  const handlePageClick = useCallback(async (pageNumber: number) => {
-    // TODO
-    console.log(pageNumber)
-  }, [])
+  const handlePageClick = useCallback(
+    async (pageNumber: number) => {
+      if (pageNumber === page || podcastFilters == null) {
+        return
+      }
+      setLoading(true)
+      const nextOffset = (pageNumber - 1) * LIMIT_PER_PAGE
+      const nextFilter = {
+        ...podcastFilters,
+        offset: nextOffset,
+      }
+      setPodcastFilters(nextFilter)
+      setPage(pageNumber)
+      await onRefresh(nextFilter)
+      setLoading(false)
+    },
+    [onRefresh, podcastFilters, page]
+  )
 
   const renderTrendingPodcastPagination = useCallback(() => {
     return (
