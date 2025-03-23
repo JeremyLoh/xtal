@@ -86,5 +86,46 @@ test.describe("Podcast Homepage /podcasts", () => {
       await expect(getActivePageNumberElement(page, "2")).toBeVisible()
       await expect(getPreviousPaginationButton(page)).not.toBeDisabled()
     })
+
+    test("should allow pagination to previous page on previous pagination button click", async ({
+      page,
+    }) => {
+      const limit = 10
+      await page.route(
+        `*/**/api/podcast/trending?limit=${limit}&since=*`,
+        async (route) => {
+          const requestUrl = route.request().url()
+          const isFirstPageRequest = !requestUrl.includes(`offset=${limit}`)
+          const json = isFirstPageRequest ? defaultTenTrendingPodcasts : []
+          await route.fulfill({ json })
+        }
+      )
+      await page.route(
+        `*/**/api/podcast/trending?limit=${limit}&offset=${limit}&since=*`,
+        async (route) => {
+          const json = threeTrendingPodcasts
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + "/podcasts")
+      await expect(page.locator(".podcast-trending-container")).toBeVisible()
+      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      for (const podcastData of defaultTenTrendingPodcasts.data) {
+        await assertTrendingPodcastIsShown(page, podcastData)
+      }
+      await getNextPaginationButton(page).click()
+      for (const podcastData of threeTrendingPodcasts.data) {
+        await assertTrendingPodcastIsShown(page, podcastData)
+      }
+      await expect(getActivePageNumberElement(page, "2")).toBeVisible()
+      await expect(getPreviousPaginationButton(page)).not.toBeDisabled()
+
+      await getPreviousPaginationButton(page).click()
+      for (const podcastData of defaultTenTrendingPodcasts.data) {
+        await assertTrendingPodcastIsShown(page, podcastData)
+      }
+      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      await expect(getPreviousPaginationButton(page)).toBeDisabled()
+    })
   })
 })

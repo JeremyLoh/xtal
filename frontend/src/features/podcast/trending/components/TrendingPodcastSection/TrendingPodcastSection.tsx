@@ -51,10 +51,27 @@ export default memo(function TrendingPodcastSection({
     return `/podcasts/${encodeURIComponent(podcast.title)}/${podcast.id}`
   }, [])
 
-  const handlePreviousPageClick = useCallback(async (currentPage: number) => {
-    // TODO
-    console.log(currentPage)
-  }, [])
+  const handlePreviousPageClick = useCallback(
+    async (currentPage: number) => {
+      setLoading(true)
+      if (podcastFilters == null || currentPage === 1) {
+        return
+      }
+      const previousOffset =
+        podcastFilters.offset != null
+          ? podcastFilters.offset - LIMIT_PER_PAGE
+          : 0
+      const nextFilter = {
+        ...podcastFilters,
+        offset: previousOffset,
+      }
+      setPodcastFilters(nextFilter)
+      setPage(currentPage - 1)
+      await onRefresh(nextFilter)
+      setLoading(false)
+    },
+    [onRefresh, podcastFilters]
+  )
 
   const handleNextPageClick = useCallback(
     async (currentPage: number) => {
