@@ -1,11 +1,15 @@
 import { getPodcastIndexAuthManager } from "../api/authManager.js"
 import { PodcastIndexFacade } from "../api/podcastFacade.js"
 
-export async function getTrendingPodcasts(
-  limit: number,
-  since: Date,
+export async function getTrendingPodcasts({
+  limit,
+  since,
+  category,
+}: {
+  limit: number
+  since: Date
   category: string | null
-) {
+}) {
   const podcastAuthManager = getPodcastIndexAuthManager()
   const podcastFacade: PodcastIndexFacade = new PodcastIndexFacade(
     podcastAuthManager

@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 import dayjs from "dayjs"
-import { TrendingPodcast } from "../../api/podcast/model/podcast.ts"
+import {
+  TrendingPodcast,
+  TrendingPodcastFiltersType,
+} from "../../api/podcast/model/podcast.ts"
 import { getTrendingPodcasts } from "../../api/podcast/trendingPodcast.ts"
 
 type UseTrendingPodcastsProps = {
@@ -23,13 +26,14 @@ function useTrendingPodcasts({ limit, category }: UseTrendingPodcastsProps) {
   >(null)
 
   const getPodcasts = useCallback(
-    async (since: Date) => {
+    async ({ since, offset }: { since: Date; offset: number }) => {
       setLoading(true)
       abortController.current?.abort()
       abortController.current = new AbortController()
       try {
         const params = {
           limit: limit,
+          offset: offset,
           since: since,
           category: category,
         }
@@ -53,17 +57,18 @@ function useTrendingPodcasts({ limit, category }: UseTrendingPodcastsProps) {
   )
 
   const handlePodcastRefresh = useCallback(
-    async (
-      filters: {
-        since: number
-        category?: string
-      } | null
-    ) => {
+    async (filters: TrendingPodcastFiltersType) => {
       if (filters == null) {
-        await getPodcasts(convertToDate(DEFAULT_SINCE_DAYS))
+        await getPodcasts({
+          since: convertToDate(DEFAULT_SINCE_DAYS),
+          offset: 0,
+        })
       } else {
-        const { since } = filters
-        await getPodcasts(convertToDate(since))
+        const { since, offset } = filters
+        await getPodcasts({
+          since: convertToDate(since),
+          offset: offset != null ? offset : 0,
+        })
       }
     },
     [getPodcasts]

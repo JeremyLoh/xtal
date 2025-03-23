@@ -12,7 +12,10 @@ const PlayButton = function PodcastEpisodeCardPlayButton({
   onPlayClick,
 }: PlayButtonProps) {
   const { episode } = usePodcastEpisodeCardContext()
-  const handleClick = useCallback(() => onPlayClick(episode), [])
+  const handleClick = useCallback(
+    () => onPlayClick(episode),
+    [episode, onPlayClick]
+  )
   return (
     <Button
       variant="secondary"

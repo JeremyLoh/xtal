@@ -1,21 +1,22 @@
 import "./TrendingPodcastFilters.css"
-import { useState } from "react"
+import { memo, useCallback, useState } from "react"
 
 type TrendingPodcastFiltersProps = {
   onChange: ({ since }: { since: number }) => Promise<void>
 }
 
-export default function TrendingPodcastFilters(
-  props: TrendingPodcastFiltersProps
-) {
+export default memo(function TrendingPodcastFilters({
+  onChange,
+}: TrendingPodcastFiltersProps) {
   const [sinceDays, setSinceDays] = useState(3)
-  async function handleSinceChange(
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) {
-    const newSinceDays = Number.parseInt(event.target.value)
-    setSinceDays(newSinceDays)
-    await props.onChange({ since: newSinceDays })
-  }
+  const handleSinceChange = useCallback(
+    async (event: React.ChangeEvent<HTMLSelectElement>) => {
+      const newSinceDays = Number.parseInt(event.target.value)
+      setSinceDays(newSinceDays)
+      await onChange({ since: newSinceDays })
+    },
+    [onChange]
+  )
 
   return (
     <>
@@ -34,4 +35,4 @@ export default function TrendingPodcastFilters(
       </label>
     </>
   )
-}
+})

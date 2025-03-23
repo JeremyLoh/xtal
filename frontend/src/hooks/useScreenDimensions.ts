@@ -40,6 +40,7 @@ export default function useScreenDimensions() {
       ),
       isMobile: screenSize.width <= 576,
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [screenSize.width, screenSize.height]) // do not change when devicePixelRatio changes
 
   return output

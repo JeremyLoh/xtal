@@ -29,25 +29,30 @@ export default memo(function PodcastImage({
   const [srcSet, setSrcSet] = useState<string | undefined>(undefined)
   const PODCAST_IMAGE_CONTAINER_STYLE = useMemo(() => {
     return { width: size, height: size, padding: 0, margin: 0 }
-  }, [])
+  }, [size])
+
   const setBackupImage = useCallback(() => {
     // set to original image as backup image, set fetch priority to high (larger image source)
     setFetchPriority("high")
     setImageSrc(imageUrl)
     setSrcSet(undefined)
-  }, [])
-  const getImage = useCallback(async (abortController: AbortController) => {
-    const MAX_BACKEND_IMAGE_SIZE = 500 // backend has validation for image size of max 500px
-    const newSize = Math.min(size * devicePixelRatio, MAX_BACKEND_IMAGE_SIZE)
-    const imageData = await getPodcastImage(
-      abortController,
-      imageUrl,
-      newSize,
-      newSize
-    )
-    const imageSrcSet = imageData ? `${imageData} ${newSize}w` : null
-    return { imageData, imageSrcSet }
-  }, [])
+  }, [imageUrl])
+
+  const getImage = useCallback(
+    async (abortController: AbortController) => {
+      const MAX_BACKEND_IMAGE_SIZE = 500 // backend has validation for image size of max 500px
+      const newSize = Math.min(size * devicePixelRatio, MAX_BACKEND_IMAGE_SIZE)
+      const imageData = await getPodcastImage(
+        abortController,
+        imageUrl,
+        newSize,
+        newSize
+      )
+      const imageSrcSet = imageData ? `${imageData} ${newSize}w` : null
+      return { imageData, imageSrcSet }
+    },
+    [devicePixelRatio, imageUrl, size]
+  )
 
   useEffect(() => {
     async function getImageData() {
@@ -74,7 +79,7 @@ export default memo(function PodcastImage({
     }
 
     getImageData()
-  }, [imageUrl, size])
+  }, [imageUrl, size, getImage, setBackupImage])
 
   return (
     <div className={imageClassName} style={PODCAST_IMAGE_CONTAINER_STYLE}>

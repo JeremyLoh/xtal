@@ -351,3 +351,158 @@ export const tenArtTrendingPodcasts = {
     },
   ],
 }
+
+export const tenArtTrendingPodcastsOffsetTen = {
+  // backend endpoint => api/podcast/trending?limit=10&offset=10&since=1739624661&category=Arts
+  count: 10,
+  data: [
+    {
+      id: 867992,
+      url: "https://www.spreaker.com/show/2575654/episodes/feed",
+      title: "Moments with Marianne",
+      description:
+        "In a single moment your life can change!  “Moments with Marianne” is a transformative hour that covers an endless array of topics with the ‘best of the best.’ Her guest are leaders in their fields, ranging from inspirational, mindful, spirituality & consciousness authors, top industry leaders, business and spiritual entrepreneurs.  Each guest is gifted, and a true visionary!  A recognized leader in her own work, and while teaching others to develop, refocus, and grow; Marianne will bring the best guest, and sometimes a special surprise.  Don’t miss this – you never know just which ‘moment’ will change your life forever. https://www.mariannepestana.com",
+      author: "Marianne Pestana",
+      image:
+        "https://d3wo5wojvuv7l.cloudfront.net/t_rss_itunes_square_1400/images.spreaker.com/original/d8de50c9bf1ff3b5025e87c76ad9d2ed.jpg",
+      latestPublishTime: 1742681016,
+      language: "English",
+      categories: [
+        "Arts",
+        "Books",
+        "Education",
+        "Self Improvement",
+        "Religion",
+        "Spirituality",
+      ],
+    },
+    {
+      id: 1088107,
+      url: "https://aezfm.meldingcloud.com/rss/program/4",
+      title: "美文阅读 More to Read",
+      description: "中英双语美文欣赏，感受聆听文学之美，享受学习语言之乐。",
+      author: "China Plus",
+      image: "https://radio-res.cgtn.com/image/2112/1640525235977.jpg",
+      latestPublishTime: 1742682600,
+      language: "English",
+      categories: ["Arts"],
+    },
+    {
+      id: 1364644,
+      url: "https://feeds.buzzsprout.com/1574779.rss",
+      title: "Mana pro tento den",
+      description:
+        "Krátká biblická zamyšlení a příběhy autorů z různých křesťanských církví. Více informací o projektu i autorech najdete na https://mana.su-czech.org/",
+      author: "Scripture Union ČR",
+      image: "https://storage.buzzsprout.com/vpcl6my3kurv2jp0ket3ap9b8ysj?.jpg",
+      latestPublishTime: 1742684400,
+      language: "Czech",
+      categories: [
+        "Arts",
+        "Books",
+        "Education",
+        "Self Improvement",
+        "Christianity",
+        "Religion",
+        "Spirituality",
+      ],
+    },
+    {
+      id: 3747175,
+      url: "https://schreibzeug.podigee.io/feed/mp3",
+      title: "Schreibzeug",
+      description:
+        "Die eine schreibt, der andere nicht. \nDiana Hillebrand (Schriftstellerin) und Wolfgang Tischer (Literaturkritiker) reden über das Schreiben. \nEs geht um Schreibtechniken, Bücher, Veröffentlichungen und über das Reichsein. \nDiana und Wolfgang verbindet eine langjährige Freundschaft und gemeinsame Auftritte auf Buchmessen und in Schreib-Workshops. \nEs gibt viel zu erzählen aus der schreibenden Welt.",
+      author: "Diana Hillebrand und Wolfgang Tischer",
+      image:
+        "https://images.podigee-cdn.net/0x,soeoDk_tQ3dqP8oFL7B_WpVsMt8UPmKLtTrr4DL4ALkQ=/https://main.podigee-cdn.net/uploads/u27814/b790b9eb-bf99-4593-bfc9-3acab18ed32b.jpg",
+      latestPublishTime: 1742684400,
+      language: "German",
+      categories: ["Arts", "Books", "Education", "Courses", "How To"],
+    },
+    {
+      id: 5595138,
+      url: "https://feed.podbean.com/mmremaster/feed.xml",
+      title: "Mission To The Moon #สรุปหนังสือ",
+      description:
+        "รายการที่ถอดบทเรียนจากหนังสือชั้นนำจากทั่วโลกแบบเข้มขน สรุปครบจบทั้งเล่มตั้งแต่หน้าแรกถึงหน้าสุดท้าย",
+      author: "Mission To The Moon Media",
+      image:
+        "https://pbcdn1.podbean.com/imglogo/image-logo/14387039/Logo-_-3000x3000_1__uz7rm7.jpg",
+      latestPublishTime: 1742684400,
+      language: "Thai",
+      categories: ["Arts", "Books", "Education"],
+    },
+    {
+      id: 5831397,
+      url: "https://www.spreaker.com/show/5453350/episodes/feed",
+      title: "Kitap Okumaları",
+      description:
+        "Herkese merhabalar. Kitap ruhumuzun inceliklerini hitap eder. Ruhlarımızın manevi gıdaya ihtiyacı vardır. Her gün güncellenen yeni kitaplarla hizmetinizdeyiz.",
+      author: "Kitap Okumaları",
+      image:
+        "https://d3wo5wojvuv7l.cloudfront.net/t_rss_itunes_square_1400/images.spreaker.com/original/4d317083931c243908eb5ddb96c9042e.jpg",
+      latestPublishTime: 1742685306,
+      language: "Turkish",
+      categories: ["Arts", "Books"],
+    },
+    {
+      id: 1055001,
+      url: "https://feeds.simplecast.com/OVap9of7",
+      title: "We Got This with Mark and Hal",
+      description:
+        "Each week, actors Mark Gagliardi and Hal Lublin (Drunk History, The Thrilling Adventure Hour, Welcome to Night Vale) sit down to settle all the small debates that are a big deal to YOU - once and for all. No subject is too small for Mark and Hal to tackle! Even though you may think it's an impossible puzzle to solve, don't worry... We Got This",
+      author: "Hal Lublin and Mark Gagliardi",
+      image:
+        "https://image.simplecastcdn.com/images/6c243aa3-b094-46c3-9925-11b6e6ac4b76/dea0c567-33dc-4156-84fd-c166888c24f4/3000x3000/wegotthis-cover-new.jpg?aid=rss_feed",
+      latestPublishTime: 1742686491,
+      language: "English",
+      categories: ["Arts", "Comedy", "Interviews", "Society", "Culture"],
+    },
+    {
+      id: 6347377,
+      url: "https://feeds.buzzsprout.com/2164385.rss",
+      title: "Better call BRiNA",
+      description:
+        '<p>Hallo, mein Name ist BRiNA!&nbsp;<br><br>Ich bin Tänzerin und Coach. Im Jahr 2021 hatte ich einen Unfall. Ich musste mein Tanzlabel "NYDS - New York Dance Studio " vorübergehend aufgeben: Ich habe mein Herz, meine Liebe, meine Zeit, meinen Schweiss und meine Tränen darin investiert und stand nun erneut in meinem Leben vor einem Scherbenhaufen.<br><br>Aber wenn es eine Sache gibt, für die ich bekannt bin, dann ist es: Never give up (zu Deutsch: Niemals aufgeben). Dieser Podcast ist für dich, wenn auch du lernen möchtest auf den Wellen des Lebens zu surfen. Die Höhen und Tiefen zu meistern. Dieser Podcast steht für holistische Persönlichkeitsentwicklung in den 3 Bereichen: Body, Mind &amp; Soul (zu Deutsch: Körper, Geist und Seele). Hier erwartet dich:&nbsp;<br><br>- Mehr zu meinen bisherigen Lebensweg, meiner Reise &amp; meine Erfahrungen im Bereich Persönlichkeitsentwicklung. Ich teile mit dir, welche Hilfsmittel mir geholfen haben, durchzuhalten, und welche Lektionen ich auf dem Weg gelernt habe.&nbsp; Natürlich spielt hier der Tanz eine grosse Rolle!<br>- Wenn ich es schaffe, dann kannst du das auch! Dieser Podcast soll dir zeigen, dass es trotz&nbsp; widriger Umstände im Leben, immer eine Lösung gibt und du immer entscheiden darfst, wie du damit umgehen möchtest: Never give up!<br><br>In diesem Podcast werden wir zusammen lachen und weinen. Gemeinsam werden wir die Achterbahn "Leben" entdecken: Auf eine authentische, echte und einzigartige Weise. Bist du dabei?&nbsp; &nbsp;<br><br>Lass uns gemeinsam wachsen!&nbsp;<br><br>Fühl dich umarmt<br>Deine BRiNA&nbsp;</p><p><br></p>',
+      author: "Sabrina Reyes - BRiNA",
+      image: "https://storage.buzzsprout.com/i1xddfmxgr7yud5xc8endpvavzwp?.jpg",
+      latestPublishTime: 1742688000,
+      language: "German",
+      categories: [
+        "Arts",
+        "Performing",
+        "Education",
+        "Self Improvement",
+        "Health",
+        "Fitness",
+      ],
+    },
+    {
+      id: 1112700,
+      url: "https://libertarianinstitute.org/podcast/",
+      title: "The Libertarian Institute - All Podcasts",
+      description:
+        "Whatever it is, we're against it. Listen to the full collection of podcasts hosted on The Libertarian Institute.",
+      author: "The Libertarian Institute - All Podcasts",
+      image:
+        "https://libertarianinstitute.org/wp-content/uploads/2024/11/inst-square-large.png",
+      latestPublishTime: 1742688493,
+      language: "English (United States)",
+      categories: ["Arts", "Books", "News", "Politics"],
+    },
+    {
+      id: 2481405,
+      url: "https://libertarianinstitute.org/feed/",
+      title: "The Libertarian Institute",
+      description:
+        "Whatever it is, we're against it. Listen to the full collection of podcasts hosted on The Libertarian Institute.",
+      author: "The Libertarian Institute",
+      image:
+        "https://libertarianinstitute.org/wp-content/uploads/2024/11/inst-square-large.png",
+      latestPublishTime: 1742688493,
+      language: "English (United States)",
+      categories: ["Arts", "Books", "News", "Politics"],
+    },
+  ],
+}

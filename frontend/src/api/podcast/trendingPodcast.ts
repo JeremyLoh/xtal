@@ -5,6 +5,7 @@ import { getEnv } from "../env/environmentVariables.ts"
 
 export type TrendingPodcastSearchParams = {
   limit: number
+  offset?: number
   since?: Date
   category?: string
 }
@@ -48,6 +49,9 @@ function getTrendingSearchParams(
   params: TrendingPodcastSearchParams
 ): URLSearchParams {
   const searchParams = new URLSearchParams(`limit=${params.limit}`)
+  if (params.offset) {
+    searchParams.append("offset", `${params.offset}`)
+  }
   if (params.since) {
     // convert to unix timestamp (in seconds)
     searchParams.append("since", "" + dayjs(params.since).unix())

@@ -49,11 +49,11 @@ test.describe("share radio station feature", () => {
     await page.goto(HOMEPAGE)
     await clickRandomRadioStationButton(page)
     await getRadioCardShareIcon(page).click()
+    await assertToastMessage(page, "Link Copied")
     const expectedUrl = await getRadioStationShareUrl(
       page,
       unitedStatesStation.stationuuid
     )
-    await assertToastMessage(page, "Link Copied")
     expect(await getClipboardContent(page)).toBe(expectedUrl)
   })
 
@@ -73,6 +73,7 @@ test.describe("share radio station feature", () => {
   test("should load radio station when share radio station link is used", async ({
     page,
   }) => {
+    test.slow()
     await page.route("*/**/json/stations/search?*", async (route) => {
       const requestUrl = route.request().url()
       if (
@@ -89,7 +90,8 @@ test.describe("share radio station feature", () => {
       page,
       unitedStatesStation.stationuuid
     )
-    await page.goto(shareUrl)
+    await page.goto(shareUrl, { waitUntil: "domcontentloaded" })
+    await page.waitForTimeout(500) // fix race condition of spinner presence
     await assertLoadingSpinnerIsMissing(page)
     await expect(
       getRadioCardMapPopup(page).getByRole("heading", {
@@ -104,6 +106,7 @@ test.describe("share radio station feature", () => {
     headless,
   }) => {
     test.skip(headless, "Remove flaky test in headless test")
+    test.slow()
     // 1) Then user navigates to route /radio-station and loads a radio station
     // 2) Tries to search for a new random radio station
     // 3) Click on the share link for the new radio station

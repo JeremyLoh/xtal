@@ -1,45 +1,139 @@
 import "./TrendingPodcastSection.css"
-import { memo } from "react"
+import { memo, useCallback, useState } from "react"
 import { Link } from "react-router"
 import { IoChevronForward, IoReload } from "react-icons/io5"
-import { TrendingPodcast } from "../../../../../api/podcast/model/podcast.ts"
+import {
+  TrendingPodcast,
+  TrendingPodcastFiltersType,
+} from "../../../../../api/podcast/model/podcast.ts"
 import PodcastCard from "../../../../../components/PodcastCard/index.tsx"
 import useScreenDimensions from "../../../../../hooks/useScreenDimensions.ts"
 import TrendingPodcastFilters from "../TrendingPodcastFilters/TrendingPodcastFilters.tsx"
 import Button from "../../../../../components/ui/button/Button.tsx"
+import Pagination from "../../../../../components/Pagination/Pagination.tsx"
+import LoadingDisplay from "../../../../../components/LoadingDisplay/LoadingDisplay.tsx"
 
 const IMAGE_LAZY_LOAD_START_INDEX = 2 // zero based index
+const MAX_TRENDING_PODCAST_PAGINATION_PAGES = 5
+const LIMIT_PER_PAGE = 10
 
 type TrendingPodcastSectionProps = {
   trendingPodcasts: TrendingPodcast[] | null
-  onRefresh: (
-    filters: {
-      since: number
-      category?: string
-    } | null
-  ) => Promise<void>
+  onRefresh: (filters: TrendingPodcastFiltersType) => Promise<void>
+  filters: TrendingPodcastFiltersType
 }
 
-export default memo(function TrendingPodcastSection(
-  props: TrendingPodcastSectionProps
-) {
+export default memo(function TrendingPodcastSection({
+  onRefresh,
+  trendingPodcasts,
+  filters,
+}: TrendingPodcastSectionProps) {
   const { isMobile } = useScreenDimensions()
+  const [loading, setLoading] = useState<boolean>(false)
+  const [page, setPage] = useState<number>(1)
+  const [podcastFilters, setPodcastFilters] =
+    useState<TrendingPodcastFiltersType>(filters)
 
-  async function handleRefreshTrendingPodcasts() {
-    await props.onRefresh(null)
-  }
+  const handleRefreshTrendingPodcasts = useCallback(async () => {
+    setLoading(true)
+    await onRefresh(null)
+    setLoading(false)
+  }, [onRefresh])
 
-  async function handleFilterChange(filters: { since: number }) {
-    const { since } = filters
-    await props.onRefresh({ since })
-  }
+  const handleFilterChange = useCallback(
+    async (filters: { since: number }) => {
+      setLoading(true)
+      const { since } = filters
+      setPodcastFilters({ ...podcastFilters, ...filters, offset: undefined })
+      setPage(1)
+      await onRefresh({ since })
+      setLoading(false)
+    },
+    [onRefresh, podcastFilters]
+  )
 
-  function getPodcastDetailPath(podcast: TrendingPodcast) {
+  const getPodcastDetailPath = useCallback((podcast: TrendingPodcast) => {
     return `/podcasts/${encodeURIComponent(podcast.title)}/${podcast.id}`
-  }
+  }, [])
 
-  function renderTrendingPodcasts() {
-    if (props.trendingPodcasts == null || props.trendingPodcasts.length === 0) {
+  const handlePreviousPageClick = useCallback(
+    async (currentPage: number) => {
+      setLoading(true)
+      if (podcastFilters == null || currentPage === 1) {
+        return
+      }
+      const previousOffset =
+        podcastFilters.offset != null
+          ? podcastFilters.offset - LIMIT_PER_PAGE
+          : 0
+      const nextFilter = {
+        ...podcastFilters,
+        offset: previousOffset,
+      }
+      setPodcastFilters(nextFilter)
+      setPage(currentPage - 1)
+      await onRefresh(nextFilter)
+      setLoading(false)
+    },
+    [onRefresh, podcastFilters]
+  )
+
+  const handleNextPageClick = useCallback(
+    async (currentPage: number) => {
+      setLoading(true)
+      if (podcastFilters == null) {
+        return
+      }
+      const nextOffset =
+        podcastFilters.offset != null
+          ? podcastFilters.offset + LIMIT_PER_PAGE
+          : 0 + LIMIT_PER_PAGE
+      const nextFilter = {
+        ...podcastFilters,
+        offset: nextOffset,
+      }
+      setPodcastFilters(nextFilter)
+      setPage(currentPage + 1)
+      await onRefresh(nextFilter)
+      setLoading(false)
+    },
+    [onRefresh, podcastFilters]
+  )
+
+  const handlePageClick = useCallback(
+    async (pageNumber: number) => {
+      if (pageNumber === page || podcastFilters == null) {
+        return
+      }
+      setLoading(true)
+      const nextOffset = (pageNumber - 1) * LIMIT_PER_PAGE
+      const nextFilter = {
+        ...podcastFilters,
+        offset: nextOffset,
+      }
+      setPodcastFilters(nextFilter)
+      setPage(pageNumber)
+      await onRefresh(nextFilter)
+      setLoading(false)
+    },
+    [onRefresh, podcastFilters, page]
+  )
+
+  const renderTrendingPodcastPagination = useCallback(() => {
+    return (
+      <Pagination
+        className="trending-podcast-pagination"
+        currentPage={page}
+        totalPages={MAX_TRENDING_PODCAST_PAGINATION_PAGES}
+        onPreviousPageClick={handlePreviousPageClick}
+        onNextPageClick={handleNextPageClick}
+        onPageClick={handlePageClick}
+      />
+    )
+  }, [page, handlePreviousPageClick, handleNextPageClick, handlePageClick])
+
+  const renderTrendingPodcasts = useCallback(() => {
+    if (trendingPodcasts == null || trendingPodcasts.length === 0) {
       return (
         <div>
           <p>Zero podcasts found. Please try again later</p>
@@ -55,7 +149,7 @@ export default memo(function TrendingPodcastSection(
         </div>
       )
     }
-    return props.trendingPodcasts.map((podcast, index) => (
+    return trendingPodcasts.map((podcast, index) => (
       <PodcastCard
         key={podcast.id}
         customClassName="podcast-trending-card"
@@ -74,7 +168,12 @@ export default memo(function TrendingPodcastSection(
         </Link>
       </PodcastCard>
     ))
-  }
+  }, [
+    trendingPodcasts,
+    isMobile,
+    getPodcastDetailPath,
+    handleRefreshTrendingPodcasts,
+  ])
 
   return (
     <div className="podcast-trending-container">
@@ -83,8 +182,11 @@ export default memo(function TrendingPodcastSection(
         <IoChevronForward size={20} />
         <TrendingPodcastFilters onChange={handleFilterChange} />
       </h2>
+      {renderTrendingPodcastPagination()}
       <div className="podcast-trending-card-container">
-        {renderTrendingPodcasts()}
+        <LoadingDisplay loading={loading}>
+          {renderTrendingPodcasts()}
+        </LoadingDisplay>
       </div>
     </div>
   )

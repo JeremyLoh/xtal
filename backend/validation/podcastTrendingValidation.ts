@@ -10,6 +10,17 @@ export const getPodcastTrendingValidationSchema: Schema = {
       errorMessage: "'limit' should be between 1 and 100",
     },
   },
+  offset: {
+    optional: true,
+    escape: true,
+    isInt: {
+      options: {
+        min: 0,
+        max: 1000,
+      },
+      errorMessage: "'offset' should be between 0 and 1000",
+    },
+  },
   since: {
     optional: true,
     escape: true,
