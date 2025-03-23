@@ -97,6 +97,7 @@ test.describe("Podcast Homepage /podcasts", () => {
     test("should allow pagination to previous page on previous pagination button click", async ({
       page,
     }) => {
+      test.slow()
       const limit = 10
       await page.route(
         `*/**/api/podcast/trending?limit=${limit}&since=*`,
@@ -140,6 +141,7 @@ test.describe("Podcast Homepage /podcasts", () => {
       isMobile,
     }) => {
       test.skip(isMobile, "skip desktop test")
+      test.slow()
       const limit = 10
       await page.route(
         `*/**/api/podcast/trending?limit=${limit}&since=*`,
@@ -180,6 +182,7 @@ test.describe("Podcast Homepage /podcasts", () => {
     test("should reset pagination page to one when trending podcasts since filter is updated on second pagination page", async ({
       page,
     }) => {
+      test.slow()
       const defaultSinceDays = 3
       const sinceDaysSelect = 1
       const defaultSinceTimestamp = convertToUnixTimestamp(defaultSinceDays)

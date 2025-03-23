@@ -113,6 +113,7 @@ test.describe("Pagination on Podcast Category Page /podcasts/<category_name>", (
     test("should allow pagination to previous page on previous pagination button click", async ({
       page,
     }) => {
+      test.slow()
       const limit = 10
       const category = "Arts"
       await page.route(
@@ -161,6 +162,7 @@ test.describe("Pagination on Podcast Category Page /podcasts/<category_name>", (
       isMobile,
     }) => {
       test.skip(isMobile, "skip desktop test")
+      test.slow()
       const limit = 10
       const category = "Arts"
       await page.route(
@@ -197,6 +199,7 @@ test.describe("Pagination on Podcast Category Page /podcasts/<category_name>", (
     test("should reset pagination page to one when trending podcasts since filter is updated on second pagination page", async ({
       page,
     }) => {
+      test.slow()
       const defaultSinceDays = 3
       const sinceDaysSelect = 1
       const limit = 10

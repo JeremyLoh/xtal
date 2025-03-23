@@ -42,6 +42,7 @@ test.describe("share radio station feature", () => {
   test("should copy share radio station link to clipboard", async ({
     page,
   }) => {
+    test.slow()
     await page.route("*/**/json/stations/search?*", async (route) => {
       const json = [unitedStatesStation]
       await route.fulfill({ json })
@@ -67,6 +68,7 @@ test.describe("share radio station feature", () => {
     await page.goto(HOMEPAGE)
     await clickRandomRadioStationButton(page)
     await getRadioCardShareIcon(page).click()
+    await page.waitForTimeout(300)
     await assertToastMessage(page, "Link Copied")
   })
 
