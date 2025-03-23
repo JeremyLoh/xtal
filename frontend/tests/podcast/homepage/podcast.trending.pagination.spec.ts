@@ -1,4 +1,5 @@
 import test, { expect, Page } from "@playwright/test"
+import dayjs from "dayjs"
 import {
   defaultTenTrendingPodcasts,
   threeTrendingPodcasts,
@@ -9,10 +10,15 @@ import {
   getPageNumberElement,
   getNextPaginationButton,
   getPreviousPaginationButton,
+  getSinceSelectFilter,
 } from "../../constants/podcast/pagination/podcastTrendingPagination"
 import { getPodcastCards } from "../../constants/podcast/trending/podcastTrendingConstants"
 
 test.describe("Podcast Homepage /podcasts", () => {
+  function convertToUnixTimestamp(daysBefore: number): number {
+    return dayjs().startOf("day").subtract(daysBefore, "days").unix()
+  }
+
   async function assertTrendingPodcastIsShown(page: Page, podcastData) {
     await getPodcastCards(page)
       .getByText(podcastData.title, { exact: true })
@@ -166,6 +172,68 @@ test.describe("Podcast Homepage /podcasts", () => {
 
       await getPageNumberElement(page, "1").click()
       await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      for (const podcastData of defaultTenTrendingPodcasts.data) {
+        await assertTrendingPodcastIsShown(page, podcastData)
+      }
+    })
+
+    test("should reset pagination page to one when trending podcasts since filter is updated on second pagination page", async ({
+      page,
+    }) => {
+      const defaultSinceDays = 3
+      const sinceDaysSelect = 1
+      const defaultSinceTimestamp = convertToUnixTimestamp(defaultSinceDays)
+      const limit = 10
+      await page.route(
+        `*/**/api/podcast/trending?limit=${limit}&since=${defaultSinceTimestamp}`,
+        async (route) => {
+          const requestUrl = route.request().url()
+          const isFirstPageRequest = !requestUrl.includes(`offset=${limit}`)
+          const json = isFirstPageRequest ? defaultTenTrendingPodcasts : []
+          await route.fulfill({ json })
+        }
+      )
+      await page.route(
+        `*/**/api/podcast/trending?limit=${limit}&offset=${limit}&since=${defaultSinceTimestamp}`,
+        async (route) => {
+          const json = threeTrendingPodcasts
+          await route.fulfill({ json })
+        }
+      )
+      // mock page one of different since time selection
+      const differentSinceTimestamp = convertToUnixTimestamp(sinceDaysSelect)
+      await page.route(
+        `*/**/api/podcast/trending?limit=${limit}&since=${differentSinceTimestamp}`,
+        async (route) => {
+          const requestUrl = route.request().url()
+          const isMissingOffset = !requestUrl.includes(`offset=${limit}`)
+          const json = isMissingOffset ? defaultTenTrendingPodcasts : []
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + "/podcasts")
+      await expect(page.locator(".podcast-trending-container")).toBeVisible()
+      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      for (const podcastData of defaultTenTrendingPodcasts.data) {
+        await assertTrendingPodcastIsShown(page, podcastData)
+      }
+      await expect(getSinceSelectFilter(page)).toHaveValue(
+        `${defaultSinceDays}`
+      )
+
+      await expect(getNextPaginationButton(page)).toBeVisible()
+      await expect(getNextPaginationButton(page)).not.toBeDisabled()
+      await getNextPaginationButton(page).click()
+      await expect(getActivePageNumberElement(page, "2")).toBeVisible()
+      for (const podcastData of threeTrendingPodcasts.data) {
+        await assertTrendingPodcastIsShown(page, podcastData)
+      }
+
+      await getSinceSelectFilter(page).selectOption(`${sinceDaysSelect}`)
+      await expect(getSinceSelectFilter(page)).toHaveValue(`${sinceDaysSelect}`)
+      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      await expect(getPreviousPaginationButton(page)).toBeVisible()
+      await expect(getPreviousPaginationButton(page)).toBeDisabled()
       for (const podcastData of defaultTenTrendingPodcasts.data) {
         await assertTrendingPodcastIsShown(page, podcastData)
       }

@@ -26,3 +26,9 @@ export function getPreviousPaginationButton(page: Page) {
     .locator(".trending-podcast-pagination")
     .getByRole("button", { name: "Previous" })
 }
+
+export function getSinceSelectFilter(page: Page) {
+  return page.locator(
+    ".podcast-trending-container .podcast-trending-since-select"
+  )
+}

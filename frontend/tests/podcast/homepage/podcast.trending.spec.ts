@@ -12,6 +12,7 @@ import {
   getPodcastCardDetailLink,
   getPodcastCards,
 } from "../../constants/podcast/trending/podcastTrendingConstants"
+import { getSinceSelectFilter } from "../../constants/podcast/pagination/podcastTrendingPagination"
 
 test.describe("Podcast Homepage /podcasts", () => {
   test.describe("Trending Podcasts Section", () => {
@@ -263,16 +264,8 @@ test.describe("Podcast Homepage /podcasts", () => {
           }
         )
         await page.goto(HOMEPAGE + "/podcasts")
-        await expect(
-          page.locator(
-            ".podcast-trending-container .podcast-trending-since-select"
-          )
-        ).toBeVisible()
-        await expect(
-          page.locator(
-            ".podcast-trending-container .podcast-trending-since-select"
-          )
-        ).toHaveValue("3")
+        await expect(getSinceSelectFilter(page)).toBeVisible()
+        await expect(getSinceSelectFilter(page)).toHaveValue("3")
         await assertLoadingSpinnerIsMissing(page)
       })
 
@@ -311,9 +304,7 @@ test.describe("Podcast Homepage /podcasts", () => {
         }
 
         isFirstFetch = false
-        await page
-          .locator(".podcast-trending-container .podcast-trending-since-select")
-          .selectOption("1")
+        await getSinceSelectFilter(page).selectOption("1")
         for (const podcastData of threeTrendingPodcasts.data) {
           await getPodcastCards(page)
             .getByText(podcastData.title, { exact: true })
@@ -359,9 +350,7 @@ test.describe("Podcast Homepage /podcasts", () => {
         }
 
         isFirstFetch = false
-        await page
-          .locator(".podcast-trending-container .podcast-trending-since-select")
-          .selectOption("7")
+        await getSinceSelectFilter(page).selectOption("7")
         for (const podcastData of threeTrendingPodcasts.data) {
           await getPodcastCards(page)
             .getByText(podcastData.title, { exact: true })

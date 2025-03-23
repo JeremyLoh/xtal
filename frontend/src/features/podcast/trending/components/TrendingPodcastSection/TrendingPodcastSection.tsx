@@ -35,14 +35,19 @@ export default memo(function TrendingPodcastSection({
     useState<TrendingPodcastFiltersType>(filters)
 
   const handleRefreshTrendingPodcasts = useCallback(async () => {
+    setLoading(true)
     await onRefresh(null)
+    setLoading(false)
   }, [onRefresh])
 
   const handleFilterChange = useCallback(
     async (filters: { since: number }) => {
+      setLoading(true)
       const { since } = filters
-      setPodcastFilters({ ...podcastFilters, ...filters })
+      setPodcastFilters({ ...podcastFilters, ...filters, offset: undefined })
+      setPage(1)
       await onRefresh({ since })
+      setLoading(false)
     },
     [onRefresh, podcastFilters]
   )
