@@ -318,6 +318,7 @@ test.describe("radio station favourite feature", () => {
     await getFavouriteStationsButton(page).click()
 
     // wait for toasts to disappear (blocks the favourite icon on mobile view)
+    await page.waitForTimeout(500)
     await assertToastMessageIsMissing(page, "Could not play radio station")
 
     await getFavouriteStationsDrawer(page)
