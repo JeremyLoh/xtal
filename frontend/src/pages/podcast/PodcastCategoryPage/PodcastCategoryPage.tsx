@@ -2,7 +2,6 @@ import "./PodcastCategoryPage.css"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router"
 import { IoArrowBackSharp } from "react-icons/io5"
-import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import TrendingPodcastSection from "../../../features/podcast/trending/components/TrendingPodcastSection/TrendingPodcastSection.tsx"
 import useTrendingPodcasts from "../../../hooks/podcast/useTrendingPodcasts.ts"
 import Button from "../../../components/ui/button/Button.tsx"
@@ -24,7 +23,7 @@ export default function PodcastCategoryPage() {
       category: categoryName,
     }
   }, [categoryName])
-  const { DEFAULT_SINCE_DAYS, loading, trendingPodcasts, onRefresh } =
+  const { DEFAULT_SINCE_DAYS, trendingPodcasts, onRefresh } =
     useTrendingPodcasts(options)
   const [sinceDaysBefore, setSinceDaysBefore] =
     useState<number>(DEFAULT_SINCE_DAYS)
@@ -59,7 +58,7 @@ export default function PodcastCategoryPage() {
       return
     }
     return (
-      <LoadingDisplay loading={loading}>
+      <>
         <Link
           to="/podcasts"
           style={{ textDecoration: "none", width: "fit-content" }}
@@ -72,12 +71,13 @@ export default function PodcastCategoryPage() {
         <h2 className="podcast-category-title">
           {decodeURIComponent(categoryName)}
         </h2>
+        {/* <LoadingDisplay> rerender causes TrendingPodcastSection pagination component to break */}
         <TrendingPodcastSection
           trendingPodcasts={trendingPodcasts}
           onRefresh={handlePodcastRefresh}
           filters={initialFilters}
         />
-      </LoadingDisplay>
+      </>
     )
   }
 
