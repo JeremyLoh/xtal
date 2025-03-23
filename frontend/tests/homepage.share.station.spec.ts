@@ -49,11 +49,11 @@ test.describe("share radio station feature", () => {
     await page.goto(HOMEPAGE)
     await clickRandomRadioStationButton(page)
     await getRadioCardShareIcon(page).click()
+    await assertToastMessage(page, "Link Copied")
     const expectedUrl = await getRadioStationShareUrl(
       page,
       unitedStatesStation.stationuuid
     )
-    await assertToastMessage(page, "Link Copied")
     expect(await getClipboardContent(page)).toBe(expectedUrl)
   })
 
