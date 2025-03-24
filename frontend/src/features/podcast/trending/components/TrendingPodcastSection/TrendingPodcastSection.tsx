@@ -18,36 +18,33 @@ const MAX_TRENDING_PODCAST_PAGINATION_PAGES = 5
 const LIMIT_PER_PAGE = 10
 
 type TrendingPodcastSectionProps = {
+  loading: boolean
   trendingPodcasts: TrendingPodcast[] | null
-  onRefresh: (filters: TrendingPodcastFiltersType) => Promise<void>
   filters: TrendingPodcastFiltersType
+  onRefresh: (filters: TrendingPodcastFiltersType) => Promise<void>
 }
 
 export default memo(function TrendingPodcastSection({
-  onRefresh,
+  loading,
   trendingPodcasts,
   filters,
+  onRefresh,
 }: TrendingPodcastSectionProps) {
   const { isMobile } = useScreenDimensions()
-  const [loading, setLoading] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
   const [podcastFilters, setPodcastFilters] =
     useState<TrendingPodcastFiltersType>(filters)
 
   const handleRefreshTrendingPodcasts = useCallback(async () => {
-    setLoading(true)
     await onRefresh(null)
-    setLoading(false)
   }, [onRefresh])
 
   const handleFilterChange = useCallback(
     async (filters: { since: number }) => {
-      setLoading(true)
       const { since } = filters
       setPodcastFilters({ ...podcastFilters, ...filters, offset: undefined })
       setPage(1)
       await onRefresh({ since })
-      setLoading(false)
     },
     [onRefresh, podcastFilters]
   )
@@ -58,7 +55,6 @@ export default memo(function TrendingPodcastSection({
 
   const handlePreviousPageClick = useCallback(
     async (currentPage: number) => {
-      setLoading(true)
       if (podcastFilters == null || currentPage === 1) {
         return
       }
@@ -73,14 +69,12 @@ export default memo(function TrendingPodcastSection({
       setPodcastFilters(nextFilter)
       setPage(currentPage - 1)
       await onRefresh(nextFilter)
-      setLoading(false)
     },
     [onRefresh, podcastFilters]
   )
 
   const handleNextPageClick = useCallback(
     async (currentPage: number) => {
-      setLoading(true)
       if (podcastFilters == null) {
         return
       }
@@ -95,7 +89,6 @@ export default memo(function TrendingPodcastSection({
       setPodcastFilters(nextFilter)
       setPage(currentPage + 1)
       await onRefresh(nextFilter)
-      setLoading(false)
     },
     [onRefresh, podcastFilters]
   )
@@ -105,7 +98,6 @@ export default memo(function TrendingPodcastSection({
       if (pageNumber === page || podcastFilters == null) {
         return
       }
-      setLoading(true)
       const nextOffset = (pageNumber - 1) * LIMIT_PER_PAGE
       const nextFilter = {
         ...podcastFilters,
@@ -114,7 +106,6 @@ export default memo(function TrendingPodcastSection({
       setPodcastFilters(nextFilter)
       setPage(pageNumber)
       await onRefresh(nextFilter)
-      setLoading(false)
     },
     [onRefresh, podcastFilters, page]
   )

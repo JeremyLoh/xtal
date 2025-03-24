@@ -23,8 +23,12 @@ export default function PodcastCategoryPage() {
       category: categoryName,
     }
   }, [categoryName])
-  const { DEFAULT_SINCE_DAYS, trendingPodcasts, onRefresh } =
-    useTrendingPodcasts(options)
+  const {
+    DEFAULT_SINCE_DAYS,
+    trendingPodcasts,
+    loading: loadingTrendingPodcasts,
+    onRefresh,
+  } = useTrendingPodcasts(options)
   const [sinceDaysBefore, setSinceDaysBefore] =
     useState<number>(DEFAULT_SINCE_DAYS)
   const initialFilters: PodcastCategoryFilters = useMemo(() => {
@@ -71,11 +75,11 @@ export default function PodcastCategoryPage() {
         <h2 className="podcast-category-title">
           {decodeURIComponent(categoryName)}
         </h2>
-        {/* <LoadingDisplay> rerender causes TrendingPodcastSection pagination component to break */}
         <TrendingPodcastSection
           trendingPodcasts={trendingPodcasts}
           onRefresh={handlePodcastRefresh}
           filters={initialFilters}
+          loading={loadingTrendingPodcasts}
         />
       </>
     )

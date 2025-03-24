@@ -26,6 +26,7 @@ export default function PodcastHomePage() {
   const {
     DEFAULT_SINCE_DAYS,
     trendingPodcasts,
+    loading: loadingTrendingPodcasts,
     onRefresh: handleTrendingPodcastRefresh,
   } = useTrendingPodcasts(options)
   const [sinceDaysBefore, setSinceDaysBefore] =
@@ -83,11 +84,11 @@ export default function PodcastHomePage() {
           onRefresh={handlePodcastCategoryRefresh}
         />
       </LoadingDisplay>
-      {/* <LoadingDisplay> rerender causes TrendingPodcastSection pagination component to break */}
       <TrendingPodcastSection
         trendingPodcasts={trendingPodcasts}
         onRefresh={handlePodcastRefresh}
         filters={initialFilters}
+        loading={loadingTrendingPodcasts}
       />
     </div>
   )
