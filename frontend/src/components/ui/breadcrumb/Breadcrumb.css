@@ -1,0 +1,9 @@
+.breadcrumb-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  padding: 0.2rem 0;
+  font-size: 0.9rem;
+}
