@@ -1,10 +1,9 @@
 import "./PodcastCategoryPage.css"
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { Link, useNavigate, useParams } from "react-router"
-import { IoArrowBackSharp } from "react-icons/io5"
+import { useNavigate, useParams } from "react-router"
 import TrendingPodcastSection from "../../../features/podcast/trending/components/TrendingPodcastSection/TrendingPodcastSection.tsx"
 import useTrendingPodcasts from "../../../hooks/podcast/useTrendingPodcasts.ts"
-import Button from "../../../components/ui/button/Button.tsx"
+import Breadcrumb from "../../../components/ui/breadcrumb/index.tsx"
 
 const LIMIT = 10
 
@@ -63,15 +62,18 @@ export default function PodcastCategoryPage() {
     }
     return (
       <>
-        <Link
-          to="/podcasts"
-          style={{ textDecoration: "none", width: "fit-content" }}
-        >
-          <Button className="podcast-category-back-button" variant="primary">
-            <IoArrowBackSharp size={16} />
-            Back
-          </Button>
-        </Link>
+        <Breadcrumb>
+          <Breadcrumb.Link
+            href="/podcasts"
+            data-testid="podcast-category-page-podcasts-link"
+          >
+            Podcasts
+          </Breadcrumb.Link>
+          <Breadcrumb.Separator size={16} />
+          <Breadcrumb.Item>Categories</Breadcrumb.Item>
+          <Breadcrumb.Separator size={16} />
+          <Breadcrumb.Item>{categoryName}</Breadcrumb.Item>
+        </Breadcrumb>
         <h2 className="podcast-category-title">
           {decodeURIComponent(categoryName)}
         </h2>

@@ -44,7 +44,7 @@ test.describe("Podcast Category Page /podcasts/<category_name>", () => {
     }
   })
 
-  test("should navigate to podcast homepage (/podcasts) when back button is clicked", async ({
+  test("should navigate to podcast homepage (/podcasts) when podcasts breadcrumb link is clicked", async ({
     page,
   }) => {
     const category = "Arts"
@@ -58,7 +58,7 @@ test.describe("Podcast Category Page /podcasts/<category_name>", () => {
     await page.goto(HOMEPAGE + `/podcasts/${category}`)
     await expect(page.locator(".podcast-trending-container")).toBeVisible()
     await expect(page).toHaveTitle(`xtal - ${category.toLowerCase()} podcasts`)
-    await page.locator(".podcast-category-back-button").click()
+    await page.getByTestId("podcast-category-page-podcasts-link").click()
     await expect(page).toHaveTitle("xtal - podcasts")
     expect(page.url()).toMatch(/\/podcasts$/)
   })
