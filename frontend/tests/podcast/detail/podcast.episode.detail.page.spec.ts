@@ -50,7 +50,7 @@ test.describe("Podcast Episode Detail Page for viewing single podcast episode /p
         .getByText(expectedErrorMessage, { exact: true })
     ).toBeVisible()
     await expect(
-      page.locator(".podcast-episode-detail-back-button")
+      page.getByTestId("podcast-episode-detail-podcasts-link")
     ).toBeVisible()
   })
 
@@ -77,11 +77,11 @@ test.describe("Podcast Episode Detail Page for viewing single podcast episode /p
         .getByText(expectedErrorMessage, { exact: true })
     ).toBeVisible()
     await expect(
-      page.locator(".podcast-episode-detail-back-button")
+      page.getByTestId("podcast-episode-detail-podcasts-link")
     ).toBeVisible()
   })
 
-  test("should navigate back to the podcast detail page when back button is clicked", async ({
+  test("should navigate back to the podcast detail page when podcast detail breadcrumb link is clicked", async ({
     page,
   }) => {
     const podcastTitle = encodeURIComponent("Infinite Loops")
@@ -108,13 +108,12 @@ test.describe("Podcast Episode Detail Page for viewing single podcast episode /p
       HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
     )
     await expect(
-      page.locator(".podcast-episode-detail-back-button")
+      page.getByTestId("podcast-episode-detail-page-link")
     ).toBeVisible()
     expect(page.url()).toMatch(
       HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
     )
-    await page.locator(".podcast-episode-detail-back-button").click()
-
+    await page.getByTestId("podcast-episode-detail-page-link").click()
     const expectedUrl = HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`
     expect(page.url()).toMatch(expectedUrl)
   })
