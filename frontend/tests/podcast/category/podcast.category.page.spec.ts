@@ -44,7 +44,7 @@ test.describe("Podcast Category Page /podcasts/<category_name>", () => {
     }
   })
 
-  test("should navigate to podcast homepage (/podcasts) when back button is clicked", async ({
+  test("should navigate to podcast homepage (/podcasts) when podcasts breadcrumb link is clicked", async ({
     page,
   }) => {
     const category = "Arts"
@@ -58,42 +58,12 @@ test.describe("Podcast Category Page /podcasts/<category_name>", () => {
     await page.goto(HOMEPAGE + `/podcasts/${category}`)
     await expect(page.locator(".podcast-trending-container")).toBeVisible()
     await expect(page).toHaveTitle(`xtal - ${category.toLowerCase()} podcasts`)
-    await page.locator(".podcast-category-back-button").click()
+    await page.getByTestId("podcast-category-page-podcasts-link").click()
     await expect(page).toHaveTitle("xtal - podcasts")
     expect(page.url()).toMatch(/\/podcasts$/)
   })
 
-  test("should navigate to podcast category page when back button on podcast detail page is clicked", async ({
-    page,
-  }) => {
-    const category = "Arts"
-    const i = 0
-    const expectedPodcastTitle = tenArtTrendingPodcasts.data[i].title
-    await page.route(
-      `*/**/api/podcast/trending?limit=10&since=*&category=${category}`,
-      async (route) => {
-        const json = tenArtTrendingPodcasts
-        await route.fulfill({ json })
-      }
-    )
-    await page.goto(HOMEPAGE + `/podcasts/${category}`)
-    await expect(page.locator(".podcast-trending-container")).toBeVisible()
-    await expect(page).toHaveTitle(`xtal - ${category.toLowerCase()} podcasts`)
-    await page
-      .locator(".podcast-trending-card-container .podcast-card-title")
-      .nth(i)
-      .getByText(expectedPodcastTitle, { exact: true })
-      .click()
-    // click of podcast detail back button should redirect user to podcast category page
-    await expect(page.locator(".podcast-detail-back-button")).toBeVisible()
-    await expect(page).not.toHaveTitle(
-      `xtal - ${category.toLowerCase()} podcasts`
-    )
-    await page.locator(".podcast-detail-back-button").click()
-    await expect(page).toHaveTitle(`xtal - ${category.toLowerCase()} podcasts`)
-  })
-
-  test("should navigate to podcast category page when back button on podcast detail page is clicked after pagination is done on the page", async ({
+  test("should navigate to podcast category page when category breadcrumb link on podcast detail page is clicked after pagination is done on the page", async ({
     page,
   }) => {
     const category = "Business"
@@ -145,8 +115,10 @@ test.describe("Podcast Category Page /podcasts/<category_name>", () => {
     await expect(getNextPaginationButton(page)).toBeVisible()
     await getNextPaginationButton(page).click()
     // click back button, it should ignore pagination done and return to the respective podcast category page
-    await expect(page.locator(".podcast-detail-back-button")).toBeVisible()
-    await page.locator(".podcast-detail-back-button").click()
+    await expect(
+      page.getByTestId("podcast-detail-page-category-link")
+    ).toBeVisible()
+    await page.getByTestId("podcast-detail-page-category-link").click()
     await expect(page).toHaveTitle(`xtal - ${category.toLowerCase()} podcasts`)
   })
 })

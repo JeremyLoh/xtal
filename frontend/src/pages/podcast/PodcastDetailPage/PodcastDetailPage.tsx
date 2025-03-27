@@ -1,7 +1,7 @@
 import "./PodcastDetailPage.css"
 import { useCallback, useContext, useEffect, useState } from "react"
-import { useNavigate, useParams, useSearchParams } from "react-router"
-import { IoArrowBackSharp, IoReload } from "react-icons/io5"
+import { useParams, useSearchParams } from "react-router"
+import { IoReload } from "react-icons/io5"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import { PodcastEpisode } from "../../../api/podcast/model/podcast.ts"
 import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/index.tsx"
@@ -9,14 +9,13 @@ import PodcastCard from "../../../components/PodcastCard/index.tsx"
 import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import usePodcastEpisodes from "../../../hooks/podcast/usePodcastEpisodes.ts"
 import Pagination from "../../../components/Pagination/Pagination.tsx"
-import Button from "../../../components/ui/button/Button.tsx"
+import Breadcrumb from "../../../components/ui/breadcrumb/index.tsx"
 
 const LIMIT = 10
 const IMAGE_LAZY_LOAD_START_INDEX = 2 // zero based index
 
 export default function PodcastDetailPage() {
   const { podcastId, podcastTitle } = useParams()
-  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const pageParam = searchParams.get("page")
   const [page, setPage] = useState<number>(parseToPageInt(pageParam))
@@ -42,17 +41,6 @@ export default function PodcastDetailPage() {
     setPage(pageNumber)
   }, [])
 
-  const handleBackButtonNavigation = useCallback(() => {
-    // depends on how react router stores in window.history.state (we use index (idx) that is zero based to check)
-    const hasPreviousHistoryRoute =
-      window.history && window.history.state.idx >= 1
-    if (hasPreviousHistoryRoute) {
-      navigate(-1)
-    } else {
-      navigate("/podcasts")
-    }
-  }, [navigate])
-
   useEffect(() => {
     if (podcastTitle) {
       document.title = `${podcastTitle} - xtal - podcasts`
@@ -68,14 +56,27 @@ export default function PodcastDetailPage() {
   return (
     <LoadingDisplay loading={loading}>
       <div className="podcast-detail-container">
-        <Button
-          variant="primary"
-          className="podcast-detail-back-button"
-          onClick={handleBackButtonNavigation}
-        >
-          <IoArrowBackSharp size={16} />
-          Back
-        </Button>
+        <Breadcrumb>
+          <Breadcrumb.Link
+            href="/podcasts"
+            data-testid="podcast-detail-page-podcasts-link"
+          >
+            Podcasts
+          </Breadcrumb.Link>
+          <Breadcrumb.Separator size={16} />
+          {podcast && podcast.categories && podcast.categories.length > 0 && (
+            <>
+              <Breadcrumb.Link
+                href={`/podcasts/${podcast.categories[0]}`}
+                data-testid="podcast-detail-page-category-link"
+              >
+                {podcast.categories[0]}
+              </Breadcrumb.Link>
+              <Breadcrumb.Separator size={16} />
+            </>
+          )}
+          <Breadcrumb.Item>{podcastTitle}</Breadcrumb.Item>
+        </Breadcrumb>
         <div className="podcast-info-container">
           {podcast && (
             <PodcastCard podcast={podcast} customClassName="podcast-info-card">

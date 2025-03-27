@@ -23,8 +23,12 @@ export function getRadioStationMapPopupCloseButton(page: Page) {
   return page.locator(".leaflet-popup-close-button")
 }
 
-export async function assertToastMessage(page: Page, message: string) {
-  await expect(page.locator(".toaster").getByText(message)).toHaveCount(1)
+export async function assertToastMessage(
+  page: Page,
+  message: string,
+  count: number = 1
+) {
+  await expect(page.locator(".toaster").getByText(message)).toHaveCount(count)
 }
 
 export async function assertToastMessageIsMissing(page: Page, message: string) {

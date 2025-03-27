@@ -316,7 +316,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       await assertEpisodePlayerHasText(page, expectedDateFormat)
     }
 
-    test("should still display currently playing podcast after clicking back button to podcast homepage", async ({
+    test("should still display currently playing podcast after clicking podcast breadcrumb link to podcast homepage", async ({
       page,
     }) => {
       const i = 2
@@ -335,7 +335,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
       await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
       await getEpisodePlayButton(page, i).click()
-      await page.locator(".podcast-detail-back-button").click()
+      await page.getByTestId("podcast-detail-page-podcasts-link").click()
       await expect(page).toHaveTitle("xtal - podcasts")
       await assertPodcastPlayerHasEpisode(
         page,
@@ -453,7 +453,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     })
   })
 
-  test("should allow back button click to navigate back to /podcasts homepage", async ({
+  test("should allow podcasts breadcrumb link click to navigate back to /podcasts homepage", async ({
     page,
   }) => {
     const podcastTitle = encodeURIComponent("Batman University")
@@ -469,8 +469,10 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
     await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
     await assertPodcastInfo(page, defaultTenPodcastEpisodes.data.podcast)
-    await expect(page.locator(".podcast-detail-back-button")).toBeVisible()
-    await page.locator(".podcast-detail-back-button").click()
+    await expect(
+      page.getByTestId("podcast-detail-page-podcasts-link")
+    ).toBeVisible()
+    await page.getByTestId("podcast-detail-page-podcasts-link").click()
     await expect(page).toHaveTitle("xtal - podcasts")
     expect(page.url()).toMatch(/\/podcasts$/)
   })
@@ -499,7 +501,8 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
     await assertToastMessage(
       page,
-      "Rate Limit Exceeded, please try again later"
+      "Rate Limit Exceeded, please try again later",
+      2
     )
   })
 
@@ -521,7 +524,8 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
     await assertToastMessage(
       page,
-      "Could not retrieve podcast episodes. Please try again later"
+      "Could not retrieve podcast episodes. Please try again later",
+      2
     )
   })
 })
