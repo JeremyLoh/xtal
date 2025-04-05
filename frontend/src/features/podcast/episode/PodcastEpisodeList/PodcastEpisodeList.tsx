@@ -1,7 +1,7 @@
 import { memo, useCallback, useContext } from "react"
-import { PodcastEpisode } from "../../api/podcast/model/podcast.ts"
-import PodcastEpisodeCard from "../PodcastEpisodeCard/index.tsx"
-import { PodcastEpisodeContext } from "../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
+import { PodcastEpisode } from "../../../../api/podcast/model/podcast.ts"
+import PodcastEpisodeCard from "../../../../components/PodcastEpisodeCard/index.tsx"
+import { PodcastEpisodeContext } from "../../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 
 type PodcastEpisodeListProps = {
   IMAGE_LAZY_LOAD_START_INDEX: number
