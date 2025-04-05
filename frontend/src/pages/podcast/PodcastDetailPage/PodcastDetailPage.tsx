@@ -1,5 +1,5 @@
 import "./PodcastDetailPage.css"
-import { useCallback, useContext, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { useParams, useSearchParams } from "react-router"
 import { IoReload } from "react-icons/io5"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
@@ -20,8 +20,11 @@ export default function PodcastDetailPage() {
   const pageParam = searchParams.get("page")
   const [page, setPage] = useState<number>(parseToPageInt(pageParam))
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
+  const podcastEpisodeSearchOptions = useMemo(() => {
+    return { podcastId, page, limit: LIMIT }
+  }, [podcastId, page])
   const { loading, podcast, podcastEpisodes, fetchPodcastEpisodes } =
-    usePodcastEpisodes({ podcastId, page, limit: LIMIT })
+    usePodcastEpisodes(podcastEpisodeSearchOptions)
 
   const handleRefreshPodcastEpisodes = useCallback(async () => {
     if (podcastId) {
@@ -54,31 +57,31 @@ export default function PodcastDetailPage() {
   }, [fetchPodcastEpisodes, podcastId])
 
   return (
-    <LoadingDisplay loading={loading}>
-      <div className="podcast-detail-container">
-        <Breadcrumb>
-          <Breadcrumb.Link
-            href="/podcasts"
-            data-testid="podcast-detail-page-podcasts-link"
-          >
-            Podcasts
-          </Breadcrumb.Link>
-          <Breadcrumb.Separator size={16} />
-          {podcast && podcast.categories && podcast.categories.length > 0 && (
-            <>
-              <Breadcrumb.Link
-                href={`/podcasts/${podcast.categories[0]}`}
-                data-testid="podcast-detail-page-category-link"
-              >
-                {podcast.categories[0]}
-              </Breadcrumb.Link>
-              <Breadcrumb.Separator size={16} />
-            </>
-          )}
-          <Breadcrumb.Item>{podcastTitle}</Breadcrumb.Item>
-        </Breadcrumb>
-        <div className="podcast-info-container">
-          {podcast && (
+    <div className="podcast-detail-container">
+      <Breadcrumb>
+        <Breadcrumb.Link
+          href="/podcasts"
+          data-testid="podcast-detail-page-podcasts-link"
+        >
+          Podcasts
+        </Breadcrumb.Link>
+        <Breadcrumb.Separator size={16} />
+        {podcast && podcast.categories && podcast.categories.length > 0 && (
+          <>
+            <Breadcrumb.Link
+              href={`/podcasts/${podcast.categories[0]}`}
+              data-testid="podcast-detail-page-category-link"
+            >
+              {podcast.categories[0]}
+            </Breadcrumb.Link>
+            <Breadcrumb.Separator size={16} />
+          </>
+        )}
+        <Breadcrumb.Item>{podcastTitle}</Breadcrumb.Item>
+      </Breadcrumb>
+      <LoadingDisplay loading={loading}>
+        {podcast && (
+          <div className="podcast-info-container">
             <PodcastCard podcast={podcast} customClassName="podcast-info-card">
               <PodcastCard.Artwork size={144} />
               <div>
@@ -92,9 +95,8 @@ export default function PodcastDetailPage() {
                 </div>
               </div>
             </PodcastCard>
-          )}
-        </div>
-
+          </div>
+        )}
         <Pagination
           className="podcast-episode-pagination"
           currentPage={page}
@@ -159,8 +161,8 @@ export default function PodcastDetailPage() {
             </div>
           )}
         </div>
-      </div>
-    </LoadingDisplay>
+      </LoadingDisplay>
+    </div>
   )
 }
 

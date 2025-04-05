@@ -85,9 +85,6 @@ test.describe("Podcast Homepage /podcasts", () => {
       await page.goto(HOMEPAGE + "/podcasts")
       await expect(page.locator(".podcast-trending-container")).toBeVisible()
       for (const podcastData of defaultTenTrendingPodcasts.data) {
-        await getPodcastCards(page)
-          .getByText(podcastData.title, { exact: true })
-          .scrollIntoViewIfNeeded()
         await expect(
           getPodcastCards(page).getByText(podcastData.title, { exact: true })
         ).toBeVisible()
@@ -125,9 +122,6 @@ test.describe("Podcast Homepage /podcasts", () => {
       await page.goto(HOMEPAGE + "/podcasts")
       await expect(page.locator(".podcast-trending-container")).toBeVisible()
       for (const podcastData of defaultTenTrendingPodcasts.data) {
-        await getPodcastCards(page)
-          .getByText(podcastData.title, { exact: true })
-          .scrollIntoViewIfNeeded()
         await expect(
           getPodcastCards(page).getByText(podcastData.title, { exact: true })
         ).toBeVisible()
@@ -295,9 +289,6 @@ test.describe("Podcast Homepage /podcasts", () => {
         )
         await page.goto(HOMEPAGE + "/podcasts")
         for (const podcastData of defaultTenTrendingPodcasts.data) {
-          await getPodcastCards(page)
-            .getByText(podcastData.title, { exact: true })
-            .scrollIntoViewIfNeeded()
           await expect(
             getPodcastCards(page).getByText(podcastData.title, { exact: true })
           ).toBeVisible()
@@ -306,9 +297,6 @@ test.describe("Podcast Homepage /podcasts", () => {
         isFirstFetch = false
         await getSinceSelectFilter(page).selectOption("1")
         for (const podcastData of threeTrendingPodcasts.data) {
-          await getPodcastCards(page)
-            .getByText(podcastData.title, { exact: true })
-            .scrollIntoViewIfNeeded()
           await expect(
             getPodcastCards(page).getByText(podcastData.title, { exact: true })
           ).toBeVisible()
@@ -341,9 +329,6 @@ test.describe("Podcast Homepage /podcasts", () => {
         )
         await page.goto(HOMEPAGE + "/podcasts")
         for (const podcastData of defaultTenTrendingPodcasts.data) {
-          await getPodcastCards(page)
-            .getByText(podcastData.title, { exact: true })
-            .scrollIntoViewIfNeeded()
           await expect(
             getPodcastCards(page).getByText(podcastData.title, { exact: true })
           ).toBeVisible()
@@ -352,9 +337,6 @@ test.describe("Podcast Homepage /podcasts", () => {
         isFirstFetch = false
         await getSinceSelectFilter(page).selectOption("7")
         for (const podcastData of threeTrendingPodcasts.data) {
-          await getPodcastCards(page)
-            .getByText(podcastData.title, { exact: true })
-            .scrollIntoViewIfNeeded()
           await expect(
             getPodcastCards(page).getByText(podcastData.title, { exact: true })
           ).toBeVisible()
@@ -417,9 +399,6 @@ test.describe("Podcast Homepage /podcasts", () => {
         await getRefreshTrendingPodcastButton(page).click()
         await expect(getEmptyTrendingPodcastMessage(page)).not.toBeVisible()
         for (const podcastData of defaultTenTrendingPodcasts.data) {
-          await getPodcastCards(page)
-            .getByText(podcastData.title, { exact: true })
-            .scrollIntoViewIfNeeded()
           await expect(
             getPodcastCards(page).getByText(podcastData.title, { exact: true })
           ).toBeVisible()

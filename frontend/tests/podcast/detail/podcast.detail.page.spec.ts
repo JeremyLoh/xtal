@@ -501,12 +501,11 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
     await assertToastMessage(
       page,
-      "Rate Limit Exceeded, please try again later",
-      2
+      "Rate Limit Exceeded, please try again later"
     )
   })
 
-  test("should generic error toast for server HTTP 404 error", async ({
+  test("should display generic error toast for server HTTP 404 error", async ({
     page,
   }) => {
     const podcastTitle = encodeURIComponent("Batman University")
@@ -524,8 +523,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
     await assertToastMessage(
       page,
-      "Could not retrieve podcast episodes. Please try again later",
-      2
+      "Could not retrieve podcast episodes. Please try again later"
     )
   })
 })

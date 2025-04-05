@@ -96,12 +96,17 @@ function usePodcastEpisodes({
 
   useEffect(() => {
     async function getCache() {
-      const podcastCache = await getCacheItem()
-      if (podcastCache) {
-        setCacheItem(podcastCache.value)
-        setPodcastCache(podcastCache)
-        setPodcast(podcastCache.value.podcast)
-        setPodcastEpisodes(podcastCache.value.episodes)
+      setLoading(true)
+      try {
+        const podcastCache = await getCacheItem()
+        if (podcastCache) {
+          setCacheItem(podcastCache.value)
+          setPodcastCache(podcastCache)
+          setPodcast(podcastCache.value.podcast)
+          setPodcastEpisodes(podcastCache.value.episodes)
+        }
+      } finally {
+        setLoading(false)
       }
     }
     getCache()
