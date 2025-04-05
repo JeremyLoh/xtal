@@ -25,24 +25,26 @@ export default function PodcastEpisodeDetailPage() {
   }, [podcastEpisodeContext, episode])
 
   return (
-    <LoadingDisplay loading={loading}>
-      <div className="podcast-episode-detail-container">
-        <Breadcrumb>
-          <Breadcrumb.Link
-            href="/podcasts"
-            data-testid="podcast-episode-detail-podcasts-link"
-          >
-            Podcasts
-          </Breadcrumb.Link>
-          <Breadcrumb.Separator size={16} />
-          <Breadcrumb.Link
-            href={`/podcasts/${podcastTitle}/${podcastId}`}
-            data-testid="podcast-episode-detail-page-link"
-          >
-            {podcastTitle}
-          </Breadcrumb.Link>
-        </Breadcrumb>
-        {!episode && error && <p className="error-text">{error}</p>}
+    <div className="podcast-episode-detail-container">
+      <Breadcrumb>
+        <Breadcrumb.Link
+          href="/podcasts"
+          data-testid="podcast-episode-detail-podcasts-link"
+        >
+          Podcasts
+        </Breadcrumb.Link>
+        <Breadcrumb.Separator size={16} />
+        <Breadcrumb.Link
+          href={`/podcasts/${podcastTitle}/${podcastId}`}
+          data-testid="podcast-episode-detail-page-link"
+        >
+          {podcastTitle}
+        </Breadcrumb.Link>
+      </Breadcrumb>
+
+      {!episode && error && <p className="error-text">{error}</p>}
+
+      <LoadingDisplay loading={loading}>
         {episode && (
           <PodcastEpisodeCard episode={episode}>
             <PodcastEpisodeCard.Artwork
@@ -58,7 +60,7 @@ export default function PodcastEpisodeDetailPage() {
             <PodcastEpisodeCard.Description className="podcast-episode-detail-description" />
           </PodcastEpisodeCard>
         )}
-      </div>
-    </LoadingDisplay>
+      </LoadingDisplay>
+    </div>
   )
 }
