@@ -2,7 +2,7 @@ import "./PodcastSearchResultList.css"
 import { memo } from "react"
 import { Link } from "react-router"
 import { AnimatePresence, motion } from "motion/react"
-import { Podcast } from "../../api/podcast/model/podcast.ts"
+import { Podcast } from "../../../../api/podcast/model/podcast.ts"
 
 type PodcastSearchResultListProps = {
   results: Podcast[] | null

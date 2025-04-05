@@ -7,7 +7,7 @@ import useTrendingPodcasts from "../../../hooks/podcast/useTrendingPodcasts.ts"
 import usePodcastCategory from "../../../hooks/podcast/usePodcastCategory.ts"
 import SearchBar from "../../../components/SearchBar/SearchBar.tsx"
 import usePodcastSearch from "../../../hooks/podcast/usePodcastSearch.ts"
-import PodcastSearchResultList from "../../../components/PodcastSearchResultList/PodcastSearchResultList.tsx"
+import PodcastSearchResultList from "../../../features/podcast/search/PodcastSearchResultList/PodcastSearchResultList.tsx"
 import { TrendingPodcastFiltersType } from "../../../api/podcast/model/podcast.ts"
 
 const LIMIT = 10
