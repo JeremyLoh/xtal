@@ -1,7 +1,7 @@
 import "./PodcastHomePage.css"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
-import TrendingPodcastSection from "../../../features/podcast/trending/components/TrendingPodcastSection/TrendingPodcastSection.tsx"
+import TrendingPodcastSection from "../../../features/podcast/trending/TrendingPodcastSection/TrendingPodcastSection.tsx"
 import PodcastCategorySection from "../../../features/podcast/category/components/PodcastCategorySection/PodcastCategorySection.tsx"
 import useTrendingPodcasts from "../../../hooks/podcast/useTrendingPodcasts.ts"
 import usePodcastCategory from "../../../hooks/podcast/usePodcastCategory.ts"

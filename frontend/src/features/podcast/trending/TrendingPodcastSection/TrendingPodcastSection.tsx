@@ -5,13 +5,13 @@ import { IoChevronForward, IoReload } from "react-icons/io5"
 import {
   TrendingPodcast,
   TrendingPodcastFiltersType,
-} from "../../../../../api/podcast/model/podcast.ts"
-import PodcastCard from "../../../../../components/PodcastCard/index.tsx"
-import useScreenDimensions from "../../../../../hooks/useScreenDimensions.ts"
+} from "../../../../api/podcast/model/podcast.ts"
+import PodcastCard from "../../../../components/PodcastCard/index.tsx"
+import useScreenDimensions from "../../../../hooks/useScreenDimensions.ts"
 import TrendingPodcastFilters from "../TrendingPodcastFilters/TrendingPodcastFilters.tsx"
-import Button from "../../../../../components/ui/button/Button.tsx"
-import Pagination from "../../../../../components/Pagination/Pagination.tsx"
-import LoadingDisplay from "../../../../../components/LoadingDisplay/LoadingDisplay.tsx"
+import Button from "../../../../components/ui/button/Button.tsx"
+import Pagination from "../../../../components/Pagination/Pagination.tsx"
+import LoadingDisplay from "../../../../components/LoadingDisplay/LoadingDisplay.tsx"
 
 const IMAGE_LAZY_LOAD_START_INDEX = 2 // zero based index
 const MAX_TRENDING_PODCAST_PAGINATION_PAGES = 5
