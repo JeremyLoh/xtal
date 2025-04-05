@@ -6,9 +6,7 @@ import { FavouriteStationsContext } from "../../../../context/FavouriteStationsP
 import useClipboard from "../../../../hooks/useClipboard.ts"
 import StationCard from "../../../../components/StationCard/index.tsx"
 import { getEnv } from "../../../../api/env/environmentVariables.ts"
-const RadioPlayer = lazy(
-  () => import("../../../player/components/RadioPlayer/RadioPlayer.tsx")
-)
+const RadioPlayer = lazy(() => import("../../../player/RadioPlayer.tsx"))
 
 type RadioCardProps = {
   station: Station
