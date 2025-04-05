@@ -7,7 +7,7 @@ import PodcastEpisodeList from "../../../features/podcast/episode/PodcastEpisode
 import PodcastCard from "../../../components/PodcastCard/index.tsx"
 import usePodcastEpisodes from "../../../hooks/podcast/usePodcastEpisodes.ts"
 import Pagination from "../../../components/Pagination/Pagination.tsx"
-import Breadcrumb from "../../../components/ui/breadcrumb/index.tsx"
+import PodcastDetailPageNavigation from "../../../features/podcast/navigation/PodcastDetailPageNavigation/PodcastDetailPageNavigation.tsx"
 
 const LIMIT = 10
 const IMAGE_LAZY_LOAD_START_INDEX = 2 // zero based index
@@ -55,27 +55,10 @@ export default function PodcastDetailPage() {
 
   return (
     <div className="podcast-detail-container">
-      <Breadcrumb>
-        <Breadcrumb.Link
-          href="/podcasts"
-          data-testid="podcast-detail-page-podcasts-link"
-        >
-          Podcasts
-        </Breadcrumb.Link>
-        <Breadcrumb.Separator size={16} />
-        {podcast && podcast.categories && podcast.categories.length > 0 && (
-          <>
-            <Breadcrumb.Link
-              href={`/podcasts/${podcast.categories[0]}`}
-              data-testid="podcast-detail-page-category-link"
-            >
-              {podcast.categories[0]}
-            </Breadcrumb.Link>
-            <Breadcrumb.Separator size={16} />
-          </>
-        )}
-        <Breadcrumb.Item>{podcastTitle}</Breadcrumb.Item>
-      </Breadcrumb>
+      <PodcastDetailPageNavigation
+        podcast={podcast}
+        podcastTitle={podcastTitle}
+      />
       <LoadingDisplay loading={loading}>
         {podcast && (
           <div className="podcast-info-container">
