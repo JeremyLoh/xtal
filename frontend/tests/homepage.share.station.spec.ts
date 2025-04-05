@@ -50,12 +50,12 @@ test.describe("share radio station feature", () => {
     await page.goto(HOMEPAGE)
     await clickRandomRadioStationButton(page)
     await getRadioCardShareIcon(page).click()
-    await assertToastMessage(page, "Link Copied")
     const expectedUrl = await getRadioStationShareUrl(
       page,
       unitedStatesStation.stationuuid
     )
     expect(await getClipboardContent(page)).toBe(expectedUrl)
+    await assertToastMessage(page, "Link Copied")
   })
 
   test("should show toast success message when share radio station link is copied successfully", async ({
