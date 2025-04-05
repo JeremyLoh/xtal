@@ -1,5 +1,5 @@
 import "./PodcastCategorySection.css"
-import { memo } from "react"
+import { memo, useCallback } from "react"
 import { useNavigate } from "react-router"
 import { motion } from "motion/react"
 import { IoReload } from "react-icons/io5"
@@ -21,13 +21,16 @@ export default memo(function PodcastCategorySection({
   const { isMobile } = useScreenDimensions()
   const SCROLL_AMOUNT = isMobile ? 500 : 700
 
-  async function handleRefreshPodcastCategories() {
+  const handleRefreshPodcastCategories = useCallback(async () => {
     await onRefresh()
-  }
+  }, [onRefresh])
 
-  function handlePodcastCategorySelect(category: PodcastCategory) {
-    navigate(`/podcasts/${category.name}`)
-  }
+  const handlePodcastCategorySelect = useCallback(
+    (category: PodcastCategory) => {
+      navigate(`/podcasts/${category.name}`)
+    },
+    [navigate]
+  )
 
   function renderCategories() {
     if (!categories) {
