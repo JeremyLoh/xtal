@@ -107,7 +107,7 @@ test.describe("share radio station feature", () => {
     page,
     headless,
   }) => {
-    test.skip(headless, "Remove flaky test in headless test")
+    test.skip(headless, "Remove flaky test in headless mode")
     test.slow()
     // 1) Then user navigates to route /radio-station and loads a radio station
     // 2) Tries to search for a new random radio station
