@@ -49,11 +49,16 @@ function usePodcastCategory() {
 
   useEffect(() => {
     async function getCache() {
-      const categoryCache = await getCacheItem()
-      if (categoryCache) {
-        setCacheItem(categoryCache.value)
-        setCategoryCache(categoryCache)
-        setCategories(categoryCache.value.categories)
+      setLoading(true)
+      try {
+        const categoryCache = await getCacheItem()
+        if (categoryCache) {
+          setCacheItem(categoryCache.value)
+          setCategoryCache(categoryCache)
+          setCategories(categoryCache.value.categories)
+        }
+      } finally {
+        setLoading(false)
       }
     }
     getCache()
