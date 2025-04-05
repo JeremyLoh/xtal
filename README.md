@@ -1,5 +1,7 @@
 # xtal
 
+[![](https://tokei.rs/b1/github/JeremyLoh/xtal?category=code)](https://github.com/JeremyLoh/xtal)
+
 Listen to the world (radio & podcasts) with xtal, a fast and responsive mobile / desktop web application
 
 # Features
@@ -9,12 +11,18 @@ Listen to the world (radio & podcasts) with xtal, a fast and responsive mobile /
   - Search stations by filters
   - Add / Remove Favourite Stations
   - Share a radio station using a link
-- Discover trending podcasts
+- Discover podcasts
+  - Explore trending podcasts in different podcast categories
+    - 24 hours, last 3 days, last week
+  - Search podcasts
 
 # Built With
 
 - TypeScript
 - React
+- Express
+- Supabase
+- Vite and Vitest
 - Playwright (end-to-end testing)
 
 ## Packages used (Frontend)
