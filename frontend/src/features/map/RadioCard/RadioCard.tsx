@@ -1,12 +1,12 @@
 import "./RadioCard.css"
 import { lazy, useCallback, useContext, useEffect, useState } from "react"
 import { toast } from "sonner"
-import { Station } from "../../../../api/radiobrowser/types.ts"
-import { FavouriteStationsContext } from "../../../../context/FavouriteStationsProvider/FavouriteStationsProvider.tsx"
-import useClipboard from "../../../../hooks/useClipboard.ts"
-import StationCard from "../../../../components/StationCard/index.tsx"
-import { getEnv } from "../../../../api/env/environmentVariables.ts"
-const RadioPlayer = lazy(() => import("../../../radio/player/RadioPlayer.tsx"))
+import { Station } from "../../../api/radiobrowser/types.ts"
+import { FavouriteStationsContext } from "../../../context/FavouriteStationsProvider/FavouriteStationsProvider.tsx"
+import useClipboard from "../../../hooks/useClipboard.ts"
+import StationCard from "../../../components/StationCard/index.tsx"
+import { getEnv } from "../../../api/env/environmentVariables.ts"
+const RadioPlayer = lazy(() => import("../../radio/player/RadioPlayer.tsx"))
 
 type RadioCardProps = {
   station: Station

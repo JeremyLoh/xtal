@@ -5,7 +5,7 @@ import L from "leaflet/dist/leaflet.js"
 import { lazy, useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import { toast } from "sonner"
-import { Station } from "../../../../api/radiobrowser/types.ts"
+import { Station } from "../../../api/radiobrowser/types.ts"
 const RadioCard = lazy(() => import("../RadioCard/RadioCard.tsx"))
 
 let map: L.Map

@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react"
-import Map from "../../features/map/components/Map/Map.tsx"
+import Map from "../../features/map/Map/Map.tsx"
 import { MapContext } from "../../context/MapProvider/MapProvider.tsx"
 
 export default function HomePage() {
