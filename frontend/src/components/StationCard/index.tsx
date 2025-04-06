@@ -1,11 +1,11 @@
 import { FunctionComponent, lazy } from "react"
 import { StationCardProps } from "./StationCard.tsx"
+import FavouriteIconOutline from "./FavouriteIconOutline.tsx"
+import FavouriteIconFilled from "./FavouriteIconFilled.tsx"
 
 const StationCard = lazy(() => import("./StationCard.tsx"))
 const Icon = lazy(() => import("./Icon.tsx"))
 const Title = lazy(() => import("./Title.tsx"))
-const FavouriteIconOutline = lazy(() => import("./FavouriteIconOutline.tsx"))
-const FavouriteIconFilled = lazy(() => import("./FavouriteIconFilled.tsx"))
 const ShareIcon = lazy(() => import("./ShareIcon.tsx"))
 const Bitrate = lazy(() => import("./Bitrate.tsx"))
 const Tags = lazy(() => import("./Tags.tsx"))
