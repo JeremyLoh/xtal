@@ -55,7 +55,6 @@ function usePodcastEpisodes({
   const fetchPodcastEpisodes = useCallback(
     async (podcastId: string) => {
       setLoading(true)
-      abortController.current?.abort()
       abortController.current = new AbortController()
       const params: FetchPodcastEpisodesParams = { id: podcastId, limit: limit }
       if (offset > 0) {
@@ -70,13 +69,15 @@ function usePodcastEpisodes({
         if (podcastEpisodes && podcastEpisodes.data) {
           setPodcastEpisodes(podcastEpisodes.data.episodes)
           setPodcast(podcastEpisodes.data.podcast)
-        } else {
-          setLoading(false) // prevent infinite load on no data
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         toast.error(error.message)
-        setLoading(false) // prevent infinite loading on error
+      } finally {
+        setLoading(false)
+      }
+      return () => {
+        abortController.current?.abort()
       }
     },
     [limit, offset]
@@ -84,8 +85,6 @@ function usePodcastEpisodes({
 
   useEffect(() => {
     if (podcast && podcastEpisodes) {
-      // prevent race condition between setLoading and set podcast episodes, display of "no episode found" placeholder before podcast data set state
-      setLoading(false)
       // set cache when data is available
       setCacheItem({
         podcast,
