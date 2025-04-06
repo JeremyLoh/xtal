@@ -28,7 +28,7 @@ function usePodcastEpisodes({
   page,
   limit,
 }: UsePodcastEpisodesProps) {
-  const offset = useMemo(() => Math.max(0, page - 1) * limit, [page, limit])
+  const offset = useMemo(() => getPageOffset(page, limit), [page, limit])
   const cacheKey = useMemo(
     () =>
       `usePodcastEpisodes-podcastId-${
@@ -53,13 +53,14 @@ function usePodcastEpisodes({
   >(podcastCache ? podcastCache.value.episodes : null)
 
   const fetchPodcastEpisodes = useCallback(
-    async (podcastId: string) => {
+    async (podcastId: string, pageRequest: number) => {
+      const offsetRequest = getPageOffset(pageRequest, limit)
       setLoading(true)
       abortController.current = new AbortController()
       const params: FetchPodcastEpisodesParams = { id: podcastId, limit: limit }
-      if (offset > 0) {
+      if (offsetRequest > 0) {
         // backend endpoint throws validation error for offset <= 0
-        params.offset = offset
+        params.offset = offsetRequest
       }
       try {
         const podcastEpisodes = await getPodcastEpisodes(
@@ -80,7 +81,7 @@ function usePodcastEpisodes({
         abortController.current?.abort()
       }
     },
-    [limit, offset]
+    [limit]
   )
 
   useEffect(() => {
@@ -121,6 +122,10 @@ function usePodcastEpisodes({
   }, [loading, podcast, podcastEpisodes, fetchPodcastEpisodes])
 
   return output
+}
+
+function getPageOffset(page: number, limit: number) {
+  return Math.max(0, page - 1) * limit
 }
 
 export default usePodcastEpisodes

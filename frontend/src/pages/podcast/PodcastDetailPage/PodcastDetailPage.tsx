@@ -25,21 +25,39 @@ export default function PodcastDetailPage() {
 
   const handleRefreshPodcastEpisodes = useCallback(async () => {
     if (podcastId) {
-      await fetchPodcastEpisodes(podcastId)
+      await fetchPodcastEpisodes(podcastId, page)
     }
-  }, [fetchPodcastEpisodes, podcastId])
+  }, [fetchPodcastEpisodes, podcastId, page])
 
-  const handlePreviousPageClick = useCallback((currentPage: number) => {
-    setPage(currentPage - 1)
-  }, [])
+  const handlePreviousPageClick = useCallback(
+    async (currentPage: number) => {
+      setPage(currentPage - 1)
+      if (podcastId) {
+        await fetchPodcastEpisodes(podcastId, currentPage - 1)
+      }
+    },
+    [fetchPodcastEpisodes, podcastId]
+  )
 
-  const handleNextPageClick = useCallback((currentPage: number) => {
-    setPage(currentPage + 1)
-  }, [])
+  const handleNextPageClick = useCallback(
+    async (currentPage: number) => {
+      setPage(currentPage + 1)
+      if (podcastId) {
+        await fetchPodcastEpisodes(podcastId, currentPage + 1)
+      }
+    },
+    [fetchPodcastEpisodes, podcastId]
+  )
 
-  const handlePageClick = useCallback((pageNumber: number) => {
-    setPage(pageNumber)
-  }, [])
+  const handlePageClick = useCallback(
+    async (pageNumber: number) => {
+      setPage(pageNumber)
+      if (podcastId) {
+        await fetchPodcastEpisodes(podcastId, pageNumber)
+      }
+    },
+    [fetchPodcastEpisodes, podcastId]
+  )
 
   useEffect(() => {
     if (podcastTitle) {
@@ -48,10 +66,11 @@ export default function PodcastDetailPage() {
   }, [podcastTitle])
 
   useEffect(() => {
-    if (podcastId) {
-      fetchPodcastEpisodes(podcastId)
+    if (!podcast && podcastId) {
+      // for first page load
+      fetchPodcastEpisodes(podcastId, page)
     }
-  }, [fetchPodcastEpisodes, podcastId])
+  }, [fetchPodcastEpisodes, podcastId, podcast, page])
 
   return (
     <div className="podcast-detail-container">
