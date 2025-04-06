@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { memo, useState } from "react"
 import {
   CountryStation,
   countryStationInfo,
@@ -11,7 +11,7 @@ type CountrySelectProps = {
   onCountrySelect: (country: CountryStation) => void
 }
 
-function CountrySelect(props: CountrySelectProps) {
+function CountrySelect({ onCountrySelect }: CountrySelectProps) {
   const SCROLL_AMOUNT = 500
   const [selectedCountry, setSelectedCountry] = useState<string>(
     DEFAULT_COUNTRY_SEARCH.name
@@ -26,7 +26,7 @@ function CountrySelect(props: CountrySelectProps) {
             }`}
             onClick={() => {
               setSelectedCountry(country.name)
-              props.onCountrySelect(country)
+              onCountrySelect(country)
             }}
           >
             {country.name}
@@ -37,4 +37,4 @@ function CountrySelect(props: CountrySelectProps) {
   )
 }
 
-export default CountrySelect
+export default memo(CountrySelect)
