@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { memo, useState } from "react"
 import Slider from "../../../../components/Slider/Slider.tsx"
 import Button from "../../../../components/ui/button/Button.tsx"
 import {
@@ -35,4 +35,4 @@ function GenreSelect(props: GenreSelectProps) {
   )
 }
 
-export default GenreSelect
+export default memo(GenreSelect)

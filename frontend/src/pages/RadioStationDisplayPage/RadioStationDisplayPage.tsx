@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router"
 import { toast } from "sonner"
 import { MapContext } from "../../context/MapProvider/MapProvider.tsx"
 import { SearchStrategyFactory } from "../../api/radiobrowser/searchStrategy/SearchStrategyFactory.ts"
-import Map from "../../features/map/components/Map/Map.tsx"
+import Map from "../../features/map/Map/Map.tsx"
 
 type RadioStationDisplayPageParams = {
   stationuuid: string

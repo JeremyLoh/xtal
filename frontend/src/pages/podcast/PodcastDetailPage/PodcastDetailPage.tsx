@@ -1,15 +1,13 @@
 import "./PodcastDetailPage.css"
-import { useCallback, useContext, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { useParams, useSearchParams } from "react-router"
 import { IoReload } from "react-icons/io5"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
-import { PodcastEpisode } from "../../../api/podcast/model/podcast.ts"
-import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/index.tsx"
+import PodcastEpisodeList from "../../../features/podcast/episode/PodcastEpisodeList/PodcastEpisodeList.tsx"
 import PodcastCard from "../../../components/PodcastCard/index.tsx"
-import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import usePodcastEpisodes from "../../../hooks/podcast/usePodcastEpisodes.ts"
 import Pagination from "../../../components/Pagination/Pagination.tsx"
-import Breadcrumb from "../../../components/ui/breadcrumb/index.tsx"
+import PodcastDetailPageNavigation from "../../../features/podcast/navigation/PodcastDetailPageNavigation/PodcastDetailPageNavigation.tsx"
 
 const LIMIT = 10
 const IMAGE_LAZY_LOAD_START_INDEX = 2 // zero based index
@@ -19,7 +17,6 @@ export default function PodcastDetailPage() {
   const [searchParams] = useSearchParams()
   const pageParam = searchParams.get("page")
   const [page, setPage] = useState<number>(parseToPageInt(pageParam))
-  const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const podcastEpisodeSearchOptions = useMemo(() => {
     return { podcastId, page, limit: LIMIT }
   }, [podcastId, page])
@@ -58,27 +55,10 @@ export default function PodcastDetailPage() {
 
   return (
     <div className="podcast-detail-container">
-      <Breadcrumb>
-        <Breadcrumb.Link
-          href="/podcasts"
-          data-testid="podcast-detail-page-podcasts-link"
-        >
-          Podcasts
-        </Breadcrumb.Link>
-        <Breadcrumb.Separator size={16} />
-        {podcast && podcast.categories && podcast.categories.length > 0 && (
-          <>
-            <Breadcrumb.Link
-              href={`/podcasts/${podcast.categories[0]}`}
-              data-testid="podcast-detail-page-category-link"
-            >
-              {podcast.categories[0]}
-            </Breadcrumb.Link>
-            <Breadcrumb.Separator size={16} />
-          </>
-        )}
-        <Breadcrumb.Item>{podcastTitle}</Breadcrumb.Item>
-      </Breadcrumb>
+      <PodcastDetailPageNavigation
+        podcast={podcast}
+        podcastTitle={podcastTitle}
+      />
       <LoadingDisplay loading={loading}>
         {podcast && (
           <div className="podcast-info-container">
@@ -110,40 +90,12 @@ export default function PodcastDetailPage() {
         <h2 className="podcast-episode-section-title">Episodes</h2>
         <div className="podcast-episode-container">
           {podcastEpisodes ? (
-            podcastEpisodes.map((episode, index) => {
-              function handlePlayClick(podcastEpisode: PodcastEpisode) {
-                if (podcastEpisodeContext) {
-                  podcastEpisodeContext.setEpisode(podcastEpisode)
-                }
-              }
-              return (
-                <PodcastEpisodeCard key={episode.id} episode={episode}>
-                  {index < IMAGE_LAZY_LOAD_START_INDEX ? (
-                    <PodcastEpisodeCard.Artwork
-                      size={144}
-                      title={`${episode.title} podcast image`}
-                    />
-                  ) : (
-                    <PodcastEpisodeCard.Artwork
-                      size={144}
-                      title={`${episode.title} podcast image`}
-                      lazyLoad={true}
-                    />
-                  )}
-                  <PodcastEpisodeCard.Title
-                    url={`/podcasts/${podcastTitle}/${podcastId}/${episode.id}`}
-                  />
-                  <PodcastEpisodeCard.PublishDate />
-                  <PodcastEpisodeCard.Duration />
-                  <PodcastEpisodeCard.EpisodeNumber />
-                  <PodcastEpisodeCard.SeasonNumber />
-                  <PodcastEpisodeCard.PlayButton
-                    onPlayClick={handlePlayClick}
-                  />
-                  <PodcastEpisodeCard.Description />
-                </PodcastEpisodeCard>
-              )
-            })
+            <PodcastEpisodeList
+              IMAGE_LAZY_LOAD_START_INDEX={IMAGE_LAZY_LOAD_START_INDEX}
+              episodes={podcastEpisodes}
+              podcastTitle={podcastTitle}
+              podcastId={podcastId}
+            />
           ) : (
             <div className="podcast-episode-placeholder-section">
               <p className="podcast-episode-error-text">

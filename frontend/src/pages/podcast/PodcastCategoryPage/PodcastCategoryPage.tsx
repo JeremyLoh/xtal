@@ -1,9 +1,9 @@
 import "./PodcastCategoryPage.css"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useNavigate, useParams } from "react-router"
-import TrendingPodcastSection from "../../../features/podcast/trending/components/TrendingPodcastSection/TrendingPodcastSection.tsx"
+import TrendingPodcastSection from "../../../features/podcast/trending/TrendingPodcastSection/TrendingPodcastSection.tsx"
 import useTrendingPodcasts from "../../../hooks/podcast/useTrendingPodcasts.ts"
-import Breadcrumb from "../../../components/ui/breadcrumb/index.tsx"
+import PodcastCategoryPageNavigation from "../../../features/podcast/navigation/PodcastCategoryPageNavigation/PodcastCategoryPageNavigation.tsx"
 
 const LIMIT = 10
 
@@ -62,18 +62,7 @@ export default function PodcastCategoryPage() {
     }
     return (
       <>
-        <Breadcrumb>
-          <Breadcrumb.Link
-            href="/podcasts"
-            data-testid="podcast-category-page-podcasts-link"
-          >
-            Podcasts
-          </Breadcrumb.Link>
-          <Breadcrumb.Separator size={16} />
-          <Breadcrumb.Item>Categories</Breadcrumb.Item>
-          <Breadcrumb.Separator size={16} />
-          <Breadcrumb.Item>{categoryName}</Breadcrumb.Item>
-        </Breadcrumb>
+        <PodcastCategoryPageNavigation categoryName={categoryName} />
         <h2 className="podcast-category-title">
           {decodeURIComponent(categoryName)}
         </h2>

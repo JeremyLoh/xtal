@@ -1,5 +1,5 @@
 import "./StationSelect.css"
-import { useRef, useState } from "react"
+import { memo, useCallback, useMemo, useRef, useState } from "react"
 import { motion } from "motion/react"
 import { toast } from "sonner"
 import { IoIosRadio } from "react-icons/io"
@@ -20,54 +20,63 @@ type StationSelectProps = {
   setOpen: (isOpen: boolean) => void
 }
 
-function StationSelect(props: StationSelectProps) {
+function StationSelect({ onLoadStation, open, setOpen }: StationSelectProps) {
   const abortControllerRef = useRef<AbortController | null>(null)
   const [stations, setStations] = useState<Station[] | null>(null)
   const [searchStrategy, setSearchStrategy] =
     useState<AdvancedStationSearchStrategy | null>(null)
   const [hasNoFurtherEntries, setHasNoFurtherEntries] = useState<boolean>(false)
+  const animationHover = useMemo(() => {
+    return { scale: 1.03 }
+  }, [])
 
   function handleLoadStation(station: Station) {
-    props.setOpen(false)
-    props.onLoadStation(station)
+    setOpen(false)
+    onLoadStation(station)
   }
-  async function handleNewStationSearch(data: StationSearchValues) {
-    setStations(null)
-    await handleStationSearch(data)
-  }
-  async function handleStationSearch({
-    stationName,
-    language,
-    sort,
-    tag,
-    limit,
-    offset,
-  }: StationSearchValues) {
-    abortControllerRef?.current?.abort()
-    abortControllerRef.current = new AbortController()
-    const strategy = SearchStrategyFactory.createAdvancedSearchStrategy(
-      {
-        name: stationName,
-        language: language,
-        sort: sort,
-        tag: tag,
-      },
+  const handleStationSearch = useCallback(
+    async ({
+      stationName,
+      language,
+      sort,
+      tag,
       limit,
-      offset
-    )
-    const stations = await strategy.findStations(abortControllerRef.current)
-    setStations((previousStations) =>
-      previousStations == null || stations == null
-        ? stations
-        : [...previousStations, ...stations]
-    )
-    setSearchStrategy(strategy)
-    if (stations && stations.length === 0) {
-      toast.warning("No stations found")
-    }
-    setHasNoFurtherEntries(stations == null || stations.length === 0)
-  }
-  async function handleLoadMoreResults() {
+      offset,
+    }: StationSearchValues) => {
+      abortControllerRef?.current?.abort()
+      abortControllerRef.current = new AbortController()
+      const strategy = SearchStrategyFactory.createAdvancedSearchStrategy(
+        {
+          name: stationName,
+          language: language,
+          sort: sort,
+          tag: tag,
+        },
+        limit,
+        offset
+      )
+      const stations = await strategy.findStations(abortControllerRef.current)
+      setStations((previousStations) =>
+        previousStations == null || stations == null
+          ? stations
+          : [...previousStations, ...stations]
+      )
+      setSearchStrategy(strategy)
+      if (stations && stations.length === 0) {
+        toast.warning("No stations found")
+      }
+      setHasNoFurtherEntries(stations == null || stations.length === 0)
+    },
+    []
+  )
+  const handleNewStationSearch = useCallback(
+    async (data: StationSearchValues) => {
+      setStations(null)
+      await handleStationSearch(data)
+    },
+    [handleStationSearch]
+  )
+  const handleLoadMoreResults = useCallback(async () => {
     if (searchStrategy == null) {
       return
     }
@@ -79,9 +88,9 @@ function StationSelect(props: StationSelectProps) {
       limit: searchStrategy.limit,
       offset: searchStrategy.offset + searchStrategy.limit,
     })
-  }
+  }, [searchStrategy, handleStationSearch])
   return (
-    <Drawer title="Station Search" open={props.open} setOpen={props.setOpen}>
+    <Drawer title="Station Search" open={open} setOpen={setOpen}>
       <StationSearchForm handleStationSearch={handleNewStationSearch} />
       {stations && (
         <>
@@ -91,7 +100,7 @@ function StationSelect(props: StationSelectProps) {
                 <motion.div
                   key={station.stationuuid + "-" + index}
                   className="station-search-result-card"
-                  whileHover={{ scale: 1.03 }}
+                  whileHover={animationHover}
                 >
                   <StationCard station={station}>
                     <StationCard.Icon />
@@ -131,4 +140,4 @@ function StationSelect(props: StationSelectProps) {
   )
 }
 
-export default StationSelect
+export default memo(StationSelect)

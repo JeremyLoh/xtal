@@ -3,17 +3,17 @@ import { memo, useCallback } from "react"
 import { useNavigate } from "react-router"
 import { motion } from "motion/react"
 import { IoReload } from "react-icons/io5"
-import Slider from "../../../../../components/Slider/Slider.tsx"
-import { PodcastCategory } from "../../../../../api/podcast/model/podcast.ts"
-import useScreenDimensions from "../../../../../hooks/useScreenDimensions.ts"
-import Button from "../../../../../components/ui/button/Button.tsx"
+import Slider from "../../../../components/Slider/Slider.tsx"
+import { PodcastCategory } from "../../../../api/podcast/model/podcast.ts"
+import useScreenDimensions from "../../../../hooks/useScreenDimensions.ts"
+import Button from "../../../../components/ui/button/Button.tsx"
 
 type PodcastCategorySectionProps = {
   categories: PodcastCategory[] | null
   onRefresh: () => Promise<void>
 }
 
-export default memo(function PodcastCategorySection({
+function PodcastCategorySection({
   categories,
   onRefresh,
 }: PodcastCategorySectionProps) {
@@ -74,4 +74,6 @@ export default memo(function PodcastCategorySection({
       {renderCategories()}
     </div>
   )
-})
+}
+
+export default memo(PodcastCategorySection)

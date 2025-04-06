@@ -30,13 +30,13 @@ function useTrendingPodcasts({ limit, category }: UseTrendingPodcastsProps) {
       setLoading(true)
       abortController.current?.abort()
       abortController.current = new AbortController()
+      const params = {
+        limit: limit,
+        offset: offset,
+        since: since,
+        category: category,
+      }
       try {
-        const params = {
-          limit: limit,
-          offset: offset,
-          since: since,
-          category: category,
-        }
         const podcasts = await getTrendingPodcasts(
           abortController.current,
           params

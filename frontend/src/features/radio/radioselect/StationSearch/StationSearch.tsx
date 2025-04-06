@@ -1,5 +1,5 @@
 import "./StationSearch.css"
-import { useContext, useState } from "react"
+import { useCallback, useContext, useState } from "react"
 import { FaFlag, FaMusic, FaSearch } from "react-icons/fa"
 import { StationSearchType } from "../../../../api/radiobrowser/searchStrategy/SearchStrategyFactory.ts"
 import StationSelect from "../StationSelect/StationSelect.tsx"
@@ -11,7 +11,7 @@ type StationSearchProps = {
   onStationSearchTypeSelect: (searchType: StationSearchType) => void
 }
 
-function StationSearch(props: StationSearchProps) {
+function StationSearch({ onStationSearchTypeSelect }: StationSearchProps) {
   const mapContext = useContext(MapContext)
   const [showSearchStation, setShowSearchStation] = useState<boolean>(false)
   const [selectedSearch, setSelectedSearch] = useState<StationSearchType>(
@@ -19,23 +19,29 @@ function StationSearch(props: StationSearchProps) {
   )
   function handleClick(searchType: StationSearchType) {
     setSelectedSearch(searchType)
-    props.onStationSearchTypeSelect(searchType)
+    onStationSearchTypeSelect(searchType)
   }
-  function handleAdvancedClick() {
+  const handleAdvancedClick = useCallback(() => {
     setSelectedSearch(StationSearchType.ADVANCED)
     setShowSearchStation(!showSearchStation)
-  }
-  function handleLoadStation(station: Station) {
-    mapContext?.setStation(station)
-  }
-  function handleOpen(isOpen: boolean) {
-    setShowSearchStation(isOpen)
-    if (!isOpen) {
-      // revert back to default first station search type
-      setSelectedSearch(StationSearchType.GENRE)
-      props.onStationSearchTypeSelect(StationSearchType.GENRE)
-    }
-  }
+  }, [showSearchStation])
+  const handleLoadStation = useCallback(
+    (station: Station) => {
+      mapContext?.setStation(station)
+    },
+    [mapContext]
+  )
+  const handleOpen = useCallback(
+    (isOpen: boolean) => {
+      setShowSearchStation(isOpen)
+      if (!isOpen) {
+        // revert back to default first station search type
+        setSelectedSearch(StationSearchType.GENRE)
+        onStationSearchTypeSelect(StationSearchType.GENRE)
+      }
+    },
+    [onStationSearchTypeSelect]
+  )
   return (
     <div id="station-search-type-container">
       <Button
