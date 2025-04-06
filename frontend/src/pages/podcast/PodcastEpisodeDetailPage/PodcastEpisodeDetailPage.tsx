@@ -5,7 +5,7 @@ import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/P
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/index.tsx"
 import usePodcastEpisode from "../../../hooks/podcast/usePodcastEpisode.ts"
-import Breadcrumb from "../../../components/ui/breadcrumb/index.tsx"
+import PodcastEpisodeDetailPageNavigation from "../../../features/podcast/navigation/PodcastEpisodeDetailPageNavigation/PodcastEpisodeDetailPageNavigation.tsx"
 
 export default function PodcastEpisodeDetailPage() {
   const { podcastId, podcastTitle, podcastEpisodeId } = useParams()
@@ -26,21 +26,10 @@ export default function PodcastEpisodeDetailPage() {
 
   return (
     <div className="podcast-episode-detail-container">
-      <Breadcrumb>
-        <Breadcrumb.Link
-          href="/podcasts"
-          data-testid="podcast-episode-detail-podcasts-link"
-        >
-          Podcasts
-        </Breadcrumb.Link>
-        <Breadcrumb.Separator size={16} />
-        <Breadcrumb.Link
-          href={`/podcasts/${podcastTitle}/${podcastId}`}
-          data-testid="podcast-episode-detail-page-link"
-        >
-          {podcastTitle}
-        </Breadcrumb.Link>
-      </Breadcrumb>
+      <PodcastEpisodeDetailPageNavigation
+        podcastId={podcastId}
+        podcastTitle={podcastTitle}
+      />
 
       {!episode && error && <p className="error-text">{error}</p>}
 
