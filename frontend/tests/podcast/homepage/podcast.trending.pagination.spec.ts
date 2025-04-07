@@ -20,9 +20,6 @@ test.describe("Podcast Homepage /podcasts", () => {
   }
 
   async function assertTrendingPodcastIsShown(page: Page, podcastData) {
-    await getPodcastCards(page)
-      .getByText(podcastData.title, { exact: true })
-      .scrollIntoViewIfNeeded()
     await expect(
       getPodcastCards(page).getByText(podcastData.title, {
         exact: true,

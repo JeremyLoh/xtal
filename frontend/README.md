@@ -11,6 +11,7 @@ Made using TypeScript, React and Playwright (end-to-end testing)
    ```
    VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS=3
    VITE_BACKEND_ORIGIN="http://localhost:3000"
+   VITE_FRONTEND_ORIGIN="http://localhost:5173"
    ```
 
 2. On the GitHub Actions secrets, add each environment property defined in`.github/workflows/playwright.yml` that contains the env file used for QA (testing) `.env.local`

@@ -377,10 +377,10 @@ test.describe("Podcast Homepage /podcasts", () => {
       })
 
       test("should refresh empty trending podcast section with new data when refresh trending podcast button is clicked", async ({
-        page,
-        headless,
+        browser,
       }) => {
-        test.skip(headless, "Remove flaky test in headless mode")
+        const context = await browser.newContext()
+        const page = await context.newPage()
         let isDataMissing = true
         await page.route(
           "*/**/api/podcast/trending?limit=10&since=*",
@@ -403,6 +403,7 @@ test.describe("Podcast Homepage /podcasts", () => {
             getPodcastCards(page).getByText(podcastData.title, { exact: true })
           ).toBeVisible()
         }
+        await context.close()
       })
     })
   })

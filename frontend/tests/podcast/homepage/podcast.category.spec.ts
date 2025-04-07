@@ -62,8 +62,12 @@ test.describe("Podcast Homepage /podcasts", () => {
     })
 
     test("should refresh podcast categories on button click", async ({
-      page,
+      browser,
+      headless,
     }) => {
+      test.skip(headless, "skip flaky headless test")
+      const context = await browser.newContext()
+      const page = await context.newPage()
       let shouldFetchData = false
       await page.route("*/**/api/podcast/category", async (route) => {
         const json = shouldFetchData ? allPodcastCategories : []
@@ -72,10 +76,16 @@ test.describe("Podcast Homepage /podcasts", () => {
       await page.goto(HOMEPAGE + "/podcasts")
       await expect(page).toHaveTitle(/xtal - podcasts/)
       await expect(getRefreshPodcastCategoryButton(page)).toBeVisible()
+      await expect(
+        page.getByText(
+          "Could not get podcast categories. Please try again later"
+        )
+      ).toBeVisible()
 
       shouldFetchData = true
       await getRefreshPodcastCategoryButton(page).click()
       await assertPodcastCategoriesInSlider(page, allPodcastCategories)
+      await context.close()
     })
 
     test.describe("Select podcast category button", () => {

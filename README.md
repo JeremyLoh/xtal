@@ -55,6 +55,7 @@ The Frontend end-to-end tests are written in Playwright - https://playwright.dev
    ```
    VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS=3
    VITE_BACKEND_ORIGIN="http://localhost:3000"
+   VITE_FRONTEND_ORIGIN="http://localhost:5173"
    ```
 
 4. Install the required dependencies using `npm install`
