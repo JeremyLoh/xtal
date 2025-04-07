@@ -79,6 +79,8 @@ The Backend tests are written in vitest - https://vitest.dev/
    ENABLE_PROXY_TROUBLESHOOTING="false"
    SUPABASE_PROJECT_URL="???_Supabase project url that has PostgreSQL database and Supabase Storage (AWS S3 bucket)"
    SUPABASE_PROJECT_SERVICE_ROLE_API_KEY="???_This is the secret service role value for the project. DO NOT COMMIT THIS OR MAKE THIS PUBLIC"
+   SUPERTOKENS_CONNECTION_URI="managed SuperTokens.com connection uri"
+   SUPERTOKENS_API_KEY="managed SuperTokens.com api key"
    ```
 
    - The `PODCAST_INDEX_API_KEY` and `PODCAST_INDEX_API_SECRET` are obtained from creating a developer account on https://api.podcastindex.org/signup

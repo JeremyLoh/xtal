@@ -6,11 +6,12 @@ function initializeSupertokensSdk() {
   supertokens.init({
     framework: "express",
     supertokens: {
-      // We use try.supertokens for demo purposes.
-      // At the end of the tutorial we will show you how to create
-      // your own SuperTokens core instance and then update your config
-      connectionURI: "https://try.supertokens.io",
-      // apiKey: <YOUR_API_KEY>
+      // supertokens core managed instance - https://supertokens.com
+      connectionURI:
+        process.env.SUPERTOKENS_CONNECTION_URI ||
+        "TODO: MISSING SUPERTOKENS_CONNECTION_URI",
+      apiKey:
+        process.env.SUPERTOKENS_API_KEY || "TODO: MISSING SUPERTOKENS_API_KEY",
     },
     appInfo: {
       // https://supertokens.com/docs/session/appinfo

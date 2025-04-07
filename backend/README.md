@@ -22,6 +22,8 @@ BACKEND_ORIGIN="http://localhost:3000"
 ENABLE_PROXY_TROUBLESHOOTING="false"
 SUPABASE_PROJECT_URL="???_Supabase project url that has PostgreSQL database and Supabase Storage (AWS S3 bucket)"
 SUPABASE_PROJECT_SERVICE_ROLE_API_KEY="???_This is the secret service role value for the project. DO NOT COMMIT THIS OR MAKE THIS PUBLIC"
+SUPERTOKENS_CONNECTION_URI="managed SuperTokens.com connection uri"
+SUPERTOKENS_API_KEY="managed SuperTokens.com api key"
 ```
 
 - `ENABLE_CRON_JOBS` is used to start the cron jobs that will clean podcast image files in Supabase database and Supabase storage
