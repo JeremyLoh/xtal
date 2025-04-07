@@ -1,6 +1,7 @@
 import { decodeHTML } from "entities"
 import { CorsOptions } from "cors"
 import { Request, Response, Router } from "express"
+import supertokens from "supertokens-node"
 import logger from "../logger.js"
 
 export function getCorsOptions(): CorsOptions {
@@ -25,6 +26,7 @@ export function getCorsOptions(): CorsOptions {
       }
     }, // Access-Control-Allow-Origin, allow only frontend origin
     methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
     credentials: true, // Access-Control-Allow-Credentials for cookies
   }
 }
