@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
 import { getPodcastSearch } from "../../api/podcast/podcastSearch.ts"
 import { Podcast } from "../../api/podcast/model/podcast.ts"
@@ -17,7 +17,7 @@ function usePodcastSearch() {
         return
       }
       setLoading(true)
-      abortController.current?.abort()
+      setError(null)
       abortController.current = new AbortController()
       const params = { q: query.trim(), limit: limit }
       try {
@@ -26,14 +26,14 @@ function usePodcastSearch() {
           setPodcasts(response.data)
         } else {
           toast.info("No podcasts found for search term")
-          setLoading(false) // prevent infinite load on no data
           setPodcasts(null)
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         toast.error(error.message)
         setError(error.message)
-        setLoading(false) // prevent infinite loading on error
+      } finally {
+        setLoading(false)
       }
       return () => {
         abortController.current?.abort()
@@ -41,13 +41,6 @@ function usePodcastSearch() {
     },
     []
   )
-
-  useEffect(() => {
-    if (podcasts) {
-      // prevent race condition between setLoading and set podcasts, display of "no podcast found" placeholder before podcast data set state
-      setLoading(false)
-    }
-  }, [podcasts])
 
   const output = useMemo(() => {
     return {

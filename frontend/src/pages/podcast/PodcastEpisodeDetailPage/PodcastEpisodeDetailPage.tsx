@@ -13,10 +13,13 @@ export default function PodcastEpisodeDetailPage() {
   const { loading, error, episode, fetchPodcastEpisode } = usePodcastEpisode()
 
   useEffect(() => {
-    if (podcastEpisodeId) {
+    if (episode) {
+      return
+    }
+    if (podcastEpisodeId && fetchPodcastEpisode) {
       fetchPodcastEpisode(podcastEpisodeId)
     }
-  }, [podcastEpisodeId, fetchPodcastEpisode])
+  }, [episode, podcastEpisodeId, fetchPodcastEpisode])
 
   const handlePlayClick = useCallback(() => {
     if (podcastEpisodeContext) {
@@ -30,10 +33,8 @@ export default function PodcastEpisodeDetailPage() {
         podcastId={podcastId}
         podcastTitle={podcastTitle}
       />
-
-      {!episode && error && <p className="error-text">{error}</p>}
-
       <LoadingDisplay loading={loading}>
+        {!episode && error && <p className="error-text">{error}</p>}
         {episode && (
           <PodcastEpisodeCard episode={episode}>
             <PodcastEpisodeCard.Artwork
