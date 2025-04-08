@@ -7,3 +7,7 @@
   height: 100%;
   margin: 0 auto;
 }
+
+.delete-profile-button {
+  width: fit-content;
+}
