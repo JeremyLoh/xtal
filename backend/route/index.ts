@@ -1,4 +1,5 @@
 import { Router } from "express"
+import accountRouter from "./auth/account.js"
 import podcastTrendingRouter from "./podcast/trending.js"
 import podcastEpisodeRouter from "./podcast/episode.js"
 import podcastImageRouter from "./podcast/image.js"
@@ -7,6 +8,7 @@ import podcastSearchRouter from "./podcast/search.js"
 
 const router = Router()
 
+router.use(accountRouter)
 router.use(podcastTrendingRouter)
 router.use(podcastEpisodeRouter)
 router.use(podcastImageRouter)
