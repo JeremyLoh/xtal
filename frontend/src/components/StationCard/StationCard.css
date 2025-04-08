@@ -63,7 +63,7 @@
   margin-left: auto;
 }
 .station-card-favourite-icon.selected:hover {
-  fill: var(--favourite-icon-hover-remove-color);
+  fill: var(--danger-color);
 }
 
 .station-card-homepage {
