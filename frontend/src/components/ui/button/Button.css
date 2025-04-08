@@ -41,3 +41,9 @@
   color: var(--primary-text-color);
   background-color: var(--secondary-color);
 }
+
+.button.danger {
+  font-weight: bold;
+  color: whitesmoke;
+  background-color: var(--danger-color);
+}
