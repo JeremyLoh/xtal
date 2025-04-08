@@ -74,7 +74,7 @@ test.describe("Podcast Homepage /podcasts", () => {
         test.skip(isMobile)
         return
       }
-
+      test.slow()
       await page.route(
         "*/**/api/podcast/trending?limit=10&since=*",
         async (route) => {

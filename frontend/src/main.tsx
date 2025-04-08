@@ -12,6 +12,7 @@ import {
   getSuperTokensRoutes,
   initializeSuperTokens,
 } from "./api/auth/superTokens.ts"
+import { SessionAuth } from "supertokens-auth-react/recipe/session/index"
 
 initializeSuperTokens()
 
@@ -39,6 +40,7 @@ const PodcastEpisodeDetailPage = lazy(
 const PodcastCategoryPage = lazy(
   () => import("./pages/podcast/PodcastCategoryPage/PodcastCategoryPage.tsx")
 )
+const ProfilePage = lazy(() => import("./pages/ProfilePage/ProfilePage.tsx"))
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -74,6 +76,14 @@ createRoot(document.getElementById("root")!).render(
                         element={<PodcastCategoryPage />}
                       />
                     </Route>
+                    <Route
+                      path="/profile"
+                      element={
+                        <SessionAuth>
+                          <ProfilePage />
+                        </SessionAuth>
+                      }
+                    />
                   </Route>
                   <Route path="/404" element={<NotFoundPage />} />
                   <Route path="*" element={<NotFoundPage />} />

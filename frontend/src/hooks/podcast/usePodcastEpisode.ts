@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from "react"
-import { PodcastEpisode } from "../../api/podcast/model/podcast"
 import { toast } from "sonner"
-import { getPodcastEpisode } from "../../api/podcast/podcastEpisode"
+import { PodcastEpisode } from "../../api/podcast/model/podcast.ts"
+import { getPodcastEpisode } from "../../api/podcast/podcastEpisode.ts"
 
 function usePodcastEpisode() {
   const abortController = useRef<AbortController | null>(null)
@@ -12,6 +12,7 @@ function usePodcastEpisode() {
   const fetchPodcastEpisode = useCallback(async (episodeId: string) => {
     setLoading(true)
     setError(null)
+    abortController.current?.abort()
     abortController.current = new AbortController()
     try {
       const params = { id: episodeId }
@@ -19,7 +20,9 @@ function usePodcastEpisode() {
       if (response && response.data) {
         setEpisode(response.data)
       } else {
-        setError("Podcast episode data is not available")
+        setError(
+          "Could not retrieve podcast episode by episode id. Please try again later"
+        )
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -27,9 +30,6 @@ function usePodcastEpisode() {
       setError(error.message)
     } finally {
       setLoading(false)
-    }
-    return () => {
-      abortController.current?.abort()
     }
   }, [])
 

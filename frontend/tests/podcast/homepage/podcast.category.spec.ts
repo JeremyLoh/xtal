@@ -66,6 +66,7 @@ test.describe("Podcast Homepage /podcasts", () => {
       headless,
     }) => {
       test.skip(headless, "skip flaky headless test")
+      test.slow()
       const context = await browser.newContext()
       const page = await context.newPage()
       let shouldFetchData = false

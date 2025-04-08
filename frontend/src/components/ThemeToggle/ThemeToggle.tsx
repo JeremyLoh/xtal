@@ -20,9 +20,9 @@ function ThemeToggle() {
       title="Toggle Theme"
     >
       {theme.isDark ? (
-        <FaMoon className="dark-mode-icon" size={24} />
+        <FaMoon className="dark-mode-icon" size={20} />
       ) : (
-        <FaSun className="light-mode-icon" size={24} />
+        <FaSun className="light-mode-icon" size={20} />
       )}
     </Button>
   )

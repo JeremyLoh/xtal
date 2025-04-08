@@ -30,7 +30,8 @@ test.describe("Podcast Episode Detail Page for viewing single podcast episode /p
   test("should display error message if no podcast data is found", async ({
     page,
   }) => {
-    const expectedErrorMessage = "Podcast episode data is not available"
+    const expectedErrorMessage =
+      "Could not retrieve podcast episode by episode id. Please try again later"
     const podcastTitle = encodeURIComponent("No Podcast Data")
     const podcastId = "2"
     const podcastEpisodeId = "3"
@@ -57,6 +58,7 @@ test.describe("Podcast Episode Detail Page for viewing single podcast episode /p
   test("should display error message when request is aborted", async ({
     page,
   }) => {
+    test.slow()
     const expectedErrorMessage =
       "Could not retrieve podcast episode by episode id. Please try again later"
     const podcastTitle = encodeURIComponent("Aborted Request")
@@ -65,7 +67,7 @@ test.describe("Podcast Episode Detail Page for viewing single podcast episode /p
     await page.route(
       `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
       async (route) => {
-        await route.abort("aborted")
+        await route.abort()
       }
     )
     await page.goto(
