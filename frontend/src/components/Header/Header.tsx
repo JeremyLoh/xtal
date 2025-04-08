@@ -3,6 +3,7 @@ import { Link } from "react-router"
 import ThemeProvider from "../../context/ThemeProvider/ThemeProvider.tsx"
 import FavouriteStationToggle from "../../features/favourite/FavouriteStationToggle/FavouriteStationToggle.tsx"
 import ThemeToggle from "../ThemeToggle/ThemeToggle.tsx"
+import ProfileRedirectToggle from "../../features/profile/ProfileRedirectToggle.tsx"
 
 function Header() {
   return (
@@ -28,6 +29,7 @@ function Header() {
             <ThemeToggle />
           </ThemeProvider>
           <FavouriteStationToggle />
+          <ProfileRedirectToggle />
         </div>
       </header>
     </div>

@@ -56,6 +56,7 @@ function usePodcastEpisodes({
     async (podcastId: string, pageRequest: number) => {
       const offsetRequest = getPageOffset(pageRequest, limit)
       setLoading(true)
+      abortController.current?.abort()
       abortController.current = new AbortController()
       const params: FetchPodcastEpisodesParams = { id: podcastId, limit: limit }
       if (offsetRequest > 0) {
@@ -76,9 +77,6 @@ function usePodcastEpisodes({
         toast.error(error.message)
       } finally {
         setLoading(false)
-      }
-      return () => {
-        abortController.current?.abort()
       }
     },
     [limit]

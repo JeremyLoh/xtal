@@ -18,6 +18,7 @@ function usePodcastSearch() {
       }
       setLoading(true)
       setError(null)
+      abortController.current?.abort()
       abortController.current = new AbortController()
       const params = { q: query.trim(), limit: limit }
       try {
@@ -34,9 +35,6 @@ function usePodcastSearch() {
         setError(error.message)
       } finally {
         setLoading(false)
-      }
-      return () => {
-        abortController.current?.abort()
       }
     },
     []

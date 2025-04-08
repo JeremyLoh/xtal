@@ -19,7 +19,7 @@ function FavouriteStationToggle() {
         className="favourite-station-toggle-button"
         title="View Favourites List"
       >
-        <GoStarFill size={24} color="#facc15" />
+        <GoStarFill size={20} />
       </Button>
       {open && <FavouriteStationDrawer open={open} setOpen={setOpen} />}
     </>

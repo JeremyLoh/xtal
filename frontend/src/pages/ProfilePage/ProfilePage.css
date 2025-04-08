@@ -1,0 +1,9 @@
+.profile-page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 80%;
+  max-width: 120ch;
+  height: 100%;
+  margin: 0 auto;
+}

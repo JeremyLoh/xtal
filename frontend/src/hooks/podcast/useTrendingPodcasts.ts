@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 import { toast } from "sonner"
 import dayjs from "dayjs"
 import {
@@ -45,12 +45,12 @@ function useTrendingPodcasts({ limit, category }: UseTrendingPodcastsProps) {
           setTrendingPodcasts(podcasts.data)
         } else {
           setTrendingPodcasts(null)
-          setLoading(false) // prevent infinite load on no data
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         toast.error(error.message)
-        setLoading(false) // prevent infinite load on error
+      } finally {
+        setLoading(false)
       }
     },
     [category, limit]
@@ -73,14 +73,6 @@ function useTrendingPodcasts({ limit, category }: UseTrendingPodcastsProps) {
     },
     [getPodcasts]
   )
-
-  useEffect(() => {
-    // update loading state to false after set state has been run on the trending podcasts
-    // prevents display of "no podcasts available" element due to trendingPodcasts = null, and loading = false
-    if (trendingPodcasts) {
-      setLoading(false)
-    }
-  }, [trendingPodcasts])
 
   return {
     DEFAULT_SINCE_DAYS,
