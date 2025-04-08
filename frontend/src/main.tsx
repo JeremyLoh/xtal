@@ -79,7 +79,7 @@ createRoot(document.getElementById("root")!).render(
                     <Route
                       path="/profile"
                       element={
-                        <SessionAuth>
+                        <SessionAuth onSessionExpired={() => <HomePage />}>
                           <ProfilePage />
                         </SessionAuth>
                       }
