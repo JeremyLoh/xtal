@@ -56,6 +56,8 @@ The Frontend end-to-end tests are written in Playwright - https://playwright.dev
    VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS=3
    VITE_BACKEND_ORIGIN="http://localhost:3000"
    VITE_FRONTEND_ORIGIN="http://localhost:5173"
+   VITE_SUPABASE_PROJECT_URL="???_Supabase project url that has PostgreSQL database and Supabase Storage (AWS S3 bucket)"
+   VITE_SUPABASE_PUBLIC_KEY="anon public api key in Project Settings => Data API => Project API Keys"
    ```
 
 4. Install the required dependencies using `npm install`
@@ -79,6 +81,8 @@ The Backend tests are written in vitest - https://vitest.dev/
    ENABLE_PROXY_TROUBLESHOOTING="false"
    SUPABASE_PROJECT_URL="???_Supabase project url that has PostgreSQL database and Supabase Storage (AWS S3 bucket)"
    SUPABASE_PROJECT_SERVICE_ROLE_API_KEY="???_This is the secret service role value for the project. DO NOT COMMIT THIS OR MAKE THIS PUBLIC"
+   SUPABASE_PUBLIC_KEY="anon public api key in Project Settings => Data API => Project API Keys"
+   SUPABASE_SIGNING_SECRET="JWT Secret in Project Settings => Data API => JWT Settings"
    SUPERTOKENS_CONNECTION_URI="managed SuperTokens.com connection uri"
    SUPERTOKENS_API_KEY="managed SuperTokens.com api key"
    ```
