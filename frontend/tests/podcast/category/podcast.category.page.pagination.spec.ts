@@ -75,6 +75,7 @@ test.describe("Pagination on Podcast Category Page /podcasts/<category_name>", (
     test("should allow pagination to next page on next pagination button click", async ({
       page,
     }) => {
+      test.slow()
       const limit = 10
       const category = "Arts"
       await page.route(

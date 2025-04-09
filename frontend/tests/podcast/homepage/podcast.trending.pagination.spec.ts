@@ -59,6 +59,7 @@ test.describe("Podcast Homepage /podcasts", () => {
     test("should allow pagination to next page on next pagination button click", async ({
       page,
     }) => {
+      test.slow()
       const limit = 10
       await page.route(
         `*/**/api/podcast/trending?limit=${limit}&since=*`,

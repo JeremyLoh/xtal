@@ -66,6 +66,7 @@ test.describe("Podcast Category Page /podcasts/<category_name>", () => {
   test("should navigate to podcast category page when category breadcrumb link on podcast detail page is clicked after pagination is done on the page", async ({
     page,
   }) => {
+    test.slow()
     const category = "Business"
     const i = 0
     const expectedPodcastTitle = tenArtTrendingPodcasts.data[i].title

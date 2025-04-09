@@ -25,5 +25,5 @@
 
 .remove-favourite-station-button:hover .station-card-favourite-icon.selected {
   /* Ensure that hover on button causes inner icon color change */
-  fill: var(--favourite-icon-hover-remove-color) !important;
+  fill: var(--danger-color) !important;
 }
