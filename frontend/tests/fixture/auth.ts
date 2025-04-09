@@ -39,13 +39,10 @@ async function ensureBackendIsRunning() {
   const errorMessage = `backend dev server (${backendStatusEndpoint}) should be running for frontend tests - Run 'npm run dev' in the backend/ directory`
   try {
     const response = await ky.get(backendStatusEndpoint, { retry: 0 })
-    expect(
-      response.status == 200 || response.status == 429,
-      errorMessage
-    ).toBeTruthy()
+    expect(response.status, errorMessage).toBe(200)
   } catch (error) {
     // allow for rate limit status (HTTP 429)
-    if (error.status !== 429) {
+    if (error.response && error.response.status !== 429) {
       throw new Error(errorMessage)
     }
   }
