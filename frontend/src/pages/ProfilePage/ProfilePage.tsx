@@ -85,6 +85,10 @@ function ProfilePage() {
     navigateToHomepage()
   }, [navigateToHomepage])
 
+  const handleNavigateToProfileHistory = useCallback(() => {
+    navigate("/profile/history")
+  }, [navigate])
+
   return (
     <div className="profile-page-container">
       <h2>Profile</h2>
@@ -96,6 +100,13 @@ function ProfilePage() {
         <p>
           <b>Email:</b> {userEmail}
         </p>
+        <Button
+          onClick={handleNavigateToProfileHistory}
+          variant="secondary"
+          title="Profile History"
+        >
+          History
+        </Button>
         <Separator />
         <Button
           onClick={handleDeleteAccount}

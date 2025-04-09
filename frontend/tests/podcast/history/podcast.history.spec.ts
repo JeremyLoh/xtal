@@ -51,5 +51,22 @@ test.describe("Profile Podcast History Page /profile/history", () => {
 
       await logoutAccount(page)
     })
+
+    test("should navigate from profile page to profile history page on history button click", async ({
+      page,
+      context,
+      existingAccount,
+    }) => {
+      await signIntoExistingAccount(page, existingAccount)
+      await expect(page).toHaveURL(paths.home)
+      await assertUserIsAuthenticated(context)
+
+      await page.goto(paths.profile)
+      await expect(page.getByRole("button", { name: /history/i })).toBeVisible()
+      await page.getByRole("button", { name: /history/i }).click()
+      await expect(page).toHaveURL(HOMEPAGE + "/profile/history")
+
+      await logoutAccount(page)
+    })
   })
 })
