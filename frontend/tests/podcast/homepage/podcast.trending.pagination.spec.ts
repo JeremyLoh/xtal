@@ -163,6 +163,7 @@ test.describe("Podcast Homepage /podcasts", () => {
       for (const podcastData of defaultTenTrendingPodcasts.data) {
         await assertTrendingPodcastIsShown(page, podcastData)
       }
+      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
 
       await getPageNumberElement(page, "2").click()
       await expect(getActivePageNumberElement(page, "2")).toBeVisible()

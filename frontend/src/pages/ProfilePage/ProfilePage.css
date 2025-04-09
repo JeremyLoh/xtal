@@ -6,8 +6,15 @@
   max-width: 120ch;
   height: 100%;
   margin: 0 auto;
+  gap: 0.5rem;
+}
+
+.profile-page-container button {
+  font-weight: bold;
+  width: fit-content;
 }
 
 .delete-profile-button {
-  width: fit-content;
+  align-self: center;
+  margin-top: 0.5rem;
 }

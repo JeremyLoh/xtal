@@ -384,8 +384,10 @@ test.describe("radio station favourite feature", () => {
       ).not.toBeVisible()
     }
 
-    test("should filter favourite station by name", async ({ page }) => {
+    test("should filter favourite station by name", async ({ browser }) => {
       test.slow()
+      const context = await browser.newContext()
+      const page = await context.newPage()
       const nameFilter = unitedStatesStation.name.toLowerCase()
       let requestCount = 1
       await page.route("*/**/json/stations/search?*", async (route) => {
@@ -421,10 +423,13 @@ test.describe("radio station favourite feature", () => {
       )
       // assert filtered station is present after other station is removed
       await assertFavouriteStationName(page, unitedStatesStation.name)
+      await context.close()
     })
 
-    test("should filter favourite station by country", async ({ page }) => {
+    test("should filter favourite station by country", async ({ browser }) => {
       test.slow()
+      const context = await browser.newContext()
+      const page = await context.newPage()
       const countryFilter = unitedStatesStation.countrycode
       let requestCount = 1
       await page.route("*/**/json/stations/search?*", async (route) => {
@@ -459,6 +464,7 @@ test.describe("radio station favourite feature", () => {
       await page.getByLabel("Country").selectOption("")
       await assertFavouriteStationName(page, unitedStatesStation.name)
       await assertFavouriteStationName(page, cantoneseStation.name)
+      await context.close()
     })
   })
 })
