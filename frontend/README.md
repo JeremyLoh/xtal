@@ -30,6 +30,9 @@ Made using TypeScript, React and Playwright (end-to-end testing)
 - react-hook-form - https://www.npmjs.com/package/react-hook-form
 - React Router - https://reactrouter.com/
 - media-chrome - https://www.media-chrome.org/
+- dompurify - html sanitization (**always update to the latest version**) - https://www.npmjs.com/package/dompurify
+- supertokens - https://supertokens.com/
+- supabase - https://supabase.com/
 
 Favicon - https://favicon.io/emoji-favicons/dizzy/
 
