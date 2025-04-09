@@ -1,0 +1,6 @@
+.separator {
+  color: var(--text-color);
+  margin: 0;
+  opacity: 0.5;
+  border-style: solid;
+}
