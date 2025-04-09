@@ -44,6 +44,7 @@
     "eslint-plugin-react-refresh": "0.4.19",
     "globals": "16.0.0",
     "rollup-plugin-visualizer": "5.14.0",
+    "supertokens-node": "22.0.1",
     "typescript": "5.8.3",
     "typescript-eslint": "8.29.0",
     "vite": "6.2.5",
