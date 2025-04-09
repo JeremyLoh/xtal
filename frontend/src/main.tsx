@@ -41,6 +41,9 @@ const PodcastCategoryPage = lazy(
   () => import("./pages/podcast/PodcastCategoryPage/PodcastCategoryPage.tsx")
 )
 const ProfilePage = lazy(() => import("./pages/ProfilePage/ProfilePage.tsx"))
+const ProfileHistoryPage = lazy(
+  () => import("./pages/ProfileHistoryPage/ProfileHistoryPage.tsx")
+)
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -61,6 +64,24 @@ createRoot(document.getElementById("root")!).render(
                         element={<RadioStationDisplayPage />}
                       />
                     </Route>
+                    <Route>
+                      <Route
+                        path="/profile"
+                        element={
+                          <SessionAuth onSessionExpired={() => <HomePage />}>
+                            <ProfilePage />
+                          </SessionAuth>
+                        }
+                      />
+                      <Route
+                        path="/profile/history"
+                        element={
+                          <SessionAuth onSessionExpired={() => <HomePage />}>
+                            <ProfileHistoryPage />
+                          </SessionAuth>
+                        }
+                      />
+                    </Route>
                     <Route element={<PodcastLayout />}>
                       <Route path="/podcasts" element={<PodcastHomePage />} />
                       <Route
@@ -76,14 +97,6 @@ createRoot(document.getElementById("root")!).render(
                         element={<PodcastCategoryPage />}
                       />
                     </Route>
-                    <Route
-                      path="/profile"
-                      element={
-                        <SessionAuth onSessionExpired={() => <HomePage />}>
-                          <ProfilePage />
-                        </SessionAuth>
-                      }
-                    />
                   </Route>
                   <Route path="/404" element={<NotFoundPage />} />
                   <Route path="*" element={<NotFoundPage />} />
