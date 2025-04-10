@@ -6,9 +6,11 @@ import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.ts
 import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/index.tsx"
 import usePodcastEpisode from "../../../hooks/podcast/usePodcastEpisode.ts"
 import PodcastEpisodeDetailPageNavigation from "../../../features/podcast/navigation/PodcastEpisodeDetailPageNavigation/PodcastEpisodeDetailPageNavigation.tsx"
+import usePlayHistory from "../../../hooks/podcast/usePlayHistory.ts"
 
 export default function PodcastEpisodeDetailPage() {
   const { podcastId, podcastTitle, podcastEpisodeId } = useParams()
+  const { addPodcastEpisode } = usePlayHistory()
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const { loading, error, episode, fetchPodcastEpisode } = usePodcastEpisode()
 
@@ -21,11 +23,13 @@ export default function PodcastEpisodeDetailPage() {
     }
   }, [episode, podcastEpisodeId, fetchPodcastEpisode])
 
-  const handlePlayClick = useCallback(() => {
-    if (podcastEpisodeContext) {
+  const handlePlayClick = useCallback(async () => {
+    if (podcastEpisodeContext && episode) {
       podcastEpisodeContext.setEpisode(episode)
+      const resumePlayTimeInSeconds = 0
+      await addPodcastEpisode(episode, resumePlayTimeInSeconds)
     }
-  }, [podcastEpisodeContext, episode])
+  }, [podcastEpisodeContext, episode, addPodcastEpisode])
 
   return (
     <div className="podcast-episode-detail-container">
