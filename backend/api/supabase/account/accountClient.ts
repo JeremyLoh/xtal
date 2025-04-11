@@ -35,6 +35,70 @@ class AccountClient {
     return this
   }
 
+  private castToNonArrayType<T>(notAnArray: T[]): T {
+    // cast from array to non array type - https://github.com/supabase/postgrest-js/issues/471
+    return notAnArray as T
+  }
+
+  async getPodcastEpisodePlayHistory(
+    userId: string,
+    limit: number,
+    offset: number = 0
+  ) {
+    const { data, error } = await this.supabase
+      .from("podcast_episode_play_history")
+      .select(
+        `
+        last_played_timestamp,
+        resume_play_time_in_seconds,
+        podcast_episodes (episode_id, podcast_id, episode_title, podcast_title,
+            content_url, duration_in_seconds, publish_date_unix_timestamp, is_explicit, episode_number,
+            season_number, image, language, external_website_url
+        )
+        `
+      )
+      .eq("user_id", userId)
+      .order("last_played_timestamp", { ascending: false })
+      .range(offset, offset + limit)
+
+    if (error) {
+      throw new Error(
+        `getPodcastEpisodePlayHistory(): Could not get data for userId ${userId}, limit ${limit}, offset ${offset}`
+      )
+    }
+    if (!data) {
+      return null
+    }
+    return data.map((entry) => {
+      // "podcast_episodes" should only have one entry (podcast episode data)
+      const e = this.castToNonArrayType(entry.podcast_episodes)
+      const episode: PodcastEpisode = {
+        id: e.episode_id,
+        feedId: e.podcast_id,
+        title: e.episode_title,
+        feedTitle: e.podcast_title,
+        description: "", // not available/stored in database
+        contentUrl: e.content_url,
+        contentType: "", // not available/stored in database
+        durationInSeconds: e.duration_in_seconds,
+        datePublished: dayjs(e.publish_date_unix_timestamp).unix(),
+        isExplicit: e.is_explicit,
+        episodeNumber: e.episode_number,
+        seasonNumber: e.season_number,
+        image: e.image,
+        language: e.language, // stored in database as long form ("English" instead of "en")
+        externalWebsiteUrl: e.external_website_url,
+        people: null, // not available/stored in database
+        transcripts: null, // not available/stored in database
+      }
+      return {
+        lastPlayedTimestamp: entry.last_played_timestamp,
+        resumePlayTimeInSeconds: entry.resume_play_time_in_seconds,
+        podcastEpisode: episode,
+      }
+    })
+  }
+
   async updatePodcastEpisodePlayHistory(
     userId: string,
     episode: PodcastEpisode,

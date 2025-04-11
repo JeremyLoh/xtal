@@ -10,7 +10,7 @@ import usePlayHistory from "../../../hooks/podcast/usePlayHistory.ts"
 
 export default function PodcastEpisodeDetailPage() {
   const { podcastId, podcastTitle, podcastEpisodeId } = useParams()
-  const { addPodcastEpisode } = usePlayHistory()
+  const { addPlayPodcastEpisode } = usePlayHistory()
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const { loading, error, episode, fetchPodcastEpisode } = usePodcastEpisode()
 
@@ -27,9 +27,9 @@ export default function PodcastEpisodeDetailPage() {
     if (podcastEpisodeContext && episode) {
       podcastEpisodeContext.setEpisode(episode)
       const resumePlayTimeInSeconds = 0
-      await addPodcastEpisode(episode, resumePlayTimeInSeconds)
+      await addPlayPodcastEpisode(episode, resumePlayTimeInSeconds)
     }
-  }, [podcastEpisodeContext, episode, addPodcastEpisode])
+  }, [podcastEpisodeContext, episode, addPlayPodcastEpisode])
 
   return (
     <div className="podcast-episode-detail-container">

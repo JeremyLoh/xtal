@@ -7,8 +7,14 @@ import Session from "supertokens-node/recipe/session"
 import { SessionRequest } from "supertokens-node/framework/express"
 import { verifySession } from "supertokens-node/recipe/session/framework/express"
 import rateLimiter from "../../middleware/rateLimiter.js"
-import { getAccountPodcastPlayHistoryValidationSchema } from "../../validation/accountPodcastPlayHistoryValidation.js"
-import { updateAccountPodcastEpisodePlayHistory } from "../../service/accountService.js"
+import {
+  addAccountPodcastPlayHistoryValidationSchema,
+  getAccountPodcastPlayHistoryValidationSchema,
+} from "../../validation/accountPodcastPlayHistoryValidation.js"
+import {
+  getAccountPodcastEpisodePlayHistory,
+  updateAccountPodcastEpisodePlayHistory,
+} from "../../service/accountService.js"
 import { PodcastEpisode } from "../../model/podcastEpisode.js"
 import { Language } from "../../model/podcast.js"
 import logger from "../../logger.js"
@@ -29,10 +35,54 @@ router.delete(
   }
 )
 
+router.get(
+  "/api/account/podcast-play-history",
+  rateLimiter.getAccountPlayHistoryLimiter,
+  checkSchema(getAccountPodcastPlayHistoryValidationSchema, ["query"]),
+  verifySession({ sessionRequired: true }),
+  async (request: SessionRequest, response: Response) => {
+    const result = validationResult(request)
+    if (!result.isEmpty()) {
+      response.status(400).send({
+        errors: result.array().map((error) => error.msg),
+      })
+      return
+    }
+    const data = matchedData(request)
+    const limit = data.limit ? Number(data.limit) : 10
+    const offset = data.offset ? Number(data.offset) : 0
+
+    const session = await Session.getSession(request, response)
+    const userId = session.getUserId()
+    try {
+      const data = await getAccountPodcastEpisodePlayHistory(
+        userId,
+        limit,
+        offset
+      )
+      if (data) {
+        response.status(200).send({
+          count: data.length,
+          data,
+        })
+      } else {
+        response.status(200).send({
+          count: 0,
+          data: null,
+        })
+      }
+    } catch (error: any) {
+      logger.error(error.message)
+      response.status(500).send("Internal Server Error")
+      return
+    }
+  }
+)
+
 router.post(
   "/api/account/podcast-play-history",
   rateLimiter.updateAccountPlayHistoryLimiter,
-  checkSchema(getAccountPodcastPlayHistoryValidationSchema, ["body"]),
+  checkSchema(addAccountPodcastPlayHistoryValidationSchema, ["body"]),
   verifySession({ sessionRequired: true }),
   async (request: SessionRequest, response: Response) => {
     const result = validationResult(request)

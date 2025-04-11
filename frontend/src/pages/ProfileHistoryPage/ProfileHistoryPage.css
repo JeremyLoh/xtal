@@ -8,3 +8,28 @@
   margin: 0 auto;
   gap: 0.5rem;
 }
+
+.profile-history-page-title {
+  margin: 0.8rem 0;
+}
+
+.profile-history-podcast-episodes-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+}
+
+.profile-history-podcast-listen-history-item {
+  flex-grow: 1;
+  border: 1mm solid var(--primary-color);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.profile-history-podcast-listen-history-count {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-weight: bold;
+}

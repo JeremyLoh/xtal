@@ -28,7 +28,7 @@ export const deviceCookieNames = Object.freeze({
 
 const commonCookieSettings = Object.freeze({
   httpOnly: true,
-  secure: false, // TODO
+  secure: false,
   sameSite: "strict",
   priority: "high",
 } as const satisfies Omit<CookieSettings, "path">)
