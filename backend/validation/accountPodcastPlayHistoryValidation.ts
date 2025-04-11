@@ -19,6 +19,17 @@ export const getAccountPodcastPlayHistoryValidationSchema: Schema = {
   },
 }
 
+export const deleteAccountPodcastPlayHistoryValidationSchema: Schema = {
+  episodeId: {
+    optional: false,
+    escape: true,
+    isInt: {
+      options: { min: 0 },
+      errorMessage: "'episodeId' should be present",
+    },
+  },
+}
+
 export const addAccountPodcastPlayHistoryValidationSchema: Schema = {
   episodeId: {
     optional: false,

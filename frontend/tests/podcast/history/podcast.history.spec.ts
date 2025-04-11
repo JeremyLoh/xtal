@@ -1,6 +1,9 @@
 import { getAuthTokens, paths, test } from "../../fixture/auth"
 import { BrowserContext, expect, Page } from "@playwright/test"
 import { HOMEPAGE } from "../../constants/homepageConstants"
+import { podcastId_259760_episodeId_34000697601 } from "../../mocks/podcast.episode"
+import { assertPodcastEpisodeOnPodcastEpisodeDetailPage } from "../../constants/podcast/detail/podcastDetailConstants"
+import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
 
 test.describe("Profile Podcast History Page /profile/history", () => {
   async function signIntoExistingAccount(
@@ -65,6 +68,65 @@ test.describe("Profile Podcast History Page /profile/history", () => {
       await expect(page.getByRole("button", { name: /history/i })).toBeVisible()
       await page.getByRole("button", { name: /history/i }).click()
       await expect(page).toHaveURL(HOMEPAGE + "/profile/history")
+
+      await logoutAccount(page)
+    })
+
+    test("should display one recently played podcast episode on profile history page", async ({
+      page,
+      context,
+      existingAccount,
+    }) => {
+      test.slow()
+      const podcastTitle = encodeURIComponent("Infinite Loops")
+      const podcastId = "259760"
+      const podcastEpisodeId = "34000697601"
+      const episode = podcastId_259760_episodeId_34000697601.data
+      await page.route(
+        `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
+        async (route) => {
+          const json = podcastId_259760_episodeId_34000697601
+          await route.fulfill({ json })
+        }
+      )
+      await signIntoExistingAccount(page, existingAccount)
+      await expect(page).toHaveURL(paths.home)
+      await assertUserIsAuthenticated(context)
+      await page.goto(HOMEPAGE + "/profile/history")
+      // play one podcast episode
+      await page.goto(
+        HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
+      )
+      await assertPodcastEpisodeOnPodcastEpisodeDetailPage(
+        page,
+        podcastId_259760_episodeId_34000697601
+      )
+      await expect(
+        page.getByRole("button", { name: "Play", exact: true })
+      ).toBeVisible()
+      await page.getByRole("button", { name: "Play", exact: true }).click()
+      await page.waitForTimeout(2000) // wait for player to load and play episode
+
+      // check that it appears in the recent profile history
+      await page.goto(HOMEPAGE + "/profile/history")
+      await expect(
+        page.getByText("Not available. Start listening to some podcasts!")
+      ).not.toBeVisible()
+      await expect(page.getByText(episode.title)).toBeVisible()
+
+      // delete the podcast episode entry as part of test cleanup
+      await expect(
+        page.getByTestId(
+          `profile-history-delete-button-podcast-episode-${episode.id}`
+        )
+      ).toBeVisible()
+      await page
+        .getByTestId(
+          `profile-history-delete-button-podcast-episode-${episode.id}`
+        )
+        .click()
+      await assertLoadingSpinnerIsMissing(page)
+      await expect(page.getByText(episode.title)).not.toBeVisible()
 
       await logoutAccount(page)
     })

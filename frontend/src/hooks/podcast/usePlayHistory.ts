@@ -6,6 +6,7 @@ import {
 } from "supertokens-auth-react/recipe/session/index"
 import { PodcastEpisode } from "../../api/podcast/model/podcast.ts"
 import {
+  deleteAccountPodcastEpisodePlayHistory,
   getAccountPodcastEpisodePlayHistory,
   updateAccountPodcastEpisodePlayHistory,
 } from "../../api/podcast/history/account.ts"
@@ -30,8 +31,11 @@ function usePlayHistory() {
       if (!session.doesSessionExist) {
         return
       }
+      abortController.current?.abort()
+      abortController.current = new AbortController()
       try {
         await updateAccountPodcastEpisodePlayHistory(
+          abortController.current,
           episode,
           resumePlayTimeInSeconds
         )
@@ -75,10 +79,47 @@ function usePlayHistory() {
     },
     [session]
   )
+  const deletePlayedPodcastEpisode = useCallback(
+    async (episodeId: string) => {
+      setLoading(true)
+      if (session.loading) {
+        return
+      }
+      if (!session.doesSessionExist) {
+        return
+      }
+      abortController.current?.abort()
+      abortController.current = new AbortController()
+      try {
+        await deleteAccountPodcastEpisodePlayHistory(
+          abortController.current,
+          episodeId
+        )
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast.error(error.message)
+      } finally {
+        setLoading(false)
+      }
+    },
+    [session]
+  )
 
   const output = useMemo(() => {
-    return { session, loading, addPlayPodcastEpisode, getPlayedPodcastEpisodes }
-  }, [session, loading, addPlayPodcastEpisode, getPlayedPodcastEpisodes])
+    return {
+      session,
+      loading,
+      addPlayPodcastEpisode,
+      getPlayedPodcastEpisodes,
+      deletePlayedPodcastEpisode,
+    }
+  }, [
+    session,
+    loading,
+    addPlayPodcastEpisode,
+    getPlayedPodcastEpisodes,
+    deletePlayedPodcastEpisode,
+  ])
 
   return output
 }

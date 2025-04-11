@@ -9,9 +9,11 @@ import { verifySession } from "supertokens-node/recipe/session/framework/express
 import rateLimiter from "../../middleware/rateLimiter.js"
 import {
   addAccountPodcastPlayHistoryValidationSchema,
+  deleteAccountPodcastPlayHistoryValidationSchema,
   getAccountPodcastPlayHistoryValidationSchema,
 } from "../../validation/accountPodcastPlayHistoryValidation.js"
 import {
+  deleteAccountPodcastEpisodePlayHistory,
   getAccountPodcastEpisodePlayHistory,
   updateAccountPodcastEpisodePlayHistory,
 } from "../../service/accountService.js"
@@ -71,6 +73,34 @@ router.get(
           data: null,
         })
       }
+    } catch (error: any) {
+      logger.error(error.message)
+      response.status(500).send("Internal Server Error")
+      return
+    }
+  }
+)
+
+router.delete(
+  "/api/account/podcast-play-history",
+  rateLimiter.deleteAccountPlayHistoryLimiter,
+  checkSchema(deleteAccountPodcastPlayHistoryValidationSchema, ["body"]),
+  verifySession({ sessionRequired: true }),
+  async (request: SessionRequest, response: Response) => {
+    const result = validationResult(request)
+    if (!result.isEmpty()) {
+      response.status(400).send({
+        errors: result.array().map((error) => error.msg),
+      })
+      return
+    }
+    const data = matchedData(request)
+    const episodeId = data.episodeId
+    const session = await Session.getSession(request, response)
+    const userId = session.getUserId()
+    try {
+      await deleteAccountPodcastEpisodePlayHistory(userId, episodeId)
+      response.sendStatus(200)
     } catch (error: any) {
       logger.error(error.message)
       response.status(500).send("Internal Server Error")
@@ -141,8 +171,8 @@ function convertRequestToPodcastEpisode(
   return {
     id: episodeId,
     feedId: podcastId,
-    title: episodeTitle,
-    feedTitle: podcastTitle,
+    title: decodeHTML(episodeTitle),
+    feedTitle: decodeHTML(podcastTitle),
     description: "", // ignore the podcast episode description for saving a podcast episode
     contentUrl: decodeHTML(contentUrl),
     contentType: "", // ignore the podcast episode content type for saving a podcast episode

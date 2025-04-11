@@ -1,15 +1,23 @@
 import "./ProfileHistoryPage.css"
 import { useEffect, useState } from "react"
+import { MdDelete } from "react-icons/md"
+import { toast } from "sonner"
 import LoadingDisplay from "../../components/LoadingDisplay/LoadingDisplay.tsx"
 import usePlayHistory, {
   PlayHistoryPodcastEpisode,
 } from "../../hooks/podcast/usePlayHistory.ts"
 import PodcastEpisodeCard from "../../components/PodcastEpisodeCard/index.tsx"
+import Button from "../../components/ui/button/Button.tsx"
 
 const IMAGE_LAZY_LOAD_START_INDEX = 2
 
 function ProfileHistoryPage() {
-  const { session, loading, getPlayedPodcastEpisodes } = usePlayHistory()
+  const {
+    session,
+    loading,
+    getPlayedPodcastEpisodes,
+    deletePlayedPodcastEpisode,
+  } = usePlayHistory()
   const [episodes, setEpisodes] = useState<PlayHistoryPodcastEpisode[] | null>(
     null
   )
@@ -35,14 +43,24 @@ function ProfileHistoryPage() {
       <h2 className="profile-history-page-title">Profile History</h2>
       <h3 className="profile-history-page-title">Podcast Listen History</h3>
       <LoadingDisplay loading={loading}>
-        {episodes ? (
+        {episodes && episodes.length > 0 ? (
           <div className="profile-history-podcast-episodes-container">
             {episodes.map((data, index) => {
               const episode = data.podcastEpisode
               const podcastTitle = episode.feedTitle
               const podcastId = episode.feedId
+              const handlePodcastEpisodeDelete = async () => {
+                await deletePlayedPodcastEpisode(`${episode.id}`)
+                setEpisodes(
+                  episodes.filter((e) => e.podcastEpisode.id !== episode.id)
+                )
+                toast.success("Deleted podcast episode from listen history")
+              }
               return (
-                <div className="profile-history-podcast-listen-history-item">
+                <div
+                  className="profile-history-podcast-listen-history-item"
+                  key={`${episode.id}-item`}
+                >
                   <span className="profile-history-podcast-listen-history-count">
                     {index + 1}
                   </span>
@@ -62,9 +80,21 @@ function ProfileHistoryPage() {
                     <PodcastEpisodeCard.EpisodeNumber />
                     <PodcastEpisodeCard.SeasonNumber />
                   </PodcastEpisodeCard>
-                  <span>
-                    Last Played on {data.lastPlayedTimestamp.toDateString()}
-                  </span>
+                  <div className="profile-history-podcast-episode-actions">
+                    <span>
+                      Last Played on {data.lastPlayedTimestamp.toDateString()}
+                    </span>
+                    <Button
+                      onClick={handlePodcastEpisodeDelete}
+                      data-testid={`profile-history-delete-button-podcast-episode-${episode.id}`}
+                      className="profile-history-delete-podcast-episode-button"
+                      variant="danger"
+                      title="Delete podcast episode from listen history"
+                    >
+                      <MdDelete size={24} />
+                      Delete
+                    </Button>
+                  </div>
                 </div>
               )
             })}

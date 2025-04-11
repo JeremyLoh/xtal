@@ -43,3 +43,18 @@ export async function updateAccountPodcastEpisodePlayHistory(
     )
   }
 }
+
+export async function deleteAccountPodcastEpisodePlayHistory(
+  userId: string,
+  episodeId: string
+) {
+  const accountClient = AccountClient.getInstance()
+  try {
+    await accountClient.deletePodcastEpisodePlayHistory(userId, episodeId)
+  } catch (error: any) {
+    logger.error(error.message)
+    throw new Error(
+      `deleteAccountPodcastEpisodePlayHistory(): Could not delete account podcast episode. userId ${userId}. Episode Id ${episodeId}`
+    )
+  }
+}

@@ -99,6 +99,30 @@ class AccountClient {
     })
   }
 
+  async deletePodcastEpisodePlayHistory(userId: string, episodeId: string) {
+    const { data, error } = await this.supabase
+      .from("podcast_episodes")
+      .select("id")
+      .eq("episode_id", episodeId)
+    const hasIdData = data && data[0].id != null
+    if (error || !hasIdData) {
+      throw new Error(
+        `deletePodcastEpisodePlayHistory(): could not delete based on episodeId ${episodeId} for userId ${userId}`
+      )
+    }
+    const id = data[0].id
+    const { error: secondError } = await this.supabase
+      .from("podcast_episode_play_history")
+      .delete()
+      .eq("user_id", userId)
+      .eq("podcast_episode_id", id)
+    if (secondError) {
+      throw new Error(
+        `deletePodcastEpisodePlayHistory(): could not delete from table "podcast_episode_play_history" using user_id ${userId} and podcast_episode_id ${id}. Given episodeId ${episodeId}`
+      )
+    }
+  }
+
   async updatePodcastEpisodePlayHistory(
     userId: string,
     episode: PodcastEpisode,
