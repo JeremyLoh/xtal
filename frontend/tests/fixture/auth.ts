@@ -70,7 +70,7 @@ const extendTest = base.extend<TestScopedFixtures, WorkerScopedFixtures>({
       await page.goto(paths.login)
       await page.getByRole("textbox", { name: /email/i }).fill(email)
       await page.getByRole("textbox", { name: /password/i }).fill(password)
-      await page.getByRole("button", { name: /sign in/i }).click()
+      await page.getByRole("button", { name: "SIGN IN", exact: true }).click()
       await page.close()
       // provide worker fixture data
       await use({ email, password })
@@ -95,7 +95,7 @@ const extendTest = base.extend<TestScopedFixtures, WorkerScopedFixtures>({
     await page
       .getByRole("textbox", { name: /password/i })
       .fill(existingAccount.password)
-    await page.getByRole("button", { name: /sign in/i }).click()
+    await page.getByRole("button", { name: "SIGN IN", exact: true }).click()
     await page.waitForURL(paths.home)
     // Expose page after login
     // eslint-disable-next-line react-hooks/rules-of-hooks

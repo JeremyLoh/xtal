@@ -13,7 +13,7 @@ test.describe("Profile Podcast History Page /profile/history", () => {
     await page.goto(paths.login)
     await page.getByPlaceholder("Email address").fill(existingAccount.email)
     await page.getByPlaceholder("Password").fill(existingAccount.password)
-    await page.getByRole("button", { name: /sign in/i }).click()
+    await page.getByRole("button", { name: "SIGN IN", exact: true }).click()
   }
 
   async function logoutAccount(page: Page) {
@@ -65,8 +65,10 @@ test.describe("Profile Podcast History Page /profile/history", () => {
       await assertUserIsAuthenticated(context)
 
       await page.goto(paths.profile)
-      await expect(page.getByRole("button", { name: /history/i })).toBeVisible()
-      await page.getByRole("button", { name: /history/i }).click()
+      await expect(
+        page.getByRole("button", { name: /profile history/i })
+      ).toBeVisible()
+      await page.getByRole("button", { name: /profile history/i }).click()
       await expect(page).toHaveURL(HOMEPAGE + "/profile/history")
 
       await logoutAccount(page)
