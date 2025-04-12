@@ -14,6 +14,7 @@ import {
 } from "../../validation/accountPodcastPlayHistoryValidation.js"
 import {
   deleteAccountPodcastEpisodePlayHistory,
+  getAccountPodcastEpisodePlayCount,
   getAccountPodcastEpisodePlayHistory,
   updateAccountPodcastEpisodePlayHistory,
 } from "../../service/accountService.js"
@@ -34,6 +35,24 @@ router.delete(
     // delete session from db and frontend (cookies)
     await request.session!.revokeSession()
     response.sendStatus(200)
+  }
+)
+
+router.get(
+  "/api/account/podcast-play-history-count",
+  rateLimiter.getAccountPlayHistoryCountLimiter,
+  verifySession({ sessionRequired: true }),
+  async (request: SessionRequest, response: Response) => {
+    const session = await Session.getSession(request, response)
+    const userId = session.getUserId()
+    try {
+      const count = await getAccountPodcastEpisodePlayCount(userId)
+      response.status(200).send({ count })
+    } catch (error: any) {
+      logger.error(error.message)
+      response.status(500).send("Internal Server Error")
+      return
+    }
   }
 )
 

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
 import {
   SessionContextType,
@@ -8,6 +8,7 @@ import { PodcastEpisode } from "../../api/podcast/model/podcast.ts"
 import {
   deleteAccountPodcastEpisodePlayHistory,
   getAccountPodcastEpisodePlayHistory,
+  getAccountTotalPodcastEpisodePlayCount,
   updateAccountPodcastEpisodePlayHistory,
 } from "../../api/podcast/history/account.ts"
 
@@ -21,6 +22,25 @@ function usePlayHistory() {
   const session: SessionContextType = useSessionContext()
   const [loading, setLoading] = useState<boolean>(true)
   const abortController = useRef<AbortController | null>(null)
+  const [totalPlayedPodcastEpisodes, setTotalPlayedPodcastEpisodes] =
+    useState<number>(0)
+
+  useEffect(() => {
+    async function getTotalPlayedCount() {
+      if (session.loading) {
+        return
+      }
+      try {
+        const total = await getAccountTotalPodcastEpisodePlayCount()
+        setTotalPlayedPodcastEpisodes(total)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast.error(error.message)
+      }
+    }
+
+    getTotalPlayedCount()
+  }, [session])
 
   const addPlayPodcastEpisode = useCallback(
     async (episode: PodcastEpisode, resumePlayTimeInSeconds: number) => {
@@ -109,6 +129,7 @@ function usePlayHistory() {
     return {
       session,
       loading,
+      totalPlayedPodcastEpisodes,
       addPlayPodcastEpisode,
       getPlayedPodcastEpisodes,
       deletePlayedPodcastEpisode,
@@ -116,6 +137,7 @@ function usePlayHistory() {
   }, [
     session,
     loading,
+    totalPlayedPodcastEpisodes,
     addPlayPodcastEpisode,
     getPlayedPodcastEpisodes,
     deletePlayedPodcastEpisode,

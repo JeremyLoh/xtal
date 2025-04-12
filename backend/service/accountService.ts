@@ -2,6 +2,19 @@ import AccountClient from "../api/supabase/account/accountClient.js"
 import logger from "../logger.js"
 import { PodcastEpisode } from "../model/podcastEpisode.js"
 
+export async function getAccountPodcastEpisodePlayCount(userId: string) {
+  const accountClient = AccountClient.getInstance()
+  try {
+    const count = await accountClient.getPodcastEpisodePlayCount(userId)
+    return count
+  } catch (error: any) {
+    logger.error(error.message)
+    throw new Error(
+      `getAccountPodcastEpisodePlayCount(): Could not get account podcast episode play count. userId ${userId}`
+    )
+  }
+}
+
 export async function getAccountPodcastEpisodePlayHistory(
   userId: string,
   limit: number,

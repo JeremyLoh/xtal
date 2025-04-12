@@ -4,6 +4,28 @@ import { PodcastEpisode } from "../../podcast/model/podcast.ts"
 import { getEnv } from "../../env/environmentVariables.ts"
 import { AccountPodcastEpisodePlayHistoryResponse } from "../accountPodcastHistory.ts"
 
+export async function getAccountTotalPodcastEpisodePlayCount() {
+  const { BACKEND_ORIGIN } = getEnv()
+  const backendUrl = BACKEND_ORIGIN + "/api/account/podcast-play-history-count"
+  try {
+    const response = await ky.get(backendUrl, {
+      retry: 0,
+    })
+    const json: { count: number } = await response.json()
+    return json.count
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    if (error.response && error.response.status === 429) {
+      throw new Error(
+        `Get podcast episode play history count Rate Limit Exceeded. Please try again later`
+      )
+    }
+    throw new Error(
+      `Could not get podcast episode play history count. Please try again later. ${error.message}`
+    )
+  }
+}
+
 export async function updateAccountPodcastEpisodePlayHistory(
   abortController: AbortController,
   episode: PodcastEpisode,

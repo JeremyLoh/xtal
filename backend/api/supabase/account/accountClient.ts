@@ -40,6 +40,19 @@ class AccountClient {
     return notAnArray as T
   }
 
+  async getPodcastEpisodePlayCount(userId: string) {
+    const { count, error } = await this.supabase
+      .from("podcast_episode_play_history")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", userId)
+    if (error) {
+      throw new Error(
+        `getPodcastEpisodePlayCount(): Could not get total count for userId ${userId}. Error ${error.message}`
+      )
+    }
+    return count
+  }
+
   async getPodcastEpisodePlayHistory(
     userId: string,
     limit: number,
@@ -59,11 +72,11 @@ class AccountClient {
       )
       .eq("user_id", userId)
       .order("last_played_timestamp", { ascending: false })
-      .range(offset, offset + limit)
+      .range(offset, offset + limit - 1)
 
     if (error) {
       throw new Error(
-        `getPodcastEpisodePlayHistory(): Could not get data for userId ${userId}, limit ${limit}, offset ${offset}`
+        `getPodcastEpisodePlayHistory(): Could not get data for userId ${userId}, limit ${limit}, offset ${offset}. Error ${error.message}`
       )
     }
     if (!data) {
