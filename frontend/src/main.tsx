@@ -54,9 +54,9 @@ createRoot(document.getElementById("root")!).render(
             <ErrorBoundary fallback={<NotFoundPage />}>
               <Suspense fallback={<LoadingDisplay loading={true} />}>
                 <Routes>
-                  {/*renders prebuilt login UI on /auth route*/}
-                  {getSuperTokensRoutes()}
                   <Route path="/" element={<Root />}>
+                    {/*renders prebuilt login UI on /auth route*/}
+                    {getSuperTokensRoutes()}
                     <Route element={<HomeLayout />}>
                       <Route index element={<HomePage />} />
                       <Route
