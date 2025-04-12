@@ -30,6 +30,9 @@ function usePlayHistory() {
       if (session.loading) {
         return
       }
+      if (!session.doesSessionExist) {
+        return
+      }
       try {
         const total = await getAccountTotalPodcastEpisodePlayCount()
         setTotalPlayedPodcastEpisodes(total)
