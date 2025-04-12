@@ -12,34 +12,3 @@
 .profile-history-page-title {
   margin: 0.8rem 0;
 }
-
-.profile-history-podcast-episodes-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1rem;
-}
-
-.profile-history-podcast-listen-history-item {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  border: 2px solid var(--primary-color);
-  border-radius: 8px;
-  padding: 1rem;
-}
-
-.profile-history-podcast-listen-history-count {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  font-weight: bold;
-}
-
-.profile-history-podcast-episode-actions {
-  margin-top: auto;
-}
-
-.profile-history-delete-podcast-episode-button {
-  width: 100%;
-  margin-top: 0.5rem;
-}
