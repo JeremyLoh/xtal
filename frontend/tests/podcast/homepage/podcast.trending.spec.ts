@@ -224,6 +224,10 @@ test.describe("Podcast Homepage /podcasts", () => {
     test("should display error toast when rate limit is reached", async ({
       page,
     }) => {
+      await page.route("*/**/api/podcast/category", async (route) => {
+        // prevent rate limit from getting podcast category
+        await route.fulfill({ status: 200 })
+      })
       await page.route(
         "*/**/api/podcast/trending?limit=10&since=*",
         async (route) => {
