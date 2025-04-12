@@ -5,3 +5,8 @@
   height: 100%;
   margin: 1rem auto;
 }
+
+.podcast-home-page-profile-history-button {
+  width: fit-content;
+  font-weight: bold;
+}

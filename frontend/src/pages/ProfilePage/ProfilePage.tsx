@@ -105,7 +105,7 @@ function ProfilePage() {
           variant="secondary"
           title="Profile History"
         >
-          History
+          Profile History
         </Button>
         <Separator />
         <Button
