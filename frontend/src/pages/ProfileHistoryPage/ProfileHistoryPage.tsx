@@ -107,6 +107,7 @@ function ProfileHistoryPage() {
         />
         <PodcastEpisodeHistory
           IMAGE_LAZY_LOAD_START_INDEX={IMAGE_LAZY_LOAD_START_INDEX}
+          episodeCountOffset={(page - 1) * LIMIT_PER_PAGE}
           episodes={episodes}
           onDelete={handlePodcastEpisodeDelete}
         />

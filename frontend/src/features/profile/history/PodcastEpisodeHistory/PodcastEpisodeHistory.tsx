@@ -8,12 +8,14 @@ import PodcastEpisodeCard from "../../../../components/PodcastEpisodeCard/index.
 type PodcastEpisodeHistoryProps = {
   IMAGE_LAZY_LOAD_START_INDEX: number
   episodes: PlayHistoryPodcastEpisode[] | null
+  episodeCountOffset: number
   onDelete: (episodeId: number) => Promise<void>
 }
 
 function PodcastEpisodeHistory({
   IMAGE_LAZY_LOAD_START_INDEX,
   episodes,
+  episodeCountOffset,
   onDelete,
 }: PodcastEpisodeHistoryProps) {
   if (episodes == null || episodes.length === 0) {
@@ -32,7 +34,7 @@ function PodcastEpisodeHistory({
             key={`${episode.id}-item`}
           >
             <span className="profile-history-podcast-listen-history-count">
-              {index + 1}
+              {episodeCountOffset + index + 1}
             </span>
             <PodcastEpisodeCard key={episode.id} episode={episode}>
               <PodcastEpisodeCard.Artwork
