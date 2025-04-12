@@ -1,0 +1,14 @@
+.profile-history-page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 80%;
+  max-width: 120ch;
+  height: 100%;
+  margin: 1rem auto;
+  gap: 0.5rem;
+}
+
+.profile-history-page-title {
+  margin: 0.8rem 0;
+}

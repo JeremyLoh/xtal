@@ -43,16 +43,18 @@ SUPERTOKENS_API_KEY="managed SuperTokens.com api key"
 
 # Packages used
 
-1. `ky` - performing web requests - https://www.npmjs.com/package/ky
-2. `vitest` - test framework - https://vitest.dev/
-3. `msw` - mocking HTTP requests - https://mswjs.io/
-4. `supertest` - testing HTTP server - https://www.npmjs.com/package/supertest
-5. `dayjs` - date utility library - https://day.js.org/
-6. `express-validator` - https://express-validator.github.io/docs/
-7. `express-rate-limit` - https://www.npmjs.com/package/express-rate-limit
-8. `dompurify` - html sanitization (**always update to the latest version**) - https://www.npmjs.com/package/dompurify
-9. `jsdom` - create DOM for DOMPurify (**always update to the latest version**) - https://github.com/jsdom/jsdom
-10. `sharp` - https://sharp.pixelplumbing.com/
+- `ky` - performing web requests - https://www.npmjs.com/package/ky
+- `vitest` - test framework - https://vitest.dev/
+- `msw` - mocking HTTP requests - https://mswjs.io/
+- `supertest` - testing HTTP server - https://www.npmjs.com/package/supertest
+- `dayjs` - date utility library - https://day.js.org/
+- `express-validator` - https://express-validator.github.io/docs/
+- `express-rate-limit` - https://www.npmjs.com/package/express-rate-limit
+- `dompurify` - html sanitization (**always update to the latest version**) - https://www.npmjs.com/package/dompurify
+- `jsdom` - create DOM for DOMPurify (**always update to the latest version**) - https://github.com/jsdom/jsdom
+- `sharp` - https://sharp.pixelplumbing.com/
+- `supertokens` - https://supertokens.com/
+- `supabase` - https://supabase.com/
 
 # References
 

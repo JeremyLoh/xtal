@@ -1,6 +1,7 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js"
 import dayjs from "dayjs"
-import { Database } from "./supabase.js"
+// https://supabase.com/docs/reference/javascript/typescript-support
+import { Database } from "../supabase/databaseTypes/supabase.js"
 import logger from "../../logger.js"
 
 // Create singleton for the supabase client

@@ -14,6 +14,8 @@ Made using TypeScript, React and Playwright (end-to-end testing)
    VITE_FRONTEND_ORIGIN="http://localhost:5173"
    VITE_SUPABASE_PROJECT_URL="???_Supabase project url that has PostgreSQL database and Supabase Storage (AWS S3 bucket)"
    VITE_SUPABASE_PUBLIC_KEY="anon public api key in Project Settings => Data API => Project API Keys"
+   QA_TEST_ACCOUNT_EMAIL="test xtal account created for running Playwright tests"
+   QA_TEST_ACCOUNT_PASSWORD="test xtal account password created for running Playwright tests"
    ```
 
 2. On the GitHub Actions secrets, add each environment property defined in`.github/workflows/playwright.yml` that contains the env file used for QA (testing) `.env.local`
@@ -30,6 +32,9 @@ Made using TypeScript, React and Playwright (end-to-end testing)
 - react-hook-form - https://www.npmjs.com/package/react-hook-form
 - React Router - https://reactrouter.com/
 - media-chrome - https://www.media-chrome.org/
+- dompurify - html sanitization (**always update to the latest version**) - https://www.npmjs.com/package/dompurify
+- supertokens - https://supertokens.com/
+- supabase - https://supabase.com/
 
 Favicon - https://favicon.io/emoji-favicons/dizzy/
 

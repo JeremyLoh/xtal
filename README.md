@@ -25,7 +25,7 @@ Listen to the world (radio & podcasts) with xtal, a fast and responsive mobile /
 - Vite and Vitest
 - Playwright (end-to-end testing)
 
-## Packages used (Frontend)
+## Packages used
 
 - Radio Browser (API for radio stations) - https://www.radio-browser.info/
 - Podcast Index (API for podcasts) - https://podcastindex.org/
@@ -37,6 +37,11 @@ Listen to the world (radio & podcasts) with xtal, a fast and responsive mobile /
 - react-hook-form - https://www.npmjs.com/package/react-hook-form
 - React Router - https://reactrouter.com/
 - media-chrome - https://www.media-chrome.org/
+- dompurify - html sanitization (**always update to the latest version**) - https://www.npmjs.com/package/dompurify
+- jsdom - create DOM for DOMPurify (for backend) (**always update to the latest version**) - https://github.com/jsdom/jsdom
+- supertokens - https://supertokens.com/
+- sharp - https://sharp.pixelplumbing.com/
+- supabase - https://supabase.com/
 
 # Setup
 
@@ -58,6 +63,8 @@ The Frontend end-to-end tests are written in Playwright - https://playwright.dev
    VITE_FRONTEND_ORIGIN="http://localhost:5173"
    VITE_SUPABASE_PROJECT_URL="???_Supabase project url that has PostgreSQL database and Supabase Storage (AWS S3 bucket)"
    VITE_SUPABASE_PUBLIC_KEY="anon public api key in Project Settings => Data API => Project API Keys"
+   QA_TEST_ACCOUNT_EMAIL="test xtal account created for running Playwright tests"
+   QA_TEST_ACCOUNT_PASSWORD="test xtal account password created for running Playwright tests"
    ```
 
 4. Install the required dependencies using `npm install`

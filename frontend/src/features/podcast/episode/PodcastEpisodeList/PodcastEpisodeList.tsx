@@ -2,6 +2,7 @@ import { memo, useCallback, useContext } from "react"
 import { PodcastEpisode } from "../../../../api/podcast/model/podcast.ts"
 import PodcastEpisodeCard from "../../../../components/PodcastEpisodeCard/index.tsx"
 import { PodcastEpisodeContext } from "../../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
+import usePlayHistory from "../../../../hooks/podcast/usePlayHistory.ts"
 
 type PodcastEpisodeListProps = {
   IMAGE_LAZY_LOAD_START_INDEX: number
@@ -17,13 +18,21 @@ function PodcastEpisodeList({
   podcastId,
 }: PodcastEpisodeListProps) {
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
+  const { session, addPlayPodcastEpisode } = usePlayHistory()
   const handlePlayClick = useCallback(
-    (podcastEpisode: PodcastEpisode) => {
+    async (podcastEpisode: PodcastEpisode) => {
+      if (session && session.loading) {
+        return
+      }
       if (podcastEpisodeContext) {
         podcastEpisodeContext.setEpisode(podcastEpisode)
       }
+      if (session.doesSessionExist && podcastEpisodeContext) {
+        const resumePlayTimeInSeconds = 0
+        await addPlayPodcastEpisode(podcastEpisode, resumePlayTimeInSeconds)
+      }
     },
-    [podcastEpisodeContext]
+    [session, podcastEpisodeContext, addPlayPodcastEpisode]
   )
   return episodes.map((episode, index) => {
     return (

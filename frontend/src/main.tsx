@@ -41,6 +41,9 @@ const PodcastCategoryPage = lazy(
   () => import("./pages/podcast/PodcastCategoryPage/PodcastCategoryPage.tsx")
 )
 const ProfilePage = lazy(() => import("./pages/ProfilePage/ProfilePage.tsx"))
+const ProfileHistoryPage = lazy(
+  () => import("./pages/ProfileHistoryPage/ProfileHistoryPage.tsx")
+)
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -51,14 +54,32 @@ createRoot(document.getElementById("root")!).render(
             <ErrorBoundary fallback={<NotFoundPage />}>
               <Suspense fallback={<LoadingDisplay loading={true} />}>
                 <Routes>
-                  {/*renders prebuilt login UI on /auth route*/}
-                  {getSuperTokensRoutes()}
                   <Route path="/" element={<Root />}>
+                    {/*renders prebuilt login UI on /auth route*/}
+                    {getSuperTokensRoutes()}
                     <Route element={<HomeLayout />}>
                       <Route index element={<HomePage />} />
                       <Route
                         path="radio-station/:stationuuid"
                         element={<RadioStationDisplayPage />}
+                      />
+                    </Route>
+                    <Route>
+                      <Route
+                        path="/profile"
+                        element={
+                          <SessionAuth onSessionExpired={() => <HomePage />}>
+                            <ProfilePage />
+                          </SessionAuth>
+                        }
+                      />
+                      <Route
+                        path="/profile/history"
+                        element={
+                          <SessionAuth onSessionExpired={() => <HomePage />}>
+                            <ProfileHistoryPage />
+                          </SessionAuth>
+                        }
                       />
                     </Route>
                     <Route element={<PodcastLayout />}>
@@ -76,14 +97,6 @@ createRoot(document.getElementById("root")!).render(
                         element={<PodcastCategoryPage />}
                       />
                     </Route>
-                    <Route
-                      path="/profile"
-                      element={
-                        <SessionAuth onSessionExpired={() => <HomePage />}>
-                          <ProfilePage />
-                        </SessionAuth>
-                      }
-                    />
                   </Route>
                   <Route path="/404" element={<NotFoundPage />} />
                   <Route path="*" element={<NotFoundPage />} />

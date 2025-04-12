@@ -130,6 +130,70 @@ const deleteAccountLimiter = rateLimit({
   },
 })
 
+const getAccountPlayHistoryLimiter = rateLimit({
+  windowMs: 1 * 1000,
+  limit: 2, // Limit each IP to "X" requests per window
+  standardHeaders: "draft-7",
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  handler: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    options: Options
+  ) => {
+    res.setHeader("retry-after", 1) // in seconds
+    res.status(options.statusCode).send(options.message)
+  },
+})
+
+const deleteAccountPlayHistoryLimiter = rateLimit({
+  windowMs: 1 * 1000,
+  limit: 2, // Limit each IP to "X" requests per window
+  standardHeaders: "draft-7",
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  handler: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    options: Options
+  ) => {
+    res.setHeader("retry-after", 1) // in seconds
+    res.status(options.statusCode).send(options.message)
+  },
+})
+
+const updateAccountPlayHistoryLimiter = rateLimit({
+  windowMs: 1 * 1000,
+  limit: 2, // Limit each IP to "X" requests per window
+  standardHeaders: "draft-7",
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  handler: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    options: Options
+  ) => {
+    res.setHeader("retry-after", 1) // in seconds
+    res.status(options.statusCode).send(options.message)
+  },
+})
+
+const getAccountPlayHistoryCountLimiter = rateLimit({
+  windowMs: 1 * 1000,
+  limit: 2, // Limit each IP to "X" requests per window
+  standardHeaders: "draft-7",
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  handler: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    options: Options
+  ) => {
+    res.setHeader("retry-after", 1) // in seconds
+    res.status(options.statusCode).send(options.message)
+  },
+})
+
 export default {
   getTrendingPodcastLimiter,
   getPodcastSearchLimiter,
@@ -139,4 +203,8 @@ export default {
   getPodcastCategoryLimiter,
   getStatusLimiter,
   deleteAccountLimiter,
+  getAccountPlayHistoryLimiter,
+  deleteAccountPlayHistoryLimiter,
+  updateAccountPlayHistoryLimiter,
+  getAccountPlayHistoryCountLimiter,
 }
