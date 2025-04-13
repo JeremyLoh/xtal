@@ -22,7 +22,6 @@ export default defineConfig({
         /supertokens-website/,
         /supertokens-web-js/,
         /supertokens-auth-react\/.+\/multifactorauth-shared/,
-        /react-dom-client\.production\.js/,
       ], // remove these packages from bundle
     },
   },
