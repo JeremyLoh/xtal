@@ -2,6 +2,7 @@ import "./FavouriteStationDrawer.css"
 import { lazy, memo, useCallback, useContext, useState } from "react"
 import { useLocation, useNavigate } from "react-router"
 import { GoStarFill } from "react-icons/go"
+import { homePage, podcastHomePage } from "../../../paths.ts"
 import Drawer from "../../../components/Drawer/Drawer.tsx"
 import { Station } from "../../../api/radiobrowser/types.ts"
 import { MapContext } from "../../../context/MapProvider/MapProvider.tsx"
@@ -49,8 +50,8 @@ function FavouriteStationDrawer({
 
   const handleLoadStation = useCallback(
     (station: Station) => {
-      if (location.pathname.startsWith("/podcasts")) {
-        navigate("/")
+      if (location.pathname.startsWith(podcastHomePage())) {
+        navigate(homePage())
       }
       setOpen(false)
       mapContext?.setStation(station)

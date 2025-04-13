@@ -12,6 +12,7 @@ import { deleteAccount, getUserEmail } from "../../api/auth/account.ts"
 import LoadingDisplay from "../../components/LoadingDisplay/LoadingDisplay.tsx"
 import Button from "../../components/ui/button/Button.tsx"
 import Separator from "../../components/Separator/Separator.tsx"
+import { homePage, profileHistoryPage } from "../../paths.ts"
 
 function ProfilePage() {
   const navigate = useNavigate()
@@ -20,7 +21,7 @@ function ProfilePage() {
   const [loading, setLoading] = useState(true)
 
   const navigateToHomepage = useCallback(() => {
-    navigate("/", { replace: true })
+    navigate(homePage(), { replace: true })
   }, [navigate])
 
   useEffect(() => {
@@ -86,7 +87,7 @@ function ProfilePage() {
   }, [navigateToHomepage])
 
   const handleNavigateToProfileHistory = useCallback(() => {
-    navigate("/profile/history")
+    navigate(profileHistoryPage())
   }, [navigate])
 
   return (

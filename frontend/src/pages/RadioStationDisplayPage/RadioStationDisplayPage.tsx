@@ -4,6 +4,7 @@ import { toast } from "sonner"
 import { MapContext } from "../../context/MapProvider/MapProvider.tsx"
 import { SearchStrategyFactory } from "../../api/radiobrowser/searchStrategy/SearchStrategyFactory.ts"
 import Map from "../../features/map/Map/Map.tsx"
+import { notFoundPage } from "../../paths.ts"
 
 type RadioStationDisplayPageParams = {
   stationuuid: string
@@ -29,7 +30,7 @@ export default function RadioStationDisplayPage() {
         return
       }
       if (isInvalidUuid(stationuuid)) {
-        navigate("/404")
+        navigate(notFoundPage())
       }
       const searchStrategy =
         SearchStrategyFactory.createUuidSearchStrategy(stationuuid)

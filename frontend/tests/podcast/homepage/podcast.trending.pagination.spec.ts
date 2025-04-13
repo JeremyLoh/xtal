@@ -61,6 +61,9 @@ test.describe("Podcast Homepage /podcasts", () => {
     }) => {
       test.slow()
       const limit = 10
+      await page.route("*/**/api/podcast/category", async (route) => {
+        await route.fulfill({ status: 200 })
+      })
       await page.route(
         `*/**/api/podcast/trending?limit=${limit}&since=*`,
         async (route) => {

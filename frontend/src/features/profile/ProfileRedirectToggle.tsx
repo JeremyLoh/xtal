@@ -4,6 +4,7 @@ import { FaUser } from "react-icons/fa"
 import { useNavigate } from "react-router"
 import { useSessionContext } from "supertokens-auth-react/recipe/session/index"
 import Button from "../../components/ui/button/Button.tsx"
+import { profilePage, signUpPage } from "../../paths.ts"
 
 function ProfileRedirectToggle() {
   const session = useSessionContext()
@@ -13,9 +14,9 @@ function ProfileRedirectToggle() {
       return
     }
     if (!session.doesSessionExist) {
-      navigate("/auth?show=signup")
+      navigate(signUpPage())
     } else {
-      navigate("/profile")
+      navigate(profilePage())
     }
   }, [session, navigate])
   return (
