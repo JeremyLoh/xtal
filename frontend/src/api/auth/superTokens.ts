@@ -1,8 +1,10 @@
 import SuperTokens from "supertokens-auth-react"
 import EmailPassword from "supertokens-auth-react/recipe/emailpassword"
+import EmailVerification from "supertokens-auth-react/recipe/emailverification"
 import Session from "supertokens-auth-react/recipe/session"
 import { getSuperTokensRoutesForReactRouterDom } from "supertokens-auth-react/ui"
 import { EmailPasswordPreBuiltUI } from "supertokens-auth-react/recipe/emailpassword/prebuiltui"
+import { EmailVerificationPreBuiltUI } from "supertokens-auth-react/recipe/emailverification/prebuiltui"
 import * as reactRouterDom from "react-router" // note: causes larger bundle size
 import { getEnv } from "../env/environmentVariables.ts"
 
@@ -18,13 +20,18 @@ function initializeSuperTokens() {
       apiBasePath: "/auth",
       websiteBasePath: "/auth",
     },
-    recipeList: [EmailPassword.init(), Session.init()],
+    recipeList: [
+      EmailVerification.init({ mode: "REQUIRED" }),
+      EmailPassword.init(),
+      Session.init(),
+    ],
   })
 }
 
 function getSuperTokensRoutes() {
   return getSuperTokensRoutesForReactRouterDom(reactRouterDom, [
     EmailPasswordPreBuiltUI,
+    EmailVerificationPreBuiltUI,
   ])
 }
 
