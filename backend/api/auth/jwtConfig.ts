@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken"
 import EmailPassword from "supertokens-node/recipe/emailpassword"
+import EmailVerification from "supertokens-node/recipe/emailverification"
 import SessionNode from "supertokens-node/recipe/session"
 import { TypeInput, AppInfo } from "supertokens-node/types"
 import { supertokensCoreInfo } from "./superTokens.js"
@@ -23,6 +24,7 @@ const getSupertokensConfig = (): TypeInput => {
     supertokens: supertokensCoreInfo,
     appInfo,
     recipeList: [
+      EmailVerification.init({ mode: "REQUIRED" }),
       EmailPassword.init({
         override: {
           apis: (originalImplementation) => {
