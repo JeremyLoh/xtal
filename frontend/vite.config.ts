@@ -7,9 +7,6 @@ const ENABLE_VISUALIZER = false
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), compression({ algorithm: "brotliCompress" })].concat(
-    ENABLE_VISUALIZER ? [visualizer({ open: true }) as PluginOption] : []
-  ),
   build: {
     target: "es2022",
     minify: "esbuild",
@@ -18,13 +15,11 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       treeshake: { moduleSideEffects: false, preset: "smallest" },
-      external: [
-        /supertokens-website/,
-        /supertokens-web-js/,
-        /supertokens-auth-react\/.+\/multifactorauth-shared/,
-      ], // remove these packages from bundle
     },
   },
+  plugins: [react(), compression({ algorithm: "brotliCompress" })].concat(
+    ENABLE_VISUALIZER ? [visualizer({ open: true }) as PluginOption] : []
+  ),
   esbuild: {
     legalComments: "external",
     minifySyntax: true,
