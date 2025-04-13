@@ -122,7 +122,6 @@ await page.route("*/**/api/podcast/trending?limit=10", async (route) => {
 
 12. Updating `browserslist` for `package-lock.json` - `npx update-browserslist-db@latest` - https://github.com/browserslist/update-db#readme
 13. Waiting for an element to not be on a page in Playwright - `expect(page.locator("???")).toHaveCount(?))` - https://stackoverflow.com/questions/71183099/how-can-i-assert-that-an-element-is-not-on-the-page-in-playwright
-14. How to get Vite to not import/bundle an external dependency - https://stackoverflow.com/questions/74723484/how-to-get-vite-to-not-import-bundle-an-external-dependency
 
 # React + TypeScript + Vite
 
