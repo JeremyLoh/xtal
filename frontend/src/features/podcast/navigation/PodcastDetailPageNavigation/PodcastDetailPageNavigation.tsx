@@ -1,6 +1,7 @@
 import { memo } from "react"
 import Breadcrumb from "../../../../components/ui/breadcrumb/index.tsx"
 import { Podcast } from "../../../../api/podcast/model/podcast.ts"
+import { podcastCategoryPage, podcastHomePage } from "../../../../paths.ts"
 
 type PodcastDetailPageNavigationProps = {
   podcast: Podcast | null
@@ -14,7 +15,7 @@ function PodcastDetailPageNavigation({
   return (
     <Breadcrumb>
       <Breadcrumb.Link
-        href="/podcasts"
+        href={podcastHomePage()}
         data-testid="podcast-detail-page-podcasts-link"
       >
         Podcasts
@@ -23,7 +24,7 @@ function PodcastDetailPageNavigation({
       {podcast && podcast.categories && podcast.categories.length > 0 && (
         <>
           <Breadcrumb.Link
-            href={`/podcasts/${podcast.categories[0]}`}
+            href={podcastCategoryPage(podcast.categories[0])}
             data-testid="podcast-detail-page-category-link"
           >
             {podcast.categories[0]}

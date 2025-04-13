@@ -15,6 +15,16 @@ export default defineConfig({
     minify: "esbuild",
     cssMinify: "esbuild",
     cssCodeSplit: true,
+    emptyOutDir: true,
+    rollupOptions: {
+      treeshake: { moduleSideEffects: false, preset: "smallest" },
+      external: [
+        /supertokens-website/,
+        /supertokens-web-js/,
+        /supertokens-auth-react\/.+\/multifactorauth-shared/,
+        /react-dom-client\.production\.js/,
+      ], // remove these packages from bundle
+    },
   },
   esbuild: {
     legalComments: "external",

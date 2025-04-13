@@ -4,6 +4,7 @@ import ThemeProvider from "../../context/ThemeProvider/ThemeProvider.tsx"
 import FavouriteStationToggle from "../../features/favourite/FavouriteStationToggle/FavouriteStationToggle.tsx"
 import ThemeToggle from "../ThemeToggle/ThemeToggle.tsx"
 import ProfileRedirectToggle from "../../features/profile/ProfileRedirectToggle.tsx"
+import { homePage, podcastHomePage } from "../../paths.ts"
 
 function Header() {
   return (
@@ -13,12 +14,15 @@ function Header() {
         <nav className="header-navbar">
           <ul>
             <li>
-              <Link to="/" className="header-navbar-radio-link">
+              <Link to={homePage()} className="header-navbar-radio-link">
                 Radio
               </Link>
             </li>
             <li>
-              <Link to="/podcasts" className="header-navbar-podcast-link">
+              <Link
+                to={podcastHomePage()}
+                className="header-navbar-podcast-link"
+              >
                 Podcast
               </Link>
             </li>

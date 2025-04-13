@@ -7,6 +7,7 @@ import Slider from "../../../../components/Slider/Slider.tsx"
 import { PodcastCategory } from "../../../../api/podcast/model/podcast.ts"
 import useScreenDimensions from "../../../../hooks/useScreenDimensions.ts"
 import Button from "../../../../components/ui/button/Button.tsx"
+import { podcastCategoryPage } from "../../../../paths.ts"
 
 type PodcastCategorySectionProps = {
   categories: PodcastCategory[] | null
@@ -27,7 +28,7 @@ function PodcastCategorySection({
 
   const handlePodcastCategorySelect = useCallback(
     (category: PodcastCategory) => {
-      navigate(`/podcasts/${category.name}`)
+      navigate(podcastCategoryPage(category.name))
     },
     [navigate]
   )

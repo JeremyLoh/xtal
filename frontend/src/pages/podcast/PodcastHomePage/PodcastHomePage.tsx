@@ -12,6 +12,7 @@ import usePodcastSearch from "../../../hooks/podcast/usePodcastSearch.ts"
 import PodcastSearchResultList from "../../../features/podcast/search/PodcastSearchResultList/PodcastSearchResultList.tsx"
 import { TrendingPodcastFiltersType } from "../../../api/podcast/model/podcast.ts"
 import Button from "../../../components/ui/button/Button.tsx"
+import { profileHistoryPage } from "../../../paths.ts"
 
 const LIMIT = 10
 
@@ -65,7 +66,7 @@ export default function PodcastHomePage() {
   )
 
   const handleNavigateToProfileHistory = useCallback(() => {
-    navigate("/profile/history")
+    navigate(profileHistoryPage())
   }, [navigate])
 
   useEffect(() => {

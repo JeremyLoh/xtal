@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router"
 import TrendingPodcastSection from "../../../features/podcast/trending/TrendingPodcastSection/TrendingPodcastSection.tsx"
 import useTrendingPodcasts from "../../../hooks/podcast/useTrendingPodcasts.ts"
 import PodcastCategoryPageNavigation from "../../../features/podcast/navigation/PodcastCategoryPageNavigation/PodcastCategoryPageNavigation.tsx"
+import { notFoundPage } from "../../../paths.ts"
 
 const LIMIT = 10
 
@@ -57,7 +58,7 @@ export default function PodcastCategoryPage() {
 
   function renderPodcasts() {
     if (!categoryName) {
-      navigate("/404")
+      navigate(notFoundPage())
       return
     }
     return (
