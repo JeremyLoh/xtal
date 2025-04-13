@@ -1,7 +1,7 @@
 // Hard coded servers as requests to "http" fails with "This request has been blocked; the content must be served over HTTPS"
 // http://all.api.radio-browser.info/json/servers
 const servers: string[] = [
-  "https://fi1.api.radio-browser.info",
+  "https://at1.api.radio-browser.info",
   "https://de2.api.radio-browser.info",
 ]
 const serverCount = servers.length
