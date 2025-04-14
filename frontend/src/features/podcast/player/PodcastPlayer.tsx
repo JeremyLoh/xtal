@@ -1,10 +1,11 @@
 import "./PodcastPlayer.css"
-import { lazy, memo, useContext } from "react"
+import { lazy, memo, useCallback, useContext } from "react"
 import { Link } from "react-router"
 import dayjs from "dayjs"
 import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import AudioPlayer from "../../../components/AudioPlayer/AudioPlayer.tsx"
 import { PodcastEpisode } from "../../../api/podcast/model/podcast.ts"
+import usePlayHistory from "../../../hooks/podcast/usePlayHistory.ts"
 const Pill = lazy(() => import("../../../components/Pill/Pill.tsx"))
 const PodcastImage = lazy(
   () => import("../../../components/PodcastImage/PodcastImage.tsx")
@@ -22,11 +23,27 @@ function getEpisodeDetailPageUrl(episode: PodcastEpisode) {
 }
 
 export default memo(function PodcastPlayer() {
+  const { session, updatePlayPodcastEpisodeTime } = usePlayHistory()
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const episode = podcastEpisodeContext?.episode
+  const handlePause = useCallback(
+    async (currentTimeInSeconds: number) => {
+      if (session.loading) {
+        return
+      }
+      if (!session.doesSessionExist || !episode) {
+        return
+      }
+      await updatePlayPodcastEpisodeTime(episode, currentTimeInSeconds)
+    },
+    [session, episode, updatePlayPodcastEpisodeTime]
+  )
   return (
     <div className="podcast-player">
-      <AudioPlayer source={episode ? episode.contentUrl : ""}>
+      <AudioPlayer
+        source={episode ? episode.contentUrl : ""}
+        onPause={handlePause}
+      >
         {episode && (
           <div className="podcast-play-episode-container">
             <PodcastImage

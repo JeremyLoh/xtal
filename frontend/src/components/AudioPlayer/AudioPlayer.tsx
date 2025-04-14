@@ -1,5 +1,12 @@
 import "./AudioPlayer.css"
-import { memo, PropsWithChildren, useCallback, useRef, useState } from "react"
+import {
+  memo,
+  PropsWithChildren,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import {
   MediaControlBar,
   MediaController,
@@ -16,11 +23,17 @@ import {
 
 type AudioPlayerProps = PropsWithChildren & {
   source: string
+  onPause: (currentTimeInSeconds: number) => void
 }
 
-function AudioPlayer({ source, children }: AudioPlayerProps) {
+function AudioPlayer({ source, onPause, children }: AudioPlayerProps) {
   const [error, setError] = useState<boolean>(false)
+  const [disabled, setDisabled] = useState<boolean>(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  const controlBarStyle = useMemo(() => {
+    return { padding: "0 0.5rem", width: "100%" }
+  }, [])
 
   const handleError = useCallback(() => {
     setError(source !== "")
@@ -33,6 +46,22 @@ function AudioPlayer({ source, children }: AudioPlayerProps) {
     }
   }, [])
 
+  const handlePause = useCallback(
+    (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
+      if (disabled) {
+        return
+      }
+      const target = e.target as HTMLAudioElement
+      onPause(Math.floor(target.currentTime))
+
+      setDisabled(true)
+      setTimeout(() => {
+        setDisabled(false)
+      }, 5000) // rate limit calls to props.onPause()
+    },
+    [onPause, disabled]
+  )
+
   return (
     <div className="audio-player">
       {children}
@@ -44,12 +73,13 @@ function AudioPlayer({ source, children }: AudioPlayerProps) {
             src={source}
             onError={handleError}
             onCanPlay={handlePlay}
+            onPause={handlePause}
           ></audio>
         )}
         {error ? (
           <MediaErrorDialog />
         ) : (
-          <MediaControlBar style={{ padding: "0 0.5rem", width: "100%" }}>
+          <MediaControlBar style={controlBarStyle}>
             <div className="mobile">
               <MediaPlayButton data-testid="audio-player-mobile-play-button" />
               <MediaSeekBackwardButton

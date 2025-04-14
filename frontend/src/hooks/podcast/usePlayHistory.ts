@@ -47,13 +47,13 @@ function usePlayHistory() {
 
   const addPlayPodcastEpisode = useCallback(
     async (episode: PodcastEpisode, resumePlayTimeInSeconds: number) => {
-      setLoading(true)
       if (session.loading) {
         return
       }
       if (!session.doesSessionExist) {
         return
       }
+      setLoading(true)
       abortController.current?.abort()
       abortController.current = new AbortController()
       try {
@@ -71,18 +71,44 @@ function usePlayHistory() {
     },
     [session]
   )
+  const updatePlayPodcastEpisodeTime = useCallback(
+    async (episode: PodcastEpisode, currentTimeInSeconds: number) => {
+      if (session.loading) {
+        return
+      }
+      if (!session.doesSessionExist) {
+        return
+      }
+      setLoading(true)
+      abortController.current?.abort()
+      abortController.current = new AbortController()
+      try {
+        await updateAccountPodcastEpisodePlayHistory(
+          abortController.current,
+          episode,
+          currentTimeInSeconds
+        )
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast.error(error.message)
+      } finally {
+        setLoading(false)
+      }
+    },
+    [session]
+  )
   const getPlayedPodcastEpisodes = useCallback(
     async (
       limit: number,
       offset?: number
     ): Promise<PlayHistoryPodcastEpisode[] | null> => {
-      setLoading(true)
       if (session.loading) {
         return null
       }
       if (!session.doesSessionExist) {
         return null
       }
+      setLoading(true)
       abortController.current?.abort()
       abortController.current = new AbortController()
       try {
@@ -104,13 +130,13 @@ function usePlayHistory() {
   )
   const deletePlayedPodcastEpisode = useCallback(
     async (episodeId: string) => {
-      setLoading(true)
       if (session.loading) {
         return
       }
       if (!session.doesSessionExist) {
         return
       }
+      setLoading(true)
       abortController.current?.abort()
       abortController.current = new AbortController()
       try {
@@ -134,6 +160,7 @@ function usePlayHistory() {
       loading,
       totalPlayedPodcastEpisodes,
       addPlayPodcastEpisode,
+      updatePlayPodcastEpisodeTime,
       getPlayedPodcastEpisodes,
       deletePlayedPodcastEpisode,
     }
@@ -142,6 +169,7 @@ function usePlayHistory() {
     loading,
     totalPlayedPodcastEpisodes,
     addPlayPodcastEpisode,
+    updatePlayPodcastEpisodeTime,
     getPlayedPodcastEpisodes,
     deletePlayedPodcastEpisode,
   ])
