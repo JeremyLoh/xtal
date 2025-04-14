@@ -53,6 +53,27 @@ class AccountClient {
     return count
   }
 
+  async getPodcastEpisodeLastPlayTimestamp(userId: string, episodeId: string) {
+    const { data, error } = await this.supabase
+      .from("podcast_episodes")
+      .select(`podcast_episode_play_history!inner(resume_play_time_in_seconds)`)
+      .eq("podcast_episode_play_history.user_id", userId)
+      .eq("episode_id", episodeId)
+      .limit(1)
+
+    if (error) {
+      throw new Error(
+        `getPodcastEpisodeLastPlayTimestamp(): Could not get data for userId ${userId}, episodeId ${episodeId}. Error ${error.message}`
+      )
+    }
+    if (!data) {
+      return null
+    }
+    return data[0]["podcast_episode_play_history"][0][
+      "resume_play_time_in_seconds"
+    ]
+  }
+
   async getPodcastEpisodePlayHistory(
     userId: string,
     limit: number,

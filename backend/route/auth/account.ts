@@ -10,10 +10,12 @@ import rateLimiter from "../../middleware/rateLimiter.js"
 import {
   addAccountPodcastPlayHistoryValidationSchema,
   deleteAccountPodcastPlayHistoryValidationSchema,
+  getAccountPodcastPlayHistoryTimestampValidationSchema,
   getAccountPodcastPlayHistoryValidationSchema,
 } from "../../validation/accountPodcastPlayHistoryValidation.js"
 import {
   deleteAccountPodcastEpisodePlayHistory,
+  getAccountPodcastEpisodeLastPlayTimestamp,
   getAccountPodcastEpisodePlayCount,
   getAccountPodcastEpisodePlayHistory,
   updateAccountPodcastEpisodePlayHistory,
@@ -48,6 +50,43 @@ router.get(
     try {
       const count = await getAccountPodcastEpisodePlayCount(userId)
       response.status(200).send({ count })
+    } catch (error: any) {
+      logger.error(error.message)
+      response.status(500).send("Internal Server Error")
+      return
+    }
+  }
+)
+
+router.get(
+  "/api/account/podcast-play-history-timestamp",
+  rateLimiter.getAccountPlayHistoryTimestampLimiter,
+  checkSchema(getAccountPodcastPlayHistoryTimestampValidationSchema, ["query"]),
+  verifySession({ sessionRequired: true }),
+  async (request: SessionRequest, response: Response) => {
+    const result = validationResult(request)
+    if (!result.isEmpty()) {
+      response.status(400).send({
+        errors: result.array().map((error) => error.msg),
+      })
+      return
+    }
+    const data = matchedData(request)
+    const episodeId = data.episodeId
+    const session = await Session.getSession(request, response)
+    const userId = session.getUserId()
+    try {
+      const lastPlayedTimestamp =
+        await getAccountPodcastEpisodeLastPlayTimestamp(userId, episodeId)
+      if (lastPlayedTimestamp) {
+        response.status(200).send({
+          lastPlayedTimestamp,
+        })
+      } else {
+        response.status(200).send({
+          lastPlayedTimestamp: 0,
+        })
+      }
     } catch (error: any) {
       logger.error(error.message)
       response.status(500).send("Internal Server Error")

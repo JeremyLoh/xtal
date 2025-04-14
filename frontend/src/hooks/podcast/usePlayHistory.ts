@@ -7,6 +7,7 @@ import {
 import { PodcastEpisode } from "../../api/podcast/model/podcast.ts"
 import {
   deleteAccountPodcastEpisodePlayHistory,
+  getAccountPodcastEpisodeLastPlayTimestamp,
   getAccountPodcastEpisodePlayHistory,
   getAccountTotalPodcastEpisodePlayCount,
   updateAccountPodcastEpisodePlayHistory,
@@ -154,6 +155,35 @@ function usePlayHistory() {
     [session]
   )
 
+  const getPodcastEpisodeLastPlayTimestamp = useCallback(
+    async (episodeId: string) => {
+      // get user last played timestamp for podcast episode
+      if (session.loading) {
+        return
+      }
+      if (!session.doesSessionExist) {
+        return
+      }
+      setLoading(true)
+      abortController.current?.abort()
+      abortController.current = new AbortController()
+      try {
+        const lastPlayedTimestamp =
+          await getAccountPodcastEpisodeLastPlayTimestamp(
+            abortController.current,
+            episodeId
+          )
+        return lastPlayedTimestamp
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast.error(error.message)
+      } finally {
+        setLoading(false)
+      }
+    },
+    [session]
+  )
+
   const output = useMemo(() => {
     return {
       session,
@@ -163,6 +193,7 @@ function usePlayHistory() {
       updatePlayPodcastEpisodeTime,
       getPlayedPodcastEpisodes,
       deletePlayedPodcastEpisode,
+      getPodcastEpisodeLastPlayTimestamp,
     }
   }, [
     session,
@@ -172,6 +203,7 @@ function usePlayHistory() {
     updatePlayPodcastEpisodeTime,
     getPlayedPodcastEpisodes,
     deletePlayedPodcastEpisode,
+    getPodcastEpisodeLastPlayTimestamp,
   ])
 
   return output

@@ -10,7 +10,8 @@ import usePlayHistory from "../../../hooks/podcast/usePlayHistory.ts"
 
 export default function PodcastEpisodeDetailPage() {
   const { podcastId, podcastTitle, podcastEpisodeId } = useParams()
-  const { addPlayPodcastEpisode } = usePlayHistory()
+  const { addPlayPodcastEpisode, getPodcastEpisodeLastPlayTimestamp } =
+    usePlayHistory()
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const { loading, error, episode, fetchPodcastEpisode } = usePodcastEpisode()
 
@@ -26,10 +27,19 @@ export default function PodcastEpisodeDetailPage() {
   const handlePlayClick = useCallback(async () => {
     if (podcastEpisodeContext && episode) {
       podcastEpisodeContext.setEpisode(episode)
-      const resumePlayTimeInSeconds = 0
+      const lastPlayedTimestamp = await getPodcastEpisodeLastPlayTimestamp(
+        `${episode.id}`
+      )
+      const resumePlayTimeInSeconds = lastPlayedTimestamp || 0
+      podcastEpisodeContext.setLastPlayedTimestamp(resumePlayTimeInSeconds)
       await addPlayPodcastEpisode(episode, resumePlayTimeInSeconds)
     }
-  }, [podcastEpisodeContext, episode, addPlayPodcastEpisode])
+  }, [
+    podcastEpisodeContext,
+    episode,
+    addPlayPodcastEpisode,
+    getPodcastEpisodeLastPlayTimestamp,
+  ])
 
   return (
     <div className="podcast-episode-detail-container">

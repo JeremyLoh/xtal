@@ -143,3 +143,35 @@ export async function deleteAccountPodcastEpisodePlayHistory(
     )
   }
 }
+
+export async function getAccountPodcastEpisodeLastPlayTimestamp(
+  abortController: AbortController,
+  episodeId: string
+) {
+  const { BACKEND_ORIGIN } = getEnv()
+  const backendUrl =
+    BACKEND_ORIGIN + "/api/account/podcast-play-history-timestamp"
+  const searchParams = new URLSearchParams(`episodeId=${episodeId}`)
+  try {
+    const response = await ky.get(backendUrl, {
+      searchParams,
+      retry: 0,
+      signal: abortController.signal,
+    })
+    const json: { lastPlayedTimestamp: number } = await response.json()
+    return json.lastPlayedTimestamp
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    if (error.name === "AbortError") {
+      return null
+    }
+    if (error.response && error.response.status === 429) {
+      throw new Error(
+        `Get podcast episode last played timestamp Rate Limit Exceeded. Please try again later`
+      )
+    }
+    throw new Error(
+      `Could not get podcast episode last played timestamp. Please try again later. ${error.message}`
+    )
+  }
+}

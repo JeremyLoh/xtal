@@ -3,6 +3,7 @@ import {
   memo,
   PropsWithChildren,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -23,14 +24,27 @@ import {
 
 type AudioPlayerProps = PropsWithChildren & {
   source: string
+  playFromTimestamp: number
   onPause: (currentTimeInSeconds: number) => void
   onEnded: (currentTimeInSeconds: number) => void
 }
 
-function AudioPlayer({ source, onPause, onEnded, children }: AudioPlayerProps) {
+function AudioPlayer({
+  source,
+  playFromTimestamp,
+  onPause,
+  onEnded,
+  children,
+}: AudioPlayerProps) {
   const [error, setError] = useState<boolean>(false)
   const [disabled, setDisabled] = useState<boolean>(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = playFromTimestamp
+    }
+  }, [playFromTimestamp])
 
   const controlBarStyle = useMemo(() => {
     return { padding: "0 0.5rem", width: "100%" }

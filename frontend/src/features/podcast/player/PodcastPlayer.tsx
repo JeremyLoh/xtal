@@ -26,6 +26,7 @@ function PodcastPlayer() {
   const { updatePlayPodcastEpisodeTime } = usePlayHistory()
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const episode = podcastEpisodeContext?.episode
+  const lastPlayedTimestamp = podcastEpisodeContext?.lastPlayedTimestamp
 
   const handlePause = useCallback(
     async (currentTimeInSeconds: number) => {
@@ -51,6 +52,7 @@ function PodcastPlayer() {
         source={episode ? episode.contentUrl : ""}
         onPause={handlePause}
         onEnded={handleEnded}
+        playFromTimestamp={lastPlayedTimestamp || 0}
       >
         {episode && (
           <div className="podcast-play-episode-container">
