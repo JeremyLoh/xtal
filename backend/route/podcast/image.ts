@@ -11,8 +11,8 @@ const router = Router()
 
 router.post(
   "/api/podcast/image",
-  checkSchema(getPodcastImageValidationSchema, ["body"]),
   rateLimiter.getPodcastImageConversionLimiter,
+  checkSchema(getPodcastImageValidationSchema, ["body"]),
   async (request: Request, response: Response) => {
     const result = validationResult(request)
     const isInvalidUrl = !isValidUrl(decodeHTML(request.body.url))

@@ -1,10 +1,11 @@
 import "./PodcastPlayer.css"
-import { lazy, memo, useContext } from "react"
+import { lazy, memo, useCallback, useContext } from "react"
 import { Link } from "react-router"
 import dayjs from "dayjs"
 import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import AudioPlayer from "../../../components/AudioPlayer/AudioPlayer.tsx"
 import { PodcastEpisode } from "../../../api/podcast/model/podcast.ts"
+import usePlayHistory from "../../../hooks/podcast/usePlayHistory.ts"
 const Pill = lazy(() => import("../../../components/Pill/Pill.tsx"))
 const PodcastImage = lazy(
   () => import("../../../components/PodcastImage/PodcastImage.tsx")
@@ -21,12 +22,38 @@ function getEpisodeDetailPageUrl(episode: PodcastEpisode) {
   return `/podcasts/${episode.feedTitle}/${episode.feedId}/${episode.id}`
 }
 
-export default memo(function PodcastPlayer() {
+function PodcastPlayer() {
+  const { updatePlayPodcastEpisodeTime } = usePlayHistory()
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const episode = podcastEpisodeContext?.episode
+  const lastPlayedTimestamp = podcastEpisodeContext?.lastPlayedTimestamp
+
+  const handlePause = useCallback(
+    async (currentTimeInSeconds: number) => {
+      if (!episode) {
+        return
+      }
+      await updatePlayPodcastEpisodeTime(episode, currentTimeInSeconds)
+    },
+    [episode, updatePlayPodcastEpisodeTime]
+  )
+  const handleEnded = useCallback(
+    async (currentTimeInSeconds: number) => {
+      if (!episode) {
+        return
+      }
+      await updatePlayPodcastEpisodeTime(episode, currentTimeInSeconds)
+    },
+    [episode, updatePlayPodcastEpisodeTime]
+  )
   return (
     <div className="podcast-player">
-      <AudioPlayer source={episode ? episode.contentUrl : ""}>
+      <AudioPlayer
+        source={episode ? episode.contentUrl : ""}
+        onPause={handlePause}
+        onEnded={handleEnded}
+        playFromTimestamp={lastPlayedTimestamp || 0}
+      >
         {episode && (
           <div className="podcast-play-episode-container">
             <PodcastImage
@@ -55,4 +82,6 @@ export default memo(function PodcastPlayer() {
       </AudioPlayer>
     </div>
   )
-})
+}
+
+export default memo(PodcastPlayer)

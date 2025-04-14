@@ -18,21 +18,32 @@ function PodcastEpisodeList({
   podcastId,
 }: PodcastEpisodeListProps) {
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
-  const { session, addPlayPodcastEpisode } = usePlayHistory()
+  const { session, addPlayPodcastEpisode, getPodcastEpisodeLastPlayTimestamp } =
+    usePlayHistory()
+
   const handlePlayClick = useCallback(
     async (podcastEpisode: PodcastEpisode) => {
-      if (session && session.loading) {
+      if (session.loading) {
         return
       }
       if (podcastEpisodeContext) {
         podcastEpisodeContext.setEpisode(podcastEpisode)
       }
       if (session.doesSessionExist && podcastEpisodeContext) {
-        const resumePlayTimeInSeconds = 0
+        const lastPlayedTimestamp = await getPodcastEpisodeLastPlayTimestamp(
+          `${podcastEpisode.id}`
+        )
+        const resumePlayTimeInSeconds = lastPlayedTimestamp || 0
+        podcastEpisodeContext.setLastPlayedTimestamp(resumePlayTimeInSeconds)
         await addPlayPodcastEpisode(podcastEpisode, resumePlayTimeInSeconds)
       }
     },
-    [session, podcastEpisodeContext, addPlayPodcastEpisode]
+    [
+      session,
+      podcastEpisodeContext,
+      addPlayPodcastEpisode,
+      getPodcastEpisodeLastPlayTimestamp,
+    ]
   )
   return episodes.map((episode, index) => {
     return (

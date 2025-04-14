@@ -11,8 +11,8 @@ const router = Router()
 
 router.get(
   "/api/podcast/trending",
-  checkSchema(getPodcastTrendingValidationSchema, ["query"]),
   rateLimiter.getTrendingPodcastLimiter,
+  checkSchema(getPodcastTrendingValidationSchema, ["query"]),
   async (request: Request, response: Response) => {
     const result = validationResult(request)
     if (!result.isEmpty()) {

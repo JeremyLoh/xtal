@@ -1,5 +1,13 @@
 import "./AudioPlayer.css"
-import { memo, PropsWithChildren, useCallback, useRef, useState } from "react"
+import {
+  memo,
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import {
   MediaControlBar,
   MediaController,
@@ -16,11 +24,31 @@ import {
 
 type AudioPlayerProps = PropsWithChildren & {
   source: string
+  playFromTimestamp: number
+  onPause: (currentTimeInSeconds: number) => void
+  onEnded: (currentTimeInSeconds: number) => void
 }
 
-function AudioPlayer({ source, children }: AudioPlayerProps) {
+function AudioPlayer({
+  source,
+  playFromTimestamp,
+  onPause,
+  onEnded,
+  children,
+}: AudioPlayerProps) {
   const [error, setError] = useState<boolean>(false)
+  const [disabled, setDisabled] = useState<boolean>(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = playFromTimestamp
+    }
+  }, [playFromTimestamp])
+
+  const controlBarStyle = useMemo(() => {
+    return { padding: "0 0.5rem", width: "100%" }
+  }, [])
 
   const handleError = useCallback(() => {
     setError(source !== "")
@@ -33,6 +61,30 @@ function AudioPlayer({ source, children }: AudioPlayerProps) {
     }
   }, [])
 
+  const handlePause = useCallback(
+    (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
+      if (disabled) {
+        return
+      }
+      const target = e.target as HTMLAudioElement
+      onPause(Math.floor(target.currentTime))
+
+      setDisabled(true)
+      setTimeout(() => {
+        setDisabled(false)
+      }, 5000) // rate limit calls to props.onPause()
+    },
+    [onPause, disabled]
+  )
+
+  const handleEnded = useCallback(
+    (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
+      const target = e.target as HTMLAudioElement
+      onEnded(Math.floor(target.duration))
+    },
+    [onEnded]
+  )
+
   return (
     <div className="audio-player">
       {children}
@@ -44,12 +96,14 @@ function AudioPlayer({ source, children }: AudioPlayerProps) {
             src={source}
             onError={handleError}
             onCanPlay={handlePlay}
+            onPause={handlePause}
+            onEnded={handleEnded}
           ></audio>
         )}
         {error ? (
           <MediaErrorDialog />
         ) : (
-          <MediaControlBar style={{ padding: "0 0.5rem", width: "100%" }}>
+          <MediaControlBar style={controlBarStyle}>
             <div className="mobile">
               <MediaPlayButton data-testid="audio-player-mobile-play-button" />
               <MediaSeekBackwardButton

@@ -15,6 +15,23 @@ export async function getAccountPodcastEpisodePlayCount(userId: string) {
   }
 }
 
+export async function getAccountPodcastEpisodeLastPlayTimestamp(
+  userId: string,
+  episodeId: string
+) {
+  const accountClient = AccountClient.getInstance()
+  try {
+    const lastPlayedTimestamp =
+      await accountClient.getPodcastEpisodeLastPlayTimestamp(userId, episodeId)
+    return lastPlayedTimestamp
+  } catch (error: any) {
+    logger.error(error.message)
+    throw new Error(
+      `getAccountPodcastEpisodeLastPlayTimestamp(): Could not get account podcast episode last played timestamp. userId ${userId}. episodeId: ${episodeId}`
+    )
+  }
+}
+
 export async function getAccountPodcastEpisodePlayHistory(
   userId: string,
   limit: number,

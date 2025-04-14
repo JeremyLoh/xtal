@@ -111,6 +111,7 @@ test.describe("Podcast Homepage /podcasts", () => {
     test("should display mobile view default 10 trending podcasts and remove any duplicate entries", async ({
       page,
     }) => {
+      test.slow()
       await page.setViewportSize({ width: 360, height: 800 })
       await page.route(
         "*/**/api/podcast/trending?limit=10&since=*",

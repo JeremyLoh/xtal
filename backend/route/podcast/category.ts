@@ -10,8 +10,8 @@ const router = Router()
 
 router.get(
   "/api/podcast/category",
-  checkSchema(getPodcastCategoryValidationSchema, ["query"]),
   rateLimiter.getPodcastCategoryLimiter,
+  checkSchema(getPodcastCategoryValidationSchema, ["query"]),
   async (request: Request, response: Response) => {
     const result = validationResult(request)
     if (!result.isEmpty()) {
