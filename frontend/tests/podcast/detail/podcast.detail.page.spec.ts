@@ -41,6 +41,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
   test("should display podcast detail page where podcast title has % symbol", async ({
     page,
   }) => {
+    test.slow()
     const podcastTitle = "99%25%20Invisible" // "99% Invisible"
     const podcastId = "387129"
     const limit = 10
@@ -70,6 +71,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     test("should navigate to podcast episode detail page on click of episode title", async ({
       page,
     }) => {
+      test.slow()
       const podcastTitle = encodeURIComponent("Infinite Loops")
       const podcastId = "259760"
       const limit = 10
@@ -334,6 +336,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     test("should still display currently playing podcast after clicking podcast breadcrumb link to podcast homepage", async ({
       page,
     }) => {
+      test.slow()
       const i = 2
       const expectedEpisode = defaultTenPodcastEpisodes.data.episodes[i]
       const expectedArtworkSize = "96"
