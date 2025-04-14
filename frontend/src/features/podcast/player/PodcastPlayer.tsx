@@ -22,33 +22,28 @@ function getEpisodeDetailPageUrl(episode: PodcastEpisode) {
   return `/podcasts/${episode.feedTitle}/${episode.feedId}/${episode.id}`
 }
 
-export default memo(function PodcastPlayer() {
-  const { session, updatePlayPodcastEpisodeTime } = usePlayHistory()
+function PodcastPlayer() {
+  const { updatePlayPodcastEpisodeTime } = usePlayHistory()
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const episode = podcastEpisodeContext?.episode
+
   const handlePause = useCallback(
     async (currentTimeInSeconds: number) => {
-      if (session.loading) {
-        return
-      }
-      if (!session.doesSessionExist || !episode) {
+      if (!episode) {
         return
       }
       await updatePlayPodcastEpisodeTime(episode, currentTimeInSeconds)
     },
-    [session, episode, updatePlayPodcastEpisodeTime]
+    [episode, updatePlayPodcastEpisodeTime]
   )
   const handleEnded = useCallback(
     async (currentTimeInSeconds: number) => {
-      if (session.loading) {
-        return
-      }
-      if (!session.doesSessionExist || !episode) {
+      if (!episode) {
         return
       }
       await updatePlayPodcastEpisodeTime(episode, currentTimeInSeconds)
     },
-    [session, episode, updatePlayPodcastEpisodeTime]
+    [episode, updatePlayPodcastEpisodeTime]
   )
   return (
     <div className="podcast-player">
@@ -85,4 +80,6 @@ export default memo(function PodcastPlayer() {
       </AudioPlayer>
     </div>
   )
-})
+}
+
+export default memo(PodcastPlayer)
