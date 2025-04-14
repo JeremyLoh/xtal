@@ -19,6 +19,12 @@ function mockRateLimiters() {
         getPodcastImageConversionLimiter: getMockMiddleware(),
         getPodcastCategoryLimiter: getMockMiddleware(),
         getStatusLimiter: getMockMiddleware(),
+        deleteAccountLimiter: getMockMiddleware(),
+        getAccountPlayHistoryLimiter: getMockMiddleware(),
+        getAccountPlayHistoryTimestampLimiter: getMockMiddleware(),
+        deleteAccountPlayHistoryLimiter: getMockMiddleware(),
+        updateAccountPlayHistoryLimiter: getMockMiddleware(),
+        getAccountPlayHistoryCountLimiter: getMockMiddleware(),
       },
     }
   })
