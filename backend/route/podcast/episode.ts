@@ -17,8 +17,8 @@ const router = Router()
 
 router.get(
   "/api/podcast/episode",
-  checkSchema(getSinglePodcastEpisodeValidationSchema),
   rateLimiter.getPodcastEpisodeLimiter,
+  checkSchema(getSinglePodcastEpisodeValidationSchema),
   async (request: Request, response: Response) => {
     const result = validationResult(request)
     if (!result.isEmpty()) {
@@ -48,8 +48,8 @@ router.get(
 
 router.get(
   "/api/podcast/episodes",
-  checkSchema(getPodcastEpisodesValidationSchema),
   rateLimiter.getPodcastEpisodesLimiter,
+  checkSchema(getPodcastEpisodesValidationSchema),
   async (request: Request, response: Response) => {
     const result = validationResult(request)
     if (!result.isEmpty()) {

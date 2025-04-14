@@ -10,8 +10,8 @@ const router = Router()
 
 router.get(
   "/api/podcast/search",
-  checkSchema(getPodcastSearchValidationSchema),
   rateLimiter.getPodcastSearchLimiter,
+  checkSchema(getPodcastSearchValidationSchema),
   async (request: Request, response: Response) => {
     const result = validationResult(request)
     if (!result.isEmpty()) {
