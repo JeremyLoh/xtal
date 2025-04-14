@@ -38,11 +38,24 @@ export default memo(function PodcastPlayer() {
     },
     [session, episode, updatePlayPodcastEpisodeTime]
   )
+  const handleEnded = useCallback(
+    async (currentTimeInSeconds: number) => {
+      if (session.loading) {
+        return
+      }
+      if (!session.doesSessionExist || !episode) {
+        return
+      }
+      await updatePlayPodcastEpisodeTime(episode, currentTimeInSeconds)
+    },
+    [session, episode, updatePlayPodcastEpisodeTime]
+  )
   return (
     <div className="podcast-player">
       <AudioPlayer
         source={episode ? episode.contentUrl : ""}
         onPause={handlePause}
+        onEnded={handleEnded}
       >
         {episode && (
           <div className="podcast-play-episode-container">

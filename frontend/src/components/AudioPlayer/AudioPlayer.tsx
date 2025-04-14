@@ -24,9 +24,10 @@ import {
 type AudioPlayerProps = PropsWithChildren & {
   source: string
   onPause: (currentTimeInSeconds: number) => void
+  onEnded: (currentTimeInSeconds: number) => void
 }
 
-function AudioPlayer({ source, onPause, children }: AudioPlayerProps) {
+function AudioPlayer({ source, onPause, onEnded, children }: AudioPlayerProps) {
   const [error, setError] = useState<boolean>(false)
   const [disabled, setDisabled] = useState<boolean>(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -62,6 +63,14 @@ function AudioPlayer({ source, onPause, children }: AudioPlayerProps) {
     [onPause, disabled]
   )
 
+  const handleEnded = useCallback(
+    (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
+      const target = e.target as HTMLAudioElement
+      onEnded(Math.floor(target.duration))
+    },
+    [onEnded]
+  )
+
   return (
     <div className="audio-player">
       {children}
@@ -74,6 +83,7 @@ function AudioPlayer({ source, onPause, children }: AudioPlayerProps) {
             onError={handleError}
             onCanPlay={handlePlay}
             onPause={handlePause}
+            onEnded={handleEnded}
           ></audio>
         )}
         {error ? (
