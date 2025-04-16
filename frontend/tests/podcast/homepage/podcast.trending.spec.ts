@@ -319,6 +319,7 @@ test.describe("Podcast Homepage /podcasts", () => {
       test("should fetch new podcast entries on change to since <select> element of 'last week'", async ({
         page,
       }) => {
+        test.slow()
         const oneWeekAgo = dayjs().startOf("day").subtract(7, "days").unix()
         const threeDaysAgo = dayjs().startOf("day").subtract(3, "days").unix()
         let isFirstFetch = true

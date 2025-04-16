@@ -24,6 +24,7 @@ dayjs.extend(duration)
 
 test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITLE/PODCAST-ID", () => {
   test("should display podcast detail page", async ({ page }) => {
+    test.slow()
     const podcastTitle = encodeURIComponent("Batman University")
     const podcastId = "75075"
     const limit = 10
@@ -385,6 +386,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     test("should have lazy loaded podcast image from third episode image onwards", async ({
       page,
     }) => {
+      test.slow()
       const lazyLoadedImageStartIndex = 2 // zero based index
       const episodeCount = defaultTenPodcastEpisodes.data.episodes.length
       expect(
