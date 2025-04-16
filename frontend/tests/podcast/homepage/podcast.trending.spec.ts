@@ -198,6 +198,10 @@ test.describe("Podcast Homepage /podcasts", () => {
         podcastCount,
         "should have podcast count greater than lazyLoadedImageStartIndex"
       ).toBeGreaterThanOrEqual(1)
+      await page.route("*/**/api/podcast/category", async (route) => {
+        const json = []
+        await route.fulfill({ json })
+      })
       await page.route(
         "*/**/api/podcast/trending?limit=10&since=*",
         async (route) => {
@@ -274,6 +278,10 @@ test.describe("Podcast Homepage /podcasts", () => {
         const oneDayAgo = dayjs().startOf("day").subtract(1, "days").unix()
         const threeDaysAgo = dayjs().startOf("day").subtract(3, "days").unix()
         let isFirstFetch = true
+        await page.route("*/**/api/podcast/category", async (route) => {
+          const json = []
+          await route.fulfill({ json })
+        })
         await page.route(
           `*/**/api/podcast/trending?limit=10&since=${threeDaysAgo}`,
           async (route) => {
