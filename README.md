@@ -42,6 +42,7 @@ Listen to the world (radio & podcasts) with xtal, a fast and responsive mobile /
 - supertokens - https://supertokens.com/
 - sharp - https://sharp.pixelplumbing.com/
 - supabase - https://supabase.com/
+- react-virtuoso - https://virtuoso.dev/
 
 # Setup
 

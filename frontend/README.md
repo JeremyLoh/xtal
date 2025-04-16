@@ -35,6 +35,7 @@ Made using TypeScript, React and Playwright (end-to-end testing)
 - dompurify - html sanitization (**always update to the latest version**) - https://www.npmjs.com/package/dompurify
 - supertokens - https://supertokens.com/
 - supabase - https://supabase.com/
+- react-virtuoso - https://virtuoso.dev/
 
 Favicon - https://favicon.io/emoji-favicons/dizzy/
 
