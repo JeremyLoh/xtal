@@ -1,32 +1,17 @@
-import { getAuthTokens, paths, test } from "../../fixture/auth"
-import { BrowserContext, expect, Page } from "@playwright/test"
+import {
+  assertUserIsAuthenticated,
+  logoutAccount,
+  paths,
+  signIntoExistingAccount,
+  test,
+} from "../../fixture/auth"
+import { expect } from "@playwright/test"
 import { HOMEPAGE } from "../../constants/homepageConstants"
 import { podcastId_259760_episodeId_34000697601 } from "../../mocks/podcast.episode"
 import { assertPodcastEpisodeOnPodcastEpisodeDetailPage } from "../../constants/podcast/detail/podcastDetailConstants"
 import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
 
 test.describe("Profile Podcast History Page /profile/history", () => {
-  async function signIntoExistingAccount(
-    page: Page,
-    existingAccount: { email: string; password: string }
-  ) {
-    await page.goto(paths.login)
-    await page.getByPlaceholder("Email address").fill(existingAccount.email)
-    await page.getByPlaceholder("Password").fill(existingAccount.password)
-    await page.getByRole("button", { name: "SIGN IN", exact: true }).click()
-  }
-
-  async function logoutAccount(page: Page) {
-    await page.goto(paths.profile)
-    await page.getByRole("button", { name: /logout/i }).click()
-  }
-
-  async function assertUserIsAuthenticated(context: BrowserContext) {
-    const tokens = await getAuthTokens(context, false)
-    expect(tokens.accessToken).toEqual(expect.anything())
-    expect(tokens.refreshToken).toEqual(expect.anything())
-  }
-
   test.beforeEach(({ headless }) => {
     test.skip(
       headless,
