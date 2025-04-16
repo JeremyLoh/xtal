@@ -1,4 +1,4 @@
-import { expect, Page } from "@playwright/test"
+import { expect, Locator, Page } from "@playwright/test"
 import dayjs from "dayjs"
 import duration from "dayjs/plugin/duration.js"
 import { Podcast } from "../../../../src/api/podcast/model/podcast.ts"
@@ -61,9 +61,28 @@ export function getExpectedEpisodeDuration(durationInSeconds: number) {
   return expectedDuration
 }
 
+export function getVirtualizedListParentElement(page: Page) {
+  // react-virtuoso <Virtuoso /> element container
+  return page.getByTestId("virtuoso-scroller")
+}
+
+export async function scrollUntilElementIsVisible(
+  page: Page,
+  locator: Locator,
+  parentContainer: Locator
+) {
+  while (!(await locator.isVisible())) {
+    await parentContainer.evaluate((e) => e.scrollBy({ top: 50 }))
+    await page.waitForTimeout(100) // wait for possible image to load (swap placeholder image with real image)
+  }
+  await locator.scrollIntoViewIfNeeded()
+}
+
 export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
+  const virtualizedListParentElement = getVirtualizedListParentElement(page)
+  await virtualizedListParentElement.scrollIntoViewIfNeeded()
+
   for (let i = 0; i < expectedEpisodes.count; i++) {
-    await expect(page.locator(".podcast-episode-card").nth(i)).toBeVisible()
     const episode = expectedEpisodes.data.episodes[i]
     const expectedEpisodeDuration = getExpectedEpisodeDuration(
       episode.durationInSeconds
@@ -72,10 +91,20 @@ export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
       .unix(episode.datePublished)
       .format("MMMM D, YYYY")
     const expectedArtworkSize = "144"
+
     const artwork = page.locator(".podcast-episode-card").getByRole("img", {
       name: episode.title + " podcast image",
       exact: true,
     })
+    const podcastEpisodeCard = page.locator(".podcast-episode-list-item", {
+      has: artwork,
+    })
+    // to handle virtualized list rendering (not all elements are rendered to DOM at once)
+    await scrollUntilElementIsVisible(
+      page,
+      artwork,
+      virtualizedListParentElement
+    )
     await expect(
       artwork,
       `(Episode ${i + 1}) podcast episode card Artwork should be present`
@@ -86,23 +115,25 @@ export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
         i + 1
       }) podcast episode card should have artwork image width of ${expectedArtworkSize}`
     ).toBe(expectedArtworkSize)
+
     await expect(
-      page
-        .locator(".podcast-episode-card .podcast-episode-card-title")
-        .getByText(episode.title, { exact: true }),
+      podcastEpisodeCard.getByRole("link", {
+        name: episode.title,
+        exact: true,
+      }),
       `(Episode ${i + 1}) podcast episode card Title should be present`
     ).toBeVisible()
+
     await expect(
-      page
-        .locator(".podcast-episode-card")
-        .getByText(expectedDate, { exact: true }),
+      podcastEpisodeCard.getByText(expectedDate, { exact: true }),
       `(Episode ${i + 1}) podcast episode card Episode Date should be present`
     ).toBeVisible()
+
     if (episode.episodeNumber != null) {
       await expect(
-        page
-          .locator(".podcast-episode-card")
-          .getByText(`Episode ${episode.episodeNumber}`, { exact: true }),
+        podcastEpisodeCard.getByText(`Episode ${episode.episodeNumber}`, {
+          exact: true,
+        }),
         `(Episode ${
           i + 1
         }) podcast episode card Episode Number should be present`
@@ -111,20 +142,18 @@ export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
 
     if (episode.seasonNumber && episode.seasonNumber > 0) {
       await expect(
-        page
-          .locator(".podcast-episode-card")
-          .nth(i)
-          .getByText(`Season ${episode.seasonNumber}`, { exact: true }),
+        podcastEpisodeCard.getByText(`Season ${episode.seasonNumber}`, {
+          exact: true,
+        }),
         `(Episode ${
           i + 1
         }) podcast episode card Season Number should be present`
       ).toBeVisible()
     } else {
       await expect(
-        page
-          .locator(".podcast-episode-card")
-          .nth(i)
-          .getByText(`Season ${episode.seasonNumber}`, { exact: true }),
+        podcastEpisodeCard.getByText(`Season ${episode.seasonNumber}`, {
+          exact: true,
+        }),
         `(Episode ${
           i + 1
         }) podcast episode card Season Number should not be present`
@@ -132,21 +161,21 @@ export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
     }
 
     await expect(
-      page
-        .locator(".podcast-episode-card")
-        .nth(i)
-        .getByText(expectedEpisodeDuration, { exact: true }),
+      podcastEpisodeCard.getByText(expectedEpisodeDuration, { exact: true }),
       `(Episode ${
         i + 1
       }) podcast episode card Duration in Minutes should be present`
     ).toBeVisible()
     // ensure description has no duplicates - remove all empty lines "" and newlines ("\n")
-    const descriptions = (
-      await page
-        .locator(".podcast-episode-card .podcast-episode-card-description")
-        .nth(i)
-        .allInnerTexts()
+    const descriptionElement = podcastEpisodeCard.locator(
+      ".podcast-episode-card-description"
     )
+    await scrollUntilElementIsVisible(
+      page,
+      descriptionElement,
+      virtualizedListParentElement
+    )
+    const descriptions = (await descriptionElement.allInnerTexts())
       .join("")
       .split("\n")
       .filter((line) => line.trim() !== "")
@@ -156,10 +185,17 @@ export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
         i + 1
       }) podcast episode card Description should not be duplicated due to React Strict Mode`
     ).toBe(descriptions.length)
+
+    const playButtonElement = podcastEpisodeCard.locator(
+      ".podcast-episode-card-play-button"
+    )
+    await scrollUntilElementIsVisible(
+      page,
+      playButtonElement,
+      virtualizedListParentElement
+    )
     await expect(
-      page
-        .locator(".podcast-episode-card .podcast-episode-card-play-button")
-        .nth(i),
+      playButtonElement,
       `(Episode ${i + 1}) podcast episode card Play button should be present`
     ).toBeVisible()
   }
