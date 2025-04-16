@@ -151,5 +151,28 @@ async function expectUserToBeUnauthenticated(
   expect(tokens.refreshToken).toBe(undefined)
 }
 
+async function signIntoExistingAccount(page: Page, existingAccount: Account) {
+  await page.goto(paths.login)
+  await page.getByPlaceholder("Email address").fill(existingAccount.email)
+  await page.getByPlaceholder("Password").fill(existingAccount.password)
+  await page.getByRole("button", { name: "SIGN IN", exact: true }).click()
+}
+
+async function logoutAccount(page: Page) {
+  await page.goto(paths.profile)
+  await page.getByRole("button", { name: /logout/i }).click()
+}
+
+async function assertUserIsAuthenticated(context: BrowserContext) {
+  const tokens = await getAuthTokens(context, false)
+  expect(tokens.accessToken).toEqual(expect.anything())
+  expect(tokens.refreshToken).toEqual(expect.anything())
+}
+
 export const test = extendTest
-export { paths, getAuthTokens }
+export {
+  paths,
+  signIntoExistingAccount,
+  logoutAccount,
+  assertUserIsAuthenticated,
+}
