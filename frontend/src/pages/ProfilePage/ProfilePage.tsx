@@ -81,8 +81,10 @@ function ProfilePage() {
   }, [session, navigateToHomepage])
 
   const handleLogoutAccount = useCallback(async () => {
-    toast.info("SEE YOU SPACE COWBOY...")
+    setLoading(true)
     await signOut()
+    setLoading(false)
+    toast.info("SEE YOU SPACE COWBOY...")
     navigateToHomepage()
   }, [navigateToHomepage])
 
