@@ -12,7 +12,7 @@ import { deleteAccount, getUserEmail } from "../../api/auth/account.ts"
 import LoadingDisplay from "../../components/LoadingDisplay/LoadingDisplay.tsx"
 import Button from "../../components/ui/button/Button.tsx"
 import Separator from "../../components/Separator/Separator.tsx"
-import { homePage, profileHistoryPage } from "../../paths.ts"
+import { homePage, profileHistoryPage, resetPasswordPage } from "../../paths.ts"
 
 function ProfilePage() {
   const navigate = useNavigate()
@@ -90,6 +90,10 @@ function ProfilePage() {
     navigate(profileHistoryPage())
   }, [navigate])
 
+  const handleNavigateToResetPassword = useCallback(() => {
+    navigate(resetPasswordPage())
+  }, [navigate])
+
   return (
     <div className="profile-page-container">
       <h2>Profile</h2>
@@ -101,13 +105,22 @@ function ProfilePage() {
         <p>
           <b>Email:</b> {userEmail}
         </p>
-        <Button
-          onClick={handleNavigateToProfileHistory}
-          variant="secondary"
-          title="Profile History"
-        >
-          Profile History
-        </Button>
+        <div className="profile-page-account-actions-container">
+          <Button
+            onClick={handleNavigateToProfileHistory}
+            variant="secondary"
+            title="Profile History"
+          >
+            Profile History
+          </Button>
+          <Button
+            onClick={handleNavigateToResetPassword}
+            variant="secondary"
+            title="Reset Password"
+          >
+            Reset Password
+          </Button>
+        </div>
         <Separator />
         <Button
           onClick={handleDeleteAccount}
