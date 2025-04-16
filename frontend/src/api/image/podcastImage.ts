@@ -9,14 +9,13 @@ export async function getPodcastImage(
 ): Promise<string | null> {
   const { BACKEND_ORIGIN } = getEnv()
   const backendUrl = BACKEND_ORIGIN + "/api/podcast/image"
+  const searchParams = new URLSearchParams(
+    `url=${url}&width=${width}&height=${height}`
+  )
   try {
     const blob = await ky
-      .post(backendUrl, {
-        json: {
-          url,
-          width,
-          height,
-        },
+      .get(backendUrl, {
+        searchParams,
         retry: 0,
         signal: abortController.signal,
       })

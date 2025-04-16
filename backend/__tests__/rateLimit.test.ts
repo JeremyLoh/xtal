@@ -143,7 +143,7 @@ describe("GET /api/podcast/episodes", () => {
   })
 })
 
-describe("POST /api/podcast/image", () => {
+describe("GET /api/podcast/image", () => {
   const expectedOrigin = getFrontendOrigin() || ""
 
   describe("rate limit", () => {
@@ -157,14 +157,16 @@ describe("POST /api/podcast/image", () => {
       }
       const app = setupApp()
       const firstResponse = await request(app)
-        .post(`/api/podcast/image`)
-        .send(payload)
+        .get(
+          `/api/podcast/image?url=${payload.url}&width=${payload.width}&height=${payload.height}`
+        )
         .set("Content-Type", "application/json")
         .set("Accept", "application/json")
         .set("Origin", expectedOrigin)
       const secondResponse = await request(app)
-        .post(`/api/podcast/image`)
-        .send(payload)
+        .get(
+          `/api/podcast/image?url=${payload.url}&width=${payload.width}&height=${payload.height}`
+        )
         .set("Content-Type", "application/json")
         .set("Accept", "application/json")
         .set("Origin", expectedOrigin)

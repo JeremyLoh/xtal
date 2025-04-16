@@ -51,8 +51,9 @@ describe("GET /api/podcast/image", () => {
     }
     const app = setupApp()
     const response = await request(app)
-      .post(`/api/podcast/image`)
-      .send(payload)
+      .get(
+        `/api/podcast/image?url=${payload.url}&width=${payload.width}&height=${payload.height}`
+      )
       .set("Content-Type", "application/json")
       .set("Accept", "application/json")
       .set("Origin", expectedOrigin)
@@ -74,8 +75,7 @@ describe("GET /api/podcast/image", () => {
         const payload = { url: "https://example.com", width: 100 }
         const app = setupApp()
         const response = await request(app)
-          .post(`/api/podcast/image`)
-          .send(payload)
+          .get(`/api/podcast/image?url=${payload.url}&width=${payload.width}`)
           .set("Content-Type", "application/json")
           .set("Accept", "application/json")
           .set("Origin", expectedOrigin)
@@ -93,8 +93,9 @@ describe("GET /api/podcast/image", () => {
         const payload = { height: 15, url: "https://example.com", width: 100 }
         const app = setupApp()
         const response = await request(app)
-          .post(`/api/podcast/image`)
-          .send(payload)
+          .get(
+            `/api/podcast/image?url=${payload.url}&width=${payload.width}&height=${payload.height}`
+          )
           .set("Content-Type", "application/json")
           .set("Accept", "application/json")
           .set("Origin", expectedOrigin)
@@ -112,8 +113,9 @@ describe("GET /api/podcast/image", () => {
         const payload = { height: 501, url: "https://example.com", width: 100 }
         const app = setupApp()
         const response = await request(app)
-          .post(`/api/podcast/image`)
-          .send(payload)
+          .get(
+            `/api/podcast/image?url=${payload.url}&width=${payload.width}&height=${payload.height}`
+          )
           .set("Content-Type", "application/json")
           .set("Accept", "application/json")
           .set("Origin", expectedOrigin)
@@ -131,8 +133,9 @@ describe("GET /api/podcast/image", () => {
         const payload = { height: -1, url: "https://example.com", width: 100 }
         const app = setupApp()
         const response = await request(app)
-          .post(`/api/podcast/image`)
-          .send(payload)
+          .get(
+            `/api/podcast/image?url=${payload.url}&width=${payload.width}&height=${payload.height}`
+          )
           .set("Content-Type", "application/json")
           .set("Accept", "application/json")
           .set("Origin", expectedOrigin)
@@ -150,8 +153,9 @@ describe("GET /api/podcast/image", () => {
         const payload = { height: 0, url: "https://example.com", width: 100 }
         const app = setupApp()
         const response = await request(app)
-          .post(`/api/podcast/image`)
-          .send(payload)
+          .get(
+            `/api/podcast/image?url=${payload.url}&width=${payload.width}&height=${payload.height}`
+          )
           .set("Content-Type", "application/json")
           .set("Accept", "application/json")
           .set("Origin", expectedOrigin)
@@ -171,8 +175,7 @@ describe("GET /api/podcast/image", () => {
         const payload = { url: "https://example.com", height: 200 }
         const app = setupApp()
         const response = await request(app)
-          .post(`/api/podcast/image`)
-          .send(payload)
+          .get(`/api/podcast/image?url=${payload.url}&height=${payload.height}`)
           .set("Content-Type", "application/json")
           .set("Accept", "application/json")
           .set("Origin", expectedOrigin)
@@ -190,8 +193,9 @@ describe("GET /api/podcast/image", () => {
         const payload = { width: 15, url: "https://example.com", height: 200 }
         const app = setupApp()
         const response = await request(app)
-          .post(`/api/podcast/image`)
-          .send(payload)
+          .get(
+            `/api/podcast/image?url=${payload.url}&width=${payload.width}&height=${payload.height}`
+          )
           .set("Content-Type", "application/json")
           .set("Accept", "application/json")
           .set("Origin", expectedOrigin)
@@ -209,8 +213,9 @@ describe("GET /api/podcast/image", () => {
         const payload = { width: 501, url: "https://example.com", height: 200 }
         const app = setupApp()
         const response = await request(app)
-          .post(`/api/podcast/image`)
-          .send(payload)
+          .get(
+            `/api/podcast/image?url=${payload.url}&width=${payload.width}&height=${payload.height}`
+          )
           .set("Content-Type", "application/json")
           .set("Accept", "application/json")
           .set("Origin", expectedOrigin)
@@ -228,8 +233,9 @@ describe("GET /api/podcast/image", () => {
         const payload = { width: -2, url: "https://example.com", height: 200 }
         const app = setupApp()
         const response = await request(app)
-          .post(`/api/podcast/image`)
-          .send(payload)
+          .get(
+            `/api/podcast/image?url=${payload.url}&width=${payload.width}&height=${payload.height}`
+          )
           .set("Content-Type", "application/json")
           .set("Accept", "application/json")
           .set("Origin", expectedOrigin)
@@ -247,8 +253,9 @@ describe("GET /api/podcast/image", () => {
         const payload = { width: 0, url: "https://example.com", height: 200 }
         const app = setupApp()
         const response = await request(app)
-          .post(`/api/podcast/image`)
-          .send(payload)
+          .get(
+            `/api/podcast/image?url=${payload.url}&width=${payload.width}&height=${payload.height}`
+          )
           .set("Content-Type", "application/json")
           .set("Accept", "application/json")
           .set("Origin", expectedOrigin)
@@ -268,8 +275,9 @@ describe("GET /api/podcast/image", () => {
         const payload = { width: 200, height: 200 }
         const app = setupApp()
         const response = await request(app)
-          .post(`/api/podcast/image`)
-          .send(payload)
+          .get(
+            `/api/podcast/image?width=${payload.width}&height=${payload.height}`
+          )
           .set("Content-Type", "application/json")
           .set("Accept", "application/json")
           .set("Origin", expectedOrigin)
