@@ -16,12 +16,15 @@ import {
   assertPodcastEpisodes,
   assertPodcastInfo,
   getExpectedEpisodeDuration,
+  getVirtualizedListParentElement,
+  scrollUntilElementIsVisible,
 } from "../../constants/podcast/detail/podcastDetailConstants.ts"
 
 dayjs.extend(duration)
 
 test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITLE/PODCAST-ID", () => {
   test("should display podcast detail page", async ({ page }) => {
+    test.slow()
     const podcastTitle = encodeURIComponent("Batman University")
     const podcastId = "75075"
     const limit = 10
@@ -100,10 +103,13 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
         page,
         podcastId_259760_FirstTenEpisodes.data.podcast
       )
-      await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
-
+      // do not assert podcast data as list is virtualized (rended items based on viewport visibility)
       const expectedEpisodeTitle =
         podcastId_259760_episodeId_34000697601.data.title
+      await page
+        .locator(".podcast-episode-card")
+        .getByText(expectedEpisodeTitle, { exact: true })
+        .scrollIntoViewIfNeeded()
       await expect(
         page
           .locator(".podcast-episode-card")
@@ -235,6 +241,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     test("should display duration of episode in hours and minutes", async ({
       page,
     }) => {
+      test.slow()
       const expectedDurationsInSeconds = [
         3600, 3601, 3602, 3603, 3604, 3605, 3606, 3607, 3608, 3609,
       ]
@@ -273,11 +280,24 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
         const expectedDuration = getExpectedEpisodeDuration(
           episode.durationInSeconds
         )
+
+        const artwork = page.locator(".podcast-episode-card").getByRole("img", {
+          name: episode.title + " podcast image",
+          exact: true,
+        })
+        const podcastEpisodeCard = page.locator(".podcast-episode-list-item", {
+          has: artwork,
+        })
+        const durationLocator = podcastEpisodeCard.getByText(expectedDuration, {
+          exact: true,
+        })
+        await scrollUntilElementIsVisible(
+          page,
+          artwork,
+          getVirtualizedListParentElement(page)
+        )
         await expect(
-          page
-            .locator(".podcast-episode-card")
-            .nth(i)
-            .getByText(expectedDuration, { exact: true }),
+          durationLocator,
           `(Episode ${i + 1}) podcast episode card Duration should be present`
         ).toBeVisible()
       }
@@ -337,7 +357,8 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       page,
     }) => {
       test.slow()
-      const i = 2
+      // podcast episodes are rendered in virtualized list, use first visible podcast episode card element
+      const i = 0
       const expectedEpisode = defaultTenPodcastEpisodes.data.episodes[i]
       const expectedArtworkSize = "96"
       const podcastTitle = encodeURIComponent("Batman University")
@@ -365,6 +386,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     test("should have lazy loaded podcast image from third episode image onwards", async ({
       page,
     }) => {
+      test.slow()
       const lazyLoadedImageStartIndex = 2 // zero based index
       const episodeCount = defaultTenPodcastEpisodes.data.episodes.length
       expect(
@@ -390,6 +412,11 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
           name: episode.title + " podcast image",
           exact: true,
         })
+        await scrollUntilElementIsVisible(
+          page,
+          artwork,
+          getVirtualizedListParentElement(page)
+        )
         if (i < lazyLoadedImageStartIndex) {
           await expect(
             artwork,

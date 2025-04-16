@@ -9,13 +9,15 @@ import logger from "../../logger.js"
 
 const router = Router()
 
-router.post(
+router.get(
   "/api/podcast/image",
   rateLimiter.getPodcastImageConversionLimiter,
-  checkSchema(getPodcastImageValidationSchema, ["body"]),
+  checkSchema(getPodcastImageValidationSchema, ["query"]),
   async (request: Request, response: Response) => {
     const result = validationResult(request)
-    const isInvalidUrl = !isValidUrl(decodeHTML(request.body.url))
+    const data = matchedData(request)
+    const isInvalidUrl =
+      data && data.url ? !isValidUrl(decodeHTML(data.url)) : true
     if (!result.isEmpty() || isInvalidUrl) {
       const validationErrors = result.array().map((error) => error.msg)
       response.status(400).send({
@@ -32,10 +34,15 @@ router.post(
         Number(width),
         Number(height)
       )
+      const cacheTimeInSeconds = 604800
       response.contentType("image/webp")
+      response.setHeader(
+        "Cache-Control",
+        `public, max-age=${cacheTimeInSeconds}`
+      )
       response.status(200).send(imageBuffer)
     } catch (error: any) {
-      logger.error("POST /api/podcast/image error:", error.message)
+      logger.error("GET /api/podcast/image error:", error.message)
       response.status(500).send("Internal Server Error")
     }
   }
