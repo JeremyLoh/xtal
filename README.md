@@ -15,6 +15,9 @@ Listen to the world (radio & podcasts) with xtal, a fast and responsive mobile /
   - Explore trending podcasts in different podcast categories
     - 24 hours, last 3 days, last week
   - Search podcasts
+  - Create an account to access these additional features:
+    - View and save your podcast episode listen history
+    - Play podcast episodes from your last played timestamp (last played timestamp is saved on podcast episode pause or on podcast episode listen completion)
 
 # Built With
 
