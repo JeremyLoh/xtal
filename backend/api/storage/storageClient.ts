@@ -167,8 +167,21 @@ class StorageClient {
       const imageKeys = deleteChunk.map(
         (data) => data.image_width_image_height_url
       )
+      let deletedFileNames: string[] = []
       try {
-        await this.deleteImageStorage(filePaths)
+        const deletedFilePaths = await this.deleteImageStorage(filePaths)
+        if (!deletedFilePaths) {
+          continue
+        }
+        // convert from e.g public/w300_h300/yAl3PRi5tDcd1Bfo6x4mv.webp to yAl3PRi5tDcd1Bfo6x4mv.webp
+        const fileNameRegex = new RegExp(/^public\/w\d+_h\d+\/(.+)$/)
+        deletedFileNames = deletedFilePaths
+          .map((d) => {
+            const matches = d.match(fileNameRegex)
+            const fileName = matches ? matches[1] : null
+            return fileName
+          })
+          .filter((d) => d != null)
       } catch (error: any) {
         logger.error(
           `deleteStorageFilesBefore(): Failed to delete image files. Start Index: ${start}, End Index: ${end} Error: ${
@@ -177,8 +190,11 @@ class StorageClient {
         )
         continue // do not proceed if image deletion has failed, leave the database row intact
       }
+      logger.info(
+        `deleteStorageFilesBefore(): attempting to delete files from database: ${deletedFileNames}`
+      )
       try {
-        await this.deleteImageDatabaseRows(imageKeys)
+        await this.deleteImageDatabaseRowsWithStorageFileName(deletedFileNames)
       } catch (error: any) {
         logger.error(
           `deleteStorageFilesBefore(): Failed to delete image database rows. Start Index: ${start}, End Index: ${end} Error: ${
@@ -188,6 +204,25 @@ class StorageClient {
       }
       // sleep after deleting a chunk
       await new Promise((resolve) => setTimeout(resolve, 2000))
+    }
+  }
+
+  private async deleteImageDatabaseRowsWithStorageFileName(
+    storageFileNames: string[]
+  ) {
+    if (storageFileNames == null || storageFileNames.length === 0) {
+      return
+    }
+    const { status, error } = await this.supabase
+      .from("podcast_images")
+      .delete()
+      .in("storage_file_name", storageFileNames)
+    if (error) {
+      throw new Error(
+        `deleteImageDatabaseRowsWithStorageFileName(): could not delete ${JSON.stringify(
+          storageFileNames
+        )}. Status: ${status}. Error: ${error?.message}`
+      )
     }
   }
 
@@ -208,15 +243,28 @@ class StorageClient {
     }
   }
 
-  private async deleteImageStorage(filePaths: string[]): Promise<void> {
+  private async deleteImageStorage(
+    filePaths: string[]
+  ): Promise<string[] | undefined> {
     if (filePaths == null || filePaths.length === 0) {
       return
     }
-    const { error } = await this.supabase.storage
+    const { data, error } = await this.supabase.storage
       .from("podcast-image") // bucket name
       .remove(filePaths)
     if (error) {
       throw new Error(`deleteImageStorage(): Error: ${error.message}`)
+    }
+    if (data) {
+      const deletedFilePaths = data.map((d) => d.name)
+      const deletedFilesSet = new Set(deletedFilePaths)
+      const missingDeleteFiles = filePaths.filter(
+        (p) => !deletedFilesSet.has(p)
+      )
+      logger.error(
+        `deleteImageStorage(): could not delete file paths: ${missingDeleteFiles}`
+      )
+      return deletedFilePaths
     }
   }
 }
