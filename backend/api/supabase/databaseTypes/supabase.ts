@@ -34,6 +34,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      categories: {
+        Row: {
+          category: string
+          created_at: string
+          id: number
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          id?: number
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: number
+        }
+        Relationships: []
+      }
+      podcast_categories: {
+        Row: {
+          category_id: number
+          created_at: string
+          podcast_id: number
+        }
+        Insert: {
+          category_id: number
+          created_at?: string
+          podcast_id: number
+        }
+        Update: {
+          category_id?: number
+          created_at?: string
+          podcast_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "podcast_categories_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "podcast_categories_podcast_id_fkey"
+            columns: ["podcast_id"]
+            isOneToOne: false
+            referencedRelation: "podcasts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       podcast_episode_play_history: {
         Row: {
           last_played_timestamp: string
@@ -121,6 +172,39 @@ export type Database = {
         }
         Relationships: []
       }
+      podcast_followers: {
+        Row: {
+          created_at: string
+          podcast_id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          podcast_id: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          podcast_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "podcast_followers_podcast_id_fkey"
+            columns: ["podcast_id"]
+            isOneToOne: false
+            referencedRelation: "podcasts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "podcast_followers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       podcast_images: {
         Row: {
           created_at: string
@@ -136,6 +220,45 @@ export type Database = {
           created_at?: string
           image_width_image_height_url?: string
           storage_file_name?: string
+        }
+        Relationships: []
+      }
+      podcasts: {
+        Row: {
+          author: string | null
+          created_at: string
+          episode_count: number | null
+          external_website_url: string | null
+          id: number
+          image: string | null
+          language: string | null
+          podcast_id: number
+          publish_date_unix_timestamp: string | null
+          title: string
+        }
+        Insert: {
+          author?: string | null
+          created_at?: string
+          episode_count?: number | null
+          external_website_url?: string | null
+          id?: number
+          image?: string | null
+          language?: string | null
+          podcast_id: number
+          publish_date_unix_timestamp?: string | null
+          title: string
+        }
+        Update: {
+          author?: string | null
+          created_at?: string
+          episode_count?: number | null
+          external_website_url?: string | null
+          id?: number
+          image?: string | null
+          language?: string | null
+          podcast_id?: number
+          publish_date_unix_timestamp?: string | null
+          title?: string
         }
         Relationships: []
       }

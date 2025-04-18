@@ -500,20 +500,6 @@
           "values": []
         },
         {
-          "name": "is_explicit",
-          "type": "BOOLEAN",
-          "default": "",
-          "check": "",
-          "primary": false,
-          "unique": false,
-          "notNull": false,
-          "increment": false,
-          "comment": "",
-          "id": 9,
-          "size": "",
-          "values": []
-        },
-        {
           "name": "created_at",
           "type": "TIMESTAMPTZ",
           "default": "now()",
@@ -523,7 +509,7 @@
           "notNull": true,
           "increment": false,
           "comment": "",
-          "id": 10,
+          "id": 9,
           "size": "",
           "values": []
         }

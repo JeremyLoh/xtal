@@ -84,7 +84,6 @@ Tracks podcast information
 | **language** | VARCHAR(255) | null | | |
 | **publish_date_unix_timestamp** | TIMESTAMP | not null | | |
 | **episode_count** | INTEGER | null | | |
-| **is_explicit** | BOOLEAN | null | | |
 | **created_at** | TIMESTAMPTZ | not null, default: now() | | |
 
 ### podcast_categories
@@ -177,7 +176,6 @@ erDiagram
 		VARCHAR(255) language
 		TIMESTAMP publish_date_unix_timestamp
 		INTEGER episode_count
-		BOOLEAN is_explicit
 		TIMESTAMPTZ created_at
 	}
 
