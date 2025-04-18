@@ -23,18 +23,20 @@ function usePlayHistory() {
   const session: SessionContextType = useSessionContext()
   const [loading, setLoading] = useState<boolean>(true)
   const abortController = useRef<AbortController | null>(null)
+  const isInitialFetchRef = useRef<boolean | null>(null)
   const [totalPlayedPodcastEpisodes, setTotalPlayedPodcastEpisodes] =
     useState<number>(0)
 
   useEffect(() => {
     async function getTotalPlayedCount() {
-      if (session.loading) {
+      if (session.loading || !isInitialFetchRef.current) {
         return
       }
       if (!session.doesSessionExist) {
         return
       }
       try {
+        isInitialFetchRef.current = false
         const total = await getAccountTotalPodcastEpisodePlayCount()
         setTotalPlayedPodcastEpisodes(total)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

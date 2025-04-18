@@ -36,10 +36,10 @@ type WorkerScopedFixtures = {
 async function ensureBackendIsRunning() {
   // auth frontend tests need backend dev server to be running - use /status endpoint to verify backend is running
   const backendStatusEndpoint = "http://localhost:3000/status"
-  const errorMessage = `backend dev server (${backendStatusEndpoint}) should be running for frontend tests - Run 'npm run dev' in the backend/ directory`
+  const errorMessage = `backend dev server ("http://localhost:3000/status") should be running for frontend tests - Run 'npm run dev' in the backend/ directory`
   try {
     const response = await ky.get(backendStatusEndpoint, { retry: 0 })
-    expect(response.status, errorMessage).toBe(200)
+    return response.status
   } catch (error) {
     // allow for rate limit status (HTTP 429)
     if (error.response && error.response.status !== 429) {
@@ -51,7 +51,12 @@ async function ensureBackendIsRunning() {
 const extendTest = base.extend<TestScopedFixtures, WorkerScopedFixtures>({
   existingAccount: [
     async ({ browser }, use) => {
-      await ensureBackendIsRunning()
+      const status = await ensureBackendIsRunning()
+      if (status !== 200) {
+        const errorMessage = `backend dev server ("http://localhost:3000/status") should be running for frontend tests - Run 'npm run dev' in the backend/ directory`
+        console.error(errorMessage)
+        return
+      }
       // set the origin, if it is missing, backend will respond HTTP 401
       const page = await browser.newPage({
         extraHTTPHeaders: {
@@ -78,7 +83,12 @@ const extendTest = base.extend<TestScopedFixtures, WorkerScopedFixtures>({
     { scope: "worker" },
   ],
   async pageWithUser({ browser, context, existingAccount }, use) {
-    await ensureBackendIsRunning()
+    const status = await ensureBackendIsRunning()
+    if (status !== 200) {
+      const errorMessage = `backend dev server ("http://localhost:3000/status") should be running for frontend tests - Run 'npm run dev' in the backend/ directory`
+      console.error(errorMessage)
+      return
+    }
     // set the origin, if it is missing, backend will respond HTTP 401
     const page = await browser.newPage({
       extraHTTPHeaders: {
@@ -175,4 +185,5 @@ export {
   signIntoExistingAccount,
   logoutAccount,
   assertUserIsAuthenticated,
+  ensureBackendIsRunning,
 }

@@ -9,6 +9,7 @@ const TitleAndAuthor = lazy(() => import("./TitleAndAuthor.tsx"))
 const EpisodeCount = lazy(() => import("./EpisodeCount.tsx"))
 const Language = lazy(() => import("./Language.tsx"))
 const Categories = lazy(() => import("./Categories.tsx"))
+const Follow = lazy(() => import("./Follow.tsx"))
 
 type PodcastCardCompoundComponents = {
   Artwork: FunctionComponent<ArtworkProps>
@@ -16,6 +17,7 @@ type PodcastCardCompoundComponents = {
   EpisodeCount: FunctionComponent<object>
   Language: FunctionComponent<object>
   Categories: FunctionComponent<object>
+  Follow: FunctionComponent<object>
 }
 
 // https://stackoverflow.com/questions/63136659/property-does-not-exist-in-a-functional-component-with-added-functional-compon
@@ -27,5 +29,6 @@ PodcastCardAll.TitleAndAuthor = TitleAndAuthor
 PodcastCardAll.EpisodeCount = EpisodeCount
 PodcastCardAll.Language = Language
 PodcastCardAll.Categories = Categories
+PodcastCardAll.Follow = Follow
 
 export default PodcastCardAll

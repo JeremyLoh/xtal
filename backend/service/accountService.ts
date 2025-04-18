@@ -88,3 +88,48 @@ export async function deleteAccountPodcastEpisodePlayHistory(
     )
   }
 }
+
+export async function getAccountFollowPodcastById(
+  userId: string,
+  podcastId: string
+) {
+  const accountClient = AccountClient.getInstance()
+  try {
+    const isFollowing = await accountClient.getPodcastFollowHistoryById(
+      userId,
+      podcastId
+    )
+    return isFollowing
+  } catch (error: any) {
+    logger.error(error.message)
+    throw new Error(
+      `getAccountFollowPodcast(): Could not find account podcast follow history. userId ${userId}. podcastId ${podcastId}`
+    )
+  }
+}
+
+export async function addAccountPodcastFollow(
+  userId: string,
+  podcastData: {
+    podcastId: string
+    externalWebsiteUrl: string
+    title: string | null
+    author: string
+    image: string
+    language: string
+    publishDateUnixTimestamp: string
+    episodeCount: number | null
+  }
+) {
+  const accountClient = AccountClient.getInstance()
+  try {
+    await accountClient.addPodcastFollow(userId, podcastData)
+  } catch (error: any) {
+    logger.error(error.message)
+    throw new Error(
+      `addAccountPodcastFollow(): Could not add account podcast follow. userId ${userId}. Podcast data ${JSON.stringify(
+        podcastData
+      )}`
+    )
+  }
+}

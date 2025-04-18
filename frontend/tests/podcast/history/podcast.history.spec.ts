@@ -1,5 +1,6 @@
 import {
   assertUserIsAuthenticated,
+  ensureBackendIsRunning,
   logoutAccount,
   paths,
   signIntoExistingAccount,
@@ -12,11 +13,18 @@ import { assertPodcastEpisodeOnPodcastEpisodeDetailPage } from "../../constants/
 import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
 
 test.describe("Profile Podcast History Page /profile/history", () => {
-  test.beforeEach(({ headless }) => {
+  test.beforeEach(async ({ headless }) => {
     test.skip(
       headless,
       "Skip headless test as backend dev server needs to be running as well for tests"
     )
+    const backendStatus = await ensureBackendIsRunning()
+    if (backendStatus !== 200) {
+      test.skip(
+        true,
+        "Backend dev server should be running for the following tests"
+      )
+    }
   })
 
   test.describe("listen history section", () => {

@@ -40,6 +40,88 @@ class AccountClient {
     return notAnArray as T
   }
 
+  async getPodcastFollowHistoryById(userId: string, podcastId: string) {
+    const { data, error } = await this.supabase
+      .from("podcast_followers")
+      .select("podcasts!inner(podcast_id)")
+      .eq("user_id", userId)
+      .eq("podcasts.podcast_id", podcastId)
+      .limit(1)
+
+    if (error) {
+      throw new Error(
+        `getPodcastFollowHistoryById(): Could not find podcast follow history for userId ${userId}, podcastId ${podcastId}. Error ${error.message}`
+      )
+    }
+    if (!data || data.length == 0) {
+      return false
+    }
+    const parsedData = this.castToNonArrayType(data[0].podcasts)
+    if (parsedData.podcast_id != null) {
+      return true
+    }
+    return false
+  }
+
+  async addPodcastFollow(
+    userId: string,
+    podcastData: {
+      podcastId: string
+      externalWebsiteUrl: string
+      title: string | null
+      author: string
+      image: string
+      language: string
+      publishDateUnixTimestamp: string
+      episodeCount: number | null
+    }
+  ) {
+    const insertPodcastData = {
+      podcast_id: podcastData.podcastId,
+      external_website_url: podcastData.externalWebsiteUrl,
+      title: podcastData.title ? podcastData.title.trim() : "",
+      author: podcastData.author,
+      image: podcastData.image,
+      language: podcastData.language,
+      publish_date_unix_timestamp: dayjs
+        .unix(Number(podcastData.publishDateUnixTimestamp))
+        .unix(),
+      episode_count: podcastData.episodeCount,
+    }
+    const { data, error: podcastError } = await this.supabase
+      .from("podcasts")
+      .upsert(insertPodcastData, {
+        onConflict: "podcast_id",
+        ignoreDuplicates: false,
+      })
+      .select("id")
+    if (podcastError) {
+      throw new Error(
+        `addPodcastFollow(): Could not add podcast data for userId ${userId}, podcastId ${podcastData.podcastId}. Error ${podcastError.message}`
+      )
+    }
+    if (data == null || data.length === 0) {
+      throw new Error(
+        `addPodcastFollow(): Could not add podcast follow for userId ${userId}, podcastId ${podcastData.podcastId}. Could not get "id" from "podcasts" table for foreign key`
+      )
+    }
+    const podcastFollowerData = {
+      user_id: userId,
+      podcast_id: data[0].id,
+    }
+    const { error } = await this.supabase
+      .from("podcast_followers")
+      .upsert(podcastFollowerData, {
+        onConflict: "user_id,podcast_id",
+        ignoreDuplicates: true,
+      })
+    if (error) {
+      throw new Error(
+        `addPodcastFollow(): Could not add podcast follow for userId ${userId}, podcastId ${podcastData.podcastId}. Error ${error.message}`
+      )
+    }
+  }
+
   async getPodcastEpisodePlayCount(userId: string) {
     const { count, error } = await this.supabase
       .from("podcast_episode_play_history")
@@ -66,7 +148,7 @@ class AccountClient {
         `getPodcastEpisodeLastPlayTimestamp(): Could not get data for userId ${userId}, episodeId ${episodeId}. Error ${error.message}`
       )
     }
-    if (!data) {
+    if (!data || data.length === 0) {
       return null
     }
     return data[0]["podcast_episode_play_history"][0][

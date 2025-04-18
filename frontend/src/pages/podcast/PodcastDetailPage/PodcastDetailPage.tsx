@@ -93,6 +93,9 @@ export default function PodcastDetailPage() {
                   <PodcastCard.Categories />
                 </div>
               </div>
+              <span className="podcast-info-card-follow-button">
+                <PodcastCard.Follow />
+              </span>
             </PodcastCard>
           </div>
         )}

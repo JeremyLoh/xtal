@@ -32,6 +32,8 @@ function mockRateLimiters() {
         deleteAccountPlayHistoryLimiter: getMockMiddleware(),
         updateAccountPlayHistoryLimiter: getMockMiddleware(),
         getAccountPlayHistoryCountLimiter: getMockMiddleware(),
+        addAccountFollowPodcastLimiter: getMockMiddleware(),
+        getAccountFollowPodcastLimiter: getMockMiddleware(),
       },
     }
   })

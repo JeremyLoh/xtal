@@ -1,6 +1,7 @@
 import { expect } from "@playwright/test"
 import {
   assertUserIsAuthenticated,
+  ensureBackendIsRunning,
   logoutAccount,
   paths,
   signIntoExistingAccount,
@@ -9,11 +10,18 @@ import {
 import { HOMEPAGE } from "../constants/homepageConstants"
 
 test.describe("Profile Reset Password navigation", () => {
-  test.beforeEach(({ headless }) => {
+  test.beforeEach(async ({ headless }) => {
     test.skip(
       headless,
       "Skip headless test as backend dev server needs to be running as well for tests"
     )
+    const backendStatus = await ensureBackendIsRunning()
+    if (backendStatus !== 200) {
+      test.skip(
+        true,
+        "Backend dev server should be running for the following tests"
+      )
+    }
   })
 
   test("should navigate to reset password page on profile page reset password button click", async ({

@@ -3,8 +3,8 @@
     {
       "id": 0,
       "name": "podcast_images",
-      "x": -787.9999999999998,
-      "y": -346.9999999999999,
+      "x": -1971.9999999999998,
+      "y": -69.99999999999986,
       "fields": [
         {
           "name": "image_width_image_height_url",
@@ -55,8 +55,8 @@
     {
       "id": 1,
       "name": "users",
-      "x": -783,
-      "y": -80.99999999999989,
+      "x": -723,
+      "y": -79.99999999999989,
       "fields": [
         {
           "name": "user_id",
@@ -107,8 +107,8 @@
     {
       "id": 2,
       "name": "podcast_episodes",
-      "x": -783,
-      "y": 193.0000000000001,
+      "x": -721.0000000000002,
+      "y": 143.00000000000006,
       "fields": [
         {
           "name": "id",
@@ -308,8 +308,8 @@
     {
       "id": 3,
       "name": "podcast_episode_play_history",
-      "x": 257.0000000000002,
-      "y": -3.9999999999998295,
+      "x": -721.9999999999998,
+      "y": 767.0000000000002,
       "fields": [
         {
           "name": "user_id",
@@ -371,6 +371,315 @@
       "indices": [],
       "color": "#175e7a",
       "key": 1744280453330
+    },
+    {
+      "id": 4,
+      "name": "podcasts",
+      "x": -1339,
+      "y": 141.00000000000017,
+      "fields": [
+        {
+          "name": "id",
+          "type": "SERIAL",
+          "default": "",
+          "check": "",
+          "primary": true,
+          "unique": true,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 0,
+          "size": "",
+          "values": []
+        },
+        {
+          "name": "podcast_id",
+          "type": "SERIAL",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 1,
+          "size": "",
+          "values": []
+        },
+        {
+          "name": "external_website_url",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 2,
+          "size": 255
+        },
+        {
+          "name": "title",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 3,
+          "size": 255
+        },
+        {
+          "name": "author",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 4,
+          "size": 255
+        },
+        {
+          "name": "image",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 5,
+          "size": 255
+        },
+        {
+          "name": "language",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 6,
+          "size": 255
+        },
+        {
+          "name": "publish_date_unix_timestamp",
+          "type": "TIMESTAMP",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 7,
+          "size": "",
+          "values": []
+        },
+        {
+          "name": "episode_count",
+          "type": "INTEGER",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 8,
+          "size": "",
+          "values": []
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMPTZ",
+          "default": "now()",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 9,
+          "size": "",
+          "values": []
+        }
+      ],
+      "comment": "Tracks podcast information",
+      "indices": [],
+      "color": "#175e7a",
+      "key": 1744876711136
+    },
+    {
+      "id": 5,
+      "name": "podcast_categories",
+      "x": -1977,
+      "y": 142.99999999999983,
+      "fields": [
+        {
+          "name": "podcast_id",
+          "type": "SERIAL",
+          "default": "",
+          "check": "",
+          "primary": true,
+          "unique": true,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 0,
+          "size": "",
+          "values": []
+        },
+        {
+          "name": "category_id",
+          "type": "SERIAL",
+          "default": "",
+          "check": "",
+          "primary": true,
+          "unique": true,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 1,
+          "size": "",
+          "values": []
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMPTZ",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 2,
+          "size": "",
+          "values": []
+        }
+      ],
+      "comment": "",
+      "indices": [],
+      "color": "#175e7a",
+      "key": 1744954663760
+    },
+    {
+      "id": 6,
+      "name": "podcast_followers",
+      "x": -1349,
+      "y": -78.99999999999994,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": true,
+          "unique": false,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 0,
+          "size": 255,
+          "values": []
+        },
+        {
+          "name": "podcast_id",
+          "type": "SERIAL",
+          "default": "",
+          "check": "",
+          "primary": true,
+          "unique": false,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 1,
+          "size": "",
+          "values": []
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMPTZ",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 2,
+          "size": "",
+          "values": []
+        }
+      ],
+      "comment": "",
+      "indices": [],
+      "color": "#175e7a",
+      "key": 1744954849953
+    },
+    {
+      "id": 7,
+      "name": "categories",
+      "x": -1338,
+      "y": 618.0000000000001,
+      "fields": [
+        {
+          "name": "id",
+          "type": "SERIAL",
+          "default": "",
+          "check": "",
+          "primary": true,
+          "unique": true,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 0,
+          "size": "",
+          "values": []
+        },
+        {
+          "name": "category",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 1,
+          "size": 255,
+          "values": []
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMPTZ",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 2,
+          "size": "",
+          "values": []
+        }
+      ],
+      "comment": "",
+      "indices": [],
+      "color": "#175e7a",
+      "key": 1744955970075
     }
   ],
   "relationships": [
@@ -379,7 +688,7 @@
       "startFieldId": 0,
       "endTableId": 1,
       "endFieldId": 0,
-      "cardinality": "one_to_one",
+      "cardinality": "many_to_one",
       "updateConstraint": "No action",
       "deleteConstraint": "No action",
       "name": "fk_podcast_episode_play_history_user_id_users",
@@ -390,11 +699,55 @@
       "startFieldId": 1,
       "endTableId": 2,
       "endFieldId": 0,
-      "cardinality": "one_to_one",
+      "cardinality": "many_to_one",
       "updateConstraint": "No action",
       "deleteConstraint": "No action",
       "name": "fk_podcast_episode_play_history_podcast_episode_id_podcast_episodes",
       "id": 1
+    },
+    {
+      "startTableId": 1,
+      "startFieldId": 0,
+      "endTableId": 6,
+      "endFieldId": 0,
+      "cardinality": "many_to_one",
+      "updateConstraint": "No action",
+      "deleteConstraint": "No action",
+      "name": "fk_users_user_id_podcast_followers",
+      "id": 2
+    },
+    {
+      "startTableId": 5,
+      "startFieldId": 1,
+      "endTableId": 7,
+      "endFieldId": 0,
+      "cardinality": "many_to_one",
+      "updateConstraint": "No action",
+      "deleteConstraint": "No action",
+      "name": "fk_podcast_categories_category_id_categories",
+      "id": 3
+    },
+    {
+      "startTableId": 6,
+      "startFieldId": 1,
+      "endTableId": 4,
+      "endFieldId": 0,
+      "cardinality": "many_to_one",
+      "updateConstraint": "No action",
+      "deleteConstraint": "No action",
+      "name": "fk_podcast_followers_podcast_id_podcasts",
+      "id": 4
+    },
+    {
+      "startTableId": 5,
+      "startFieldId": 0,
+      "endTableId": 4,
+      "endFieldId": 0,
+      "cardinality": "many_to_one",
+      "updateConstraint": "No action",
+      "deleteConstraint": "No action",
+      "name": "fk_podcast_categories_podcast_id_podcasts",
+      "id": 5
     }
   ],
   "notes": [],
