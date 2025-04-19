@@ -2,6 +2,7 @@ import { FunctionComponent, lazy } from "react"
 import { PodcastCardProps } from "./PodcastCard.tsx"
 import { ArtworkProps } from "./Artwork.tsx"
 import { TitleAndAuthorProps } from "./TitleAndAuthor.tsx"
+import { PodcastCardFollowButtonProps } from "./Follow.tsx"
 
 const PodcastCard = lazy(() => import("./PodcastCard.tsx"))
 const Artwork = lazy(() => import("./Artwork.tsx"))
@@ -17,7 +18,7 @@ type PodcastCardCompoundComponents = {
   EpisodeCount: FunctionComponent<object>
   Language: FunctionComponent<object>
   Categories: FunctionComponent<object>
-  Follow: FunctionComponent<object>
+  Follow: FunctionComponent<PodcastCardFollowButtonProps>
 }
 
 // https://stackoverflow.com/questions/63136659/property-does-not-exist-in-a-functional-component-with-added-functional-compon

@@ -12,7 +12,12 @@ import { deleteAccount, getUserEmail } from "../../api/auth/account.ts"
 import LoadingDisplay from "../../components/LoadingDisplay/LoadingDisplay.tsx"
 import Button from "../../components/ui/button/Button.tsx"
 import Separator from "../../components/Separator/Separator.tsx"
-import { homePage, profileHistoryPage, resetPasswordPage } from "../../paths.ts"
+import {
+  homePage,
+  profileFollowingPage,
+  profileHistoryPage,
+  resetPasswordPage,
+} from "../../paths.ts"
 
 function ProfilePage() {
   const navigate = useNavigate()
@@ -96,14 +101,15 @@ function ProfilePage() {
     navigate(resetPasswordPage())
   }, [navigate])
 
+  const handleNavigateToProfileFollowing = useCallback(() => {
+    navigate(profileFollowingPage())
+  }, [navigate])
+
   return (
     <div className="profile-page-container">
       <h2>Profile</h2>
       <Separator />
       <LoadingDisplay loading={loading}>
-        <Button onClick={handleLogoutAccount} variant="primary" title="Logout">
-          Logout
-        </Button>
         <p>
           <b>Email:</b> {userEmail}
         </p>
@@ -116,6 +122,13 @@ function ProfilePage() {
             Profile History
           </Button>
           <Button
+            onClick={handleNavigateToProfileFollowing}
+            variant="secondary"
+            title="Followed Podcasts"
+          >
+            Followed Podcasts
+          </Button>
+          <Button
             onClick={handleNavigateToResetPassword}
             variant="secondary"
             title="Reset Password"
@@ -123,6 +136,9 @@ function ProfilePage() {
             Reset Password
           </Button>
         </div>
+        <Button onClick={handleLogoutAccount} variant="primary" title="Logout">
+          Logout
+        </Button>
         <Separator />
         <Button
           onClick={handleDeleteAccount}

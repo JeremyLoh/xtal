@@ -1,6 +1,7 @@
 export const homePage = () => "/"
 export const profilePage = () => "/profile"
 export const profileHistoryPage = () => "/profile/history"
+export const profileFollowingPage = () => "/profile/following"
 export const signUpPage = () => "/auth?show=signup"
 export const notFoundPage = () => "/404"
 export const resetPasswordPage = () => "/auth/reset-password"

@@ -12,6 +12,7 @@ import TrendingPodcastFilters from "../TrendingPodcastFilters/TrendingPodcastFil
 import Button from "../../../../components/ui/button/Button.tsx"
 import Pagination from "../../../../components/Pagination/Pagination.tsx"
 import LoadingDisplay from "../../../../components/LoadingDisplay/LoadingDisplay.tsx"
+import { getPodcastDetailPath } from "../../../utils/navigation/pageNavigation.ts"
 
 const IMAGE_LAZY_LOAD_START_INDEX = 2 // zero based index
 const MAX_TRENDING_PODCAST_PAGINATION_PAGES = 5
@@ -48,10 +49,6 @@ export default memo(function TrendingPodcastSection({
     },
     [onRefresh, podcastFilters]
   )
-
-  const getPodcastDetailPath = useCallback((podcast: TrendingPodcast) => {
-    return `/podcasts/${encodeURIComponent(podcast.title)}/${podcast.id}`
-  }, [])
 
   const handlePreviousPageClick = useCallback(
     async (currentPage: number) => {
@@ -152,19 +149,17 @@ export default memo(function TrendingPodcastSection({
           <PodcastCard.Artwork size={isMobile ? 144 : 200} lazyLoad={true} />
         )}
         <Link
-          to={getPodcastDetailPath(podcast)}
+          to={getPodcastDetailPath({
+            podcastId: `${podcast.id}`,
+            podcastTitle: `${podcast.title}`,
+          })}
           className="podcast-trending-card-detail-link"
         >
           <PodcastCard.TitleAndAuthor />
         </Link>
       </PodcastCard>
     ))
-  }, [
-    trendingPodcasts,
-    isMobile,
-    getPodcastDetailPath,
-    handleRefreshTrendingPodcasts,
-  ])
+  }, [trendingPodcasts, isMobile, handleRefreshTrendingPodcasts])
 
   return (
     <div className="podcast-trending-container">
