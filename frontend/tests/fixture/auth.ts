@@ -45,6 +45,7 @@ async function ensureBackendIsRunning() {
     if (error.response && error.response.status !== 429) {
       throw new Error(errorMessage)
     }
+    return 200 // return HTTP status 200
   }
 }
 
