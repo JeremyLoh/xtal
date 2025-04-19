@@ -134,3 +134,18 @@ export async function addAccountPodcastFollow(
     )
   }
 }
+
+export async function removeAccountPodcastFollow(
+  userId: string,
+  podcastId: string
+) {
+  const accountClient = AccountClient.getInstance()
+  try {
+    await accountClient.unfollowPodcast(userId, podcastId)
+  } catch (error: any) {
+    logger.error(error.message)
+    throw new Error(
+      `removeAccountPodcastFollow(): Could not remove account podcast follow. userId ${userId}, podcastId ${podcastId}`
+    )
+  }
+}
