@@ -149,3 +149,24 @@ export async function removeAccountPodcastFollow(
     )
   }
 }
+
+export async function getAccountPodcastFollowing(
+  userId: string,
+  limit: number,
+  offset: number
+) {
+  const accountClient = AccountClient.getInstance()
+  try {
+    const podcasts = await accountClient.getFollowingPodcasts(
+      userId,
+      limit,
+      offset
+    )
+    return podcasts
+  } catch (error: any) {
+    logger.error(error.message)
+    throw new Error(
+      `getAccountPodcastFollowing(): Could not get account podcast following. userId ${userId}, limit ${limit}, offset ${offset}`
+    )
+  }
+}

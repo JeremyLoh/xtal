@@ -3,6 +3,7 @@ import { createClient, SupabaseClient } from "@supabase/supabase-js"
 import { Database } from "../../supabase/databaseTypes/supabase.js"
 import { PodcastEpisode } from "../../../model/podcastEpisode.js"
 import logger from "../../../logger.js"
+import { Podcast } from "../../../model/podcast.js"
 
 // Create singleton for the supabase client
 let instance: AccountClient
@@ -372,6 +373,62 @@ class AccountClient {
         )
       }
     }
+  }
+
+  async getFollowingPodcasts(userId: string, limit: number, offset: number) {
+    const { data: podcastFollowerData, error: podcastFollowerError } =
+      await this.supabase
+        .from("podcast_followers")
+        .select(
+          `podcasts!inner(id,podcast_id,external_website_url,title,author,image,language,publish_date_unix_timestamp,episode_count)`
+        )
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false })
+        .range(offset, offset + limit - 1)
+    if (podcastFollowerError) {
+      throw new Error(
+        `getFollowingPodcasts(): could not get podcast follower data for userId ${userId}, limit ${limit}, offset ${offset}. Error ${podcastFollowerError.message}`
+      )
+    }
+    if (podcastFollowerData == null || podcastFollowerData.length === 0) {
+      return []
+    }
+    const podcasts = podcastFollowerData.map((d) =>
+      this.castToNonArrayType(d.podcasts)
+    )
+    const podcastIds = podcasts.map((p) => p.id)
+    const { data: podcastCategoryData, error: podcastCategoryError } =
+      await this.supabase
+        .from("podcast_categories")
+        .select("podcast_id,categories!inner(category)")
+        .in("podcast_id", podcastIds)
+        .order("podcast_id", { ascending: true })
+    if (podcastCategoryError) {
+      throw new Error(
+        `getFollowingPodcasts(): could not get podcast categories for userId ${userId}, limit ${limit}, offset ${offset}. Error ${podcastCategoryError.message}`
+      )
+    }
+    // merge podcast categories with the podcast data
+    const podcastsWithCategories: Podcast[] = podcasts.map((podcast) => {
+      const categories = podcastCategoryData
+        .filter((c) => c.podcast_id === podcast.id)
+        .map((c2) => this.castToNonArrayType(c2.categories).category)
+      const output: Podcast = {
+        id: podcast.podcast_id,
+        url: podcast.external_website_url,
+        title: podcast.title,
+        description: "", // description is not stored in database
+        author: podcast.author,
+        image: podcast.image,
+        language: podcast.language,
+        latestPublishTime: dayjs(podcast.publish_date_unix_timestamp).unix(),
+        categories: categories,
+        episodeCount: podcast.episode_count,
+        // isExplicit is not stored in database
+      }
+      return output
+    })
+    return podcastsWithCategories
   }
 }
 
