@@ -111,9 +111,13 @@ test.describe("Profile Follow Podcast", () => {
     await expect(page).toHaveURL(HOMEPAGE + "/profile/following")
 
     // ensure /profile/following page displays the followed podcast
-    await expect(page.getByText("Profile Following")).toBeVisible()
-    await expect(page.getByText("Followed Podcasts")).toBeVisible()
-    await expect(page.getByText(podcastTitle)).toBeVisible()
+    await expect(
+      page.getByRole("heading", { name: "Profile Following", exact: true })
+    ).toBeVisible()
+    await expect(
+      page.getByRole("heading", { name: "Followed Podcasts", exact: true })
+    ).toBeVisible()
+    await expect(page.getByText(decodeURIComponent(podcastTitle))).toBeVisible()
 
     // remove podcast follow as part of cleanup
     await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
