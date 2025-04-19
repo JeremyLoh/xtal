@@ -9,10 +9,16 @@ import {
   removePodcastFollow,
 } from "../../api/podcast/podcastFollow.ts"
 
-const Follow = function PodcastCardFollowButton() {
+export type PodcastCardFollowButtonProps = {
+  isInitialFollowed?: boolean
+}
+
+const Follow = function PodcastCardFollowButton({
+  isInitialFollowed,
+}: PodcastCardFollowButtonProps) {
   const { podcast } = usePodcastCardContext()
   const session = useSessionContext()
-  const [followed, setFollowed] = useState<boolean>(false)
+  const [followed, setFollowed] = useState<boolean>(isInitialFollowed || false)
   const abortControllerRef = useRef<AbortController | null>(null)
 
   useEffect(() => {
@@ -35,7 +41,7 @@ const Follow = function PodcastCardFollowButton() {
       .catch((error) => {
         toast.error(error.message)
       })
-  }, [podcast, session, followed])
+  }, [podcast, session, followed, isInitialFollowed])
 
   const handleFollowUserPodcast = useCallback(async () => {
     try {

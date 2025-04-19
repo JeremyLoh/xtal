@@ -1,0 +1,67 @@
+.profile-following-page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 80%;
+  max-width: 120ch;
+  height: 100%;
+  margin: 1rem auto;
+  gap: 0.5rem;
+}
+
+.podcast-following-list-container {
+  width: 100%;
+}
+
+.podcast-following-list-item {
+  width: 100%;
+}
+.podcast-following-list-item:not([data-index="0"]) {
+  /* add gap between wrapped react-virtuoso items, except for first item */
+  margin-top: 2rem;
+}
+
+.podcast-following-list-podcast-card {
+  display: flex;
+  flex-direction: row !important;
+  width: 100% !important;
+  gap: 1rem !important;
+}
+
+.podcast-following-list-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.podcast-following-list-item-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: fit-content;
+}
+
+.podcast-following-list-item-detail-link {
+  text-decoration: none;
+  width: 100%;
+}
+.podcast-following-list-item-detail-link:hover {
+  text-decoration: underline;
+}
+
+.podcast-following-list-item-follow-button {
+  margin-left: auto;
+  margin-right: 1rem; /* leave gap for right side scrollbar */
+}
+
+@media (max-width: 430px) {
+  /* Mobile View */
+  .podcast-following-list-podcast-card {
+    display: flex;
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  .podcast-following-list-item-follow-button {
+    margin-left: 0;
+  }
+}

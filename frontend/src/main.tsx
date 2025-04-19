@@ -44,6 +44,9 @@ const ProfilePage = lazy(() => import("./pages/ProfilePage/ProfilePage.tsx"))
 const ProfileHistoryPage = lazy(
   () => import("./pages/ProfileHistoryPage/ProfileHistoryPage.tsx")
 )
+const ProfileFollowingPage = lazy(
+  () => import("./pages/ProfileFollowingPage/ProfileFollowingPage.tsx")
+)
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -78,6 +81,14 @@ createRoot(document.getElementById("root")!).render(
                         element={
                           <SessionAuth onSessionExpired={() => <HomePage />}>
                             <ProfileHistoryPage />
+                          </SessionAuth>
+                        }
+                      />
+                      <Route
+                        path="/profile/following"
+                        element={
+                          <SessionAuth onSessionExpired={() => <HomePage />}>
+                            <ProfileFollowingPage />
                           </SessionAuth>
                         }
                       />

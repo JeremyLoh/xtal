@@ -69,4 +69,60 @@ test.describe("Profile Follow Podcast", () => {
     await page.reload()
     await expect(getFollowPodcastButton(page)).toHaveText("Follow")
   })
+
+  test("should allow logged in user to see followed podcasts on profile page", async ({
+    page,
+    context,
+    existingAccount,
+  }) => {
+    test.slow()
+    const podcastTitle = encodeURIComponent("Batman University")
+    const podcastId = "75075"
+    const limit = 10
+    await page.route(
+      `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+      async (route) => {
+        const json = defaultTenPodcastEpisodes
+        await route.fulfill({ json })
+      }
+    )
+    await signIntoExistingAccount(page, existingAccount)
+    await expect(page).toHaveURL(paths.home)
+    await assertUserIsAuthenticated(context)
+
+    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+    await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
+    await expect(getFollowPodcastButton(page)).toBeVisible()
+    const followButtonText = await getFollowPodcastButton(page).innerText()
+    if (followButtonText === "Followed") {
+      // reset the follow state
+      await getFollowPodcastButton(page).click()
+    }
+    await expect(getFollowPodcastButton(page)).toHaveText("Follow")
+    await getFollowPodcastButton(page).click()
+    await expect(getFollowPodcastButton(page)).toHaveText("Followed")
+
+    await page.goto(paths.profile)
+    await expect(page).toHaveURL(paths.profile)
+    await expect(
+      page.getByRole("button", { name: /followed podcasts/i })
+    ).toBeVisible()
+    await page.getByRole("button", { name: /followed podcasts/i }).click()
+    await expect(page).toHaveURL(HOMEPAGE + "/profile/following")
+
+    // ensure /profile/following page displays the followed podcast
+    await expect(
+      page.getByRole("heading", { name: "Profile Following", exact: true })
+    ).toBeVisible()
+    await expect(
+      page.getByRole("heading", { name: "Followed Podcasts", exact: true })
+    ).toBeVisible()
+    await expect(page.getByText(decodeURIComponent(podcastTitle))).toBeVisible()
+
+    // remove podcast follow as part of cleanup
+    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+    await expect(getFollowPodcastButton(page)).toHaveText("Followed")
+    await getFollowPodcastButton(page).click()
+    await expect(getFollowPodcastButton(page)).toHaveText("Follow")
+  })
 })
