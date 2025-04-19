@@ -6,6 +6,7 @@ import Button from "../ui/button/Button.tsx"
 import {
   addPodcastFollow,
   getPodcastFollowStatusById,
+  removePodcastFollow,
 } from "../../api/podcast/podcastFollow.ts"
 
 const Follow = function PodcastCardFollowButton() {
@@ -36,7 +37,7 @@ const Follow = function PodcastCardFollowButton() {
       })
   }, [podcast, session, followed])
 
-  const handleUserPodcastFollow = useCallback(async () => {
+  const handleFollowUserPodcast = useCallback(async () => {
     try {
       abortControllerRef?.current?.abort()
       abortControllerRef.current = new AbortController()
@@ -48,15 +49,29 @@ const Follow = function PodcastCardFollowButton() {
     }
   }, [podcast])
 
+  const handleUnfollowUserPodcast = useCallback(async () => {
+    try {
+      abortControllerRef?.current?.abort()
+      abortControllerRef.current = new AbortController()
+      await removePodcastFollow(abortControllerRef.current, `${podcast.id}`)
+      setFollowed(false)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }, [podcast.id])
+
   if (session.loading || !session.doesSessionExist) {
     return null
   }
   return followed ? (
-    <Button variant="secondary">Followed</Button>
+    <Button variant="secondary" onClick={handleUnfollowUserPodcast}>
+      Followed
+    </Button>
   ) : (
     <Button
       variant="primary"
-      onClick={handleUserPodcastFollow}
+      onClick={handleFollowUserPodcast}
       title="Follow Podcast"
     >
       Follow

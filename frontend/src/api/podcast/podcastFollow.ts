@@ -66,4 +66,27 @@ async function addPodcastFollow(
   }
 }
 
-export { getPodcastFollowStatusById, addPodcastFollow }
+async function removePodcastFollow(
+  abortController: AbortController,
+  podcastId: string
+) {
+  const { BACKEND_ORIGIN } = getEnv()
+  const url = BACKEND_ORIGIN + "/api/podcast/unfollow"
+  const data = { podcastId }
+  try {
+    await ky.post(url, { json: data, retry: 0, signal: abortController.signal })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    if (error.name === "AbortError") {
+      return null
+    }
+    if (error.response && error.response.status === 429) {
+      throw new Error(
+        `Podcast Unfollow Rate Limit Exceeded, please try again later`
+      )
+    }
+    throw new Error("Could not unfollow podcast. Please try again later")
+  }
+}
+
+export { getPodcastFollowStatusById, addPodcastFollow, removePodcastFollow }

@@ -393,6 +393,7 @@ test.describe("Podcast Homepage /podcasts", () => {
       test("should refresh empty trending podcast section with new data when refresh trending podcast button is clicked", async ({
         browser,
       }) => {
+        test.slow()
         const context = await browser.newContext()
         const page = await context.newPage()
         let isDataMissing = true

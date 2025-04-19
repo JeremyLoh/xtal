@@ -2,6 +2,7 @@ import dayjs from "dayjs"
 import { createClient, SupabaseClient } from "@supabase/supabase-js"
 import { Database } from "../../supabase/databaseTypes/supabase.js"
 import { PodcastEpisode } from "../../../model/podcastEpisode.js"
+import logger from "../../../logger.js"
 
 // Create singleton for the supabase client
 let instance: AccountClient
@@ -165,6 +166,37 @@ class AccountClient {
     if (podcastCategoriesError) {
       throw new Error(
         `addPodcastCategories(): Could not add podcast categories junction table. Error ${podcastCategoriesError.message}`
+      )
+    }
+  }
+
+  async unfollowPodcast(userId: string, podcastId: string) {
+    // podcastId is the "podcast_id" of "podcasts" table. deletion is done using "id" from "podcasts" table
+    const { data: podcastIdData, error: podcastIdError } = await this.supabase
+      .from("podcasts")
+      .select("id")
+      .eq("podcast_id", podcastId)
+      .limit(1)
+    if (podcastIdError) {
+      throw new Error(
+        `unfollowPodcast(): Could not get "id" of podcast using given "podcast_id" ${podcastId}. Error ${podcastIdError.message}`
+      )
+    }
+    if (podcastIdData == null || podcastIdData.length === 0) {
+      logger.info(
+        `unfollowPodcast(): Could not find "podcast_id" from "podcasts" table. userId ${userId}, podcastId ${podcastId}`
+      )
+      return
+    }
+    const podcastIdKey = podcastIdData[0].id
+    const { error: deletePodcastFollowerError } = await this.supabase
+      .from("podcast_followers")
+      .delete()
+      .eq("user_id", userId)
+      .eq("podcast_id", podcastIdKey)
+    if (deletePodcastFollowerError) {
+      throw new Error(
+        `unfollowPodcast(): Could not delete follower using user_id ${userId}, podcast_id ${podcastIdKey}. Given podcastId ${podcastId}. Error ${deletePodcastFollowerError.message}`
       )
     }
   }

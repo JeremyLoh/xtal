@@ -11,6 +11,17 @@ export const getAccountFollowPodcastValidationSchema: Schema = {
   },
 }
 
+export const getAccountUnfollowPodcastValidationSchema: Schema = {
+  podcastId: {
+    optional: false,
+    escape: true,
+    isInt: {
+      options: { min: 0 },
+      errorMessage: "'podcastId' should be present",
+    },
+  },
+}
+
 export const getAddAccountFollowPodcastValidationSchema: Schema = {
   podcastId: {
     optional: false,

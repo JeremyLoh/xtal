@@ -8,11 +8,13 @@ import rateLimiter from "../../middleware/rateLimiter.js"
 import logger from "../../logger.js"
 import {
   getAccountFollowPodcastValidationSchema,
+  getAccountUnfollowPodcastValidationSchema,
   getAddAccountFollowPodcastValidationSchema,
 } from "../../validation/podcastFollowValidation.js"
 import {
   addAccountPodcastFollow,
   getAccountFollowPodcastById,
+  removeAccountPodcastFollow,
 } from "../../service/accountService.js"
 
 const router = Router()
@@ -37,6 +39,34 @@ router.get(
     try {
       const isFollowing = await getAccountFollowPodcastById(userId, podcastId)
       response.status(200).send({ isFollowing })
+    } catch (error: any) {
+      logger.error(error.message)
+      response.status(500).send("Internal Server Error")
+      return
+    }
+  }
+)
+
+router.post(
+  "/api/podcast/unfollow",
+  rateLimiter.removeAccountFollowPodcastLimiter,
+  checkSchema(getAccountUnfollowPodcastValidationSchema, ["body"]),
+  verifySession({ sessionRequired: true }),
+  async (request: SessionRequest, response: Response) => {
+    const result = validationResult(request)
+    if (!result.isEmpty()) {
+      response.status(400).send({
+        errors: result.array().map((error) => error.msg),
+      })
+      return
+    }
+    const session = await getSession(request, response)
+    const userId = session.getUserId()
+    const data = matchedData(request)
+    const { podcastId } = data
+    try {
+      await removeAccountPodcastFollow(userId, podcastId)
+      response.sendStatus(200)
     } catch (error: any) {
       logger.error(error.message)
       response.status(500).send("Internal Server Error")

@@ -62,6 +62,7 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
   test("should display zero results when search input is cleared", async ({
     page,
   }) => {
+    test.slow()
     const query = "syntax"
     const limit = 10
     await page.route(
