@@ -74,6 +74,7 @@ class AccountClient {
       language: string
       publishDateUnixTimestamp: string
       episodeCount: number | null
+      categories: string[]
     }
   ) {
     const insertPodcastData = {
@@ -105,9 +106,12 @@ class AccountClient {
         `addPodcastFollow(): Could not add podcast follow for userId ${userId}, podcastId ${podcastData.podcastId}. Could not get "id" from "podcasts" table for foreign key`
       )
     }
+    const podcastIdKey = data[0].id
+    await this.addPodcastCategories(podcastData.categories, podcastIdKey)
+
     const podcastFollowerData = {
       user_id: userId,
-      podcast_id: data[0].id,
+      podcast_id: podcastIdKey,
     }
     const { error } = await this.supabase
       .from("podcast_followers")
@@ -118,6 +122,49 @@ class AccountClient {
     if (error) {
       throw new Error(
         `addPodcastFollow(): Could not add podcast follow for userId ${userId}, podcastId ${podcastData.podcastId}. Error ${error.message}`
+      )
+    }
+  }
+
+  private async addPodcastCategories(
+    categories: string[],
+    podcastIdKey: string
+  ) {
+    if (categories.length === 0) {
+      return
+    }
+    // podcastIdKey is the primary key of the "podcasts" table
+    const { data: categoriesData, error: categoriesError } = await this.supabase
+      .from("categories")
+      .upsert(
+        categories.map((c) => {
+          return { category: c }
+        }),
+        {
+          onConflict: "category",
+          ignoreDuplicates: true,
+        }
+      )
+      .select("id")
+    if (categoriesError) {
+      throw new Error(
+        `addPodcastCategories(): Could not add podcast category entries. Error ${categoriesError.message}`
+      )
+    }
+    if (categoriesData.length === 0) {
+      return
+    }
+    const { error: podcastCategoriesError } = await this.supabase
+      .from("podcast_categories")
+      .upsert(
+        categoriesData.map((d) => {
+          return { category_id: d.id, podcast_id: podcastIdKey }
+        }),
+        { onConflict: "podcast_id,category_id", ignoreDuplicates: true }
+      )
+    if (podcastCategoriesError) {
+      throw new Error(
+        `addPodcastCategories(): Could not add podcast categories junction table. Error ${podcastCategoriesError.message}`
       )
     }
   }

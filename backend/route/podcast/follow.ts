@@ -67,6 +67,9 @@ router.post(
     const author = decodeHTML(data.author)
     const image = decodeHTML(data.image)
     const episodeCount = data.episodeCount ? Number(data.episodeCount) : null
+    const categories = data.categories
+      ? data.categories.map((d: string) => decodeHTML(d).trim())
+      : []
     try {
       await addAccountPodcastFollow(userId, {
         podcastId,
@@ -77,6 +80,7 @@ router.post(
         language,
         publishDateUnixTimestamp,
         episodeCount,
+        categories,
       })
       response.sendStatus(200)
     } catch (error: any) {
