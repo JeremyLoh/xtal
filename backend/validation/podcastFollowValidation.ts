@@ -76,4 +76,12 @@ export const getAddAccountFollowPodcastValidationSchema: Schema = {
       errorMessage: "'episodeCount' should be at least zero",
     },
   },
+  categories: {
+    optional: true,
+    escape: true,
+    isArray: {
+      options: { min: 0 },
+      errorMessage: "'categories' should not be an empty array",
+    },
+  },
 }

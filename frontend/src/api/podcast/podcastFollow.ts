@@ -46,6 +46,7 @@ async function addPodcastFollow(
     author: podcast.author,
     image: podcast.image,
     language: podcast.language,
+    categories: podcast.categories,
     ...(podcast.episodeCount && { episodeCount: podcast.episodeCount }),
     // publishDateUnixTimestamp is not commonly available in the Podcast type (from PodcastIndex API)
   }

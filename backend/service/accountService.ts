@@ -119,6 +119,7 @@ export async function addAccountPodcastFollow(
     language: string
     publishDateUnixTimestamp: string
     episodeCount: number | null
+    categories: string[]
   }
 ) {
   const accountClient = AccountClient.getInstance()
