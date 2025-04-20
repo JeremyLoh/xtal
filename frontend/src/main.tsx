@@ -67,7 +67,7 @@ createRoot(document.getElementById("root")!).render(
                         element={<RadioStationDisplayPage />}
                       />
                     </Route>
-                    <Route>
+                    <Route element={<PodcastLayout />}>
                       <Route
                         path="/profile"
                         element={
@@ -92,8 +92,7 @@ createRoot(document.getElementById("root")!).render(
                           </SessionAuth>
                         }
                       />
-                    </Route>
-                    <Route element={<PodcastLayout />}>
+
                       <Route path="/podcasts" element={<PodcastHomePage />} />
                       <Route
                         path="/podcasts/:podcastTitle/:podcastId"
