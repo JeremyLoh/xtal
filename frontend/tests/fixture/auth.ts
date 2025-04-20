@@ -56,9 +56,8 @@ const extendTest = base.extend<TestScopedFixtures, WorkerScopedFixtures>({
       } catch {
         const errorMessage = `backend dev server ("http://localhost:3000/status") should be running for frontend tests - Run 'npm run dev' in the backend/ directory`
         console.error(errorMessage)
-        test.skip(
-          true,
-          "Backend dev server should be running for the following tests"
+        throw new Error(
+          `Backend dev server should be running for the following tests`
         )
       }
       // set the origin, if it is missing, backend will respond HTTP 401
@@ -92,9 +91,8 @@ const extendTest = base.extend<TestScopedFixtures, WorkerScopedFixtures>({
     } catch {
       const errorMessage = `backend dev server ("http://localhost:3000/status") should be running for frontend tests - Run 'npm run dev' in the backend/ directory`
       console.error(errorMessage)
-      test.skip(
-        true,
-        "Backend dev server should be running for the following tests"
+      throw new Error(
+        `Backend dev server should be running for the following tests`
       )
     }
     // set the origin, if it is missing, backend will respond HTTP 401
