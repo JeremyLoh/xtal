@@ -38,25 +38,28 @@ async function ensureBackendIsRunning() {
   const backendStatusEndpoint = "http://localhost:3000/status"
   const errorMessage = `backend dev server ("http://localhost:3000/status") should be running for frontend tests - Run 'npm run dev' in the backend/ directory`
   try {
-    const response = await ky.get(backendStatusEndpoint, { retry: 0 })
-    return response.status
+    await ky.get(backendStatusEndpoint, { retry: 0 })
   } catch (error) {
     // allow for rate limit status (HTTP 429)
-    if (error.response && error.response.status !== 429) {
-      throw new Error(errorMessage)
+    if (error.response && error.response.status === 429) {
+      return
     }
-    return 200 // return HTTP status 200
+    throw new Error(errorMessage)
   }
 }
 
 const extendTest = base.extend<TestScopedFixtures, WorkerScopedFixtures>({
   existingAccount: [
     async ({ browser }, use) => {
-      const status = await ensureBackendIsRunning()
-      if (status !== 200) {
+      try {
+        await ensureBackendIsRunning()
+      } catch {
         const errorMessage = `backend dev server ("http://localhost:3000/status") should be running for frontend tests - Run 'npm run dev' in the backend/ directory`
         console.error(errorMessage)
-        return
+        test.skip(
+          true,
+          "Backend dev server should be running for the following tests"
+        )
       }
       // set the origin, if it is missing, backend will respond HTTP 401
       const page = await browser.newPage({
@@ -84,11 +87,15 @@ const extendTest = base.extend<TestScopedFixtures, WorkerScopedFixtures>({
     { scope: "worker" },
   ],
   async pageWithUser({ browser, context, existingAccount }, use) {
-    const status = await ensureBackendIsRunning()
-    if (status !== 200) {
+    try {
+      await ensureBackendIsRunning()
+    } catch {
       const errorMessage = `backend dev server ("http://localhost:3000/status") should be running for frontend tests - Run 'npm run dev' in the backend/ directory`
       console.error(errorMessage)
-      return
+      test.skip(
+        true,
+        "Backend dev server should be running for the following tests"
+      )
     }
     // set the origin, if it is missing, backend will respond HTTP 401
     const page = await browser.newPage({
