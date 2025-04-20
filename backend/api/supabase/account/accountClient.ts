@@ -430,6 +430,19 @@ class AccountClient {
     })
     return podcastsWithCategories
   }
+
+  async getTotalFollowingPodcasts(userId: string) {
+    const { count, error } = await this.supabase
+      .from("podcast_followers")
+      .select("user_id", { count: "exact", head: true })
+      .eq("user_id", userId)
+    if (error) {
+      throw new Error(
+        `getTotalFollowingPodcasts(): could not get total podcast following count for userId ${userId}. Error ${error.message}`
+      )
+    }
+    return count
+  }
 }
 
 const singletonAccountClient = Object.freeze(new AccountClient())

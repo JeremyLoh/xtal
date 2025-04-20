@@ -6,9 +6,29 @@ import { checkSchema, matchedData, validationResult } from "express-validator"
 import { getAccountFollowingPodcastValidationSchema } from "../../validation/accountPodcastFollowingValidation.js"
 import rateLimiter from "../../middleware/rateLimiter.js"
 import logger from "../../logger.js"
-import { getAccountPodcastFollowing } from "../../service/accountService.js"
+import {
+  getAccountPodcastFollowing,
+  getAccountPodcastFollowingTotalCount,
+} from "../../service/accountService.js"
 
 const router = Router()
+
+router.get(
+  "/api/account/podcast/following/total",
+  rateLimiter.getAccountTotalCountFollowingPodcastLimiter,
+  verifySession({ sessionRequired: true }),
+  async (request: SessionRequest, response: Response) => {
+    const session = await Session.getSession(request, response)
+    const userId = session.getUserId()
+    try {
+      const total = await getAccountPodcastFollowingTotalCount(userId)
+      response.status(200).send({ total })
+    } catch (error: any) {
+      logger.error(error.message)
+      response.status(500).send("Internal Server Error")
+    }
+  }
+)
 
 router.get(
   "/api/account/podcast/following",

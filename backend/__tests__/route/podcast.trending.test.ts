@@ -30,6 +30,7 @@ function mockRateLimiters() {
         removeAccountFollowPodcastLimiter: getMockMiddleware(),
         getAccountFollowPodcastLimiter: getMockMiddleware(),
         getAccountFollowingPodcastLimiter: getMockMiddleware(),
+        getAccountTotalCountFollowingPodcastLimiter: getMockMiddleware(),
       },
     }
   })
