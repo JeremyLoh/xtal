@@ -231,6 +231,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
 
       shouldFetchData = true
       await getPodcastEpisodeRefreshButton(page).click()
+      await page.waitForTimeout(1000)
       await assertPodcastInfo(page, defaultTenPodcastEpisodes.data.podcast)
       await assertPodcastEpisodes(page, defaultTenPodcastEpisodes)
       await context.close()
