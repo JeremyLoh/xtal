@@ -1,15 +1,17 @@
 import "./ProfileFollowingPage.css"
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { Components, ItemContent, Virtuoso } from "react-virtuoso"
 import { Link } from "react-router"
-import LoadingDisplay from "../../components/LoadingDisplay/LoadingDisplay.tsx"
+import { toast } from "sonner"
 import useFollowPodcastHistory from "../../hooks/podcast/useFollowPodcastHistory.ts"
-import { Podcast } from "../../api/podcast/model/podcast.ts"
 import useScreenDimensions from "../../hooks/useScreenDimensions.ts"
-import PodcastCard from "../../components/PodcastCard/index.tsx"
-import Breadcrumb from "../../components/ui/breadcrumb/index.tsx"
+import { Podcast } from "../../api/podcast/model/podcast.ts"
 import { profilePage } from "../../paths.ts"
 import { getPodcastDetailPath } from "../../features/utils/navigation/pageNavigation.ts"
+import LoadingDisplay from "../../components/LoadingDisplay/LoadingDisplay.tsx"
+import PodcastCard from "../../components/PodcastCard/index.tsx"
+import Breadcrumb from "../../components/ui/breadcrumb/index.tsx"
+import Pagination from "../../components/Pagination/Pagination.tsx"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const components: Components<Podcast, any> | undefined = {
@@ -57,24 +59,83 @@ const itemContent: ItemContent<Podcast, any> | undefined = (
   )
 }
 
+const LIMIT_PER_PAGE = 10
+
 function ProfileFollowingPage() {
-  const limit = 10
   const { height } = useScreenDimensions()
-  const { loading, getLatestFollowedPodcasts } = useFollowPodcastHistory()
+  const { loading, getLatestFollowedPodcasts, getTotalFollowedPodcasts } =
+    useFollowPodcastHistory()
   const [followedPodcasts, setFollowedPodcasts] = useState<Podcast[]>([])
+  const [totalFollowing, setTotalFollowing] = useState<number>(0)
+  const [page, setPage] = useState<number>(1)
 
   const virtuosoStyle = useMemo(() => {
     return { height: (height * 2) / 3 }
   }, [height])
 
   useEffect(() => {
-    getLatestFollowedPodcasts(limit).then((response) => {
+    getTotalFollowedPodcasts()
+      .then((total) => {
+        if (total != null) {
+          setTotalFollowing(total)
+        }
+      })
+      .catch((error) => toast.error(error.message))
+  }, [getTotalFollowedPodcasts])
+
+  useEffect(() => {
+    getLatestFollowedPodcasts(LIMIT_PER_PAGE).then((response) => {
       if (response == null) {
         return
       }
       setFollowedPodcasts(response.data)
     })
   }, [getLatestFollowedPodcasts])
+
+  const handlePreviousPageClick = useCallback(
+    async (currentPage: number) => {
+      if (currentPage === 1) {
+        return
+      }
+      setPage(currentPage - 1)
+      const offset = (currentPage - 2) * LIMIT_PER_PAGE
+      const response = await getLatestFollowedPodcasts(LIMIT_PER_PAGE, offset)
+      if (response) {
+        setFollowedPodcasts(response.data)
+      }
+    },
+    [getLatestFollowedPodcasts]
+  )
+
+  const handleNextPageClick = useCallback(
+    async (currentPage: number) => {
+      if (currentPage === Math.ceil(totalFollowing / LIMIT_PER_PAGE)) {
+        return
+      }
+      setPage(currentPage + 1)
+      const offset = currentPage * LIMIT_PER_PAGE
+      const response = await getLatestFollowedPodcasts(LIMIT_PER_PAGE, offset)
+      if (response) {
+        setFollowedPodcasts(response.data)
+      }
+    },
+    [totalFollowing, getLatestFollowedPodcasts]
+  )
+
+  const handlePageClick = useCallback(
+    async (pageNumber: number) => {
+      if (pageNumber === page) {
+        return
+      }
+      setPage(pageNumber)
+      const offset = (pageNumber - 1) * LIMIT_PER_PAGE
+      const response = await getLatestFollowedPodcasts(LIMIT_PER_PAGE, offset)
+      if (response) {
+        setFollowedPodcasts(response.data)
+      }
+    },
+    [page, getLatestFollowedPodcasts]
+  )
 
   return (
     <LoadingDisplay loading={loading}>
@@ -91,6 +152,13 @@ function ProfileFollowingPage() {
         </Breadcrumb>
         <h2 className="profile-following-page-title">Profile Following</h2>
         <h3>Followed Podcasts</h3>
+        <Pagination
+          currentPage={page}
+          totalPages={Math.ceil(totalFollowing / LIMIT_PER_PAGE)}
+          onPreviousPageClick={handlePreviousPageClick}
+          onNextPageClick={handleNextPageClick}
+          onPageClick={handlePageClick}
+        />
         {followedPodcasts.length === 0 && <p>Zero followed podcasts</p>}
         <Virtuoso
           style={virtuosoStyle}

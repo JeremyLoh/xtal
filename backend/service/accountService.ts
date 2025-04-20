@@ -170,3 +170,16 @@ export async function getAccountPodcastFollowing(
     )
   }
 }
+
+export async function getAccountPodcastFollowingTotalCount(userId: string) {
+  const accountClient = AccountClient.getInstance()
+  try {
+    const total = await accountClient.getTotalFollowingPodcasts(userId)
+    return total
+  } catch (error: any) {
+    logger.error(error.message)
+    throw new Error(
+      `getAccountPodcastFollowingTotalCount(): Could not get account podcast following total count. userId ${userId}`
+    )
+  }
+}
