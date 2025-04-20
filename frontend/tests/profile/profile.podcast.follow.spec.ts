@@ -15,8 +15,11 @@ test.describe("Profile Follow Podcast", () => {
       headless,
       "Skip headless test as backend dev server needs to be running as well for tests"
     )
-    const backendStatus = await ensureBackendIsRunning()
-    if (backendStatus !== 200) {
+    try {
+      await ensureBackendIsRunning()
+    } catch {
+      const errorMessage = `backend dev server ("http://localhost:3000/status") should be running for frontend tests - Run 'npm run dev' in the backend/ directory`
+      console.error(errorMessage)
       test.skip(
         true,
         "Backend dev server should be running for the following tests"
