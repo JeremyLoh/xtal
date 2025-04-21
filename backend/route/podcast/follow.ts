@@ -14,6 +14,7 @@ import {
 import {
   addAccountPodcastFollow,
   getAccountFollowPodcastById,
+  getAccountPodcastFollowingTotalCount,
   removeAccountPodcastFollow,
 } from "../../service/accountService.js"
 
@@ -88,8 +89,29 @@ router.post(
       })
       return
     }
+    const MAX_PODCAST_FOLLOW_COUNT = 5000
     const session = await getSession(request, response)
     const userId = session.getUserId()
+    try {
+      const currentFollowCount = await getAccountPodcastFollowingTotalCount(
+        userId
+      )
+      if (
+        currentFollowCount == null ||
+        currentFollowCount >= MAX_PODCAST_FOLLOW_COUNT
+      ) {
+        response
+          .status(400)
+          .send(
+            `You cannot follow more than ${MAX_PODCAST_FOLLOW_COUNT} podcasts!`
+          )
+        return
+      }
+    } catch (error: any) {
+      logger.error(error.message)
+      response.status(500).send("Internal Server Error")
+      return
+    }
     const data = matchedData(request)
     const { podcastId, language, publishDateUnixTimestamp } = data
     const title = decodeHTML(data.title)

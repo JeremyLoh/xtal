@@ -62,6 +62,12 @@ async function addPodcastFollow(
         `Podcast Follow Rate Limit Exceeded, please try again later`
       )
     }
+    if (error.response) {
+      const serverErrorMessage = await error.response.text()
+      if (serverErrorMessage) {
+        throw new Error(serverErrorMessage)
+      }
+    }
     throw new Error("Could not follow podcast. Please try again later")
   }
 }
