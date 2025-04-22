@@ -8,6 +8,8 @@ import PodcastCard from "../../../components/PodcastCard/index.tsx"
 import usePodcastEpisodes from "../../../hooks/podcast/usePodcastEpisodes.ts"
 import Pagination from "../../../components/Pagination/Pagination.tsx"
 import PodcastDetailPageNavigation from "../../../features/podcast/navigation/PodcastDetailPageNavigation/PodcastDetailPageNavigation.tsx"
+import { Podcast } from "../../../api/podcast/model/podcast.ts"
+import useClipboard from "../../../hooks/useClipboard.ts"
 
 const LIMIT = 10
 const IMAGE_LAZY_LOAD_START_INDEX = 2 // zero based index
@@ -17,6 +19,7 @@ export default function PodcastDetailPage() {
   const [searchParams] = useSearchParams()
   const pageParam = searchParams.get("page")
   const [page, setPage] = useState<number>(parseToPageInt(pageParam))
+  const { copyPodcastShareUrl } = useClipboard()
   const podcastEpisodeSearchOptions = useMemo(() => {
     return { podcastId, page, limit: LIMIT }
   }, [podcastId, page])
@@ -59,6 +62,13 @@ export default function PodcastDetailPage() {
     [fetchPodcastEpisodes, podcastId]
   )
 
+  const handleShareClick = useCallback(
+    (podcast: Podcast) => {
+      copyPodcastShareUrl(podcast)
+    },
+    [copyPodcastShareUrl]
+  )
+
   useEffect(() => {
     if (podcastTitle) {
       document.title = `${podcastTitle} - xtal - podcasts`
@@ -96,6 +106,7 @@ export default function PodcastDetailPage() {
               <span className="podcast-info-card-follow-button">
                 <PodcastCard.Follow />
               </span>
+              <PodcastCard.Share onClick={handleShareClick} />
             </PodcastCard>
           </div>
         )}
