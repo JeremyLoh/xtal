@@ -1,7 +1,6 @@
 .podcast-info-card {
   display: flex;
   flex-direction: row !important;
-  align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
   width: 100% !important;
@@ -15,13 +14,16 @@
   margin: 0.5rem 0;
 }
 
-.podcast-info-card-follow-button {
+.podcast-info-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-left: auto;
 }
 
 @media (max-width: 430px) {
   /* Mobile View */
-  .podcast-info-card-follow-button {
+  .podcast-info-card-actions {
     margin-left: 0;
   }
 }

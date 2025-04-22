@@ -35,10 +35,14 @@ function PodcastInfoCard({ podcast }: PodcastInfoCardProps) {
             <PodcastCard.Categories />
           </div>
         </div>
-        <span className="podcast-info-card-follow-button">
-          <PodcastCard.Follow />
-        </span>
-        <PodcastCard.Share onClick={handleShareClick} />
+        <div className="podcast-info-card-actions">
+          <span className="podcast-info-card-follow-button">
+            <PodcastCard.Follow />
+          </span>
+          <span className="podcast-info-card-share-button">
+            <PodcastCard.Share onClick={handleShareClick} />
+          </span>
+        </div>
       </PodcastCard>
     </div>
   )
