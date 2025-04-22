@@ -6,25 +6,6 @@
   gap: 1rem;
 }
 
-.podcast-info-card {
-  display: flex;
-  flex-direction: row !important;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  width: 100% !important;
-}
-.podcast-info-card-pill-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 0.5rem 0;
-}
-.podcast-info-card-follow-button {
-  margin-left: auto;
-}
-
 .podcast-episode-container {
   height: 100%;
 }
@@ -48,11 +29,4 @@
 
 .refresh-podcast-episode-button {
   gap: 0.2rem;
-}
-
-@media (max-width: 430px) {
-  /* Mobile View */
-  .podcast-info-card-follow-button {
-    margin-left: 0;
-  }
 }

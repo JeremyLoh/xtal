@@ -4,12 +4,10 @@ import { useParams, useSearchParams } from "react-router"
 import { IoReload } from "react-icons/io5"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import PodcastEpisodeList from "../../../features/podcast/episode/PodcastEpisodeList/PodcastEpisodeList.tsx"
-import PodcastCard from "../../../components/PodcastCard/index.tsx"
+import PodcastInfoCard from "../../../features/podcast/info/PodcastInfoCard/PodcastInfoCard.tsx"
 import usePodcastEpisodes from "../../../hooks/podcast/usePodcastEpisodes.ts"
 import Pagination from "../../../components/Pagination/Pagination.tsx"
 import PodcastDetailPageNavigation from "../../../features/podcast/navigation/PodcastDetailPageNavigation/PodcastDetailPageNavigation.tsx"
-import { Podcast } from "../../../api/podcast/model/podcast.ts"
-import useClipboard from "../../../hooks/useClipboard.ts"
 
 const LIMIT = 10
 const IMAGE_LAZY_LOAD_START_INDEX = 2 // zero based index
@@ -19,7 +17,6 @@ export default function PodcastDetailPage() {
   const [searchParams] = useSearchParams()
   const pageParam = searchParams.get("page")
   const [page, setPage] = useState<number>(parseToPageInt(pageParam))
-  const { copyPodcastShareUrl } = useClipboard()
   const podcastEpisodeSearchOptions = useMemo(() => {
     return { podcastId, page, limit: LIMIT }
   }, [podcastId, page])
@@ -62,13 +59,6 @@ export default function PodcastDetailPage() {
     [fetchPodcastEpisodes, podcastId]
   )
 
-  const handleShareClick = useCallback(
-    (podcast: Podcast) => {
-      copyPodcastShareUrl(podcast)
-    },
-    [copyPodcastShareUrl]
-  )
-
   useEffect(() => {
     if (podcastTitle) {
       document.title = `${podcastTitle} - xtal - podcasts`
@@ -89,27 +79,7 @@ export default function PodcastDetailPage() {
         podcastTitle={podcastTitle}
       />
       <LoadingDisplay loading={loading}>
-        {podcast && (
-          <div className="podcast-info-container">
-            <PodcastCard podcast={podcast} customClassName="podcast-info-card">
-              <PodcastCard.Artwork size={144} />
-              <div>
-                <PodcastCard.TitleAndAuthor variant="large" />
-                <div className="podcast-info-card-pill-container">
-                  <PodcastCard.EpisodeCount />
-                  <PodcastCard.Language />
-                </div>
-                <div className="podcast-info-card-pill-container">
-                  <PodcastCard.Categories />
-                </div>
-              </div>
-              <span className="podcast-info-card-follow-button">
-                <PodcastCard.Follow />
-              </span>
-              <PodcastCard.Share onClick={handleShareClick} />
-            </PodcastCard>
-          </div>
-        )}
+        <PodcastInfoCard podcast={podcast} />
         <Pagination
           className="podcast-episode-pagination"
           currentPage={page}
