@@ -13,7 +13,7 @@ export type PodcastCardFollowButtonProps = {
   isInitialFollowed?: boolean
 }
 
-const Follow = function PodcastCardFollowButton({
+const FollowButton = function PodcastCardFollowButton({
   isInitialFollowed,
 }: PodcastCardFollowButtonProps) {
   const { podcast } = usePodcastCardContext()
@@ -85,4 +85,4 @@ const Follow = function PodcastCardFollowButton({
   )
 }
 
-export default memo(Follow)
+export default memo(FollowButton)

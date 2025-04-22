@@ -7,9 +7,12 @@ import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/index.tsx
 import usePodcastEpisode from "../../../hooks/podcast/usePodcastEpisode.ts"
 import PodcastEpisodeDetailPageNavigation from "../../../features/podcast/navigation/PodcastEpisodeDetailPageNavigation/PodcastEpisodeDetailPageNavigation.tsx"
 import usePlayHistory from "../../../hooks/podcast/usePlayHistory.ts"
+import { PodcastEpisode } from "../../../api/podcast/model/podcast.ts"
+import useClipboard from "../../../hooks/useClipboard.ts"
 
 export default function PodcastEpisodeDetailPage() {
   const { podcastId, podcastTitle, podcastEpisodeId } = useParams()
+  const { copyPodcastEpisodeShareUrl } = useClipboard()
   const { addPlayPodcastEpisode, getPodcastEpisodeLastPlayTimestamp } =
     usePlayHistory()
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
@@ -41,6 +44,13 @@ export default function PodcastEpisodeDetailPage() {
     getPodcastEpisodeLastPlayTimestamp,
   ])
 
+  const handleShareClick = useCallback(
+    (episode: PodcastEpisode) => {
+      copyPodcastEpisodeShareUrl(episode)
+    },
+    [copyPodcastEpisodeShareUrl]
+  )
+
   return (
     <div className="podcast-episode-detail-container">
       <PodcastEpisodeDetailPageNavigation
@@ -60,6 +70,9 @@ export default function PodcastEpisodeDetailPage() {
             <PodcastEpisodeCard.Duration />
             <PodcastEpisodeCard.ExplicitIndicator />
             <PodcastEpisodeCard.EpisodeWebsiteLink />
+            <span className="podcast-episode-detail-share-button">
+              <PodcastEpisodeCard.ShareButton onClick={handleShareClick} />
+            </span>
             <PodcastEpisodeCard.PlayButton onPlayClick={handlePlayClick} />
             <PodcastEpisodeCard.Description className="podcast-episode-detail-description" />
           </PodcastEpisodeCard>

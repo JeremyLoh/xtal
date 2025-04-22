@@ -1,0 +1,29 @@
+.podcast-info-card {
+  display: flex;
+  flex-direction: row !important;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100% !important;
+}
+
+.podcast-info-card-pill-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.podcast-info-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+@media (max-width: 430px) {
+  /* Mobile View */
+  .podcast-info-card-actions {
+    margin-left: 0;
+  }
+}

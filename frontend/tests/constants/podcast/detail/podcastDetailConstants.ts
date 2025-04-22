@@ -11,6 +11,12 @@ function getPodcastInfoElement(page: Page, text: string) {
   })
 }
 
+export function getPodcastInfoShareButton(page: Page) {
+  return page
+    .locator(".podcast-info-container")
+    .getByTestId("podcast-share-button")
+}
+
 export async function assertPodcastInfo(page: Page, expectedPodcast: Podcast) {
   await expect(
     page.locator(".podcast-info-container").getByRole("img", {

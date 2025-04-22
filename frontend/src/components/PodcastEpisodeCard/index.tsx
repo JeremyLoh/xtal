@@ -4,6 +4,7 @@ import { ArtworkProps } from "./Artwork.tsx"
 import { TitleProps } from "./Title.tsx"
 import { DescriptionProps } from "./Description.tsx"
 import { PlayButtonProps } from "./PlayButton.tsx"
+import { PodcastEpisodeCardShareButtonProps } from "./ShareButton.tsx"
 
 const PodcastEpisodeCard = lazy(() => import("./PodcastEpisodeCard.tsx"))
 const Artwork = lazy(() => import("./Artwork.tsx"))
@@ -16,6 +17,7 @@ const PublishDate = lazy(() => import("./PublishDate.tsx"))
 const Duration = lazy(() => import("./Duration.tsx"))
 const ExplicitIndicator = lazy(() => import("./ExplicitIndicator.tsx"))
 const EpisodeWebsiteLink = lazy(() => import("./EpisodeWebsiteLink.tsx"))
+const ShareButton = lazy(() => import("./ShareButton.tsx"))
 
 type PodcastEpisodeCardCompoundComponents = {
   Artwork: FunctionComponent<ArtworkProps>
@@ -28,6 +30,7 @@ type PodcastEpisodeCardCompoundComponents = {
   Duration: FunctionComponent<object>
   ExplicitIndicator: FunctionComponent<object>
   EpisodeWebsiteLink: FunctionComponent<object>
+  ShareButton: FunctionComponent<PodcastEpisodeCardShareButtonProps>
 }
 
 // @ts-expect-error PodcastEpisodeCardCompoundComponents property will be defined later on
@@ -43,5 +46,6 @@ PodcastEpisodeCardAll.PublishDate = PublishDate
 PodcastEpisodeCardAll.Duration = Duration
 PodcastEpisodeCardAll.ExplicitIndicator = ExplicitIndicator
 PodcastEpisodeCardAll.EpisodeWebsiteLink = EpisodeWebsiteLink
+PodcastEpisodeCardAll.ShareButton = ShareButton
 
 export default PodcastEpisodeCardAll
