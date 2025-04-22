@@ -53,7 +53,7 @@ const itemContent: ItemContent<Podcast, any> | undefined = (
         </div>
       </div>
       <span className="podcast-following-list-item-follow-button">
-        <PodcastCard.Follow isInitialFollowed={true} />
+        <PodcastCard.FollowButton isInitialFollowed={true} />
       </span>
     </PodcastCard>
   )

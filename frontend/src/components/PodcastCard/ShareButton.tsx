@@ -8,7 +8,7 @@ type PodcastCardShareButtonProps = {
   onClick: (podcast: Podcast) => void
 }
 
-const Share = function PodcastCardShareButton({
+const ShareButton = function PodcastCardShareButton({
   onClick,
 }: PodcastCardShareButtonProps) {
   const { podcast } = usePodcastCardContext()
@@ -27,5 +27,5 @@ const Share = function PodcastCardShareButton({
   )
 }
 
-export default memo(Share)
+export default memo(ShareButton)
 export type { PodcastCardShareButtonProps }

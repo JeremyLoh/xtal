@@ -12,3 +12,8 @@
   height: 100% !important;
   max-height: 60vh !important;
 }
+
+.podcast-episode-detail-share-button {
+  width: fit-content;
+  margin-top: 0.5rem;
+}
