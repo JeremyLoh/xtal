@@ -78,7 +78,7 @@ export async function scrollUntilElementIsVisible(
   parentContainer: Locator
 ) {
   while (!(await locator.isVisible())) {
-    await parentContainer.evaluate((e) => e.scrollBy({ top: 60 }))
+    await parentContainer.evaluate((e) => e.scrollBy({ top: 50 }))
     await page.waitForTimeout(200) // wait for possible animations and image to load (swap placeholder image with real image)
   }
   await locator.scrollIntoViewIfNeeded()
