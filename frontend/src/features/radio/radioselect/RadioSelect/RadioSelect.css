@@ -14,7 +14,3 @@
   font-size: clamp(0.6rem, 0.6rem + 0.2vw, 1rem);
   border: none;
 }
-
-.radio-select-random-button:disabled {
-  border: none; /* prevent layout shift due to border size difference */
-}
