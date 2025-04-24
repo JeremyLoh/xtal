@@ -8,6 +8,7 @@ import PodcastInfoCard from "../../../features/podcast/info/PodcastInfoCard/Podc
 import usePodcastEpisodes from "../../../hooks/podcast/usePodcastEpisodes.ts"
 import Pagination from "../../../components/Pagination/Pagination.tsx"
 import PodcastDetailPageNavigation from "../../../features/podcast/navigation/PodcastDetailPageNavigation/PodcastDetailPageNavigation.tsx"
+import Button from "../../../components/ui/button/Button.tsx"
 
 const LIMIT = 10
 const IMAGE_LAZY_LOAD_START_INDEX = 2 // zero based index
@@ -104,7 +105,8 @@ export default function PodcastDetailPage() {
               <p className="podcast-episode-error-text">
                 Could not get podcast episodes. Please try again later
               </p>
-              <button
+              <Button
+                keyProp="refresh-podcast-episode-button"
                 className="refresh-podcast-episode-button"
                 disabled={loading}
                 onClick={handleRefreshPodcastEpisodes}
@@ -112,7 +114,7 @@ export default function PodcastDetailPage() {
                 title="refresh podcast episodes"
               >
                 <IoReload size={20} /> Refresh
-              </button>
+              </Button>
             </div>
           )}
         </div>

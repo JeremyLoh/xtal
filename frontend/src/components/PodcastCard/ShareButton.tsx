@@ -18,6 +18,7 @@ const ShareButton = function PodcastCardShareButton({
 
   return (
     <Button
+      keyProp={`podcast-share-button-${podcast.id}`}
       data-testid="podcast-share-button"
       onClick={handleClick}
       title="Copy Share Podcast Link"

@@ -18,18 +18,18 @@ function GenreSelect(props: GenreSelectProps) {
   )
   return (
     <Slider className="genre-slider-container" scrollAmount={SCROLL_AMOUNT}>
-      {genres.map((genreInfo: GenreInformation) => (
-        <div key={genreInfo.genre}>
-          <Button
-            className={selectedGenre === genreInfo.genre ? "selected" : ""}
-            onClick={() => {
-              setSelectedGenre(genreInfo.genre)
-              props.onGenreSelect(genreInfo)
-            }}
-          >
-            {genreInfo.genre}
-          </Button>
-        </div>
+      {genres.map((genreInfo: GenreInformation, index: number) => (
+        <Button
+          key={`genre-slider-option-${genreInfo.genre}-${index}`}
+          keyProp={`genre-slider-option-${genreInfo.genre}`}
+          className={selectedGenre === genreInfo.genre ? "selected" : ""}
+          onClick={() => {
+            setSelectedGenre(genreInfo.genre)
+            props.onGenreSelect(genreInfo)
+          }}
+        >
+          {genreInfo.genre}
+        </Button>
       ))}
     </Slider>
   )

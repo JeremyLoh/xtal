@@ -1,7 +1,6 @@
 import "./PodcastCategorySection.css"
 import { memo, useCallback } from "react"
 import { useNavigate } from "react-router"
-import { motion } from "motion/react"
 import { IoReload } from "react-icons/io5"
 import Slider from "../../../../components/Slider/Slider.tsx"
 import { PodcastCategory } from "../../../../api/podcast/model/podcast.ts"
@@ -39,6 +38,7 @@ function PodcastCategorySection({
         <div className="podcast-category-placeholder-section">
           <p>Could not get podcast categories. Please try again later</p>
           <Button
+            keyProp="refresh-podcast-categories-button"
             variant="primary"
             className="refresh-podcast-categories-button"
             onClick={handleRefreshPodcastCategories}
@@ -54,15 +54,13 @@ function PodcastCategorySection({
       <Slider className="podcast-category-slider" scrollAmount={SCROLL_AMOUNT}>
         {categories.map((category) => {
           return (
-            <div key={category.id}>
-              <motion.button
-                className="podcast-category-slider-option"
-                onClick={() => handlePodcastCategorySelect(category)}
-                whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
-              >
-                {category.name}
-              </motion.button>
-            </div>
+            <Button
+              keyProp={`${category.id}`}
+              className="podcast-category-slider-option"
+              onClick={() => handlePodcastCategorySelect(category)}
+            >
+              {category.name}
+            </Button>
           )
         })}
       </Slider>

@@ -62,6 +62,7 @@ function Pagination({
       aria-label="pagination"
     >
       <Button
+        keyProp="pagination-previous-button"
         className="pagination-previous-button"
         disabled={currentPage <= 1}
         onClick={handlePreviousClick}
@@ -88,6 +89,7 @@ function Pagination({
         })}
       </ul>
       <Button
+        keyProp="pagination-next-button"
         className="pagination-next-button"
         disabled={totalPages <= 0 || totalPages === currentPage}
         onClick={handleNextClick}

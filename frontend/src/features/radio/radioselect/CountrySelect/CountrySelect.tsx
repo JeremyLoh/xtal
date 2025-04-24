@@ -18,20 +18,20 @@ function CountrySelect({ onCountrySelect }: CountrySelectProps) {
   )
   return (
     <Slider scrollAmount={SCROLL_AMOUNT}>
-      {countryStationInfo.map((country: CountryStation) => (
-        <div key={country.countryCode}>
-          <Button
-            className={`country-slider-option ${
-              selectedCountry === country.name ? "selected" : ""
-            }`}
-            onClick={() => {
-              setSelectedCountry(country.name)
-              onCountrySelect(country)
-            }}
-          >
-            {country.name}
-          </Button>
-        </div>
+      {countryStationInfo.map((country: CountryStation, index: number) => (
+        <Button
+          key={`country-slider-option-${country.countryCode}-${index}`}
+          keyProp={`country-slider-option-${country.countryCode}`}
+          className={`country-slider-option ${
+            selectedCountry === country.name ? "selected" : ""
+          }`}
+          onClick={() => {
+            setSelectedCountry(country.name)
+            onCountrySelect(country)
+          }}
+        >
+          {country.name}
+        </Button>
       ))}
     </Slider>
   )

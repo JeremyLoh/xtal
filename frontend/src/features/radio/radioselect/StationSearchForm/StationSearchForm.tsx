@@ -108,7 +108,11 @@ function StationSearchForm(props: StationSearchFormProps) {
         {...register("tag", stationTagValidation)}
       />
       {errors.tag && getErrorElement(errors.tag.message)}
-      <Button type="submit" variant="secondary">
+      <Button
+        keyProp="station-search-form-submit-button"
+        type="submit"
+        variant="secondary"
+      >
         <FaSearch size={16} /> Search
       </Button>
     </form>

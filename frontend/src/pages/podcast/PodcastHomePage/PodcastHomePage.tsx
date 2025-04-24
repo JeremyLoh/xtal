@@ -82,6 +82,7 @@ export default function PodcastHomePage() {
     <div id="podcast-home-page-container">
       {session && !session.loading && session.doesSessionExist && (
         <Button
+          keyProp="podcast-home-page-profile-history-button"
           className="podcast-home-page-profile-history-button"
           onClick={handleNavigateToProfileHistory}
           variant="secondary"

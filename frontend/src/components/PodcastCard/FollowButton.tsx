@@ -71,11 +71,16 @@ const FollowButton = function PodcastCardFollowButton({
     return null
   }
   return followed ? (
-    <Button variant="secondary" onClick={handleUnfollowUserPodcast}>
+    <Button
+      keyProp="followed-podcast-button"
+      variant="secondary"
+      onClick={handleUnfollowUserPodcast}
+    >
       Followed
     </Button>
   ) : (
     <Button
+      keyProp="follow-podcast-button"
       variant="primary"
       onClick={handleFollowUserPodcast}
       title="Follow Podcast"

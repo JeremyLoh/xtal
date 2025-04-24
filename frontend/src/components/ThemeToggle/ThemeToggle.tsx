@@ -14,6 +14,7 @@ function ThemeToggle() {
 
   return theme == undefined ? null : (
     <Button
+      keyProp="theme-toggle-button"
       onClick={handleClick}
       className="theme-toggle-button"
       data-testid="theme-toggle-button"

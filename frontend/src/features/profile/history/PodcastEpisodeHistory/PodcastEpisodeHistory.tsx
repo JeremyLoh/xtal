@@ -57,6 +57,7 @@ function PodcastEpisodeHistory({
                 Last Played on {data.lastPlayedTimestamp.toDateString()}
               </span>
               <Button
+                keyProp={`profile-history-delete-podcast-episode-button-${episode.id}`}
                 onClick={() => onDelete(episode.id)}
                 data-testid={`profile-history-delete-button-podcast-episode-${episode.id}`}
                 className="profile-history-delete-podcast-episode-button"
