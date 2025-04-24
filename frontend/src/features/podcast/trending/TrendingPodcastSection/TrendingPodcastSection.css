@@ -41,3 +41,8 @@
 .podcast-trending-card-detail-link:hover {
   text-decoration: underline;
 }
+
+.refresh-trending-podcasts-button {
+  width: fit-content;
+  height: fit-content;
+}
