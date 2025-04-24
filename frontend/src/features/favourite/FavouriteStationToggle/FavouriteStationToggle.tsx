@@ -14,6 +14,7 @@ function FavouriteStationToggle() {
   return (
     <>
       <Button
+        keyProp="favourite-station-toggle-button"
         onClick={handleClick}
         data-testid="favourite-station-toggle-button"
         className="favourite-station-toggle-button"

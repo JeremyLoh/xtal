@@ -24,7 +24,7 @@ const Spinner = ({ isLoading }: SpinnerProps) => {
             exit={{ opacity: 0 }}
             transition={{ repeat: Infinity, duration: 5, ease: "linear" }}
           >
-            <PiSpinner size={120} />
+            <PiSpinner size={64} />
           </motion.div>
         </motion.div>
       ) : null}

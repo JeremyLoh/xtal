@@ -21,6 +21,7 @@ function ProfileRedirectToggle() {
   }, [session, navigate])
   return (
     <Button
+      keyProp="profile-redirect-toggle-button"
       onClick={handleClick}
       data-testid="profile-redirect-toggle-button"
       className="profile-redirect-toggle-button"

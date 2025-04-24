@@ -115,6 +115,7 @@ function ProfilePage() {
         </p>
         <div className="profile-page-account-actions-container">
           <Button
+            keyProp="profile-page-profile-history-button"
             onClick={handleNavigateToProfileHistory}
             variant="secondary"
             title="Profile History"
@@ -122,6 +123,7 @@ function ProfilePage() {
             Profile History
           </Button>
           <Button
+            keyProp="profile-page-followed-podcasts-button"
             onClick={handleNavigateToProfileFollowing}
             variant="secondary"
             title="Followed Podcasts"
@@ -129,6 +131,7 @@ function ProfilePage() {
             Followed Podcasts
           </Button>
           <Button
+            keyProp="profile-page-reset-password-button"
             onClick={handleNavigateToResetPassword}
             variant="secondary"
             title="Reset Password"
@@ -136,11 +139,17 @@ function ProfilePage() {
             Reset Password
           </Button>
         </div>
-        <Button onClick={handleLogoutAccount} variant="primary" title="Logout">
+        <Button
+          keyProp="profile-page-logout-button"
+          onClick={handleLogoutAccount}
+          variant="primary"
+          title="Logout"
+        >
           Logout
         </Button>
         <Separator />
         <Button
+          keyProp="profile-page-delete-profile-button"
           onClick={handleDeleteAccount}
           className="delete-profile-button"
           variant="danger"

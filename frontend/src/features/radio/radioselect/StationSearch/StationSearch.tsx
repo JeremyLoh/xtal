@@ -45,6 +45,7 @@ function StationSearch({ onStationSearchTypeSelect }: StationSearchProps) {
   return (
     <div id="station-search-type-container">
       <Button
+        keyProp="genre-search-button"
         className={`genre-search-button ${
           selectedSearch === StationSearchType.GENRE ? "selected" : ""
         }`}
@@ -53,6 +54,7 @@ function StationSearch({ onStationSearchTypeSelect }: StationSearchProps) {
         <FaMusic size={16} /> Genres
       </Button>
       <Button
+        keyProp="country-search-button"
         className={`country-search-button ${
           selectedSearch === StationSearchType.COUNTRY ? "selected" : ""
         }`}
@@ -61,6 +63,7 @@ function StationSearch({ onStationSearchTypeSelect }: StationSearchProps) {
         <FaFlag size={16} /> Countries
       </Button>
       <Button
+        keyProp="search-station-button"
         onClick={handleAdvancedClick}
         className={`search-station-button ${
           showSearchStation ? "selected" : ""

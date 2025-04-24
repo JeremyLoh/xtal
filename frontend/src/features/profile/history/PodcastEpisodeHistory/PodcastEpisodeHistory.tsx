@@ -1,5 +1,6 @@
 import "./PodcastEpisodeHistory.css"
 import { memo } from "react"
+import { motion } from "motion/react"
 import { MdDelete } from "react-icons/md"
 import { PlayHistoryPodcastEpisode } from "../../../../hooks/podcast/usePlayHistory.ts"
 import Button from "../../../../components/ui/button/Button.tsx"
@@ -29,9 +30,12 @@ function PodcastEpisodeHistory({
         const podcastTitle = episode.feedTitle
         const podcastId = episode.feedId
         return (
-          <div
+          <motion.div
             className="profile-history-podcast-listen-history-item"
             key={`${episode.id}-item`}
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, type: "spring", bounce: 0 }}
           >
             <span className="profile-history-podcast-listen-history-count">
               {episodeCountOffset + index + 1}
@@ -57,6 +61,7 @@ function PodcastEpisodeHistory({
                 Last Played on {data.lastPlayedTimestamp.toDateString()}
               </span>
               <Button
+                keyProp={`profile-history-delete-podcast-episode-button-${episode.id}`}
                 onClick={() => onDelete(episode.id)}
                 data-testid={`profile-history-delete-button-podcast-episode-${episode.id}`}
                 className="profile-history-delete-podcast-episode-button"
@@ -67,7 +72,7 @@ function PodcastEpisodeHistory({
                 Delete
               </Button>
             </div>
-          </div>
+          </motion.div>
         )
       })}
     </div>

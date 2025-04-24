@@ -21,13 +21,20 @@ export default memo(function PodcastSearchResultList({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: 0.2, type: "spring", bounce: 0 }}
         >
           {results.map((data) => {
             const podcastDetailPageUrl = `/podcasts/${encodeURIComponent(
               data.title
             )}/${data.id}`
             return (
-              <motion.div key={`${data.id}-result-item`}>
+              <motion.div
+                key={`${data.id}-result-item`}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 50 }}
+                transition={{ duration: 0.3, type: "spring", bounce: 0 }}
+              >
                 <Link
                   to={podcastDetailPageUrl}
                   style={{ textDecoration: "none", width: "fit-content" }}

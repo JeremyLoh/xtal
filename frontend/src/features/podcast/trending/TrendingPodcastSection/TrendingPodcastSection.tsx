@@ -126,6 +126,7 @@ export default memo(function TrendingPodcastSection({
         <div>
           <p>Zero podcasts found. Please try again later</p>
           <Button
+            keyProp="refresh-trending-podcasts-button"
             onClick={handleRefreshTrendingPodcasts}
             variant="primary"
             className="refresh-trending-podcasts-button"

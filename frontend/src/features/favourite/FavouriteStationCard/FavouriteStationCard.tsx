@@ -40,6 +40,7 @@ function FavouriteStationCard({
         <StationCard.Tags />
         <div className="favourite-station-actions">
           <Button
+            keyProp="remove-favourite-station-button"
             className="remove-favourite-station-button"
             title="Remove from favourites"
             onClick={handleRemoveFavouriteStation}
@@ -47,6 +48,7 @@ function FavouriteStationCard({
             <StationCard.FavouriteIconFilled />
           </Button>
           <Button
+            keyProp="favourite-station-share-button"
             className="favourite-station-share-button"
             title="Share Station"
             onClick={handleShareStation}
@@ -54,6 +56,7 @@ function FavouriteStationCard({
             <StationCard.ShareIcon />
           </Button>
           <Button
+            keyProp="favourite-station-load-button"
             className="favourite-station-load-button"
             title="Load Station"
             onClick={handleLoadStation}

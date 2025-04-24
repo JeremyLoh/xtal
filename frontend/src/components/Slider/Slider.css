@@ -24,6 +24,7 @@
   font-size: clamp(0.7rem, 0.7rem + 0.2vw, 1rem);
   /* Prevent button text overflow - https://stackoverflow.com/questions/75673568/prevent-buttons-from-overflowing-to-a-new-line */
   white-space: nowrap;
+  padding: 0.2rem 0;
 }
 
 .slider button {

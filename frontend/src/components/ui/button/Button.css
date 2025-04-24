@@ -25,7 +25,6 @@
   cursor: default;
   pointer-events: none;
   background-color: var(--disabled-element-color);
-  border: none;
 }
 
 .button:focus,

@@ -76,13 +76,21 @@ function Drawer(props: DrawerProps) {
           }}
         >
           <div>
-            <Button className="drawer-drag-button" onPointerDown={startDrag}>
+            <Button
+              keyProp="drawer-drag-button"
+              className="drawer-drag-button"
+              onPointerDown={startDrag}
+            >
               <MdOutlineHorizontalRule size={40} />
             </Button>
           </div>
           <div className="drawer-info-container">
             <h3 className="drawer-title">{props.title}</h3>
-            <Button className="drawer-close-button" onClick={handleClose}>
+            <Button
+              keyProp="drawer-close-button"
+              className="drawer-close-button"
+              onClick={handleClose}
+            >
               <IoClose size={28} />
             </Button>
           </div>

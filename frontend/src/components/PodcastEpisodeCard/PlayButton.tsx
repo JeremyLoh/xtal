@@ -18,6 +18,7 @@ const PlayButton = function PodcastEpisodeCardPlayButton({
   )
   return (
     <Button
+      keyProp={`podcast-episode-card-play-button-${episode.id}`}
       variant="secondary"
       className="podcast-episode-card-play-button"
       onClick={handleClick}

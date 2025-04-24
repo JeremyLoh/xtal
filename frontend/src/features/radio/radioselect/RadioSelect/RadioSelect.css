@@ -12,4 +12,5 @@
   /* Icon color can be changed with "color" property */
   color: var(--primary-text-color);
   font-size: clamp(0.6rem, 0.6rem + 0.2vw, 1rem);
+  border: none;
 }

@@ -87,6 +87,7 @@ function RadioSelect({
         <CountrySelect onCountrySelect={handleCountrySelect} />
       )}
       <Button
+        keyProp="radio-select-random-button"
         className="radio-select-random-button"
         disabled={isLoading}
         onClick={() => activeSearch && onRandomSelect(activeSearch.strategy)}

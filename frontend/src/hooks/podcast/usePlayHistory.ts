@@ -29,7 +29,7 @@ function usePlayHistory() {
 
   useEffect(() => {
     async function getTotalPlayedCount() {
-      if (session.loading || !isInitialFetchRef.current) {
+      if (session.loading || isInitialFetchRef.current != null) {
         return
       }
       if (!session.doesSessionExist) {
