@@ -20,6 +20,7 @@
     "dotenv": "16.5.0",
     "ky": "1.8.1",
     "leaflet": "1.9.4",
+    "mailchecker": "6.0.17",
     "media-chrome": "4.9.0",
     "motion": "12.8.0",
     "react": "19.1.0",

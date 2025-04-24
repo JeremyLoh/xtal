@@ -1,3 +1,4 @@
+import MailChecker from "mailchecker"
 import SuperTokens from "supertokens-auth-react"
 import EmailPassword from "supertokens-auth-react/recipe/emailpassword"
 import EmailVerification from "supertokens-auth-react/recipe/emailverification"
@@ -22,7 +23,32 @@ function initializeSuperTokens() {
     },
     recipeList: [
       EmailVerification.init({ mode: "REQUIRED" }),
-      EmailPassword.init(),
+      EmailPassword.init({
+        signInAndUpFeature: {
+          signUpForm: {
+            formFields: [
+              {
+                id: "email",
+                label: "Email",
+                placeholder: "Email address",
+                optional: false,
+                validate: async (email) => {
+                  if (MailChecker.isValid(email)) {
+                    return undefined // no error
+                  }
+                  return "Invalid email"
+                },
+              },
+              {
+                id: "password",
+                label: "Password",
+                placeholder: "Password",
+                optional: false,
+              },
+            ],
+          },
+        },
+      }),
       Session.init(),
     ],
   })

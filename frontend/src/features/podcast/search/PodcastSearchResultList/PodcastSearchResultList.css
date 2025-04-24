@@ -6,7 +6,6 @@
   height: fit-content;
   max-height: 50%;
   overflow-y: auto;
-  margin-top: 4rem; /* Place below search bar */
   padding: 1rem;
   background-color: var(--background-color);
   border: 2px solid var(--disabled-element-color);

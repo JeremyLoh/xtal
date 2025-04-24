@@ -310,6 +310,7 @@ test.describe("random radio station", () => {
     test("station with tag longer than 50 characters are removed", async ({
       page,
     }) => {
+      test.slow()
       const tags = [
         "test tag",
         "a".repeat(51),

@@ -1,3 +1,4 @@
+import MailChecker from "mailchecker"
 import jwt from "jsonwebtoken"
 import EmailPassword from "supertokens-node/recipe/emailpassword"
 import EmailVerification from "supertokens-node/recipe/emailverification"
@@ -26,6 +27,21 @@ const getSupertokensConfig = (): TypeInput => {
     recipeList: [
       EmailVerification.init({ mode: "REQUIRED" }),
       EmailPassword.init({
+        signUpFeature: {
+          formFields: [
+            {
+              id: "email",
+              optional: false,
+              validate: async (email) => {
+                if (MailChecker.isValid(email)) {
+                  return undefined // no error
+                }
+                return "Invalid email"
+              },
+            },
+            { id: "password", optional: false },
+          ],
+        },
         override: {
           apis: (originalImplementation) => {
             return {

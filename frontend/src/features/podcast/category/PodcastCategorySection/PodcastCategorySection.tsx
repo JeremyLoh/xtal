@@ -55,6 +55,7 @@ function PodcastCategorySection({
         {categories.map((category) => {
           return (
             <Button
+              key={`podcast-category-slider-option-${category.id}`}
               keyProp={`${category.id}`}
               className="podcast-category-slider-option"
               onClick={() => handlePodcastCategorySelect(category)}

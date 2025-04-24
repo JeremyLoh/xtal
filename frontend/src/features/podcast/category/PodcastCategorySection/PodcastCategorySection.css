@@ -26,3 +26,8 @@
   align-items: flex-start;
   margin: 1rem 0;
 }
+
+.refresh-podcast-categories-button {
+  width: fit-content;
+  height: fit-content;
+}

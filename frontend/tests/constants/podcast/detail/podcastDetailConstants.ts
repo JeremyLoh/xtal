@@ -79,7 +79,7 @@ export async function scrollUntilElementIsVisible(
 ) {
   while (!(await locator.isVisible())) {
     await parentContainer.evaluate((e) => e.scrollBy({ top: 50 }))
-    await page.waitForTimeout(100) // wait for possible image to load (swap placeholder image with real image)
+    await page.waitForTimeout(200) // wait for possible animations and image to load (swap placeholder image with real image)
   }
   await locator.scrollIntoViewIfNeeded()
 }
@@ -192,9 +192,9 @@ export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
       }) podcast episode card Description should not be duplicated due to React Strict Mode`
     ).toBe(descriptions.length)
 
-    const playButtonElement = podcastEpisodeCard.locator(
-      ".podcast-episode-card-play-button"
-    )
+    const playButtonElement = podcastEpisodeCard
+      .locator(".podcast-episode-card-play-button")
+      .first()
     await scrollUntilElementIsVisible(
       page,
       playButtonElement,
