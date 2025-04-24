@@ -91,14 +91,16 @@ export default function PodcastHomePage() {
           Profile History
         </Button>
       )}
-      <SearchBar
-        className="podcast-search-bar"
-        placeholder="Search Podcasts..."
-        onChange={handlePodcastSearch}
-      />
-      <LoadingDisplay loading={loadingSearchPodcasts}>
-        <PodcastSearchResultList results={searchPodcasts} />
-      </LoadingDisplay>
+      <div>
+        <SearchBar
+          className="podcast-search-bar"
+          placeholder="Search Podcasts..."
+          onChange={handlePodcastSearch}
+        />
+        <LoadingDisplay loading={loadingSearchPodcasts}>
+          <PodcastSearchResultList results={searchPodcasts} />
+        </LoadingDisplay>
+      </div>
       <LoadingDisplay loading={loadingCategories}>
         <PodcastCategorySection
           categories={categories}
