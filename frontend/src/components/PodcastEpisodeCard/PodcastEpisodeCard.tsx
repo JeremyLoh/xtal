@@ -1,5 +1,6 @@
 import "./PodcastEpisodeCard.css"
 import { memo, PropsWithChildren, useMemo, useRef } from "react"
+import { AnimatePresence, motion } from "motion/react"
 import DOMPurify from "dompurify"
 import { PodcastEpisodeCardContext } from "./PodcastEpisodeCardContext.ts"
 import { PodcastEpisode } from "../../api/podcast/model/podcast.ts"
@@ -23,7 +24,18 @@ export default memo(function PodcastEpisodeCard({
 
   return (
     <PodcastEpisodeCardContext.Provider value={output}>
-      <div className="podcast-episode-card">{children}</div>
+      <AnimatePresence>
+        <motion.div
+          className="podcast-episode-card"
+          layout
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.5, type: "spring", bounce: 0 }}
+        >
+          {children}
+        </motion.div>
+      </AnimatePresence>
     </PodcastEpisodeCardContext.Provider>
   )
 })
