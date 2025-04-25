@@ -1,0 +1,7 @@
+.podcast-card-artwork-link {
+  color: var(--text-color);
+}
+
+.podcast-card-artwork-link:hover {
+  filter: brightness(0.8);
+}

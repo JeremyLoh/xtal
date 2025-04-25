@@ -138,28 +138,38 @@ export default memo(function TrendingPodcastSection({
         </div>
       )
     }
-    return trendingPodcasts.map((podcast, index) => (
-      <PodcastCard
-        key={podcast.id}
-        customClassName="podcast-trending-card"
-        podcast={podcast}
-      >
-        {!isMobile || index < IMAGE_LAZY_LOAD_START_INDEX ? (
-          <PodcastCard.Artwork size={isMobile ? 144 : 200} />
-        ) : (
-          <PodcastCard.Artwork size={isMobile ? 144 : 200} lazyLoad={true} />
-        )}
-        <Link
-          to={getPodcastDetailPath({
-            podcastId: `${podcast.id}`,
-            podcastTitle: `${podcast.title}`,
-          })}
-          className="podcast-trending-card-detail-link"
+    return trendingPodcasts.map((podcast, index) => {
+      const podcastDetailUrl = getPodcastDetailPath({
+        podcastId: `${podcast.id}`,
+        podcastTitle: `${podcast.title}`,
+      })
+      return (
+        <PodcastCard
+          key={podcast.id}
+          customClassName="podcast-trending-card"
+          podcast={podcast}
         >
-          <PodcastCard.TitleAndAuthor />
-        </Link>
-      </PodcastCard>
-    ))
+          {!isMobile || index < IMAGE_LAZY_LOAD_START_INDEX ? (
+            <PodcastCard.Artwork
+              size={isMobile ? 144 : 200}
+              redirectUrl={podcastDetailUrl}
+            />
+          ) : (
+            <PodcastCard.Artwork
+              size={isMobile ? 144 : 200}
+              lazyLoad={true}
+              redirectUrl={podcastDetailUrl}
+            />
+          )}
+          <Link
+            to={podcastDetailUrl}
+            className="podcast-trending-card-detail-link"
+          >
+            <PodcastCard.TitleAndAuthor />
+          </Link>
+        </PodcastCard>
+      )
+    })
   }, [trendingPodcasts, isMobile, handleRefreshTrendingPodcasts])
 
   return (

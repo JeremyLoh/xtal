@@ -15,8 +15,44 @@ import {
 import { getSinceSelectFilter } from "../../constants/podcast/pagination/podcastTrendingPagination"
 
 test.describe("Podcast Homepage /podcasts", () => {
+  function getPodcastImage(page: Page, imageName: string) {
+    const imageLocator = getPodcastCards(page).getByRole("img", {
+      name: imageName,
+      exact: true,
+    })
+    return imageLocator
+  }
+
   test.describe("Trending Podcasts Section", () => {
     test.describe("navigation to podcast detail page", () => {
+      test("should navigate to podcast detail page on podcast card image click", async ({
+        page,
+      }) => {
+        await page.route(
+          "*/**/api/podcast/trending?limit=10&since=*",
+          async (route) => {
+            const json = defaultTenTrendingPodcasts
+            await route.fulfill({ json })
+          }
+        )
+        await page.goto(HOMEPAGE + "/podcasts")
+        await expect(page).toHaveTitle(/xtal - podcasts/)
+        await expect(page.locator(".podcast-trending-container")).toBeVisible()
+        const podcastIndex = 0
+        const podcastData = defaultTenTrendingPodcasts.data[podcastIndex]
+        const podcastTitle = encodeURIComponent(podcastData.title)
+        const podcastId = podcastData.id
+        const expectedPodcastDetailUrl =
+          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`
+        const imageLocator = getPodcastImage(
+          page,
+          podcastData.title + " podcast image"
+        )
+        await expect(imageLocator).toBeVisible()
+        await imageLocator.click()
+        await expect(page).toHaveURL(expectedPodcastDetailUrl)
+      })
+
       test("should have underline text decoration on hover of trending podcast title and description", async ({
         page,
       }) => {
@@ -92,10 +128,10 @@ test.describe("Podcast Homepage /podcasts", () => {
           getPodcastCards(page).getByText(podcastData.author, { exact: true })
         ).toBeVisible()
 
-        const imageLocator = getPodcastCards(page).getByRole("img", {
-          name: podcastData.title + " podcast image",
-          exact: true,
-        })
+        const imageLocator = getPodcastImage(
+          page,
+          podcastData.title + " podcast image"
+        )
         await expect(imageLocator).toBeVisible()
         expect(
           await imageLocator.getAttribute("width"),
@@ -130,10 +166,10 @@ test.describe("Podcast Homepage /podcasts", () => {
           getPodcastCards(page).getByText(podcastData.author, { exact: true })
         ).toBeVisible()
 
-        const imageLocator = getPodcastCards(page).getByRole("img", {
-          name: podcastData.title + " podcast image",
-          exact: true,
-        })
+        const imageLocator = getPodcastImage(
+          page,
+          podcastData.title + " podcast image"
+        )
         await expect(imageLocator).toBeVisible()
         expect(
           await imageLocator.getAttribute("width"),
