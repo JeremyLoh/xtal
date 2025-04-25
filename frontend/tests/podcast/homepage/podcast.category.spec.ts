@@ -77,12 +77,12 @@ test.describe("Podcast Homepage /podcasts", () => {
       await page.goto(HOMEPAGE + "/podcasts")
       await expect(page).toHaveTitle(/xtal - podcasts/)
       await assertLoadingSpinnerIsMissing(page)
-      await expect(getRefreshPodcastCategoryButton(page)).toBeVisible()
       await expect(
         page.getByText(
           "Could not get podcast categories. Please try again later"
         )
       ).toBeVisible()
+      await expect(getRefreshPodcastCategoryButton(page)).toBeVisible()
 
       shouldFetchData = true
       await getRefreshPodcastCategoryButton(page).click()

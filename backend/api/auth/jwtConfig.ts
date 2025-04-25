@@ -1,4 +1,4 @@
-import MailChecker from "mailchecker"
+import freeEmailDomains from "free-email-domains"
 import jwt from "jsonwebtoken"
 import EmailPassword from "supertokens-node/recipe/emailpassword"
 import EmailVerification from "supertokens-node/recipe/emailverification"
@@ -33,7 +33,19 @@ const getSupertokensConfig = (): TypeInput => {
               id: "email",
               optional: false,
               validate: async (email) => {
-                if (MailChecker.isValid(email)) {
+                // needs to be identical between frontend and backend
+                const values = email.split("@")
+                if (
+                  values.length === 1 ||
+                  values.length > 2 ||
+                  values[0].trim() === ""
+                ) {
+                  return "Invalid email"
+                }
+                const emailDomain = values[1]
+                const isValidEmailProvided =
+                  freeEmailDomains.includes(emailDomain)
+                if (isValidEmailProvided) {
                   return undefined // no error
                 }
                 return "Invalid email"

@@ -1,4 +1,3 @@
-import MailChecker from "mailchecker"
 import SuperTokens from "supertokens-auth-react"
 import EmailPassword from "supertokens-auth-react/recipe/emailpassword"
 import EmailVerification from "supertokens-auth-react/recipe/emailverification"
@@ -33,7 +32,22 @@ function initializeSuperTokens() {
                 placeholder: "Email address",
                 optional: false,
                 validate: async (email) => {
-                  if (MailChecker.isValid(email)) {
+                  // needs to be identical between frontend and backend
+                  const values = email.split("@")
+                  if (
+                    values.length === 1 ||
+                    values.length > 2 ||
+                    values[0].trim() === ""
+                  ) {
+                    return "Invalid email"
+                  }
+                  const emailDomain = values[1]
+                  const { default: freeEmailDomains } = await import(
+                    "free-email-domains"
+                  )
+                  const isValidEmailProvided =
+                    freeEmailDomains.includes(emailDomain)
+                  if (isValidEmailProvided) {
                     return undefined // no error
                   }
                   return "Invalid email"
