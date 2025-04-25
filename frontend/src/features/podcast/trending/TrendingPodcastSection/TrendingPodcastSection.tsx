@@ -25,7 +25,7 @@ type TrendingPodcastSectionProps = {
   onRefresh: (filters: TrendingPodcastFiltersType) => Promise<void>
 }
 
-export default memo(function TrendingPodcastSection({
+function TrendingPodcastSection({
   loading,
   trendingPodcasts,
   filters,
@@ -107,19 +107,6 @@ export default memo(function TrendingPodcastSection({
     [onRefresh, podcastFilters, page]
   )
 
-  const renderTrendingPodcastPagination = useCallback(() => {
-    return (
-      <Pagination
-        className="trending-podcast-pagination"
-        currentPage={page}
-        totalPages={MAX_TRENDING_PODCAST_PAGINATION_PAGES}
-        onPreviousPageClick={handlePreviousPageClick}
-        onNextPageClick={handleNextPageClick}
-        onPageClick={handlePageClick}
-      />
-    )
-  }, [page, handlePreviousPageClick, handleNextPageClick, handlePageClick])
-
   const renderTrendingPodcasts = useCallback(() => {
     if (trendingPodcasts == null || trendingPodcasts.length === 0) {
       return (
@@ -179,7 +166,14 @@ export default memo(function TrendingPodcastSection({
         <IoChevronForward size={20} />
         <TrendingPodcastFilters onChange={handleFilterChange} />
       </h2>
-      {renderTrendingPodcastPagination()}
+      <Pagination
+        className="trending-podcast-pagination"
+        currentPage={page}
+        totalPages={MAX_TRENDING_PODCAST_PAGINATION_PAGES}
+        onPreviousPageClick={handlePreviousPageClick}
+        onNextPageClick={handleNextPageClick}
+        onPageClick={handlePageClick}
+      />
       <div className="podcast-trending-card-container">
         <LoadingDisplay loading={loading}>
           {renderTrendingPodcasts()}
@@ -187,4 +181,6 @@ export default memo(function TrendingPodcastSection({
       </div>
     </div>
   )
-})
+}
+
+export default memo(TrendingPodcastSection)
