@@ -19,7 +19,6 @@ function usePodcastEpisode() {
       const response = await getPodcastEpisode(abortController.current, params)
       if (response && response.data) {
         setEpisode(response.data)
-        setLoading(false)
       } else {
         setError(
           "Could not retrieve podcast episode by episode id. Please try again later"
@@ -38,6 +37,7 @@ function usePodcastEpisode() {
     if (episode) {
       // set loading state after episode has been set by setState, prevent initial flash of no episode found message
       setLoading(false)
+      setError(null)
     }
   }, [episode])
 

@@ -1,9 +1,9 @@
 import "./PodcastCard.css"
-import DOMPurify from "dompurify"
 import { memo, PropsWithChildren, useMemo } from "react"
 import { AnimatePresence, motion } from "motion/react"
 import { PodcastCardContext } from "./PodcastCardContext.ts"
 import { Podcast } from "../../api/podcast/model/podcast.ts"
+import { sanitizeHtmlString } from "../../api/dom/domSanitize.ts"
 
 type PodcastCardProps = PropsWithChildren & {
   customClassName?: string
@@ -14,7 +14,7 @@ function PodcastCard({ children, customClassName, podcast }: PodcastCardProps) {
   const output = useMemo(() => {
     const sanitizedPodcast = {
       ...podcast,
-      description: DOMPurify.sanitize(podcast.description),
+      description: sanitizeHtmlString(podcast.description),
     }
     return { podcast: sanitizedPodcast }
   }, [podcast])

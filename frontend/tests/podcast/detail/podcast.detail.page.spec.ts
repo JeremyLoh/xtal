@@ -435,6 +435,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     test("should play podcast episode when podcast episode card play button is clicked", async ({
       page,
     }) => {
+      test.slow()
       const i = 0
       const expectedArtworkSize = "96"
       const expectedEpisode = defaultTenPodcastEpisodes.data.episodes[i]

@@ -86,7 +86,13 @@ function PodcastEpisodeList({
         </PodcastEpisodeCard>
       )
     },
-    [IMAGE_LAZY_LOAD_START_INDEX, podcastId, podcastTitle, handlePlayClick]
+    [
+      isMobile,
+      IMAGE_LAZY_LOAD_START_INDEX,
+      podcastId,
+      podcastTitle,
+      handlePlayClick,
+    ]
   )
 
   return (
