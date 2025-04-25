@@ -87,47 +87,45 @@ export default function PodcastDetailPage() {
         podcast={podcast}
         podcastTitle={podcastTitle}
       />
-      <LoadingDisplay loading={loading}>
-        <PodcastInfoCard podcast={podcast} />
-        <Pagination
-          className="podcast-episode-pagination"
-          currentPage={page}
-          totalPages={
-            podcast ? Math.ceil((podcast.episodeCount || 0) / LIMIT) : 0
-          }
-          onPreviousPageClick={handlePreviousPageClick}
-          onNextPageClick={handleNextPageClick}
-          onPageClick={handlePageClick}
-        />
-        <h2 className="podcast-episode-section-title">Episodes</h2>
-        <LoadingDisplay loading={paginationDataLoading}>
-          <div className="podcast-episode-container">
-            {podcastEpisodes ? (
-              <PodcastEpisodeList
-                IMAGE_LAZY_LOAD_START_INDEX={IMAGE_LAZY_LOAD_START_INDEX}
-                episodes={podcastEpisodes}
-                podcastTitle={podcastTitle}
-                podcastId={podcastId}
-              />
-            ) : (
-              <div className="podcast-episode-placeholder-section">
-                <p className="podcast-episode-error-text">
-                  Could not get podcast episodes. Please try again later
-                </p>
-                <Button
-                  keyProp="refresh-podcast-episode-button"
-                  className="refresh-podcast-episode-button"
-                  disabled={loading}
-                  onClick={handleRefreshPodcastEpisodes}
-                  aria-label="refresh podcast episodes"
-                  title="refresh podcast episodes"
-                >
-                  <IoReload size={20} /> Refresh
-                </Button>
-              </div>
-            )}
-          </div>
-        </LoadingDisplay>
+      <PodcastInfoCard podcast={podcast} />
+      <Pagination
+        className="podcast-episode-pagination"
+        currentPage={page}
+        totalPages={
+          podcast ? Math.ceil((podcast.episodeCount || 0) / LIMIT) : 0
+        }
+        onPreviousPageClick={handlePreviousPageClick}
+        onNextPageClick={handleNextPageClick}
+        onPageClick={handlePageClick}
+      />
+      <h2 className="podcast-episode-section-title">Episodes</h2>
+      <LoadingDisplay loading={loading || paginationDataLoading}>
+        <div className="podcast-episode-container">
+          {podcastEpisodes ? (
+            <PodcastEpisodeList
+              IMAGE_LAZY_LOAD_START_INDEX={IMAGE_LAZY_LOAD_START_INDEX}
+              episodes={podcastEpisodes}
+              podcastTitle={podcastTitle}
+              podcastId={podcastId}
+            />
+          ) : (
+            <div className="podcast-episode-placeholder-section">
+              <p className="podcast-episode-error-text">
+                Could not get podcast episodes. Please try again later
+              </p>
+              <Button
+                keyProp="refresh-podcast-episode-button"
+                className="refresh-podcast-episode-button"
+                disabled={loading}
+                onClick={handleRefreshPodcastEpisodes}
+                aria-label="refresh podcast episodes"
+                title="refresh podcast episodes"
+              >
+                <IoReload size={20} /> Refresh
+              </Button>
+            </div>
+          )}
+        </div>
       </LoadingDisplay>
     </div>
   )

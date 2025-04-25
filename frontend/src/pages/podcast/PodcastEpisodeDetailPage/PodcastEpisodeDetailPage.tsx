@@ -58,7 +58,9 @@ export default function PodcastEpisodeDetailPage() {
         podcastTitle={podcastTitle}
       />
       <LoadingDisplay loading={loading}>
-        {!episode && error && <p className="error-text">{error}</p>}
+        {!loading && episode == null && error && (
+          <p className="error-text">{error}</p>
+        )}
         {episode && (
           <PodcastEpisodeCard episode={episode}>
             <PodcastEpisodeCard.Artwork
