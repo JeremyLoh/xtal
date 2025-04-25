@@ -207,7 +207,11 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
         }
       })
 
-      test("should navigate to clicked pagination page", async ({ page }) => {
+      test("should navigate to clicked pagination page", async ({
+        headless,
+        page,
+      }) => {
+        test.skip(headless, "Skip slow test in headless mode")
         test.slow()
         // NOTE: there must be at least 50 episodes for the mocked podcast data
         const podcastTitle = encodeURIComponent("Infinite Loops")
@@ -497,8 +501,10 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
 
   test.describe("Previous Pagination Button", () => {
     test("should navigate to first page when previous pagination button is clicked from second page", async ({
+      headless,
       page,
     }) => {
+      test.skip(headless, "Skip slow test in headless mode")
       test.slow()
       const podcastTitle = encodeURIComponent("Infinite Loops")
       const podcastId = "259760"

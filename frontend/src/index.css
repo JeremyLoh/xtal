@@ -140,8 +140,8 @@ li {
 }
 
 a {
-  color: var(--link-color) !important;
+  color: var(--link-color);
 }
 a:hover {
-  filter: brightness(0.8) !important;
+  filter: brightness(0.8);
 }

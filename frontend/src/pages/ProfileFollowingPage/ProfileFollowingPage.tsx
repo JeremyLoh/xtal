@@ -26,18 +26,19 @@ const itemContent: ItemContent<Podcast, any> | undefined = (
   _: number,
   podcast: Podcast
 ) => {
+  const podcastDetailUrl = getPodcastDetailPath({
+    podcastId: `${podcast.id}`,
+    podcastTitle: `${podcast.title}`,
+  })
   return (
     <PodcastCard
       podcast={podcast}
       customClassName="podcast-following-list-podcast-card"
     >
-      <PodcastCard.Artwork size={144} />
+      <PodcastCard.Artwork size={144} redirectUrl={podcastDetailUrl} />
       <div className="podcast-following-list-item-info">
         <Link
-          to={getPodcastDetailPath({
-            podcastId: `${podcast.id}`,
-            podcastTitle: `${podcast.title}`,
-          })}
+          to={podcastDetailUrl}
           className="podcast-following-list-item-detail-link"
         >
           <PodcastCard.TitleAndAuthor />
