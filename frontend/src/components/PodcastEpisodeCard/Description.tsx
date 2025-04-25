@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 import { usePodcastEpisodeCardContext } from "./PodcastEpisodeCardContext.ts"
+import { sanitizeHtmlString } from "../../api/dom/domSanitize.ts"
 
 type DescriptionProps = {
   className?: string
@@ -53,8 +54,9 @@ function isHTML(text: string) {
 function convertHtmlStringToElement(htmlString: string) {
   // should only be used for string that contain HTML!
   // https://stackoverflow.com/questions/29643368/cannot-append-dom-element-to-div-node-uncaught-hierarchyrequesterror-failed-to
+  const cleanHtmlString = sanitizeHtmlString(htmlString)
   const domParser = new DOMParser()
-  const document = domParser.parseFromString(htmlString, "text/html")
+  const document = domParser.parseFromString(cleanHtmlString, "text/html")
   return document.documentElement
 }
 
