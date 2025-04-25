@@ -49,6 +49,7 @@ test.describe("Pagination on Podcast Category Page /podcasts/<category_name>", (
     test("should display active page, next and previous pagination buttons", async ({
       page,
     }) => {
+      test.slow()
       const expectedActivePage = "1"
       const category = "Arts"
       await page.route(

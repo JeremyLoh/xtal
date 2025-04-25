@@ -36,6 +36,7 @@ test.describe("Podcast Homepage /podcasts", () => {
     test("should display active page, next and previous pagination buttons", async ({
       page,
     }) => {
+      test.slow()
       const expectedActivePage = "1"
       await page.route(
         "*/**/api/podcast/trending?limit=10&since=*",

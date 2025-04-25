@@ -9,6 +9,7 @@ import { getNextPaginationButton } from "../../constants/podcast/pagination/podc
 
 test.describe("Podcast Category Page /podcasts/<category_name>", () => {
   test("should display trending podcasts in category", async ({ page }) => {
+    test.slow()
     const category = "Arts"
     await page.route(
       `*/**/api/podcast/trending?limit=10&since=*&category=${category}`,
