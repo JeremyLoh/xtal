@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
 import dayjs from "dayjs"
 import {
@@ -45,16 +45,23 @@ function useTrendingPodcasts({ limit, category }: UseTrendingPodcastsProps) {
           setTrendingPodcasts(podcasts.data)
         } else {
           setTrendingPodcasts(null)
+          setLoading(false)
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         toast.error(error.message)
-      } finally {
         setLoading(false)
       }
     },
     [category, limit]
   )
+
+  useEffect(() => {
+    if (trendingPodcasts) {
+      // set loading to false here to prevent flash of no podcast placeholder message on initial load
+      setLoading(false)
+    }
+  }, [trendingPodcasts])
 
   const handlePodcastRefresh = useCallback(
     async (filters: TrendingPodcastFiltersType) => {
@@ -74,12 +81,16 @@ function useTrendingPodcasts({ limit, category }: UseTrendingPodcastsProps) {
     [getPodcasts]
   )
 
-  return {
-    DEFAULT_SINCE_DAYS,
-    loading,
-    trendingPodcasts,
-    onRefresh: handlePodcastRefresh,
-  }
+  const output = useMemo(() => {
+    return {
+      DEFAULT_SINCE_DAYS,
+      loading,
+      trendingPodcasts,
+      onRefresh: handlePodcastRefresh,
+    }
+  }, [loading, trendingPodcasts, handlePodcastRefresh])
+
+  return output
 }
 
 export default useTrendingPodcasts
