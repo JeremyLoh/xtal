@@ -99,7 +99,6 @@ function ProfileHistoryPage() {
     [page, getPlayedPodcastEpisodes]
   )
 
-  console.log({ loading, dataLoading })
   return (
     <div className="profile-history-page-container">
       <h2 className="profile-history-page-title">Profile History</h2>
