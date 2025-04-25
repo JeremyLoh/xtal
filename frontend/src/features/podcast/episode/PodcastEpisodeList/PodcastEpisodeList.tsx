@@ -20,7 +20,7 @@ function PodcastEpisodeList({
   podcastTitle,
   podcastId,
 }: PodcastEpisodeListProps) {
-  const { height } = useScreenDimensions()
+  const { height, isMobile } = useScreenDimensions()
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const { session, addPlayPodcastEpisode, getPodcastEpisodeLastPlayTimestamp } =
     usePlayHistory()
@@ -70,7 +70,7 @@ function PodcastEpisodeList({
       return (
         <PodcastEpisodeCard episode={episode}>
           <PodcastEpisodeCard.Artwork
-            size={144}
+            size={isMobile ? 96 : 144}
             title={`${episode.title} podcast image`}
             lazyLoad={index >= IMAGE_LAZY_LOAD_START_INDEX}
           />

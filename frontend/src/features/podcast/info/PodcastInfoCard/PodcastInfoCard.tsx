@@ -3,12 +3,14 @@ import { memo, useCallback } from "react"
 import { Podcast } from "../../../../api/podcast/model/podcast.ts"
 import PodcastCard from "../../../../components/PodcastCard/index.tsx"
 import useClipboard from "../../../../hooks/useClipboard.ts"
+import useScreenDimensions from "../../../../hooks/useScreenDimensions.ts"
 
 type PodcastInfoCardProps = {
   podcast: Podcast | null
 }
 
 function PodcastInfoCard({ podcast }: PodcastInfoCardProps) {
+  const { isMobile } = useScreenDimensions()
   const { copyPodcastShareUrl } = useClipboard()
 
   const handleShareClick = useCallback(
@@ -24,7 +26,7 @@ function PodcastInfoCard({ podcast }: PodcastInfoCardProps) {
   return (
     <div className="podcast-info-container">
       <PodcastCard podcast={podcast} customClassName="podcast-info-card">
-        <PodcastCard.Artwork size={144} />
+        <PodcastCard.Artwork size={isMobile ? 144 : 200} />
         <div>
           <PodcastCard.TitleAndAuthor variant="large" />
           <div className="podcast-info-card-pill-container">

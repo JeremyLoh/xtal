@@ -173,12 +173,12 @@ test.describe("Podcast Homepage /podcasts", () => {
         await expect(imageLocator).toBeVisible()
         expect(
           await imageLocator.getAttribute("width"),
-          "should have mobile podcast artwork image width of 144"
-        ).toBe("144")
+          "should have mobile podcast artwork image width of 96"
+        ).toBe("96")
         expect(
           await imageLocator.getAttribute("height"),
-          "should have mobile podcast artwork image height of 144"
-        ).toBe("144")
+          "should have mobile podcast artwork image height of 96"
+        ).toBe("96")
       }
     })
 

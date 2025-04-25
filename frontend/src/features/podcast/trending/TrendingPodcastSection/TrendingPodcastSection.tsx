@@ -138,12 +138,12 @@ function TrendingPodcastSection({
         >
           {!isMobile || index < IMAGE_LAZY_LOAD_START_INDEX ? (
             <PodcastCard.Artwork
-              size={isMobile ? 144 : 200}
+              size={isMobile ? 96 : 200}
               redirectUrl={podcastDetailUrl}
             />
           ) : (
             <PodcastCard.Artwork
-              size={isMobile ? 144 : 200}
+              size={isMobile ? 96 : 200}
               lazyLoad={true}
               redirectUrl={podcastDetailUrl}
             />
