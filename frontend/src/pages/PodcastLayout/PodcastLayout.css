@@ -1,5 +1,6 @@
 .sticky-top {
   position: sticky;
+  z-index: 2; /* should be smaller than app Drawer z-index */
   top: 0;
   margin: 0 auto;
   width: 100%;

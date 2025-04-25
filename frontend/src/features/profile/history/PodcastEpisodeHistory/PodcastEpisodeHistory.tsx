@@ -5,6 +5,7 @@ import { MdDelete } from "react-icons/md"
 import { PlayHistoryPodcastEpisode } from "../../../../hooks/podcast/usePlayHistory.ts"
 import Button from "../../../../components/ui/button/Button.tsx"
 import PodcastEpisodeCard from "../../../../components/PodcastEpisodeCard/index.tsx"
+import useScreenDimensions from "../../../../hooks/useScreenDimensions.ts"
 
 type PodcastEpisodeHistoryProps = {
   IMAGE_LAZY_LOAD_START_INDEX: number
@@ -19,6 +20,8 @@ function PodcastEpisodeHistory({
   episodeCountOffset,
   onDelete,
 }: PodcastEpisodeHistoryProps) {
+  const { isMobile } = useScreenDimensions()
+
   if (episodes == null || episodes.length === 0) {
     return <p>Not available. Start listening to some podcasts!</p>
   }
@@ -42,7 +45,7 @@ function PodcastEpisodeHistory({
             </span>
             <PodcastEpisodeCard key={episode.id} episode={episode}>
               <PodcastEpisodeCard.Artwork
-                size={144}
+                size={isMobile ? 96 : 144}
                 title={`${episode.title} podcast image`}
                 lazyLoad={index >= IMAGE_LAZY_LOAD_START_INDEX}
               />

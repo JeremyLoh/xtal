@@ -55,7 +55,6 @@ function usePodcastEpisodes({
   const fetchPodcastEpisodes = useCallback(
     async (podcastId: string, pageRequest: number) => {
       const offsetRequest = getPageOffset(pageRequest, limit)
-      setLoading(true)
       abortController.current?.abort()
       abortController.current = new AbortController()
       const params: FetchPodcastEpisodesParams = { id: podcastId, limit: limit }
@@ -63,6 +62,7 @@ function usePodcastEpisodes({
         // backend endpoint throws validation error for offset <= 0
         params.offset = offsetRequest
       }
+      setLoading(true)
       try {
         const podcastEpisodes = await getPodcastEpisodes(
           abortController.current,
@@ -71,16 +71,23 @@ function usePodcastEpisodes({
         if (podcastEpisodes && podcastEpisodes.data) {
           setPodcastEpisodes(podcastEpisodes.data.episodes)
           setPodcast(podcastEpisodes.data.podcast)
+          setLoading(false)
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         toast.error(error.message)
-      } finally {
         setLoading(false)
       }
     },
     [limit]
   )
+
+  useEffect(() => {
+    // set loading state to false after podcast and podcast episodes are set by setState
+    if (podcastEpisodes != null && podcast != null) {
+      setLoading(false)
+    }
+  }, [podcast, podcastEpisodes])
 
   useEffect(() => {
     if (podcast && podcastEpisodes) {
@@ -95,16 +102,13 @@ function usePodcastEpisodes({
   useEffect(() => {
     async function getCache() {
       setLoading(true)
-      try {
-        const podcastCache = await getCacheItem()
-        if (podcastCache) {
-          setCacheItem(podcastCache.value)
-          setPodcastCache(podcastCache)
-          setPodcast(podcastCache.value.podcast)
-          setPodcastEpisodes(podcastCache.value.episodes)
-        }
-      } finally {
-        setLoading(false)
+
+      const podcastCache = await getCacheItem()
+      if (podcastCache) {
+        setCacheItem(podcastCache.value)
+        setPodcastCache(podcastCache)
+        setPodcast(podcastCache.value.podcast)
+        setPodcastEpisodes(podcastCache.value.episodes)
       }
     }
     getCache()

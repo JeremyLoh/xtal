@@ -22,6 +22,7 @@ function ProfileHistoryPage() {
   const [episodes, setEpisodes] = useState<PlayHistoryPodcastEpisode[] | null>(
     null
   )
+  const [dataLoading, setDataLoading] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
 
   useEffect(() => {
@@ -32,9 +33,11 @@ function ProfileHistoryPage() {
     if (session.loading) {
       return
     }
+    setDataLoading(true)
     getPlayedPodcastEpisodes(LIMIT_PER_PAGE).then((data) => {
       if (data) {
         setEpisodes(data)
+        setDataLoading(false)
       }
     })
   }, [session, getPlayedPodcastEpisodes])
@@ -54,9 +57,11 @@ function ProfileHistoryPage() {
         return
       }
       setPage(currentPage - 1)
+      setDataLoading(true)
       const offset = (currentPage - 2) * LIMIT_PER_PAGE
       const data = await getPlayedPodcastEpisodes(LIMIT_PER_PAGE, offset)
       setEpisodes(data)
+      setDataLoading(false)
     },
     [getPlayedPodcastEpisodes]
   )
@@ -70,9 +75,11 @@ function ProfileHistoryPage() {
         return
       }
       setPage(currentPage + 1)
+      setDataLoading(true)
       const offset = currentPage * LIMIT_PER_PAGE
       const data = await getPlayedPodcastEpisodes(LIMIT_PER_PAGE, offset)
       setEpisodes(data)
+      setDataLoading(false)
     },
     [totalPlayedPodcastEpisodes, getPlayedPodcastEpisodes]
   )
@@ -83,9 +90,11 @@ function ProfileHistoryPage() {
         return
       }
       setPage(pageNumber)
+      setDataLoading(true)
       const offset = (pageNumber - 1) * LIMIT_PER_PAGE
       const data = await getPlayedPodcastEpisodes(LIMIT_PER_PAGE, offset)
       setEpisodes(data)
+      setDataLoading(false)
     },
     [page, getPlayedPodcastEpisodes]
   )
@@ -94,17 +103,17 @@ function ProfileHistoryPage() {
     <div className="profile-history-page-container">
       <h2 className="profile-history-page-title">Profile History</h2>
       <h3 className="profile-history-page-title">Podcast Listen History</h3>
-      <LoadingDisplay loading={loading}>
-        <Pagination
-          className="profile-history-podcast-episode-pagination"
-          currentPage={page}
-          totalPages={Math.ceil(
-            (totalPlayedPodcastEpisodes || 0) / LIMIT_PER_PAGE
-          )}
-          onPreviousPageClick={handlePreviousPageClick}
-          onNextPageClick={handleNextPageClick}
-          onPageClick={handlePageClick}
-        />
+      <Pagination
+        className="profile-history-podcast-episode-pagination"
+        currentPage={page}
+        totalPages={Math.ceil(
+          (totalPlayedPodcastEpisodes || 0) / LIMIT_PER_PAGE
+        )}
+        onPreviousPageClick={handlePreviousPageClick}
+        onNextPageClick={handleNextPageClick}
+        onPageClick={handlePageClick}
+      />
+      <LoadingDisplay loading={loading || dataLoading}>
         <PodcastEpisodeHistory
           IMAGE_LAZY_LOAD_START_INDEX={IMAGE_LAZY_LOAD_START_INDEX}
           episodeCountOffset={(page - 1) * LIMIT_PER_PAGE}

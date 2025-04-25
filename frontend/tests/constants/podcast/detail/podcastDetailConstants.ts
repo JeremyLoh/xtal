@@ -86,6 +86,7 @@ export async function scrollUntilElementIsVisible(
 
 export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
   const virtualizedListParentElement = getVirtualizedListParentElement(page)
+  await expect(virtualizedListParentElement).toBeVisible()
   await virtualizedListParentElement.scrollIntoViewIfNeeded()
 
   for (let i = 0; i < expectedEpisodes.count; i++) {
@@ -96,7 +97,6 @@ export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
     const expectedDate = dayjs
       .unix(episode.datePublished)
       .format("MMMM D, YYYY")
-    const expectedArtworkSize = "144"
 
     const artwork = page.locator(".podcast-episode-card").getByRole("img", {
       name: episode.title + " podcast image",
@@ -115,12 +115,6 @@ export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
       artwork,
       `(Episode ${i + 1}) podcast episode card Artwork should be present`
     ).toBeVisible()
-    expect(
-      await artwork.getAttribute("width"),
-      `(Episode ${
-        i + 1
-      }) podcast episode card should have artwork image width of ${expectedArtworkSize}`
-    ).toBe(expectedArtworkSize)
 
     await expect(
       podcastEpisodeCard.getByRole("link", {

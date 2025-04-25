@@ -23,6 +23,8 @@ export default function PodcastDetailPage() {
   }, [podcastId, page])
   const { loading, podcast, podcastEpisodes, fetchPodcastEpisodes } =
     usePodcastEpisodes(podcastEpisodeSearchOptions)
+  const [paginationDataLoading, setPaginationDataLoading] =
+    useState<boolean>(false)
 
   const handleRefreshPodcastEpisodes = useCallback(async () => {
     if (podcastId) {
@@ -34,7 +36,9 @@ export default function PodcastDetailPage() {
     async (currentPage: number) => {
       setPage(currentPage - 1)
       if (podcastId) {
+        setPaginationDataLoading(true)
         await fetchPodcastEpisodes(podcastId, currentPage - 1)
+        setPaginationDataLoading(false)
       }
     },
     [fetchPodcastEpisodes, podcastId]
@@ -44,7 +48,9 @@ export default function PodcastDetailPage() {
     async (currentPage: number) => {
       setPage(currentPage + 1)
       if (podcastId) {
+        setPaginationDataLoading(true)
         await fetchPodcastEpisodes(podcastId, currentPage + 1)
+        setPaginationDataLoading(false)
       }
     },
     [fetchPodcastEpisodes, podcastId]
@@ -54,7 +60,9 @@ export default function PodcastDetailPage() {
     async (pageNumber: number) => {
       setPage(pageNumber)
       if (podcastId) {
+        setPaginationDataLoading(true)
         await fetchPodcastEpisodes(podcastId, pageNumber)
+        setPaginationDataLoading(false)
       }
     },
     [fetchPodcastEpisodes, podcastId]
@@ -92,32 +100,34 @@ export default function PodcastDetailPage() {
           onPageClick={handlePageClick}
         />
         <h2 className="podcast-episode-section-title">Episodes</h2>
-        <div className="podcast-episode-container">
-          {podcastEpisodes ? (
-            <PodcastEpisodeList
-              IMAGE_LAZY_LOAD_START_INDEX={IMAGE_LAZY_LOAD_START_INDEX}
-              episodes={podcastEpisodes}
-              podcastTitle={podcastTitle}
-              podcastId={podcastId}
-            />
-          ) : (
-            <div className="podcast-episode-placeholder-section">
-              <p className="podcast-episode-error-text">
-                Could not get podcast episodes. Please try again later
-              </p>
-              <Button
-                keyProp="refresh-podcast-episode-button"
-                className="refresh-podcast-episode-button"
-                disabled={loading}
-                onClick={handleRefreshPodcastEpisodes}
-                aria-label="refresh podcast episodes"
-                title="refresh podcast episodes"
-              >
-                <IoReload size={20} /> Refresh
-              </Button>
-            </div>
-          )}
-        </div>
+        <LoadingDisplay loading={paginationDataLoading}>
+          <div className="podcast-episode-container">
+            {podcastEpisodes ? (
+              <PodcastEpisodeList
+                IMAGE_LAZY_LOAD_START_INDEX={IMAGE_LAZY_LOAD_START_INDEX}
+                episodes={podcastEpisodes}
+                podcastTitle={podcastTitle}
+                podcastId={podcastId}
+              />
+            ) : (
+              <div className="podcast-episode-placeholder-section">
+                <p className="podcast-episode-error-text">
+                  Could not get podcast episodes. Please try again later
+                </p>
+                <Button
+                  keyProp="refresh-podcast-episode-button"
+                  className="refresh-podcast-episode-button"
+                  disabled={loading}
+                  onClick={handleRefreshPodcastEpisodes}
+                  aria-label="refresh podcast episodes"
+                  title="refresh podcast episodes"
+                >
+                  <IoReload size={20} /> Refresh
+                </Button>
+              </div>
+            )}
+          </div>
+        </LoadingDisplay>
       </LoadingDisplay>
     </div>
   )

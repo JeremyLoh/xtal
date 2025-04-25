@@ -21,49 +21,10 @@ const components: Components<Podcast, any> | undefined = {
   Item: (props) => <div {...props} className="podcast-following-list-item" />,
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const itemContent: ItemContent<Podcast, any> | undefined = (
-  _: number,
-  podcast: Podcast
-) => {
-  const podcastDetailUrl = getPodcastDetailPath({
-    podcastId: `${podcast.id}`,
-    podcastTitle: `${podcast.title}`,
-  })
-  return (
-    <PodcastCard
-      podcast={podcast}
-      customClassName="podcast-following-list-podcast-card"
-    >
-      <PodcastCard.Artwork size={144} redirectUrl={podcastDetailUrl} />
-      <div className="podcast-following-list-item-info">
-        <Link
-          to={podcastDetailUrl}
-          className="podcast-following-list-item-detail-link"
-        >
-          <PodcastCard.TitleAndAuthor />
-        </Link>
-        <div className="podcast-following-list-item-categories">
-          <PodcastCard.Categories />
-        </div>
-        <div>
-          <PodcastCard.EpisodeCount />
-        </div>
-        <div>
-          <PodcastCard.Language />
-        </div>
-      </div>
-      <span className="podcast-following-list-item-follow-button">
-        <PodcastCard.FollowButton isInitialFollowed={true} />
-      </span>
-    </PodcastCard>
-  )
-}
-
 const LIMIT_PER_PAGE = 10
 
 function ProfileFollowingPage() {
-  const { height } = useScreenDimensions()
+  const { height, isMobile } = useScreenDimensions()
   const { loading, getLatestFollowedPodcasts, getTotalFollowedPodcasts } =
     useFollowPodcastHistory()
   const [followedPodcasts, setFollowedPodcasts] = useState<Podcast[]>([])
@@ -138,21 +99,63 @@ function ProfileFollowingPage() {
     [page, getLatestFollowedPodcasts]
   )
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const itemContent: ItemContent<Podcast, any> | undefined = useCallback(
+    (_: number, podcast: Podcast) => {
+      const podcastDetailUrl = getPodcastDetailPath({
+        podcastId: `${podcast.id}`,
+        podcastTitle: `${podcast.title}`,
+      })
+      return (
+        <PodcastCard
+          podcast={podcast}
+          customClassName="podcast-following-list-podcast-card"
+        >
+          <PodcastCard.Artwork
+            size={isMobile ? 96 : 144}
+            redirectUrl={podcastDetailUrl}
+          />
+          <div className="podcast-following-list-item-info">
+            <Link
+              to={podcastDetailUrl}
+              className="podcast-following-list-item-detail-link"
+            >
+              <PodcastCard.TitleAndAuthor />
+            </Link>
+            <div className="podcast-following-list-item-categories">
+              <PodcastCard.Categories />
+            </div>
+            <div>
+              <PodcastCard.EpisodeCount />
+            </div>
+            <div>
+              <PodcastCard.Language />
+            </div>
+          </div>
+          <span className="podcast-following-list-item-follow-button">
+            <PodcastCard.FollowButton isInitialFollowed={true} />
+          </span>
+        </PodcastCard>
+      )
+    },
+    [isMobile]
+  )
+
   return (
-    <LoadingDisplay loading={loading}>
-      <div className="profile-following-page-container">
-        <Breadcrumb>
-          <Breadcrumb.Link
-            href={profilePage()}
-            data-testid="profile-following-page-profile-page-link"
-          >
-            Profile
-          </Breadcrumb.Link>
-          <Breadcrumb.Separator size={16} />
-          <Breadcrumb.Item>Profile Following</Breadcrumb.Item>
-        </Breadcrumb>
-        <h2 className="profile-following-page-title">Profile Following</h2>
-        <h3>Followed Podcasts</h3>
+    <div className="profile-following-page-container">
+      <Breadcrumb>
+        <Breadcrumb.Link
+          href={profilePage()}
+          data-testid="profile-following-page-profile-page-link"
+        >
+          Profile
+        </Breadcrumb.Link>
+        <Breadcrumb.Separator size={16} />
+        <Breadcrumb.Item>Profile Following</Breadcrumb.Item>
+      </Breadcrumb>
+      <h2 className="profile-following-page-title">Profile Following</h2>
+      <h3>Followed Podcasts</h3>
+      <LoadingDisplay loading={loading}>
         <Pagination
           currentPage={page}
           totalPages={Math.ceil(totalFollowing / LIMIT_PER_PAGE)}
@@ -167,8 +170,8 @@ function ProfileFollowingPage() {
           components={components}
           itemContent={itemContent}
         />
-      </div>
-    </LoadingDisplay>
+      </LoadingDisplay>
+    </div>
   )
 }
 

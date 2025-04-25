@@ -28,8 +28,7 @@ function usePodcastCategory() {
       const categories = await getAllPodcastCategories(abortController.current)
       if (categories) {
         setCategories(categories)
-      } else {
-        setLoading(false) // prevent infinite load on no data
+        setLoading(false)
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -50,16 +49,13 @@ function usePodcastCategory() {
   useEffect(() => {
     async function getCache() {
       setLoading(true)
-      try {
-        const categoryCache = await getCacheItem()
-        if (categoryCache) {
-          setCacheItem(categoryCache.value)
-          setCategoryCache(categoryCache)
-          setCategories(categoryCache.value.categories)
-        }
-      } finally {
-        setLoading(false)
+      const categoryCache = await getCacheItem()
+      if (categoryCache) {
+        setCacheItem(categoryCache.value)
+        setCategoryCache(categoryCache)
+        setCategories(categoryCache.value.categories)
       }
+      setLoading(false)
     }
     getCache()
   }, [getCacheItem, setCacheItem])
