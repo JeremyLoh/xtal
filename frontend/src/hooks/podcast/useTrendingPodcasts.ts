@@ -43,6 +43,7 @@ function useTrendingPodcasts({ limit, category }: UseTrendingPodcastsProps) {
         )
         if (podcasts && podcasts.data) {
           setTrendingPodcasts(podcasts.data)
+          setLoading(false)
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {

@@ -19,6 +19,7 @@ function usePodcastEpisode() {
       const response = await getPodcastEpisode(abortController.current, params)
       if (response && response.data) {
         setEpisode(response.data)
+        setLoading(false)
       } else {
         setError(
           "Could not retrieve podcast episode by episode id. Please try again later"

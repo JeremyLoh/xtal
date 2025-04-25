@@ -71,6 +71,7 @@ function usePodcastEpisodes({
         if (podcastEpisodes && podcastEpisodes.data) {
           setPodcastEpisodes(podcastEpisodes.data.episodes)
           setPodcast(podcastEpisodes.data.podcast)
+          setLoading(false)
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {

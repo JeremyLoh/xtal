@@ -28,6 +28,7 @@ function usePodcastCategory() {
       const categories = await getAllPodcastCategories(abortController.current)
       if (categories) {
         setCategories(categories)
+        setLoading(false)
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -54,6 +55,7 @@ function usePodcastCategory() {
         setCategoryCache(categoryCache)
         setCategories(categoryCache.value.categories)
       }
+      setLoading(false)
     }
     getCache()
   }, [getCacheItem, setCacheItem])
