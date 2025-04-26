@@ -46,10 +46,6 @@
   font-size: clamp(0.8rem, 0.8rem + 1vw, 1rem);
 }
 
-.podcast-card-category-pill {
-  background-color: var(--secondary-color);
-}
-
 @media (max-width: 430px) {
   /* Mobile View */
   .podcast-card {

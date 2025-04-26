@@ -6,14 +6,7 @@ const Categories = function PodcastCardCategories() {
   return (
     podcast.categories &&
     podcast.categories.map((category, index) => {
-      return (
-        <Pill
-          className="podcast-card-category-pill"
-          key={`${category}-${index}`}
-        >
-          {category}
-        </Pill>
-      )
+      return <Pill key={`${category}-${index}`}>{category}</Pill>
     })
   )
 }
