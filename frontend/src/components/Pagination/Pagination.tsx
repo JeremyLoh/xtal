@@ -1,6 +1,7 @@
 import "./Pagination.css"
 import { memo, useCallback, useMemo } from "react"
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6"
+import { PiCaretDoubleLeftBold } from "react-icons/pi"
 import useScreenDimensions from "../../hooks/useScreenDimensions.ts"
 import Button from "../ui/button/Button.tsx"
 
@@ -41,6 +42,13 @@ function Pagination({
     [currentPage, onPageClick]
   )
 
+  const handleFirstPageClick = useCallback(() => {
+    if (currentPage === 1) {
+      return
+    }
+    onPageClick(1)
+  }, [currentPage, onPageClick])
+
   const pages = useMemo(() => {
     return isMobile
       ? [currentPage]
@@ -61,6 +69,16 @@ function Pagination({
       role="navigation"
       aria-label="pagination"
     >
+      {!isMobile && (
+        <Button
+          keyProp="pagination-first-page-button"
+          className="pagination-first-page-button"
+          disabled={currentPage === 1}
+          onClick={handleFirstPageClick}
+        >
+          <PiCaretDoubleLeftBold size={16} />
+        </Button>
+      )}
       <Button
         keyProp="pagination-previous-button"
         className="pagination-previous-button"
@@ -70,13 +88,14 @@ function Pagination({
         <FaChevronLeft size={16} />
         <span>Previous</span>
       </Button>
-      <ul className="pagination-content">
+      <div className="pagination-content">
         {pages.map((pageNumber: number) => {
           if (pageNumber > totalPages || pageNumber <= 0) {
             return null
           }
           return (
-            <li
+            <Button
+              keyProp={`pagination-page-${pageNumber}`}
               key={`pagination-page-${pageNumber}`}
               className={`pagination-item ${
                 pageNumber === currentPage ? "active" : ""
@@ -84,10 +103,10 @@ function Pagination({
               onClick={() => handlePageClick(pageNumber)}
             >
               {pageNumber}
-            </li>
+            </Button>
           )
         })}
-      </ul>
+      </div>
       <Button
         keyProp="pagination-next-button"
         className="pagination-next-button"
