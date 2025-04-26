@@ -1,5 +1,6 @@
 import "./Header.css"
 import { Link } from "react-router"
+import Wave from "react-wavify"
 import ThemeProvider from "../../context/ThemeProvider/ThemeProvider.tsx"
 import FavouriteStationToggle from "../../features/favourite/FavouriteStationToggle/FavouriteStationToggle.tsx"
 import ThemeToggle from "../ThemeToggle/ThemeToggle.tsx"
@@ -36,6 +37,17 @@ function Header() {
           <ProfileRedirectToggle />
         </div>
       </header>
+      <Wave
+        fill="var(--accent-color)"
+        paused={false}
+        style={{ display: "flex", height: 16 }}
+        options={{
+          height: 10,
+          amplitude: 10,
+          speed: 0.2,
+          points: 3,
+        }}
+      />
     </div>
   )
 }
