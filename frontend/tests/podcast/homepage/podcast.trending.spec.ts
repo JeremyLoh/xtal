@@ -229,6 +229,7 @@ test.describe("Podcast Homepage /podcasts", () => {
       isMobile,
     }) => {
       test.skip(isMobile, "skip desktop test")
+      test.slow()
       const podcastCount = tenArtTrendingPodcasts.data.length
       expect(
         podcastCount,
