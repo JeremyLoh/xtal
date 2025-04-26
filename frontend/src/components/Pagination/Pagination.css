@@ -42,6 +42,7 @@ button.pagination-next-button {
 button.pagination-previous-button:disabled,
 button.pagination-next-button:disabled {
   filter: none;
+  color: var(--disabled-element-color);
 }
 
 .pagination-item {
