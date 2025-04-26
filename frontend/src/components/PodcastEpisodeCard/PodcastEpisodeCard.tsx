@@ -27,7 +27,6 @@ export default memo(function PodcastEpisodeCard({
       <AnimatePresence>
         <motion.div
           className="podcast-episode-card"
-          layout
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           whileInView={{ opacity: 1, x: 0 }}
