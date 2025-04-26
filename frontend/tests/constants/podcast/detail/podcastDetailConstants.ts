@@ -87,7 +87,6 @@ export async function scrollUntilElementIsVisible(
 export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
   const virtualizedListParentElement = getVirtualizedListParentElement(page)
   await expect(virtualizedListParentElement).toBeVisible()
-  await virtualizedListParentElement.scrollIntoViewIfNeeded()
 
   for (let i = 0; i < expectedEpisodes.count; i++) {
     const episode = expectedEpisodes.data.episodes[i]

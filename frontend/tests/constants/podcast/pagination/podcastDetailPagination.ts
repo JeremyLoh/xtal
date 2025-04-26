@@ -18,11 +18,11 @@ export function getActivePageNumberElement(
 export function getNextPaginationButton(page: Page) {
   return page
     .locator(".podcast-episode-pagination")
-    .getByRole("button", { name: "Next" })
+    .getByTestId("pagination-next-button")
 }
 
 export function getPreviousPaginationButton(page: Page) {
   return page
     .locator(".podcast-episode-pagination")
-    .getByRole("button", { name: "Previous" })
+    .getByTestId("pagination-previous-button")
 }

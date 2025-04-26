@@ -148,101 +148,157 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
     })
   })
 
-  test.describe("Navigate to static first page button", () => {
-    function getFirstPaginationPageButton(page: Page) {
-      return page.locator(".pagination-first-page-button")
+  test.describe("Navigate to static last page button", () => {
+    function getStaticLastPaginationPageButton(page: Page) {
+      return page.getByTestId("pagination-last-page-button")
     }
 
-    test.describe("desktop view", () => {
-      test.beforeEach(({ isMobile }) => {
-        test.skip(
-          isMobile,
-          "Skip Mobile Test as static first page button does not exist on mobile"
-        )
-      })
-
-      test("static first page pagination button should be disabled on first page", async ({
-        page,
-      }) => {
-        // NOTE: there must be at least 50 episodes for the mocked podcast data
-        const podcastTitle = encodeURIComponent("Infinite Loops")
-        const podcastId = "259760"
-        const limit = 10
-        const pageNumber = 1
-        await page.route(
-          `*/**/api/podcast/episodes?id=${podcastId}**`,
-          async (route) => {
-            const requestUrl = route.request().url()
-            if (
-              !requestUrl.includes(`offset=`) &&
-              requestUrl.includes(`limit=${limit}`)
-            ) {
-              // ensure backend api call does not have offset parameter
-              const json = podcastId_259760_FirstTenEpisodes
-              await route.fulfill({ json })
-            } else {
-              const json = []
-              await route.fulfill({ json })
-            }
+    test("should navigate and static last page pagination button should be disabled on last page", async ({
+      page,
+    }) => {
+      test.slow()
+      // NOTE: there must be at least 50 episodes for the mocked podcast data
+      const podcastTitle = encodeURIComponent("Infinite Loops")
+      const podcastId = "259760"
+      const limit = 10
+      const pageNumber = 1
+      const episodeCount =
+        podcastId_259760_FirstTenEpisodes.data.podcast.episodeCount
+      const lastPageNumber = Math.ceil(episodeCount / limit)
+      const lastPageOffset = lastPageNumber * limit - limit
+      await page.route(
+        `*/**/api/podcast/episodes?id=${podcastId}**`,
+        async (route) => {
+          const requestUrl = route.request().url()
+          const isLastPage =
+            requestUrl.includes(`offset=${lastPageOffset}`) &&
+            requestUrl.includes(`limit=${limit}`)
+          if (
+            !requestUrl.includes(`offset=`) &&
+            requestUrl.includes(`limit=${limit}`)
+          ) {
+            // ensure backend api call does not have offset parameter
+            const json = podcastId_259760_FirstTenEpisodes
+            await route.fulfill({ json })
+          } else if (isLastPage) {
+            const json = podcastId_259760_OffsetTenEpisodes
+            await route.fulfill({ json })
+          } else {
+            const json = []
+            await route.fulfill({ json })
           }
-        )
-        await page.goto(
-          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-        )
-        await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
-        await expect(getActivePageNumberElement(page, "1")).toBeVisible()
-        await expect(getFirstPaginationPageButton(page)).toBeVisible()
-        await expect(getFirstPaginationPageButton(page)).toBeDisabled()
-      })
+        }
+      )
+      await page.goto(
+        HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
+      )
+      await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
+      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
 
-      test("should fetch first page results when static first page pagination button is clicked", async ({
-        page,
-      }) => {
-        test.slow()
-        // NOTE: there must be at least 50 episodes for the mocked podcast data
-        const podcastTitle = encodeURIComponent("Infinite Loops")
-        const podcastId = "259760"
-        const limit = 10
-        const pageNumber = 1
-        await page.route(
-          `*/**/api/podcast/episodes?id=${podcastId}**`,
-          async (route) => {
-            const requestUrl = route.request().url()
-            const isFirstPageRequest =
-              !requestUrl.includes(`offset=`) &&
-              requestUrl.includes(`limit=${limit}`)
-            const isThirdPageRequest =
-              requestUrl.includes(`offset=20`) &&
-              requestUrl.includes(`limit=${limit}`)
+      await expect(getStaticLastPaginationPageButton(page)).toBeVisible()
+      await getStaticLastPaginationPageButton(page).click()
+      await expect(
+        getActivePageNumberElement(page, `${lastPageNumber}`)
+      ).toBeVisible()
+      await assertPodcastEpisodes(page, podcastId_259760_OffsetTenEpisodes)
+    })
+  })
 
-            if (isThirdPageRequest) {
-              // use offset ten episodes as the third page data
-              const json = podcastId_259760_OffsetTenEpisodes
-              await route.fulfill({ json })
-            } else if (isFirstPageRequest) {
-              // ensure backend api call does not have offset parameter
-              const json = podcastId_259760_FirstTenEpisodes
-              await route.fulfill({ json })
-            } else {
-              const json = []
-              await route.fulfill({ json })
-            }
+  test.describe("Navigate to static first page button", () => {
+    function getStaticFirstPaginationPageButton(page: Page) {
+      return page.getByTestId("pagination-first-page-button")
+    }
+
+    test("static first page pagination button should be disabled on first page", async ({
+      page,
+    }) => {
+      // NOTE: there must be at least 50 episodes for the mocked podcast data
+      const podcastTitle = encodeURIComponent("Infinite Loops")
+      const podcastId = "259760"
+      const limit = 10
+      const pageNumber = 1
+      await page.route(
+        `*/**/api/podcast/episodes?id=${podcastId}**`,
+        async (route) => {
+          const requestUrl = route.request().url()
+          if (
+            !requestUrl.includes(`offset=`) &&
+            requestUrl.includes(`limit=${limit}`)
+          ) {
+            // ensure backend api call does not have offset parameter
+            const json = podcastId_259760_FirstTenEpisodes
+            await route.fulfill({ json })
+          } else {
+            const json = []
+            await route.fulfill({ json })
           }
-        )
-        await page.goto(
-          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-        )
-        await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
-        await expect(getActivePageNumberElement(page, "1")).toBeVisible()
-        await getPageNumberElement(page, "3").click()
-        await expect(getFirstPaginationPageButton(page)).not.toBeDisabled()
+        }
+      )
+      await page.goto(
+        HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
+      )
+      await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
+      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      await expect(getStaticFirstPaginationPageButton(page)).toBeVisible()
+      await expect(getStaticFirstPaginationPageButton(page)).toBeDisabled()
+    })
+
+    test("should fetch first page results when static first page pagination button is clicked", async ({
+      page,
+      isMobile,
+    }) => {
+      test.slow()
+      // NOTE: there must be at least 50 episodes for the mocked podcast data
+      const podcastTitle = encodeURIComponent("Infinite Loops")
+      const podcastId = "259760"
+      const limit = 10
+      const pageNumber = 1
+      await page.route(
+        `*/**/api/podcast/episodes?id=${podcastId}**`,
+        async (route) => {
+          const requestUrl = route.request().url()
+          const isFirstPageRequest =
+            !requestUrl.includes(`offset=`) &&
+            requestUrl.includes(`limit=${limit}`)
+          const isThirdPageRequest =
+            requestUrl.includes(`offset=20`) &&
+            requestUrl.includes(`limit=${limit}`)
+
+          if (isThirdPageRequest) {
+            // use offset ten episodes as the third page data
+            const json = podcastId_259760_OffsetTenEpisodes
+            await route.fulfill({ json })
+          } else if (isFirstPageRequest) {
+            // ensure backend api call does not have offset parameter
+            const json = podcastId_259760_FirstTenEpisodes
+            await route.fulfill({ json })
+          } else {
+            const json = []
+            await route.fulfill({ json })
+          }
+        }
+      )
+      await page.goto(
+        HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
+      )
+      await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
+      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      if (isMobile) {
+        // navigate to page 3, mobile view only has current active page number element
+        await getNextPaginationButton(page).click()
+        await expect(getActivePageNumberElement(page, "2")).toBeVisible()
+        await getNextPaginationButton(page).click()
         await expect(getActivePageNumberElement(page, "3")).toBeVisible()
-        await assertPodcastEpisodes(page, podcastId_259760_OffsetTenEpisodes)
+      } else {
+        await getPageNumberElement(page, "3").click()
+        await expect(getActivePageNumberElement(page, "3")).toBeVisible()
+      }
+      await expect(getStaticFirstPaginationPageButton(page)).not.toBeDisabled()
+      await assertPodcastEpisodes(page, podcastId_259760_OffsetTenEpisodes)
 
-        await getFirstPaginationPageButton(page).click()
-        await expect(getActivePageNumberElement(page, "1")).toBeVisible()
-        await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
-      })
+      await getStaticFirstPaginationPageButton(page).click()
+      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
     })
   })
 

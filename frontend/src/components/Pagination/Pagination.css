@@ -10,6 +10,7 @@
 .pagination-container,
 .pagination-content,
 button.pagination-first-page-button,
+button.pagination-last-page-button,
 button.pagination-previous-button,
 button.pagination-next-button {
   height: 3rem;
@@ -26,6 +27,7 @@ button.pagination-next-button {
 
 .pagination-item,
 button.pagination-first-page-button,
+button.pagination-last-page-button,
 button.pagination-previous-button,
 button.pagination-next-button {
   width: fit-content;
@@ -37,6 +39,7 @@ button.pagination-next-button {
 }
 
 button.pagination-first-page-button,
+button.pagination-last-page-button,
 button.pagination-previous-button,
 button.pagination-next-button {
   background-color: transparent !important;
@@ -44,6 +47,7 @@ button.pagination-next-button {
 }
 
 button.pagination-first-page-button:disabled,
+button.pagination-last-page-button:disabled,
 button.pagination-previous-button:disabled,
 button.pagination-next-button:disabled {
   filter: none;
