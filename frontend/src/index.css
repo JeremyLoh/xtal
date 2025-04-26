@@ -9,7 +9,7 @@
 }
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: monospace, Inter, system-ui, Helvetica, sans-serif !important;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
@@ -17,6 +17,11 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.leaflet-container > * {
+  /* override font family defined by leaflet */
+  font-family: monospace, Inter, system-ui, Helvetica, sans-serif !important;
 }
 
 .light-theme {
@@ -41,14 +46,14 @@
 }
 
 .dark-theme {
-  /* https://www.realtimecolors.com/?colors=f6f7ec-19190b-f3e600-ffb246-d97706&fonts=Ubuntu-Ubuntu */
+  /* https://www.realtimecolors.com/?colors=f6f7ec-0e0f08-6FB2FF-e4e4e7-0067FF&fonts=Ubuntu-Ubuntu */
   --text-color: #f6f7ec;
   --primary-text-color: #19190b;
   --subtitle-text-color: #d4d4d4;
-  --background-color: #19190b;
-  --primary-color: #f3e600;
-  --secondary-color: #ffb246;
-  --accent-color: #d97706;
+  --background-color: #0e0f08;
+  --primary-color: #6fb2ff;
+  --secondary-color: #e4e4e7;
+  --accent-color: #0067ff;
   --error-color: #ff3535;
   --success-color: #22c55e;
   --link-color: #e6f0f7;
@@ -140,7 +145,7 @@ li {
 }
 
 a {
-  color: var(--link-color);
+  color: var(--link-color) !important;
 }
 a:hover {
   filter: brightness(0.8);

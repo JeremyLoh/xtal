@@ -2,6 +2,7 @@
   padding: 0.2rem 0.3rem;
   border-radius: 8px;
   font-size: clamp(0.5rem, 0.5rem + 1vw, 0.8rem);
+  font-weight: bold;
   background-color: var(--primary-color);
   color: var(--primary-text-color);
   border-bottom: 1mm solid var(--accent-color);

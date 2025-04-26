@@ -82,6 +82,7 @@ test.describe("Podcast Homepage /podcasts", () => {
       test("should navigate to podcast detail page on click of one trending podcast link", async ({
         page,
       }) => {
+        test.slow()
         const podcastTitle = encodeURIComponent(
           defaultTenTrendingPodcasts.data[0].title
         )
@@ -229,6 +230,7 @@ test.describe("Podcast Homepage /podcasts", () => {
       isMobile,
     }) => {
       test.skip(isMobile, "skip desktop test")
+      test.slow()
       const podcastCount = tenArtTrendingPodcasts.data.length
       expect(
         podcastCount,

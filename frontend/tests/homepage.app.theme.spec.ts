@@ -46,7 +46,7 @@ test.describe("header app theme (start with dark mode)", () => {
     await expect(
       page.locator(elementSelector),
       "should have dark theme background color"
-    ).toHaveCSS("background-color", "rgb(25, 25, 11)")
+    ).toHaveCSS("background-color", "rgb(14, 15, 8)")
     await expect(
       page.locator(elementSelector),
       "should have dark theme text color"
