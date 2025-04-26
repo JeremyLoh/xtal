@@ -14,11 +14,12 @@
   cursor: pointer;
   transition: border-color 0.25s;
   height: 100%;
+  border: 2px solid transparent;
 }
 
 .button:hover {
   cursor: pointer;
-  border-color: var(--accent-color);
+  border: 2px solid var(--accent-color);
   filter: brightness(0.8);
 }
 .button:disabled {
