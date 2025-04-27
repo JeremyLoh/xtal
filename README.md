@@ -117,7 +117,8 @@ The Backend tests are written in vitest - https://vitest.dev/
 
 # Known Issues
 
-- Not Available
+- The radio browser API endpoints might change and the `frontend/src/api/radiobrowser/servers.ts` file needs to be updated based on response of http://all.api.radio-browser.info/json/servers
+  - The radio browser api endpoints are hard coded to avoid a network request for the servers. (Disadvantage: have to manually update the servers. Test failures for radio features could be due to server being down (check the network request))
 
 # Like this project?
 
