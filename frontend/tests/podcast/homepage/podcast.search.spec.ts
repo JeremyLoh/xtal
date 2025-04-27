@@ -51,7 +51,7 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
       }
     )
     await page.goto(HOMEPAGE + "/podcasts")
-    await expect(page.locator(".podcast-search-bar")).toBeVisible()
+    await expect(getPodcastSearchInput(page)).toBeVisible()
     await getPodcastSearchInput(page).fill(query)
     await assertPodcastSearchResults(
       page,
@@ -73,7 +73,7 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
       }
     )
     await page.goto(HOMEPAGE + "/podcasts")
-    await expect(page.locator(".podcast-search-bar")).toBeVisible()
+    await expect(getPodcastSearchInput(page)).toBeVisible()
     await getPodcastSearchInput(page).fill(query)
     await assertPodcastSearchResults(
       page,
@@ -113,7 +113,7 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
       }
     )
     await page.goto(HOMEPAGE + "/podcasts")
-    await expect(page.locator(".podcast-search-bar")).toBeVisible()
+    await expect(getPodcastSearchInput(page)).toBeVisible()
     await getPodcastSearchInput(page).fill(query)
     await assertPodcastSearchResults(
       page,
@@ -149,7 +149,7 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
       }
     )
     await page.goto(HOMEPAGE + "/podcasts")
-    await expect(page.locator(".podcast-search-bar")).toBeVisible()
+    await expect(getPodcastSearchInput(page)).toBeVisible()
     await getPodcastSearchInput(page).fill(query)
     await assertPodcastSearchResults(
       page,
