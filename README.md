@@ -19,6 +19,11 @@ Listen to the world (radio & podcasts) with xtal, a fast and responsive mobile /
     - View and save your podcast episode listen history
     - Play podcast episodes from your last played timestamp (last played timestamp is saved on podcast episode pause or on podcast episode listen completion)
 
+![xtal radio homepage screenshot](./screenshots/xtal-radio-homepage.png)
+![xtal podcast homepage screenshot](./screenshots/xtal-podcast-homepage.png)
+![xtal podcast detail page screenshot](./screenshots/xtal-podcast-detail-page.png)
+![xtal podcast detail page with podcast in podcast player screenshot](./screenshots/xtal-podcast-detail-page-play-podcast.png)
+
 # Built With
 
 - TypeScript
