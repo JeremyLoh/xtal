@@ -39,7 +39,7 @@
     "nanoid": "5.1.5",
     "pino": "9.6.0",
     "sharp": "0.34.1",
-    "supertokens-node": "22.0.1"
+    "supertokens-node": "22.1.0"
   },
   "devDependencies": {
     "@types/compression": "1.7.5",
@@ -47,12 +47,12 @@
     "@types/express": "5.0.1",
     "@types/jsdom": "21.1.7",
     "@types/jsonwebtoken": "9.0.9",
-    "@types/node": "22.14.1",
+    "@types/node": "22.15.2",
     "@types/supertest": "6.0.3",
     "msw": "2.7.5",
     "supertest": "7.1.0",
     "tsx": "4.19.3",
     "typescript": "5.8.3",
-    "vitest": "3.1.1"
+    "vitest": "3.1.2"
   }
 }
