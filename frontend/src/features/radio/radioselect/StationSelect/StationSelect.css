@@ -20,6 +20,7 @@
 
 .station-search-card-load-button,
 .station-search-load-more-results-button {
+  height: fit-content;
   gap: 0.2rem;
   transition: all 0.2s;
 }
