@@ -1,6 +1,6 @@
 import "./StationSelect.css"
-import { memo, useCallback, useMemo, useRef, useState } from "react"
-import { motion } from "motion/react"
+import { memo, useCallback, useRef, useState } from "react"
+import { AnimatePresence, motion } from "motion/react"
 import { toast } from "sonner"
 import { IoIosRadio } from "react-icons/io"
 import { IoAddSharp } from "react-icons/io5"
@@ -20,15 +20,16 @@ type StationSelectProps = {
   setOpen: (isOpen: boolean) => void
 }
 
+const motionInitial = { opacity: 0, x: 100 }
+const motionAnimate = { opacity: 1, x: 0 }
+const motionTransition = { duration: 0.3, type: "spring", bounce: 0 }
+
 function StationSelect({ onLoadStation, open, setOpen }: StationSelectProps) {
   const abortControllerRef = useRef<AbortController | null>(null)
   const [stations, setStations] = useState<Station[] | null>(null)
   const [searchStrategy, setSearchStrategy] =
     useState<AdvancedStationSearchStrategy | null>(null)
   const [hasNoFurtherEntries, setHasNoFurtherEntries] = useState<boolean>(false)
-  const animationHover = useMemo(() => {
-    return { scale: 1.03 }
-  }, [])
 
   function handleLoadStation(station: Station) {
     setOpen(false)
@@ -95,34 +96,38 @@ function StationSelect({ onLoadStation, open, setOpen }: StationSelectProps) {
       {stations && (
         <>
           <div className="station-search-result-container">
-            {stations.map((station: Station, index: number) => {
-              return (
-                <motion.div
-                  key={station.stationuuid + "-" + index}
-                  className="station-search-result-card"
-                  whileHover={animationHover}
-                >
-                  <StationCard station={station}>
-                    <StationCard.Icon />
-                    <StationCard.Title />
-                    <StationCard.Votes />
-                    <StationCard.Language />
-                    <StationCard.Bitrate />
-                    <StationCard.Tags />
-                    <StationCard.Country />
-                  </StationCard>
-                  <Button
-                    keyProp="station-search-card-load-button"
-                    variant="secondary"
-                    className="station-search-card-load-button"
-                    onClick={() => handleLoadStation(station)}
+            <AnimatePresence>
+              {stations.map((station: Station, index: number) => {
+                return (
+                  <motion.div
+                    key={station.stationuuid + "-" + index}
+                    className="station-search-result-card"
+                    initial={motionInitial}
+                    animate={motionAnimate}
+                    transition={motionTransition}
                   >
-                    <IoIosRadio size={24} />
-                    Load Station
-                  </Button>
-                </motion.div>
-              )
-            })}
+                    <StationCard station={station}>
+                      <StationCard.Icon />
+                      <StationCard.Title />
+                      <StationCard.Votes />
+                      <StationCard.Language />
+                      <StationCard.Bitrate />
+                      <StationCard.Tags />
+                      <StationCard.Country />
+                    </StationCard>
+                    <Button
+                      keyProp="station-search-card-load-button"
+                      variant="secondary"
+                      className="station-search-card-load-button"
+                      onClick={() => handleLoadStation(station)}
+                    >
+                      <IoIosRadio size={24} />
+                      Load Station
+                    </Button>
+                  </motion.div>
+                )
+              })}
+            </AnimatePresence>
           </div>
           {stations.length > 0 && (
             <Button
