@@ -1266,3 +1266,297 @@ export const podcastId_259760_episodeId_34000697601 = {
     transcripts: null,
   },
 }
+
+export const podcastTitleWithSlash_tenEpisodes = {
+  // backend endpoint /api/podcast/episodes?id=1256742&limit=10
+  count: 10,
+  data: {
+    podcast: {
+      id: 1256742,
+      url: "https://www.izumi-kingin.com/",
+      title: "福永均の「繊維の泉」／ #ラメ糸",
+      description:
+        "一度聴いただけでは覚えられないファッション業界の専門用語を毎週ひとつピックアップして解説しています。\nダイセン株式会社発行の「知っておきたい繊維の知識」のテキストの中から、行きや帰りの移動時間で活用できる、仕事に役立つ繊維知識を音声版でお届けしています。\n原糸のバイヤーからショップの店員まで、ファッションに関わる全ての人が「知って得する繊維情報」を毎週1つずつ着実にインプット！\nお相手は繊維業界40年で現役TES資格保持者！語る資格だらけの福永社長。\n洗濯や服のメンテナンスがわからない、繊維業界に入社したけど仕事が面白くない、業界が古い体質過ぎて未来が明るくない、など、ファッションや繊維の「あるある」をご紹介しならが、仕事を心の底から楽しむ極意をお伝えしています。\n毎週10分間の「耳からの繊維知識アップデート」で、あなたのお仕事をバージョンアップしてください♪\n＜泉工業株式会社　福永社長プロフィール＞\n西陣織に使われる「金銀糸」の生産量日本一である京都・城陽の地で創業60年間、数々の世界初・業界初商品を産み出し創り続けるラメ糸メーカー。福永均社長は、毎日早朝から機械を動かし、指先で糸の仕上がりを味わい、今日も世界の人々に飾る楽しみをお届け中。\nhttps://www.youtube.com/@izumikingin",
+      author: "泉工業株式会社",
+      image:
+        "https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/6170313/6170313-1719451627957-2a8eed242c4fc.jpg",
+      language: "Japanese",
+      latestPublishTime: 1745790370,
+      categories: ["Arts", "Fashion", "Beauty"],
+      episodeCount: 303,
+      isExplicit: false,
+    },
+    episodes: [
+      {
+        id: 36643018274,
+        feedId: 1256742,
+        feedUrl: "https://anchor.fm/s/255fbd04/podcast/rss",
+        title:
+          "【知れば得する】ラメの大切(おおぎり)加工！現役TES資格保持者「福永社長」によるラメ糸解説09",
+        description:
+          "<p>現役TES資格保持者「福永社長」から繊維業界におけるラメ糸の解説をしていただきます！</p><p><br></p><p>今回は【大切(おおぎり)加工】！</p><p>たいせつと書いておおぎりと呼ぶ加工です。名の通り大きく切ることですが、何故そのような過程が必要であるかを解説します。</p><p>是非お楽しみください！</p><p>新商品も大好評いただき、様々な産地の方々へ送らせていただいてます！</p><p><br></p><p>○このポッドキャストを聴いた人はどんな変化があるか</p><p>毎週楽しみながら繊維の知識が増えていく。一ヶ月で4〜5個、一年で52個の知識が増える。</p><p>→仕事場で会話にすると、自分が着実に成長している事を実感できる。</p><p><br></p><p>○こんな人にピッタリ</p><p>繊維業界の仕事をもっと楽しみたい</p><p>ファッション業界をもっとワクワクさせたい</p><p>多様性のセンスを磨きたい</p><p>素材にこだわりたい</p><p>素材の知識で頭一つ飛び出したい</p><p>一緒にものづくりできる仲間が欲しい</p><p>福永社長に会ってみたい</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>ラジオの感想、繊維の事を知りたい！など、ご相談は</p><p>泉工業株式会社のLINE公式アカウントからお友達登録してもらい、お気軽にご連絡ください。</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://page.line.me/?accountId=182oxlfk⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼パーソナリティ</p><p>泉工業株式会社　代表取締役　福永均</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://www.izumi-kingin.com/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼ナビゲーター</p><p>泉工業株式会社　福永隆辰</p><p>（福永社長のご子息、TES試験受験者）</p><p><br></p><p>▼オウンドメディア制作・プロデュース</p><p>⁠⁠株式会社ジョブオール⁠⁠</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://joboar.net/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p>⁠</p><p>▼番組で使用しているポッドキャスト機材：</p><p>・マイク：Yeti USB Microphone</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/3T2wVo5⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>・オーディオインターフェース：フォーカスライト</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/49C4BQD⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>当サイトではアフィリエイトプログラムを利用して商品を紹介しています。</p>",
+        contentUrl:
+          "https://anchor.fm/s/255fbd04/podcast/play/101560183/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-3-21%2Fd6b0d432-b910-5071-e040-1a1a9a871f71.mp3",
+        contentType: "audio/mpeg",
+        durationInSeconds: 676,
+        datePublished: 1745769600,
+        isExplicit: false,
+        episodeNumber: 9,
+        seasonNumber: 3,
+        image:
+          "https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/6170313/6170313-1719451627957-2a8eed242c4fc.jpg",
+        language: "Japanese",
+        people: null,
+        externalWebsiteUrl:
+          "https://podcasters.spotify.com/pod/show/izumikingin/episodes/TES09-e31psdn",
+        transcripts: null,
+      },
+      {
+        id: 36334931992,
+        feedId: 1256742,
+        feedUrl: "https://anchor.fm/s/255fbd04/podcast/rss",
+        title:
+          "【職人の技術力】フィルム同士のラミネート(貼り合わせ)加工！現役TES資格保持者「福永社長」によるラメ糸解説08",
+        description:
+          "<p>現役TES資格保持者「福永社長」から繊維業界におけるラメ糸の解説をしていただきます！</p><p><br></p><p>今回は【ラミネート(貼り合わせ)加工】！</p><p>ラメ糸業界における先染めラメ糸ではほぼ無い、後染めラメ泉工業の特色とも言える加工を解説していきます。</p><p>更に、この加工ができるからこその小テクも紹介！是非お楽しみください！</p><p><br></p><p>○このポッドキャストを聴いた人はどんな変化があるか</p><p>毎週楽しみながら繊維の知識が増えていく。一ヶ月で4〜5個、一年で52個の知識が増える。</p><p>→仕事場で会話にすると、自分が着実に成長している事を実感できる。</p><p><br></p><p>○こんな人にピッタリ</p><p>繊維業界の仕事をもっと楽しみたい</p><p>ファッション業界をもっとワクワクさせたい</p><p>多様性のセンスを磨きたい</p><p>素材にこだわりたい</p><p>素材の知識で頭一つ飛び出したい</p><p>一緒にものづくりできる仲間が欲しい</p><p>福永社長に会ってみたい</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>ラジオの感想、繊維の事を知りたい！など、ご相談は</p><p>泉工業株式会社のLINE公式アカウントからお友達登録してもらい、お気軽にご連絡ください。</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://page.line.me/?accountId=182oxlfk⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼パーソナリティ</p><p>泉工業株式会社　代表取締役　福永均</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://www.izumi-kingin.com/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼ナビゲーター</p><p>泉工業株式会社　福永隆辰</p><p>（福永社長のご子息、TES試験受験者）</p><p><br></p><p>▼オウンドメディア制作・プロデュース</p><p>⁠⁠株式会社ジョブオール⁠⁠</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://joboar.net/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p>⁠</p><p>▼番組で使用しているポッドキャスト機材：</p><p>・マイク：Yeti USB Microphone</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/3T2wVo5⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>・オーディオインターフェース：フォーカスライト</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/49C4BQD⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>当サイトではアフィリエイトプログラムを利用して商品を紹介しています。</p>",
+        contentUrl:
+          "https://anchor.fm/s/255fbd04/podcast/play/101153037/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-3-11%2F60e56800-5198-c191-2e0d-843e74404c1c.mp3",
+        contentType: "audio/mpeg",
+        durationInSeconds: 1062,
+        datePublished: 1745164800,
+        isExplicit: false,
+        episodeNumber: 8,
+        seasonNumber: 3,
+        image:
+          "https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/6170313/6170313-1719451627957-2a8eed242c4fc.jpg",
+        language: "Japanese",
+        people: null,
+        externalWebsiteUrl:
+          "https://podcasters.spotify.com/pod/show/izumikingin/episodes/TES08-e31deqd",
+        transcripts: null,
+      },
+      {
+        id: 36055866043,
+        feedId: 1256742,
+        feedUrl: "https://anchor.fm/s/255fbd04/podcast/rss",
+        title:
+          "【輝きの秘密】銀を着ける蒸着加工！現役TES資格保持者「福永社長」によるラメ糸解説07",
+        description:
+          '<p>現役TES資格保持者「福永社長」によるラメ糸の徹底解説ラジオ。</p><p>後染ラメ糸メーカー「泉工業株式会社」の福永社長が繊維業界40年の経験をもとに、業界用語をわかりやすく説明する番組です。</p><p>今回は【蒸着加工】</p><p>主に"真空蒸着"と呼ばれるものに焦点を当ててお話していきます。</p><p>何故真空蒸着である必要があるか、何故銀を使う必要があるのかを是非ご自分のお耳でお確かめください！！</p><p><br></p><p>○このポッドキャストを聴いた人はどんな変化があるか</p><p>毎週楽しみながら繊維の知識が増えていく。一ヶ月で4〜5個、一年で52個の知識が増える。</p><p>→仕事場で会話にすると、自分が着実に成長している事を実感できる。</p><p><br></p><p>○こんな人にピッタリ</p><p>繊維業界の仕事をもっと楽しみたい</p><p>ファッション業界をもっとワクワクさせたい</p><p>多様性のセンスを磨きたい</p><p>素材にこだわりたい</p><p>素材の知識で頭一つ飛び出したい</p><p>一緒にものづくりできる仲間が欲しい</p><p>福永社長に会ってみたい</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>ラジオの感想、繊維の事を知りたい！など、ご相談は</p><p>泉工業株式会社のLINE公式アカウントからお友達登録してもらい、お気軽にご連絡ください。</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://page.line.me/?accountId=182oxlfk⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼パーソナリティ</p><p>泉工業株式会社　代表取締役　福永均</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://www.izumi-kingin.com/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼ナビゲーター</p><p>泉工業株式会社　福永隆辰</p><p>（TES試験受験者）</p><p><br></p><p>▼オウンドメディア制作・プロデュース</p><p>⁠⁠株式会社ジョブオール⁠⁠</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://joboar.net/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p>⁠</p><p>▼番組で使用しているポッドキャスト機材：</p><p>・マイク：Yeti USB Microphone</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/3T2wVo5⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>・オーディオインターフェース：フォーカスライト</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/49C4BQD⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>当サイトではアフィリエイトプログラムを利用して商品を紹介しています。</p>',
+        contentUrl:
+          "https://anchor.fm/s/255fbd04/podcast/play/101049535/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-3-9%2Fe0d63375-88c1-4d27-3244-6ef91b258512.mp3",
+        contentType: "audio/mpeg",
+        durationInSeconds: 1119,
+        datePublished: 1744583340,
+        isExplicit: false,
+        episodeNumber: 7,
+        seasonNumber: 3,
+        image:
+          "https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/6170313/6170313-1719451627957-2a8eed242c4fc.jpg",
+        language: "Japanese",
+        people: null,
+        externalWebsiteUrl:
+          "https://podcasters.spotify.com/pod/show/izumikingin/episodes/TES07-e31a9nv",
+        transcripts: null,
+      },
+      {
+        id: 35772679962,
+        feedId: 1256742,
+        feedUrl: "https://anchor.fm/s/255fbd04/podcast/rss",
+        title:
+          "【全てが決まる加工】ラメ糸の着色技術！現役TES資格保持者「福永社長」によるラメ糸解説06",
+        description:
+          "<p>現役TES資格保持者「福永社長」から繊維業界におけるラメ糸の解説をしていただきます！</p><p><br></p><p>今回は【製造工程の1つ目である着色】！</p><p>糸という文字が付くのにもかかわらず染めではなく、着けるという文字を使った色を着ける工程です！</p><p>そして泉工業ならではの変態技術が今回でも炸裂します。是非お楽しみください！</p><p><br></p><p>○このポッドキャストを聴いた人はどんな変化があるか</p><p>毎週楽しみながら繊維の知識が増えていく。一ヶ月で4〜5個、一年で52個の知識が増える。</p><p>→仕事場で会話にすると、自分が着実に成長している事を実感できる。</p><p><br></p><p>○こんな人にピッタリ</p><p>繊維業界の仕事をもっと楽しみたい</p><p>ファッション業界をもっとワクワクさせたい</p><p>多様性のセンスを磨きたい</p><p>素材にこだわりたい</p><p>素材の知識で頭一つ飛び出したい</p><p>一緒にものづくりできる仲間が欲しい</p><p>福永社長に会ってみたい</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>ラジオの感想、繊維の事を知りたい！など、ご相談は</p><p>泉工業株式会社のLINE公式アカウントからお友達登録してもらい、お気軽にご連絡ください。</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://page.line.me/?accountId=182oxlfk⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼パーソナリティ</p><p>泉工業株式会社　代表取締役　福永均</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://www.izumi-kingin.com/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼ナビゲーター</p><p>泉工業株式会社　福永隆辰</p><p>（福永社長のご子息、TES試験受験者）</p><p><br></p><p>▼オウンドメディア制作・プロデュース</p><p>⁠⁠株式会社ジョブオール⁠⁠</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://joboar.net/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p>⁠</p><p>▼番組で使用しているポッドキャスト機材：</p><p>・マイク：Yeti USB Microphone</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/3T2wVo5⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>・オーディオインターフェース：フォーカスライト</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/49C4BQD⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>当サイトではアフィリエイトプログラムを利用して商品を紹介しています。</p>",
+        contentUrl:
+          "https://anchor.fm/s/255fbd04/podcast/play/100674109/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-3-1%2F92a98425-add2-914e-f320-238af3b1a838.mp3",
+        contentType: "audio/mpeg",
+        durationInSeconds: 719,
+        datePublished: 1743955200,
+        isExplicit: false,
+        episodeNumber: 6,
+        seasonNumber: 3,
+        image:
+          "https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/6170313/6170313-1719451627957-2a8eed242c4fc.jpg",
+        language: "Japanese",
+        people: null,
+        externalWebsiteUrl:
+          "https://podcasters.spotify.com/pod/show/izumikingin/episodes/TES06-e30ur3t",
+        transcripts: null,
+      },
+      {
+        id: 35487983572,
+        feedId: 1256742,
+        feedUrl: "https://anchor.fm/s/255fbd04/podcast/rss",
+        title:
+          "【すぐ使える】ラメ糸の原材料を即答できるネタバラシ！現役TES資格保持者「福永社長」による繊維用語解説05",
+        description:
+          "<p>現役TES資格保持者「福永社長」によるラメ糸の徹底解説ラジオ。</p><p>後染ラメ糸メーカー「泉工業株式会社」の福永社長が繊維業界40年の経験をもとに、業界用語をわかりやすく説明する番組です。</p><p>今回は【ラメ糸の原材料】</p><p>ラメの始まりである原材料！どんな素材が主に使われていてどんな素材が珍しいの？といった疑問から、この素材でなければならない理由など様々な素材について解説していきます。</p><p><br></p><p>○このポッドキャストを聴いた人はどんな変化があるか</p><p>毎週楽しみながら繊維の知識が増えていく。一ヶ月で4〜5個、一年で52個の知識が増える。</p><p>→仕事場で会話にすると、自分が着実に成長している事を実感できる。</p><p><br></p><p>○こんな人にピッタリ</p><p>繊維業界の仕事をもっと楽しみたい</p><p>ファッション業界をもっとワクワクさせたい</p><p>多様性のセンスを磨きたい</p><p>素材にこだわりたい</p><p>素材の知識で頭一つ飛び出したい</p><p>一緒にものづくりできる仲間が欲しい</p><p>福永社長に会ってみたい</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>ラジオの感想、繊維の事を知りたい！など、ご相談は</p><p>泉工業株式会社のLINE公式アカウントからお友達登録してもらい、お気軽にご連絡ください。</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://page.line.me/?accountId=182oxlfk⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼パーソナリティ</p><p>泉工業株式会社　代表取締役　福永均</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://www.izumi-kingin.com/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼ナビゲーター</p><p>泉工業株式会社　福永隆辰</p><p>（TES試験受験者）</p><p><br></p><p>▼オウンドメディア制作・プロデュース</p><p>⁠⁠株式会社ジョブオール⁠⁠</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://joboar.net/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p>⁠</p><p>▼番組で使用しているポッドキャスト機材：</p><p>・マイク：Yeti USB Microphone</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/3T2wVo5⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>・オーディオインターフェース：フォーカスライト</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/49C4BQD⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>当サイトではアフィリエイトプログラムを利用して商品を紹介しています。</p>",
+        contentUrl:
+          "https://anchor.fm/s/255fbd04/podcast/play/100539126/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-2-29%2Fae15f162-aa88-4cf2-6e3c-63c3d728279b.mp3",
+        contentType: "audio/mpeg",
+        durationInSeconds: 622,
+        datePublished: 1743372900,
+        isExplicit: false,
+        episodeNumber: 5,
+        seasonNumber: 3,
+        image:
+          "https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/6170313/6170313-1719451627957-2a8eed242c4fc.jpg",
+        language: "Japanese",
+        people: null,
+        externalWebsiteUrl:
+          "https://podcasters.spotify.com/pod/show/izumikingin/episodes/TES05-e30qn9m",
+        transcripts: null,
+      },
+      {
+        id: 35230798533,
+        feedId: 1256742,
+        feedUrl: "https://anchor.fm/s/255fbd04/podcast/rss",
+        title:
+          "【一貫生産工場が大公開】ラメ糸製造工程の全貌とは？現役TES資格保持者「福永社長」によるラメ糸解説04",
+        description:
+          "<p>現役TES資格保持者「福永社長」が、ファッションを鮮やかに装飾するラメ糸（金銀糸）を徹底解説。</p><p><br></p><p>今回は【ラメ糸製造工程の目次】</p><p>次回から、ラメ糸の製造を一つ一つ細かに説明させていただく前にラメ糸の製造はどのような段階を踏むのか、という道筋をお伝えします。</p><p>全体の流れを把握して、次回より深いラメ糸の世界を学んでいきましょう！</p><p><br></p><p>○このポッドキャストを聴いた人はどんな変化があるか</p><p>毎週楽しみながら繊維の知識が増えていく。一ヶ月で4〜5個、一年で52個の知識が増える。</p><p>→仕事場で会話にすると、自分が着実に成長している事を実感できる。</p><p><br></p><p>○こんな人にピッタリ</p><p>繊維業界の仕事をもっと楽しみたい</p><p>ファッション業界をもっとワクワクさせたい</p><p>多様性のセンスを磨きたい</p><p>素材にこだわりたい</p><p>素材の知識で頭一つ飛び出したい</p><p>一緒にものづくりできる仲間が欲しい</p><p>福永社長に会ってみたい</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>ラジオの感想、繊維の事を知りたい！など、ご相談は</p><p>泉工業株式会社のLINE公式アカウントからお友達登録してもらい、お気軽にご連絡ください。</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://page.line.me/?accountId=182oxlfk⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼パーソナリティ</p><p>泉工業株式会社　代表取締役　福永均</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://www.izumi-kingin.com/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼ナビゲーター</p><p>泉工業株式会社　福永隆辰</p><p>（福永社長のご子息、TES試験受験者）</p><p><br></p><p>▼オウンドメディア制作・プロデュース</p><p>⁠⁠株式会社ジョブオール⁠⁠</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://joboar.net/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p>⁠</p><p>▼番組で使用しているポッドキャスト機材：</p><p>・マイク：Yeti USB Microphone</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/3T2wVo5⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>・オーディオインターフェース：フォーカスライト</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/49C4BQD⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>当サイトではアフィリエイトプログラムを利用して商品を紹介しています。</p>",
+        contentUrl:
+          "https://anchor.fm/s/255fbd04/podcast/play/99839575/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-2-14%2Fa323debf-9bbe-592b-a99f-d5dafe07bc0e.mp3",
+        contentType: "audio/mpeg",
+        durationInSeconds: 515,
+        datePublished: 1742783580,
+        isExplicit: false,
+        episodeNumber: 4,
+        seasonNumber: 3,
+        image:
+          "https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/6170313/6170313-1719451627957-2a8eed242c4fc.jpg",
+        language: "Japanese",
+        people: null,
+        externalWebsiteUrl:
+          "https://podcasters.spotify.com/pod/show/izumikingin/episodes/TES04-e305c4n",
+        transcripts: null,
+      },
+      {
+        id: 34950225642,
+        feedId: 1256742,
+        feedUrl: "https://anchor.fm/s/255fbd04/podcast/rss",
+        title:
+          "【知って使える】平糸の役割［第2回］現役TES資格保持者「福永社長」によるラメ糸解説03",
+        description:
+          "<p>現役TES資格保持者「福永社長」が、繊維業界の人なら知っておいて損がないラメ糸（金銀糸）を徹底解説。</p><p><br></p><p>今回は【平糸の基本2】</p><p>前回に引き続き平糸の基本の第2回目です。</p><p>今回はラメ糸の素材って何から作られているの？後染めラメや先染ラメの違いは？などについてお話していきます。ラメ屋の仕事あるあるなんてのも！</p><p>それでは本編をお楽しみください！</p><p><br></p><p><br></p><p>○このポッドキャストを聴いた人はどんな変化があるか</p><p>毎週楽しみながら繊維の知識が増えていく。一ヶ月で4〜5個、一年で52個の知識が増える。</p><p>→仕事場で会話にすると、自分が着実に成長している事を実感できる。</p><p><br></p><p>○こんな人にピッタリ</p><p>繊維業界の仕事をもっと楽しみたい</p><p>ファッション業界をもっとワクワクさせたい</p><p>多様性のセンスを磨きたい</p><p>素材にこだわりたい</p><p>素材の知識で頭一つ飛び出したい</p><p>一緒にものづくりできる仲間が欲しい</p><p>福永社長に会ってみたい</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>ラジオの感想、繊維の事を知りたい！など、ご相談は</p><p>泉工業株式会社のLINE公式アカウントからお友達登録してもらい、お気軽にご連絡ください。</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://page.line.me/?accountId=182oxlfk⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼パーソナリティ</p><p>泉工業株式会社　代表取締役　福永均</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://www.izumi-kingin.com/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼ナビゲーター</p><p>泉工業株式会社　福永隆辰</p><p>（福永社長のご子息、TES試験受験者）</p><p><br></p><p>▼オウンドメディア制作・プロデュース</p><p>⁠⁠株式会社ジョブオール⁠⁠</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://joboar.net/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p>⁠</p><p>▼番組で使用しているポッドキャスト機材：</p><p>・マイク：Yeti USB Microphone</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/3T2wVo5⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>・オーディオインターフェース：フォーカスライト</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/49C4BQD⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>当サイトではアフィリエイトプログラムを利用して商品を紹介しています。</p>",
+        contentUrl:
+          "https://anchor.fm/s/255fbd04/podcast/play/99878336/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-2-15%2F56315a97-9713-0c10-e570-87af673ac5c9.mp3",
+        contentType: "audio/mpeg",
+        durationInSeconds: 626,
+        datePublished: 1742163900,
+        isExplicit: false,
+        episodeNumber: 3,
+        seasonNumber: 3,
+        image:
+          "https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/6170313/6170313-1719451627957-2a8eed242c4fc.jpg",
+        language: "Japanese",
+        people: null,
+        externalWebsiteUrl:
+          "https://podcasters.spotify.com/pod/show/izumikingin/episodes/2TES03-e306i00",
+        transcripts: null,
+      },
+      {
+        id: 34668748863,
+        feedId: 1256742,
+        feedUrl: "https://anchor.fm/s/255fbd04/podcast/rss",
+        title:
+          "【基本のキ】平糸の役割［第1回］現役TES資格保持者「福永社長」によるラメ糸解説02",
+        description:
+          "<p>現役TES資格保持者「福永社長」から繊維業界のあらゆる装飾を担当するラメ糸（金銀糸）を徹底解説。</p><p><br></p><p>今回は【ラメ糸の基本、平糸の役割とは？】</p><p>ラメ糸の作り方を細かく解説いただく前に、平糸と呼ばれるラメ糸にとって一番最初に糸になる状態のものを繊維業界における呼び方やラメ糸に使われる独自の単位についてお話していきます。</p><p><br></p><p>○このポッドキャストを聴いた人はどんな変化があるか</p><p>毎週楽しみながら繊維の知識が増えていく。一ヶ月で4〜5個、一年で52個の知識が増える。</p><p>→仕事場で会話にすると、自分が着実に成長している事を実感できる。</p><p><br></p><p>○こんな人にピッタリ</p><p>繊維業界の仕事をもっと楽しみたい</p><p>ファッション業界をもっとワクワクさせたい</p><p>多様性のセンスを磨きたい</p><p>素材にこだわりたい</p><p>素材の知識で頭一つ飛び出したい</p><p>一緒にものづくりできる仲間が欲しい</p><p>福永社長に会ってみたい</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>ラジオの感想、繊維の事を知りたい！など、ご相談は</p><p>泉工業株式会社のLINE公式アカウントからお友達登録してもらい、お気軽にご連絡ください。</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://page.line.me/?accountId=182oxlfk⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼パーソナリティ</p><p>泉工業株式会社　代表取締役　福永均</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://www.izumi-kingin.com/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼ナビゲーター</p><p>泉工業株式会社　福永隆辰</p><p>（福永社長のご子息、TES試験受験者）</p><p><br></p><p>▼オウンドメディア制作・プロデュース</p><p>⁠⁠株式会社ジョブオール⁠⁠</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://joboar.net/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p>⁠</p><p>▼番組で使用しているポッドキャスト機材：</p><p>・マイク：Yeti USB Microphone</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/3T2wVo5⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>・オーディオインターフェース：フォーカスライト</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/49C4BQD⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>当サイトではアフィリエイトプログラムを利用して商品を紹介しています。</p>",
+        contentUrl:
+          "https://anchor.fm/s/255fbd04/podcast/play/99507622/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-2-7%2F0547ce34-9680-7ab8-f9ec-7683af86c9e2.mp3",
+        contentType: "audio/mpeg",
+        durationInSeconds: 571,
+        datePublished: 1741472700,
+        isExplicit: false,
+        episodeNumber: 2,
+        seasonNumber: 3,
+        image:
+          "https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/6170313/6170313-1719451627957-2a8eed242c4fc.jpg",
+        language: "Japanese",
+        people: null,
+        externalWebsiteUrl:
+          "https://podcasters.spotify.com/pod/show/izumikingin/episodes/1TES02-e2vr7v6",
+        transcripts: null,
+      },
+      {
+        id: 34416979986,
+        feedId: 1256742,
+        feedUrl: "https://anchor.fm/s/255fbd04/podcast/rss",
+        title:
+          "【ラメ糸って何？】現役TES資格保持者「福永社長」によるラメ糸解説01",
+        description:
+          "<p>現役TES資格保持者で数々の繊維資格をもち全国で講演活動を行っている後染ラメ糸メーカー泉工業株式会社の福永社長による繊維の知識を音声版でお届けしています。</p><p><br></p><p>○このポッドキャストを聴いた人はどんな変化があるか</p><p>毎週楽しみながら繊維の知識が増えていく。一ヶ月で4〜5個、一年で52個の知識が増える。</p><p>→仕事場で会話にすると、自分が着実に成長している事を実感できる。</p><p><br></p><p>○こんな人にピッタリ</p><p>繊維業界の仕事をもっと楽しみたい</p><p>ファッション業界をもっとワクワクさせたい</p><p>多様性のセンスを磨きたい</p><p>素材にこだわりたい</p><p>素材の知識で頭一つ飛び出したい</p><p>一緒にものづくりできる仲間が欲しい</p><p>福永社長に会ってみたい</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>ラジオの感想、繊維の事を知りたい！など、ご相談は</p><p>泉工業株式会社のLINE公式アカウントからお友達登録してもらい、お気軽にご連絡ください。</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://page.line.me/?accountId=182oxlfk⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼パーソナリティ</p><p>泉工業株式会社　代表取締役　福永均</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://www.izumi-kingin.com/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼ナビゲーター</p><p>泉工業株式会社　福永隆辰</p><p>（TES試験受験者）</p><p><br></p><p>▼オウンドメディア制作・プロデュース</p><p>⁠⁠株式会社ジョブオール⁠⁠</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://joboar.net/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p>⁠</p><p>▼番組で使用しているポッドキャスト機材：</p><p>・マイク：Yeti USB Microphone</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/3T2wVo5⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>・オーディオインターフェース：フォーカスライト</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/49C4BQD⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>当サイトではアフィリエイトプログラムを利用して商品を紹介しています。</p>",
+        contentUrl:
+          "https://anchor.fm/s/255fbd04/podcast/play/99205776/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-2-1%2F82c5cd77-05da-a1c8-600a-069c977a2673.mp3",
+        contentType: "audio/mpeg",
+        durationInSeconds: 733,
+        datePublished: 1740955500,
+        isExplicit: false,
+        episodeNumber: 1,
+        seasonNumber: 3,
+        image:
+          "https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/6170313/6170313-1719451627957-2a8eed242c4fc.jpg",
+        language: "Japanese",
+        people: null,
+        externalWebsiteUrl:
+          "https://podcasters.spotify.com/pod/show/izumikingin/episodes/TES01-e2vi16g",
+        transcripts: null,
+      },
+      {
+        id: 34132710629,
+        feedId: 1256742,
+        feedUrl: "https://anchor.fm/s/255fbd04/podcast/rss",
+        title:
+          "【金属繊維】知っておきたい繊維の知識100/ ラメ糸 泉工業のTES資格解説",
+        description:
+          "<p>知っておきたい繊維の知識424のテキストの中から仕事に役立つ繊維知識を音声版でお届けしています。</p><p><br></p><p>○このポッドキャストを聴いた人はどんな変化があるか</p><p>毎週楽しみながら繊維の知識が増えていく。一ヶ月で4〜5個、一年で52個の知識が増える。</p><p>→仕事場で会話にすると、自分が着実に成長している事を実感できる。</p><p><br></p><p>○こんな人にピッタリ</p><p>TESの資格をとりたい</p><p>繊維業界の仕事をもっと楽しみたい</p><p>ファッション業界をもっとワクワクさせたい</p><p>多様性のセンスを磨きたい</p><p>素材にこだわりたい</p><p>素材の知識で頭一つ飛び出したい</p><p>一緒にものづくりできる仲間が欲しい</p><p>福永社長に会ってみたい</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>ラジオの感想、繊維の事を知りたい！など、ご相談は</p><p>泉工業株式会社のLINE公式アカウントからお友達登録してもらい、お気軽にご連絡ください。</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://page.line.me/?accountId=182oxlfk⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼パーソナリティ</p><p>泉工業株式会社　代表取締役　福永均</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://www.izumi-kingin.com/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼ナビゲーター</p><p>泉工業株式会社　福永隆辰</p><p>（福永社長のご子息、TES試験受験者）</p><p><br></p><p>▼オウンドメディア制作・プロデュース</p><p>⁠⁠株式会社ジョブオール⁠⁠</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://joboar.net/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼参照</p><p>知っておきたい繊維の知識424（ダイセン株式会社）</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/3IYCFLI⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼番組で使用しているポッドキャスト機材：</p><p>・マイク：Yeti USB Microphone</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/3T2wVo5⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>・オーディオインターフェース：フォーカスライト</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/49C4BQD⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>当サイトではアフィリエイトプログラムを利用して商品を紹介しています。</p>",
+        contentUrl:
+          "https://anchor.fm/s/255fbd04/podcast/play/98101491/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-1-6%2F5d3ffd55-f4c0-7ed3-e2a4-babe1a10a9dd.mp3",
+        contentType: "audio/mpeg",
+        durationInSeconds: 707,
+        datePublished: 1740350220,
+        isExplicit: false,
+        episodeNumber: 100,
+        seasonNumber: 2,
+        image:
+          "https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_episode/6170313/6170313-1739108254254-adc58328543f5.jpg",
+        language: "Japanese",
+        people: null,
+        externalWebsiteUrl:
+          "https://podcasters.spotify.com/pod/show/izumikingin/episodes/100--TES-e2ugapj",
+        transcripts: null,
+      },
+    ],
+  },
+}
+
+export const podcastTitleWithSlash_firstEpisodeId_36643018274 = {
+  // first episode id from "podcastTitleWithSlash_tenEpisodes"
+  // backend endpoint /api/podcast/episode?id=36643018274
+  count: 1,
+  data: {
+    id: 36643018274,
+    feedId: 1256742,
+    feedTitle: "福永均の「繊維の泉」／ #ラメ糸",
+    title:
+      "【知れば得する】ラメの大切(おおぎり)加工！現役TES資格保持者「福永社長」によるラメ糸解説09",
+    description:
+      "<p>現役TES資格保持者「福永社長」から繊維業界におけるラメ糸の解説をしていただきます！</p><p><br></p><p>今回は【大切(おおぎり)加工】！</p><p>たいせつと書いておおぎりと呼ぶ加工です。名の通り大きく切ることですが、何故そのような過程が必要であるかを解説します。</p><p>是非お楽しみください！</p><p>新商品も大好評いただき、様々な産地の方々へ送らせていただいてます！</p><p><br></p><p>○このポッドキャストを聴いた人はどんな変化があるか</p><p>毎週楽しみながら繊維の知識が増えていく。一ヶ月で4〜5個、一年で52個の知識が増える。</p><p>→仕事場で会話にすると、自分が着実に成長している事を実感できる。</p><p><br></p><p>○こんな人にピッタリ</p><p>繊維業界の仕事をもっと楽しみたい</p><p>ファッション業界をもっとワクワクさせたい</p><p>多様性のセンスを磨きたい</p><p>素材にこだわりたい</p><p>素材の知識で頭一つ飛び出したい</p><p>一緒にものづくりできる仲間が欲しい</p><p>福永社長に会ってみたい</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>ラジオの感想、繊維の事を知りたい！など、ご相談は</p><p>泉工業株式会社のLINE公式アカウントからお友達登録してもらい、お気軽にご連絡ください。</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://page.line.me/?accountId=182oxlfk⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼パーソナリティ</p><p>泉工業株式会社　代表取締役　福永均</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://www.izumi-kingin.com/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>▼ナビゲーター</p><p>泉工業株式会社　福永隆辰</p><p>（福永社長のご子息、TES試験受験者）</p><p><br></p><p>▼オウンドメディア制作・プロデュース</p><p>⁠⁠株式会社ジョブオール⁠⁠</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://joboar.net/⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p>⁠</p><p>▼番組で使用しているポッドキャスト機材：</p><p>・マイク：Yeti USB Microphone</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/3T2wVo5⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>・オーディオインターフェース：フォーカスライト</p><p>⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠https://amzn.to/49C4BQD⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠</p><p><br></p><p>ー ー ー ー ー ー ー ー ー ー</p><p>当サイトではアフィリエイトプログラムを利用して商品を紹介しています。</p>",
+    contentUrl:
+      "https://anchor.fm/s/255fbd04/podcast/play/101560183/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-3-21%2Fd6b0d432-b910-5071-e040-1a1a9a871f71.mp3",
+    contentType: "audio/mpeg",
+    durationInSeconds: 676,
+    datePublished: 1745769600,
+    isExplicit: false,
+    episodeNumber: 9,
+    seasonNumber: 3,
+    image:
+      "https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/6170313/6170313-1719451627957-2a8eed242c4fc.jpg",
+    language: "Japanese",
+    people: null,
+    externalWebsiteUrl:
+      "https://podcasters.spotify.com/pod/show/izumikingin/episodes/TES09-e31psdn",
+    transcripts: null,
+  },
+}
