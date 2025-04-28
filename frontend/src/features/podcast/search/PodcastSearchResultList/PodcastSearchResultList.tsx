@@ -3,6 +3,7 @@ import { memo } from "react"
 import { Link } from "react-router"
 import { AnimatePresence, motion } from "motion/react"
 import { Podcast } from "../../../../api/podcast/model/podcast.ts"
+import { getPodcastDetailPath } from "../../../utils/navigation/pageNavigation.ts"
 
 type PodcastSearchResultListProps = {
   results: Podcast[] | null
@@ -24,9 +25,10 @@ export default memo(function PodcastSearchResultList({
           transition={{ duration: 0.2, type: "spring", bounce: 0 }}
         >
           {results.map((data) => {
-            const podcastDetailPageUrl = `/podcasts/${encodeURIComponent(
-              data.title
-            )}/${data.id}`
+            const podcastDetailPageUrl = getPodcastDetailPath({
+              podcastTitle: data.title,
+              podcastId: `${data.id}`,
+            })
             return (
               <motion.div
                 key={`${data.id}-result-item`}

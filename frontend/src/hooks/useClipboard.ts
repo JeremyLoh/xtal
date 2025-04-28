@@ -25,7 +25,6 @@ function useClipboard() {
   }, [])
 
   const copyPodcastEpisodeShareUrl = useCallback((episode: PodcastEpisode) => {
-    // `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
     const origin = new URL(window.location.href).origin
     const podcastTitle = encodeURIComponent(episode.feedTitle || "")
     const podcastId = episode.feedId
