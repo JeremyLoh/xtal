@@ -12,7 +12,7 @@ import TrendingPodcastFilters from "../TrendingPodcastFilters/TrendingPodcastFil
 import Button from "../../../../components/ui/button/Button.tsx"
 import Pagination from "../../../../components/Pagination/Pagination.tsx"
 import LoadingDisplay from "../../../../components/LoadingDisplay/LoadingDisplay.tsx"
-import { getPodcastDetailPath } from "../../../utils/navigation/pageNavigation.ts"
+import { podcastDetailPage } from "../../../../paths.ts"
 
 const IMAGE_LAZY_LOAD_START_INDEX = 2 // zero based index
 const MAX_TRENDING_PODCAST_PAGINATION_PAGES = 5
@@ -126,7 +126,7 @@ function TrendingPodcastSection({
       )
     }
     return trendingPodcasts.map((podcast, index) => {
-      const podcastDetailUrl = getPodcastDetailPath({
+      const podcastDetailUrl = podcastDetailPage({
         podcastId: `${podcast.id}`,
         podcastTitle: `${podcast.title}`,
       })
