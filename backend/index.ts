@@ -28,8 +28,6 @@ function setupApp() {
   app.use(statusRouter) // place before CORS to remove CORS for /status endpoint
   app.use(cors(getCorsOptions()))
   app.use(superTokensMiddleware()) // supertokens CORS should be before the middleware
-
-  app.use(express.json()) // middleware to parse json request body
   app.use(compression())
   app.use(router)
   app.use(errorHandler()) // add this after all routes

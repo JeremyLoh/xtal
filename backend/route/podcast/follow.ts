@@ -1,5 +1,5 @@
 import { decodeHTML } from "entities"
-import { Response, Router } from "express"
+import { json, Response, Router } from "express"
 import { verifySession } from "supertokens-node/recipe/session/framework/express"
 import { SessionRequest } from "supertokens-node/framework/express"
 import { getSession } from "supertokens-node/recipe/session"
@@ -51,6 +51,7 @@ router.get(
 router.post(
   "/api/podcast/unfollow",
   rateLimiter.removeAccountFollowPodcastLimiter,
+  json(),
   checkSchema(getAccountUnfollowPodcastValidationSchema, ["body"]),
   verifySession({ sessionRequired: true }),
   async (request: SessionRequest, response: Response) => {
@@ -79,6 +80,7 @@ router.post(
 router.post(
   "/api/podcast/follow",
   rateLimiter.addAccountFollowPodcastLimiter,
+  json(),
   checkSchema(getAddAccountFollowPodcastValidationSchema, ["body"]),
   verifySession({ sessionRequired: true }),
   async (request: SessionRequest, response: Response) => {

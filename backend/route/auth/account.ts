@@ -1,6 +1,6 @@
 import dayjs from "dayjs"
 import { decodeHTML } from "entities"
-import { Response, Router } from "express"
+import { json, Response, Router } from "express"
 import { checkSchema, matchedData, validationResult } from "express-validator"
 import { deleteUser } from "supertokens-node"
 import Session from "supertokens-node/recipe/session"
@@ -142,6 +142,7 @@ router.get(
 router.delete(
   "/api/account/podcast-play-history",
   rateLimiter.deleteAccountPlayHistoryLimiter,
+  json(),
   checkSchema(deleteAccountPodcastPlayHistoryValidationSchema, ["body"]),
   verifySession({ sessionRequired: true }),
   async (request: SessionRequest, response: Response) => {
@@ -170,6 +171,7 @@ router.delete(
 router.post(
   "/api/account/podcast-play-history",
   rateLimiter.updateAccountPlayHistoryLimiter,
+  json(),
   checkSchema(addAccountPodcastPlayHistoryValidationSchema, ["body"]),
   verifySession({ sessionRequired: true }),
   async (request: SessionRequest, response: Response) => {
