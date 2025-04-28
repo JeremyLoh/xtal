@@ -1,4 +1,4 @@
-import test, { expect } from "@playwright/test"
+import test, { expect, Page } from "@playwright/test"
 import {
   podcastId_259760_episodeId_34000697601,
   podcastId_259760_FirstTenEpisodes,
@@ -9,6 +9,47 @@ import { HOMEPAGE } from "../../constants/homepageConstants"
 import { assertPodcastInfo } from "../../constants/podcast/detail/podcastDetailConstants"
 
 test.describe("Podcast Detail Page navigation", () => {
+  test.describe("navigate to podcast category page using podcast category pills", () => {
+    function getPodcastInfoCategoryPill(page: Page, category: string) {
+      return page
+        .locator(".podcast-info-container")
+        .getByText(category, { exact: true })
+    }
+
+    test("should navigate to the first category pill on click of podcast category pill in podcast info section", async ({
+      page,
+    }) => {
+      const podcastTitle = encodeURIComponent(
+        podcastTitleWithSlash_tenEpisodes.data.podcast.title
+      )
+      const podcastCategories =
+        podcastTitleWithSlash_tenEpisodes.data.podcast.categories
+      const podcastId = podcastTitleWithSlash_tenEpisodes.data.podcast.id
+      const limit = 10
+      await page.route(
+        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+        async (route) => {
+          const json = podcastTitleWithSlash_tenEpisodes
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+      await assertPodcastInfo(
+        page,
+        podcastTitleWithSlash_tenEpisodes.data.podcast
+      )
+      const firstCategory = podcastCategories[0]
+      await expect(
+        getPodcastInfoCategoryPill(page, firstCategory)
+      ).toBeVisible()
+      await getPodcastInfoCategoryPill(page, firstCategory).click()
+      await expect(page).toHaveURL(HOMEPAGE + `/podcasts/${firstCategory}`)
+      await expect(page).toHaveTitle(
+        `xtal - ${firstCategory.toLowerCase()} podcasts`
+      )
+    })
+  })
+
   test.describe("navigate to podcast episode detail page using episode title link", () => {
     test("podcast title with forward slash character should allow navigation to podcast episode detail page", async ({
       page,
