@@ -1,11 +1,15 @@
 import "./PodcastEpisodeHistory.css"
-import { memo } from "react"
+import { memo, useCallback, useContext } from "react"
 import { motion } from "motion/react"
 import { MdDelete } from "react-icons/md"
-import { PlayHistoryPodcastEpisode } from "../../../../hooks/podcast/usePlayHistory.ts"
+import usePlayHistory, {
+  PlayHistoryPodcastEpisode,
+} from "../../../../hooks/podcast/usePlayHistory.ts"
 import Button from "../../../../components/ui/button/Button.tsx"
 import PodcastEpisodeCard from "../../../../components/PodcastEpisodeCard/index.tsx"
 import useScreenDimensions from "../../../../hooks/useScreenDimensions.ts"
+import { PodcastEpisodeContext } from "../../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
+import { PodcastEpisode } from "../../../../api/podcast/model/podcast.ts"
 
 type PodcastEpisodeHistoryProps = {
   IMAGE_LAZY_LOAD_START_INDEX: number
@@ -14,6 +18,10 @@ type PodcastEpisodeHistoryProps = {
   onDelete: (episodeId: number) => Promise<void>
 }
 
+const motionInitial = { opacity: 0, x: 50 }
+const motionAnimate = { opacity: 1, x: 0 }
+const motionTransition = { duration: 1, type: "spring", bounce: 0 }
+
 function PodcastEpisodeHistory({
   IMAGE_LAZY_LOAD_START_INDEX,
   episodes,
@@ -21,11 +29,32 @@ function PodcastEpisodeHistory({
   onDelete,
 }: PodcastEpisodeHistoryProps) {
   const { isMobile } = useScreenDimensions()
+  const podcastEpisodeContext = useContext(PodcastEpisodeContext)
+  const { addPlayPodcastEpisode, getPodcastEpisodeLastPlayTimestamp } =
+    usePlayHistory()
+
+  const handlePlayClick = useCallback(
+    async (episode: PodcastEpisode) => {
+      if (podcastEpisodeContext && episode) {
+        podcastEpisodeContext.setEpisode(episode)
+        const lastPlayedTimestamp = await getPodcastEpisodeLastPlayTimestamp(
+          `${episode.id}`
+        )
+        const resumePlayTimeInSeconds = lastPlayedTimestamp || 0
+        podcastEpisodeContext.setLastPlayedTimestamp(resumePlayTimeInSeconds)
+        await addPlayPodcastEpisode(episode, resumePlayTimeInSeconds)
+      }
+    },
+    [
+      podcastEpisodeContext,
+      addPlayPodcastEpisode,
+      getPodcastEpisodeLastPlayTimestamp,
+    ]
+  )
 
   if (episodes == null || episodes.length === 0) {
     return <p>Not available. Start listening to some podcasts!</p>
   }
-
   return (
     <div className="profile-history-podcast-episodes-container">
       {episodes.map((data, index) => {
@@ -36,9 +65,9 @@ function PodcastEpisodeHistory({
           <motion.div
             className="profile-history-podcast-listen-history-item"
             key={`${episode.id}-item`}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, type: "spring", bounce: 0 }}
+            initial={motionInitial}
+            animate={motionAnimate}
+            transition={motionTransition}
           >
             <span className="profile-history-podcast-listen-history-count">
               {episodeCountOffset + index + 1}
@@ -58,6 +87,9 @@ function PodcastEpisodeHistory({
               <PodcastEpisodeCard.EpisodeWebsiteLink />
               <PodcastEpisodeCard.EpisodeNumber />
               <PodcastEpisodeCard.SeasonNumber />
+              <PodcastEpisodeCard.PlayButton
+                onPlayClick={() => handlePlayClick(episode)}
+              />
             </PodcastEpisodeCard>
             <div className="profile-history-podcast-episode-actions">
               <span>
