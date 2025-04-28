@@ -3,13 +3,15 @@ import { Link } from "react-router"
 import Pill from "../Pill/Pill.tsx"
 import { podcastCategoryPage } from "../../paths.ts"
 
+const categoryLinkStyle = { textDecoration: "none", width: "fit-content" }
+
 const Categories = function PodcastCardCategories() {
   const { podcast } = usePodcastCardContext()
   return (
     podcast.categories &&
     podcast.categories.map((category, index) => {
       return (
-        <Link to={podcastCategoryPage(category)}>
+        <Link to={podcastCategoryPage(category)} style={categoryLinkStyle}>
           <Pill key={`${category}-${index}`}>{category}</Pill>
         </Link>
       )
