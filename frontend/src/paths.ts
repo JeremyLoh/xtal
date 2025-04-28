@@ -6,5 +6,37 @@ export const signUpPage = () => "/auth?show=signup"
 export const notFoundPage = () => "/404"
 export const resetPasswordPage = () => "/auth/reset-password"
 export const podcastHomePage = () => "/podcasts"
-export const podcastCategoryPage = (categoryName: string) =>
-  `/podcasts/${categoryName}`
+export const podcastCategoryPage = (categoryName: string) => {
+  // category should be in Title Case format (e.g. "Arts")
+  if (categoryName.trim() === "") {
+    return "/podcasts" // redirect to podcast homepage if category is empty
+  }
+  const categoryTrim = categoryName.trim()
+  const categoryTitleCase =
+    categoryTrim.length > 1
+      ? categoryTrim[0].toUpperCase() + categoryTrim.slice(1).toLowerCase()
+      : categoryTrim.toUpperCase()
+  return `/podcasts/${categoryTitleCase}`
+}
+export const podcastDetailPage = ({
+  podcastTitle,
+  podcastId,
+}: {
+  podcastTitle: string
+  podcastId: string
+}) => {
+  return `/podcasts/${encodeURIComponent(podcastTitle)}/${podcastId}`
+}
+export const podcastEpisodeDetailPage = ({
+  podcastTitle,
+  podcastId,
+  episodeId,
+}: {
+  podcastTitle: string
+  podcastId: string
+  episodeId: string
+}) => {
+  return `/podcasts/${encodeURIComponent(
+    podcastTitle
+  )}/${podcastId}/${episodeId}`
+}

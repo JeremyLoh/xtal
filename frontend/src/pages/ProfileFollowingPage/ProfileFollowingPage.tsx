@@ -6,8 +6,7 @@ import { toast } from "sonner"
 import useFollowPodcastHistory from "../../hooks/podcast/useFollowPodcastHistory.ts"
 import useScreenDimensions from "../../hooks/useScreenDimensions.ts"
 import { Podcast } from "../../api/podcast/model/podcast.ts"
-import { profilePage } from "../../paths.ts"
-import { getPodcastDetailPath } from "../../features/utils/navigation/pageNavigation.ts"
+import { podcastDetailPage, profilePage } from "../../paths.ts"
 import LoadingDisplay from "../../components/LoadingDisplay/LoadingDisplay.tsx"
 import PodcastCard from "../../components/PodcastCard/index.tsx"
 import Breadcrumb from "../../components/ui/breadcrumb/index.tsx"
@@ -102,7 +101,7 @@ function ProfileFollowingPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const itemContent: ItemContent<Podcast, any> | undefined = useCallback(
     (_: number, podcast: Podcast) => {
-      const podcastDetailUrl = getPodcastDetailPath({
+      const podcastDetailUrl = podcastDetailPage({
         podcastId: `${podcast.id}`,
         podcastTitle: `${podcast.title}`,
       })

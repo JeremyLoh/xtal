@@ -10,7 +10,7 @@ import PodcastEpisodeCard from "../../../../components/PodcastEpisodeCard/index.
 import useScreenDimensions from "../../../../hooks/useScreenDimensions.ts"
 import { PodcastEpisodeContext } from "../../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import { PodcastEpisode } from "../../../../api/podcast/model/podcast.ts"
-import { getPodcastEpisodeDetailPath } from "../../../utils/navigation/pageNavigation.ts"
+import { podcastEpisodeDetailPage } from "../../../../paths.ts"
 
 type PodcastEpisodeHistoryProps = {
   IMAGE_LAZY_LOAD_START_INDEX: number
@@ -80,7 +80,7 @@ function PodcastEpisodeHistory({
                 lazyLoad={index >= IMAGE_LAZY_LOAD_START_INDEX}
               />
               <PodcastEpisodeCard.Title
-                url={getPodcastEpisodeDetailPath({
+                url={podcastEpisodeDetailPage({
                   podcastTitle: podcastTitle || "",
                   podcastId: `${podcastId}`,
                   episodeId: `${episode.id}`,

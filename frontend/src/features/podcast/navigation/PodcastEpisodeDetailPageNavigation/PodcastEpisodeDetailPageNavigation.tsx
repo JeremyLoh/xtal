@@ -1,7 +1,6 @@
 import { memo } from "react"
 import Breadcrumb from "../../../../components/ui/breadcrumb/index.tsx"
-import { podcastHomePage } from "../../../../paths.ts"
-import { getPodcastDetailPath } from "../../../utils/navigation/pageNavigation.ts"
+import { podcastDetailPage, podcastHomePage } from "../../../../paths.ts"
 
 type PodcastEpisodeDetailPageNavigationProps = {
   podcastId: string | undefined
@@ -22,7 +21,7 @@ function PodcastEpisodeDetailPageNavigation({
       </Breadcrumb.Link>
       <Breadcrumb.Separator size={16} />
       <Breadcrumb.Link
-        href={getPodcastDetailPath({
+        href={podcastDetailPage({
           podcastTitle: podcastTitle || "",
           podcastId: podcastId || "",
         })}

@@ -5,11 +5,13 @@ type TitleProps = {
   url?: string
 }
 
+const titleLinkStyle = { textDecoration: "none", width: "fit-content" }
+
 const Title = function PodcastEpisodeCardTitle({ url }: TitleProps) {
   const { episode } = usePodcastEpisodeCardContext()
   if (url) {
     return (
-      <Link to={url} style={{ textDecoration: "none", width: "fit-content" }}>
+      <Link to={url} style={titleLinkStyle}>
         <p className="podcast-episode-card-title active-link">
           {episode.title}
         </p>
