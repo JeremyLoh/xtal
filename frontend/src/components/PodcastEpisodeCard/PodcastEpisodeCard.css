@@ -14,14 +14,14 @@
   margin-top: 0.5rem;
   margin-bottom: 0;
   font-weight: bold;
-  font-size: large;
+  font-size: 1.1rem;
 }
 .podcast-episode-card-title.active-link:hover {
   text-decoration: underline;
 }
 
 .podcast-episode-card-description {
-  font-size: 1rem;
+  font-size: 0.9rem;
   overflow-y: auto;
   max-height: 200px;
 }
@@ -38,10 +38,11 @@
 }
 
 .podcast-episode-card-play-button {
+  width: fit-content;
   gap: 0.1rem;
   margin: 1rem 0;
   font-weight: bold;
-  width: fit-content;
+  font-size: 0.9rem;
 }
 
 .podcast-episode-card-duration,
@@ -49,6 +50,7 @@
 .podcast-episode-card-explicit-indicator {
   color: var(--subtitle-text-color);
   margin: 0;
+  font-size: 0.9rem;
 }
 
 .podcast-episode-card-explicit-indicator {
