@@ -2,3 +2,8 @@
   /* add gap between wrapped react-virtuoso items, except for first item */
   margin-top: 1rem;
 }
+
+.podcast-episode-list-zero-podcasts-available {
+  margin: 1rem 0;
+  font-weight: bold;
+}

@@ -67,6 +67,12 @@ export function getExpectedEpisodeDuration(durationInSeconds: number) {
   return expectedDuration
 }
 
+export function getEpisodeDurationSelectFilter(page: Page) {
+  return page.locator(
+    ".podcast-episode-list-filters select.podcast-episode-duration-filter"
+  )
+}
+
 export function getVirtualizedListParentElement(page: Page) {
   // react-virtuoso <Virtuoso /> element container
   return page.getByTestId("virtuoso-scroller")
@@ -82,6 +88,45 @@ export async function scrollUntilElementIsVisible(
     await page.waitForTimeout(200) // wait for possible animations and image to load (swap placeholder image with real image)
   }
   await locator.scrollIntoViewIfNeeded()
+}
+
+export async function getAllVisiblePodcastEpisodeTitles(
+  page: Page
+): Promise<Set<string>> {
+  const virtualizedListParentElement = getVirtualizedListParentElement(page)
+  await expect(virtualizedListParentElement).toBeVisible()
+  const box = await virtualizedListParentElement.boundingBox()
+  if (!box) {
+    throw new Error(
+      "assertVisiblePodcastEpisodes(): could not find bounding box of virtualizedListParentElement"
+    )
+  }
+  const visibleEpisodeTitles = new Set<string>()
+  let previousScrollY = 0
+  while (true) {
+    const episodeTitleElements = await virtualizedListParentElement
+      .locator(".podcast-episode-list-item .podcast-episode-card-title")
+      .all()
+    for (const item of episodeTitleElements) {
+      const title = await item.innerText()
+      visibleEpisodeTitles.add(title)
+    }
+    const currentScrollPosition = await virtualizedListParentElement.evaluate(
+      (e: HTMLElement) => {
+        const scrollY = e.scrollTop
+        return e.clientHeight + scrollY
+      }
+    )
+    const isScrollEnd = previousScrollY === currentScrollPosition
+    if (isScrollEnd) {
+      break
+    } else {
+      previousScrollY = currentScrollPosition
+    }
+    await virtualizedListParentElement.evaluate((e) => e.scrollBy({ top: 100 }))
+    await page.waitForTimeout(200) // wait for possible animations and image to load (swap placeholder image with real image)
+  }
+  return visibleEpisodeTitles
 }
 
 export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {

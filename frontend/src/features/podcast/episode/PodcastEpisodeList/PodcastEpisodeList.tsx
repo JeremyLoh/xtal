@@ -84,6 +84,13 @@ function PodcastEpisodeList({
     [IMAGE_LAZY_LOAD_START_INDEX, podcastId, podcastTitle, handlePlayClick]
   )
 
+  if (episodes.length === 0) {
+    return (
+      <div className="podcast-episode-list-zero-podcasts-available">
+        No podcasts available
+      </div>
+    )
+  }
   return (
     <Virtuoso
       style={virtuosoStyle}
