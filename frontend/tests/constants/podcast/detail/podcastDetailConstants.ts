@@ -112,14 +112,20 @@ export async function scrollToTop(elementLocator: Locator) {
     } else {
       previousScrollY = currentScrollPosition
     }
-    await elementLocator.evaluate((e) => e.scrollBy({ top: -2000 }))
+    await elementLocator.evaluate((e) => e.scrollBy({ top: -500 }))
   }
 }
 
 export async function getAllVisiblePodcastEpisodeTitles(
   page: Page
 ): Promise<Set<string>> {
+  await expect(
+    page
+      .locator(".podcast-episode-list-item .podcast-episode-card-title")
+      .first()
+  ).toBeVisible()
   const virtualizedListParentElement = getVirtualizedListParentElement(page)
+  await virtualizedListParentElement.scrollIntoViewIfNeeded()
   await expect(virtualizedListParentElement).toBeVisible()
   const box = await virtualizedListParentElement.boundingBox()
   if (!box) {
