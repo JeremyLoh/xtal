@@ -39,24 +39,7 @@ const getSupertokensConfig = (): TypeInput => {
             {
               id: "email",
               optional: false,
-              validate: async (email) => {
-                // needs to be identical between frontend and backend
-                const values = email.split("@")
-                if (
-                  values.length === 1 ||
-                  values.length > 2 ||
-                  values[0].trim() === ""
-                ) {
-                  return "Invalid email"
-                }
-                const emailDomain = values[1]
-                const isValidEmailProvided =
-                  freeEmailDomains.includes(emailDomain)
-                if (isValidEmailProvided) {
-                  return undefined // no error
-                }
-                return "Invalid email"
-              },
+              validate: validateEmail,
             },
             {
               id: "username",
@@ -162,6 +145,20 @@ function getErrorResponse(errorMessage: string): GeneralErrorResponse {
     status: "GENERAL_ERROR",
     message: errorMessage,
   }
+}
+
+async function validateEmail(email: string) {
+  // needs to be identical between frontend and backend
+  const values = email.split("@")
+  if (values.length === 1 || values.length > 2 || values[0].trim() === "") {
+    return "Invalid email"
+  }
+  const emailDomain = values[1]
+  const isValidEmailProvided = freeEmailDomains.includes(emailDomain)
+  if (isValidEmailProvided) {
+    return undefined // no error
+  }
+  return "Invalid email"
 }
 
 async function validateUsername(username: string) {
