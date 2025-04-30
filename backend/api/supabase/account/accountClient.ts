@@ -42,6 +42,20 @@ class AccountClient {
     return notAnArray as T
   }
 
+  async isValidUsername(username: string) {
+    // check "users" table if the username is not in use by another account
+    const { count, error } = await this.supabase
+      .from("users")
+      .select("*", { count: "exact", head: true })
+      .eq("username", username)
+    if (error) {
+      throw new Error(
+        `isValidUsername(): Could not check if username (${username}) is valid. Error ${error.message}`
+      )
+    }
+    return count === 0
+  }
+
   async getPodcastFollowHistoryById(userId: string, podcastId: string) {
     const { data, error } = await this.supabase
       .from("podcast_followers")

@@ -22,20 +22,21 @@ Made using TypeScript, React and Playwright (end-to-end testing)
 
 # Packages used
 
-- Radio Browser (API for radio stations) - https://www.radio-browser.info/
-- Podcast Index (API for podcasts) - https://podcastindex.org/
-- Leaflet (Map) - https://leafletjs.com/
-- OpenStreetMap tiles (Tiles for map) - https://operations.osmfoundation.org/policies/tiles/
-- sonner (Toasts) - https://sonner.emilkowal.ski/
-- react-icons - https://react-icons.github.io/react-icons/
-- ky (HTTP requests) - https://www.npmjs.com/package/ky
-- react-hook-form - https://www.npmjs.com/package/react-hook-form
-- React Router - https://reactrouter.com/
-- media-chrome - https://www.media-chrome.org/
-- dompurify - html sanitization (**always update to the latest version**) - https://www.npmjs.com/package/dompurify
-- supertokens - https://supertokens.com/
-- supabase - https://supabase.com/
-- react-virtuoso - https://virtuoso.dev/
+- `Radio Browser` (API for radio stations) - https://www.radio-browser.info/
+- `Podcast Index` (API for podcasts) - https://podcastindex.org/
+- `Leaflet` (Map) - https://leafletjs.com/
+- `OpenStreetMap tiles` (Tiles for map) - https://operations.osmfoundation.org/policies/tiles/
+- `sonner` (Toasts) - https://sonner.emilkowal.ski/
+- `react-icons` - https://react-icons.github.io/react-icons/
+- `ky` (HTTP requests) - https://www.npmjs.com/package/ky
+- `react-hook-form` - https://www.npmjs.com/package/react-hook-form
+- `React Router` - https://reactrouter.com/
+- `media-chrome` - https://www.media-chrome.org/
+- `dompurify` - html sanitization (**always update to the latest version**) - https://www.npmjs.com/package/dompurify
+- `supertokens` - https://supertokens.com/
+- `@supabase/supabase-js` - https://supabase.com/
+- `react-virtuoso` - https://virtuoso.dev/
+- `@2toad/profanity` - https://www.npmjs.com/package/@2toad/profanity
 
 Favicon - https://favicon.io/emoji-favicons/dizzy/
 

@@ -1,11 +1,18 @@
+import { Profanity } from "@2toad/profanity"
 import freeEmailDomains from "free-email-domains"
 import jwt from "jsonwebtoken"
 import EmailPassword from "supertokens-node/recipe/emailpassword"
 import EmailVerification from "supertokens-node/recipe/emailverification"
 import SessionNode from "supertokens-node/recipe/session"
-import { TypeInput, AppInfo } from "supertokens-node/types"
+import {
+  TypeInput,
+  AppInfo,
+  GeneralErrorResponse,
+} from "supertokens-node/types"
 import { supertokensCoreInfo } from "./superTokens.js"
 import { getSupabase } from "../supabase/supabase.js"
+import AccountClient from "../supabase/account/accountClient.js"
+import logger from "../../logger.js"
 
 const appInfo: AppInfo = {
   // https://supertokens.com/docs/session/appinfo
@@ -32,24 +39,12 @@ const getSupertokensConfig = (): TypeInput => {
             {
               id: "email",
               optional: false,
-              validate: async (email) => {
-                // needs to be identical between frontend and backend
-                const values = email.split("@")
-                if (
-                  values.length === 1 ||
-                  values.length > 2 ||
-                  values[0].trim() === ""
-                ) {
-                  return "Invalid email"
-                }
-                const emailDomain = values[1]
-                const isValidEmailProvided =
-                  freeEmailDomains.includes(emailDomain)
-                if (isValidEmailProvided) {
-                  return undefined // no error
-                }
-                return "Invalid email"
-              },
+              validate: validateEmail,
+            },
+            {
+              id: "username",
+              optional: false,
+              validate: validateUsername,
             },
             { id: "password", optional: false },
           ],
@@ -61,7 +56,32 @@ const getSupertokensConfig = (): TypeInput => {
               signUpPOST: async (input) => {
                 // handle sign up
                 if (originalImplementation.signUpPOST == undefined) {
+                  logger.error("signUpPOST should not be undefined")
                   throw new Error("signUpPOST should not be undefined")
+                }
+                const usernameField = input.formFields.filter(
+                  (field) => field.id === "username"
+                )
+                if (usernameField.length !== 1) {
+                  return getErrorResponse("Username should not be empty")
+                }
+                const username = usernameField[0].value as string
+                if (usernameField[0] != null && !validateUsername(username)) {
+                  return getErrorResponse("Username is invalid")
+                }
+                const accountClient = AccountClient.getInstance()
+                try {
+                  const isValidUsername = await accountClient.isValidUsername(
+                    username
+                  )
+                  if (!isValidUsername) {
+                    return getErrorResponse("Username is not available")
+                  }
+                } catch (error: any) {
+                  logger.error(error.message)
+                  return getErrorResponse(
+                    "Could not create account. Please try again later"
+                  )
                 }
                 const response = await originalImplementation.signUpPOST(input)
                 if (
@@ -79,9 +99,13 @@ const getSupertokensConfig = (): TypeInput => {
                   const { error } = await supabase.from("users").insert({
                     user_id: response.user.id,
                     email: response.user.emails[0],
+                    username: username,
                   })
                   if (error) {
-                    throw error
+                    logger.error(error.message)
+                    return getErrorResponse(
+                      "Could not create account. Please try again later"
+                    )
                   }
                 }
                 return response
@@ -114,6 +138,67 @@ const getSupertokensConfig = (): TypeInput => {
     ],
     isInServerlessEnv: true,
   }
+}
+
+function getErrorResponse(errorMessage: string): GeneralErrorResponse {
+  return {
+    status: "GENERAL_ERROR",
+    message: errorMessage,
+  }
+}
+
+async function validateEmail(email: string) {
+  // needs to be identical between frontend and backend
+  const values = email.split("@")
+  if (values.length === 1 || values.length > 2 || values[0].trim() === "") {
+    return "Invalid email"
+  }
+  const emailDomain = values[1]
+  const isValidEmailProvided = freeEmailDomains.includes(emailDomain)
+  if (isValidEmailProvided) {
+    return undefined // no error
+  }
+  return "Invalid email"
+}
+
+async function validateUsername(username: string) {
+  // needs to be identical between frontend and backend
+  const containsWhitespaceRegex = new RegExp(/[\s]/)
+  if (containsWhitespaceRegex.test(username)) {
+    return "Invalid username. Whitespace is invalid"
+  }
+  if (username.length > 64) {
+    return "Invalid username. Exceeded max length of 64 characters"
+  }
+  if (containsProfanity(username)) {
+    return "Invalid username. Profanity detected in username"
+  }
+  const containsInvalidCharactersRegex = new RegExp(/[:/%\\]/)
+  if (containsInvalidCharactersRegex.test(username)) {
+    return "Invalid username. The following characters are not allowed: ':', '/', '%', '\\'"
+  }
+  return undefined
+}
+
+function containsProfanity(text: string) {
+  // needs to be identical between frontend and backend
+  const profanity = new Profanity({
+    wholeWord: true,
+    languages: [
+      "ar",
+      "zh",
+      "en",
+      "fr",
+      "de",
+      "hi",
+      "ja",
+      "ko",
+      "pt",
+      "ru",
+      "es",
+    ],
+  })
+  return profanity.exists(text)
 }
 
 export { getSupertokensConfig }

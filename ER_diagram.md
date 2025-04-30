@@ -14,7 +14,7 @@
   - [podcast_followers](#podcast_followers)
   - [categories](#categories)
 - [Relationships](#relationships)
-- [Database Diagram](#database-Diagram)
+- [Database Diagram](#database-diagram)
 
 ## Introduction
 
@@ -39,6 +39,7 @@
 | **user_id**    | VARCHAR(255) | 🔑 PK, not null, unique  | fk_users_user_id_podcast_followers |      |
 | **email**      | VARCHAR(255) | null                     |                                    |      |
 | **created_at** | TIMESTAMPTZ  | not null, default: now() |                                    |      |
+| **username**   | VARCHAR(255) | not null, unique         |                                    |      |
 
 ### podcast_episodes
 
@@ -76,13 +77,13 @@ Tracks podcast information
 | Name | Type | Settings | References | Note |
 |-------------|---------------|-------------------------------|-------------------------------|--------------------------------|
 | **id** | SERIAL | 🔑 PK, not null, unique | | |
-| **podcast_id** | SERIAL | not null | | |
+| **podcast_id** | SERIAL | not null, unique | | |
 | **external_website_url** | VARCHAR(255) | null | | |
 | **title** | VARCHAR(255) | not null | | |
 | **author** | VARCHAR(255) | null | | |
 | **image** | VARCHAR(255) | null | | |
 | **language** | VARCHAR(255) | null | | |
-| **publish_date_unix_timestamp** | TIMESTAMP | not null | | |
+| **publish_date_unix_timestamp** | TIMESTAMP | null | | |
 | **episode_count** | INTEGER | null | | |
 | **created_at** | TIMESTAMPTZ | not null, default: now() | | |
 
@@ -140,6 +141,7 @@ erDiagram
 		VARCHAR(255) user_id
 		VARCHAR(255) email
 		TIMESTAMPTZ created_at
+		VARCHAR(255) username
 	}
 
 	podcast_episodes {

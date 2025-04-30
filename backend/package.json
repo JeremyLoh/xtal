@@ -21,6 +21,7 @@
   "homepage": "https://github.com/JeremyLoh/xtal#readme",
   "description": "Backend for xtal application",
   "dependencies": {
+    "@2toad/profanity": "3.1.1",
     "@supabase/supabase-js": "2.49.4",
     "compression": "1.8.0",
     "cors": "2.8.5",

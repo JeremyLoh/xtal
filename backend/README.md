@@ -54,7 +54,8 @@ SUPERTOKENS_API_KEY="managed SuperTokens.com api key"
 - `jsdom` - create DOM for DOMPurify (**always update to the latest version**) - https://github.com/jsdom/jsdom
 - `sharp` - https://sharp.pixelplumbing.com/
 - `supertokens` - https://supertokens.com/
-- `supabase` - https://supabase.com/
+- `@supabase/supabase-js` - https://supabase.com/
+- `@2toad/profanity` - https://www.npmjs.com/package/@2toad/profanity
 
 # References
 

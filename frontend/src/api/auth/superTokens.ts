@@ -1,3 +1,4 @@
+import { Profanity } from "@2toad/profanity"
 import SuperTokens from "supertokens-auth-react"
 import EmailPassword from "supertokens-auth-react/recipe/emailpassword"
 import EmailVerification from "supertokens-auth-react/recipe/emailverification"
@@ -31,27 +32,14 @@ function initializeSuperTokens() {
                 label: "Email",
                 placeholder: "Email address",
                 optional: false,
-                validate: async (email) => {
-                  // needs to be identical between frontend and backend
-                  const values = email.split("@")
-                  if (
-                    values.length === 1 ||
-                    values.length > 2 ||
-                    values[0].trim() === ""
-                  ) {
-                    return "Invalid email"
-                  }
-                  const emailDomain = values[1]
-                  const { default: freeEmailDomains } = await import(
-                    "free-email-domains"
-                  )
-                  const isValidEmailProvided =
-                    freeEmailDomains.includes(emailDomain)
-                  if (isValidEmailProvided) {
-                    return undefined // no error
-                  }
-                  return "Invalid email"
-                },
+                validate: validateEmail,
+              },
+              {
+                id: "username",
+                label: "Username",
+                placeholder: "Your unique username",
+                optional: false,
+                validate: validateUsername,
               },
               {
                 id: "password",
@@ -73,6 +61,61 @@ function getSuperTokensRoutes() {
     EmailPasswordPreBuiltUI,
     EmailVerificationPreBuiltUI,
   ])
+}
+
+async function validateEmail(email: string) {
+  // needs to be identical between frontend and backend
+  const values = email.split("@")
+  if (values.length === 1 || values.length > 2 || values[0].trim() === "") {
+    return "Invalid email"
+  }
+  const emailDomain = values[1]
+  const { default: freeEmailDomains } = await import("free-email-domains")
+  const isValidEmailProvided = freeEmailDomains.includes(emailDomain)
+  if (isValidEmailProvided) {
+    return undefined // no error
+  }
+  return "Invalid email"
+}
+
+async function validateUsername(username: string) {
+  // needs to be identical between frontend and backend
+  const containsWhitespaceRegex = new RegExp(/[\s]/)
+  if (containsWhitespaceRegex.test(username)) {
+    return "Invalid username. Whitespace is invalid"
+  }
+  if (username.length > 64) {
+    return "Invalid username. Exceeded max length of 64 characters"
+  }
+  if (containsProfanity(username)) {
+    return "Invalid username. Profanity detected in username"
+  }
+  const containsInvalidCharactersRegex = new RegExp(/[:/%\\]/)
+  if (containsInvalidCharactersRegex.test(username)) {
+    return "Invalid username. The following characters are not allowed: ':', '/', '%', '\\'"
+  }
+  return undefined
+}
+
+function containsProfanity(text: string) {
+  // needs to be identical between frontend and backend
+  const profanity = new Profanity({
+    wholeWord: true,
+    languages: [
+      "ar",
+      "zh",
+      "en",
+      "fr",
+      "de",
+      "hi",
+      "ja",
+      "ko",
+      "pt",
+      "ru",
+      "es",
+    ],
+  })
+  return profanity.exists(text)
 }
 
 export { initializeSuperTokens, getSuperTokensRoutes }
