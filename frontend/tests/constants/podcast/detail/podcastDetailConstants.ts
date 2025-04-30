@@ -90,6 +90,32 @@ export async function scrollUntilElementIsVisible(
   await locator.scrollIntoViewIfNeeded()
 }
 
+export async function scrollToTop(elementLocator: Locator) {
+  await expect(elementLocator).toBeVisible()
+  const box = await elementLocator.boundingBox()
+  if (!box) {
+    throw new Error(
+      `scrollToTop(): could not find bounding box of elementLocator ${elementLocator}`
+    )
+  }
+  let previousScrollY = 0
+  while (true) {
+    const currentScrollPosition = await elementLocator.evaluate(
+      (e: HTMLElement) => {
+        const scrollY = e.scrollTop
+        return e.clientHeight + scrollY
+      }
+    )
+    const isScrollEnded = previousScrollY === currentScrollPosition
+    if (isScrollEnded) {
+      break
+    } else {
+      previousScrollY = currentScrollPosition
+    }
+    await elementLocator.evaluate((e) => e.scrollBy({ top: -2000 }))
+  }
+}
+
 export async function getAllVisiblePodcastEpisodeTitles(
   page: Page
 ): Promise<Set<string>> {
@@ -117,8 +143,8 @@ export async function getAllVisiblePodcastEpisodeTitles(
         return e.clientHeight + scrollY
       }
     )
-    const isScrollEnd = previousScrollY === currentScrollPosition
-    if (isScrollEnd) {
+    const isScrollEnded = previousScrollY === currentScrollPosition
+    if (isScrollEnded) {
       break
     } else {
       previousScrollY = currentScrollPosition

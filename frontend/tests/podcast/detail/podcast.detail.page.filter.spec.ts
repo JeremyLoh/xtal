@@ -4,6 +4,8 @@ import { HOMEPAGE } from "../../constants/homepageConstants"
 import {
   getAllVisiblePodcastEpisodeTitles,
   getEpisodeDurationSelectFilter,
+  getVirtualizedListParentElement,
+  scrollToTop,
 } from "../../constants/podcast/detail/podcastDetailConstants"
 import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
 import {
@@ -81,6 +83,78 @@ test.describe("Podcast Episode Filters on Podcast Detail Page for individual pod
       )
       for (const expectedEpisode of expectedVisibleEpisodesAfterFilter) {
         expect(visibleEpisodeTitles.has(expectedEpisode.title)).toBe(true)
+      }
+    })
+
+    test("should reset duration filter when 'All' is selected again", async ({
+      page,
+    }) => {
+      test.slow()
+      const expectedDurationsInSeconds = [
+        3600, 3601, 1, 299, 300, 301, 3603, 3604, 3605, 3606,
+      ]
+      const mockDurationPodcastEpisodes = {
+        ...defaultTenPodcastEpisodes,
+        data: {
+          ...defaultTenPodcastEpisodes.data,
+          episodes: defaultTenPodcastEpisodes.data.episodes.map(
+            (episode, index) => {
+              return {
+                ...episode,
+                durationInSeconds: expectedDurationsInSeconds[index],
+              }
+            }
+          ),
+        },
+      }
+      const durationFilterInMinutes = 5
+      const expectedVisibleEpisodesAfterFilter =
+        mockDurationPodcastEpisodes.data.episodes.filter(
+          (e) => e.durationInSeconds <= durationFilterInMinutes * 60
+        )
+      const podcastTitle = encodeURIComponent("Batman University")
+      const podcastId = "75075"
+      const limit = 10
+      await page.route(
+        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+        async (route) => {
+          const json = mockDurationPodcastEpisodes
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+      await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
+      await assertLoadingSpinnerIsMissing(page)
+
+      await expect(getEpisodeDurationSelectFilter(page)).toBeVisible()
+      await expect(getEpisodeDurationSelectFilter(page)).toHaveValue("0")
+      await getEpisodeDurationSelectFilter(page).selectOption("5")
+      await expect(getEpisodeDurationSelectFilter(page)).toHaveValue("5")
+
+      await assertLoadingSpinnerIsMissing(page)
+      const visibleEpisodeTitles = await getAllVisiblePodcastEpisodeTitles(page)
+      expect(visibleEpisodeTitles.size).toBe(
+        expectedVisibleEpisodesAfterFilter.length
+      )
+      for (const expectedEpisode of expectedVisibleEpisodesAfterFilter) {
+        expect(visibleEpisodeTitles.has(expectedEpisode.title)).toBe(true)
+      }
+
+      await getEpisodeDurationSelectFilter(page).selectOption("0")
+      await expect(getEpisodeDurationSelectFilter(page)).toHaveValue("0")
+      await assertLoadingSpinnerIsMissing(page)
+
+      await scrollToTop(getVirtualizedListParentElement(page))
+
+      const zeroDurationFilterVisibleEpisodeTitles =
+        await getAllVisiblePodcastEpisodeTitles(page)
+      expect(zeroDurationFilterVisibleEpisodeTitles.size).toBe(
+        mockDurationPodcastEpisodes.data.episodes.length
+      )
+      for (const expectedEpisode of mockDurationPodcastEpisodes.data.episodes) {
+        expect(
+          zeroDurationFilterVisibleEpisodeTitles.has(expectedEpisode.title)
+        ).toBe(true)
       }
     })
 
