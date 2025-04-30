@@ -64,6 +64,37 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     )
   })
 
+  test("should display podcast info without last active time when podcast latestPublishTime is missing", async ({
+    page,
+  }) => {
+    test.slow()
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { latestPublishTime, ...podcastWithoutLatestPublishTime } =
+      podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes.data
+        .podcast
+    const podcastWithoutLastPublishTime = {
+      ...podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes,
+      data: {
+        ...podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes.data,
+        podcast: podcastWithoutLatestPublishTime,
+      },
+    }
+    const podcastTitle = "99%25%20Invisible" // "99% Invisible"
+    const podcastId = "387129"
+    const limit = 10
+    await page.route(
+      `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+      async (route) => {
+        const json = podcastWithoutLastPublishTime
+        await route.fulfill({ json })
+      }
+    )
+    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+    await expect(page).toHaveTitle(/99% Invisible - xtal - podcasts/)
+    await assertPodcastInfo(page, podcastWithoutLastPublishTime.data.podcast)
+    await assertPodcastEpisodes(page, podcastWithoutLastPublishTime)
+  })
+
   test.describe("cache data", () => {
     test("should use cached podcast episode values after page refresh of first successful request", async ({
       page,

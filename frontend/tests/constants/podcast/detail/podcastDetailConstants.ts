@@ -1,12 +1,14 @@
 import { expect, Locator, Page } from "@playwright/test"
 import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime.js"
 import duration from "dayjs/plugin/duration.js"
 import { Podcast } from "../../../../src/api/podcast/model/podcast.ts"
 
+dayjs.extend(relativeTime)
 dayjs.extend(duration)
 
-function getPodcastInfoElement(page: Page, text: string) {
-  return page.locator(".podcast-info-container").getByText(text, {
+function getPodcastInfoElement(page: Page, textMatch: string | RegExp) {
+  return page.locator(".podcast-info-container").getByText(textMatch, {
     exact: true,
   })
 }
@@ -37,6 +39,20 @@ export async function assertPodcastInfo(page: Page, expectedPodcast: Podcast) {
     getPodcastInfoElement(page, expectedPodcast.language),
     "Podcast Info Language should be present"
   ).toBeVisible()
+  if (expectedPodcast.latestPublishTime != undefined) {
+    const lastActiveTimeString =
+      "Last Active " + dayjs.unix(expectedPodcast.latestPublishTime).fromNow()
+    await expect(
+      getPodcastInfoElement(page, lastActiveTimeString),
+      "Podcast Info Last Active Time should be present"
+    ).toBeVisible()
+  } else {
+    // WARNING: perform text check for just "last active" word (might collide with other podcast info card text (e.g. title containing "last active" word))
+    await expect(
+      getPodcastInfoElement(page, new RegExp(/last active/i)),
+      "Podcast Info Last Active Time should NOT be present"
+    ).not.toBeVisible()
+  }
   await expect(
     getPodcastInfoElement(
       page,
