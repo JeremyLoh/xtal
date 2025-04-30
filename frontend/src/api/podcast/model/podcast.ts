@@ -6,6 +6,7 @@ type Podcast = {
   description: string // could contain html elements
   author: string
   image: string
+  latestPublishTime?: number // unix timestamp in seconds
   language: string
   categories: string[]
   episodeCount?: number
