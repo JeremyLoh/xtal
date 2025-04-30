@@ -1,8 +1,10 @@
 import { expect, Locator, Page } from "@playwright/test"
 import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime.js"
 import duration from "dayjs/plugin/duration.js"
 import { Podcast } from "../../../../src/api/podcast/model/podcast.ts"
 
+dayjs.extend(relativeTime)
 dayjs.extend(duration)
 
 function getPodcastInfoElement(page: Page, text: string) {
@@ -37,6 +39,15 @@ export async function assertPodcastInfo(page: Page, expectedPodcast: Podcast) {
     getPodcastInfoElement(page, expectedPodcast.language),
     "Podcast Info Language should be present"
   ).toBeVisible()
+  console.log({ expectedPodcast })
+  if (expectedPodcast.latestPublishTime != undefined) {
+    const lastActiveTimeString =
+      "Last Active " + dayjs.unix(expectedPodcast.latestPublishTime).fromNow()
+    await expect(
+      getPodcastInfoElement(page, lastActiveTimeString),
+      "Podcast Info Last Active Time should be present"
+    ).toBeVisible()
+  }
   await expect(
     getPodcastInfoElement(
       page,

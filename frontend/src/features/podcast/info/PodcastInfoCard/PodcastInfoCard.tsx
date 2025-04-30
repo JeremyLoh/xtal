@@ -29,6 +29,7 @@ function PodcastInfoCard({ podcast }: PodcastInfoCardProps) {
         <PodcastCard.Artwork size={isMobile ? 144 : 200} />
         <div>
           <PodcastCard.TitleAndAuthor variant="large" />
+          <PodcastCard.LastActiveTime />
           <div className="podcast-info-card-pill-container">
             <PodcastCard.EpisodeCount />
             <PodcastCard.Language />
