@@ -11,7 +11,11 @@ const Categories = function PodcastCardCategories() {
     podcast.categories &&
     podcast.categories.map((category, index) => {
       return (
-        <Link to={podcastCategoryPage(category)} style={categoryLinkStyle}>
+        <Link
+          key={`category-link-${category}`}
+          to={podcastCategoryPage(category)}
+          style={categoryLinkStyle}
+        >
           <Pill key={`${category}-${index}`}>{category}</Pill>
         </Link>
       )

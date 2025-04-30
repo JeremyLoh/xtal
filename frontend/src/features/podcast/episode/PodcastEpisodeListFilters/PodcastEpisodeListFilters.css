@@ -1,0 +1,24 @@
+.podcast-episode-list-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.podcast-episode-duration-filter,
+.podcast-episode-duration-filter option {
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+.podcast-episode-duration-filter {
+  padding: 0.5rem;
+  transition: filter 0.2s;
+}
+.podcast-episode-duration-filter:hover {
+  filter: brightness(0.8);
+}
+
+.podcast-episode-duration-filter option {
+  padding: 1rem;
+}

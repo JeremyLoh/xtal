@@ -9,6 +9,10 @@ import usePodcastEpisodes from "../../../hooks/podcast/usePodcastEpisodes.ts"
 import Pagination from "../../../components/Pagination/Pagination.tsx"
 import PodcastDetailPageNavigation from "../../../features/podcast/navigation/PodcastDetailPageNavigation/PodcastDetailPageNavigation.tsx"
 import Button from "../../../components/ui/button/Button.tsx"
+import PodcastEpisodeListFilters, {
+  PodcastEpisodeListFiltersType,
+} from "../../../features/podcast/episode/PodcastEpisodeListFilters/PodcastEpisodeListFilters.tsx"
+import { PodcastEpisode } from "../../../api/podcast/model/podcast.ts"
 
 const LIMIT = 10
 const IMAGE_LAZY_LOAD_START_INDEX = 2 // zero based index
@@ -18,6 +22,8 @@ export default function PodcastDetailPage() {
   const [searchParams] = useSearchParams()
   const pageParam = searchParams.get("page")
   const [page, setPage] = useState<number>(parseToPageInt(pageParam))
+  const [episodeFilter, setEpisodeFilter] =
+    useState<PodcastEpisodeListFiltersType>({})
   const podcastEpisodeSearchOptions = useMemo(() => {
     return { podcastId, page, limit: LIMIT }
   }, [podcastId, page])
@@ -68,6 +74,41 @@ export default function PodcastDetailPage() {
     [fetchPodcastEpisodes, podcastId]
   )
 
+  const handleEpisodeFilterChange = useCallback(
+    ({ durationInMinutes }: PodcastEpisodeListFiltersType) => {
+      if (durationInMinutes != null) {
+        setEpisodeFilter({ ...episodeFilter, durationInMinutes })
+      } else {
+        setEpisodeFilter({})
+      }
+    },
+    [episodeFilter]
+  )
+
+  const applyEpisodeFilter = useCallback((): PodcastEpisode[] => {
+    if (podcastEpisodes == null) {
+      return []
+    }
+    let filteredEpisodes = podcastEpisodes
+    if (
+      episodeFilter.durationInMinutes != null &&
+      episodeFilter.durationInMinutes > 0
+    ) {
+      filteredEpisodes = filteredEpisodes.filter((episode) => {
+        if (episode.durationInSeconds == null) {
+          return true
+        }
+        if (episodeFilter.durationInMinutes) {
+          return (
+            episode.durationInSeconds <= episodeFilter.durationInMinutes * 60
+          )
+        }
+        return true
+      })
+    }
+    return filteredEpisodes
+  }, [podcastEpisodes, episodeFilter])
+
   useEffect(() => {
     if (podcastTitle) {
       document.title = `${podcastTitle} - xtal - podcasts`
@@ -102,12 +143,18 @@ export default function PodcastDetailPage() {
       <LoadingDisplay loading={loading || paginationDataLoading}>
         <div className="podcast-episode-container">
           {podcastEpisodes ? (
-            <PodcastEpisodeList
-              IMAGE_LAZY_LOAD_START_INDEX={IMAGE_LAZY_LOAD_START_INDEX}
-              episodes={podcastEpisodes}
-              podcastTitle={podcastTitle}
-              podcastId={podcastId}
-            />
+            <>
+              <PodcastEpisodeListFilters
+                filters={episodeFilter}
+                onChange={handleEpisodeFilterChange}
+              />
+              <PodcastEpisodeList
+                IMAGE_LAZY_LOAD_START_INDEX={IMAGE_LAZY_LOAD_START_INDEX}
+                episodes={applyEpisodeFilter()}
+                podcastTitle={podcastTitle}
+                podcastId={podcastId}
+              />
+            </>
           ) : (
             <div className="podcast-episode-placeholder-section">
               <p className="podcast-episode-error-text">
