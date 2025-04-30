@@ -35,22 +35,23 @@ Listen to the world (radio & podcasts) with xtal, a fast and responsive mobile /
 
 ## Packages used
 
-- Radio Browser (API for radio stations) - https://www.radio-browser.info/
-- Podcast Index (API for podcasts) - https://podcastindex.org/
-- Leaflet (Map) - https://leafletjs.com/
-- OpenStreetMap tiles (Tiles for map) - https://operations.osmfoundation.org/policies/tiles/
-- sonner (Toasts) - https://sonner.emilkowal.ski/
-- react-icons - https://react-icons.github.io/react-icons/
-- ky (HTTP requests) - https://www.npmjs.com/package/ky
-- react-hook-form - https://www.npmjs.com/package/react-hook-form
-- React Router - https://reactrouter.com/
-- media-chrome - https://www.media-chrome.org/
-- dompurify - html sanitization (**always update to the latest version**) - https://www.npmjs.com/package/dompurify
-- jsdom - create DOM for DOMPurify (for backend) (**always update to the latest version**) - https://github.com/jsdom/jsdom
-- supertokens - https://supertokens.com/
-- sharp - https://sharp.pixelplumbing.com/
-- supabase - https://supabase.com/
-- react-virtuoso - https://virtuoso.dev/
+- `Radio Browser` (API for radio stations) - https://www.radio-browser.info/
+- `Podcast Index` (API for podcasts) - https://podcastindex.org/
+- `Leaflet` (Map) - https://leafletjs.com/
+- `OpenStreetMap tiles` (Tiles for map) - https://operations.osmfoundation.org/policies/tiles/
+- `sonner` (Toasts) - https://sonner.emilkowal.ski/
+- `react-icons` - https://react-icons.github.io/react-icons/
+- `ky` (HTTP requests) - https://www.npmjs.com/package/ky
+- `react-hook-form` - https://www.npmjs.com/package/react-hook-form
+- `React Router` - https://reactrouter.com/
+- `media-chrome` - https://www.media-chrome.org/
+- `dompurify` - html sanitization (**always update to the latest version**) - https://www.npmjs.com/package/dompurify
+- `jsdom` - create DOM for DOMPurify (for backend) (**always update to the latest version**) - https://github.com/jsdom/jsdom
+- `supertokens` - https://supertokens.com/
+- `sharp` - https://sharp.pixelplumbing.com/
+- `@supabase/supabase-js` - https://supabase.com/
+- `react-virtuoso` - https://virtuoso.dev/
+- `@2toad/profanity` - https://www.npmjs.com/package/@2toad/profanity
 
 # Setup
 
