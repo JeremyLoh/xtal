@@ -47,7 +47,7 @@ export async function assertPodcastInfo(page: Page, expectedPodcast: Podcast) {
       "Podcast Info Last Active Time should be present"
     ).toBeVisible()
   } else {
-    // WARNING: perform text check for just "last active" word (might collide with other podcast info card text (e.g. title))
+    // WARNING: perform text check for just "last active" word (might collide with other podcast info card text (e.g. title containing "last active" word))
     await expect(
       getPodcastInfoElement(page, new RegExp(/last active/i)),
       "Podcast Info Last Active Time should NOT be present"
