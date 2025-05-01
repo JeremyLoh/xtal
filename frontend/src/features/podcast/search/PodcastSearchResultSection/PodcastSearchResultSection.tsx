@@ -31,7 +31,7 @@ const gridComponents: GridComponents<Podcast> | undefined = {
 }
 
 type PodcastSearchResultSectionType = {
-  podcasts: Podcast[] | null
+  podcasts: Podcast[]
 }
 
 function PodcastSearchResultSection({
@@ -67,9 +67,7 @@ function PodcastSearchResultSection({
     [isMobile, podcasts]
   )
 
-  console.log({ podcasts })
-
-  if (podcasts == null || podcasts.length === 0) {
+  if (podcasts.length === 0) {
     return (
       <div className="podcast-search-result-empty">
         <RxInfoCircled size={32} />

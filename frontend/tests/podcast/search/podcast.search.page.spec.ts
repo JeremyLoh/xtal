@@ -13,6 +13,15 @@ test.describe("Podcast Search Page /podcasts/search", () => {
     )
   }
 
+  function replaceWhitespaceWithPlusSymbol(text: string) {
+    let output = text
+    const regex = new RegExp(/ /g)
+    while (regex.test(output)) {
+      output = output.replace(regex, "+")
+    }
+    return output
+  }
+
   async function assertPodcastSearchSectionIsVisible(page: Page) {
     await expect(page.locator(".podcast-search-bar")).toBeVisible()
   }
@@ -78,7 +87,9 @@ test.describe("Podcast Search Page /podcasts/search", () => {
     const query = "syntax"
     const limit = 10
     await page.route(
-      `*/**/api/podcast/search?q=${query}&limit=${limit}`,
+      `*/**/api/podcast/search?q=${replaceWhitespaceWithPlusSymbol(
+        query
+      )}&limit=${limit}`,
       async (route) => {
         const json = podcastSearch_similarTerm_syntax_limit_10
         await route.fulfill({ json })
@@ -103,7 +114,9 @@ test.describe("Podcast Search Page /podcasts/search", () => {
     const query = "syntax"
     const limit = 10
     await page.route(
-      `*/**/api/podcast/search?q=${query}&limit=${limit}`,
+      `*/**/api/podcast/search?q=${replaceWhitespaceWithPlusSymbol(
+        query
+      )}&limit=${limit}`,
       async (route) => {
         const json = podcastSearch_similarTerm_syntax_limit_10
         await route.fulfill({ json })
@@ -137,8 +150,11 @@ test.describe("Podcast Search Page /podcasts/search", () => {
     test.slow()
     const query = "zero podcast data"
     const limit = 10
+    // replace any whitespace to "+" for the api mock endpoint
     await page.route(
-      `*/**/api/podcast/search?q=${query}&limit=${limit}`,
+      `*/**/api/podcast/search?q=${replaceWhitespaceWithPlusSymbol(
+        query
+      )}&limit=${limit}`,
       async (route) => {
         const json = []
         await route.fulfill({ json })

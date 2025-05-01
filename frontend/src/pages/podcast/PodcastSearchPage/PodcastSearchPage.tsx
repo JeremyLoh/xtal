@@ -10,7 +10,11 @@ const LIMIT = 10
 
 export default function PodcastSearchPage() {
   const [searchParams] = useSearchParams()
-  const { loading, podcasts, fetchPodcastsBySearchQuery } = usePodcastSearch()
+  const {
+    loading: loadingPodcasts,
+    podcasts,
+    fetchPodcastsBySearchQuery,
+  } = usePodcastSearch()
 
   useEffect(() => {
     if (!searchParams.has("q")) {
@@ -42,8 +46,8 @@ export default function PodcastSearchPage() {
         </div>
       )}
       <PodcastSearchSection />
-      <LoadingDisplay loading={loading}>
-        <PodcastSearchResultSection podcasts={podcasts} />
+      <LoadingDisplay loading={loadingPodcasts}>
+        <PodcastSearchResultSection podcasts={podcasts || []} />
       </LoadingDisplay>
     </div>
   )
