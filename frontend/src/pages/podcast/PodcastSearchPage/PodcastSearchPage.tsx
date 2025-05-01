@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import usePodcastSearch from "../../../hooks/podcast/usePodcastSearch.ts"
 import PodcastSearchResultSection from "../../../features/podcast/search/PodcastSearchResultSection/PodcastSearchResultSection.tsx"
+import PodcastSearchSection from "../../../features/podcast/search/PodcastSearchSection/PodcastSearchSection.tsx"
 
 const LIMIT = 10
 
@@ -33,13 +34,14 @@ export default function PodcastSearchPage() {
   return (
     <div id="podcast-search-page-container">
       {searchParams.has("q") && (
-        <p>
+        <div>
           Showing results for{" "}
           <span className="podcast-search-query-text">
             {searchParams.get("q")}
           </span>
-        </p>
+        </div>
       )}
+      <PodcastSearchSection />
       <LoadingDisplay loading={loading}>
         <PodcastSearchResultSection podcasts={podcasts} />
       </LoadingDisplay>

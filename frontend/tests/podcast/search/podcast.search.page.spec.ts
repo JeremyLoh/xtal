@@ -13,6 +13,10 @@ test.describe("Podcast Search Page /podcasts/search", () => {
     )
   }
 
+  async function assertPodcastSearchSectionIsVisible(page: Page) {
+    await expect(page.locator(".podcast-search-bar")).toBeVisible()
+  }
+
   async function getPodcastTitleAndAuthorLink(
     page: Page,
     podcastTitle: string
@@ -87,6 +91,7 @@ test.describe("Podcast Search Page /podcasts/search", () => {
     await expect(
       page.getByText(`Showing results for ${query}`, { exact: true })
     ).toBeVisible()
+    await assertPodcastSearchSectionIsVisible(page)
     const expectedPodcasts = podcastSearch_similarTerm_syntax_limit_10.data
     await assertPodcastsAreVisible(page, expectedPodcasts)
   })
