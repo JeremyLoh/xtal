@@ -4,7 +4,6 @@ import { getPodcastSearch } from "../../api/podcast/podcastSearch.ts"
 import { Podcast } from "../../api/podcast/model/podcast.ts"
 
 function usePodcastSearch() {
-  // TODO add cache for search query
   const abortController = useRef<AbortController | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
