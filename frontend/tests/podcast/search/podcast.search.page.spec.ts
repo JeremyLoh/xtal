@@ -130,4 +130,30 @@ test.describe("Podcast Search Page /podcasts/search", () => {
     await titleElement.click()
     expect(page.url()).toMatch(expectedPodcastDetailPageUrl)
   })
+
+  test("should display no podcast found message when query result is empty", async ({
+    page,
+  }) => {
+    test.slow()
+    const query = "zero podcast data"
+    const limit = 10
+    await page.route(
+      `*/**/api/podcast/search?q=${query}&limit=${limit}`,
+      async (route) => {
+        const json = []
+        await route.fulfill({ json })
+      }
+    )
+    await navigateToPodcastSearchPage(page, query)
+    await expect(page).toHaveURL(
+      HOMEPAGE + `/podcasts/search?q=${encodeURIComponent(query)}`
+    )
+    await expect(
+      page.getByText(`Showing results for ${query}`, { exact: true })
+    ).toBeVisible()
+    await expect(page.getByText("No results found")).toBeVisible()
+    await expect(
+      page.getByText("Try searching again using different spelling or keywords")
+    ).toBeVisible()
+  })
 })

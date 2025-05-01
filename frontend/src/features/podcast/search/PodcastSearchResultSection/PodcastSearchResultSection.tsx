@@ -1,6 +1,7 @@
 import "./PodcastSearchResultSection.css"
 import { forwardRef, memo, useCallback, useMemo } from "react"
 import { Link } from "react-router"
+import { RxInfoCircled } from "react-icons/rx"
 import { GridComponents, VirtuosoGrid } from "react-virtuoso"
 import { Podcast } from "../../../../api/podcast/model/podcast.ts"
 import useScreenDimensions from "../../../../hooks/useScreenDimensions.ts"
@@ -66,8 +67,16 @@ function PodcastSearchResultSection({
     [isMobile, podcasts]
   )
 
-  if (podcasts == null) {
-    return null
+  console.log({ podcasts })
+
+  if (podcasts == null || podcasts.length === 0) {
+    return (
+      <div className="podcast-search-result-empty">
+        <RxInfoCircled size={32} />
+        <p>No results found.</p>
+        <p>Try searching again using different spelling or keywords</p>
+      </div>
+    )
   }
   return (
     <VirtuosoGrid

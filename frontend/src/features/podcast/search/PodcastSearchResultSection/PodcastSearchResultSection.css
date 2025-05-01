@@ -16,3 +16,15 @@
 .podcast-search-result-card-detail-link:hover {
   text-decoration: underline;
 }
+
+.podcast-search-result-empty {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+.podcast-search-result-empty p {
+  margin: 0;
+}
