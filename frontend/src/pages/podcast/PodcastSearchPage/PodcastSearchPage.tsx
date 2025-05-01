@@ -3,10 +3,13 @@ import { useEffect } from "react"
 import { useSearchParams } from "react-router"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import usePodcastSearch from "../../../hooks/podcast/usePodcastSearch.ts"
+import PodcastSearchResultSection from "../../../features/podcast/search/PodcastSearchResultSection/PodcastSearchResultSection.tsx"
+
+const LIMIT = 10
 
 export default function PodcastSearchPage() {
   const [searchParams] = useSearchParams()
-  const { loading } = usePodcastSearch()
+  const { loading, podcasts, fetchPodcastsBySearchQuery } = usePodcastSearch()
 
   useEffect(() => {
     if (!searchParams.has("q")) {
@@ -15,6 +18,17 @@ export default function PodcastSearchPage() {
     const query = searchParams.get("q")
     document.title = `Showing results for ${query} - xtal - podcasts`
   }, [searchParams])
+
+  useEffect(() => {
+    if (!searchParams.has("q")) {
+      return
+    }
+    const query = searchParams.get("q")
+    if (query == null || query.trim() === "") {
+      return
+    }
+    fetchPodcastsBySearchQuery(query.trim(), LIMIT)
+  }, [searchParams, fetchPodcastsBySearchQuery])
 
   return (
     <div id="podcast-search-page-container">
@@ -26,7 +40,9 @@ export default function PodcastSearchPage() {
           </span>
         </p>
       )}
-      <LoadingDisplay loading={loading}></LoadingDisplay>
+      <LoadingDisplay loading={loading}>
+        <PodcastSearchResultSection podcasts={podcasts} />
+      </LoadingDisplay>
     </div>
   )
 }
