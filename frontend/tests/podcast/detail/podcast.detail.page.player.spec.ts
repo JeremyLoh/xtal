@@ -6,7 +6,7 @@ import { HOMEPAGE } from "../../constants/homepageConstants"
 import {
   getVirtualizedListParentElement,
   scrollUntilElementIsVisible,
-} from "../../constants/podcast/detail/podcastDetailConstants"
+} from "../../constants/scroller/scrollerConstants"
 
 dayjs.extend(duration)
 

@@ -4,14 +4,16 @@ import { HOMEPAGE } from "../../constants/homepageConstants"
 import {
   getAllVisiblePodcastEpisodeTitles,
   getEpisodeDurationSelectFilter,
-  getVirtualizedListParentElement,
-  scrollToTop,
 } from "../../constants/podcast/detail/podcastDetailConstants"
 import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
 import {
   getActivePageNumberElement,
   getNextPaginationButton,
 } from "../../constants/podcast/pagination/podcastDetailPagination"
+import {
+  getVirtualizedListParentElement,
+  scrollToTop,
+} from "../../constants/scroller/scrollerConstants"
 
 test.describe("Podcast Episode Filters on Podcast Detail Page for individual podcast", () => {
   test.describe("filter episode by duration", () => {

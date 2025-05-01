@@ -3,13 +3,11 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import { useNavigate } from "react-router"
 import { useSessionContext } from "supertokens-auth-react/recipe/session/index"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
-import SearchBar from "../../../components/SearchBar/SearchBar.tsx"
+import PodcastSearchSection from "../../../features/podcast/search/PodcastSearchSection/PodcastSearchSection.tsx"
 import TrendingPodcastSection from "../../../features/podcast/trending/TrendingPodcastSection/TrendingPodcastSection.tsx"
 import PodcastCategorySection from "../../../features/podcast/category/PodcastCategorySection/PodcastCategorySection.tsx"
 import useTrendingPodcasts from "../../../hooks/podcast/useTrendingPodcasts.ts"
 import usePodcastCategory from "../../../hooks/podcast/usePodcastCategory.ts"
-import usePodcastSearch from "../../../hooks/podcast/usePodcastSearch.ts"
-import PodcastSearchResultList from "../../../features/podcast/search/PodcastSearchResultList/PodcastSearchResultList.tsx"
 import { TrendingPodcastFiltersType } from "../../../api/podcast/model/podcast.ts"
 import Button from "../../../components/ui/button/Button.tsx"
 import { profileHistoryPage } from "../../../paths.ts"
@@ -24,11 +22,6 @@ export default function PodcastHomePage() {
       limit: LIMIT,
     }
   }, [])
-  const {
-    loading: loadingSearchPodcasts,
-    podcasts: searchPodcasts,
-    fetchPodcastsBySearchQuery,
-  } = usePodcastSearch()
   const {
     DEFAULT_SINCE_DAYS,
     trendingPodcasts,
@@ -57,14 +50,6 @@ export default function PodcastHomePage() {
     [handleTrendingPodcastRefresh]
   )
 
-  const handlePodcastSearch = useCallback(
-    async (query: string) => {
-      const podcastSearchLimit = 10
-      fetchPodcastsBySearchQuery(query, podcastSearchLimit)
-    },
-    [fetchPodcastsBySearchQuery]
-  )
-
   const handleNavigateToProfileHistory = useCallback(() => {
     navigate(profileHistoryPage())
   }, [navigate])
@@ -91,16 +76,7 @@ export default function PodcastHomePage() {
           Profile History
         </Button>
       )}
-      <div>
-        <SearchBar
-          className="podcast-search-bar"
-          placeholder="Search Podcasts..."
-          onChange={handlePodcastSearch}
-        />
-        <LoadingDisplay loading={loadingSearchPodcasts}>
-          <PodcastSearchResultList results={searchPodcasts} />
-        </LoadingDisplay>
-      </div>
+      <PodcastSearchSection />
       <LoadingDisplay loading={loadingCategories}>
         <PodcastCategorySection
           categories={categories}

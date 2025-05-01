@@ -12,9 +12,11 @@ import {
   assertPodcastEpisodes,
   assertPodcastInfo,
   getExpectedEpisodeDuration,
+} from "../../constants/podcast/detail/podcastDetailConstants.ts"
+import {
   getVirtualizedListParentElement,
   scrollUntilElementIsVisible,
-} from "../../constants/podcast/detail/podcastDetailConstants.ts"
+} from "../../constants/scroller/scrollerConstants.ts"
 
 test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITLE/PODCAST-ID", () => {
   test("should display podcast detail page", async ({ page }) => {

@@ -1,0 +1,30 @@
+.podcast-search-result-section-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  width: 100%;
+}
+
+.podcast-search-result-item {
+  width: 100%;
+}
+
+.podcast-search-result-card-detail-link {
+  text-decoration: none;
+  width: 100%;
+}
+.podcast-search-result-card-detail-link:hover {
+  text-decoration: underline;
+}
+
+.podcast-search-result-empty {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+.podcast-search-result-empty p {
+  margin: 0;
+}

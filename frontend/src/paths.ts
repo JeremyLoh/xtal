@@ -6,6 +6,8 @@ export const signUpPage = () => "/auth?show=signup"
 export const notFoundPage = () => "/404"
 export const resetPasswordPage = () => "/auth/reset-password"
 export const podcastHomePage = () => "/podcasts"
+export const podcastSearchPage = (query: string) =>
+  `/podcasts/search?q=${encodeURIComponent(query)}`
 export const podcastCategoryPage = (categoryName: string) => {
   // category should be in Title Case format (e.g. "Arts")
   if (categoryName.trim() === "") {
