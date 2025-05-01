@@ -1,0 +1,12 @@
+#podcast-search-page-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin: 1rem auto;
+  gap: 0.5rem;
+}
+
+.podcast-search-query-text {
+  font-weight: bold;
+}

@@ -159,4 +159,117 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
     await clickSearchResultTitle(page, podcastIndex)
     expect(page.url()).toMatch(expectedPodcastDetailPageUrl)
   })
+
+  test.describe("redirect user to podcast search page", () => {
+    async function assertPodcastSearchPageTitle(page: Page, query: string) {
+      await expect(page).toHaveTitle(
+        `Showing results for ${query} - xtal - podcasts`
+      )
+    }
+
+    test("should redirect user to podcast search page if keyboard enter key is pressed", async ({
+      page,
+    }) => {
+      const query = "syntax"
+      const limit = 10
+      await page.route(
+        `*/**/api/podcast/search?q=${query}&limit=${limit}`,
+        async (route) => {
+          const json = podcastSearch_similarTerm_syntax_limit_10
+          await route.fulfill({ json })
+        }
+      )
+      await page.goto(HOMEPAGE + "/podcasts")
+      await expect(getPodcastSearchInput(page)).toBeVisible()
+      await getPodcastSearchInput(page).fill(query)
+      await page.keyboard.press("Enter")
+      await expect(page).toHaveURL(
+        HOMEPAGE + `/podcasts/search?q=${encodeURIComponent(query)}`
+      )
+      await assertPodcastSearchPageTitle(page, query)
+      await expect(
+        page.getByText(`Showing results for ${query}`, { exact: true })
+      ).toBeVisible()
+    })
+
+    test("should not redirect user to podcast search page if search input is empty and keyboard enter key is pressed", async ({
+      page,
+    }) => {
+      await page.route(`*/**/api/podcast/search?**`, async (route) => {
+        const json = []
+        await route.fulfill({ json })
+      })
+      await page.goto(HOMEPAGE + "/podcasts")
+      await expect(getPodcastSearchInput(page)).toBeVisible()
+      await getPodcastSearchInput(page).click()
+      await page.keyboard.press("Enter")
+      await expect(page).toHaveURL(HOMEPAGE + "/podcasts")
+
+      await getPodcastSearchInput(page).fill(" ") // ensure whitespace input is ignored
+      await page.keyboard.press("Enter")
+      await expect(page).toHaveURL(HOMEPAGE + "/podcasts")
+    })
+
+    test("should handle percent symbol in search input", async ({ page }) => {
+      const query = "99% Invisible"
+      await page.route(`*/**/api/podcast/search?**`, async (route) => {
+        const json = []
+        await route.fulfill({ json })
+      })
+      await page.goto(HOMEPAGE + "/podcasts")
+      await expect(getPodcastSearchInput(page)).toBeVisible()
+      await getPodcastSearchInput(page).fill(query)
+      await page.keyboard.press("Enter")
+      await expect(page).toHaveURL(
+        HOMEPAGE + `/podcasts/search?q=${encodeURIComponent(query)}`
+      )
+      await assertPodcastSearchPageTitle(page, query)
+      await expect(
+        page.getByText(`Showing results for ${query}`, { exact: true })
+      ).toBeVisible()
+    })
+
+    test("should handle forward slash and back slash symbol in search input", async ({
+      page,
+    }) => {
+      const query = "/ \\"
+      await page.route(`*/**/api/podcast/search?**`, async (route) => {
+        const json = []
+        await route.fulfill({ json })
+      })
+      await page.goto(HOMEPAGE + "/podcasts")
+      await expect(getPodcastSearchInput(page)).toBeVisible()
+      await getPodcastSearchInput(page).fill(query)
+      await page.keyboard.press("Enter")
+      await expect(page).toHaveURL(
+        HOMEPAGE + `/podcasts/search?q=${encodeURIComponent(query)}`
+      )
+      await assertPodcastSearchPageTitle(page, query)
+      await expect(
+        page.getByText(`Showing results for ${query}`, { exact: true })
+      ).toBeVisible()
+    })
+
+    test("should handle non english characters in search input", async ({
+      page,
+    }) => {
+      // https://sakuratips.com/
+      const query = "sakuratips ゴールデンウィーク Golden Week"
+      await page.route(`*/**/api/podcast/search?**`, async (route) => {
+        const json = []
+        await route.fulfill({ json })
+      })
+      await page.goto(HOMEPAGE + "/podcasts")
+      await expect(getPodcastSearchInput(page)).toBeVisible()
+      await getPodcastSearchInput(page).fill(query)
+      await page.keyboard.press("Enter")
+      await expect(page).toHaveURL(
+        HOMEPAGE + `/podcasts/search?q=${encodeURIComponent(query)}`
+      )
+      await assertPodcastSearchPageTitle(page, query)
+      await expect(
+        page.getByText(`Showing results for ${query}`, { exact: true })
+      ).toBeVisible()
+    })
+  })
 })
