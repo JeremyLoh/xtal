@@ -8,3 +8,11 @@
 .podcast-search-result-item {
   width: 100%;
 }
+
+.podcast-search-result-card-detail-link {
+  text-decoration: none;
+  width: 100%;
+}
+.podcast-search-result-card-detail-link:hover {
+  text-decoration: underline;
+}

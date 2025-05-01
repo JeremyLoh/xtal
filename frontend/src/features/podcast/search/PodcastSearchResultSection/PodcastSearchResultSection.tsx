@@ -1,9 +1,11 @@
 import "./PodcastSearchResultSection.css"
 import { forwardRef, memo, useCallback, useMemo } from "react"
+import { Link } from "react-router"
 import { GridComponents, VirtuosoGrid } from "react-virtuoso"
 import { Podcast } from "../../../../api/podcast/model/podcast.ts"
 import useScreenDimensions from "../../../../hooks/useScreenDimensions.ts"
 import PodcastCard from "../../../../components/PodcastCard/index.tsx"
+import { podcastDetailPage } from "../../../../paths.ts"
 
 // Ensure that this stays out of the component,
 // Otherwise the grid will remount with each render due to new component instances.
@@ -45,10 +47,19 @@ function PodcastSearchResultSection({
         return null
       }
       const podcast = podcasts[index]
+      const podcastDetailUrl = podcastDetailPage({
+        podcastId: `${podcast.id}`,
+        podcastTitle: `${podcast.title}`,
+      })
       return (
         <PodcastCard podcast={podcast}>
           <PodcastCard.Artwork size={isMobile ? 96 : 144} />
-          <PodcastCard.TitleAndAuthor />
+          <Link
+            to={podcastDetailUrl}
+            className="podcast-search-result-card-detail-link"
+          >
+            <PodcastCard.TitleAndAuthor />
+          </Link>
         </PodcastCard>
       )
     },
