@@ -234,7 +234,9 @@ describe("GET /api/podcast/episodes", () => {
         latestPublishTime: podcastResponse.feed.lastUpdateTime,
         isExplicit: podcastResponse.feed.explicit,
         episodeCount: podcastResponse.feed.episodeCount,
-        categories: Object.values(podcastResponse.feed.categories),
+        categories: podcastResponse.feed.categories
+          ? Object.values(podcastResponse.feed.categories)
+          : [],
       },
       episodes: episodeItems.map((episode) => {
         return {

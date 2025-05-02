@@ -32,15 +32,24 @@ const gridComponents: GridComponents<Podcast> | undefined = {
 
 type PodcastSearchResultSectionType = {
   podcasts: Podcast[]
+  onLoadMorePodcasts: () => Promise<void>
 }
 
 function PodcastSearchResultSection({
   podcasts,
+  onLoadMorePodcasts,
 }: PodcastSearchResultSectionType) {
   const { height, isMobile } = useScreenDimensions()
   const virtuosoStyle = useMemo(() => {
     return { height }
   }, [height])
+
+  const handleLoadMorePodcasts = useCallback(async () => {
+    const timeoutInMs = 1000
+    return setTimeout(() => {
+      onLoadMorePodcasts()
+    }, timeoutInMs) // to handle fetch data rate limiting
+  }, [onLoadMorePodcasts])
 
   const renderItemContent = useCallback(
     (index: number) => {
@@ -79,9 +88,11 @@ function PodcastSearchResultSection({
   return (
     <VirtuosoGrid
       style={virtuosoStyle}
-      totalCount={podcasts.length}
+      data={podcasts}
       components={gridComponents}
       itemContent={renderItemContent}
+      endReached={handleLoadMorePodcasts}
+      increaseViewportBy={100}
     />
   )
 }

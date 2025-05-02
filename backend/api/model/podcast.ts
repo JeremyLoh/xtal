@@ -21,5 +21,5 @@ export type PodcastIndexFeed = {
   episodeCount?: number
   explicit?: boolean
   language: Language
-  categories: PodcastIndexCategory
+  categories: PodcastIndexCategory | null /* could have null value */
 }

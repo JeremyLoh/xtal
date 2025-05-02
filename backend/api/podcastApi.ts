@@ -55,7 +55,9 @@ class PodcastIndexApi implements PodcastApi {
         image: feed.image || feed.artwork || "",
         latestPublishTime: feed.newestItemPublishTime || feed.newestItemPubdate,
         language: Language[language as keyof typeof Language],
-        categories: Object.values<string>(feed.categories),
+        categories: feed.categories
+          ? Object.values<string>(feed.categories)
+          : [],
       }
     })
     return podcasts
@@ -75,7 +77,9 @@ class PodcastIndexApi implements PodcastApi {
         image: feed.image || feed.artwork || "",
         latestPublishTime: feed.newestItemPubdate,
         language: Language[language as keyof typeof Language],
-        categories: Object.values<string>(feed.categories),
+        categories: feed.categories
+          ? Object.values<string>(feed.categories)
+          : [],
         episodeCount: feed.episodeCount,
         isExplicit: feed.explicit,
       }
@@ -151,7 +155,9 @@ class PodcastIndexApi implements PodcastApi {
       image: response.feed.image || response.feed.artwork,
       language: Language[language as keyof typeof Language],
       latestPublishTime: response.feed.lastUpdateTime,
-      categories: Object.values<string>(response.feed.categories),
+      categories: response.feed.categories
+        ? Object.values<string>(response.feed.categories)
+        : [],
       episodeCount: response.feed.episodeCount,
       isExplicit: response.feed.explicit,
     }

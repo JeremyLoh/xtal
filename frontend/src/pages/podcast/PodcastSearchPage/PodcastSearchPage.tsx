@@ -1,5 +1,5 @@
 import "./PodcastSearchPage.css"
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 import { useSearchParams } from "react-router"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import usePodcastSearch from "../../../hooks/podcast/usePodcastSearch.ts"
@@ -14,7 +14,19 @@ export default function PodcastSearchPage() {
     loading: loadingPodcasts,
     podcasts,
     fetchPodcastsBySearchQuery,
+    fetchMorePodcasts,
   } = usePodcastSearch()
+
+  const handleLoadMorePodcasts = useCallback(async () => {
+    if (!searchParams.has("q") || podcasts == null) {
+      return
+    }
+    const query = searchParams.get("q")
+    if (query == null || query.trim() === "") {
+      return
+    }
+    fetchMorePodcasts({ query: query.trim(), limit: LIMIT })
+  }, [searchParams, podcasts, fetchMorePodcasts])
 
   useEffect(() => {
     if (!searchParams.has("q")) {
@@ -32,11 +44,13 @@ export default function PodcastSearchPage() {
     if (query == null || query.trim() === "") {
       return
     }
-    fetchPodcastsBySearchQuery(query.trim(), LIMIT)
+    fetchPodcastsBySearchQuery({ query: query.trim(), limit: LIMIT })
   }, [searchParams, fetchPodcastsBySearchQuery])
 
   return (
     <div id="podcast-search-page-container">
+      {/* place LoadingDisplay standalone to prevent re-render of virtualized list */}
+      <LoadingDisplay loading={loadingPodcasts} />
       {searchParams.has("q") && (
         <div>
           Showing results for{" "}
@@ -46,9 +60,10 @@ export default function PodcastSearchPage() {
         </div>
       )}
       <PodcastSearchSection />
-      <LoadingDisplay loading={loadingPodcasts}>
-        <PodcastSearchResultSection podcasts={podcasts || []} />
-      </LoadingDisplay>
+      <PodcastSearchResultSection
+        podcasts={podcasts || []}
+        onLoadMorePodcasts={handleLoadMorePodcasts}
+      />
     </div>
   )
 }

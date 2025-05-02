@@ -110,8 +110,10 @@ describe("GET /api/podcast/search", () => {
         image: podcast.image || podcast.artwork,
         language: Language[language as keyof typeof Language],
         latestPublishTime: podcast.newestItemPubdate,
-        // @ts-ignore
-        categories: Object.values<string>(podcast.categories),
+        categories: podcast.categories
+          ? // @ts-ignore
+            Object.values<string>(podcast.categories)
+          : [],
         episodeCount: podcast.episodeCount,
         isExplicit: podcast.explicit,
       }
