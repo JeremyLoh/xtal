@@ -155,7 +155,9 @@ class PodcastIndexApi implements PodcastApi {
       image: response.feed.image || response.feed.artwork,
       language: Language[language as keyof typeof Language],
       latestPublishTime: response.feed.lastUpdateTime,
-      categories: Object.values<string>(response.feed.categories),
+      categories: response.feed.categories
+        ? Object.values<string>(response.feed.categories)
+        : [],
       episodeCount: response.feed.episodeCount,
       isExplicit: response.feed.explicit,
     }
