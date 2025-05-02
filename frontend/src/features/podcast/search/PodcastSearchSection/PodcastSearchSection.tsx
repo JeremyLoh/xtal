@@ -17,7 +17,7 @@ function PodcastSearchSection() {
   const handlePodcastSearch = useCallback(
     async (query: string) => {
       const podcastSearchLimit = 10
-      fetchPodcastsBySearchQuery(query, podcastSearchLimit)
+      fetchPodcastsBySearchQuery({ query: query, limit: podcastSearchLimit })
     },
     [fetchPodcastsBySearchQuery]
   )
