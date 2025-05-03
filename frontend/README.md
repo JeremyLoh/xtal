@@ -38,12 +38,12 @@ Made using TypeScript, React and Playwright (end-to-end testing)
 - `react-virtuoso` - https://virtuoso.dev/
 - `@2toad/profanity` - https://www.npmjs.com/package/@2toad/profanity
 
-Favicon - https://favicon.io/emoji-favicons/dizzy/
+Favicon - https://favicon.io/emoji-favicons/computer-disk/
 
 - This favicon was generated using the following graphics from Twitter Twemoji:
-- Graphics Title: 1f4ab.svg
+- Graphics Title: 1f4bd.svg
 - Graphics Author: Copyright 2020 Twitter, Inc and other contributors (https://github.com/twitter/twemoji)
-- Graphics Source: https://github.com/twitter/twemoji/blob/master/assets/svg/1f4ab.svg
+- Graphics Source: https://github.com/twitter/twemoji/blob/master/assets/svg/1f4bd.svg
 - Graphics License: CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
 
 # References
