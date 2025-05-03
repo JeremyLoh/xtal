@@ -40,6 +40,48 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
     }
   }
 
+  test("should allow podcast search input max length of 200 characters", async ({
+    page,
+  }) => {
+    // should be sync with backend max character length for /api/podcast/search
+    const maxInputLength = 200
+    const query = "a".repeat(maxInputLength)
+    const limit = 10
+    await page.route(
+      `*/**/api/podcast/search?q=${query}&limit=${limit}`,
+      async (route) => {
+        const json = []
+        await route.fulfill({ json })
+      }
+    )
+    await page.goto(HOMEPAGE + "/podcasts")
+    await expect(getPodcastSearchInput(page)).toBeVisible()
+    await getPodcastSearchInput(page).fill(query)
+    await expect(getPodcastSearchInput(page)).toHaveValue(query)
+  })
+
+  test("should limit podcast search input to max length of 200 characters", async ({
+    page,
+  }) => {
+    // should be sync with backend max character length for /api/podcast/search
+    const maxInputLength = 200
+    const query = "a".repeat(maxInputLength + 1)
+    const limit = 10
+    await page.route(
+      `*/**/api/podcast/search?q=${query}&limit=${limit}`,
+      async (route) => {
+        const json = []
+        await route.fulfill({ json })
+      }
+    )
+    await page.goto(HOMEPAGE + "/podcasts")
+    await expect(getPodcastSearchInput(page)).toBeVisible()
+    await getPodcastSearchInput(page).fill(query)
+    await expect(getPodcastSearchInput(page)).toHaveValue(
+      query.slice(0, maxInputLength)
+    )
+  })
+
   test("should search and display similar podcasts", async ({ page }) => {
     const query = "syntax"
     const limit = 10
