@@ -37,6 +37,7 @@ function PodcastSearchSection() {
       <SearchBar
         className="podcast-search-bar"
         placeholder="Search Podcasts..."
+        maxLength={200}
         onChange={handlePodcastSearch}
         onEnterSearch={handlePodcastSearchPage}
       />

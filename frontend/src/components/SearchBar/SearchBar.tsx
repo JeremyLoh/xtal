@@ -6,13 +6,15 @@ import useDebounce from "../../hooks/useDebounce.ts"
 type SearchBarProps = {
   onChange: (search: string) => Promise<void>
   onEnterSearch: (search: string) => Promise<void>
+  maxLength: number
   placeholder?: string
   className?: string
 }
 
-export default memo(function SearchBar({
+function SearchBar({
   onChange,
   onEnterSearch,
+  maxLength,
   className,
   placeholder,
 }: SearchBarProps) {
@@ -47,6 +49,7 @@ export default memo(function SearchBar({
       <input
         className="search-input"
         value={search}
+        maxLength={maxLength}
         title={placeholder}
         placeholder={placeholder}
         onChange={handleInputChange}
@@ -54,4 +57,6 @@ export default memo(function SearchBar({
       />
     </div>
   )
-})
+}
+
+export default memo(SearchBar)
