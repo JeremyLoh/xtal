@@ -48,6 +48,7 @@ function SearchBar({
       <TbSearch size={24} />
       <input
         className="search-input"
+        type="search"
         value={search}
         maxLength={maxLength}
         title={placeholder}

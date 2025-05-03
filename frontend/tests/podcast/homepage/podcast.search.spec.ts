@@ -2,6 +2,7 @@ import test, { expect, Page } from "@playwright/test"
 import { HOMEPAGE } from "../../constants/homepageConstants.ts"
 import { Podcast } from "../../../src/api/podcast/model/podcast.ts"
 import { podcastSearch_similarTerm_syntax_limit_10 } from "../../mocks/podcast.search.ts"
+import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants.ts"
 
 test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
   function getPodcastSearchInput(page: Page) {
@@ -15,11 +16,15 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
     await page.locator(".podcast-search-result-title").nth(index).click()
   }
 
+  function getPodcastSearchResultListElement(page: Page) {
+    return page.locator(".search-result-list-container")
+  }
+
   async function assertPodcastSearchResults(
     page: Page,
     expectedPodcasts: Podcast[]
   ) {
-    await expect(page.locator(".search-result-list-container")).toBeVisible()
+    await expect(getPodcastSearchResultListElement(page)).toBeVisible()
     await expect(page.locator(".podcast-search-result-title")).toHaveCount(
       expectedPodcasts.length
     )
@@ -82,6 +87,65 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
     )
   })
 
+  test("should remove podcast search result popup element when user clicks outside of search input element", async ({
+    page,
+  }) => {
+    const query = "syntax"
+    const limit = 10
+    await page.route(
+      `*/**/api/podcast/search?q=${query}&limit=${limit}`,
+      async (route) => {
+        const json = podcastSearch_similarTerm_syntax_limit_10
+        await route.fulfill({ json })
+      }
+    )
+    await page.goto(HOMEPAGE + "/podcasts")
+    await expect(getPodcastSearchInput(page)).toBeVisible()
+    await getPodcastSearchInput(page).fill(query)
+    await assertLoadingSpinnerIsMissing(page)
+    await assertPodcastSearchResults(
+      page,
+      podcastSearch_similarTerm_syntax_limit_10.data
+    )
+    // click outside of podcast search input and search result popup element
+    await page.locator("body").click({ position: { x: 1, y: 1 } })
+    await expect(
+      getPodcastSearchResultListElement(page),
+      "should not display search result list when user clicks outside podcast search input and result list"
+    ).not.toBeVisible()
+  })
+
+  test("should not close podcast search result popup element when user clicks inside the podcat search result popup", async ({
+    page,
+  }) => {
+    const query = "syntax"
+    const limit = 10
+    await page.route(
+      `*/**/api/podcast/search?q=${query}&limit=${limit}`,
+      async (route) => {
+        const json = podcastSearch_similarTerm_syntax_limit_10
+        await route.fulfill({ json })
+      }
+    )
+    await page.goto(HOMEPAGE + "/podcasts")
+    await expect(getPodcastSearchInput(page)).toBeVisible()
+    await getPodcastSearchInput(page).fill(query)
+    await assertLoadingSpinnerIsMissing(page)
+
+    await assertPodcastSearchResults(
+      page,
+      podcastSearch_similarTerm_syntax_limit_10.data
+    )
+    // click inside podcast search result popup element
+    await getPodcastSearchResultListElement(page).click({
+      position: { x: 1, y: 1 },
+    })
+    await assertPodcastSearchResults(
+      page,
+      podcastSearch_similarTerm_syntax_limit_10.data
+    )
+  })
+
   test("should search and display similar podcasts", async ({ page }) => {
     const query = "syntax"
     const limit = 10
@@ -124,7 +188,7 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
 
     await getPodcastSearchInput(page).clear()
     await expect(
-      page.locator(".search-result-list-container"),
+      getPodcastSearchResultListElement(page),
       "should not display search result list when input is empty"
     ).not.toBeVisible()
   })
