@@ -2,13 +2,18 @@ import { useCallback, useMemo } from "react"
 import { toast } from "sonner"
 import { Station } from "../api/radiobrowser/types.ts"
 import { Podcast, PodcastEpisode } from "../api/podcast/model/podcast.ts"
-import { podcastDetailPage, podcastEpisodeDetailPage } from "../paths.ts"
+import {
+  podcastDetailPage,
+  podcastEpisodeDetailPage,
+  radioStationPage,
+} from "../paths.ts"
 
 function useClipboard() {
   const copyRadioStationShareUrl = useCallback((station: Station) => {
     const origin = new URL(window.location.href).origin
+    const stationPage = radioStationPage(station.stationuuid)
     navigator.clipboard
-      .writeText(`${origin}/radio-station/${station.stationuuid}`)
+      .writeText(`${origin}${stationPage}`)
       .then(() => toast.success("Link Copied"))
       .catch(() =>
         toast.error("Could not copy radio station share url to clipboard")
