@@ -30,6 +30,10 @@ function SearchBar({
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.code.toLowerCase() === "escape") {
+        setSearch("")
+        return
+      }
       if (event.code.toLowerCase() !== "enter") {
         return
       }

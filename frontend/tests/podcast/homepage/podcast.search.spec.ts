@@ -87,6 +87,34 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
     )
   })
 
+  test("should clear podcast search input values when user press keyboard 'Escape' key", async ({
+    page,
+  }) => {
+    const query = "syntax"
+    const limit = 10
+    await page.route(
+      `*/**/api/podcast/search?q=${query}&limit=${limit}`,
+      async (route) => {
+        const json = podcastSearch_similarTerm_syntax_limit_10
+        await route.fulfill({ json })
+      }
+    )
+    await page.goto(HOMEPAGE + "/podcasts")
+    await expect(getPodcastSearchInput(page)).toBeVisible()
+    await getPodcastSearchInput(page).fill(query)
+    await assertLoadingSpinnerIsMissing(page)
+    await assertPodcastSearchResults(
+      page,
+      podcastSearch_similarTerm_syntax_limit_10.data
+    )
+    await getPodcastSearchInput(page).click()
+    await page.keyboard.press("Escape")
+    await expect(
+      getPodcastSearchResultListElement(page),
+      "should not display search result list when user clicks outside podcast search input and result list"
+    ).not.toBeVisible()
+  })
+
   test("should remove podcast search result popup element when user clicks outside of search input element", async ({
     page,
   }) => {
