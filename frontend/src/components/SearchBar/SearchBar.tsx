@@ -34,10 +34,9 @@ function SearchBar({
         setSearch("")
         return
       }
-      if (event.code.toLowerCase() !== "enter") {
-        return
+      if (event.code.toLowerCase() === "enter") {
+        onEnterSearch(search)
       }
-      onEnterSearch(search)
     },
     [search, onEnterSearch]
   )
