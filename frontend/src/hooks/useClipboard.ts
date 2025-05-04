@@ -2,12 +2,18 @@ import { useCallback, useMemo } from "react"
 import { toast } from "sonner"
 import { Station } from "../api/radiobrowser/types.ts"
 import { Podcast, PodcastEpisode } from "../api/podcast/model/podcast.ts"
+import {
+  podcastDetailPage,
+  podcastEpisodeDetailPage,
+  radioStationPage,
+} from "../paths.ts"
 
 function useClipboard() {
   const copyRadioStationShareUrl = useCallback((station: Station) => {
     const origin = new URL(window.location.href).origin
+    const stationPage = radioStationPage(station.stationuuid)
     navigator.clipboard
-      .writeText(`${origin}/radio-station/${station.stationuuid}`)
+      .writeText(`${origin}${stationPage}`)
       .then(() => toast.success("Link Copied"))
       .catch(() =>
         toast.error("Could not copy radio station share url to clipboard")
@@ -16,23 +22,25 @@ function useClipboard() {
 
   const copyPodcastShareUrl = useCallback((podcast: Podcast) => {
     const origin = new URL(window.location.href).origin
-    const podcastTitle = encodeURIComponent(podcast.title)
-    const podcastId = podcast.id
+    const detailPage = podcastDetailPage({
+      podcastTitle: podcast.title,
+      podcastId: `${podcast.id}`,
+    })
     navigator.clipboard
-      .writeText(`${origin}/podcasts/${podcastTitle}/${podcastId}`)
+      .writeText(`${origin}${detailPage}`)
       .then(() => toast.success("Link Copied"))
       .catch(() => toast.error("Could not copy podcast share url to clipboard"))
   }, [])
 
   const copyPodcastEpisodeShareUrl = useCallback((episode: PodcastEpisode) => {
     const origin = new URL(window.location.href).origin
-    const podcastTitle = encodeURIComponent(episode.feedTitle || "")
-    const podcastId = episode.feedId
-    const podcastEpisodeId = episode.id
+    const episodeDetailPage = podcastEpisodeDetailPage({
+      podcastTitle: episode.feedTitle || "",
+      podcastId: `${episode.feedId}`,
+      episodeId: `${episode.id}`,
+    })
     navigator.clipboard
-      .writeText(
-        `${origin}/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
-      )
+      .writeText(`${origin}${episodeDetailPage}`)
       .then(() => toast.success("Link Copied"))
       .catch(() =>
         toast.error("Could not copy podcast episode share url to clipboard")

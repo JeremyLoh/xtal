@@ -1,11 +1,13 @@
 import "./PodcastPlayer.css"
-import { lazy, memo, useCallback, useContext } from "react"
+import { lazy, memo, useCallback, useContext, useState } from "react"
+import { MdOutlineExpandLess, MdOutlineExpandMore } from "react-icons/md"
 import { Link } from "react-router"
 import dayjs from "dayjs"
 import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import AudioPlayer from "../../../components/AudioPlayer/AudioPlayer.tsx"
-import { PodcastEpisode } from "../../../api/podcast/model/podcast.ts"
+import Button from "../../../components/ui/button/Button.tsx"
 import usePlayHistory from "../../../hooks/podcast/usePlayHistory.ts"
+import { podcastEpisodeDetailPage } from "../../../paths.ts"
 const Pill = lazy(() => import("../../../components/Pill/Pill.tsx"))
 const PodcastImage = lazy(
   () => import("../../../components/PodcastImage/PodcastImage.tsx")
@@ -15,14 +17,10 @@ function getDateFormat(unixTimestampInSeconds: number): string {
   return dayjs.unix(unixTimestampInSeconds).format("MMMM D, YYYY")
 }
 
-function getEpisodeDetailPageUrl(episode: PodcastEpisode) {
-  if (episode == null) {
-    return ""
-  }
-  return `/podcasts/${episode.feedTitle}/${episode.feedId}/${episode.id}`
-}
+const linkStyle = { textDecoration: "none", width: "fit-content" }
 
 function PodcastPlayer() {
+  const [isExpanded, setIsExpanded] = useState<boolean>(true)
   const { updatePlayPodcastEpisodeTime } = usePlayHistory()
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const episode = podcastEpisodeContext?.episode
@@ -46,6 +44,12 @@ function PodcastPlayer() {
     },
     [episode, updatePlayPodcastEpisodeTime]
   )
+  const handleMinimizePlayerClick = useCallback(() => {
+    setIsExpanded(false)
+  }, [])
+  const handleExpandPlayerClick = useCallback(() => {
+    setIsExpanded(true)
+  }, [])
   return (
     <div className="podcast-player">
       <AudioPlayer
@@ -56,27 +60,56 @@ function PodcastPlayer() {
       >
         {episode && (
           <div className="podcast-play-episode-container">
-            <PodcastImage
-              imageUrl={episode.image}
-              size={96}
-              imageClassName="podcast-play-episode-artwork"
-              imageTitle={episode.title + " podcast image"}
-              imageNotAvailableTitle="Podcast Play Episode Artwork Not Available"
-            />
+            {isExpanded && (
+              <PodcastImage
+                imageUrl={episode.image}
+                size={96}
+                imageClassName="podcast-play-episode-artwork"
+                imageTitle={episode.title + " podcast image"}
+                imageNotAvailableTitle="Podcast Play Episode Artwork Not Available"
+              />
+            )}
             <div className="podcast-play-episode-info">
               <Link
-                to={getEpisodeDetailPageUrl(episode)}
-                style={{ textDecoration: "none", width: "fit-content" }}
+                to={podcastEpisodeDetailPage({
+                  podcastTitle: episode.feedTitle || "",
+                  podcastId: `${episode.feedId}`,
+                  episodeId: `${episode.id}`,
+                })}
+                style={linkStyle}
               >
                 <p className="podcast-play-episode-title">{episode.title}</p>
               </Link>
-              <p className="podcast-play-episode-date">
-                {getDateFormat(episode.datePublished)}
-              </p>
-              {episode.episodeNumber && (
+              {isExpanded && episode.datePublished > 0 && (
+                <p className="podcast-play-episode-date">
+                  {getDateFormat(episode.datePublished)}
+                </p>
+              )}
+              {isExpanded && episode.episodeNumber && (
                 <Pill className="podcast-play-episode-number">{`Episode ${episode.episodeNumber}`}</Pill>
               )}
             </div>
+            {isExpanded ? (
+              <Button
+                keyProp="podcast-play-episode-minimize-player-button"
+                variant="icon"
+                className="podcast-play-episode-minimize-player-button"
+                title="Minimize Player"
+                onClick={handleMinimizePlayerClick}
+              >
+                <MdOutlineExpandLess size={24} />
+              </Button>
+            ) : (
+              <Button
+                keyProp="podcast-play-episode-expand-player-button"
+                className="podcast-play-episode-expand-player-button"
+                variant="icon"
+                title="Expand Player"
+                onClick={handleExpandPlayerClick}
+              >
+                <MdOutlineExpandMore size={24} />
+              </Button>
+            )}
           </div>
         )}
       </AudioPlayer>

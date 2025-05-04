@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react"
 type ButtonProps = PropsWithChildren &
   ComponentPropsWithoutRef<"button"> & {
     keyProp: string
-    variant?: "primary" | "secondary" | "danger"
+    variant?: "primary" | "secondary" | "danger" | "icon"
     className?: string
   }
 

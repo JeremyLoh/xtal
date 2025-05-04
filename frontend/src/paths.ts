@@ -5,6 +5,8 @@ export const profileFollowingPage = () => "/profile/following"
 export const signUpPage = () => "/auth?show=signup"
 export const notFoundPage = () => "/404"
 export const resetPasswordPage = () => "/auth/reset-password"
+export const radioStationPage = (stationUuid: string) =>
+  `/radio-station/${stationUuid}`
 export const podcastHomePage = () => "/podcasts"
 export const podcastSearchPage = (query: string) =>
   `/podcasts/search?q=${encodeURIComponent(query)}`

@@ -22,8 +22,9 @@ media-time-range {
 .podcast-play-episode-container {
   display: flex;
   flex-direction: row;
+  align-items: center;
   gap: 0.5rem;
-  width: fit-content;
+  width: 100%;
   margin-bottom: 0.2rem;
 }
 
@@ -54,4 +55,14 @@ media-time-range {
 .podcast-play-episode-number {
   width: fit-content;
   margin-top: 0.2rem;
+}
+
+.podcast-play-episode-minimize-player-button,
+.podcast-play-episode-expand-player-button {
+  margin-left: auto;
+}
+.podcast-play-episode-minimize-player-button:hover,
+.podcast-play-episode-expand-player-button:hover {
+  cursor: pointer;
+  filter: brightness(0.8);
 }
