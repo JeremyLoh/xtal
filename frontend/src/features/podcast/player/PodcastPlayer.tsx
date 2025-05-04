@@ -4,8 +4,8 @@ import { Link } from "react-router"
 import dayjs from "dayjs"
 import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import AudioPlayer from "../../../components/AudioPlayer/AudioPlayer.tsx"
-import { PodcastEpisode } from "../../../api/podcast/model/podcast.ts"
 import usePlayHistory from "../../../hooks/podcast/usePlayHistory.ts"
+import { podcastEpisodeDetailPage } from "../../../paths.ts"
 const Pill = lazy(() => import("../../../components/Pill/Pill.tsx"))
 const PodcastImage = lazy(
   () => import("../../../components/PodcastImage/PodcastImage.tsx")
@@ -13,13 +13,6 @@ const PodcastImage = lazy(
 
 function getDateFormat(unixTimestampInSeconds: number): string {
   return dayjs.unix(unixTimestampInSeconds).format("MMMM D, YYYY")
-}
-
-function getEpisodeDetailPageUrl(episode: PodcastEpisode) {
-  if (episode == null) {
-    return ""
-  }
-  return `/podcasts/${episode.feedTitle}/${episode.feedId}/${episode.id}`
 }
 
 function PodcastPlayer() {
@@ -65,7 +58,11 @@ function PodcastPlayer() {
             />
             <div className="podcast-play-episode-info">
               <Link
-                to={getEpisodeDetailPageUrl(episode)}
+                to={podcastEpisodeDetailPage({
+                  podcastTitle: episode.feedTitle || "",
+                  podcastId: `${episode.feedId}`,
+                  episodeId: `${episode.id}`,
+                })}
                 style={{ textDecoration: "none", width: "fit-content" }}
               >
                 <p className="podcast-play-episode-title">{episode.title}</p>
