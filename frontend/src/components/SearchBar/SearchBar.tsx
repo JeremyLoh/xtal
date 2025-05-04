@@ -30,10 +30,13 @@ function SearchBar({
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.code.toLowerCase() !== "enter") {
+      if (event.code.toLowerCase() === "escape") {
+        setSearch("")
         return
       }
-      onEnterSearch(search)
+      if (event.code.toLowerCase() === "enter") {
+        onEnterSearch(search)
+      }
     },
     [search, onEnterSearch]
   )
@@ -48,6 +51,7 @@ function SearchBar({
       <TbSearch size={24} />
       <input
         className="search-input"
+        type="search"
         value={search}
         maxLength={maxLength}
         title={placeholder}

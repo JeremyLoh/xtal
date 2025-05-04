@@ -1,8 +1,9 @@
-import { memo, useCallback } from "react"
+import { memo, useCallback, useState } from "react"
 import { useNavigate } from "react-router"
 import LoadingDisplay from "../../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import SearchBar from "../../../../components/SearchBar/SearchBar.tsx"
 import PodcastSearchResultList from "../PodcastSearchResultList/PodcastSearchResultList.tsx"
+import useClickOutside from "../../../../hooks/useClickOutside.ts"
 import usePodcastSearch from "../../../../hooks/podcast/usePodcastSearch.ts"
 import { podcastSearchPage } from "../../../../paths.ts"
 
@@ -13,11 +14,19 @@ function PodcastSearchSection() {
     podcasts: searchPodcasts,
     fetchPodcastsBySearchQuery,
   } = usePodcastSearch()
+  const [showSearchResults, setShowSearchResults] = useState<boolean>(false)
+  const handleClickOutsideSearchBox = useCallback(() => {
+    setShowSearchResults(false)
+  }, [])
+  const clickOutsideRef = useClickOutside<HTMLDivElement>({
+    onClickOutside: handleClickOutsideSearchBox,
+  })
 
   const handlePodcastSearch = useCallback(
     async (query: string) => {
       const podcastSearchLimit = 10
       fetchPodcastsBySearchQuery({ query: query, limit: podcastSearchLimit })
+      setShowSearchResults(true)
     },
     [fetchPodcastsBySearchQuery]
   )
@@ -33,7 +42,7 @@ function PodcastSearchSection() {
   )
 
   return (
-    <div>
+    <div ref={clickOutsideRef}>
       <SearchBar
         className="podcast-search-bar"
         placeholder="Search Podcasts..."
@@ -42,7 +51,10 @@ function PodcastSearchSection() {
         onEnterSearch={handlePodcastSearchPage}
       />
       <LoadingDisplay loading={loadingSearchPodcasts}>
-        <PodcastSearchResultList results={searchPodcasts} />
+        <PodcastSearchResultList
+          results={searchPodcasts}
+          showSearchResults={showSearchResults}
+        />
       </LoadingDisplay>
     </div>
   )

@@ -7,12 +7,15 @@ import { podcastDetailPage } from "../../../../paths.ts"
 
 type PodcastSearchResultListProps = {
   results: Podcast[] | null
+  showSearchResults: boolean
 }
 
-export default memo(function PodcastSearchResultList({
+function PodcastSearchResultList({
   results,
+  showSearchResults,
 }: PodcastSearchResultListProps) {
   return (
+    showSearchResults &&
     results &&
     results.length > 0 && (
       <AnimatePresence>
@@ -52,4 +55,6 @@ export default memo(function PodcastSearchResultList({
       </AnimatePresence>
     )
   )
-})
+}
+
+export default memo(PodcastSearchResultList)
