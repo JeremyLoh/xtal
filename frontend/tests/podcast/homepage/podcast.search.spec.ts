@@ -141,6 +141,7 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
       getPodcastSearchResultListElement(page),
       "should not display search result list when user clicks outside podcast search input and result list"
     ).not.toBeVisible()
+    await expect(getPodcastSearchInput(page)).toHaveValue(query)
   })
 
   test("should not close podcast search result popup element when user clicks inside the podcat search result popup", async ({
