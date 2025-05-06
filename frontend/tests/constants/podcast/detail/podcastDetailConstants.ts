@@ -214,6 +214,16 @@ export async function assertPodcastEpisodes(page: Page, expectedEpisodes) {
     }
 
     await expect(
+      podcastEpisodeCard.getByText(
+        `${episode.isExplicit ? "Explicit" : "Not Explicit"}`,
+        { exact: true }
+      ),
+      `(Episode ${
+        i + 1
+      }) podcast episode card Explicit Indicator should be present`
+    ).toBeVisible()
+
+    await expect(
       podcastEpisodeCard.getByText(expectedEpisodeDuration, { exact: true }),
       `(Episode ${
         i + 1

@@ -1,3 +1,4 @@
+import "./PodcastEpisodeItem.css"
 import { memo } from "react"
 import PodcastEpisodeCard from "../../../../components/PodcastEpisodeCard/index.tsx"
 import { PodcastEpisode } from "../../../../api/podcast/model/podcast.ts"
@@ -28,8 +29,11 @@ function PodcastEpisodeItem({
       <PodcastEpisodeCard.Title url={titleUrl} />
       <PodcastEpisodeCard.PublishDate />
       <PodcastEpisodeCard.Duration />
-      <PodcastEpisodeCard.EpisodeNumber />
-      <PodcastEpisodeCard.SeasonNumber />
+      <PodcastEpisodeCard.ExplicitIndicator />
+      <div className="podcast-episode-item-pill-container">
+        <PodcastEpisodeCard.EpisodeNumber />
+        <PodcastEpisodeCard.SeasonNumber />
+      </div>
       <PodcastEpisodeCard.PlayButton onPlayClick={onPlayClick} />
       <PodcastEpisodeCard.Description />
     </PodcastEpisodeCard>
