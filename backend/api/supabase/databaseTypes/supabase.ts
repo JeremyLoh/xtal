@@ -209,17 +209,17 @@ export type Database = {
         Row: {
           created_at: string
           image_width_image_height_url: string
-          storage_file_name: string
+          storage_file_path: string
         }
         Insert: {
           created_at?: string
           image_width_image_height_url: string
-          storage_file_name: string
+          storage_file_path: string
         }
         Update: {
           created_at?: string
           image_width_image_height_url?: string
-          storage_file_name?: string
+          storage_file_path?: string
         }
         Relationships: []
       }
