@@ -26,20 +26,20 @@
 
 ### podcast_images
 
-| Name                             | Type         | Settings                 | References | Note |
-| -------------------------------- | ------------ | ------------------------ | ---------- | ---- |
-| **image_width_image_height_url** | VARCHAR(255) | 🔑 PK, not null, unique  |            |      |
-| **created_at**                   | TIMESTAMPTZ  | not null, default: now() |            |      |
-| **storage_file_name**            | VARCHAR(255) | not null, unique         |            |      |
+| Name                             | Type        | Settings                 | References | Note |
+| -------------------------------- | ----------- | ------------------------ | ---------- | ---- |
+| **image_width_image_height_url** | TEXT        | 🔑 PK, not null, unique  |            |      |
+| **created_at**                   | TIMESTAMPTZ | not null, default: now() |            |      |
+| **storage_file_path**            | TEXT        | not null, unique         |            |      |
 
 ### users
 
 | Name           | Type         | Settings                 | References                         | Note |
 | -------------- | ------------ | ------------------------ | ---------------------------------- | ---- |
 | **user_id**    | VARCHAR(255) | 🔑 PK, not null, unique  | fk_users_user_id_podcast_followers |      |
-| **email**      | VARCHAR(255) | null                     |                                    |      |
+| **email**      | TEXT         | null                     |                                    |      |
 | **created_at** | TIMESTAMPTZ  | not null, default: now() |                                    |      |
-| **username**   | VARCHAR(255) | not null, unique         |                                    |      |
+| **username**   | TEXT         | not null, unique         |                                    |      |
 
 ### podcast_episodes
 
@@ -50,17 +50,17 @@ description is not stored, could be changed by API as well
 | **id** | INTEGER | 🔑 PK, not null, unique, autoincrement | | |
 | **episode_id** | SERIAL | not null | | |
 | **podcast_id** | SERIAL | not null | | |
-| **episode_title** | VARCHAR(255) | not null | | |
-| **podcast_title** | VARCHAR(255) | not null | | |
-| **content_url** | VARCHAR(255) | not null | | |
+| **episode_title** | TEXT | not null | | |
+| **podcast_title** | TEXT | not null | | |
+| **content_url** | TEXT | not null | | |
 | **duration_in_seconds** | INTEGER | not null | | |
 | **publish_date_unix_timestamp** | TIMESTAMP | not null | | |
 | **is_explicit** | BOOLEAN | not null | | |
 | **episode_number** | INTEGER | null | | |
 | **season_number** | INTEGER | null | | |
-| **image** | VARCHAR(255) | null | | |
-| **language** | VARCHAR(255) | null | | |
-| **external_website_url** | VARCHAR(255) | null | | |
+| **image** | TEXT | null | | |
+| **language** | TEXT | null | | |
+| **external_website_url** | TEXT | null | | |
 
 ### podcast_episode_play_history
 
@@ -78,11 +78,11 @@ Tracks podcast information
 |-------------|---------------|-------------------------------|-------------------------------|--------------------------------|
 | **id** | SERIAL | 🔑 PK, not null, unique | | |
 | **podcast_id** | SERIAL | not null, unique | | |
-| **external_website_url** | VARCHAR(255) | null | | |
-| **title** | VARCHAR(255) | not null | | |
-| **author** | VARCHAR(255) | null | | |
-| **image** | VARCHAR(255) | null | | |
-| **language** | VARCHAR(255) | null | | |
+| **external_website_url** | TEXT | null | | |
+| **title** | TEXT | not null | | |
+| **author** | TEXT | null | | |
+| **image** | TEXT | null | | |
+| **language** | TEXT | null | | |
 | **publish_date_unix_timestamp** | TIMESTAMP | null | | |
 | **episode_count** | INTEGER | null | | |
 | **created_at** | TIMESTAMPTZ | not null, default: now() | | |
@@ -105,11 +105,11 @@ Tracks podcast information
 
 ### categories
 
-| Name           | Type         | Settings                | References | Note |
-| -------------- | ------------ | ----------------------- | ---------- | ---- |
-| **id**         | SERIAL       | 🔑 PK, not null, unique |            |      |
-| **category**   | VARCHAR(255) | not null                |            |      |
-| **created_at** | TIMESTAMPTZ  | not null                |            |      |
+| Name           | Type        | Settings                | References | Note |
+| -------------- | ----------- | ----------------------- | ---------- | ---- |
+| **id**         | SERIAL      | 🔑 PK, not null, unique |            |      |
+| **category**   | TEXT        | not null                |            |      |
+| **created_at** | TIMESTAMPTZ | not null                |            |      |
 
 ## Relationships
 
@@ -132,33 +132,33 @@ erDiagram
 	podcast_categories }o--|| podcasts : references
 
 	podcast_images {
-		VARCHAR(255) image_width_image_height_url
+		TEXT image_width_image_height_url
 		TIMESTAMPTZ created_at
-		VARCHAR(255) storage_file_name
+		TEXT storage_file_path
 	}
 
 	users {
 		VARCHAR(255) user_id
-		VARCHAR(255) email
+		TEXT email
 		TIMESTAMPTZ created_at
-		VARCHAR(255) username
+		TEXT username
 	}
 
 	podcast_episodes {
 		INTEGER id
 		SERIAL episode_id
 		SERIAL podcast_id
-		VARCHAR(255) episode_title
-		VARCHAR(255) podcast_title
-		VARCHAR(255) content_url
+		TEXT episode_title
+		TEXT podcast_title
+		TEXT content_url
 		INTEGER duration_in_seconds
 		TIMESTAMP publish_date_unix_timestamp
 		BOOLEAN is_explicit
 		INTEGER episode_number
 		INTEGER season_number
-		VARCHAR(255) image
-		VARCHAR(255) language
-		VARCHAR(255) external_website_url
+		TEXT image
+		TEXT language
+		TEXT external_website_url
 	}
 
 	podcast_episode_play_history {
@@ -171,11 +171,11 @@ erDiagram
 	podcasts {
 		SERIAL id
 		SERIAL podcast_id
-		VARCHAR(255) external_website_url
-		VARCHAR(255) title
-		VARCHAR(255) author
-		VARCHAR(255) image
-		VARCHAR(255) language
+		TEXT external_website_url
+		TEXT title
+		TEXT author
+		TEXT image
+		TEXT language
 		TIMESTAMP publish_date_unix_timestamp
 		INTEGER episode_count
 		TIMESTAMPTZ created_at
@@ -195,7 +195,7 @@ erDiagram
 
 	categories {
 		SERIAL id
-		VARCHAR(255) category
+		TEXT category
 		TIMESTAMPTZ created_at
 	}
 ```

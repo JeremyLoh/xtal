@@ -10,14 +10,10 @@ export async function getImage(
   height: number
 ): Promise<Buffer> {
   const storageClient = StorageClient.getInstance()
-  const { exists, fileName } = await checkForExistingImage(url, width, height)
-  if (exists && fileName) {
-    const filePublicUrl = storageClient.getFilePublicUrl(
-      fileName,
-      width,
-      height
-    )
-    logger.info(`getImage(): file already exists ${fileName}`)
+  const { exists, filePath } = await checkForExistingImage(url, width, height)
+  if (exists && filePath) {
+    const filePublicUrl = storageClient.getFilePublicUrl(filePath)
+    logger.info(`getImage(): filePath already exists ${filePath}`)
     const existingImageBuffer = await downloadImageFromUrl(filePublicUrl)
     return existingImageBuffer
   } else {
@@ -53,17 +49,11 @@ async function checkForExistingImage(
   height: number
 ) {
   const storageClient = StorageClient.getInstance()
-  const fileName = await storageClient.getExistingFile(url, width, height)
-  if (fileName) {
-    return {
-      exists: true,
-      fileName: fileName,
-    }
+  const filePath = await storageClient.getExistingFile(url, width, height)
+  if (filePath) {
+    return { exists: true, filePath: filePath }
   }
-  return {
-    exists: false,
-    fileName: null,
-  }
+  return { exists: false, filePath: null }
 }
 
 async function downloadImageFromUrl(url: string): Promise<Buffer> {

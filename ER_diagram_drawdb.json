@@ -8,7 +8,7 @@
       "fields": [
         {
           "name": "image_width_image_height_url",
-          "type": "VARCHAR",
+          "type": "TEXT",
           "default": "",
           "check": "",
           "primary": true,
@@ -17,7 +17,8 @@
           "increment": false,
           "comment": "",
           "id": 0,
-          "size": 255
+          "size": "",
+          "values": []
         },
         {
           "name": "created_at",
@@ -34,8 +35,8 @@
           "values": []
         },
         {
-          "name": "storage_file_name",
-          "type": "VARCHAR",
+          "name": "storage_file_path",
+          "type": "TEXT",
           "default": "",
           "check": "",
           "primary": false,
@@ -44,7 +45,8 @@
           "increment": false,
           "comment": "",
           "id": 2,
-          "size": 255
+          "size": "",
+          "values": []
         }
       ],
       "comment": "",
@@ -73,7 +75,7 @@
         },
         {
           "name": "email",
-          "type": "VARCHAR",
+          "type": "TEXT",
           "default": "",
           "check": "",
           "primary": false,
@@ -82,7 +84,8 @@
           "increment": false,
           "comment": "",
           "id": 1,
-          "size": 255
+          "size": "",
+          "values": []
         },
         {
           "name": "created_at",
@@ -100,7 +103,7 @@
         },
         {
           "name": "username",
-          "type": "VARCHAR",
+          "type": "TEXT",
           "default": "",
           "check": "",
           "primary": false,
@@ -109,7 +112,8 @@
           "increment": false,
           "comment": "",
           "id": 3,
-          "size": 255
+          "size": "",
+          "values": []
         }
       ],
       "comment": "",
@@ -165,7 +169,7 @@
         },
         {
           "name": "episode_title",
-          "type": "VARCHAR",
+          "type": "TEXT",
           "default": "",
           "check": "",
           "primary": false,
@@ -174,11 +178,12 @@
           "increment": false,
           "comment": "",
           "id": 3,
-          "size": 255
+          "size": "",
+          "values": []
         },
         {
           "name": "podcast_title",
-          "type": "VARCHAR",
+          "type": "TEXT",
           "default": "",
           "check": "",
           "primary": false,
@@ -187,11 +192,12 @@
           "increment": false,
           "comment": "",
           "id": 4,
-          "size": 255
+          "size": "",
+          "values": []
         },
         {
           "name": "content_url",
-          "type": "VARCHAR",
+          "type": "TEXT",
           "default": "",
           "check": "",
           "primary": false,
@@ -200,7 +206,7 @@
           "increment": false,
           "comment": "",
           "id": 5,
-          "size": 255,
+          "size": "",
           "values": []
         },
         {
@@ -275,7 +281,7 @@
         },
         {
           "name": "image",
-          "type": "VARCHAR",
+          "type": "TEXT",
           "default": "",
           "check": "",
           "primary": false,
@@ -284,11 +290,12 @@
           "increment": false,
           "comment": "",
           "id": 11,
-          "size": 255
+          "size": "",
+          "values": []
         },
         {
           "name": "language",
-          "type": "VARCHAR",
+          "type": "TEXT",
           "default": "",
           "check": "",
           "primary": false,
@@ -297,11 +304,12 @@
           "increment": false,
           "comment": "",
           "id": 12,
-          "size": 255
+          "size": "",
+          "values": []
         },
         {
           "name": "external_website_url",
-          "type": "VARCHAR",
+          "type": "TEXT",
           "default": "",
           "check": "",
           "primary": false,
@@ -310,7 +318,8 @@
           "increment": false,
           "comment": "",
           "id": 13,
-          "size": 255
+          "size": "",
+          "values": []
         }
       ],
       "comment": "primary key \"id\" is autoincremented (do not rely on PodcastIndex episode ID, that is external and may change)\ndescription is not stored, could be changed by API as well",
@@ -421,7 +430,7 @@
         },
         {
           "name": "external_website_url",
-          "type": "VARCHAR",
+          "type": "TEXT",
           "default": "",
           "check": "",
           "primary": false,
@@ -430,11 +439,12 @@
           "increment": false,
           "comment": "",
           "id": 2,
-          "size": 255
+          "size": "",
+          "values": []
         },
         {
           "name": "title",
-          "type": "VARCHAR",
+          "type": "TEXT",
           "default": "",
           "check": "",
           "primary": false,
@@ -443,11 +453,12 @@
           "increment": false,
           "comment": "",
           "id": 3,
-          "size": 255
+          "size": "",
+          "values": []
         },
         {
           "name": "author",
-          "type": "VARCHAR",
+          "type": "TEXT",
           "default": "",
           "check": "",
           "primary": false,
@@ -456,11 +467,12 @@
           "increment": false,
           "comment": "",
           "id": 4,
-          "size": 255
+          "size": "",
+          "values": []
         },
         {
           "name": "image",
-          "type": "VARCHAR",
+          "type": "TEXT",
           "default": "",
           "check": "",
           "primary": false,
@@ -469,11 +481,12 @@
           "increment": false,
           "comment": "",
           "id": 5,
-          "size": 255
+          "size": "",
+          "values": []
         },
         {
           "name": "language",
-          "type": "VARCHAR",
+          "type": "TEXT",
           "default": "",
           "check": "",
           "primary": false,
@@ -482,7 +495,8 @@
           "increment": false,
           "comment": "",
           "id": 6,
-          "size": 255
+          "size": "",
+          "values": []
         },
         {
           "name": "publish_date_unix_timestamp",
@@ -662,7 +676,7 @@
         },
         {
           "name": "category",
-          "type": "VARCHAR",
+          "type": "TEXT",
           "default": "",
           "check": "",
           "primary": false,
@@ -671,7 +685,7 @@
           "increment": false,
           "comment": "",
           "id": 1,
-          "size": 255,
+          "size": "",
           "values": []
         },
         {
