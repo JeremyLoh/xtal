@@ -2,9 +2,6 @@
   display: flex;
   flex-direction: column;
 }
-.podcast-episode-card:last-child {
-  border-bottom: none;
-}
 
 .podcast-episode-card-artwork {
   margin-bottom: 1rem;
