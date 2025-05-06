@@ -57,53 +57,35 @@ class StorageClient {
   }) {
     // https://supabase.com/docs/reference/javascript/storage-from-upload
     const filePath = `public/w${width}_h${height}/${fileName}`
-    const uploadFilePromise = this.supabase.storage
+    const { error: uploadFileStorageError } = await this.supabase.storage
       .from("podcast-image") // bucket name
       .upload(filePath, this.decode(base64FileData), {
         contentType: contentType, // e.g. MIME Type "image/webp"
       })
-    const insertDatabasePromise = this.supabase
+    if (uploadFileStorageError) {
+      throw new Error(
+        `uploadFileAndUpdateDatabase(): could not upload file to storage ${filePath}. Error ${uploadFileStorageError.message}`
+      )
+    }
+    const { error: insertDatabaseError } = await this.supabase
       .from("podcast_images") // database name
       .insert({
         image_width_image_height_url: `w${width}_h${height}_${url}`,
         storage_file_path: filePath,
       })
-    const promises = await Promise.allSettled([
-      uploadFilePromise,
-      insertDatabasePromise,
-    ])
-    const deleteOperationsBasedOnPromises = [
-      async () => {
-        try {
-          await this.deleteImageStorage([filePath])
-        } catch (error: any) {
-          logger.error(
-            `uploadFileAndUpdateDatabase(): could not delete upload file. image url ${url}, storage file path: ${filePath}`
-          )
-        }
-      },
-      async () => {
-        const key = `w${width}_h${height}_${url}`
-        try {
-          await this.deleteImageDatabaseRows([key])
-        } catch (error: any) {
-          logger.error(
-            `uploadFileAndUpdateDatabase(): Delete row ${key} error: ${error.message}`
-          )
-        }
-      },
-    ]
-    if (promises.some((p) => p.status === "rejected")) {
-      for (let i = 0; i < promises.length; i++) {
-        const p = promises[i]
-        // if any promise has "status": "rejected", we need to perform a delete for those that were fulfilled
-        if (p.status === "fulfilled") {
-          logger.error(
-            `uploadFileAndUpdateDatabase(): attempt to delete for index ${i}. image url: ${url}, width: ${width}, height: ${height}`
-          )
-          await deleteOperationsBasedOnPromises[i]()
-        }
+    if (insertDatabaseError) {
+      // delete the storage file uploaded
+      logger.error(
+        `uploadFileAndUpdateDatabase(): ${insertDatabaseError.message}`
+      )
+      try {
+        await this.deleteImageStorage([filePath])
+      } catch (error: any) {
+        logger.error(
+          `uploadFileAndUpdateDatabase(): could not delete upload file. image url ${url}, storage file path: ${filePath}`
+        )
       }
+      return
     }
   }
 
@@ -215,23 +197,6 @@ class StorageClient {
     }
   }
 
-  private async deleteImageDatabaseRows(imageKeys: string[]): Promise<void> {
-    if (imageKeys == null || imageKeys.length === 0) {
-      return
-    }
-    const { status, error } = await this.supabase
-      .from("podcast_images")
-      .delete()
-      .in("image_width_image_height_url", imageKeys)
-    if (error) {
-      throw new Error(
-        `deleteImageDatabaseRows(): could not delete ${JSON.stringify(
-          imageKeys
-        )}. Status: ${status}. Error: ${error?.message}`
-      )
-    }
-  }
-
   private async deleteImageStorage(
     filePaths: string[]
   ): Promise<string[] | undefined> {
@@ -250,9 +215,11 @@ class StorageClient {
       const missingDeleteFiles = filePaths.filter(
         (p) => !deletedFilesSet.has(p)
       )
-      logger.error(
-        `deleteImageStorage(): could not delete file paths: ${missingDeleteFiles}`
-      )
+      if (missingDeleteFiles.length > 0) {
+        logger.error(
+          `deleteImageStorage(): could not delete file paths: ${missingDeleteFiles}`
+        )
+      }
       return deletedFilePaths
     }
   }
