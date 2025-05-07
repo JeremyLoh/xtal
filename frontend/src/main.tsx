@@ -7,7 +7,6 @@ import MapProvider from "./context/MapProvider/MapProvider.tsx"
 import FavouriteStationsProvider from "./context/FavouriteStationsProvider/FavouriteStationsProvider.tsx"
 import Root from "./Root.tsx"
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary.tsx"
-import LoadingDisplay from "./components/LoadingDisplay/LoadingDisplay.tsx"
 import {
   getSuperTokensRoutes,
   initializeSuperTokens,
@@ -16,6 +15,9 @@ import { SessionAuth } from "supertokens-auth-react/recipe/session/index"
 
 initializeSuperTokens()
 
+const SuspenseFallbackPage = lazy(
+  () => import("./pages/SuspenseFallbackPage/SuspenseFallbackPage.tsx")
+)
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage/NotFoundPage.tsx"))
 const HomeLayout = lazy(() => import("./pages/HomeLayout/HomeLayout.tsx"))
 const HomePage = lazy(() => import("./pages/HomePage/HomePage.tsx"))
@@ -58,7 +60,7 @@ createRoot(document.getElementById("root")!).render(
         <FavouriteStationsProvider>
           <BrowserRouter>
             <ErrorBoundary fallback={<NotFoundPage />}>
-              <Suspense fallback={<LoadingDisplay loading={true} />}>
+              <Suspense fallback={<SuspenseFallbackPage />}>
                 <Routes>
                   <Route path="/" element={<Root />}>
                     {/*renders prebuilt login UI on /auth route*/}
