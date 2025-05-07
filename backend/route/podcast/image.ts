@@ -42,7 +42,7 @@ router.get(
       )
       response.status(200).send(imageBuffer)
     } catch (error: any) {
-      logger.error("GET /api/podcast/image error:", error.message)
+      logger.error("GET /api/podcast/image error: " + error.message)
       response.status(500).send("Internal Server Error")
     }
   }
