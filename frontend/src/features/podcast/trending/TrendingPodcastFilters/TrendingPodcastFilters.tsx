@@ -3,12 +3,14 @@ import { memo, useCallback, useState } from "react"
 
 type TrendingPodcastFiltersProps = {
   onChange: ({ since }: { since: number }) => Promise<void>
+  initialSinceDays: number | undefined
 }
 
 export default memo(function TrendingPodcastFilters({
   onChange,
+  initialSinceDays,
 }: TrendingPodcastFiltersProps) {
-  const [sinceDays, setSinceDays] = useState(3)
+  const [sinceDays, setSinceDays] = useState(initialSinceDays)
   const handleSinceChange = useCallback(
     async (event: React.ChangeEvent<HTMLSelectElement>) => {
       const newSinceDays = Number.parseInt(event.target.value)
