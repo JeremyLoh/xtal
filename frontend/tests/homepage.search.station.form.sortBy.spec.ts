@@ -9,6 +9,7 @@ import {
   getSearchStationButton,
   getStationSearchByNameInput,
 } from "./constants/searchStationConstants"
+import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
 
 test.beforeEach(async ({ mapPage }) => {
   await mapPage.mockMapTile()
@@ -22,6 +23,7 @@ test.describe("radio station search form sort options", () => {
   test("display available sort options", async ({ page }) => {
     const expectedSortOptions = ["none", "bitrate", "votes"]
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     expect(
       await getSortSelect(page).locator("option").allTextContents()
@@ -55,6 +57,7 @@ test.describe("radio station search form sort options", () => {
       }
     )
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await getStationSearchByNameInput(page).fill(stationNameSearch)
     await getSearchStationForm(page).locator("button[type='submit']").click()
@@ -95,6 +98,7 @@ test.describe("radio station search form sort options", () => {
       }
     )
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await getStationSearchByNameInput(page).fill(stationNameSearch)
     await getSortSelect(page).selectOption(["bitrate"])
@@ -146,6 +150,7 @@ test.describe("radio station search form sort options", () => {
       }
     )
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await getStationSearchByNameInput(page).fill(stationNameSearch)
     await getSortSelect(page).selectOption(["votes"])

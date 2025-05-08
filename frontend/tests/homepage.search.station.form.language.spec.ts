@@ -8,6 +8,7 @@ import {
   getSearchStationButton,
   getStationSearchByNameInput,
 } from "./constants/searchStationConstants"
+import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
 
 test.beforeEach(async ({ mapPage }) => {
   await mapPage.mockMapTile()
@@ -79,6 +80,7 @@ test.describe("radio station search form language filter", () => {
       "vietnamese",
     ]
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     expect(
       await getSearchStationForm(page)
@@ -94,6 +96,7 @@ test.describe("radio station search form language filter", () => {
 
   test("display english as default language", async ({ page }) => {
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await expect(
       getSearchStationForm(page).locator("select#language")
@@ -124,6 +127,7 @@ test.describe("radio station search form language filter", () => {
       }
     )
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await getSearchStationForm(page)
       .locator("select#language")

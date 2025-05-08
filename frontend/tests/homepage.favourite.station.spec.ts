@@ -44,6 +44,7 @@ test.describe("radio station favourite feature", () => {
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await clickRandomRadioStationButton(page)
     await assertLoadingSpinnerIsMissing(page)
     await getRadioCardFavouriteIcon(page).click()
@@ -69,7 +70,9 @@ test.describe("radio station favourite feature", () => {
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await clickRandomRadioStationButton(page)
+    await assertLoadingSpinnerIsMissing(page)
     // move mouse away from the favourite icon to check the default fill color
     await page.mouse.move(0, 0)
     await expect(
@@ -86,12 +89,15 @@ test.describe("radio station favourite feature", () => {
   test("favourite icon on radio station card toggles on click", async ({
     page,
   }) => {
+    test.slow()
     await page.route("*/**/json/stations/search?*", async (route) => {
       const json = [unitedStatesStation]
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await clickRandomRadioStationButton(page)
+    await assertLoadingSpinnerIsMissing(page)
     await expect(page.locator("#map")).toBeVisible()
     await expect(getRadioCardFavouriteIcon(page)).toBeVisible()
     await expect(getRadioCardFavouriteIcon(page)).not.toHaveClass(/selected/)
@@ -104,6 +110,7 @@ test.describe("radio station favourite feature", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await expect(getFavouriteStationsButton(page)).toBeVisible()
     await getFavouriteStationsButton(page).click()
     await expect(getFavouriteStationsDrawer(page)).toBeVisible()
@@ -119,6 +126,7 @@ test.describe("radio station favourite feature", () => {
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await expect(getFavouriteStationsButton(page)).toBeVisible()
     await getFavouriteStationsButton(page).click()
     await expect(getFavouriteStationsDrawer(page)).toBeVisible()
@@ -129,6 +137,7 @@ test.describe("radio station favourite feature", () => {
     await closeFavouriteStationsDrawer(page)
 
     await clickRandomRadioStationButton(page)
+    await assertLoadingSpinnerIsMissing(page)
     await expect(page.locator("#map")).toBeVisible()
     await getRadioCardFavouriteIcon(page).click()
     await getFavouriteStationsButton(page).click()
@@ -180,7 +189,9 @@ test.describe("radio station favourite feature", () => {
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await clickRandomRadioStationButton(page)
+    await assertLoadingSpinnerIsMissing(page)
     await getRadioCardFavouriteIcon(page).click()
     await expect(getFavouriteStationsButton(page)).toBeVisible()
     await getFavouriteStationsButton(page).click()
@@ -206,6 +217,7 @@ test.describe("radio station favourite feature", () => {
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await expect(getFavouriteStationsButton(page)).toBeVisible()
     await getFavouriteStationsButton(page).click()
     await expect(getFavouriteStationsDrawer(page)).toBeVisible()
@@ -217,6 +229,7 @@ test.describe("radio station favourite feature", () => {
 
     await expect(page.locator("#map")).toBeVisible()
     await clickRandomRadioStationButton(page)
+    await assertLoadingSpinnerIsMissing(page)
     await getRadioCardFavouriteIcon(page).click()
     await getFavouriteStationsButton(page).click()
     await expect(
@@ -262,11 +275,14 @@ test.describe("radio station favourite feature", () => {
       }
     })
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await clickRandomRadioStationButton(page)
+    await assertLoadingSpinnerIsMissing(page)
     await expect(page.locator("#map")).toBeVisible()
     await getRadioCardFavouriteIcon(page).click()
     // load another radio station on the map that is different from the first station
     await clickRandomRadioStationButton(page)
+    await assertLoadingSpinnerIsMissing(page)
     await expect(
       getRadioCardMapPopup(page).getByRole("heading", {
         name: stationWithMultipleTags.name,
@@ -311,7 +327,9 @@ test.describe("radio station favourite feature", () => {
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await clickRandomRadioStationButton(page)
+    await assertLoadingSpinnerIsMissing(page)
     await expect(page.locator("#map")).toBeVisible()
     await getRadioCardFavouriteIcon(page).click()
     await getRadioStationMapPopupCloseButton(page).click()
@@ -351,7 +369,9 @@ test.describe("radio station favourite feature", () => {
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await clickRandomRadioStationButton(page)
+    await assertLoadingSpinnerIsMissing(page)
     await getRadioCardFavouriteIcon(page).click()
     await expect(
       getRadioCardMapPopup(page).locator(".station-card-icon")
@@ -403,10 +423,13 @@ test.describe("radio station favourite feature", () => {
         }
       })
       await page.goto(HOMEPAGE)
+      await assertLoadingSpinnerIsMissing(page)
       await clickRandomRadioStationButton(page)
+      await assertLoadingSpinnerIsMissing(page)
       await getRadioCardFavouriteIcon(page).click()
       requestCount = 2
       await clickRandomRadioStationButton(page)
+      await assertLoadingSpinnerIsMissing(page)
       await getRadioCardFavouriteIcon(page).click()
 
       await getFavouriteStationsButton(page).click()
@@ -445,10 +468,13 @@ test.describe("radio station favourite feature", () => {
         }
       })
       await page.goto(HOMEPAGE)
+      await assertLoadingSpinnerIsMissing(page)
       await clickRandomRadioStationButton(page)
+      await assertLoadingSpinnerIsMissing(page)
       await getRadioCardFavouriteIcon(page).click()
       requestCount = 2
       await clickRandomRadioStationButton(page)
+      await assertLoadingSpinnerIsMissing(page)
       await getRadioCardFavouriteIcon(page).click()
 
       await getFavouriteStationsButton(page).click()

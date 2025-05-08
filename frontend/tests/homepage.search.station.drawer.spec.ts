@@ -10,6 +10,7 @@ import {
   getSearchStationButton,
   getSearchStationDrawer,
 } from "./constants/searchStationConstants"
+import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
 
 test.beforeEach(async ({ mapPage }) => {
   await mapPage.mockMapTile()
@@ -28,6 +29,7 @@ test.describe("search station drawer for finding radio stations", () => {
 
   test("display drawer after search station button click", async ({ page }) => {
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await expect(getSearchStationButton(page)).toBeVisible()
     await getSearchStationButton(page).click()
     await expect(getSearchStationButton(page)).toHaveClass(/selected/)
@@ -38,6 +40,7 @@ test.describe("search station drawer for finding radio stations", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getGenreSearchButton(page).click()
     await expect(getGenreSearchButton(page)).toHaveClass(/selected/)
     await getSearchStationButton(page).click()
@@ -49,6 +52,7 @@ test.describe("search station drawer for finding radio stations", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getGenreSearchButton(page).click()
     await expect(getGenreSearchButton(page)).toHaveClass(/selected/)
     await getSearchStationButton(page).click()
@@ -63,6 +67,7 @@ test.describe("search station drawer for finding radio stations", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getCountrySearchButton(page).click()
     await expect(getCountrySearchButton(page)).toHaveClass(/selected/)
     await getSearchStationButton(page).click()
@@ -80,6 +85,7 @@ test.describe("search station drawer for finding radio stations", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await expect(getSearchStationDrawer(page)).toBeVisible()
     await closeSearchStationDrawer(page)
@@ -90,6 +96,7 @@ test.describe("search station drawer for finding radio stations", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await expect(getSearchStationDrawer(page)).toBeVisible()
     await getSearchStationDrawer(page).click()
@@ -102,6 +109,7 @@ test.describe("search station drawer for finding radio stations", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await expect(getSearchStationDrawer(page)).toBeVisible()
     await getDrawerDragButton(page).hover()
@@ -119,6 +127,7 @@ test.describe("search station drawer for finding radio stations", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await expect(getSearchStationDrawer(page)).toBeVisible()
     await getDrawerDragButton(page).hover()

@@ -13,6 +13,7 @@ import {
   getSearchStationDrawer,
   getStationSearchByNameInput,
 } from "./constants/searchStationConstants"
+import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
 
 test.beforeEach(async ({ mapPage }) => {
   await mapPage.mockMapTile()
@@ -24,7 +25,9 @@ test.describe("radio station search form", () => {
   }
 
   test("display drawer with radio station search form", async ({ page }) => {
+    test.slow()
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await expect(getSearchStationDrawer(page)).toBeVisible()
     await expect(
@@ -38,6 +41,7 @@ test.describe("radio station search form", () => {
   }) => {
     const count = 256
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await expect(getSearchStationDrawer(page)).toBeVisible()
     await getStationSearchByNameInput(page).fill("a".repeat(count))
@@ -52,16 +56,19 @@ test.describe("radio station search form", () => {
   test("search radio station for name shows one entry in drawer", async ({
     page,
   }) => {
+    test.slow()
     const stationName = "vinyl hd"
     await page.route("*/**/json/stations/search?*", async (route) => {
       const json = [unitedStatesStation]
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await expect(getSearchStationDrawer(page)).toBeVisible()
     await getStationSearchByNameInput(page).fill(stationName)
     await getSearchStationForm(page).locator("button[type='submit']").click()
+    await assertLoadingSpinnerIsMissing(page)
     await expect(getDrawerStationResultCard(page)).toBeVisible()
     const expectedTextInStationResultCard = [
       unitedStatesStation.name,
@@ -92,12 +99,14 @@ test.describe("radio station search form", () => {
   test("click on drawer load station button for radio station result card loads station on map", async ({
     page,
   }) => {
+    test.slow()
     const stationName = "vinyl hd"
     await page.route("*/**/json/stations/search?*", async (route) => {
       const json = [unitedStatesStation]
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await expect(getSearchStationDrawer(page)).toBeVisible()
     await getStationSearchByNameInput(page).fill(stationName)
@@ -144,6 +153,7 @@ test.describe("radio station search form", () => {
       }
     })
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await expect(getSearchStationDrawer(page)).toBeVisible()
     await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()
@@ -173,6 +183,7 @@ test.describe("radio station search form", () => {
       }
     })
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await expect(getSearchStationDrawer(page)).toBeVisible()
     await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()
@@ -199,6 +210,7 @@ test.describe("radio station search form", () => {
       }
     })
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await expect(getSearchStationDrawer(page)).toBeVisible()
     await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()
@@ -230,6 +242,7 @@ test.describe("radio station search form", () => {
       await route.fulfill({ json: [] })
     })
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await expect(getSearchStationDrawer(page)).toBeVisible()
     await expect(getDrawerLoadMoreStationButton(page)).not.toBeVisible()

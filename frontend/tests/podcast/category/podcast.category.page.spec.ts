@@ -6,6 +6,7 @@ import {
   podcastId_259760_OffsetTenEpisodes,
 } from "../../mocks/podcast.episode.ts"
 import { getNextPaginationButton } from "../../constants/podcast/pagination/podcastDetailPagination.ts"
+import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants.ts"
 
 test.describe("Podcast Category Page /podcasts/<category_name>", () => {
   test("should display trending podcasts in category", async ({ page }) => {
@@ -19,6 +20,7 @@ test.describe("Podcast Category Page /podcasts/<category_name>", () => {
       }
     )
     await page.goto(HOMEPAGE + `/podcasts/${category}`)
+    await assertLoadingSpinnerIsMissing(page)
     await expect(page.locator(".podcast-trending-container")).toBeVisible()
     for (let i = 0; i < tenArtTrendingPodcasts.count; i++) {
       const expectedPodcast = tenArtTrendingPodcasts.data[i]
@@ -57,6 +59,7 @@ test.describe("Podcast Category Page /podcasts/<category_name>", () => {
       }
     )
     await page.goto(HOMEPAGE + `/podcasts/${category}`)
+    await assertLoadingSpinnerIsMissing(page)
     await expect(page.locator(".podcast-trending-container")).toBeVisible()
     await expect(page).toHaveTitle(`xtal - ${category.toLowerCase()} podcasts`)
     await page.getByTestId("podcast-category-page-podcasts-link").click()
@@ -105,8 +108,8 @@ test.describe("Podcast Category Page /podcasts/<category_name>", () => {
         }
       }
     )
-
     await page.goto(HOMEPAGE + `/podcasts/${category}`)
+    await assertLoadingSpinnerIsMissing(page)
     await expect(page.locator(".podcast-trending-container")).toBeVisible()
     await expect(page).toHaveTitle(`xtal - ${category.toLowerCase()} podcasts`)
     await page
@@ -116,6 +119,7 @@ test.describe("Podcast Category Page /podcasts/<category_name>", () => {
       .click()
     await expect(getNextPaginationButton(page)).toBeVisible()
     await getNextPaginationButton(page).click()
+    await assertLoadingSpinnerIsMissing(page)
     // click back button, it should ignore pagination done and return to the respective podcast category page
     await expect(
       page.getByTestId("podcast-detail-page-category-link")
