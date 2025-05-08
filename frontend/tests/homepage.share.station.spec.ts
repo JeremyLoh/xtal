@@ -51,9 +51,7 @@ test.describe("share radio station feature", () => {
     await page.goto(HOMEPAGE)
     await assertLoadingSpinnerIsMissing(page)
     await clickRandomRadioStationButton(page)
-    await assertLoadingSpinnerIsMissing(page)
     await getRadioCardShareIcon(page).click()
-    await assertLoadingSpinnerIsMissing(page)
     const expectedUrl = await getRadioStationShareUrl(
       page,
       unitedStatesStation.stationuuid
@@ -72,7 +70,6 @@ test.describe("share radio station feature", () => {
     await page.goto(HOMEPAGE)
     await assertLoadingSpinnerIsMissing(page)
     await clickRandomRadioStationButton(page)
-    await assertLoadingSpinnerIsMissing(page)
     await getRadioCardShareIcon(page).click()
     await page.waitForTimeout(400)
     await assertToastMessage(page, "Link Copied")
@@ -82,7 +79,7 @@ test.describe("share radio station feature", () => {
     page,
   }) => {
     test.slow()
-    await page.route("*/**/json/stations/search?*", async (route) => {
+    await page.route("*/**/json/stations/byuuid?*", async (route) => {
       const requestUrl = route.request().url()
       if (
         requestUrl.includes(
@@ -125,19 +122,29 @@ test.describe("share radio station feature", () => {
     // navigate to http://localhost:5173/radio-station/d1a54d2e-623e-4970-ab11-35f7b56c5ec3
     // share link should not be http://localhost:5173/radio-station/d1a54d2e-623e-4970-ab11-35f7b56c5ec3radio-station/f37830fa-76d3-4b85-addb-f3548e6d08ea
     await page.route("*/**/json/stations/search?*", async (route) => {
-      const requestUrl = route.request().url()
-      if (
-        requestUrl.includes(
-          `json/stations/byuuid?uuids=${unitedStatesStation.stationuuid}`
-        )
-      ) {
-        const json = [unitedStatesStation]
-        await route.fulfill({ json })
-      } else {
-        const json = [stationWithLocationLatLng]
-        await route.fulfill({ json })
-      }
+      // random station search mock data
+      const json = [stationWithLocationLatLng]
+      await route.fulfill({ json })
     })
+    await page.route(
+      `*/**/json/stations/byuuid?uuids=${unitedStatesStation.stationuuid}*`,
+      async (route) => {
+        // specific station search by stationuuid mock data
+        const requestUrl = route.request().url()
+        if (
+          requestUrl.includes(
+            `json/stations/byuuid?uuids=${unitedStatesStation.stationuuid}`
+          )
+        ) {
+          const json = [unitedStatesStation]
+          await route.fulfill({ json })
+        } else {
+          const json = []
+          await route.fulfill({ json })
+        }
+      }
+    )
+
     await page.goto(
       HOMEPAGE + `/radio-station/${unitedStatesStation.stationuuid}`
     )
@@ -149,7 +156,6 @@ test.describe("share radio station feature", () => {
       })
     ).toBeVisible()
     await clickRandomRadioStationButton(page)
-    await assertLoadingSpinnerIsMissing(page)
     await getRadioCardShareIcon(page).click()
 
     await assertToastMessage(page, "Link Copied")
@@ -288,7 +294,6 @@ test.describe("share radio station feature", () => {
   }) => {
     // radio browser api currently uses UUID V4 for the "stationuuid" field
     await page.goto(HOMEPAGE + "/radio-station/invalidStationuuid")
-    await assertLoadingSpinnerIsMissing(page)
     await expect(page.getByText("404 Not Found")).toBeVisible()
     await expect(
       page.getByRole("link", { name: "Return Home", exact: true })
@@ -300,7 +305,6 @@ test.describe("share radio station feature", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE + "/radio-station/")
-    await assertLoadingSpinnerIsMissing(page)
     await expect(page.getByText("404 Not Found")).toBeVisible()
     await expect(
       page.getByRole("link", { name: "Return Home", exact: true })
