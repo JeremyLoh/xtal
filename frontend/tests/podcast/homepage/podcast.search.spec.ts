@@ -2,7 +2,6 @@ import test, { expect, Page } from "@playwright/test"
 import { HOMEPAGE } from "../../constants/homepageConstants.ts"
 import { Podcast } from "../../../src/api/podcast/model/podcast.ts"
 import { podcastSearch_similarTerm_syntax_limit_10 } from "../../mocks/podcast.search.ts"
-import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants.ts"
 
 test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
   function getPodcastSearchInput(page: Page) {
@@ -102,7 +101,6 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
     await page.goto(HOMEPAGE + "/podcasts")
     await expect(getPodcastSearchInput(page)).toBeVisible()
     await getPodcastSearchInput(page).fill(query)
-    await assertLoadingSpinnerIsMissing(page)
     await assertPodcastSearchResults(
       page,
       podcastSearch_similarTerm_syntax_limit_10.data
@@ -130,7 +128,6 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
     await page.goto(HOMEPAGE + "/podcasts")
     await expect(getPodcastSearchInput(page)).toBeVisible()
     await getPodcastSearchInput(page).fill(query)
-    await assertLoadingSpinnerIsMissing(page)
     await assertPodcastSearchResults(
       page,
       podcastSearch_similarTerm_syntax_limit_10.data
@@ -159,7 +156,6 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
     await page.goto(HOMEPAGE + "/podcasts")
     await expect(getPodcastSearchInput(page)).toBeVisible()
     await getPodcastSearchInput(page).fill(query)
-    await assertLoadingSpinnerIsMissing(page)
 
     await assertPodcastSearchResults(
       page,

@@ -12,6 +12,7 @@ import {
   getPreviousPaginationButton,
   getSinceSelectFilter,
 } from "../../constants/podcast/pagination/podcastTrendingPagination"
+import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
 
 test.describe("Pagination on Podcast Category Page /podcasts/<category_name>", () => {
   function convertToUnixTimestamp(daysBefore: number): number {
@@ -60,6 +61,7 @@ test.describe("Pagination on Podcast Category Page /podcasts/<category_name>", (
         }
       )
       await page.goto(HOMEPAGE + `/podcasts/${category}`)
+      await assertLoadingSpinnerIsMissing(page)
       for (let i = 0; i < tenArtTrendingPodcasts.count; i++) {
         const expectedPodcast = tenArtTrendingPodcasts.data[i]
         await assertTrendingPodcastIsShown(page, i, expectedPodcast)
@@ -96,6 +98,7 @@ test.describe("Pagination on Podcast Category Page /podcasts/<category_name>", (
         }
       )
       await page.goto(HOMEPAGE + `/podcasts/${category}`)
+      await assertLoadingSpinnerIsMissing(page)
       await expect(getActivePageNumberElement(page, "1")).toBeVisible()
       for (let i = 0; i < tenArtTrendingPodcasts.count; i++) {
         const expectedPodcast = tenArtTrendingPodcasts.data[i]
@@ -104,6 +107,7 @@ test.describe("Pagination on Podcast Category Page /podcasts/<category_name>", (
       await expect(getNextPaginationButton(page)).toBeVisible()
       await expect(getNextPaginationButton(page)).not.toBeDisabled()
       await getNextPaginationButton(page).click()
+      await assertLoadingSpinnerIsMissing(page)
 
       for (let i = 0; i < tenArtTrendingPodcastsOffsetTen.count; i++) {
         const expectedPodcast = tenArtTrendingPodcastsOffsetTen.data[i]
@@ -135,6 +139,7 @@ test.describe("Pagination on Podcast Category Page /podcasts/<category_name>", (
         }
       )
       await page.goto(HOMEPAGE + `/podcasts/${category}`)
+      await assertLoadingSpinnerIsMissing(page)
       await expect(getActivePageNumberElement(page, "1")).toBeVisible()
       for (let i = 0; i < tenArtTrendingPodcasts.count; i++) {
         const expectedPodcast = tenArtTrendingPodcasts.data[i]
@@ -143,6 +148,7 @@ test.describe("Pagination on Podcast Category Page /podcasts/<category_name>", (
       await expect(getNextPaginationButton(page)).toBeVisible()
       await expect(getNextPaginationButton(page)).not.toBeDisabled()
       await getNextPaginationButton(page).click()
+      await assertLoadingSpinnerIsMissing(page)
 
       await expect(getPreviousPaginationButton(page)).not.toBeDisabled()
       for (let i = 0; i < tenArtTrendingPodcastsOffsetTen.count; i++) {
@@ -151,6 +157,7 @@ test.describe("Pagination on Podcast Category Page /podcasts/<category_name>", (
       }
       await expect(getActivePageNumberElement(page, "2")).toBeVisible()
       await getPreviousPaginationButton(page).click()
+      await assertLoadingSpinnerIsMissing(page)
 
       await expect(getActivePageNumberElement(page, "1")).toBeVisible()
       for (let i = 0; i < tenArtTrendingPodcasts.count; i++) {

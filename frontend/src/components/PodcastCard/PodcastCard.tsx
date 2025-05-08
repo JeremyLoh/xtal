@@ -10,6 +10,11 @@ type PodcastCardProps = PropsWithChildren & {
   podcast: Podcast
 }
 
+const initial = { opacity: 0, x: 50 }
+const animate = { opacity: 1, x: 0 }
+const whileInView = { opacity: 1, x: 0 }
+const transition = { duration: 0.5, type: "spring", bounce: 0 }
+
 function PodcastCard({ children, customClassName, podcast }: PodcastCardProps) {
   const output = useMemo(() => {
     const sanitizedPodcast = {
@@ -24,11 +29,10 @@ function PodcastCard({ children, customClassName, podcast }: PodcastCardProps) {
       <AnimatePresence>
         <motion.div
           className={`podcast-card ${customClassName || ""}`.trim()}
-          layout
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, type: "spring", bounce: 0 }}
+          initial={initial}
+          animate={animate}
+          whileInView={whileInView}
+          transition={transition}
         >
           {children}
         </motion.div>

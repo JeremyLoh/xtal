@@ -67,7 +67,7 @@ test.describe("share radio station feature", () => {
     await page.goto(HOMEPAGE)
     await clickRandomRadioStationButton(page)
     await getRadioCardShareIcon(page).click()
-    await page.waitForTimeout(300)
+    await page.waitForTimeout(400)
     await assertToastMessage(page, "Link Copied")
   })
 
@@ -75,7 +75,7 @@ test.describe("share radio station feature", () => {
     page,
   }) => {
     test.slow()
-    await page.route("*/**/json/stations/search?*", async (route) => {
+    await page.route("*/**/json/stations/byuuid?*", async (route) => {
       const requestUrl = route.request().url()
       if (
         requestUrl.includes(
@@ -92,6 +92,7 @@ test.describe("share radio station feature", () => {
       unitedStatesStation.stationuuid
     )
     await page.goto(shareUrl, { waitUntil: "domcontentloaded" })
+    await expect(getRadioCardMapPopup(page)).toBeVisible()
     await expect(
       getRadioCardMapPopup(page).getByRole("heading", {
         name: unitedStatesStation.name,
@@ -115,19 +116,29 @@ test.describe("share radio station feature", () => {
     // navigate to http://localhost:5173/radio-station/d1a54d2e-623e-4970-ab11-35f7b56c5ec3
     // share link should not be http://localhost:5173/radio-station/d1a54d2e-623e-4970-ab11-35f7b56c5ec3radio-station/f37830fa-76d3-4b85-addb-f3548e6d08ea
     await page.route("*/**/json/stations/search?*", async (route) => {
-      const requestUrl = route.request().url()
-      if (
-        requestUrl.includes(
-          `json/stations/byuuid?uuids=${unitedStatesStation.stationuuid}`
-        )
-      ) {
-        const json = [unitedStatesStation]
-        await route.fulfill({ json })
-      } else {
-        const json = [stationWithLocationLatLng]
-        await route.fulfill({ json })
-      }
+      // random station search mock data
+      const json = [stationWithLocationLatLng]
+      await route.fulfill({ json })
     })
+    await page.route(
+      `*/**/json/stations/byuuid?uuids=${unitedStatesStation.stationuuid}*`,
+      async (route) => {
+        // specific station search by stationuuid mock data
+        const requestUrl = route.request().url()
+        if (
+          requestUrl.includes(
+            `json/stations/byuuid?uuids=${unitedStatesStation.stationuuid}`
+          )
+        ) {
+          const json = [unitedStatesStation]
+          await route.fulfill({ json })
+        } else {
+          const json = []
+          await route.fulfill({ json })
+        }
+      }
+    )
+
     await page.goto(
       HOMEPAGE + `/radio-station/${unitedStatesStation.stationuuid}`
     )
@@ -153,6 +164,7 @@ test.describe("share radio station feature", () => {
     test("stationuuid UUID Version 1 should not redirect to 404 page", async ({
       page,
     }) => {
+      test.slow()
       const stationuuid = "960a2547-e2e4-11e9-a8ba-52543be04c81"
       await page.route(
         `*/**/json/stations/byuuid?uuids=${stationuuid}`,
@@ -163,6 +175,7 @@ test.describe("share radio station feature", () => {
       )
       await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
       await expect(page.getByText("404 Not Found")).not.toBeVisible()
+      await expect(getRadioCardMapPopup(page)).toBeVisible()
       await expect(
         getRadioCardMapPopup(page).getByRole("heading", {
           name: unitedStatesStation.name,
@@ -174,6 +187,7 @@ test.describe("share radio station feature", () => {
     test("stationuuid UUID Version 2 should not redirect to 404 page", async ({
       page,
     }) => {
+      test.slow()
       const stationuuid = "960a2547-e2e4-21e9-a8ba-52543be04c81"
       await page.route(
         `*/**/json/stations/byuuid?uuids=${stationuuid}`,
@@ -184,6 +198,7 @@ test.describe("share radio station feature", () => {
       )
       await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
       await expect(page.getByText("404 Not Found")).not.toBeVisible()
+      await expect(getRadioCardMapPopup(page)).toBeVisible()
       await expect(
         getRadioCardMapPopup(page).getByRole("heading", {
           name: unitedStatesStation.name,
@@ -195,6 +210,7 @@ test.describe("share radio station feature", () => {
     test("stationuuid UUID Version 3 should not redirect to 404 page", async ({
       page,
     }) => {
+      test.slow()
       const stationuuid = "960a2547-e2e4-31e9-a8ba-52543be04c81"
       await page.route(
         `*/**/json/stations/byuuid?uuids=${stationuuid}`,
@@ -205,6 +221,7 @@ test.describe("share radio station feature", () => {
       )
       await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
       await expect(page.getByText("404 Not Found")).not.toBeVisible()
+      await expect(getRadioCardMapPopup(page)).toBeVisible()
       await expect(
         getRadioCardMapPopup(page).getByRole("heading", {
           name: unitedStatesStation.name,
@@ -216,6 +233,7 @@ test.describe("share radio station feature", () => {
     test("stationuuid UUID Version 4 should not redirect to 404 page", async ({
       page,
     }) => {
+      test.slow()
       const stationuuid = "db93a00f-9191-46ab-9e87-ec9b373b3eee"
       await page.route(
         `*/**/json/stations/byuuid?uuids=${stationuuid}`,
@@ -226,6 +244,7 @@ test.describe("share radio station feature", () => {
       )
       await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
       await expect(page.getByText("404 Not Found")).not.toBeVisible()
+      await expect(getRadioCardMapPopup(page)).toBeVisible()
       await expect(
         getRadioCardMapPopup(page).getByRole("heading", {
           name: unitedStatesStation.name,
@@ -237,6 +256,7 @@ test.describe("share radio station feature", () => {
     test("stationuuid UUID Version 5 should not redirect to 404 page", async ({
       page,
     }) => {
+      test.slow()
       const stationuuid = "b79cb3ba-745e-5d9a-8903-4a02327a7e09"
       await page.route(
         `*/**/json/stations/byuuid?uuids=${stationuuid}`,
@@ -247,6 +267,7 @@ test.describe("share radio station feature", () => {
       )
       await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
       await expect(page.getByText("404 Not Found")).not.toBeVisible()
+      await expect(getRadioCardMapPopup(page)).toBeVisible()
       await expect(
         getRadioCardMapPopup(page).getByRole("heading", {
           name: unitedStatesStation.name,

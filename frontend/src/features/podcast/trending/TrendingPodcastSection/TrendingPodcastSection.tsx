@@ -160,26 +160,29 @@ function TrendingPodcastSection({
   }, [trendingPodcasts, isMobile, handleRefreshTrendingPodcasts])
 
   return (
-    <div className="podcast-trending-container">
-      <h2 className="podcast-trending-title">
-        Trending
-        <IoChevronForward size={20} />
-        <TrendingPodcastFilters onChange={handleFilterChange} />
-      </h2>
-      <Pagination
-        className="trending-podcast-pagination"
-        currentPage={page}
-        totalPages={MAX_TRENDING_PODCAST_PAGINATION_PAGES}
-        onPreviousPageClick={handlePreviousPageClick}
-        onNextPageClick={handleNextPageClick}
-        onPageClick={handlePageClick}
-      />
-      <div className="podcast-trending-card-container">
-        <LoadingDisplay loading={loading}>
+    <LoadingDisplay loading={loading}>
+      <div className="podcast-trending-container">
+        <h2 className="podcast-trending-title">
+          Trending
+          <IoChevronForward size={20} />
+          <TrendingPodcastFilters
+            initialSinceDays={podcastFilters?.since}
+            onChange={handleFilterChange}
+          />
+        </h2>
+        <Pagination
+          className="trending-podcast-pagination"
+          currentPage={page}
+          totalPages={MAX_TRENDING_PODCAST_PAGINATION_PAGES}
+          onPreviousPageClick={handlePreviousPageClick}
+          onNextPageClick={handleNextPageClick}
+          onPageClick={handlePageClick}
+        />
+        <div className="podcast-trending-card-container">
           {renderTrendingPodcasts()}
-        </LoadingDisplay>
+        </div>
       </div>
-    </div>
+    </LoadingDisplay>
   )
 }
 

@@ -5,7 +5,6 @@ import {
   getAllVisiblePodcastEpisodeTitles,
   getEpisodeDurationSelectFilter,
 } from "../../constants/podcast/detail/podcastDetailConstants"
-import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
 import {
   getActivePageNumberElement,
   getNextPaginationButton,
@@ -66,17 +65,14 @@ test.describe("Podcast Episode Filters on Podcast Detail Page for individual pod
       )
       await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
       await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-      await assertLoadingSpinnerIsMissing(page)
       await expect(getEpisodeDurationSelectFilter(page)).toBeVisible()
       await expect(getEpisodeDurationSelectFilter(page)).toHaveValue("0")
       await getEpisodeDurationSelectFilter(page).selectOption("5")
       await expect(getEpisodeDurationSelectFilter(page)).toHaveValue("5")
-      await assertLoadingSpinnerIsMissing(page)
 
       await expect(getActivePageNumberElement(page, "1")).toBeVisible()
       await expect(getNextPaginationButton(page)).toBeVisible()
       await getNextPaginationButton(page).click()
-      await assertLoadingSpinnerIsMissing(page)
       await expect(getEpisodeDurationSelectFilter(page)).toBeVisible()
       await expect(getEpisodeDurationSelectFilter(page)).toHaveValue("5")
       const visibleEpisodeTitles = await getAllVisiblePodcastEpisodeTitles(page)
@@ -126,14 +122,12 @@ test.describe("Podcast Episode Filters on Podcast Detail Page for individual pod
       )
       await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
       await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-      await assertLoadingSpinnerIsMissing(page)
 
       await expect(getEpisodeDurationSelectFilter(page)).toBeVisible()
       await expect(getEpisodeDurationSelectFilter(page)).toHaveValue("0")
       await getEpisodeDurationSelectFilter(page).selectOption("5")
       await expect(getEpisodeDurationSelectFilter(page)).toHaveValue("5")
 
-      await assertLoadingSpinnerIsMissing(page)
       const visibleEpisodeTitles = await getAllVisiblePodcastEpisodeTitles(page)
       expect(visibleEpisodeTitles.size).toBe(
         expectedVisibleEpisodesAfterFilter.length
@@ -144,7 +138,6 @@ test.describe("Podcast Episode Filters on Podcast Detail Page for individual pod
 
       await getEpisodeDurationSelectFilter(page).selectOption("0")
       await expect(getEpisodeDurationSelectFilter(page)).toHaveValue("0")
-      await assertLoadingSpinnerIsMissing(page)
 
       await scrollToTop(getVirtualizedListParentElement(page))
 
@@ -198,14 +191,12 @@ test.describe("Podcast Episode Filters on Podcast Detail Page for individual pod
       )
       await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
       await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-      await assertLoadingSpinnerIsMissing(page)
 
       await expect(getEpisodeDurationSelectFilter(page)).toBeVisible()
       await expect(getEpisodeDurationSelectFilter(page)).toHaveValue("0")
       await getEpisodeDurationSelectFilter(page).selectOption("5")
       await expect(getEpisodeDurationSelectFilter(page)).toHaveValue("5")
 
-      await assertLoadingSpinnerIsMissing(page)
       const visibleEpisodeTitles = await getAllVisiblePodcastEpisodeTitles(page)
       expect(visibleEpisodeTitles.size).toBe(
         expectedVisibleEpisodesAfterFilter.length

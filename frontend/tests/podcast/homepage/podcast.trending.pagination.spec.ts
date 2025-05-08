@@ -13,6 +13,7 @@ import {
   getSinceSelectFilter,
 } from "../../constants/podcast/pagination/podcastTrendingPagination"
 import { getPodcastCards } from "../../constants/podcast/trending/podcastTrendingConstants"
+import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
 
 test.describe("Podcast Homepage /podcasts", () => {
   function convertToUnixTimestamp(daysBefore: number): number {
@@ -82,6 +83,7 @@ test.describe("Podcast Homepage /podcasts", () => {
         }
       )
       await page.goto(HOMEPAGE + "/podcasts")
+      await assertLoadingSpinnerIsMissing(page)
       await expect(page.locator(".podcast-trending-container")).toBeVisible()
       await expect(getActivePageNumberElement(page, "1")).toBeVisible()
       for (const podcastData of defaultTenTrendingPodcasts.data) {
@@ -89,6 +91,7 @@ test.describe("Podcast Homepage /podcasts", () => {
       }
 
       await getNextPaginationButton(page).click()
+      await assertLoadingSpinnerIsMissing(page)
       for (const podcastData of threeTrendingPodcasts.data) {
         await assertTrendingPodcastIsShown(page, podcastData)
       }

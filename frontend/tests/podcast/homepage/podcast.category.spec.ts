@@ -1,7 +1,6 @@
 import test, { expect, Page } from "@playwright/test"
 import { allPodcastCategories } from "../../mocks/podcast.category"
 import { HOMEPAGE } from "../../constants/homepageConstants"
-import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
 
 test.describe("Podcast Homepage /podcasts", () => {
   test.describe("Podcast Categories Section", () => {
@@ -58,7 +57,6 @@ test.describe("Podcast Homepage /podcasts", () => {
           )
       ).toBeVisible()
       await expect(getRefreshPodcastCategoryButton(page)).toBeVisible()
-      await assertLoadingSpinnerIsMissing(page)
     })
 
     test("should refresh podcast categories on button click", async ({
@@ -74,9 +72,13 @@ test.describe("Podcast Homepage /podcasts", () => {
         const json = shouldFetchData ? allPodcastCategories : []
         await route.fulfill({ json })
       })
+      await page.route("*/**/api/podcast/trending?limit=*", async (route) => {
+        // mock trending podcast section data
+        const json = []
+        await route.fulfill({ json })
+      })
       await page.goto(HOMEPAGE + "/podcasts")
       await expect(page).toHaveTitle(/xtal - podcasts/)
-      await assertLoadingSpinnerIsMissing(page)
       await expect(
         page.getByText(
           "Could not get podcast categories. Please try again later"

@@ -15,8 +15,9 @@
   width: 100%;
 }
 .podcast-following-list-item:not([data-index="0"]) {
-  /* add gap between wrapped react-virtuoso items, except for first item */
-  margin-top: 2rem;
+  /* add gap between wrapped react-virtuoso items, except for first item. use padding to prevent layout shift (CLS) */
+  /* https://virtuoso.dev/troubleshooting/#list-does-not-scroll-to-the-bottom--items-jump-around */
+  padding-top: 2rem;
 }
 
 .podcast-following-list-podcast-card {

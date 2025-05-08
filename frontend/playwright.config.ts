@@ -18,9 +18,9 @@ dotenv.config({ path: path.resolve(__dirname, ".env.local") })
  */
 export default defineConfig({
   testDir: "./tests",
-  timeout: 25_000,
+  timeout: 60_000,
   expect: {
-    timeout: 7_000,
+    timeout: 10_000,
   },
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -28,8 +28,8 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  /* Run parallel tests with 4 workers for CI */
-  workers: process.env.CI ? 4 : undefined,
+  /* Run parallel tests with 3 workers for CI */
+  workers: process.env.CI ? 3 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */

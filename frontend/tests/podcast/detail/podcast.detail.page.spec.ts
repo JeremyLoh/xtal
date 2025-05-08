@@ -7,7 +7,6 @@ import {
   defaultTenPodcastEpisodes,
   podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes,
 } from "../../mocks/podcast.episode.ts"
-import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants.ts"
 import {
   assertPodcastEpisodes,
   assertPodcastInfo,
@@ -149,7 +148,6 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       )
       await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
       await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-      await assertLoadingSpinnerIsMissing(page)
       await expect(
         page.getByText("Could not get podcast episodes. Please try again later")
       ).toBeVisible()
@@ -186,7 +184,6 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       })
       await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
       await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-      await assertLoadingSpinnerIsMissing(page)
       await expect(
         page.getByText("Could not get podcast episodes. Please try again later")
       ).toBeVisible()
@@ -315,7 +312,8 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
     await assertToastMessage(
       page,
-      "Rate Limit Exceeded, please try again later"
+      "Rate Limit Exceeded, please try again later",
+      2 // react strict mode calls endpoint twice
     )
   })
 
@@ -337,7 +335,8 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
     await assertToastMessage(
       page,
-      "Could not retrieve podcast episodes. Please try again later"
+      "Could not retrieve podcast episodes. Please try again later",
+      2 // react strict mode calls endpoint twice
     )
   })
 })

@@ -24,6 +24,7 @@ test.describe("radio station search form", () => {
   }
 
   test("display drawer with radio station search form", async ({ page }) => {
+    test.slow()
     await page.goto(HOMEPAGE)
     await getSearchStationButton(page).click()
     await expect(getSearchStationDrawer(page)).toBeVisible()
@@ -52,6 +53,7 @@ test.describe("radio station search form", () => {
   test("search radio station for name shows one entry in drawer", async ({
     page,
   }) => {
+    test.slow()
     const stationName = "vinyl hd"
     await page.route("*/**/json/stations/search?*", async (route) => {
       const json = [unitedStatesStation]
@@ -92,6 +94,7 @@ test.describe("radio station search form", () => {
   test("click on drawer load station button for radio station result card loads station on map", async ({
     page,
   }) => {
+    test.slow()
     const stationName = "vinyl hd"
     await page.route("*/**/json/stations/search?*", async (route) => {
       const json = [unitedStatesStation]

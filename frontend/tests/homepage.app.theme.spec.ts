@@ -9,6 +9,7 @@ import {
   closeSearchStationDrawer,
   getSearchStationButton,
 } from "./constants/searchStationConstants.ts"
+import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants.ts"
 
 // https://playwright.dev/docs/emulation#color-scheme-and-media
 test.use({
@@ -57,6 +58,7 @@ test.describe("header app theme (start with dark mode)", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await assertElementHasDarkTheme(page, "#root")
     await expect(getDarkModeIcon(page)).toBeVisible()
     await page.getByTestId("theme-toggle-button").click()
@@ -69,6 +71,7 @@ test.describe("header app theme (start with dark mode)", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getFavouriteStationsButton(page).click()
     await assertElementHasDarkTheme(page, "#drawer-root")
     await closeFavouriteStationsDrawer(page)
@@ -81,6 +84,7 @@ test.describe("header app theme (start with dark mode)", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await assertElementHasDarkTheme(page, "#drawer-root")
     await closeSearchStationDrawer(page)
