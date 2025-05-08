@@ -338,7 +338,8 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
     await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
     await assertToastMessage(
       page,
-      "Could not retrieve podcast episodes. Please try again later"
+      "Could not retrieve podcast episodes. Please try again later",
+      2 // react strict mode calls endpoint twice
     )
   })
 })
