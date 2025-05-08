@@ -123,24 +123,24 @@ export default function PodcastDetailPage() {
   }, [fetchPodcastEpisodes, podcastId, podcast, page])
 
   return (
-    <div className="podcast-detail-container">
-      <PodcastDetailPageNavigation
-        podcast={podcast}
-        podcastTitle={podcastTitle}
-      />
-      <PodcastInfoCard podcast={podcast} />
-      <Pagination
-        className="podcast-episode-pagination"
-        currentPage={page}
-        totalPages={
-          podcast ? Math.ceil((podcast.episodeCount || 0) / LIMIT) : 0
-        }
-        onPreviousPageClick={handlePreviousPageClick}
-        onNextPageClick={handleNextPageClick}
-        onPageClick={handlePageClick}
-      />
-      <h2 className="podcast-episode-section-title">Episodes</h2>
-      <LoadingDisplay loading={loading || paginationDataLoading}>
+    <LoadingDisplay loading={loading || paginationDataLoading}>
+      <div className="podcast-detail-container">
+        <PodcastDetailPageNavigation
+          podcast={podcast}
+          podcastTitle={podcastTitle}
+        />
+        <PodcastInfoCard podcast={podcast} />
+        <Pagination
+          className="podcast-episode-pagination"
+          currentPage={page}
+          totalPages={
+            podcast ? Math.ceil((podcast.episodeCount || 0) / LIMIT) : 0
+          }
+          onPreviousPageClick={handlePreviousPageClick}
+          onNextPageClick={handleNextPageClick}
+          onPageClick={handlePageClick}
+        />
+        <h2 className="podcast-episode-section-title">Episodes</h2>
         <div className="podcast-episode-container">
           {podcastEpisodes ? (
             <>
@@ -173,8 +173,8 @@ export default function PodcastDetailPage() {
             </div>
           )}
         </div>
-      </LoadingDisplay>
-    </div>
+      </div>
+    </LoadingDisplay>
   )
 }
 
