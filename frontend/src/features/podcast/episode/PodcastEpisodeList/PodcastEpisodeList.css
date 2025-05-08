@@ -1,6 +1,7 @@
 .podcast-episode-list-item:not([data-index="0"]) {
-  /* add gap between wrapped react-virtuoso items, except for first item */
-  margin-top: 1rem;
+  /* add gap between wrapped react-virtuoso items, except for first item, use padding to prevent layout shift (CLS) */
+  /* https://virtuoso.dev/troubleshooting/#list-does-not-scroll-to-the-bottom--items-jump-around */
+  padding-top: 1rem;
 }
 
 .podcast-episode-list-zero-podcasts-available {
