@@ -38,12 +38,14 @@ test.describe("radio station favourite feature", () => {
   test("hover on favourited station's favourite icon on radio station card changes color", async ({
     page,
   }) => {
+    test.slow()
     await page.route("*/**/json/stations/search?*", async (route) => {
       const json = [unitedStatesStation]
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
     await clickRandomRadioStationButton(page)
+    await assertLoadingSpinnerIsMissing(page)
     await getRadioCardFavouriteIcon(page).click()
     // move mouse away from the favourite icon to check the default fill color
     await page.mouse.move(0, 0)

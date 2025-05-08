@@ -9,6 +9,7 @@ import {
 } from "./constants/homepageConstants"
 import { stationWithLocationLatLng, unitedStatesStation } from "./mocks/station"
 import { getClipboardContent } from "./constants/shareStationConstants"
+import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
 
 test.beforeEach(async ({ mapPage }) => {
   await mapPage.mockMapTile()
@@ -92,6 +93,7 @@ test.describe("share radio station feature", () => {
       unitedStatesStation.stationuuid
     )
     await page.goto(shareUrl, { waitUntil: "domcontentloaded" })
+    await assertLoadingSpinnerIsMissing(page)
     await expect(
       getRadioCardMapPopup(page).getByRole("heading", {
         name: unitedStatesStation.name,
