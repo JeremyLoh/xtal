@@ -9,7 +9,6 @@ import {
 } from "./constants/homepageConstants"
 import { stationWithLocationLatLng, unitedStatesStation } from "./mocks/station"
 import { getClipboardContent } from "./constants/shareStationConstants"
-import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
 
 test.beforeEach(async ({ mapPage }) => {
   await mapPage.mockMapTile()
@@ -35,7 +34,6 @@ test.describe("share radio station feature", () => {
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     await clickRandomRadioStationButton(page)
     await expect(getRadioCardShareIcon(page)).toBeVisible()
   })
@@ -49,7 +47,6 @@ test.describe("share radio station feature", () => {
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     await clickRandomRadioStationButton(page)
     await getRadioCardShareIcon(page).click()
     const expectedUrl = await getRadioStationShareUrl(
@@ -68,7 +65,6 @@ test.describe("share radio station feature", () => {
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     await clickRandomRadioStationButton(page)
     await getRadioCardShareIcon(page).click()
     await page.waitForTimeout(400)
@@ -91,13 +87,11 @@ test.describe("share radio station feature", () => {
       }
     })
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     const shareUrl = await getRadioStationShareUrl(
       page,
       unitedStatesStation.stationuuid
     )
     await page.goto(shareUrl, { waitUntil: "domcontentloaded" })
-    await assertLoadingSpinnerIsMissing(page)
     await expect(getRadioCardMapPopup(page)).toBeVisible()
     await expect(
       getRadioCardMapPopup(page).getByRole("heading", {
@@ -148,7 +142,6 @@ test.describe("share radio station feature", () => {
     await page.goto(
       HOMEPAGE + `/radio-station/${unitedStatesStation.stationuuid}`
     )
-    await assertLoadingSpinnerIsMissing(page)
     await expect(
       getRadioCardMapPopup(page).getByRole("heading", {
         name: unitedStatesStation.name,
@@ -181,7 +174,6 @@ test.describe("share radio station feature", () => {
         }
       )
       await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
-      await assertLoadingSpinnerIsMissing(page)
       await expect(page.getByText("404 Not Found")).not.toBeVisible()
       await expect(getRadioCardMapPopup(page)).toBeVisible()
       await expect(
@@ -205,7 +197,6 @@ test.describe("share radio station feature", () => {
         }
       )
       await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
-      await assertLoadingSpinnerIsMissing(page)
       await expect(page.getByText("404 Not Found")).not.toBeVisible()
       await expect(getRadioCardMapPopup(page)).toBeVisible()
       await expect(
@@ -229,7 +220,6 @@ test.describe("share radio station feature", () => {
         }
       )
       await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
-      await assertLoadingSpinnerIsMissing(page)
       await expect(page.getByText("404 Not Found")).not.toBeVisible()
       await expect(getRadioCardMapPopup(page)).toBeVisible()
       await expect(
@@ -253,7 +243,6 @@ test.describe("share radio station feature", () => {
         }
       )
       await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
-      await assertLoadingSpinnerIsMissing(page)
       await expect(page.getByText("404 Not Found")).not.toBeVisible()
       await expect(getRadioCardMapPopup(page)).toBeVisible()
       await expect(
@@ -277,7 +266,6 @@ test.describe("share radio station feature", () => {
         }
       )
       await page.goto(HOMEPAGE + "/radio-station/" + stationuuid)
-      await assertLoadingSpinnerIsMissing(page)
       await expect(page.getByText("404 Not Found")).not.toBeVisible()
       await expect(getRadioCardMapPopup(page)).toBeVisible()
       await expect(

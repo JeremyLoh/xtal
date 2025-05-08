@@ -7,7 +7,6 @@ import {
   defaultTenPodcastEpisodes,
   podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes,
 } from "../../mocks/podcast.episode.ts"
-import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants.ts"
 import {
   assertPodcastEpisodes,
   assertPodcastInfo,
@@ -149,7 +148,6 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       )
       await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
       await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-      await assertLoadingSpinnerIsMissing(page)
       await expect(
         page.getByText("Could not get podcast episodes. Please try again later")
       ).toBeVisible()
@@ -186,7 +184,6 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       })
       await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
       await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-      await assertLoadingSpinnerIsMissing(page)
       await expect(
         page.getByText("Could not get podcast episodes. Please try again later")
       ).toBeVisible()

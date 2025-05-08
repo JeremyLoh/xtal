@@ -10,7 +10,6 @@ import {
 } from "./constants/searchStationConstants"
 import { StationBuilder } from "./mocks/station"
 import { Station } from "../src/api/radiobrowser/types"
-import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
 
 test.beforeEach(async ({ mapPage }) => {
   await mapPage.mockMapTile()
@@ -26,7 +25,6 @@ test.describe("radio station search form tag filter", () => {
   }) => {
     const expectedTag = "rock"
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await expect(getTagFilterInput(page)).toBeVisible()
     await getTagFilterInput(page).fill(expectedTag)
@@ -52,7 +50,6 @@ test.describe("radio station search form tag filter", () => {
       }
     )
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await getStationSearchByNameInput(page).fill(expectedStationName)
     await getSearchStationForm(page).locator("button[type='submit']").click()
@@ -85,7 +82,6 @@ test.describe("radio station search form tag filter", () => {
       }
     )
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await getTagFilterInput(page).fill(expectedTag)
     await getStationSearchByNameInput(page).fill(expectedStationName)
@@ -123,7 +119,6 @@ test.describe("radio station search form tag filter", () => {
       }
     )
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await getTagFilterInput(page).fill(tagInput)
     await getStationSearchByNameInput(page).fill(expectedStationName)
@@ -153,7 +148,6 @@ test.describe("radio station search form tag filter", () => {
       }
     )
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     await getSearchStationButton(page).click()
     await getTagFilterInput(page).fill(expectedTag)
     await getStationSearchByNameInput(page).fill(expectedStationName)

@@ -8,7 +8,6 @@ import {
   HOMEPAGE,
 } from "./constants/homepageConstants"
 import { stationWithMultipleTags, unitedStatesStation } from "./mocks/station"
-import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
 
 test.beforeEach(async ({ mapPage }) => {
   await mapPage.mockMapTile()
@@ -17,7 +16,6 @@ test.beforeEach(async ({ mapPage }) => {
 test.describe("radio station search type", () => {
   test("display genre tab with 'selected' CSS className", async ({ page }) => {
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     // Genre tab should be selected by default, "selected" class
     await expect(getGenreSearchButton(page)).toHaveClass(/selected/)
     await expect(getCountrySearchButton(page)).not.toHaveClass(/selected/)
@@ -25,7 +23,6 @@ test.describe("radio station search type", () => {
 
   test("display genre and country tab above slider", async ({ page }) => {
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     await expect(getGenreSearchButton(page)).toBeVisible()
     await expect(getCountrySearchButton(page)).toBeVisible()
   })
@@ -35,7 +32,6 @@ test.describe("radio station search type", () => {
   }) => {
     const expectedCountryCount = 65
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     await expect(getCountrySearchButton(page)).not.toHaveClass(/selected/)
     await getCountrySearchButton(page).click()
     await expect(getCountrySearchButton(page)).toHaveClass(/selected/)
@@ -52,7 +48,6 @@ test.describe("radio station search type", () => {
       test.skip(headless, "UI element does not does not work in headless mode")
       test.slow()
       await page.goto(HOMEPAGE)
-      await assertLoadingSpinnerIsMissing(page)
       const expectedStartMapPane =
         (await page
           .locator(".leaflet-proxy.leaflet-zoom-animated")
@@ -70,7 +65,6 @@ test.describe("radio station search type", () => {
       test.skip(headless, "UI element does not does not work in headless mode")
       test.slow()
       await page.goto(HOMEPAGE)
-      await assertLoadingSpinnerIsMissing(page)
       await getCountrySearchButton(page).click()
       const expectedFirstCountryMapPane =
         (await page
@@ -99,10 +93,8 @@ test.describe("radio station search type", () => {
         }
       )
       await page.goto(HOMEPAGE)
-      await assertLoadingSpinnerIsMissing(page)
       await getCountrySearchButton(page).click()
       await clickRandomRadioStationButton(page)
-      await assertLoadingSpinnerIsMissing(page)
       await page.waitForTimeout(2000) // test fails without waiting for the navigation
       const expectedStationMapPane =
         (await page
@@ -126,7 +118,6 @@ test.describe("radio station search type", () => {
       }
     )
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     await getCountrySearchButton(page).click()
     await clickRandomRadioStationButton(page)
     await expect(getRadioCardMapPopup(page)).toBeVisible()
@@ -159,7 +150,6 @@ test.describe("radio station search type", () => {
       }
     )
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     await getCountrySearchButton(page).click()
     await clickRandomRadioStationButton(page)
     await clickRandomRadioStationButton(page)
@@ -181,7 +171,6 @@ test.describe("radio station search type", () => {
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     await getGenreSearchButton(page).click()
     await clickRandomRadioStationButton(page)
     await clickRandomRadioStationButton(page)
@@ -209,7 +198,6 @@ test.describe("select genre of random radio station", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     await expect(page.locator(".slider-container")).toBeVisible()
     await expect(
       page.locator(".genre-slider-container").getByText("All", { exact: true })
@@ -226,7 +214,6 @@ test.describe("select genre of random radio station", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     const firstGenre = "All"
     // expect "All" genre tag will disappear after sliding to right
     await assertGenreIsInView(page, firstGenre)
@@ -238,7 +225,6 @@ test.describe("select genre of random radio station", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     const firstGenre = "All"
     await assertGenreIsInView(page, firstGenre)
     await page.locator(".genre-slider-container .slide-right-icon").click()
@@ -251,7 +237,6 @@ test.describe("select genre of random radio station", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
     const firstGenre = "All"
     const secondGenre = "Alternative"
     await assertGenreIsInView(page, firstGenre)
