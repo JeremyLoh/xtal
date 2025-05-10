@@ -63,7 +63,8 @@ The Frontend end-to-end tests are written in Playwright - https://playwright.dev
 
 1. Ensure `node` is installed on your system - https://nodejs.org/en
 2. Navigate to the `frontend/` directory
-3. Create a `.env.production` and `.env.local` file - https://vite.dev/guide/env-and-mode#env-files
+3. Update the `frontend/index.html` `<meta http-equiv="content-security-policy">` CSP tag for the backend endpoints and supabase public project url
+4. Create a `.env.production` and `.env.local` file - https://vite.dev/guide/env-and-mode#env-files
 
    - e.g. `.env.local`
 
@@ -77,8 +78,8 @@ The Frontend end-to-end tests are written in Playwright - https://playwright.dev
    QA_TEST_ACCOUNT_PASSWORD="test xtal account password created for running Playwright tests"
    ```
 
-4. Install the required dependencies using `npm install`
-5. Run `npm run test` (to launch Playwright UI) OR run `npx playwright test` to run tests in headless mode
+5. Install the required dependencies using `npm install`
+6. Run `npm run test` (to launch Playwright UI) OR run `npx playwright test` to run tests in headless mode
 
 ## Running Backend Tests
 

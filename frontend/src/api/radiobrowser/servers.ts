@@ -1,5 +1,6 @@
 // Hard coded servers as requests to "http" fails with "This request has been blocked; the content must be served over HTTPS"
 // http://all.api.radio-browser.info/json/servers
+// Need to update 'index.html' 'connect-src' CSP <meta> with list of servers
 const servers: string[] = [
   "https://de1.api.radio-browser.info",
   "https://de2.api.radio-browser.info",
