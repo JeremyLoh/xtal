@@ -4,7 +4,10 @@ Made using TypeScript, React and Playwright (end-to-end testing)
 
 # Setup
 
-1. Create a `.env.production` and `.env.local` file - https://vite.dev/guide/env-and-mode#env-files
+1. Ensure `node` is installed on your system - https://nodejs.org/en
+2. Navigate to the `frontend/` directory
+3. Update the `frontend/index.html` `<meta http-equiv="content-security-policy">` CSP tag for the backend endpoints and supabase public project url
+4. Create a `.env.production` and `.env.local` file - https://vite.dev/guide/env-and-mode#env-files
 
    - e.g. `.env.local`
 
@@ -18,7 +21,8 @@ Made using TypeScript, React and Playwright (end-to-end testing)
    QA_TEST_ACCOUNT_PASSWORD="test xtal account password created for running Playwright tests"
    ```
 
-2. On the GitHub Actions secrets, add each environment property defined in`.github/workflows/playwright.yml` that contains the env file used for QA (testing) `.env.local`
+5. Install the required dependencies using `npm install`
+6. Run `npm run test` (to launch Playwright UI) OR run `npx playwright test` to run tests in headless mode
 
 # Packages used
 
