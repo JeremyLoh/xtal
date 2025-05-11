@@ -3,7 +3,10 @@ import { memo, useCallback, useContext, useMemo } from "react"
 import { Components, ItemContent, Virtuoso } from "react-virtuoso"
 import { PodcastEpisode } from "../../../../api/podcast/model/podcast.ts"
 import PodcastEpisodeItem from "../PodcastEpisodeItem/PodcastEpisodeItem.tsx"
-import { PodcastEpisodeContext } from "../../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
+import {
+  PodcastEpisodeContext,
+  PodcastEpisodeDispatchContext,
+} from "../../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import usePlayHistory from "../../../../hooks/podcast/usePlayHistory.ts"
 import useScreenDimensions from "../../../../hooks/useScreenDimensions.ts"
 import { podcastEpisodeDetailPage } from "../../../../paths.ts"
@@ -23,6 +26,9 @@ function PodcastEpisodeList({
 }: PodcastEpisodeListProps) {
   const { height } = useScreenDimensions()
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
+  const podcastEpisodeDispatchContext = useContext(
+    PodcastEpisodeDispatchContext
+  )
   const { session, addPlayPodcastEpisode, getPodcastEpisodeLastPlayTimestamp } =
     usePlayHistory()
 
@@ -32,13 +38,15 @@ function PodcastEpisodeList({
 
   const handlePlayClick = useCallback(
     async (podcastEpisode: PodcastEpisode) => {
-      if (session.loading) {
+      if (
+        session.loading ||
+        podcastEpisodeDispatchContext == null ||
+        podcastEpisodeContext == null
+      ) {
         return
       }
-      if (podcastEpisodeContext) {
-        podcastEpisodeContext.setEpisode(podcastEpisode)
-      }
-      if (session.doesSessionExist && podcastEpisodeContext) {
+      podcastEpisodeDispatchContext.setEpisode(podcastEpisode)
+      if (session.doesSessionExist) {
         const lastPlayedTimestamp = await getPodcastEpisodeLastPlayTimestamp(
           `${podcastEpisode.id}`
         )
@@ -50,6 +58,7 @@ function PodcastEpisodeList({
     [
       session,
       podcastEpisodeContext,
+      podcastEpisodeDispatchContext,
       addPlayPodcastEpisode,
       getPodcastEpisodeLastPlayTimestamp,
     ]
