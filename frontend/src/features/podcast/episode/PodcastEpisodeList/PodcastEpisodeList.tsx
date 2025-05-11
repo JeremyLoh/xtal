@@ -3,7 +3,10 @@ import { memo, useCallback, useContext, useMemo } from "react"
 import { Components, ItemContent, Virtuoso } from "react-virtuoso"
 import { PodcastEpisode } from "../../../../api/podcast/model/podcast.ts"
 import PodcastEpisodeItem from "../PodcastEpisodeItem/PodcastEpisodeItem.tsx"
-import { PodcastEpisodeContext } from "../../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
+import {
+  PodcastEpisodeDispatchContext,
+  PodcastEpisodeTimestampDispatchContext,
+} from "../../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import usePlayHistory from "../../../../hooks/podcast/usePlayHistory.ts"
 import useScreenDimensions from "../../../../hooks/useScreenDimensions.ts"
 import { podcastEpisodeDetailPage } from "../../../../paths.ts"
@@ -22,7 +25,12 @@ function PodcastEpisodeList({
   podcastId,
 }: PodcastEpisodeListProps) {
   const { height } = useScreenDimensions()
-  const podcastEpisodeContext = useContext(PodcastEpisodeContext)
+  const podcastEpisodeDispatchContext = useContext(
+    PodcastEpisodeDispatchContext
+  )
+  const podcastEpisodeTimestampDispatchContext = useContext(
+    PodcastEpisodeTimestampDispatchContext
+  )
   const { session, addPlayPodcastEpisode, getPodcastEpisodeLastPlayTimestamp } =
     usePlayHistory()
 
@@ -32,24 +40,29 @@ function PodcastEpisodeList({
 
   const handlePlayClick = useCallback(
     async (podcastEpisode: PodcastEpisode) => {
-      if (session.loading) {
+      if (
+        session.loading ||
+        podcastEpisodeDispatchContext == null ||
+        podcastEpisodeTimestampDispatchContext == null
+      ) {
         return
       }
-      if (podcastEpisodeContext) {
-        podcastEpisodeContext.setEpisode(podcastEpisode)
-      }
-      if (session.doesSessionExist && podcastEpisodeContext) {
+      podcastEpisodeDispatchContext.setEpisode(podcastEpisode)
+      if (session.doesSessionExist) {
         const lastPlayedTimestamp = await getPodcastEpisodeLastPlayTimestamp(
           `${podcastEpisode.id}`
         )
         const resumePlayTimeInSeconds = lastPlayedTimestamp || 0
-        podcastEpisodeContext.setLastPlayedTimestamp(resumePlayTimeInSeconds)
+        podcastEpisodeTimestampDispatchContext.setLastPlayedTimestamp(
+          resumePlayTimeInSeconds
+        )
         await addPlayPodcastEpisode(podcastEpisode, resumePlayTimeInSeconds)
       }
     },
     [
       session,
-      podcastEpisodeContext,
+      podcastEpisodeDispatchContext,
+      podcastEpisodeTimestampDispatchContext,
       addPlayPodcastEpisode,
       getPodcastEpisodeLastPlayTimestamp,
     ]

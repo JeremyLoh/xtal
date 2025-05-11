@@ -2,7 +2,6 @@
 // http://all.api.radio-browser.info/json/servers
 // Need to update 'index.html' 'connect-src' CSP <meta> with list of servers
 const servers: string[] = [
-  "https://de1.api.radio-browser.info",
   "https://de2.api.radio-browser.info",
   "https://fi1.api.radio-browser.info",
 ]

@@ -5,14 +5,20 @@ import { PodcastEpisodeCardContext } from "./PodcastEpisodeCardContext.ts"
 import { PodcastEpisode } from "../../api/podcast/model/podcast.ts"
 import { sanitizeHtmlString } from "../../api/dom/domSanitize.ts"
 
+const podcastEpisodeCardInitial = { opacity: 0, x: 50 }
+const podcastEpisodeCardAnimate = { opacity: 1, x: 0 }
+const podcastEpisodeCardWhileInView = { opacity: 1, x: 0 }
+const podcastEpisodeCardTransition = {
+  duration: 0.5,
+  type: "spring",
+  bounce: 0,
+}
+
 export type PodcastEpisodeCardProps = PropsWithChildren & {
   episode: PodcastEpisode
 }
 
-export default memo(function PodcastEpisodeCard({
-  children,
-  episode,
-}: PodcastEpisodeCardProps) {
+function PodcastEpisodeCard({ children, episode }: PodcastEpisodeCardProps) {
   const descriptionDivRef = useRef<HTMLDivElement | null>(null)
   const output = useMemo(() => {
     const sanitizedEpisode = {
@@ -27,14 +33,16 @@ export default memo(function PodcastEpisodeCard({
       <AnimatePresence>
         <motion.div
           className="podcast-episode-card"
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, type: "spring", bounce: 0 }}
+          initial={podcastEpisodeCardInitial}
+          animate={podcastEpisodeCardAnimate}
+          whileInView={podcastEpisodeCardWhileInView}
+          transition={podcastEpisodeCardTransition}
         >
           {children}
         </motion.div>
       </AnimatePresence>
     </PodcastEpisodeCardContext.Provider>
   )
-})
+}
+
+export default memo(PodcastEpisodeCard)

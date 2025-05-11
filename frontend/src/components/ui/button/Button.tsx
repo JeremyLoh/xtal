@@ -2,6 +2,13 @@ import "./Button.css"
 import { ComponentPropsWithoutRef, memo, PropsWithChildren } from "react"
 import { AnimatePresence, motion } from "motion/react"
 
+const buttonInitial = { opacity: 0 }
+const buttonAnimate = { opacity: 1 }
+const buttonExit = { opacity: 0 }
+const buttonTransition = { duration: 0.2, type: "spring" }
+const buttonWhileHover = { scale: 1.01 }
+const buttonWhileTap = { scale: 0.98 }
+
 type ButtonProps = PropsWithChildren &
   ComponentPropsWithoutRef<"button"> & {
     keyProp: string
@@ -24,12 +31,12 @@ function Button({
         className={`button ${variant ? variant : ""} ${
           className ? className : ""
         }`}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2, type: "spring" }}
-        whileHover={{ scale: 1.01 }}
-        whileTap={{ scale: 0.98 }}
+        initial={buttonInitial}
+        animate={buttonAnimate}
+        exit={buttonExit}
+        transition={buttonTransition}
+        whileHover={buttonWhileHover}
+        whileTap={buttonWhileTap}
         {...rest}
       >
         {children}

@@ -1,7 +1,10 @@
 import "./PodcastEpisodeDetailPage.css"
 import { useCallback, useContext, useEffect } from "react"
 import { useParams } from "react-router"
-import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
+import {
+  PodcastEpisodeDispatchContext,
+  PodcastEpisodeTimestampDispatchContext,
+} from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/index.tsx"
 import usePodcastEpisode from "../../../hooks/podcast/usePodcastEpisode.ts"
@@ -15,7 +18,12 @@ export default function PodcastEpisodeDetailPage() {
   const { copyPodcastEpisodeShareUrl } = useClipboard()
   const { addPlayPodcastEpisode, getPodcastEpisodeLastPlayTimestamp } =
     usePlayHistory()
-  const podcastEpisodeContext = useContext(PodcastEpisodeContext)
+  const podcastEpisodeDispatchContext = useContext(
+    PodcastEpisodeDispatchContext
+  )
+  const podcastEpisodeTimestampDispatchContext = useContext(
+    PodcastEpisodeTimestampDispatchContext
+  )
   const { loading, error, episode, fetchPodcastEpisode } = usePodcastEpisode()
 
   useEffect(() => {
@@ -28,17 +36,25 @@ export default function PodcastEpisodeDetailPage() {
   }, [episode, podcastEpisodeId, fetchPodcastEpisode])
 
   const handlePlayClick = useCallback(async () => {
-    if (podcastEpisodeContext && episode) {
-      podcastEpisodeContext.setEpisode(episode)
-      const lastPlayedTimestamp = await getPodcastEpisodeLastPlayTimestamp(
-        `${episode.id}`
-      )
-      const resumePlayTimeInSeconds = lastPlayedTimestamp || 0
-      podcastEpisodeContext.setLastPlayedTimestamp(resumePlayTimeInSeconds)
-      await addPlayPodcastEpisode(episode, resumePlayTimeInSeconds)
+    if (
+      episode == null ||
+      podcastEpisodeDispatchContext == null ||
+      podcastEpisodeTimestampDispatchContext == null
+    ) {
+      return
     }
+    podcastEpisodeDispatchContext.setEpisode(episode)
+    const lastPlayedTimestamp = await getPodcastEpisodeLastPlayTimestamp(
+      `${episode.id}`
+    )
+    const resumePlayTimeInSeconds = lastPlayedTimestamp || 0
+    podcastEpisodeTimestampDispatchContext.setLastPlayedTimestamp(
+      resumePlayTimeInSeconds
+    )
+    await addPlayPodcastEpisode(episode, resumePlayTimeInSeconds)
   }, [
-    podcastEpisodeContext,
+    podcastEpisodeDispatchContext,
+    podcastEpisodeTimestampDispatchContext,
     episode,
     addPlayPodcastEpisode,
     getPodcastEpisodeLastPlayTimestamp,

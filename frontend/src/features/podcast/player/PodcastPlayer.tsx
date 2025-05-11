@@ -3,7 +3,10 @@ import { lazy, memo, useCallback, useContext, useState } from "react"
 import { MdOutlineExpandLess, MdOutlineExpandMore } from "react-icons/md"
 import { Link } from "react-router"
 import dayjs from "dayjs"
-import { PodcastEpisodeContext } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
+import {
+  PodcastEpisodeContext,
+  PodcastEpisodeTimestampContext,
+} from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import AudioPlayer from "../../../components/AudioPlayer/AudioPlayer.tsx"
 import Button from "../../../components/ui/button/Button.tsx"
 import usePlayHistory from "../../../hooks/podcast/usePlayHistory.ts"
@@ -23,8 +26,12 @@ function PodcastPlayer() {
   const [isExpanded, setIsExpanded] = useState<boolean>(true)
   const { updatePlayPodcastEpisodeTime } = usePlayHistory()
   const podcastEpisodeContext = useContext(PodcastEpisodeContext)
+  const podcastEpisodeTimestampContext = useContext(
+    PodcastEpisodeTimestampContext
+  )
   const episode = podcastEpisodeContext?.episode
-  const lastPlayedTimestamp = podcastEpisodeContext?.lastPlayedTimestamp
+  const lastPlayedTimestamp =
+    podcastEpisodeTimestampContext?.lastPlayedTimestamp
 
   const handlePause = useCallback(
     async (currentTimeInSeconds: number) => {
