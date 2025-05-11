@@ -8,7 +8,7 @@ import {
 
 function useFollowPodcastHistory() {
   const session = useSessionContext()
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(true)
   const abortController = useRef<AbortController | null>(null)
   const totalFollowedAbortController = useRef<AbortController | null>(null)
 
