@@ -149,6 +149,12 @@ test.describe("share radio station feature", () => {
       })
     ).toBeVisible()
     await clickRandomRadioStationButton(page)
+    await expect(
+      getRadioCardMapPopup(page).getByRole("heading", {
+        name: stationWithLocationLatLng.name,
+        exact: true,
+      })
+    ).toBeVisible()
     await getRadioCardShareIcon(page).click()
 
     await assertToastMessage(page, "Link Copied")
