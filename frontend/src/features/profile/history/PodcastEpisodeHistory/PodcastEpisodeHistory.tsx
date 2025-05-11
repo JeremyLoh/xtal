@@ -9,8 +9,8 @@ import Button from "../../../../components/ui/button/Button.tsx"
 import PodcastEpisodeCard from "../../../../components/PodcastEpisodeCard/index.tsx"
 import useScreenDimensions from "../../../../hooks/useScreenDimensions.ts"
 import {
-  PodcastEpisodeContext,
   PodcastEpisodeDispatchContext,
+  PodcastEpisodeTimestampDispatchContext,
 } from "../../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import { PodcastEpisode } from "../../../../api/podcast/model/podcast.ts"
 import { podcastEpisodeDetailPage } from "../../../../paths.ts"
@@ -33,7 +33,9 @@ function PodcastEpisodeHistory({
   onDelete,
 }: PodcastEpisodeHistoryProps) {
   const { isMobile } = useScreenDimensions()
-  const podcastEpisodeContext = useContext(PodcastEpisodeContext)
+  const podcastEpisodeTimestampDispatchContext = useContext(
+    PodcastEpisodeTimestampDispatchContext
+  )
   const podcastEpisodeDispatchContext = useContext(
     PodcastEpisodeDispatchContext
   )
@@ -45,7 +47,7 @@ function PodcastEpisodeHistory({
       if (
         episode == null ||
         podcastEpisodeDispatchContext == null ||
-        podcastEpisodeContext == null
+        podcastEpisodeTimestampDispatchContext == null
       ) {
         return
       }
@@ -54,12 +56,14 @@ function PodcastEpisodeHistory({
         `${episode.id}`
       )
       const resumePlayTimeInSeconds = lastPlayedTimestamp || 0
-      podcastEpisodeContext.setLastPlayedTimestamp(resumePlayTimeInSeconds)
+      podcastEpisodeTimestampDispatchContext.setLastPlayedTimestamp(
+        resumePlayTimeInSeconds
+      )
       await addPlayPodcastEpisode(episode, resumePlayTimeInSeconds)
     },
     [
-      podcastEpisodeContext,
       podcastEpisodeDispatchContext,
+      podcastEpisodeTimestampDispatchContext,
       addPlayPodcastEpisode,
       getPodcastEpisodeLastPlayTimestamp,
     ]

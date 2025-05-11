@@ -4,8 +4,8 @@ import { Components, ItemContent, Virtuoso } from "react-virtuoso"
 import { PodcastEpisode } from "../../../../api/podcast/model/podcast.ts"
 import PodcastEpisodeItem from "../PodcastEpisodeItem/PodcastEpisodeItem.tsx"
 import {
-  PodcastEpisodeContext,
   PodcastEpisodeDispatchContext,
+  PodcastEpisodeTimestampDispatchContext,
 } from "../../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import usePlayHistory from "../../../../hooks/podcast/usePlayHistory.ts"
 import useScreenDimensions from "../../../../hooks/useScreenDimensions.ts"
@@ -25,9 +25,11 @@ function PodcastEpisodeList({
   podcastId,
 }: PodcastEpisodeListProps) {
   const { height } = useScreenDimensions()
-  const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const podcastEpisodeDispatchContext = useContext(
     PodcastEpisodeDispatchContext
+  )
+  const podcastEpisodeTimestampDispatchContext = useContext(
+    PodcastEpisodeTimestampDispatchContext
   )
   const { session, addPlayPodcastEpisode, getPodcastEpisodeLastPlayTimestamp } =
     usePlayHistory()
@@ -41,7 +43,7 @@ function PodcastEpisodeList({
       if (
         session.loading ||
         podcastEpisodeDispatchContext == null ||
-        podcastEpisodeContext == null
+        podcastEpisodeTimestampDispatchContext == null
       ) {
         return
       }
@@ -51,14 +53,16 @@ function PodcastEpisodeList({
           `${podcastEpisode.id}`
         )
         const resumePlayTimeInSeconds = lastPlayedTimestamp || 0
-        podcastEpisodeContext.setLastPlayedTimestamp(resumePlayTimeInSeconds)
+        podcastEpisodeTimestampDispatchContext.setLastPlayedTimestamp(
+          resumePlayTimeInSeconds
+        )
         await addPlayPodcastEpisode(podcastEpisode, resumePlayTimeInSeconds)
       }
     },
     [
       session,
-      podcastEpisodeContext,
       podcastEpisodeDispatchContext,
+      podcastEpisodeTimestampDispatchContext,
       addPlayPodcastEpisode,
       getPodcastEpisodeLastPlayTimestamp,
     ]

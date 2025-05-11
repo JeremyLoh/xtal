@@ -2,8 +2,8 @@ import "./PodcastEpisodeDetailPage.css"
 import { useCallback, useContext, useEffect } from "react"
 import { useParams } from "react-router"
 import {
-  PodcastEpisodeContext,
   PodcastEpisodeDispatchContext,
+  PodcastEpisodeTimestampDispatchContext,
 } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import PodcastEpisodeCard from "../../../components/PodcastEpisodeCard/index.tsx"
@@ -18,9 +18,11 @@ export default function PodcastEpisodeDetailPage() {
   const { copyPodcastEpisodeShareUrl } = useClipboard()
   const { addPlayPodcastEpisode, getPodcastEpisodeLastPlayTimestamp } =
     usePlayHistory()
-  const podcastEpisodeContext = useContext(PodcastEpisodeContext)
   const podcastEpisodeDispatchContext = useContext(
     PodcastEpisodeDispatchContext
+  )
+  const podcastEpisodeTimestampDispatchContext = useContext(
+    PodcastEpisodeTimestampDispatchContext
   )
   const { loading, error, episode, fetchPodcastEpisode } = usePodcastEpisode()
 
@@ -37,7 +39,7 @@ export default function PodcastEpisodeDetailPage() {
     if (
       episode == null ||
       podcastEpisodeDispatchContext == null ||
-      podcastEpisodeContext == null
+      podcastEpisodeTimestampDispatchContext == null
     ) {
       return
     }
@@ -46,11 +48,13 @@ export default function PodcastEpisodeDetailPage() {
       `${episode.id}`
     )
     const resumePlayTimeInSeconds = lastPlayedTimestamp || 0
-    podcastEpisodeContext.setLastPlayedTimestamp(resumePlayTimeInSeconds)
+    podcastEpisodeTimestampDispatchContext.setLastPlayedTimestamp(
+      resumePlayTimeInSeconds
+    )
     await addPlayPodcastEpisode(episode, resumePlayTimeInSeconds)
   }, [
-    podcastEpisodeContext,
     podcastEpisodeDispatchContext,
+    podcastEpisodeTimestampDispatchContext,
     episode,
     addPlayPodcastEpisode,
     getPodcastEpisodeLastPlayTimestamp,
