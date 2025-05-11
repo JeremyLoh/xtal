@@ -6,7 +6,7 @@ import { Podcast } from "../../api/podcast/model/podcast.ts"
 function usePodcastSearch() {
   const abortController = useRef<AbortController | null>(null)
   const fetchMorePodcastsAbortController = useRef<AbortController | null>(null)
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
   const [podcasts, setPodcasts] = useState<Podcast[] | null>(null)
 
@@ -55,6 +55,7 @@ function usePodcastSearch() {
     async ({ query, limit }: { query: string; limit: number }) => {
       if (query.trim() === "") {
         setPodcasts(null)
+        setLoading(false)
         return
       }
       setLoading(true)
