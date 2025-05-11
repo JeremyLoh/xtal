@@ -2,8 +2,10 @@ import { PropsWithChildren } from "react"
 
 type BreadcrumbItemProps = PropsWithChildren
 
+const breadcrumbItemStyle = { width: "fit-content" }
+
 function BreadcrumbItem({ children }: BreadcrumbItemProps) {
-  return <span style={{ width: "fit-content" }}>{children}</span>
+  return <span style={breadcrumbItemStyle}>{children}</span>
 }
 
 export default BreadcrumbItem

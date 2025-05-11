@@ -5,6 +5,11 @@ import { SpeedInsights } from "@vercel/speed-insights/react"
 import Header from "./components/Header/Header.tsx"
 import Footer from "./components/Footer/Footer.tsx"
 
+const toastOptions = {
+  className: "toaster",
+  duration: 2000,
+}
+
 export default function Root() {
   return (
     <>
@@ -12,10 +17,7 @@ export default function Root() {
         position="bottom-right"
         expand={true}
         richColors
-        toastOptions={{
-          className: "toaster",
-          duration: 2000,
-        }}
+        toastOptions={toastOptions}
       />
       <Header />
       <main>

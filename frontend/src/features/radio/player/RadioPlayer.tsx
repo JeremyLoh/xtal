@@ -11,6 +11,8 @@ import {
   MediaVolumeRange,
 } from "media-chrome/react"
 
+const controlBarStyle = { padding: "0 0.5rem", width: "100%" }
+
 type RadioPlayerProps = {
   source: string
   onError: () => void
@@ -49,7 +51,7 @@ function RadioPlayer({ source, onError, onReady }: RadioPlayerProps) {
           {error ? (
             <MediaErrorDialog />
           ) : (
-            <MediaControlBar style={{ padding: "0 0.5rem", width: "100%" }}>
+            <MediaControlBar style={controlBarStyle}>
               <div className="mobile">
                 <MediaPlayButton data-testid="audio-player-mobile-play-button" />
                 <MediaSeekBackwardButton

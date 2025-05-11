@@ -1,6 +1,8 @@
 import { PropsWithChildren } from "react"
 import { Link } from "react-router"
 
+const breadcrumbLinkStyle = { width: "fit-content", fontWeight: "bold" }
+
 type BreadcrumbLinkProps = PropsWithChildren & {
   href: string
   "data-testid"?: string
@@ -14,7 +16,7 @@ function BreadcrumbLink({
   return (
     <Link
       to={href}
-      style={{ width: "fit-content", fontWeight: "bold" }}
+      style={breadcrumbLinkStyle}
       data-testid={dataTestId ? dataTestId : null}
     >
       {children}
