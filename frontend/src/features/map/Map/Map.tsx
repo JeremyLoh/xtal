@@ -93,7 +93,6 @@ function getStationLocation(station: Station) {
   if (station.geo_lat && station.geo_long) {
     return { lat: station.geo_lat, lng: station.geo_long }
   } else {
-    console.error("Could not get coordinates for station: ", station.name)
     toast.info("Could not get station location")
     return { lat: 0, lng: 0 }
   }

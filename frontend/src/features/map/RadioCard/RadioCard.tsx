@@ -1,11 +1,19 @@
 import "./RadioCard.css"
-import { lazy, useCallback, useContext, useEffect, useState } from "react"
+import {
+  lazy,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react"
 import { toast } from "sonner"
 import { Station } from "../../../api/radiobrowser/types.ts"
 import { FavouriteStationsContext } from "../../../context/FavouriteStationsProvider/FavouriteStationsProvider.tsx"
 import useClipboard from "../../../hooks/useClipboard.ts"
 import StationCard from "../../../components/StationCard/index.tsx"
 import { getEnv } from "../../../api/env/environmentVariables.ts"
+import { getAudioSource } from "../../radio/player/RadioPlayer.tsx"
 const RadioPlayer = lazy(() => import("../../radio/player/RadioPlayer.tsx"))
 
 type RadioCardProps = {
@@ -15,6 +23,9 @@ type RadioCardProps = {
 // Display radio player on map as a popup
 function RadioCard(props: RadioCardProps) {
   const { station } = props
+  const stationAudioSource = useMemo(() => {
+    return getAudioSource(station)
+  }, [station])
   const { copyRadioStationShareUrl } = useClipboard()
   const favouriteStationsContext = useContext(FavouriteStationsContext)
   const [error, setError] = useState<string | null>(null)
@@ -123,7 +134,7 @@ function RadioCard(props: RadioCardProps) {
           {error}
         </p>
       ) : (
-        <RadioPlayer source={station.url_resolved} onError={handleError} />
+        <RadioPlayer source={stationAudioSource} onError={handleError} />
       )}
     </div>
   )
