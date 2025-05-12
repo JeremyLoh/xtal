@@ -13,6 +13,7 @@ const { BACKEND_ORIGIN, FRONTEND_ORIGIN } = getEnv()
 
 function initializeSuperTokens() {
   SuperTokens.init({
+    enableDebugLogs: false,
     appInfo: {
       // https://supertokens.com/docs/references/frontend-sdks/reference#sdk-configuration
       appName: "xtal",

@@ -2,35 +2,23 @@ import { useCallback, useMemo } from "react"
 
 function useSessionStorage(key: string) {
   const getItem = useCallback(() => {
-    try {
-      const savedValue = sessionStorage.getItem(key)
-      if (savedValue) {
-        return JSON.parse(savedValue)
-      } else {
-        return null
-      }
-    } catch (error) {
-      console.error("useSessionStorage getItem error: ", error)
+    const savedValue = sessionStorage.getItem(key)
+    if (savedValue) {
+      return JSON.parse(savedValue)
+    } else {
+      return null
     }
   }, [key])
 
   const setItem = useCallback(
     (value: unknown) => {
-      try {
-        sessionStorage.setItem(key, JSON.stringify(value))
-      } catch (error) {
-        console.error("useSessionStorage setItem error: ", error)
-      }
+      sessionStorage.setItem(key, JSON.stringify(value))
     },
     [key]
   )
 
   const removeItem = useCallback(() => {
-    try {
-      sessionStorage.removeItem(key)
-    } catch (error) {
-      console.error("useSessionStorage removeItem error: ", error)
-    }
+    sessionStorage.removeItem(key)
   }, [key])
 
   const sessionStorageFunctions = useMemo(() => {
