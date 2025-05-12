@@ -9,6 +9,7 @@ import {
 } from "./constants/homepageConstants"
 import {
   stationWithBlockedAccess,
+  stationWithHlsAudioM3u8,
   stationWithMultipleTags,
   stationWithNoLocationLatLng,
   unitedStatesStation,
@@ -195,6 +196,30 @@ test.describe("random radio station", () => {
         await (await getDesktopAudioPauseButton(page)).click()
       }
     }
+  })
+
+  test("should not display error message for radio station with HLS .m3u8 audio source", async ({
+    page,
+  }) => {
+    await page.route("*/**/json/stations/search?*", async (route) => {
+      const json = [stationWithHlsAudioM3u8]
+      await route.fulfill({ json })
+    })
+    await page.route(stationWithHlsAudioM3u8.url_resolved, async (route) => {
+      await route.fulfill({ status: 200 })
+    })
+    await page.goto(HOMEPAGE)
+    await clickRandomRadioStationButton(page)
+    await expect(getRadioCardMapPopup(page)).toBeVisible()
+    await expect(
+      getRadioCardMapPopup(page).getByRole("heading", {
+        name: stationWithHlsAudioM3u8.name,
+        exact: true,
+      })
+    ).toBeVisible()
+    await expect(
+      getRadioCardMapPopup(page).getByTestId("radio-card-playback-error")
+    ).not.toBeVisible()
   })
 
   test("get random station with blocked access HTTP 403 should display error message", async ({

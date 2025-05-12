@@ -10,11 +10,19 @@ import {
   MediaTimeDisplay,
   MediaVolumeRange,
 } from "media-chrome/react"
+import HlsVideo from "hls-video-element/react"
+import HlsVideoElement from "hls-video-element"
+import { Station } from "../../../api/radiobrowser/types.ts"
 
 const controlBarStyle = { padding: "0 0.5rem", width: "100%" }
 
+type RadioSource = {
+  src: string
+  type: "audio/aac" | "audio/mpeg" | "audio/ogg" | "hls" // handle .m3u8 streaming urls, need to display as hls video source
+}
+
 type RadioPlayerProps = {
-  source: string
+  source: RadioSource
   onError: () => void
   onReady?: () => void
 }
@@ -22,15 +30,18 @@ type RadioPlayerProps = {
 function RadioPlayer({ source, onError, onReady }: RadioPlayerProps) {
   const [error, setError] = useState<boolean>(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const hlsRef = useRef<HlsVideoElement | null>(null)
 
   const handleError = useCallback(() => {
-    setError(source !== "")
+    setError(source.src !== "")
     onError()
   }, [source, onError])
 
   const handlePlay = useCallback(() => {
     setError(false)
     if (audioRef.current && onReady) {
+      onReady()
+    } else if (hlsRef.current && onReady) {
       onReady()
     }
   }, [onReady])
@@ -39,14 +50,27 @@ function RadioPlayer({ source, onError, onReady }: RadioPlayerProps) {
     <div className="radio-player-container">
       <div className="audio-player">
         <MediaController audio>
-          {source && (
+          {source && source.type !== "hls" ? (
             <audio
               ref={audioRef}
               slot="media"
-              src={source}
+              crossOrigin="anonymous"
+              preload="auto"
               onError={handleError}
               onCanPlay={handlePlay}
-            ></audio>
+            >
+              <source src={source.src} type={source.type} />
+            </audio>
+          ) : (
+            <HlsVideo
+              ref={hlsRef}
+              slot="media"
+              crossOrigin="anonymous"
+              preload="auto"
+              src={source.src}
+              onError={handleError}
+              onCanPlay={handlePlay}
+            />
           )}
           {error ? (
             <MediaErrorDialog />
@@ -86,4 +110,51 @@ function RadioPlayer({ source, onError, onReady }: RadioPlayerProps) {
   )
 }
 
+function containsHlsAudio(url: string) {
+  // need to check pathname, some urls might have query parameters
+  try {
+    const pathname = new URL(url).pathname
+    return pathname.endsWith(".m3u8") || pathname.endsWith(".mp4")
+  } catch {
+    return false
+  }
+}
+
+function getAudioSource(station: Station): RadioSource {
+  if (containsHlsAudio(station.url_resolved)) {
+    return { src: station.url_resolved, type: "hls" }
+  }
+  // https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Containers
+  const codecToType: Map<string, RadioSource["type"]> = new Map([
+    ["AAC", "audio/aac"],
+    ["AAC+", "audio/aac"],
+    ["OGG", "audio/ogg"],
+    ["MP3", "audio/mpeg"],
+  ])
+  const codec = station.codec ? station.codec.trim().toUpperCase() : ""
+  if (codec != null && codec.includes(",")) {
+    // handle multiple values in codec (e.g. "AAC,H.264"), find valid codec
+    const codecs = codec.split(",").filter((c) => codecToType.has(c))
+    const values = codecs.flatMap((c) => {
+      if (codecToType == null || !codecToType.has(c)) {
+        return []
+      }
+      return { src: station.url_resolved, type: codecToType.get(c) || "hls" }
+    })
+    return values[0]
+  }
+  if (codec != null && codecToType.has(codec)) {
+    return {
+      src: station.url_resolved,
+      type: codecToType.get(codec) || "hls",
+    }
+  }
+  return {
+    src: station.url_resolved,
+    type: "hls",
+  }
+}
+
 export default memo(RadioPlayer)
+// eslint-disable-next-line react-refresh/only-export-components
+export { getAudioSource }
