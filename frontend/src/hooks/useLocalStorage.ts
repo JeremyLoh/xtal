@@ -9,29 +9,20 @@ function useLocalStorage(key: string) {
       } else {
         return null
       }
-    } catch (error) {
-      console.error("useLocalStorage getItem error: ", error)
+    } catch {
       return null
     }
   }, [key])
 
   const setItem = useCallback(
     (value: unknown) => {
-      try {
-        localStorage.setItem(key, JSON.stringify(value))
-      } catch (error) {
-        console.error("useLocalStorage setItem error: ", error)
-      }
+      localStorage.setItem(key, JSON.stringify(value))
     },
     [key]
   )
 
   const removeItem = useCallback(() => {
-    try {
-      localStorage.removeItem(key)
-    } catch (error) {
-      console.error("useLocalStorage removeItem error: ", error)
-    }
+    localStorage.removeItem(key)
   }, [key])
 
   const localStorageFunctions = useMemo(() => {
