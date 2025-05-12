@@ -1,7 +1,9 @@
 import DOMPurify from "dompurify"
 
 function sanitizeHtmlString(htmlString: string) {
-  const value = DOMPurify.sanitize(htmlString.trim())
+  const value = DOMPurify.sanitize(htmlString.trim(), {
+    FORBID_TAGS: ["figure", "br"],
+  })
   return replaceHeadingTags(removeImageTags(value))
 }
 

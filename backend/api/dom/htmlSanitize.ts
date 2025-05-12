@@ -5,7 +5,9 @@ export function getSanitizedHtmlText(htmlText: string) {
   // sanitize HTML string and prevent XSS attacks
   const window = new JSDOM("").window
   const purify = DOMPurify(window as WindowLike)
-  const cleanHtmlText = purify.sanitize(htmlText)
+  const cleanHtmlText = purify.sanitize(htmlText, {
+    FORBID_TAGS: ["figure", "br"],
+  })
   return replaceHeadingTags(removeImageTags(cleanHtmlText))
 }
 
