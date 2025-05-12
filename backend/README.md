@@ -10,6 +10,8 @@
 
 # Setup
 
+**IMPORTANT**: The `backend/middleware/csp.ts` value for the Content Security Policy header should match the frontend `frontend/index.html` `<meta http-equiv="content-security-policy">` `content` value. For the backend CSP header, it should be converted to one line without newlines
+
 1. Create an `.env` file at backend root directory (`/backend`) with the following properties:
 
 ```shell

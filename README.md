@@ -57,6 +57,8 @@ Listen to the world (radio & podcasts) with xtal, a fast and responsive mobile /
 
 Clone the repository and run `npm install` in the respective folder (e.g. `frontend/`) to install the required dependencies
 
+**IMPORTANT**: The `backend/middleware/csp.ts` value for the Content Security Policy header should match the frontend `frontend/index.html` `<meta http-equiv="content-security-policy">` `content` value. For the backend CSP header, it should be converted to one line without newlines
+
 ## Running Frontend Tests
 
 The Frontend end-to-end tests are written in Playwright - https://playwright.dev/docs/writing-tests
