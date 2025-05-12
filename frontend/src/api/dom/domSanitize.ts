@@ -2,19 +2,9 @@ import DOMPurify from "dompurify"
 
 function sanitizeHtmlString(htmlString: string) {
   const value = DOMPurify.sanitize(htmlString.trim(), {
-    FORBID_TAGS: ["figure", "br"],
+    FORBID_TAGS: ["figure", "br", "img"],
   })
-  return replaceHeadingTags(removeImageTags(value))
-}
-
-function removeImageTags(htmlString: string) {
-  // Removes all <img> tags. Same function used in frontend and backend
-  let cleanHtmlString = htmlString.trim()
-  const imageRegex = new RegExp(/<img\s+[^>]+\/?>/gi)
-  while (imageRegex.test(cleanHtmlString)) {
-    cleanHtmlString = cleanHtmlString.replace(imageRegex, "")
-  }
-  return cleanHtmlString
+  return replaceHeadingTags(value)
 }
 
 function replaceHeadingTags(htmlString: string, replacementTag: string = "p") {
