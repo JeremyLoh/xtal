@@ -19,7 +19,7 @@ export default class ErrorBoundary extends React.Component<
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  static getDerivedStateFromError(error: Error) {
+  static getDerivedStateFromError(_error: Error) {
     // https://react.dev/reference/react/Component#static-getderivedstatefromerror
     // Update state so the next render will show the fallback UI
     return { hasError: true }
