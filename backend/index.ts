@@ -13,6 +13,7 @@ import {
 } from "./middleware/cors.js"
 import startCronJobs from "./cron/index.js"
 import { initializeSupertokensSdk } from "./api/auth/superTokens.js"
+import { getContentSecurityPolicyMiddleware } from "./middleware/csp.js"
 
 const PORT = process.env.PORT
 
@@ -27,6 +28,7 @@ function setupApp() {
   }
   app.use(statusRouter) // place before CORS to remove CORS for /status endpoint
   app.use(cors(getCorsOptions()))
+  app.use(getContentSecurityPolicyMiddleware)
   app.use(superTokensMiddleware()) // supertokens CORS should be before the middleware
   app.use(compression())
   app.use(router)

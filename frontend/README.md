@@ -4,6 +4,8 @@ Made using TypeScript, React and Playwright (end-to-end testing)
 
 # Setup
 
+**IMPORTANT**: The `backend/middleware/csp.ts` value for the Content Security Policy header should match the frontend `frontend/index.html` `<meta http-equiv="content-security-policy">` `content` value. For the backend CSP header, it should be converted to one line without newlines
+
 1. Ensure `node` is installed on your system - https://nodejs.org/en
 2. Navigate to the `frontend/` directory
 3. Update the `frontend/index.html` `<meta http-equiv="content-security-policy">` CSP tag for the backend endpoints and supabase public project url
