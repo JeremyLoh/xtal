@@ -1,4 +1,3 @@
-import { Profanity } from "@2toad/profanity"
 import SuperTokens from "supertokens-auth-react"
 import EmailPassword from "supertokens-auth-react/recipe/emailpassword"
 import EmailVerification from "supertokens-auth-react/recipe/emailverification"
@@ -6,7 +5,6 @@ import Session from "supertokens-auth-react/recipe/session"
 import { getSuperTokensRoutesForReactRouterDom } from "supertokens-auth-react/ui"
 import { EmailPasswordPreBuiltUI } from "supertokens-auth-react/recipe/emailpassword/prebuiltui"
 import { EmailVerificationPreBuiltUI } from "supertokens-auth-react/recipe/emailverification/prebuiltui"
-import * as reactRouterDom from "react-router" // note: causes larger bundle size
 import { getEnv } from "../env/environmentVariables.ts"
 
 const { BACKEND_ORIGIN, FRONTEND_ORIGIN } = getEnv()
@@ -57,7 +55,8 @@ function initializeSuperTokens() {
   })
 }
 
-function getSuperTokensRoutes() {
+async function getSuperTokensRoutes() {
+  const reactRouterDom = await import("react-router")
   return getSuperTokensRoutesForReactRouterDom(reactRouterDom, [
     EmailPasswordPreBuiltUI,
     EmailVerificationPreBuiltUI,
@@ -88,7 +87,7 @@ async function validateUsername(username: string) {
   if (username.length > 64) {
     return "Invalid username. Exceeded max length of 64 characters"
   }
-  if (containsProfanity(username)) {
+  if (await containsProfanity(username)) {
     return "Invalid username. Profanity detected in username"
   }
   const containsInvalidCharactersRegex = new RegExp(/[:/%\\]/)
@@ -98,7 +97,8 @@ async function validateUsername(username: string) {
   return undefined
 }
 
-function containsProfanity(text: string) {
+async function containsProfanity(text: string) {
+  const { Profanity } = await import("@2toad/profanity")
   // needs to be identical between frontend and backend
   const profanity = new Profanity({
     wholeWord: true,
