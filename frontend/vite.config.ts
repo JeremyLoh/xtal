@@ -7,7 +7,15 @@ import { DEFAULT_CSP_POLICY, generateCspPlugin } from "vite-plugin-node-csp"
 
 const ENABLE_VISUALIZER = false
 
-const vendorPackages = ["react", "react-dom", "react-router", "ky"]
+const vendorPackages = [
+  "react",
+  "react-dom",
+  "react-router",
+  "ky",
+  "media-chrome",
+  "motion",
+  "sonner",
+]
 
 function renderChunks(deps: Record<string, string>) {
   const chunks: { [key: string]: string[] } = {}

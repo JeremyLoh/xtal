@@ -41,6 +41,19 @@ function AudioPlayer({
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
+    // Prevent stream from being loaded when player is closed - https://github.com/muxinc/media-elements/discussions/82
+    let ref = null
+    if (audioRef.current) {
+      ref = audioRef
+    }
+    return () => {
+      if (ref && ref.current) {
+        ref.current.src = ""
+      }
+    }
+  }, [])
+
+  useEffect(() => {
     if (audioRef.current) {
       audioRef.current.currentTime = playFromTimestamp
     }

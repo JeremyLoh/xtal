@@ -1,5 +1,5 @@
 import "./RadioPlayer.css"
-import { memo, useCallback, useRef, useState } from "react"
+import { memo, useCallback, useEffect, useRef, useState } from "react"
 import {
   MediaControlBar,
   MediaController,
@@ -45,6 +45,26 @@ function RadioPlayer({ source, onError, onReady }: RadioPlayerProps) {
       onReady()
     }
   }, [onReady])
+
+  useEffect(() => {
+    // Prevent stream from being loaded when player is closed - https://github.com/muxinc/media-elements/discussions/82
+    let ref = null
+    let audio = null
+    if (hlsRef.current) {
+      ref = hlsRef
+    }
+    if (audioRef.current) {
+      audio = audioRef
+    }
+    return () => {
+      if (ref && ref.current) {
+        ref.current.src = ""
+      }
+      if (audio && audio.current) {
+        audio.current.src = ""
+      }
+    }
+  }, [])
 
   return (
     <div className="radio-player-container">
