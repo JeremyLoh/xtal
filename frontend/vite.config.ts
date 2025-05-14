@@ -57,38 +57,43 @@ function getCspPlugin() {
 }
 
 // https://vite.dev/config/
-export default defineConfig({
-  build: {
-    target: "es2022",
-    minify: "esbuild",
-    cssMinify: "esbuild",
-    cssCodeSplit: true,
-    emptyOutDir: true,
-    rollupOptions: {
-      treeshake: { moduleSideEffects: false, preset: "smallest" },
-      output: {
-        manualChunks: {
-          vendor: vendorPackages,
-          ...renderChunks(dependencies),
+export default defineConfig(({ mode }) => {
+  return {
+    define: {
+      "process.env.NODE_ENV": JSON.stringify(mode),
+    },
+    build: {
+      target: "es2022",
+      minify: "esbuild",
+      cssMinify: "esbuild",
+      cssCodeSplit: true,
+      emptyOutDir: true,
+      rollupOptions: {
+        treeshake: { moduleSideEffects: false, preset: "smallest" },
+        output: {
+          manualChunks: {
+            vendor: vendorPackages,
+            ...renderChunks(dependencies),
+          },
         },
       },
     },
-  },
-  plugins: [
-    react(),
-    compression({ algorithm: "brotliCompress" }),
-    getCspPlugin(),
-  ].concat(
-    ENABLE_VISUALIZER ? [visualizer({ open: true }) as PluginOption] : []
-  ),
-  esbuild: {
-    legalComments: "external",
-    minifySyntax: true,
-    minifyIdentifiers: true,
-    minifyWhitespace: true,
-    treeShaking: true,
-  },
-  preview: {
-    port: 5173,
-  },
+    plugins: [
+      react(),
+      compression({ algorithm: "brotliCompress" }),
+      getCspPlugin(),
+    ].concat(
+      ENABLE_VISUALIZER ? [visualizer({ open: true }) as PluginOption] : []
+    ),
+    esbuild: {
+      legalComments: "external",
+      minifySyntax: true,
+      minifyIdentifiers: true,
+      minifyWhitespace: true,
+      treeShaking: true,
+    },
+    preview: {
+      port: 5173,
+    },
+  }
 })
