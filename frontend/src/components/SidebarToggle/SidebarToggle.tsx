@@ -22,7 +22,7 @@ function SidebarToggle() {
       >
         <LuAlignJustify size={20} />
       </Button>
-      <Sidebar title="Actions" open={open}></Sidebar>
+      <Sidebar title="Actions" open={open} onClose={handleToggle}></Sidebar>
     </>
   )
 }

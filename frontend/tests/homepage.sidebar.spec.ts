@@ -16,6 +16,14 @@ test.describe("Homepage Sidebar", () => {
     return page.getByTestId("sidebar")
   }
 
+  function getSidebarCloseButton(page: Page) {
+    return page.getByTestId("sidebar-close-button")
+  }
+
+  function getSidebarTitle(page: Page) {
+    return page.getByTestId("sidebar-title")
+  }
+
   test("should open sidebar on header action toggle sidebar button click", async ({
     page,
   }) => {
@@ -25,6 +33,7 @@ test.describe("Homepage Sidebar", () => {
     await expect(getSidebarElement(page)).not.toBeVisible()
     await getSidebarToggleButton(page).click()
     await expect(getSidebarElement(page)).toBeVisible()
+    await expect(getSidebarTitle(page)).toHaveText("Actions")
   })
 
   test("should close sidebar on header action toggle sidebar button click", async ({
@@ -37,6 +46,18 @@ test.describe("Homepage Sidebar", () => {
     await getSidebarToggleButton(page).click()
     await expect(getSidebarElement(page)).toBeVisible()
     await getSidebarToggleButton(page).click()
+    await expect(getSidebarElement(page)).not.toBeVisible()
+  })
+
+  test("should close sidebar on sidebar close button click", async ({
+    page,
+  }) => {
+    await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
+    await getSidebarToggleButton(page).click()
+    await expect(getSidebarElement(page)).toBeVisible()
+    await expect(getSidebarCloseButton(page)).toBeVisible()
+    await getSidebarCloseButton(page).click()
     await expect(getSidebarElement(page)).not.toBeVisible()
   })
 })

@@ -12,8 +12,15 @@
   padding: 0.5rem;
 }
 
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .sidebar-title {
   font-weight: bold;
+  margin: 1rem 0.5rem;
 }
 
 .sidebar-content {
