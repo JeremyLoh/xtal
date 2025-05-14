@@ -1,0 +1,29 @@
+.sidebar {
+  position: absolute;
+  top: calc(
+    3rem + 1.5rem
+  ); /* should be offset by (header + react-wavify) height (display sidebar below header) */
+  right: 0;
+  height: 80%;
+  width: 80%;
+  max-width: 240px;
+  z-index: 10;
+  background-color: var(--sidebar-background-color);
+  padding: 0.5rem;
+}
+
+.sidebar-title {
+  font-weight: bold;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.sidebar-content *:hover {
+  background-color: var(--sidebar-item-hover-color);
+}

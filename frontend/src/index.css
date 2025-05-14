@@ -30,6 +30,8 @@
   --primary-text-color: #180c15;
   --subtitle-text-color: #525252;
   --background-color: #fdfafc;
+  --sidebar-background-color: #e5e5e5;
+  --sidebar-item-hover-color: #d4d4d4;
   --primary-color: #fdacca;
   --secondary-color: #9fcd9b;
   --accent-color: #e45ac2;
@@ -51,6 +53,8 @@
   --primary-text-color: #19190b;
   --subtitle-text-color: #d4d4d4;
   --background-color: #0e0f08;
+  --sidebar-background-color: #262626;
+  --sidebar-item-hover-color: #404040;
   --primary-color: #6fb2ff;
   --secondary-color: #e4e4e7;
   --accent-color: #0067ff;

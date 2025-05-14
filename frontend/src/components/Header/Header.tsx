@@ -5,6 +5,7 @@ import Wave from "react-wavify"
 import ThemeProvider from "../../context/ThemeProvider/ThemeProvider.tsx"
 import FavouriteStationToggle from "../../features/favourite/FavouriteStationToggle/FavouriteStationToggle.tsx"
 import ThemeToggle from "../ThemeToggle/ThemeToggle.tsx"
+import SidebarToggle from "../SidebarToggle/SidebarToggle.tsx"
 import ProfileRedirectToggle from "../../features/profile/ProfileRedirectToggle.tsx"
 import { homePage, podcastHomePage } from "../../paths.ts"
 
@@ -44,6 +45,7 @@ function Header() {
           </ThemeProvider>
           <FavouriteStationToggle />
           <ProfileRedirectToggle />
+          <SidebarToggle />
         </div>
       </header>
       <Wave
