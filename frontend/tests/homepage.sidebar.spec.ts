@@ -60,4 +60,23 @@ test.describe("Homepage Sidebar", () => {
     await getSidebarCloseButton(page).click()
     await expect(getSidebarElement(page)).not.toBeVisible()
   })
+
+  test("should close sidebar on click outside sidebar", async ({ page }) => {
+    await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
+    await getSidebarToggleButton(page).click()
+    await expect(getSidebarElement(page)).toBeVisible()
+    // click outside of sidebar element
+    await page.locator("body").click({ position: { x: 1, y: 1 } })
+    await expect(getSidebarElement(page)).not.toBeVisible()
+  })
+
+  test("should not close sidebar on click inside sidebar", async ({ page }) => {
+    await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
+    await getSidebarToggleButton(page).click()
+    await expect(getSidebarElement(page)).toBeVisible()
+    await getSidebarTitle(page).click()
+    await expect(getSidebarElement(page)).toBeVisible()
+  })
 })
