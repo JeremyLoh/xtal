@@ -85,7 +85,7 @@ function SidebarToggle() {
             />
           </SidebarGroup>
           <SidebarGroup label="Profile">
-            {!session.loading && !session.doesSessionExist ? (
+            {session.loading || !session.doesSessionExist ? (
               <>
                 <SidebarMenuItem
                   title="Sign In"
