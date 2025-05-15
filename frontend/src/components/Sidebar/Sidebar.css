@@ -6,7 +6,7 @@
   right: 0;
   height: 80%;
   width: 80%;
-  max-width: 240px;
+  max-width: 30rem;
   z-index: 10;
   background-color: var(--sidebar-background-color);
   padding: 0.5rem;
@@ -16,11 +16,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 0 0.5rem;
 }
 
 .sidebar-title {
   font-weight: bold;
-  margin: 1rem 0.5rem;
+  margin: 1rem 0;
 }
 
 .sidebar-content {
@@ -37,6 +38,7 @@
 }
 .sidebar-menu-item:hover {
   background-color: var(--sidebar-item-hover-color);
+  cursor: pointer;
 }
 
 .sidebar-menu-item-link {
@@ -48,7 +50,17 @@
   height: 100%;
   padding: 0.5rem 0.5rem;
   font-size: 1rem;
+  color: var(--text-color) !important;
 }
 .sidebar-menu-item-link:hover {
   filter: none;
+}
+
+.sidebar-group {
+  margin: 0.5rem;
+}
+.sidebar-group-label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--disabled-element-color);
 }

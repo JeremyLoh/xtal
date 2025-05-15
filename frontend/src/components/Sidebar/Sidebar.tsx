@@ -46,7 +46,7 @@ function Sidebar({ open, onClose, title, children }: SidebarProps) {
               title="Close Sidebar"
               onClick={onClose}
             >
-              <IoClose size={20} />
+              <IoClose size={28} />
             </Button>
           </motion.div>
           <Separator />
@@ -65,24 +65,52 @@ function Sidebar({ open, onClose, title, children }: SidebarProps) {
 }
 
 function SidebarMenu({ children }: PropsWithChildren) {
-  return <div>{children}</div>
+  return <motion.div>{children}</motion.div>
 }
 
-type SidebarMenuItemProps = { url: string; title: string; Icon: IconType }
+type SidebarMenuItemProps = {
+  url?: string
+  title: string
+  Icon: IconType
+  onClick?: () => void
+}
 
-function SidebarMenuItem({ url, title, Icon }: SidebarMenuItemProps) {
+function SidebarMenuItem({ url, title, Icon, onClick }: SidebarMenuItemProps) {
   return (
     <motion.div
       key={`sidebar-menu-item-${title}`}
       className="sidebar-menu-item"
+      {...(onClick && { onClick: onClick })}
     >
-      <Link to={url} className="sidebar-menu-item-link">
-        <Icon size={24} />
-        {title}
-      </Link>
+      {url ? (
+        <Link to={url} className="sidebar-menu-item-link">
+          <Icon size={24} />
+          {title}
+        </Link>
+      ) : (
+        <motion.div className="sidebar-menu-item-link">
+          <Icon size={24} />
+          {title}
+        </motion.div>
+      )}
+    </motion.div>
+  )
+}
+
+type SidebarGroupProps = { label: string }
+
+function SidebarGroup({
+  label,
+  children,
+}: SidebarGroupProps & PropsWithChildren) {
+  // create a section with a label
+  return (
+    <motion.div className="sidebar-group">
+      <motion.div className="sidebar-group-label">{label}</motion.div>
+      {children}
     </motion.div>
   )
 }
 
 export default memo(Sidebar)
-export { SidebarMenu, SidebarMenuItem }
+export { SidebarMenu, SidebarMenuItem, SidebarGroup }

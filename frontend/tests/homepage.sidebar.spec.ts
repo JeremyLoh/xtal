@@ -93,6 +93,33 @@ test.describe("Homepage Sidebar", () => {
     await expect(getSidebarElement(page)).toBeVisible()
     await expect(getSidebarMenuItem(page, "Radio")).toBeVisible()
     await expect(getSidebarMenuItem(page, "Podcasts")).toBeVisible()
+    await expect(getSidebarMenuItem(page, "Sign In")).toBeVisible()
+  })
+
+  test.describe("Profile sidebar actions", () => {
+    test("should display sidebar sign in action link for anonymous user", async ({
+      page,
+    }) => {
+      await page.goto(HOMEPAGE)
+      await assertLoadingSpinnerIsMissing(page)
+      await getSidebarToggleButton(page).click()
+      await expect(getSidebarElement(page)).toBeVisible()
+      await expect(getSidebarMenuItem(page, "Sign In")).toBeVisible()
+      await getSidebarMenuItem(page, "Sign In").click()
+      await expect(page).toHaveURL(HOMEPAGE + "/auth?show=signin")
+    })
+
+    test("should display sidebar sign up action link for anonymous user", async ({
+      page,
+    }) => {
+      await page.goto(HOMEPAGE)
+      await assertLoadingSpinnerIsMissing(page)
+      await getSidebarToggleButton(page).click()
+      await expect(getSidebarElement(page)).toBeVisible()
+      await expect(getSidebarMenuItem(page, "Sign Up")).toBeVisible()
+      await getSidebarMenuItem(page, "Sign Up").click()
+      await expect(page).toHaveURL(HOMEPAGE + "/auth?show=signup")
+    })
   })
 
   test.describe("navigate to page on click", () => {
