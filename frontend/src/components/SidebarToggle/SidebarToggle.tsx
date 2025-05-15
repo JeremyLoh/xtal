@@ -7,6 +7,7 @@ import {
   LuLogOut,
   LuPodcast,
   LuRadioTower,
+  LuRedo2,
   LuUser,
   LuUserPlus,
 } from "react-icons/lu"
@@ -27,6 +28,8 @@ import {
   podcastHomePage,
   profileFollowingPage,
   profileHistoryPage,
+  profilePage,
+  resetPasswordPage,
   signInPage,
   signUpPage,
 } from "../../paths.ts"
@@ -35,8 +38,10 @@ const homePageUrl = homePage()
 const podcastHomePageUrl = podcastHomePage()
 const profileSignInPageUrl = signInPage()
 const profileSignUpPageUrl = signUpPage()
+const profilePageUrl = profilePage()
 const profileFollowingPageUrl = profileFollowingPage()
 const profileListenHistoryPageUrl = profileHistoryPage()
+const profileResetPasswordPageUrl = resetPasswordPage()
 
 function SidebarToggle() {
   const session = useSessionContext()
@@ -101,6 +106,11 @@ function SidebarToggle() {
             ) : (
               <>
                 <SidebarMenuItem
+                  title="Your Profile"
+                  url={profilePageUrl}
+                  Icon={LuUser}
+                />
+                <SidebarMenuItem
                   title="Following"
                   url={profileFollowingPageUrl}
                   Icon={MdFollowTheSigns}
@@ -109,6 +119,11 @@ function SidebarToggle() {
                   title="Listen History"
                   url={profileListenHistoryPageUrl}
                   Icon={LuHistory}
+                />
+                <SidebarMenuItem
+                  title="Reset Password"
+                  url={profileResetPasswordPageUrl}
+                  Icon={LuRedo2}
                 />
                 <SidebarMenuItem
                   title="Logout"
