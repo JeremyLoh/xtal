@@ -1,6 +1,8 @@
 import "./Sidebar.css"
 import { memo, PropsWithChildren } from "react"
+import { Link } from "react-router"
 import { AnimatePresence, motion } from "motion/react"
+import { IconType } from "react-icons/lib"
 import { IoClose } from "react-icons/io5"
 import Separator from "../Separator/Separator.tsx"
 import Button from "../ui/button/Button.tsx"
@@ -52,6 +54,7 @@ function Sidebar({ open, onClose, title, children }: SidebarProps) {
             key="sidebar-content"
             className="sidebar-content"
             exit={sidebarExit}
+            transition={sidebarTransition}
           >
             {children}
           </motion.div>
@@ -61,4 +64,25 @@ function Sidebar({ open, onClose, title, children }: SidebarProps) {
   )
 }
 
+function SidebarMenu({ children }: PropsWithChildren) {
+  return <div>{children}</div>
+}
+
+type SidebarMenuItemProps = { url: string; title: string; Icon: IconType }
+
+function SidebarMenuItem({ url, title, Icon }: SidebarMenuItemProps) {
+  return (
+    <motion.div
+      key={`sidebar-menu-item-${title}`}
+      className="sidebar-menu-item"
+    >
+      <Link to={url} className="sidebar-menu-item-link">
+        <Icon size={24} />
+        {title}
+      </Link>
+    </motion.div>
+  )
+}
+
 export default memo(Sidebar)
+export { SidebarMenu, SidebarMenuItem }

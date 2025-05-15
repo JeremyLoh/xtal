@@ -24,6 +24,12 @@ test.describe("Homepage Sidebar", () => {
     return page.getByTestId("sidebar-title")
   }
 
+  function getSidebarMenuItem(page: Page, text: string) {
+    return page
+      .locator(".sidebar-menu-item")
+      .getByRole("link", { name: text, exact: true })
+  }
+
   test("should open sidebar on header action toggle sidebar button click", async ({
     page,
   }) => {
@@ -78,5 +84,40 @@ test.describe("Homepage Sidebar", () => {
     await expect(getSidebarElement(page)).toBeVisible()
     await getSidebarTitle(page).click()
     await expect(getSidebarElement(page)).toBeVisible()
+  })
+
+  test("should display sidebar navigation action links", async ({ page }) => {
+    await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
+    await getSidebarToggleButton(page).click()
+    await expect(getSidebarElement(page)).toBeVisible()
+    await expect(getSidebarMenuItem(page, "Radio")).toBeVisible()
+    await expect(getSidebarMenuItem(page, "Podcasts")).toBeVisible()
+  })
+
+  test.describe("navigate to page on click", () => {
+    test("should navigate to podcast homepage on click of podcast sidebar action link", async ({
+      page,
+    }) => {
+      await page.goto(HOMEPAGE)
+      await assertLoadingSpinnerIsMissing(page)
+      await getSidebarToggleButton(page).click()
+      await expect(getSidebarElement(page)).toBeVisible()
+      await expect(getSidebarMenuItem(page, "Podcasts")).toBeVisible()
+      await getSidebarMenuItem(page, "Podcasts").click()
+      await expect(page).toHaveURL(HOMEPAGE + "/podcasts")
+    })
+
+    test("should navigate to radio homepage on click of radio sidebar action link", async ({
+      page,
+    }) => {
+      await page.goto(HOMEPAGE + "/podcasts")
+      await assertLoadingSpinnerIsMissing(page)
+      await getSidebarToggleButton(page).click()
+      await expect(getSidebarElement(page)).toBeVisible()
+      await expect(getSidebarMenuItem(page, "Radio")).toBeVisible()
+      await getSidebarMenuItem(page, "Radio").click()
+      await expect(page).toHaveURL(HOMEPAGE)
+    })
   })
 })

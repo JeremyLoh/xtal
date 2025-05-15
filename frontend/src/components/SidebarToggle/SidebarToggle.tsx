@@ -1,9 +1,13 @@
 import "./SidebarToggle.css"
 import { useState } from "react"
-import { LuAlignJustify } from "react-icons/lu"
+import { LuAlignJustify, LuPodcast, LuRadioTower } from "react-icons/lu"
 import useClickOutside from "../../hooks/useClickOutside.ts"
 import Button from "../ui/button/Button.tsx"
-import Sidebar from "../Sidebar/Sidebar.tsx"
+import Sidebar, { SidebarMenu, SidebarMenuItem } from "../Sidebar/Sidebar.tsx"
+import { homePage, podcastHomePage } from "../../paths.ts"
+
+const homePageUrl = homePage()
+const podcastHomePageUrl = podcastHomePage()
 
 function SidebarToggle() {
   const [open, setOpen] = useState<boolean>(false)
@@ -31,7 +35,20 @@ function SidebarToggle() {
       >
         <LuAlignJustify size={20} />
       </Button>
-      <Sidebar title="Actions" open={open} onClose={handleToggle}></Sidebar>
+      <Sidebar title="Actions" open={open} onClose={handleToggle}>
+        <SidebarMenu>
+          <SidebarMenuItem
+            title="Radio"
+            url={homePageUrl}
+            Icon={LuRadioTower}
+          />
+          <SidebarMenuItem
+            title="Podcasts"
+            url={podcastHomePageUrl}
+            Icon={LuPodcast}
+          />
+        </SidebarMenu>
+      </Sidebar>
     </div>
   )
 }

@@ -29,8 +29,26 @@
   width: 100%;
   height: 100%;
   overflow-y: auto;
+  margin-top: 0.5rem;
 }
 
-.sidebar-content *:hover {
+.sidebar-menu-item {
+  border-radius: 8px;
+}
+.sidebar-menu-item:hover {
   background-color: var(--sidebar-item-hover-color);
+}
+
+.sidebar-menu-item-link {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  text-decoration: none;
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem 0.5rem;
+  font-size: 1rem;
+}
+.sidebar-menu-item-link:hover {
+  filter: none;
 }
