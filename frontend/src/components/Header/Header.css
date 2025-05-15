@@ -6,7 +6,6 @@ header {
   margin-top: 0.5rem;
   padding-top: clamp(0.4rem, 0.4rem + 1vw, 0.5rem);
   width: 80%;
-  max-width: 120ch;
   height: 3rem;
 }
 
