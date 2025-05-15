@@ -10,6 +10,7 @@ import {
   LuUser,
   LuUserPlus,
 } from "react-icons/lu"
+import { MdFollowTheSigns } from "react-icons/md"
 import {
   signOut,
   useSessionContext,
@@ -29,7 +30,6 @@ import {
   signInPage,
   signUpPage,
 } from "../../paths.ts"
-import { MdFollowTheSigns } from "react-icons/md"
 
 const homePageUrl = homePage()
 const podcastHomePageUrl = podcastHomePage()
