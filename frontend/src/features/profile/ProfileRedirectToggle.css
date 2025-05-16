@@ -1,9 +1,0 @@
-button.profile-redirect-toggle-button {
-  display: grid;
-  place-items: center;
-  border-radius: 25%;
-  aspect-ratio: 1;
-  padding: 0.2rem;
-  background-color: var(--accent-color);
-  color: var(--text-color);
-}
