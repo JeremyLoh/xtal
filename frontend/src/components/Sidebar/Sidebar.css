@@ -3,13 +3,14 @@
   top: calc(
     3rem + 1.5rem
   ); /* should be offset by (header + react-wavify) height (display sidebar below header) */
-  right: 0;
+  right: 10%; /* align with header hamburger icon */
   height: 80%;
   width: 80%;
   max-width: 30rem;
   z-index: 10;
   background-color: var(--sidebar-background-color);
   padding: 0.5rem;
+  border-radius: 8px;
 }
 
 .sidebar-header {
