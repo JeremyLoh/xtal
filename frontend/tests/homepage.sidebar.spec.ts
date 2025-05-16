@@ -1,35 +1,21 @@
 import { test } from "./fixture/test"
-import { expect, Page } from "@playwright/test"
+import { expect } from "@playwright/test"
 import { HOMEPAGE } from "./constants/homepageConstants"
 import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
+import {
+  getSidebarCloseButton,
+  getSidebarElement,
+  getSidebarMenuItem,
+  getSidebarTitle,
+  getSidebarToggleButton,
+  SidebarMenuItemAction,
+} from "./constants/sidebarConstants"
 
 test.beforeEach(async ({ mapPage }) => {
   await mapPage.mockMapTile()
 })
 
 test.describe("Homepage Sidebar", () => {
-  function getSidebarToggleButton(page: Page) {
-    return page.getByTestId("sidebar-toggle-button")
-  }
-
-  function getSidebarElement(page: Page) {
-    return page.getByTestId("sidebar")
-  }
-
-  function getSidebarCloseButton(page: Page) {
-    return page.getByTestId("sidebar-close-button")
-  }
-
-  function getSidebarTitle(page: Page) {
-    return page.getByTestId("sidebar-title")
-  }
-
-  function getSidebarMenuItem(page: Page, text: string) {
-    return page
-      .locator(".sidebar-menu-item")
-      .getByRole("link", { name: text, exact: true })
-  }
-
   test("should open sidebar on header action toggle sidebar button click", async ({
     page,
   }) => {
@@ -91,9 +77,15 @@ test.describe("Homepage Sidebar", () => {
     await assertLoadingSpinnerIsMissing(page)
     await getSidebarToggleButton(page).click()
     await expect(getSidebarElement(page)).toBeVisible()
-    await expect(getSidebarMenuItem(page, "Radio")).toBeVisible()
-    await expect(getSidebarMenuItem(page, "Podcasts")).toBeVisible()
-    await expect(getSidebarMenuItem(page, "Sign In")).toBeVisible()
+    await expect(
+      getSidebarMenuItem(page, SidebarMenuItemAction.Radio)
+    ).toBeVisible()
+    await expect(
+      getSidebarMenuItem(page, SidebarMenuItemAction.Podcasts)
+    ).toBeVisible()
+    await expect(
+      getSidebarMenuItem(page, SidebarMenuItemAction.ProfileSignIn)
+    ).toBeVisible()
   })
 
   test.describe("Profile sidebar actions", () => {
@@ -104,8 +96,13 @@ test.describe("Homepage Sidebar", () => {
       await assertLoadingSpinnerIsMissing(page)
       await getSidebarToggleButton(page).click()
       await expect(getSidebarElement(page)).toBeVisible()
-      await expect(getSidebarMenuItem(page, "Sign In")).toBeVisible()
-      await getSidebarMenuItem(page, "Sign In").click()
+      await expect(
+        getSidebarMenuItem(page, SidebarMenuItemAction.ProfileSignIn)
+      ).toBeVisible()
+      await getSidebarMenuItem(
+        page,
+        SidebarMenuItemAction.ProfileSignIn
+      ).click()
       await expect(page).toHaveURL(HOMEPAGE + "/auth?show=signin")
     })
 
@@ -116,8 +113,13 @@ test.describe("Homepage Sidebar", () => {
       await assertLoadingSpinnerIsMissing(page)
       await getSidebarToggleButton(page).click()
       await expect(getSidebarElement(page)).toBeVisible()
-      await expect(getSidebarMenuItem(page, "Sign Up")).toBeVisible()
-      await getSidebarMenuItem(page, "Sign Up").click()
+      await expect(
+        getSidebarMenuItem(page, SidebarMenuItemAction.ProfileSignUp)
+      ).toBeVisible()
+      await getSidebarMenuItem(
+        page,
+        SidebarMenuItemAction.ProfileSignUp
+      ).click()
       await expect(page).toHaveURL(HOMEPAGE + "/auth?show=signup")
     })
   })
@@ -130,8 +132,10 @@ test.describe("Homepage Sidebar", () => {
       await assertLoadingSpinnerIsMissing(page)
       await getSidebarToggleButton(page).click()
       await expect(getSidebarElement(page)).toBeVisible()
-      await expect(getSidebarMenuItem(page, "Podcasts")).toBeVisible()
-      await getSidebarMenuItem(page, "Podcasts").click()
+      await expect(
+        getSidebarMenuItem(page, SidebarMenuItemAction.Podcasts)
+      ).toBeVisible()
+      await getSidebarMenuItem(page, SidebarMenuItemAction.Podcasts).click()
       await expect(page).toHaveURL(HOMEPAGE + "/podcasts")
     })
 
@@ -142,8 +146,10 @@ test.describe("Homepage Sidebar", () => {
       await assertLoadingSpinnerIsMissing(page)
       await getSidebarToggleButton(page).click()
       await expect(getSidebarElement(page)).toBeVisible()
-      await expect(getSidebarMenuItem(page, "Radio")).toBeVisible()
-      await getSidebarMenuItem(page, "Radio").click()
+      await expect(
+        getSidebarMenuItem(page, SidebarMenuItemAction.Radio)
+      ).toBeVisible()
+      await getSidebarMenuItem(page, SidebarMenuItemAction.Radio).click()
       await expect(page).toHaveURL(HOMEPAGE)
     })
   })
