@@ -7,6 +7,7 @@ import FavouriteStationToggle from "../../features/favourite/FavouriteStationTog
 import ThemeToggle from "../ThemeToggle/ThemeToggle.tsx"
 import SidebarToggle from "../SidebarToggle/SidebarToggle.tsx"
 import ProfileRedirectToggle from "../../features/profile/ProfileRedirectToggle.tsx"
+import useScreenDimensions from "../../hooks/useScreenDimensions.ts"
 import { homePage, podcastHomePage } from "../../paths.ts"
 
 const waveStyle = { display: "flex", height: 16 }
@@ -18,27 +19,30 @@ const waveOptions = {
 }
 
 function Header() {
+  const { isMobile } = useScreenDimensions()
   return (
     <div id="header-container">
       <header>
         <p className="header-title">Xtal</p>
-        <nav className="header-navbar">
-          <ul>
-            <li>
-              <Link to={homePage()} className="header-navbar-radio-link">
-                Radio
-              </Link>
-            </li>
-            <li>
-              <Link
-                to={podcastHomePage()}
-                className="header-navbar-podcast-link"
-              >
-                Podcast
-              </Link>
-            </li>
-          </ul>
-        </nav>
+        {!isMobile && (
+          <nav className="header-navbar">
+            <ul>
+              <li>
+                <Link to={homePage()} className="header-navbar-radio-link">
+                  Radio
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={podcastHomePage()}
+                  className="header-navbar-podcast-link"
+                >
+                  Podcast
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        )}
         <div className="header-actions">
           <ThemeProvider>
             <ThemeToggle />
