@@ -38,10 +38,7 @@ export async function navigateUsingSidebarMenuItem(
   page: Page,
   action: SidebarMenuItemAction
 ) {
-  const isSidebarVisible = await getSidebarElement(page).isVisible()
-  if (!isSidebarVisible) {
-    await getSidebarToggleButton(page).click()
-  }
+  await getSidebarToggleButton(page).click()
   await expect(getSidebarElement(page)).toBeVisible()
   await expect(getSidebarMenuItem(page, action)).toBeVisible()
   await getSidebarMenuItem(page, action).click()

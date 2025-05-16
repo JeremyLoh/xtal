@@ -66,6 +66,7 @@ test.describe("Podcast Homepage /podcasts", () => {
     } else {
       await getNavbarPodcastLink(page).click()
     }
+    await expect(page).toHaveURL(HOMEPAGE + "/podcasts")
     await openFavouriteStationsDrawer(page)
     await getFavouriteStationsDrawer(page)
       .locator(".favourite-station")
