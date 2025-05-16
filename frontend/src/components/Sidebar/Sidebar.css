@@ -1,0 +1,67 @@
+.sidebar {
+  position: absolute;
+  top: calc(
+    3rem + 1.5rem
+  ); /* should be offset by (header + react-wavify) height (display sidebar below header) */
+  right: 10%; /* align with header open sidebar icon */
+  height: 80%;
+  width: 80%;
+  max-width: 30rem;
+  z-index: 10;
+  background-color: var(--sidebar-background-color);
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0.5rem;
+}
+
+.sidebar-title {
+  font-weight: bold;
+  margin: 1rem 0;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+}
+
+.sidebar-menu-item {
+  border-radius: 8px;
+}
+.sidebar-menu-item:hover {
+  background-color: var(--sidebar-item-hover-color);
+  cursor: pointer;
+}
+
+.sidebar-menu-item-link {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  text-decoration: none;
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem 0.5rem;
+  font-size: 1rem;
+  color: var(--text-color) !important;
+}
+.sidebar-menu-item-link:hover {
+  filter: none;
+}
+
+.sidebar-group {
+  margin: 0.5rem;
+}
+.sidebar-group-label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--disabled-element-color);
+}

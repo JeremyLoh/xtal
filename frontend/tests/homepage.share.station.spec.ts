@@ -160,10 +160,11 @@ test.describe("share radio station feature", () => {
     await assertToastMessage(page, "Link Copied")
     await assertToastMessageIsMissing(page, "Link Copied")
     await assertToastMessageIsMissing(page, "Could not play radio station")
+    const clipboardContent = await getClipboardContent(page)
     const expectedUrl =
-      new URL(await page.evaluate(() => window.location.href)).origin +
+      new URL(HOMEPAGE).origin +
       `/radio-station/${stationWithLocationLatLng.stationuuid}`
-    expect(await getClipboardContent(page)).toBe(expectedUrl)
+    expect(clipboardContent).toBe(expectedUrl)
   })
 
   test.describe("should not redirect to 404 page for valid stationuuid UUID Versions 1 to 5 in Radio Station Share URL", () => {

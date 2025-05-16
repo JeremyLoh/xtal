@@ -39,6 +39,11 @@ SUPERTOKENS_API_KEY="managed SuperTokens.com api key"
 - For Supabase Storage, create a bucket `podcast_image`. It uses folder structure => `public/w200_h200/<UUID>.webp` (e.g. for width 200 and height 200 px, we are also using the webp format)
 - Create the `supabase.ts` database types file using the Supabase UI, generate the types from the project in the UI. This needs to be done whenever the database schema changes - https://supabase.com/docs/reference/javascript/typescript-support
 
+# Setup Supabase (Postgresql Database Indexes)
+
+1. `podcast_images` database table column `storage_file_name` should have an index on it (for the cron job image deletion (trying to find images in a list of `storage_file_name`)). It is created when the `unique` constraint is placed on the column during table creation
+2. `podcast_episodes` database table column `episode_id` should have an index on it (e.g. for searching user last played timestamp of an episode). It is created when the `unique` constraint is placed on the column during table creation
+
 # Running the backend application (Dev)
 
 1. Navigate to the `/backend` directory and run `npm run dev`. `tsx` is used to run the `index.ts` in watch mode (https://tsx.is/)

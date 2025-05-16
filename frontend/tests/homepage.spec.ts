@@ -76,9 +76,22 @@ test.describe("header", () => {
     await expect(page.locator("header")).toBeVisible()
   })
 
-  test("has navigation to radio and podcast in header on desktop", async ({
+  test("should not have header navigation to radio and podcast homepage on mobile", async ({
     page,
+    isMobile,
   }) => {
+    test.skip(!isMobile, "skip mobile test")
+    await page.goto(HOMEPAGE)
+    await expect(page.locator("header")).toBeVisible()
+    await expect(getNavbarRadioLink(page)).not.toBeVisible()
+    await expect(getNavbarPodcastLink(page)).not.toBeVisible()
+  })
+
+  test("should have header navigation to radio and podcast homepage on desktop", async ({
+    page,
+    isMobile,
+  }) => {
+    test.skip(isMobile, "skip desktop test")
     await page.setViewportSize({ width: 1920, height: 1080 })
     await page.goto(HOMEPAGE)
     await expect(getNavbarRadioLink(page)).toBeVisible()
@@ -87,7 +100,9 @@ test.describe("header", () => {
 
   test("should navigate between radio and podcast header nav links on desktop", async ({
     page,
+    isMobile,
   }) => {
+    test.skip(isMobile, "skip desktop test")
     await page.setViewportSize({ width: 1920, height: 1080 })
     await page.goto(HOMEPAGE)
     await expect(page).toHaveTitle(/^xtal$/)

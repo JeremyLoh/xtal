@@ -3,7 +3,7 @@ import { expect, Page } from "@playwright/test"
 import { HOMEPAGE } from "./constants/homepageConstants.ts"
 import {
   closeFavouriteStationsDrawer,
-  getFavouriteStationsButton,
+  openFavouriteStationsDrawer,
 } from "./constants/favouriteStationConstants.ts"
 import {
   closeSearchStationDrawer,
@@ -72,11 +72,11 @@ test.describe("header app theme (start with dark mode)", () => {
   }) => {
     await page.goto(HOMEPAGE)
     await assertLoadingSpinnerIsMissing(page)
-    await getFavouriteStationsButton(page).click()
+    await openFavouriteStationsDrawer(page)
     await assertElementHasDarkTheme(page, "#drawer-root")
     await closeFavouriteStationsDrawer(page)
     await page.getByTestId("theme-toggle-button").click()
-    await getFavouriteStationsButton(page).click()
+    await openFavouriteStationsDrawer(page)
     await assertElementHasLightTheme(page, "#drawer-root")
   })
 

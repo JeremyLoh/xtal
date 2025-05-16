@@ -14,9 +14,9 @@ import {
 } from "./mocks/station"
 import {
   closeFavouriteStationsDrawer,
-  getFavouriteStationsButton,
   getFavouriteStationsDrawer,
   getRadioCardFavouriteIcon,
+  openFavouriteStationsDrawer,
 } from "./constants/favouriteStationConstants"
 import { getClipboardContent } from "./constants/shareStationConstants"
 
@@ -102,8 +102,7 @@ test.describe("radio station favourite feature", () => {
     page,
   }) => {
     await page.goto(HOMEPAGE)
-    await expect(getFavouriteStationsButton(page)).toBeVisible()
-    await getFavouriteStationsButton(page).click()
+    await openFavouriteStationsDrawer(page)
     await expect(getFavouriteStationsDrawer(page)).toBeVisible()
     await expect(
       getFavouriteStationsDrawer(page).locator(".drawer-title")
@@ -117,8 +116,7 @@ test.describe("radio station favourite feature", () => {
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
-    await expect(getFavouriteStationsButton(page)).toBeVisible()
-    await getFavouriteStationsButton(page).click()
+    await openFavouriteStationsDrawer(page)
     await expect(getFavouriteStationsDrawer(page)).toBeVisible()
     await expect(
       getFavouriteStationsDrawer(page).locator(".drawer-title")
@@ -129,7 +127,7 @@ test.describe("radio station favourite feature", () => {
     await clickRandomRadioStationButton(page)
     await expect(page.locator("#map")).toBeVisible()
     await getRadioCardFavouriteIcon(page).click()
-    await getFavouriteStationsButton(page).click()
+    await openFavouriteStationsDrawer(page)
 
     await expect(
       getFavouriteStationsDrawer(page).locator(".favourite-station")
@@ -180,8 +178,7 @@ test.describe("radio station favourite feature", () => {
     await page.goto(HOMEPAGE)
     await clickRandomRadioStationButton(page)
     await getRadioCardFavouriteIcon(page).click()
-    await expect(getFavouriteStationsButton(page)).toBeVisible()
-    await getFavouriteStationsButton(page).click()
+    await openFavouriteStationsDrawer(page)
     await expect(getFavouriteStationsDrawer(page)).toBeVisible()
     await getFavouriteStationsDrawer(page)
       .locator(".favourite-station .station-card-share-icon")
@@ -204,8 +201,7 @@ test.describe("radio station favourite feature", () => {
       await route.fulfill({ json })
     })
     await page.goto(HOMEPAGE)
-    await expect(getFavouriteStationsButton(page)).toBeVisible()
-    await getFavouriteStationsButton(page).click()
+    await openFavouriteStationsDrawer(page)
     await expect(getFavouriteStationsDrawer(page)).toBeVisible()
     await expect(
       getFavouriteStationsDrawer(page).locator(".drawer-title")
@@ -216,7 +212,7 @@ test.describe("radio station favourite feature", () => {
     await expect(page.locator("#map")).toBeVisible()
     await clickRandomRadioStationButton(page)
     await getRadioCardFavouriteIcon(page).click()
-    await getFavouriteStationsButton(page).click()
+    await openFavouriteStationsDrawer(page)
     await expect(
       getFavouriteStationsDrawer(page).locator(".favourite-station")
     ).toBeVisible()
@@ -240,7 +236,7 @@ test.describe("radio station favourite feature", () => {
     // assert that closing and opening the drawer shows an empty favourite station list
     await closeFavouriteStationsDrawer(page)
     await expect(getRadioCardFavouriteIcon(page)).not.toHaveClass(/selected/)
-    await getFavouriteStationsButton(page).click()
+    await openFavouriteStationsDrawer(page)
     await assertEmptyFavouriteList(page)
   })
 
@@ -273,7 +269,7 @@ test.describe("radio station favourite feature", () => {
     ).toBeVisible()
 
     // load first station from favourite stations drawer
-    await getFavouriteStationsButton(page).click()
+    await openFavouriteStationsDrawer(page)
 
     // wait for toasts to disappear (blocks the favourite icon on mobile view)
     await assertToastMessageIsMissing(page, "Could not play radio station")
@@ -317,7 +313,7 @@ test.describe("radio station favourite feature", () => {
       getRadioCardMapPopup(page),
       "should remove radio station card from Map"
     ).not.toBeVisible()
-    await getFavouriteStationsButton(page).click()
+    await openFavouriteStationsDrawer(page)
 
     // wait for toasts to disappear (blocks the favourite icon on mobile view)
     await page.waitForTimeout(500)
@@ -355,7 +351,7 @@ test.describe("radio station favourite feature", () => {
       getRadioCardMapPopup(page).locator(".station-card-icon")
     ).toBeVisible()
     // open the favourite station drawer, and assert placeholder icon is shown
-    await getFavouriteStationsButton(page).click()
+    await openFavouriteStationsDrawer(page)
     await expect(
       getFavouriteStationsDrawer(page).locator(".station-card-icon")
     ).toBeVisible()
@@ -407,7 +403,7 @@ test.describe("radio station favourite feature", () => {
       await clickRandomRadioStationButton(page)
       await getRadioCardFavouriteIcon(page).click()
 
-      await getFavouriteStationsButton(page).click()
+      await openFavouriteStationsDrawer(page)
 
       await assertFavouriteStationName(page, unitedStatesStation.name)
       await assertFavouriteStationName(page, stationWithMultipleTags.name)
@@ -449,7 +445,7 @@ test.describe("radio station favourite feature", () => {
       await clickRandomRadioStationButton(page)
       await getRadioCardFavouriteIcon(page).click()
 
-      await getFavouriteStationsButton(page).click()
+      await openFavouriteStationsDrawer(page)
       await assertFavouriteStationName(page, unitedStatesStation.name)
       await assertFavouriteStationName(page, cantoneseStation.name)
 

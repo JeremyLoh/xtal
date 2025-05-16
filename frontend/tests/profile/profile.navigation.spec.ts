@@ -1,23 +1,37 @@
-import { expect, Page } from "@playwright/test"
+import { expect } from "@playwright/test"
 import { HOMEPAGE } from "../constants/homepageConstants.ts"
 import { test } from "../fixture/test.ts"
+import {
+  navigateUsingSidebarMenuItem,
+  SidebarMenuItemAction,
+} from "../constants/sidebarConstants.ts"
 
 test.beforeEach(async ({ mapPage }) => {
   await mapPage.mockMapTile()
 })
 
 test.describe("profile navigation from homepage", () => {
-  function getHeaderProfileRedirectButton(page: Page) {
-    return page.getByTestId("profile-redirect-toggle-button")
-  }
-
-  test("should redirect user to login sign up page when session is not available", async ({
+  test("should allow user navigation to sign up page using sidebar action for anonymous user", async ({
     page,
   }) => {
     await page.goto(HOMEPAGE)
-    await expect(getHeaderProfileRedirectButton(page)).toBeVisible()
-    await getHeaderProfileRedirectButton(page).click()
+    await navigateUsingSidebarMenuItem(
+      page,
+      SidebarMenuItemAction.ProfileSignUp
+    )
     await expect(page.getByText("Sign Up", { exact: true })).toBeVisible()
     expect(page.url()).toMatch(/\/auth\?show=signup$/)
+  })
+
+  test("should allow user navigation to sign in page using sidebar action for anonymous user", async ({
+    page,
+  }) => {
+    await page.goto(HOMEPAGE)
+    await navigateUsingSidebarMenuItem(
+      page,
+      SidebarMenuItemAction.ProfileSignIn
+    )
+    await expect(page.getByText("Sign In", { exact: true })).toBeVisible()
+    expect(page.url()).toMatch(/\/auth\?show=signin$/)
   })
 })

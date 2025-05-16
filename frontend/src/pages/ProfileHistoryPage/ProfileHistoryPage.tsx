@@ -34,12 +34,13 @@ function ProfileHistoryPage() {
       return
     }
     setDataLoading(true)
-    getPlayedPodcastEpisodes(LIMIT_PER_PAGE).then((data) => {
-      if (data) {
-        setEpisodes(data)
-        setDataLoading(false)
-      }
-    })
+    getPlayedPodcastEpisodes(LIMIT_PER_PAGE)
+      .then((data) => {
+        if (data) {
+          setEpisodes(data)
+        }
+      })
+      .finally(() => setDataLoading(false))
   }, [session, getPlayedPodcastEpisodes])
 
   const handlePodcastEpisodeDelete = async (episodeId: number) => {

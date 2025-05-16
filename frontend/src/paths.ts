@@ -3,6 +3,7 @@ export const profilePage = () => "/profile"
 export const profileHistoryPage = () => "/profile/history"
 export const profileFollowingPage = () => "/profile/following"
 export const signUpPage = () => "/auth?show=signup"
+export const signInPage = () => "/auth?show=signin"
 export const notFoundPage = () => "/404"
 export const resetPasswordPage = () => "/auth/reset-password"
 export const radioStationPage = (stationUuid: string) =>
