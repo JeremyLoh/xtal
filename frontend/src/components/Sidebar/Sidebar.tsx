@@ -71,11 +71,18 @@ function SidebarMenu({ children }: PropsWithChildren) {
 type SidebarMenuItemProps = {
   url?: string
   title: string
+  "data-testid": string
   Icon: IconType
   onClick?: () => void
 }
 
-function SidebarMenuItem({ url, title, Icon, onClick }: SidebarMenuItemProps) {
+function SidebarMenuItem({
+  url,
+  title,
+  "data-testid": dataTestId,
+  Icon,
+  onClick,
+}: SidebarMenuItemProps) {
   return (
     <motion.div
       key={`sidebar-menu-item-${title}`}
@@ -83,12 +90,16 @@ function SidebarMenuItem({ url, title, Icon, onClick }: SidebarMenuItemProps) {
       {...(onClick && { onClick: onClick })}
     >
       {url ? (
-        <Link to={url} className="sidebar-menu-item-link">
+        <Link
+          to={url}
+          className="sidebar-menu-item-link"
+          data-testid={dataTestId}
+        >
           <Icon size={24} />
           {title}
         </Link>
       ) : (
-        <motion.div className="sidebar-menu-item-link">
+        <motion.div className="sidebar-menu-item-link" data-testid={dataTestId}>
           <Icon size={24} />
           {title}
         </motion.div>

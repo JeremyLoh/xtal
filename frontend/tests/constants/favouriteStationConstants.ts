@@ -1,7 +1,14 @@
 import { Page } from "@playwright/test"
+import {
+  navigateUsingSidebarMenuItem,
+  SidebarMenuItemAction,
+} from "./sidebarConstants"
 
-export function getFavouriteStationsButton(page: Page) {
-  return page.getByTestId("favourite-station-toggle-button")
+export async function openFavouriteStationsDrawer(page: Page) {
+  await navigateUsingSidebarMenuItem(
+    page,
+    SidebarMenuItemAction.RadioFavouriteStations
+  )
 }
 
 export function getFavouriteStationsDrawer(page: Page) {

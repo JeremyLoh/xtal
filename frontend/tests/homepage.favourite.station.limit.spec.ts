@@ -10,9 +10,9 @@ import {
 } from "./constants/homepageConstants"
 import {
   closeFavouriteStationsDrawer,
-  getFavouriteStationsButton,
   getFavouriteStationsDrawer,
   getRadioCardFavouriteIcon,
+  openFavouriteStationsDrawer,
 } from "./constants/favouriteStationConstants"
 import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
 
@@ -103,7 +103,7 @@ test.describe("radio station favourite station limit feature", () => {
       await getRadioCardFavouriteIcon(page).click()
     }
     // remove one station from the favourite stations drawer
-    await getFavouriteStationsButton(page).click()
+    await openFavouriteStationsDrawer(page)
     await assertLoadingSpinnerIsMissing(page) // wait for lazy loaded component to render
     const stations = await getFavouriteStationsDrawer(page)
       .locator(".favourite-station")

@@ -3,7 +3,6 @@ import { memo } from "react"
 import { Link } from "react-router"
 import Wave from "react-wavify"
 import ThemeProvider from "../../context/ThemeProvider/ThemeProvider.tsx"
-import FavouriteStationToggle from "../../features/favourite/FavouriteStationToggle/FavouriteStationToggle.tsx"
 import ThemeToggle from "../ThemeToggle/ThemeToggle.tsx"
 import SidebarToggle from "../SidebarToggle/SidebarToggle.tsx"
 import ProfileRedirectToggle from "../../features/profile/ProfileRedirectToggle.tsx"
@@ -47,7 +46,6 @@ function Header() {
           <ThemeProvider>
             <ThemeToggle />
           </ThemeProvider>
-          <FavouriteStationToggle />
           <ProfileRedirectToggle />
           <SidebarToggle />
         </div>

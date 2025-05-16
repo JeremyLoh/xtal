@@ -17,16 +17,21 @@ export function getSidebarTitle(page: Page) {
 }
 
 export enum SidebarMenuItemAction {
-  Radio = "Radio",
-  Podcasts = "Podcasts",
-  ProfileSignIn = "Sign In",
-  ProfileSignUp = "Sign Up",
+  // contains the data-testid values for the sidebar menu item
+  Radio = "sidebar-menu-item-radio",
+  Podcasts = "sidebar-menu-item-podcasts",
+  RadioFavouriteStations = "sidebar-menu-item-radio-view-favourite-stations",
+  Profile = "sidebar-menu-item-profile",
+  ProfileFollowing = "sidebar-menu-item-profile-following",
+  ProfileListenHistory = "sidebar-menu-item-profile-listen-history",
+  ProfileSignIn = "sidebar-menu-item-profile-sign-in",
+  ProfileSignUp = "sidebar-menu-item-profile-sign-up",
+  ProfileLogout = "sidebar-menu-item-profile-logout",
+  ProfileResetPassword = "sidebar-menu-item-profile-reset-password",
 }
 
 export function getSidebarMenuItem(page: Page, action: SidebarMenuItemAction) {
-  return page
-    .locator(".sidebar-menu-item")
-    .getByRole("link", { name: action.toString(), exact: true })
+  return page.locator(".sidebar-menu-item").getByTestId(action)
 }
 
 export async function navigateUsingSidebarMenuItem(

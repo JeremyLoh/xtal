@@ -9,9 +9,9 @@ import {
   HOMEPAGE,
 } from "../../constants/homepageConstants"
 import {
-  getFavouriteStationsButton,
   getFavouriteStationsDrawer,
   getRadioCardFavouriteIcon,
+  openFavouriteStationsDrawer,
 } from "../../constants/favouriteStationConstants"
 import { unitedStatesStation } from "../../mocks/station"
 import {
@@ -66,7 +66,7 @@ test.describe("Podcast Homepage /podcasts", () => {
     } else {
       await getNavbarPodcastLink(page).click()
     }
-    await getFavouriteStationsButton(page).click()
+    await openFavouriteStationsDrawer(page)
     await getFavouriteStationsDrawer(page)
       .locator(".favourite-station")
       .getByRole("button", {
