@@ -63,6 +63,15 @@ test.describe("Homepage Sidebar", () => {
     await expect(getSidebarElement(page)).not.toBeVisible()
   })
 
+  test("should close sidebar on podcast action click", async ({ page }) => {
+    await page.goto(HOMEPAGE)
+    await assertLoadingSpinnerIsMissing(page)
+    await getSidebarToggleButton(page).click()
+    await expect(getSidebarElement(page)).toBeVisible()
+    await getSidebarMenuItem(page, SidebarMenuItemAction.Podcasts).click()
+    await expect(getSidebarElement(page)).not.toBeVisible()
+  })
+
   test("should not close sidebar on click inside sidebar", async ({ page }) => {
     await page.goto(HOMEPAGE)
     await assertLoadingSpinnerIsMissing(page)

@@ -95,12 +95,14 @@ function SidebarToggle() {
                 title="Radio"
                 url={homePageUrl}
                 Icon={LuRadioTower}
+                onClick={handleToggle}
                 data-testid="sidebar-menu-item-radio"
               />
               <SidebarMenuItem
                 title="Podcasts"
                 url={podcastHomePageUrl}
                 Icon={LuPodcast}
+                onClick={handleToggle}
                 data-testid="sidebar-menu-item-podcasts"
               />
             </SidebarGroup>
@@ -119,12 +121,14 @@ function SidebarToggle() {
                     title="Sign In"
                     url={profileSignInPageUrl}
                     Icon={LuUser}
+                    onClick={handleToggle}
                     data-testid="sidebar-menu-item-profile-sign-in"
                   />
                   <SidebarMenuItem
                     title="Sign Up"
                     url={profileSignUpPageUrl}
                     Icon={LuUserPlus}
+                    onClick={handleToggle}
                     data-testid="sidebar-menu-item-profile-sign-up"
                   />
                 </>
@@ -134,24 +138,28 @@ function SidebarToggle() {
                     title="Your Profile"
                     url={profilePageUrl}
                     Icon={LuUser}
+                    onClick={handleToggle}
                     data-testid="sidebar-menu-item-profile"
                   />
                   <SidebarMenuItem
                     title="Following"
                     url={profileFollowingPageUrl}
                     Icon={MdFollowTheSigns}
+                    onClick={handleToggle}
                     data-testid="sidebar-menu-item-profile-following"
                   />
                   <SidebarMenuItem
                     title="Listen History"
                     url={profileListenHistoryPageUrl}
                     Icon={LuHistory}
+                    onClick={handleToggle}
                     data-testid="sidebar-menu-item-profile-listen-history"
                   />
                   <SidebarMenuItem
                     title="Reset Password"
                     url={profileResetPasswordPageUrl}
                     Icon={LuRedo2}
+                    onClick={handleToggle}
                     data-testid="sidebar-menu-item-profile-reset-password"
                   />
                   <SidebarMenuItem
