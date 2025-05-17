@@ -72,6 +72,7 @@
 
 .error-text {
   color: var(--error-color);
+  margin: 0;
 }
 
 #root {
