@@ -1,0 +1,46 @@
+.profile-delete-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 2px solid var(--danger-color);
+  border-radius: 8px;
+}
+
+.profile-delete-form-email-input {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+.profile-delete-form-danger-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  color: var(--danger-color);
+}
+
+.profile-delete-form-title {
+  margin: 1rem 0;
+}
+
+.profile-delete-form-delete-button {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5em 1em;
+  margin-top: 0.5rem;
+  background-color: var(--danger-color);
+  font-weight: bold;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+.profile-delete-form-delete-button:hover {
+  filter: brightness(0.8);
+}
