@@ -12,12 +12,7 @@ import { deleteAccount, getUserEmail } from "../../api/auth/account.ts"
 import LoadingDisplay from "../../components/LoadingDisplay/LoadingDisplay.tsx"
 import Button from "../../components/ui/button/Button.tsx"
 import Separator from "../../components/Separator/Separator.tsx"
-import {
-  homePage,
-  profileFollowingPage,
-  profileHistoryPage,
-  resetPasswordPage,
-} from "../../paths.ts"
+import { homePage, resetPasswordPage } from "../../paths.ts"
 
 function ProfilePage() {
   const navigate = useNavigate()
@@ -93,16 +88,8 @@ function ProfilePage() {
     navigateToHomepage()
   }, [navigateToHomepage])
 
-  const handleNavigateToProfileHistory = useCallback(() => {
-    navigate(profileHistoryPage())
-  }, [navigate])
-
   const handleNavigateToResetPassword = useCallback(() => {
     navigate(resetPasswordPage())
-  }, [navigate])
-
-  const handleNavigateToProfileFollowing = useCallback(() => {
-    navigate(profileFollowingPage())
   }, [navigate])
 
   return (
@@ -114,22 +101,6 @@ function ProfilePage() {
           <b>Email:</b> {userEmail}
         </p>
         <div className="profile-page-account-actions-container">
-          <Button
-            keyProp="profile-page-profile-history-button"
-            onClick={handleNavigateToProfileHistory}
-            variant="secondary"
-            title="Profile History"
-          >
-            Profile History
-          </Button>
-          <Button
-            keyProp="profile-page-followed-podcasts-button"
-            onClick={handleNavigateToProfileFollowing}
-            variant="secondary"
-            title="Followed Podcasts"
-          >
-            Followed Podcasts
-          </Button>
           <Button
             keyProp="profile-page-reset-password-button"
             onClick={handleNavigateToResetPassword}
@@ -147,7 +118,6 @@ function ProfilePage() {
         >
           Logout
         </Button>
-        <Separator />
         <Button
           keyProp="profile-page-delete-profile-button"
           onClick={handleDeleteAccount}
