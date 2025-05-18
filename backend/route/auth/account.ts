@@ -36,6 +36,8 @@ const router = Router()
  *     responses:
  *       200:
  *         description: Successfully deleted account and revoked session
+ *       429:
+ *         description: Rate limit exceeded
  *       500:
  *         description: Error in processing request
  */
@@ -69,6 +71,8 @@ router.delete(
  *     responses:
  *       200:
  *         description: Successfully retrieved total podcast episode play count
+ *       429:
+ *         description: Rate limit exceeded
  *       500:
  *         description: Error in processing request
  */
@@ -109,7 +113,9 @@ router.get(
  *       200:
  *         description: Successfully retrieved total podcast episode play count
  *       400:
- *         description: Validation error in provided endpoint query parameters
+ *         description: Validation error in provided endpoint parameters
+ *       429:
+ *         description: Rate limit exceeded
  *       500:
  *         description: Error in processing request
  */
@@ -180,7 +186,9 @@ router.get(
  *       200:
  *         description: Successfully retrieved podcast episodes play history in reverse chronological order (most recent to oldest order)
  *       400:
- *         description: Validation error in provided endpoint query parameters
+ *         description: Validation error in provided endpoint parameters
+ *       429:
+ *         description: Rate limit exceeded
  *       500:
  *         description: Error in processing request
  */
@@ -247,7 +255,9 @@ router.get(
  *       200:
  *         description: Successfully deleted podcast episode play history
  *       400:
- *         description: Validation error in provided endpoint query parameters
+ *         description: Validation error in provided endpoint parameters
+ *       429:
+ *         description: Rate limit exceeded
  *       500:
  *         description: Error in processing request
  */
@@ -399,7 +409,9 @@ router.delete(
  *       200:
  *         description: Successfully added podcast episode play history
  *       400:
- *         description: Validation error in provided endpoint query parameters
+ *         description: Validation error in provided endpoint parameters
+ *       429:
+ *         description: Rate limit exceeded
  *       500:
  *         description: Error in processing request
  */

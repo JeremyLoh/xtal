@@ -23,6 +23,10 @@ const router = Router()
  *     responses:
  *       200:
  *         description: Successfully retrieved total podcast following count
+ *       400:
+ *         description: Validation error in provided endpoint parameters
+ *       429:
+ *         description: Rate limit exceeded
  *       500:
  *         description: Error in processing request
  */
@@ -72,6 +76,10 @@ router.get(
  *     responses:
  *       200:
  *         description: Successfully retrieved user followed podcasts
+ *       400:
+ *         description: Validation error in provided endpoint parameters
+ *       429:
+ *         description: Rate limit exceeded
  *       500:
  *         description: Error in processing request
  */
