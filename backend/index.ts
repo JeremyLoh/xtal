@@ -14,6 +14,7 @@ import {
 import startCronJobs from "./cron/index.js"
 import { initializeSupertokensSdk } from "./api/auth/superTokens.js"
 import { getContentSecurityPolicyMiddleware } from "./middleware/csp.js"
+import { addApiDocumentationRoute } from "./middleware/swagger.js"
 
 const PORT = process.env.PORT
 
@@ -25,6 +26,9 @@ function setupApp() {
   if (process.env.ENABLE_PROXY_TROUBLESHOOTING === "true") {
     // place before CORS for troubleshooting (won't apply CORS to the troubleshooting routes)
     app.use(getProxyTroubleshootingRouter())
+  }
+  if (process.env.ENABLE_API_DOCUMENTATION === "true") {
+    addApiDocumentationRoute(app)
   }
   app.use(statusRouter) // place before CORS to remove CORS for /status endpoint
   app.use(cors(getCorsOptions()))
