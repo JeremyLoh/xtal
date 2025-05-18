@@ -101,9 +101,9 @@ router.get(
  *       - in: query
  *         name: episodeId
  *         description: Podcast Episode Id from PodcastIndex API
+ *         required: true
  *         schema:
  *           type: integer
- *           required: true
  *           minimum: 0
  *     responses:
  *       200:
@@ -161,18 +161,18 @@ router.get(
  *       - in: query
  *         name: limit
  *         description: Limit returned results to a given maximum
+ *         required: false
  *         schema:
  *           type: integer
- *           required: false
  *           minimum: 1
  *           maximum: 50
  *           default: 10
  *       - in: query
  *         name: offset
  *         description: Offset search results by given item count
+ *         required: false
  *         schema:
  *           type: integer
- *           required: false
  *           minimum: 0
  *           maximum: 1000
  *           default: 0
@@ -239,9 +239,9 @@ router.get(
  *       - in: body
  *         name: episodeId
  *         description: Episode id from Podcast Index API
+ *         required: true
  *         schema:
  *           type: integer
- *           required: true
  *           minimum: 0
  *     responses:
  *       200:
@@ -291,109 +291,109 @@ router.delete(
  *       - in: body
  *         name: episodeId
  *         description: Episode id from Podcast Index API
+ *         required: true
  *         schema:
  *           type: integer
- *           required: true
  *           minimum: 0
  *       - in: body
  *         name: podcastId
  *         description: Podcast id from Podcast Index API
+ *         required: true
  *         schema:
  *           type: integer
- *           required: true
  *           minimum: 0
  *       - in: body
  *         name: episodeTitle
  *         description: Episode Title
+ *         required: true
  *         schema:
  *           type: string
- *           required: true
  *           minimum: 1
  *           maximum: 500
  *       - in: body
  *         name: podcastTitle
  *         description: Podcast Title
+ *         required: true
  *         schema:
  *           type: string
- *           required: true
  *           minimum: 1
  *           maximum: 500
  *       - in: body
  *         name: contentUrl
  *         description: Content url of the podcast episode (link to resource playback file)
+ *         required: true
  *         schema:
  *           type: string
- *           required: true
  *           minimum: 1
  *           maximum: 2048
  *       - in: body
  *         name: durationInSeconds
  *         description: Duration of episode in seconds
+ *         required: true
  *         schema:
  *           type: string
- *           required: true
  *           minimum: 1
  *           maximum: 9999999
  *       - in: body
  *         name: publishDateUnixTimestamp
  *         description: Episode publish date in Unix Timestamp (ISO 8601 format)
+ *         required: false
  *         schema:
  *           type: string
  *           format: unix timestamp
- *           required: false
  *       - in: body
  *         name: isExplicit
  *         description: Indicate whether podcast episode contains explicit language
+ *         required: true
  *         schema:
  *           type: string
  *           format: boolean
- *           required: true
  *       - in: body
  *         name: episodeNumber
  *         description: Podcast episode number
+ *         required: false
  *         schema:
  *           type: integer
- *           required: false
  *           minimum: 0
  *       - in: body
  *         name: seasonNumber
  *         description: Podcast episode season number
+ *         required: false
  *         schema:
  *           type: integer
- *           required: false
  *           minimum: 0
  *       - in: body
  *         name: image
  *         description: Podcast episode image url (to fetch image)
+ *         required: true
  *         schema:
  *           type: string
  *           format: url
- *           required: true
  *           minimum: 5
  *           maximum: 2048
  *       - in: body
  *         name: language
  *         description: Podcast episode language
+ *         required: false
  *         schema:
  *           type: string
- *           required: false
  *           minimum: 2
  *           maximum: 64
  *       - in: body
  *         name: externalWebsiteUrl
  *         description: Podcast episode official website
+ *         required: false
  *         schema:
  *           type: string
  *           format: url
- *           required: false
  *           minimum: 7
  *           maximum: 2048
  *       - in: body
  *         name: resumePlayTimeInSeconds
  *         description: Account podcast episode last played time
+ *         required: true
  *         schema:
  *           type: integer
- *           required: true
  *           minimum: 0
  *     responses:
  *       200:
