@@ -83,3 +83,5 @@ const fileContent = "abc"
 const fileBase64 = Buffer.from(fileContent).toString("base64") // same as encode(fileContent)
 Buffer.from(fileBase64, "base64") // same as decode(fileBase64)
 ```
+
+8. Swagger - Version 3.0 Specification - https://swagger.io/docs/specification/v3_0/about/
