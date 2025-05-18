@@ -12,6 +12,8 @@
 
 **IMPORTANT**: The `backend/middleware/csp.ts` value for the Content Security Policy header should match the frontend `frontend/index.html` `<meta http-equiv="content-security-policy">` `content` value. For the backend CSP header, it should be converted to one line without newlines
 
+**IMPORTANT**: `ENABLE_API_DOCUMENTATION` - Should only be enabled ("true") in **development** (CORS is bypassed for DEV (so that swagger ui endpoint requests on `http://localhost:3000/api-docs` does not get blocked by CORS)). **For Production, this value should always be "false" or missing in the `.env` file**
+
 1. Create an `.env` file at backend root directory (`/backend`) with the following properties:
 
 ```shell
@@ -31,6 +33,7 @@ SUPERTOKENS_CONNECTION_URI="managed SuperTokens.com connection uri"
 SUPERTOKENS_API_KEY="managed SuperTokens.com api key"
 ```
 
+- `ENABLE_API_DOCUMENTATION` - Should only be enabled ("true") in development (CORS is bypassed for DEV (so that swagger ui endpoint requests does not get blocked by CORS)). For Production, this value should always be "false"
 - `ENABLE_CRON_JOBS` is used to start the cron jobs that will clean podcast image files in Supabase database and Supabase storage
 - `PODCAST_INDEX_API_KEY` and `PODCAST_INDEX_API_SECRET` is obtained from using an account created on https://podcastindex-org.github.io/docs-api/#overview--overview (enclosed in double quotes to escape characters such as `#`)
 - `FRONTEND_ORIGIN` is used to set the CORS headers for the backend endpoints. They will only allow the frontend origin (`(new URL()).origin` - https://developer.mozilla.org/en-US/docs/Web/API/URL/origin)

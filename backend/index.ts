@@ -8,6 +8,7 @@ import logger from "./logger.js"
 import router from "./route/index.js"
 import statusRouter from "./route/status.js"
 import {
+  allowAllCorsOptions,
   getCorsOptions,
   getProxyTroubleshootingRouter,
 } from "./middleware/cors.js"
@@ -23,15 +24,17 @@ function setupApp() {
   initializeSupertokensSdk()
   // https://github.com/express-rate-limit/express-rate-limit/wiki/Troubleshooting-Proxy-Issues
   app.set("trust proxy", 3) // Trust three proxy (reverse proxy)
+  app.use(statusRouter) // place before CORS to remove CORS for /status endpoint
   if (process.env.ENABLE_PROXY_TROUBLESHOOTING === "true") {
     // place before CORS for troubleshooting (won't apply CORS to the troubleshooting routes)
     app.use(getProxyTroubleshootingRouter())
   }
   if (process.env.ENABLE_API_DOCUMENTATION === "true") {
+    app.use(cors(allowAllCorsOptions()))
     addApiDocumentationRoute(app)
+  } else {
+    app.use(cors(getCorsOptions()))
   }
-  app.use(statusRouter) // place before CORS to remove CORS for /status endpoint
-  app.use(cors(getCorsOptions()))
   app.use(getContentSecurityPolicyMiddleware)
   app.use(superTokensMiddleware()) // supertokens CORS should be before the middleware
   app.use(compression())
