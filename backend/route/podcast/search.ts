@@ -8,10 +8,52 @@ import logger from "../../logger.js"
 
 const router = Router()
 
+/**
+ * @openapi
+ * /api/podcast/search:
+ *   get:
+ *     tags:
+ *       - Podcast Search
+ *     description: Retrieve similar podcasts based on given search term
+ *     parameters:
+ *       - in: query
+ *         name: q
+ *         description: Search term
+ *         required: true
+ *         schema:
+ *           type: string
+ *           minLength: 1
+ *           maxLength: 200
+ *       - in: query
+ *         name: limit
+ *         description: Limit returned result count
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 100
+ *       - in: query
+ *         name: offset
+ *         description: Offset returned result
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 0
+ *           maximum: 1000
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved similar podcasts based on search term
+ *       400:
+ *         description: Validation error in provided endpoint parameters
+ *       429:
+ *         description: Rate limit exceeded
+ *       500:
+ *         description: Error in processing request
+ */
 router.get(
   "/api/podcast/search",
   rateLimiter.getPodcastSearchLimiter,
-  checkSchema(getPodcastSearchValidationSchema),
+  checkSchema(getPodcastSearchValidationSchema, ["query"]),
   async (request: Request, response: Response) => {
     const result = validationResult(request)
     if (!result.isEmpty()) {
