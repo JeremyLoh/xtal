@@ -29,7 +29,10 @@ function setupApp() {
     // place before CORS for troubleshooting (won't apply CORS to the troubleshooting routes)
     app.use(getProxyTroubleshootingRouter())
   }
-  if (process.env.ENABLE_API_DOCUMENTATION === "true") {
+  if (
+    process.env.ENABLE_API_DOCUMENTATION === "true" &&
+    process.env.NODE_ENV !== "test"
+  ) {
     app.use(cors(allowAllCorsOptions()))
     addApiDocumentationRoute(app)
   } else {
