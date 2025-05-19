@@ -9,6 +9,57 @@ import logger from "../../logger.js"
 
 const router = Router()
 
+/**
+ * @openapi
+ * /api/podcast/image:
+ *   get:
+ *     tags:
+ *       - Podcast Image
+ *     description: Retrieve and optimize webp image from provided image url. Return "Cache-Control" header of 604800 seconds
+ *     parameters:
+ *       - in: query
+ *         name: url
+ *         description: Podcast image url
+ *         required: true
+ *         schema:
+ *           type: string
+ *           minLength: 1
+ *           maxLength: 2048
+ *       - in: query
+ *         name: width
+ *         description: Podcast image width to resize in returned result
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           minimum: 16
+ *           maximum: 500
+ *       - in: query
+ *         name: height
+ *         description: Podcast image height to resize in returned result
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           minimum: 16
+ *           maximum: 500
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved podcast image in webp format from provided image url
+ *         headers:
+ *           Cache-Control:
+ *             type: string
+ *             description: Duration to cache the given image in seconds (public, max-age=604800)
+ *         content:
+ *           image/webp:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       400:
+ *         description: Validation error in provided endpoint parameters
+ *       429:
+ *         description: Rate limit exceeded
+ *       500:
+ *         description: Error in processing request
+ */
 router.get(
   "/api/podcast/image",
   rateLimiter.getPodcastImageConversionLimiter,
