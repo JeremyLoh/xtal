@@ -9,6 +9,58 @@ import logger from "../../logger.js"
 
 const router = Router()
 
+/**
+ * @openapi
+ * /api/podcast/trending:
+ *   get:
+ *     tags:
+ *       - Podcast Trending
+ *     description: Retrieve trending podcasts
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         description: Limit result count returned
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 100
+ *           default: 10
+ *       - in: query
+ *         name: offset
+ *         description: Offset returned result
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 0
+ *           maximum: 1000
+ *           default: 0
+ *       - in: query
+ *         name: since
+ *         description: Search podcasts that are trending from given "since" unix timestamp (in seconds)
+ *         required: false
+ *         schema:
+ *           type: string
+ *           format: unix timestamp
+ *           default: three days ago unix timestamp (in seconds)
+ *       - in: query
+ *         name: category
+ *         description: Return podcasts that match category
+ *         required: false
+ *         schema:
+ *           type: string
+ *           minLength: 1
+ *           maxLength: 1000
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved trending podcasts
+ *       400:
+ *         description: Validation error in provided endpoint parameters
+ *       429:
+ *         description: Rate limit exceeded
+ *       500:
+ *         description: Error in processing request
+ */
 router.get(
   "/api/podcast/trending",
   rateLimiter.getTrendingPodcastLimiter,
@@ -29,7 +81,6 @@ router.get(
       : threeDaysAgo
     const category: string | null = data?.category || null
     const offset = Number(data.offset) || 0
-
     try {
       const podcasts = await getTrendingPodcasts({
         limit: limit + offset,

@@ -4,6 +4,19 @@ import logger from "../logger.js"
 
 const router = Router()
 
+/**
+ * @openapi
+ * /status:
+ *   get:
+ *     tags:
+ *       - Server Status
+ *     description: Retrieve server status
+ *     responses:
+ *       200:
+ *         description: Server is running
+ *       429:
+ *         description: Rate limit exceeded
+ */
 router.get(
   "/status",
   rateLimiter.getStatusLimiter,

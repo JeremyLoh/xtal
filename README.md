@@ -93,6 +93,7 @@ The Backend tests are written in vitest - https://vitest.dev/
 
    ```shell
    PORT=3000
+   ENABLE_API_DOCUMENTATION="false" # Either "true" or "false" (false for production)
    ENABLE_CRON_JOBS="false" # ONLY ENABLE ("true") FOR PRODUCTION
    PODCAST_INDEX_API_KEY="???"
    PODCAST_INDEX_API_SECRET="???"

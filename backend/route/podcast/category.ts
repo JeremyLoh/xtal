@@ -8,6 +8,40 @@ import logger from "../../logger.js"
 
 const router = Router()
 
+/**
+ * @openapi
+ * /api/podcast/category:
+ *   get:
+ *     tags:
+ *       - Podcast
+ *     description: Retrieve available podcast categories from Podcast Index API
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         description: Limit count of categories result
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 100
+ *       - in: query
+ *         name: offset
+ *         description: Offset categories result
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 1000
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved podcast categories
+ *       400:
+ *         description: Validation error in provided endpoint parameters
+ *       429:
+ *         description: Rate limit exceeded
+ *       500:
+ *         description: Error in processing request
+ */
 router.get(
   "/api/podcast/category",
   rateLimiter.getPodcastCategoryLimiter,

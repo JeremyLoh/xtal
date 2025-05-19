@@ -31,6 +31,18 @@ export function getCorsOptions(): CorsOptions {
   }
 }
 
+export function allowAllCorsOptions(): CorsOptions {
+  // DO NOT USE IN PRODUCTION! for enabling all origins in development
+  return {
+    origin: (requestOrigin, callback) => {
+      callback(null, requestOrigin) // allow all origins
+    }, // Access-Control-Allow-Origin, allow all origins
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
+    credentials: true, // Access-Control-Allow-Credentials for cookies
+  }
+}
+
 export function isValidUrl(url: string): boolean {
   try {
     new URL(decodeHTML(url))

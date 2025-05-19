@@ -7,6 +7,7 @@
 
 .podcast-search-result-item {
   width: 100%;
+  height: 220px; /* Set explicit height to stop flickering in react-virtuoso - https://github.com/petyosi/react-virtuoso/discussions/1083 */
 }
 
 .podcast-search-result-card-detail-link {
@@ -27,4 +28,15 @@
 }
 .podcast-search-result-empty p {
   margin: 0;
+}
+
+@media (max-width: 430px) {
+  /* Mobile View */
+  .podcast-search-result-item {
+    width: 100%;
+    height: 105px; /* Set explicit height to stop flickering in react-virtuoso - https://github.com/petyosi/react-virtuoso/discussions/1083 */
+  }
+  .podcast-search-result-section-container {
+    gap: 1rem;
+  }
 }

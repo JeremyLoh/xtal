@@ -132,6 +132,7 @@ await page.route("*/**/api/podcast/trending?limit=10", async (route) => {
 13. Waiting for an element to not be on a page in Playwright - `expect(page.locator("???")).toHaveCount(?))` - https://stackoverflow.com/questions/71183099/how-can-i-assert-that-an-element-is-not-on-the-page-in-playwright
 14. Vite code splitting that works - https://sambitsahoo.com/blog/vite-code-splitting-that-works.html
 15. Prevent stream from being loaded when player is closed - https://github.com/muxinc/media-elements/discussions/82
+16. Reverse Scrolling Flickering/Jumping with Dynamic Heights - react-virtuoso (add explicit width and height values and change margin to padding) - https://github.com/petyosi/react-virtuoso/discussions/1083
 
 # React + TypeScript + Vite
 

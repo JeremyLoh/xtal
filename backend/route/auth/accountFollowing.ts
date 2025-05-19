@@ -13,6 +13,23 @@ import {
 
 const router = Router()
 
+/**
+ * @openapi
+ * /api/account/podcast/following/total:
+ *   get:
+ *     tags:
+ *       - Account Following
+ *     description: Retrieve user podcast following total count based on session user id
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved total podcast following count
+ *       400:
+ *         description: Validation error in provided endpoint parameters
+ *       429:
+ *         description: Rate limit exceeded
+ *       500:
+ *         description: Error in processing request
+ */
 router.get(
   "/api/account/podcast/following/total",
   rateLimiter.getAccountTotalCountFollowingPodcastLimiter,
@@ -30,6 +47,42 @@ router.get(
   }
 )
 
+/**
+ * @openapi
+ * /api/account/podcast/following:
+ *   get:
+ *     tags:
+ *       - Account Following
+ *     description: Retrieve user followed podcasts based on session user id
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         description: Limit user followed podcast result count
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *           minimum: 1
+ *           maximum: 50
+ *       - in: query
+ *         name: offset
+ *         description: Offset user followed podcast results
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           default: 0
+ *           minimum: 0
+ *           maximum: 5000
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved user followed podcasts
+ *       400:
+ *         description: Validation error in provided endpoint parameters
+ *       429:
+ *         description: Rate limit exceeded
+ *       500:
+ *         description: Error in processing request
+ */
 router.get(
   "/api/account/podcast/following",
   rateLimiter.getAccountFollowingPodcastLimiter,
