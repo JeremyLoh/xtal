@@ -20,6 +20,31 @@ import {
 
 const router = Router()
 
+/**
+ * @openapi
+ * /api/podcast/follow:
+ *   get:
+ *     tags:
+ *       - Podcast Following
+ *     description: Retrieve whether user follows a podcast based on podcast id (from Podcast Index API)
+ *     parameters:
+ *       - in: query
+ *         name: podcastId
+ *         description: Podcast id from Podcast Index API
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           minimum: 0
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved whether user follows a given podcast
+ *       400:
+ *         description: Validation error in provided endpoint parameters
+ *       429:
+ *         description: Rate limit exceeded
+ *       500:
+ *         description: Error in processing request
+ */
 router.get(
   "/api/podcast/follow",
   rateLimiter.getAccountFollowPodcastLimiter,
@@ -48,6 +73,31 @@ router.get(
   }
 )
 
+/**
+ * @openapi
+ * /api/podcast/unfollow:
+ *   post:
+ *     tags:
+ *       - Podcast Following
+ *     description: Unfollow user from podcast based on podcast id (from Podcast Index API)
+ *     parameters:
+ *       - in: body
+ *         name: podcastId
+ *         description: Podcast id from Podcast Index API
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           minimum: 0
+ *     responses:
+ *       200:
+ *         description: Successfully unfollow user from given podcast
+ *       400:
+ *         description: Validation error in provided endpoint parameters
+ *       429:
+ *         description: Rate limit exceeded
+ *       500:
+ *         description: Error in processing request
+ */
 router.post(
   "/api/podcast/unfollow",
   rateLimiter.removeAccountFollowPodcastLimiter,
@@ -77,6 +127,95 @@ router.post(
   }
 )
 
+/**
+ * @openapi
+ * /api/podcast/follow:
+ *   post:
+ *     tags:
+ *       - Podcast Following
+ *     description: Add user podcast follow based on podcast id (from Podcast Index API). Max user podcast following count of 5000
+ *     parameters:
+ *       - in: body
+ *         name: podcastId
+ *         description: Podcast id from Podcast Index API
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           minimum: 0
+ *       - in: body
+ *         name: externalWebsiteUrl
+ *         description: Podcast official website url
+ *         required: false
+ *         schema:
+ *           type: string
+ *           format: url
+ *           minLength: 7
+ *           maxLength: 2048
+ *       - in: body
+ *         name: title
+ *         description: Podcast title
+ *         required: true
+ *         schema:
+ *           type: string
+ *           minLength: 1
+ *           maxLength: 500
+ *       - in: body
+ *         name: author
+ *         description: Podcast author
+ *         required: true
+ *         schema:
+ *           type: string
+ *           minLength: 1
+ *           maxLength: 500
+ *       - in: body
+ *         name: image
+ *         description: Podcast image url
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: url
+ *           minLength: 5
+ *           maxLength: 2048
+ *       - in: body
+ *         name: language
+ *         description: Podcast language
+ *         required: false
+ *         schema:
+ *           type: string
+ *           minLength: 2
+ *           maxLength: 64
+ *       - in: body
+ *         name: publishDateUnixTimestamp
+ *         description: Podcast publish timestamp in unix timestamp format (ISO 8601)
+ *         required: false
+ *         schema:
+ *           type: string
+ *           format: unix timestamp
+ *       - in: body
+ *         name: episodeCount
+ *         description: Podcast total episode count
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 0
+ *       - in: body
+ *         name: categories
+ *         description: Podcast categories array
+ *         required: false
+ *         type: array
+ *         minItems: 0
+ *         items:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully add user podcast follow from given podcast
+ *       400:
+ *         description: Validation error in provided endpoint parameters or user has reached max podcast follow count of 5000
+ *       429:
+ *         description: Rate limit exceeded
+ *       500:
+ *         description: Error in processing request
+ */
 router.post(
   "/api/podcast/follow",
   rateLimiter.addAccountFollowPodcastLimiter,
