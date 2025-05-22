@@ -215,7 +215,12 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
   test("should ignore start podcast playback and start from zero seconds if url parameter (?t=) is greater than podcast episode duration", async ({
     page,
     isMobile,
+    headless,
   }) => {
+    test.skip(
+      headless,
+      "Skip test in headless mode due to decode error on media playback on headless mode in CI environment"
+    )
     const invalidStartDurationInSeconds =
       podcastId_259760_episodeId_34000697601.data.durationInSeconds + 1
     const podcastTitle = encodeURIComponent("Infinite Loops")
@@ -241,7 +246,12 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
   test("should ignore negative start time url parameter (?t=) and start playback from zero seconds", async ({
     page,
     isMobile,
+    headless,
   }) => {
+    test.skip(
+      headless,
+      "Skip test in headless mode due to decode error on media playback on headless mode in CI environment"
+    )
     const invalidStartDurationInSeconds = "-1"
     const podcastTitle = encodeURIComponent("Infinite Loops")
     const podcastId = "259760"
