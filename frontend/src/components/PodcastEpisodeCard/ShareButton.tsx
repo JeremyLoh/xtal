@@ -1,5 +1,7 @@
-import { useCallback, useState } from "react"
+import { ChangeEvent, useCallback, useState } from "react"
 import { IoShareSocialSharp } from "react-icons/io5"
+import dayjs from "dayjs"
+import duration from "dayjs/plugin/duration.js"
 import Button from "../ui/button/Button.tsx"
 import { PodcastEpisode } from "../../api/podcast/model/podcast.ts"
 import { usePodcastEpisodeCardContext } from "./PodcastEpisodeCardContext.ts"
@@ -9,8 +11,10 @@ import Dialog, {
 } from "../Dialog/Dialog.tsx"
 import useClickOutside from "../../hooks/useClickOutside.ts"
 
+dayjs.extend(duration)
+
 type PodcastEpisodeCardShareButtonProps = {
-  onClick: (episode: PodcastEpisode) => void
+  onClick: (episode: PodcastEpisode, startDurationInSeconds: number) => void
 }
 
 const ShareButton = function PodcastEpisodeCardShareButton({
@@ -28,9 +32,12 @@ const ShareButton = function PodcastEpisodeCardShareButton({
   const handleClick = useCallback(() => {
     setOpen(!open)
   }, [open])
-  const handleCopy = useCallback(() => {
-    onClick(episode)
-  }, [episode, onClick])
+  const handleCopy = useCallback(
+    (startDurationInSeconds: number) => {
+      onClick(episode, startDurationInSeconds)
+    },
+    [episode, onClick]
+  )
 
   return (
     <>
@@ -52,18 +59,58 @@ const ShareButton = function PodcastEpisodeCardShareButton({
           className="podcast-episode-share-dialog"
         >
           <DialogContent data-testid="podcast-episode-share-dialog-content">
-            <Button
-              keyProp={`podcast-episode-copy-link-button-${episode.id}`}
-              data-testid="podcast-episode-copy-link-button"
-              variant="primary"
-              title="Copy Share Podcast Episode Link"
-              onClick={handleCopy}
-            >
-              Copy
-            </Button>
+            <ShareButtonDialogContent
+              episodeId={episode.id}
+              episodeDurationInSeconds={episode.durationInSeconds || 0}
+              onCopy={handleCopy}
+            />
           </DialogContent>
         </Dialog>
       </div>
+    </>
+  )
+}
+
+function ShareButtonDialogContent({
+  episodeId,
+  episodeDurationInSeconds,
+  onCopy,
+}: {
+  episodeId: number
+  episodeDurationInSeconds: number
+  onCopy: (startDurationInSeconds: number) => void
+}) {
+  const [startDuration, setStartDuration] = useState<number>(0)
+  function handleDurationChange(event: ChangeEvent<HTMLInputElement>) {
+    setStartDuration(Number(event.target.value))
+  }
+  function handleCopy() {
+    onCopy(startDuration)
+  }
+  return (
+    <>
+      <Button
+        keyProp={`podcast-episode-copy-link-button-${episodeId}`}
+        data-testid="podcast-episode-copy-link-button"
+        variant="primary"
+        title="Copy Share Podcast Episode Link"
+        onClick={handleCopy}
+      >
+        Copy
+      </Button>
+      <label htmlFor="start-duration">
+        Start at {dayjs.duration(startDuration, "seconds").format("HH:mm:ss")}
+      </label>
+      <input
+        className="podcast-episode-start-playback-time"
+        id="start-duration"
+        type="range"
+        value={startDuration}
+        min="0"
+        max={episodeDurationInSeconds}
+        step="1"
+        onChange={handleDurationChange}
+      />
     </>
   )
 }

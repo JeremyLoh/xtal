@@ -1,6 +1,6 @@
 import "./PodcastEpisodeDetailPage.css"
 import { useCallback, useContext, useEffect } from "react"
-import { useParams } from "react-router"
+import { useParams, useSearchParams } from "react-router"
 import {
   PodcastEpisodeDispatchContext,
   PodcastEpisodeTimestampDispatchContext,
@@ -15,6 +15,9 @@ import useClipboard from "../../../hooks/useClipboard.ts"
 
 export default function PodcastEpisodeDetailPage() {
   const { podcastId, podcastTitle, podcastEpisodeId } = useParams()
+  const [searchParams] = useSearchParams()
+  const startEpisodeTime = searchParams.get("t")
+
   const { copyPodcastEpisodeShareUrl } = useClipboard()
   const { addPlayPodcastEpisode, getPodcastEpisodeLastPlayTimestamp } =
     usePlayHistory()
@@ -44,10 +47,20 @@ export default function PodcastEpisodeDetailPage() {
       return
     }
     podcastEpisodeDispatchContext.setEpisode(episode)
-    const lastPlayedTimestamp = await getPodcastEpisodeLastPlayTimestamp(
-      `${episode.id}`
-    )
-    const resumePlayTimeInSeconds = lastPlayedTimestamp || 0
+    let resumePlayTimeInSeconds = 0
+    const isValidStartEpisodeTime =
+      startEpisodeTime &&
+      episode.durationInSeconds &&
+      Number(startEpisodeTime) >= 0 &&
+      Number(startEpisodeTime) <= episode.durationInSeconds
+    if (isValidStartEpisodeTime) {
+      resumePlayTimeInSeconds = Number(startEpisodeTime)
+    } else {
+      const lastPlayedTimestamp = await getPodcastEpisodeLastPlayTimestamp(
+        `${episode.id}`
+      )
+      resumePlayTimeInSeconds = lastPlayedTimestamp || 0
+    }
     podcastEpisodeTimestampDispatchContext.setLastPlayedTimestamp(
       resumePlayTimeInSeconds
     )
@@ -56,13 +69,14 @@ export default function PodcastEpisodeDetailPage() {
     podcastEpisodeDispatchContext,
     podcastEpisodeTimestampDispatchContext,
     episode,
+    startEpisodeTime,
     addPlayPodcastEpisode,
     getPodcastEpisodeLastPlayTimestamp,
   ])
 
   const handleShareClick = useCallback(
-    (episode: PodcastEpisode) => {
-      copyPodcastEpisodeShareUrl(episode)
+    (episode: PodcastEpisode, startDurationInSeconds: number) => {
+      copyPodcastEpisodeShareUrl(episode, startDurationInSeconds)
     },
     [copyPodcastEpisodeShareUrl]
   )
