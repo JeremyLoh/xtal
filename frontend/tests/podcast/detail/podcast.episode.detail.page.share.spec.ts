@@ -186,7 +186,12 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
   test("should start podcast episode playback with url parameter ?t=", async ({
     page,
     isMobile,
+    headless,
   }) => {
+    test.skip(
+      headless,
+      "Skip test in headless mode due to decode error on media playback on headless mode in CI environment"
+    )
     const expectedStartDurationInSeconds = "50"
     const podcastTitle = encodeURIComponent("Infinite Loops")
     const podcastId = "259760"
