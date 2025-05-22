@@ -32,20 +32,29 @@ function useClipboard() {
       .catch(() => toast.error("Could not copy podcast share url to clipboard"))
   }, [])
 
-  const copyPodcastEpisodeShareUrl = useCallback((episode: PodcastEpisode) => {
-    const origin = new URL(window.location.href).origin
-    const episodeDetailPage = podcastEpisodeDetailPage({
-      podcastTitle: episode.feedTitle || "",
-      podcastId: `${episode.feedId}`,
-      episodeId: `${episode.id}`,
-    })
-    navigator.clipboard
-      .writeText(`${origin}${episodeDetailPage}`)
-      .then(() => toast.success("Link Copied"))
-      .catch(() =>
-        toast.error("Could not copy podcast episode share url to clipboard")
-      )
-  }, [])
+  const copyPodcastEpisodeShareUrl = useCallback(
+    (episode: PodcastEpisode, startDurationInSeconds: number) => {
+      const origin = new URL(window.location.href).origin
+      const episodeDetailPage = podcastEpisodeDetailPage({
+        podcastTitle: episode.feedTitle || "",
+        podcastId: `${episode.feedId}`,
+        episodeId: `${episode.id}`,
+      })
+      navigator.clipboard
+        .writeText(
+          `${origin}${episodeDetailPage}${
+            startDurationInSeconds && startDurationInSeconds > 0
+              ? `?t=${startDurationInSeconds}`
+              : ""
+          }`
+        )
+        .then(() => toast.success("Link Copied"))
+        .catch(() =>
+          toast.error("Could not copy podcast episode share url to clipboard")
+        )
+    },
+    []
+  )
 
   const output = useMemo(() => {
     return {

@@ -32,6 +32,7 @@
   --background-color: #fdfafc;
   --sidebar-background-color: #e5e5e5;
   --sidebar-item-hover-color: #d4d4d4;
+  --dialog-background-color: #e5e5e5;
   --primary-color: #fdacca;
   --secondary-color: #9fcd9b;
   --accent-color: #e45ac2;
@@ -55,6 +56,7 @@
   --background-color: #0e0f08;
   --sidebar-background-color: #262626;
   --sidebar-item-hover-color: #404040;
+  --dialog-background-color: #262626;
   --primary-color: #6fb2ff;
   --secondary-color: #e4e4e7;
   --accent-color: #0067ff;
