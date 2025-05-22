@@ -89,15 +89,6 @@ function ShareButtonDialogContent({
   }
   return (
     <>
-      <Button
-        keyProp={`podcast-episode-copy-link-button-${episodeId}`}
-        data-testid="podcast-episode-copy-link-button"
-        variant="primary"
-        title="Copy Share Podcast Episode Link"
-        onClick={handleCopy}
-      >
-        Copy
-      </Button>
       <label htmlFor="start-duration">
         Start at {dayjs.duration(startDuration, "seconds").format("HH:mm:ss")}
       </label>
@@ -111,6 +102,15 @@ function ShareButtonDialogContent({
         step="1"
         onChange={handleDurationChange}
       />
+      <Button
+        keyProp={`podcast-episode-copy-link-button-${episodeId}`}
+        data-testid="podcast-episode-copy-link-button"
+        variant="primary"
+        title="Copy Share Podcast Episode Link"
+        onClick={handleCopy}
+      >
+        Copy
+      </Button>
     </>
   )
 }
