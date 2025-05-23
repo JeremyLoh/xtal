@@ -2,38 +2,16 @@ import test, { expect, Page } from "@playwright/test"
 import { podcastId_259760_episodeId_34000697601 } from "../../mocks/podcast.episode"
 import { assertToastMessage, HOMEPAGE } from "../../constants/homepageConstants"
 import { getClipboardContent } from "../../constants/shareStationConstants"
+import {
+  getPodcastEpisodeCloseDialogButton,
+  getPodcastEpisodeCopyLinkButton,
+  getPodcastEpisodeShareButton,
+  getPodcastEpisodeDialogTimestampInput,
+  getPodcastEpisodePlayButton,
+  getPodcastEpisodeShareDialog,
+} from "../../constants/podcast/share/podcastEpisodeShareConstants"
 
 test.describe("Share Feature of Podcast Episode Detail Page for viewing single podcast episode /podcasts/PODCAST-TITLE/PODCAST-ID/PODCAST-EPISODE-ID", () => {
-  function getPodcastEpisodeDetailShareButton(page: Page) {
-    return page
-      .locator(".podcast-episode-card")
-      .getByTestId("podcast-episode-share-button")
-  }
-
-  function getPodcastEpisodeShareDialog(page: Page) {
-    return page.getByTestId("podcast-episode-share-dialog-content")
-  }
-
-  function getPodcastEpisodeCopyLinkButton(page: Page) {
-    return page.getByTestId("podcast-episode-copy-link-button")
-  }
-
-  function getPodcastEpisodeCloseDialogButton(page: Page) {
-    return page.locator(".podcast-episode-share-dialog .dialog-close-button")
-  }
-
-  function getPodcastEpisodeDialogTimestampInput(page: Page) {
-    return page
-      .getByTestId("podcast-episode-share-dialog-content")
-      .locator(".podcast-episode-start-playback-time")
-  }
-
-  function getPodcastEpisodePlayButton(page: Page) {
-    return page
-      .locator(".podcast-episode-card")
-      .getByRole("button", { name: "Play", exact: true })
-  }
-
   async function assertPodcastPlayerCurrentTime(
     page: Page,
     isMobile: boolean,
@@ -70,8 +48,8 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
     await page.goto(
       HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
     )
-    await expect(getPodcastEpisodeDetailShareButton(page)).toBeVisible()
-    await getPodcastEpisodeDetailShareButton(page).click()
+    await expect(getPodcastEpisodeShareButton(page)).toBeVisible()
+    await getPodcastEpisodeShareButton(page).click()
     await expect(getPodcastEpisodeShareDialog(page)).toBeVisible()
   })
 
@@ -91,8 +69,8 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
     await page.goto(
       HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
     )
-    await expect(getPodcastEpisodeDetailShareButton(page)).toBeVisible()
-    await getPodcastEpisodeDetailShareButton(page).click()
+    await expect(getPodcastEpisodeShareButton(page)).toBeVisible()
+    await getPodcastEpisodeShareButton(page).click()
     await expect(getPodcastEpisodeShareDialog(page)).toBeVisible()
     // click outside modal
     await page.locator("body").click({ position: { x: 1, y: 1 } })
@@ -115,8 +93,8 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
     await page.goto(
       HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
     )
-    await expect(getPodcastEpisodeDetailShareButton(page)).toBeVisible()
-    await getPodcastEpisodeDetailShareButton(page).click()
+    await expect(getPodcastEpisodeShareButton(page)).toBeVisible()
+    await getPodcastEpisodeShareButton(page).click()
     await expect(getPodcastEpisodeShareDialog(page)).toBeVisible()
     await expect(getPodcastEpisodeCloseDialogButton(page)).toBeVisible()
     await getPodcastEpisodeCloseDialogButton(page).click()
@@ -141,8 +119,8 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
     await page.goto(
       HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
     )
-    await expect(getPodcastEpisodeDetailShareButton(page)).toBeVisible()
-    await getPodcastEpisodeDetailShareButton(page).click()
+    await expect(getPodcastEpisodeShareButton(page)).toBeVisible()
+    await getPodcastEpisodeShareButton(page).click()
     await expect(getPodcastEpisodeShareDialog(page)).toBeVisible()
     await expect(getPodcastEpisodeCopyLinkButton(page)).toBeVisible()
     await getPodcastEpisodeCopyLinkButton(page).click()
@@ -170,8 +148,8 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
     await page.goto(
       HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
     )
-    await expect(getPodcastEpisodeDetailShareButton(page)).toBeVisible()
-    await getPodcastEpisodeDetailShareButton(page).click()
+    await expect(getPodcastEpisodeShareButton(page)).toBeVisible()
+    await getPodcastEpisodeShareButton(page).click()
     await expect(getPodcastEpisodeShareDialog(page)).toBeVisible()
 
     await expect(getPodcastEpisodeDialogTimestampInput(page)).toBeVisible()

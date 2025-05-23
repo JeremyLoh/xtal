@@ -37,7 +37,6 @@
 .podcast-episode-card-play-button {
   width: fit-content;
   gap: 0.1rem;
-  margin: 1rem 0;
   font-weight: bold;
   font-size: 0.9rem;
 }
@@ -63,4 +62,8 @@
   text-decoration: "none";
   width: fit-content;
   word-break: break-word;
+}
+
+.podcast-episode-card-share-button-container {
+  margin: 0.5rem 0;
 }
