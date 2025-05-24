@@ -1,5 +1,6 @@
 import "./AboutPage.css"
 import { useEffect } from "react"
+import { IconType } from "react-icons/lib"
 import { FaStickyNote } from "react-icons/fa"
 import { FaHeadphonesSimple, FaStar, FaUsersViewfinder } from "react-icons/fa6"
 
@@ -19,23 +20,32 @@ export default function AboutPage() {
 
       <h3>Why listen to podcasts/radio?</h3>
       <div className="about-section-container">
-        <div className="about-section-card">
-          <FaStar size={ICON_SIZE} />
-          <p>Discover new interests across a large variety of categories</p>
-        </div>
-        <div className="about-section-card">
-          <FaStickyNote size={ICON_SIZE} />
-          <p>Obtain expert insights and learn on the go</p>
-        </div>
-        <div className="about-section-card">
-          <FaHeadphonesSimple size={ICON_SIZE} />
-          <p>Practice your active listening skills</p>
-        </div>
-        <div className="about-section-card">
-          <FaUsersViewfinder size={ICON_SIZE} />
-          <p>Experience different cultures and perspectives</p>
-        </div>
+        <AboutSectionCard
+          text="Discover new interests across a large variety of categories"
+          Icon={FaStar}
+        />
+        <AboutSectionCard
+          text="Obtain expert insights and learn on the go"
+          Icon={FaStickyNote}
+        />
+        <AboutSectionCard
+          text="Practice your active listening skills"
+          Icon={FaHeadphonesSimple}
+        />
+        <AboutSectionCard
+          text="Experience different cultures and perspectives"
+          Icon={FaUsersViewfinder}
+        />
       </div>
+    </div>
+  )
+}
+
+function AboutSectionCard({ text, Icon }: { text: string; Icon: IconType }) {
+  return (
+    <div className="about-section-card">
+      <Icon size={ICON_SIZE} />
+      <p>{text}</p>
     </div>
   )
 }
