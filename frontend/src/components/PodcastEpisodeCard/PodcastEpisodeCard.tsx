@@ -5,7 +5,7 @@ import { PodcastEpisodeCardContext } from "./PodcastEpisodeCardContext.ts"
 import { PodcastEpisode } from "../../api/podcast/model/podcast.ts"
 import { sanitizeHtmlString } from "../../api/dom/domSanitize.ts"
 
-const podcastEpisodeCardInitial = { opacity: 0, x: 50 }
+const podcastEpisodeCardInitial = { opacity: 0, x: 100 }
 const podcastEpisodeCardAnimate = { opacity: 1, x: 0 }
 const podcastEpisodeCardWhileInView = { opacity: 1, x: 0 }
 const podcastEpisodeCardTransition = {

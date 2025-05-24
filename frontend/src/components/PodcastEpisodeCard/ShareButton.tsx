@@ -42,7 +42,10 @@ const ShareButton = function PodcastEpisodeCardShareButton({
   return (
     <>
       {open && <DialogDimBackground />}
-      <div ref={clickOutsideRef}>
+      <div
+        ref={clickOutsideRef}
+        className="podcast-episode-card-share-button-container"
+      >
         <Button
           keyProp={`podcast-episode-share-button-${episode.id}`}
           data-testid="podcast-episode-share-button"
