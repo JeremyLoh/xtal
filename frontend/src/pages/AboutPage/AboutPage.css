@@ -11,6 +11,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
+  width: 100%;
 }
 
 .about-section-card {
@@ -20,6 +21,34 @@
   align-items: center;
   width: 100%;
   padding: 1rem;
-  border: 1px solid var(--text-color);
-  border-radius: 8px;
+}
+
+.about-section-creator-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.jeremy-intro-title {
+  font-size: 1.5rem;
+}
+
+.jeremy-profile-picture {
+  border-radius: 16px;
+  margin: auto;
+}
+
+@media (max-width: 430px) {
+  /* Mobile View */
+  .about-section-container {
+    gap: 0;
+  }
+  .about-section-card {
+    padding: 0.5rem;
+  }
+  .about-section-creator-container {
+    flex-direction: column;
+    gap: 0;
+  }
 }

@@ -28,4 +28,18 @@ test.describe("About Page", () => {
       ).toBeVisible()
     }
   })
+
+  test("should display creator section", async ({ page }) => {
+    await page.goto(HOMEPAGE + "/about")
+    await expect(page).toHaveTitle("xtal - about")
+    await expect(page.getByTestId("jeremy-profile-picture")).toBeVisible()
+    await expect(
+      page.getByText("👋 Hi, I'm Jeremy Loh (@Jeremy_Loh)")
+    ).toBeVisible()
+    await expect(
+      page.getByText(
+        "I'm a Software Engineer who loves Photography. When I'm not programming, you can find me behind a camera!"
+      )
+    ).toBeVisible()
+  })
 })
