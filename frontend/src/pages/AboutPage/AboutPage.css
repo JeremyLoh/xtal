@@ -1,0 +1,25 @@
+.about-page-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  max-width: 120ch;
+  height: 100%;
+  margin: 1rem auto;
+}
+
+.about-section-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.about-section-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid var(--text-color);
+  border-radius: 8px;
+}

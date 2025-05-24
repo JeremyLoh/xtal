@@ -21,6 +21,7 @@ const SuspenseFallbackPage = lazy(
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage/NotFoundPage.tsx"))
 const HomeLayout = lazy(() => import("./pages/HomeLayout/HomeLayout.tsx"))
 const HomePage = lazy(() => import("./pages/HomePage/HomePage.tsx"))
+const AboutPage = lazy(() => import("./pages/AboutPage/AboutPage.tsx"))
 const RadioStationDisplayPage = lazy(
   () => import("./pages/RadioStationDisplayPage/RadioStationDisplayPage.tsx")
 )
@@ -65,6 +66,7 @@ createRoot(document.getElementById("root")!).render(
                   <Route path="/" element={<Root />}>
                     {/*renders prebuilt login UI on /auth route*/}
                     {getSuperTokensRoutes()}
+                    <Route path="/about" element={<AboutPage />} />
                     <Route element={<HomeLayout />}>
                       <Route index element={<HomePage />} />
                       <Route

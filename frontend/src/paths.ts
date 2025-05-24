@@ -1,4 +1,5 @@
 export const homePage = () => "/"
+export const aboutPage = () => "/about"
 export const profilePage = () => "/profile"
 export const profileHistoryPage = () => "/profile/history"
 export const profileFollowingPage = () => "/profile/following"

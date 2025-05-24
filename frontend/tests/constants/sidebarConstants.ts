@@ -28,6 +28,7 @@ export enum SidebarMenuItemAction {
   ProfileSignUp = "sidebar-menu-item-profile-sign-up",
   ProfileLogout = "sidebar-menu-item-profile-logout",
   ProfileResetPassword = "sidebar-menu-item-profile-reset-password",
+  About = "sidebar-menu-item-about",
 }
 
 export function getSidebarMenuItem(page: Page, action: SidebarMenuItemAction) {
