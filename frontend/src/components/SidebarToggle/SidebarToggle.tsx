@@ -3,6 +3,7 @@ import { createPortal } from "react-dom"
 import { memo, ReactPortal, useState } from "react"
 import { LuAlignJustify, LuPodcast, LuRadioTower } from "react-icons/lu"
 import { GoStarFill } from "react-icons/go"
+import { MdQuestionMark } from "react-icons/md"
 import useClickOutside from "../../hooks/useClickOutside.ts"
 import Button from "../ui/button/Button.tsx"
 import FavouriteStationToggle from "../../features/favourite/FavouriteStationToggle/FavouriteStationToggle.tsx"
@@ -12,10 +13,11 @@ import Sidebar, {
   SidebarMenuItem,
 } from "../Sidebar/Sidebar.tsx"
 import ProfileSidebarGroup from "../../features/sidebar/ProfileSidebarGroup.tsx"
-import { homePage, podcastHomePage } from "../../paths.ts"
+import { aboutPage, homePage, podcastHomePage } from "../../paths.ts"
 
 const homePageUrl = homePage()
 const podcastHomePageUrl = podcastHomePage()
+const aboutPageUrl = aboutPage()
 
 function SidebarToggle() {
   const [open, setOpen] = useState<boolean>(false)
@@ -80,6 +82,12 @@ function SidebarToggle() {
               />
             </SidebarGroup>
             <ProfileSidebarGroup setOpen={setOpen} />
+            <SidebarMenuItem
+              title="About"
+              url={aboutPageUrl}
+              data-testid="sidebar-menu-item-about"
+              Icon={MdQuestionMark}
+            />
           </SidebarMenu>
         </Sidebar>
       </div>

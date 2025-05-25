@@ -4,6 +4,7 @@ import { PodcastEpisode } from "../model/podcastEpisode.js"
 import { PodcastCategory } from "../model/podcastCategory.js"
 import { PodcastIndexAuthManager } from "./authManager.js"
 import { PodcastApi, PodcastIndexApi } from "./podcastApi.js"
+import { PodcastCountStats } from "../model/podcastStats.js"
 
 interface PodcastFacade {
   getTrendingPodcasts(limit: number, since: Date): Promise<Podcast[]>
@@ -24,6 +25,7 @@ interface PodcastFacade {
   getPodcastEpisodeById(episodeId: string): Promise<PodcastEpisode | null>
   getPodcastInfo(podcastId: string): Promise<Podcast>
   getPodcastCategories(): Promise<PodcastCategory[]>
+  getCurrentPodcastApiCountStats(): Promise<PodcastCountStats>
 }
 
 export class PodcastIndexFacade implements PodcastFacade {
@@ -116,5 +118,10 @@ export class PodcastIndexFacade implements PodcastFacade {
       authHeaders
     )
     return podcastCategories
+  }
+
+  async getCurrentPodcastApiCountStats() {
+    const authHeaders = this.authManager.getAuthTokenHeaders()
+    return await this.podcastApi.getCurrentPodcastApiCountStats(authHeaders)
   }
 }

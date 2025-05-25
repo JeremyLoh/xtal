@@ -93,7 +93,16 @@ test.describe("Homepage Sidebar", () => {
       getSidebarMenuItem(page, SidebarMenuItemAction.Podcasts)
     ).toBeVisible()
     await expect(
+      getSidebarMenuItem(page, SidebarMenuItemAction.RadioFavouriteStations)
+    ).toBeVisible()
+    await expect(
       getSidebarMenuItem(page, SidebarMenuItemAction.ProfileSignIn)
+    ).toBeVisible()
+    await expect(
+      getSidebarMenuItem(page, SidebarMenuItemAction.ProfileSignUp)
+    ).toBeVisible()
+    await expect(
+      getSidebarMenuItem(page, SidebarMenuItemAction.About)
     ).toBeVisible()
   })
 
@@ -160,6 +169,22 @@ test.describe("Homepage Sidebar", () => {
       ).toBeVisible()
       await getSidebarMenuItem(page, SidebarMenuItemAction.Radio).click()
       await expect(page).toHaveURL(HOMEPAGE)
+    })
+
+    test("should navigate to about page on click of about sidebar action link", async ({
+      page,
+    }) => {
+      await page.goto(HOMEPAGE)
+      await assertLoadingSpinnerIsMissing(page)
+      await getSidebarToggleButton(page).click()
+      await expect(getSidebarElement(page)).toBeVisible()
+      await expect(
+        getSidebarMenuItem(page, SidebarMenuItemAction.About)
+      ).toBeVisible()
+      await getSidebarMenuItem(page, SidebarMenuItemAction.About).click()
+      await expect(page).toHaveURL(HOMEPAGE + "/about")
+      await page.waitForLoadState("networkidle")
+      await expect(page.getByText("404 Not Found")).not.toBeVisible()
     })
   })
 })
