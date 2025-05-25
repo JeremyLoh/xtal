@@ -15,6 +15,13 @@
 }
 
 .about-page-podcast-stats-container {
+  /* explicit min-height prevents Cumulative Layout Shift (CLS) based on loading data */
+  min-height: 240px;
+  height: fit-content;
+}
+
+.about-page-podcast-stats-container,
+.about-page-radio-station-stats-container {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -22,8 +29,9 @@
   font-size: 1.5rem;
 }
 
-.about-page-podcast-stats-figure {
-  font-size: 2rem;
+.about-page-podcast-stats-figure,
+.about-page-radio-station-stats-figure {
+  font-size: 2.5rem;
   color: var(--accent-color);
 }
 
@@ -64,10 +72,12 @@
     flex-direction: column;
     gap: 0;
   }
-  .about-page-podcast-stats-container {
+  .about-page-podcast-stats-container,
+  .about-page-radio-station-stats-container {
     font-size: 1rem;
   }
-  .about-page-podcast-stats-figure {
+  .about-page-podcast-stats-figure,
+  .about-page-radio-station-stats-figure {
     font-size: 1.5rem;
   }
 }

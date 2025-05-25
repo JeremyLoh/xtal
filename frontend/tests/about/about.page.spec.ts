@@ -76,17 +76,45 @@ test.describe("About Page", () => {
       .locator(".about-page-podcast-stats-container")
       .scrollIntoViewIfNeeded()
     await expect(
-      page.getByText(`${expectedTotalPodcasts.toLocaleString()} Podcasts`)
+      page
+        .locator(".about-page-podcast-stats-container")
+        .getByText(`${expectedTotalPodcasts.toLocaleString()} Podcasts`)
     ).toBeVisible()
     await expect(
-      page.getByText(
-        `${expectedTotalPodcastEpisodes.toLocaleString()} Podcast Episodes`
-      )
+      page
+        .locator(".about-page-podcast-stats-container")
+        .getByText(
+          `${expectedTotalPodcastEpisodes.toLocaleString()} Podcast Episodes`
+        )
     ).toBeVisible()
     await expect(
-      page.getByText(
-        `${expectedEpisodesPublishedInLastThirtyDays.toLocaleString()} New Podcast Episodes in Last 30 Days`
-      )
+      page
+        .locator(".about-page-podcast-stats-container")
+        .getByText(
+          `${expectedEpisodesPublishedInLastThirtyDays.toLocaleString()} New Podcast Episodes in Last 30 Days`
+        )
+    ).toBeVisible()
+    await expect(
+      page
+        .locator(".about-page-podcast-stats-container")
+        .getByText("— https://podcastindex.org/")
+    ).toBeVisible()
+  })
+
+  test("should display radio station approximate count", async ({ page }) => {
+    await mockCurrentTotalPodcastStatistics(page)
+    await page.goto(HOMEPAGE + "/about")
+    await page
+      .locator(".about-page-radio-station-stats-container")
+      .scrollIntoViewIfNeeded()
+    // Approximate radio station count is hard-coded - https://fi1.api.radio-browser.info/#Server_stats
+    // Server stats endpoint is available on HTTP endpoint, not on HTTPS
+    await expect(
+      page
+        .locator(".about-page-radio-station-stats-container")
+        .getByText(
+          "54805 Radio Stations in 238 Countries — https://www.radio-browser.info/"
+        )
     ).toBeVisible()
   })
 })
