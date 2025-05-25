@@ -7,6 +7,7 @@ import podcastEpisodeRouter from "./podcast/episode.js"
 import podcastImageRouter from "./podcast/image.js"
 import podcastCategoryRouter from "./podcast/category.js"
 import podcastSearchRouter from "./podcast/search.js"
+import podcastStatsRouter from "./podcast/stats.js"
 
 const router = Router()
 
@@ -18,5 +19,6 @@ router.use(podcastEpisodeRouter)
 router.use(podcastImageRouter)
 router.use(podcastCategoryRouter)
 router.use(podcastSearchRouter)
+router.use(podcastStatsRouter)
 
 export default router

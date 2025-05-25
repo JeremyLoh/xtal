@@ -13,6 +13,8 @@ import {
   PodcastIndexEpisodeByIdResponse,
 } from "./responseType/podcastIndexEpisodeTypes.js"
 import { PodcastIndexCategoryResponse } from "./responseType/podcastIndexCategoryTypes.js"
+import { PodcastCountStats } from "../model/podcastStats.js"
+import { PodcastIndexCurrentStatsResponse } from "./responseType/podcastIndexStatsTypes.js"
 
 type PodcastApi = {
   getTrendingPodcasts(
@@ -36,6 +38,9 @@ type PodcastApi = {
     searchParams: URLSearchParams
   ): Promise<Podcast>
   getPodcastCategories(authHeaders: Headers): Promise<PodcastCategory[]>
+  getCurrentPodcastApiCountStats(
+    authHeaders: Headers
+  ): Promise<PodcastCountStats>
 }
 
 class PodcastIndexApi implements PodcastApi {
@@ -249,6 +254,22 @@ class PodcastIndexApi implements PodcastApi {
         name: entry.name,
       }
     })
+  }
+
+  async getCurrentPodcastApiCountStats(
+    authHeaders: Headers
+  ): Promise<PodcastCountStats> {
+    // https://podcastindex-org.github.io/docs-api/#tag--Stats
+    const response = await ky.get(this.url + "/stats/current", {
+      headers: authHeaders,
+      retry: 0,
+    })
+    const json: PodcastIndexCurrentStatsResponse = await response.json()
+    return {
+      totalPodcasts: json.stats.feedCountTotal,
+      totalPodcastEpisodes: json.stats.episodeCountTotal,
+      episodesPublishedInLastThirtyDays: json.stats.feedsWithNewEpisodes30days,
+    }
   }
 }
 
