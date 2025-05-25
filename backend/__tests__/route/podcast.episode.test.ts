@@ -16,28 +16,21 @@ function getMockMiddleware() {
 }
 
 function mockRateLimiters() {
-  vi.mock("../../middleware/rateLimiter.js", () => {
-    return {
-      default: {
-        getTrendingPodcastLimiter: getMockMiddleware(),
-        getPodcastSearchLimiter: getMockMiddleware(),
-        getPodcastEpisodeLimiter: getMockMiddleware(),
-        getPodcastEpisodesLimiter: getMockMiddleware(),
-        getPodcastImageConversionLimiter: getMockMiddleware(),
-        getPodcastCategoryLimiter: getMockMiddleware(),
-        getStatusLimiter: getMockMiddleware(),
-        deleteAccountLimiter: getMockMiddleware(),
-        getAccountPlayHistoryLimiter: getMockMiddleware(),
-        getAccountPlayHistoryTimestampLimiter: getMockMiddleware(),
-        deleteAccountPlayHistoryLimiter: getMockMiddleware(),
-        updateAccountPlayHistoryLimiter: getMockMiddleware(),
-        getAccountPlayHistoryCountLimiter: getMockMiddleware(),
-        addAccountFollowPodcastLimiter: getMockMiddleware(),
-        removeAccountFollowPodcastLimiter: getMockMiddleware(),
-        getAccountFollowPodcastLimiter: getMockMiddleware(),
-        getAccountFollowingPodcastLimiter: getMockMiddleware(),
-        getAccountTotalCountFollowingPodcastLimiter: getMockMiddleware(),
+  vi.mock("../../middleware/rateLimiter.js", async () => {
+    const { default: rateLimiterFunctions } = await import(
+      "../../middleware/rateLimiter.js"
+    )
+    const mockRateLimiterFunctions = Object.keys(rateLimiterFunctions).reduce(
+      (mockFunctions, currentFunction) => {
+        return {
+          ...mockFunctions,
+          [currentFunction]: getMockMiddleware(),
+        }
       },
+      {}
+    )
+    return {
+      default: mockRateLimiterFunctions,
     }
   })
 }
