@@ -14,6 +14,19 @@
   width: 100%;
 }
 
+.about-page-podcast-stats-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin: 1rem 0;
+  font-size: 1.5rem;
+}
+
+.about-page-podcast-stats-figure {
+  font-size: 2rem;
+  color: var(--accent-color);
+}
+
 .about-section-card {
   display: flex;
   flex-direction: column;
@@ -50,5 +63,11 @@
   .about-section-creator-container {
     flex-direction: column;
     gap: 0;
+  }
+  .about-page-podcast-stats-container {
+    font-size: 1rem;
+  }
+  .about-page-podcast-stats-figure {
+    font-size: 1.5rem;
   }
 }
