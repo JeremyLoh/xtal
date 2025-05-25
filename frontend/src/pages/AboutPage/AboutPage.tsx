@@ -141,7 +141,7 @@ function AboutSectionStats() {
                 </span>{" "}
                 New Podcast Episodes in Last 30 Days
               </b>
-              <span>
+              <b>
                 —{" "}
                 <Link
                   to="https://podcastindex.org/"
@@ -150,7 +150,7 @@ function AboutSectionStats() {
                 >
                   https://podcastindex.org/
                 </Link>
-              </span>
+              </b>
             </>
           ) : (
             <p>Could not get current podcast stats</p>
