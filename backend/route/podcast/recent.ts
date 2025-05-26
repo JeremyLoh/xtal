@@ -2,11 +2,13 @@ import { Request, Response, Router } from "express"
 import { checkSchema, matchedData, validationResult } from "express-validator"
 import { getPodcastRecentValidationSchema } from "../../validation/podcastRecentValidation.js"
 import { Language } from "../../model/podcast.js"
+import rateLimiter from "../../middleware/rateLimiter.js"
 
 const router = Router()
 
 router.get(
   "/api/podcast/recent",
+  rateLimiter.getPodcastRecentLimiter,
   checkSchema(getPodcastRecentValidationSchema, ["query"]),
   async (request: Request, response: Response) => {
     const result = validationResult(request)
