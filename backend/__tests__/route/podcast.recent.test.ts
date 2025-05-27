@@ -4,7 +4,11 @@ import { NextFunction, Request, Response } from "express"
 import { getFrontendOrigin } from "../cors/origin.js"
 import { setupApp } from "../../index.js"
 import { Language } from "../../model/podcast.js"
-import { PODCAST_RECENT_FIVE_ENTRIES } from "../mocks/podcastRecent.js"
+import {
+  JAPANESE_LANGUAGE_PODCAST_RECENT_TEN_ENTRIES,
+  PODCAST_RECENT_FIVE_ENTRIES,
+  RecentPodcastResponseType,
+} from "../mocks/podcastRecent.js"
 import { getSanitizedHtmlText } from "../../api/dom/htmlSanitize.js"
 
 function getMockMiddleware() {
@@ -286,7 +290,7 @@ describe("GET /api/podcast/recent", () => {
 
   describe("get recent podcasts", () => {
     function getExpectedResponsePodcastRecentEntries(
-      responseData: typeof PODCAST_RECENT_FIVE_ENTRIES
+      responseData: RecentPodcastResponseType
     ) {
       return responseData.feeds.map((d) => {
         return {
@@ -298,7 +302,9 @@ describe("GET /api/podcast/recent", () => {
           image: d.image,
           author: "", // no author info is available from endpoint
           language: Language[d.language.toLowerCase() as keyof typeof Language],
-          categories: expect.arrayContaining(Object.values(d.categories)),
+          categories: d.categories
+            ? expect.arrayContaining(Object.values(d.categories))
+            : [],
         }
       })
     }
@@ -317,6 +323,11 @@ describe("GET /api/podcast/recent", () => {
           data: expect.arrayContaining(
             getExpectedResponsePodcastRecentEntries(expectedResponseData)
           ),
+        })
+      )
+      expect(response.headers).toEqual(
+        expect.objectContaining({
+          "content-type": expect.stringContaining("application/json;"),
         })
       )
     })
@@ -342,6 +353,11 @@ describe("GET /api/podcast/recent", () => {
           ),
         })
       )
+      expect(response.headers).toEqual(
+        expect.objectContaining({
+          "content-type": expect.stringContaining("application/json;"),
+        })
+      )
     })
 
     test("should get offset two recent podcast", async () => {
@@ -363,6 +379,64 @@ describe("GET /api/podcast/recent", () => {
           data: expect.arrayContaining(
             getExpectedResponsePodcastRecentEntries(expectedResponseData)
           ),
+        })
+      )
+      expect(response.headers).toEqual(
+        expect.objectContaining({
+          "content-type": expect.stringContaining("application/json;"),
+        })
+      )
+    })
+
+    test("should get recent podcasts with one language filter", async () => {
+      const expectedResponseData = JAPANESE_LANGUAGE_PODCAST_RECENT_TEN_ENTRIES
+      const limit = 10
+      const lang = "ja"
+      const app = setupApp()
+      const response = await request(app)
+        .get(`/api/podcast/recent?limit=${limit}&lang=${lang}`)
+        .set("Origin", expectedOrigin)
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          count: expectedResponseData.count,
+          data: expect.arrayContaining(
+            getExpectedResponsePodcastRecentEntries(expectedResponseData)
+          ),
+        })
+      )
+      expect(response.headers).toEqual(
+        expect.objectContaining({
+          "content-type": expect.stringContaining("application/json;"),
+        })
+      )
+    })
+
+    test("should get recent podcasts with one language filter and offset", async () => {
+      const expectedResponseData = {
+        ...JAPANESE_LANGUAGE_PODCAST_RECENT_TEN_ENTRIES,
+        count: 4,
+        feeds: JAPANESE_LANGUAGE_PODCAST_RECENT_TEN_ENTRIES.feeds.slice(6, 10),
+      }
+      const limit = 4
+      const offset = 6 // ensure limit + offset = 10 (for mock data query parameter ?max=10)
+      const lang = "ja"
+      const app = setupApp()
+      const response = await request(app)
+        .get(`/api/podcast/recent?limit=${limit}&lang=${lang}&offset=${offset}`)
+        .set("Origin", expectedOrigin)
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          count: expectedResponseData.count,
+          data: expect.arrayContaining(
+            getExpectedResponsePodcastRecentEntries(expectedResponseData)
+          ),
+        })
+      )
+      expect(response.headers).toEqual(
+        expect.objectContaining({
+          "content-type": expect.stringContaining("application/json;"),
         })
       )
     })

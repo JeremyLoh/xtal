@@ -1,5 +1,8 @@
 import { http, HttpHandler, HttpResponse } from "msw"
-import { PODCAST_RECENT_FIVE_ENTRIES } from "./podcastRecent.js"
+import {
+  JAPANESE_LANGUAGE_PODCAST_RECENT_TEN_ENTRIES,
+  PODCAST_RECENT_FIVE_ENTRIES,
+} from "./podcastRecent.js"
 
 export const podcastRecentHandlers: HttpHandler[] = [
   http.get(
@@ -11,6 +14,9 @@ export const podcastRecentHandlers: HttpHandler[] = [
       const lang = url.searchParams.get("lang")
       if (max === "5" && lang == null) {
         return HttpResponse.json(PODCAST_RECENT_FIVE_ENTRIES)
+      }
+      if (max === "10" && lang === "ja") {
+        return HttpResponse.json(JAPANESE_LANGUAGE_PODCAST_RECENT_TEN_ENTRIES)
       }
       return HttpResponse.error()
     }

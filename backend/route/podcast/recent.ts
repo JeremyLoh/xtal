@@ -26,7 +26,7 @@ router.get(
     const lang: Language | undefined = data.lang ? data.lang : undefined
     try {
       const recentPodcasts = await getRecentPodcasts({ limit, offset, lang })
-      response.status(200).send({
+      response.status(200).type("application/json").send({
         count: recentPodcasts.length,
         data: recentPodcasts,
       })
