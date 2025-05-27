@@ -6,6 +6,7 @@ import { PodcastCategory } from "../model/podcastCategory.js"
 import {
   PodcastIndexPodcastByFeedIdResponse,
   PodcastIndexPodcastBySearchTermResponse,
+  PodcastIndexRecentPodcastResponse,
   PodcastIndexTrendingPodcastResponse,
 } from "./responseType/podcastIndexPodcastTypes.js"
 import {
@@ -41,6 +42,10 @@ type PodcastApi = {
   getCurrentPodcastApiCountStats(
     authHeaders: Headers
   ): Promise<PodcastCountStats>
+  getRecentPodcasts(
+    authHeaders: Headers,
+    searchParams: URLSearchParams
+  ): Promise<Podcast[]>
 }
 
 class PodcastIndexApi implements PodcastApi {
@@ -168,6 +173,28 @@ class PodcastIndexApi implements PodcastApi {
     }
   }
 
+  private parseRecentPodcasts(
+    response: PodcastIndexRecentPodcastResponse
+  ): Podcast[] {
+    const podcasts = response.feeds.map((feed) => {
+      const language = feed.language.toLowerCase()
+      return {
+        id: feed.id,
+        url: feed.url || "",
+        title: feed.title || "",
+        description: getSanitizedHtmlText(feed.description || ""),
+        author: "", // author info is not available
+        image: feed.image || "",
+        latestPublishTime: feed.newestItemPublishTime,
+        language: Language[language as keyof typeof Language],
+        categories: feed.categories
+          ? Object.values<string>(feed.categories)
+          : [],
+      }
+    })
+    return podcasts
+  }
+
   async getTrendingPodcasts(
     authHeaders: Headers,
     searchParams: URLSearchParams
@@ -270,6 +297,20 @@ class PodcastIndexApi implements PodcastApi {
       totalPodcastEpisodes: json.stats.episodeCountTotal,
       episodesPublishedInLastThirtyDays: json.stats.feedsWithNewEpisodes30days,
     }
+  }
+
+  async getRecentPodcasts(
+    authHeaders: Headers,
+    searchParams: URLSearchParams
+  ): Promise<Podcast[]> {
+    // https://podcastindex-org.github.io/docs-api/#get-/recent/feeds
+    const response = await ky.get(this.url + "/recent/feeds", {
+      searchParams: searchParams,
+      headers: authHeaders,
+      retry: 0,
+    })
+    const json: PodcastIndexRecentPodcastResponse = await response.json()
+    return this.parseRecentPodcasts(json)
   }
 }
 

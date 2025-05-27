@@ -3,6 +3,8 @@ import { checkSchema, matchedData, validationResult } from "express-validator"
 import { getPodcastRecentValidationSchema } from "../../validation/podcastRecentValidation.js"
 import { Language } from "../../model/podcast.js"
 import rateLimiter from "../../middleware/rateLimiter.js"
+import { getRecentPodcasts } from "../../service/podcastRecentService.js"
+import logger from "../../logger.js"
 
 const router = Router()
 
@@ -21,8 +23,18 @@ router.get(
     const data = matchedData(request)
     const limit = data.limit ? Number(data.limit) : 10
     const offset = data.offset ? Number(data.offset) : 0
-    const lang: Language | null = data.lang ? data.lang : null
-    response.sendStatus(200)
+    const lang: Language | undefined = data.lang ? data.lang : undefined
+    try {
+      const recentPodcasts = await getRecentPodcasts({ limit, offset, lang })
+      response.status(200).send({
+        count: recentPodcasts.length,
+        data: recentPodcasts,
+      })
+    } catch (error: any) {
+      logger.error(error.message)
+      response.status(500).send("Internal Server Error")
+      return
+    }
   }
 )
 

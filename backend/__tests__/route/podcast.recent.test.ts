@@ -4,6 +4,8 @@ import { NextFunction, Request, Response } from "express"
 import { getFrontendOrigin } from "../cors/origin.js"
 import { setupApp } from "../../index.js"
 import { Language } from "../../model/podcast.js"
+import { PODCAST_RECENT_FIVE_ENTRIES } from "../mocks/podcastRecent.js"
+import { getSanitizedHtmlText } from "../../api/dom/htmlSanitize.js"
 
 function getMockMiddleware() {
   return (request: Request, response: Response, next: NextFunction) => next()
@@ -42,9 +44,11 @@ describe("GET /api/podcast/recent", () => {
 
   describe("CORS configuration", () => {
     test("should return status code 200 and allow environment variable FRONTEND_ORIGIN origin", async () => {
+      // use endpoint where mock data will be returned for request
+      const limit = 5
       const app = setupApp()
       const response = await request(app)
-        .get("/api/podcast/recent")
+        .get(`/api/podcast/recent?limit=${limit}`)
         .set("Origin", expectedOrigin)
       expect(response.status).toBe(200)
       expect(response.headers).toEqual(
@@ -277,6 +281,44 @@ describe("GET /api/podcast/recent", () => {
           })
         )
       })
+    })
+  })
+
+  describe("get recent podcasts", () => {
+    function getExpectedResponsePodcastRecentEntries(
+      responseData: typeof PODCAST_RECENT_FIVE_ENTRIES
+    ) {
+      return responseData.feeds.map((d) => {
+        return {
+          id: d.id,
+          url: d.url,
+          title: d.title,
+          latestPublishTime: d.newestItemPublishTime,
+          description: getSanitizedHtmlText(d.description),
+          image: d.image,
+          author: "", // no author info is available from endpoint
+          language: Language[d.language.toLowerCase() as keyof typeof Language],
+          categories: expect.arrayContaining(Object.values(d.categories)),
+        }
+      })
+    }
+
+    test("should get 5 recent podcasts when query parameter ?limit=5 is provided", async () => {
+      const expectedResponseData = PODCAST_RECENT_FIVE_ENTRIES
+      const limit = 5
+      const app = setupApp()
+      const response = await request(app)
+        .get(`/api/podcast/recent?limit=${limit}`)
+        .set("Origin", expectedOrigin)
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          count: expectedResponseData.count,
+          data: expect.arrayContaining(
+            getExpectedResponsePodcastRecentEntries(expectedResponseData)
+          ),
+        })
+      )
     })
   })
 })

@@ -23,3 +23,16 @@ export type PodcastIndexFeed = {
   language: Language
   categories: PodcastIndexCategory | null /* could have null value */
 }
+
+export type RecentPodcastIndexFeed = {
+  id: number
+  url: string
+  title: string
+  description: string
+  image: string
+  newestItemPublishTime: number
+  oldestItemPublishTime: number
+  itunesId: number | null
+  language: Language
+  categories: PodcastIndexCategory | null /* could have null value */
+}

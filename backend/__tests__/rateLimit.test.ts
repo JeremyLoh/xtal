@@ -250,7 +250,9 @@ describe("GET /api/podcast/recent", () => {
 
   describe("rate limit", () => {
     test("should return HTTP 429 when rate limit is exceeded", async () => {
-      const url = "/api/podcast/recent"
+      // use endpoint where mock data will be returned for request
+      const limit = 5
+      const url = `/api/podcast/recent?limit=${limit}`
       const app = setupApp()
       const firstResponse = await request(app)
         .get(url)
