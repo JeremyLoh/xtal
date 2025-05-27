@@ -152,6 +152,9 @@ export class PodcastIndexFacade implements PodcastFacade {
       authHeaders,
       searchParams
     )
+    if (offset > 0) {
+      return recentPodcasts.slice(offset, offset + limit)
+    }
     return recentPodcasts
   }
 }

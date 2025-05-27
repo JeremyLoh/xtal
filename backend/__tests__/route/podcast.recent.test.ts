@@ -320,5 +320,51 @@ describe("GET /api/podcast/recent", () => {
         })
       )
     })
+
+    test("should get offset one recent podcast", async () => {
+      const expectedResponseData = {
+        ...PODCAST_RECENT_FIVE_ENTRIES,
+        count: 4,
+        feeds: PODCAST_RECENT_FIVE_ENTRIES.feeds.slice(1, 5),
+      }
+      const limit = 4
+      const offset = 1 // ensure limit + offset = 5 (for mock data query parameter ?max=5)
+      const app = setupApp()
+      const response = await request(app)
+        .get(`/api/podcast/recent?limit=${limit}&offset=${offset}`)
+        .set("Origin", expectedOrigin)
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          count: expectedResponseData.count,
+          data: expect.arrayContaining(
+            getExpectedResponsePodcastRecentEntries(expectedResponseData)
+          ),
+        })
+      )
+    })
+
+    test("should get offset two recent podcast", async () => {
+      const expectedResponseData = {
+        ...PODCAST_RECENT_FIVE_ENTRIES,
+        count: 3,
+        feeds: PODCAST_RECENT_FIVE_ENTRIES.feeds.slice(2, 5),
+      }
+      const limit = 3
+      const offset = 2 // ensure limit + offset = 5 (for mock data query parameter ?max=5)
+      const app = setupApp()
+      const response = await request(app)
+        .get(`/api/podcast/recent?limit=${limit}&offset=${offset}`)
+        .set("Origin", expectedOrigin)
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          count: expectedResponseData.count,
+          data: expect.arrayContaining(
+            getExpectedResponsePodcastRecentEntries(expectedResponseData)
+          ),
+        })
+      )
+    })
   })
 })
