@@ -24,6 +24,7 @@
   /* handle text overflow, limit to max-height before scrolling in y-axis */
   overflow-y: auto; /* hide the scrollbar when it is not needed */
   max-height: 6rem;
+  text-wrap: wrap;
 }
 
 .podcast-card-title {
