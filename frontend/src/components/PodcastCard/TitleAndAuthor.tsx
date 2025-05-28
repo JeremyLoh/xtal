@@ -6,9 +6,7 @@ type TitleAndAuthorProps = {
 
 const TitleAndAuthor = function PodcastCardTitleAndAuthor({
   variant,
-}: {
-  variant?: "large" | "normal"
-}) {
+}: TitleAndAuthorProps) {
   const { podcast } = usePodcastCardContext()
   if (variant === "large") {
     return (
