@@ -2,8 +2,12 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: 1rem;
   gap: 1rem;
+  margin: 1rem 0;
+}
+
+.new-release-podcast-header {
+  margin: 0;
 }
 
 .new-release-podcast-subtitle {
@@ -17,8 +21,13 @@
   padding: 0 1rem;
 }
 
-.new-release-podcast-card-title-link {
+.new-release-podcast-card-info,
+.new-release-podcast-card-title-link,
+.new-release-podcast-card-last-active-time {
   width: 200px; /* should match desktop podcast artwork image size */
+}
+
+.new-release-podcast-card-title-link {
   text-decoration: none;
 }
 .new-release-podcast-card-title-link:hover {

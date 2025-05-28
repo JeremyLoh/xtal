@@ -4,13 +4,24 @@ import { usePodcastCardContext } from "./PodcastCardContext.ts"
 
 dayjs.extend(relativeTime)
 
-const LastActiveTime = function PodcastCardLastActiveTime() {
+type PodcastCardLastActiveTimeProps = {
+  className?: string
+}
+
+const LastActiveTime = function PodcastCardLastActiveTime({
+  className,
+}: PodcastCardLastActiveTimeProps) {
   const { podcast } = usePodcastCardContext()
   if (podcast.latestPublishTime == undefined) {
     return null
   }
   const timeFromNow = dayjs.unix(podcast.latestPublishTime).fromNow()
-  return <div>Last Active {timeFromNow}</div>
+  return (
+    <div className={`podcast-card-last-active ${className ? className : ""}`}>
+      Last Active {timeFromNow}
+    </div>
+  )
 }
 
 export default LastActiveTime
+export type { PodcastCardLastActiveTimeProps }

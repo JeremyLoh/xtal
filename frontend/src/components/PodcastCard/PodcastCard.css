@@ -48,6 +48,11 @@
   font-size: clamp(0.8rem, 0.8rem + 1vw, 1rem);
 }
 
+.podcast-card-last-active {
+  font-size: 1rem;
+  text-wrap: wrap;
+}
+
 @media (max-width: 430px) {
   /* Mobile View */
   .podcast-card {

@@ -1,9 +1,13 @@
 import { expect, Locator, Page } from "@playwright/test"
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime.js"
 import {
   getVirtualizedListParentElement,
   scrollUntilElementIsVisible,
 } from "../../scroller/scrollerConstants"
 import { Podcast } from "../../../../src/api/podcast/model/podcast"
+
+dayjs.extend(relativeTime)
 
 async function assertPodcastImagePlaceholderIsVisible(elementLocator: Locator) {
   await expect(
@@ -39,6 +43,16 @@ export async function assertNewReleasePodcasts(
     ).toBeVisible()
     if (!(await artwork.isVisible())) {
       await assertPodcastImagePlaceholderIsVisible(podcastCard)
+    }
+
+    if (podcast.latestPublishTime && podcast.latestPublishTime > 0) {
+      const expectedLatestPublishTime =
+        "Last Active " + dayjs.unix(podcast.latestPublishTime).fromNow()
+      await expect(
+        podcastCard.getByText(expectedLatestPublishTime)
+      ).toBeVisible()
+    } else {
+      await expect(podcastCard.getByText("Last Active ")).not.toBeVisible()
     }
   }
 }

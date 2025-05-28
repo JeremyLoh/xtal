@@ -9,7 +9,7 @@ import { podcastDetailPage } from "../../../../paths.ts"
 
 const virtuosoStyle = {
   width: "100%",
-  height: "18rem",
+  height: "21rem",
 }
 
 type NewReleasePodcastSectionProps = {
@@ -46,12 +46,15 @@ function NewReleasePodcastSection({
             size={isMobile ? 96 : 200}
             redirectUrl={podcastDetailPageUrl}
           />
-          <Link
-            to={podcastDetailPageUrl}
-            className="new-release-podcast-card-title-link"
-          >
-            <PodcastCard.TitleAndAuthor />
-          </Link>
+          <div className="new-release-podcast-card-info">
+            <Link
+              to={podcastDetailPageUrl}
+              className="new-release-podcast-card-title-link"
+            >
+              <PodcastCard.TitleAndAuthor />
+            </Link>
+            <PodcastCard.LastActiveTime className="new-release-podcast-card-last-active-time" />
+          </div>
         </PodcastCard>
       )
     },
@@ -63,7 +66,7 @@ function NewReleasePodcastSection({
   }
   return (
     <div className="new-release-podcast-container">
-      <h2>
+      <h2 className="new-release-podcast-header">
         New Releases
         <br />
         <span className="new-release-podcast-subtitle">
