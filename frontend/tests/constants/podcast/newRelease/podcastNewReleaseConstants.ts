@@ -42,3 +42,16 @@ export async function assertNewReleasePodcasts(
     }
   }
 }
+
+export async function clickFirstNewReleasePodcastTitleLink(
+  page: Page,
+  podcastTitle: string
+) {
+  const virtualizedListParentElement = getVirtualizedListParentElement(page)
+  await expect(virtualizedListParentElement).toBeVisible()
+  const title = page
+    .locator(".new-release-podcast-card")
+    .getByText(podcastTitle)
+  await expect(title).toBeVisible()
+  await title.click()
+}

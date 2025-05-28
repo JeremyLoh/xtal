@@ -5,6 +5,7 @@ import { Link } from "react-router"
 import { Podcast } from "../../../../api/podcast/model/podcast.ts"
 import PodcastCard from "../../../../components/PodcastCard/index.tsx"
 import useScreenDimensions from "../../../../hooks/useScreenDimensions.ts"
+import { podcastDetailPage } from "../../../../paths.ts"
 
 const virtuosoStyle = {
   width: "100%",
@@ -31,14 +32,24 @@ function NewReleasePodcastSection({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const itemContent: ItemContent<Podcast, any> | undefined = useCallback(
     (_: number, podcast: Podcast) => {
+      const podcastDetailPageUrl = podcastDetailPage({
+        podcastTitle: podcast.title,
+        podcastId: `${podcast.id}`,
+      })
       return (
         <PodcastCard
           podcast={podcast}
           customClassName="new-release-podcast-card"
           data-testid={`new-release-podcast-card-${podcast.id}`}
         >
-          <PodcastCard.Artwork size={isMobile ? 96 : 200} />
-          <Link to="#" className="new-release-podcast-card-title-link">
+          <PodcastCard.Artwork
+            size={isMobile ? 96 : 200}
+            redirectUrl={podcastDetailPageUrl}
+          />
+          <Link
+            to={podcastDetailPageUrl}
+            className="new-release-podcast-card-title-link"
+          >
             <PodcastCard.TitleAndAuthor />
           </Link>
         </PodcastCard>

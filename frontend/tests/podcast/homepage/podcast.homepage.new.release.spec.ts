@@ -1,7 +1,10 @@
 import test, { expect } from "@playwright/test"
 import { HOMEPAGE } from "../../constants/homepageConstants"
 import { fiveNewReleasePodcasts } from "../../mocks/podcast.new.release"
-import { assertNewReleasePodcasts } from "../../constants/podcast/newRelease/podcastNewReleaseConstants"
+import {
+  assertNewReleasePodcasts,
+  clickFirstNewReleasePodcastTitleLink,
+} from "../../constants/podcast/newRelease/podcastNewReleaseConstants"
 
 test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () => {
   test("should display five new release podcasts section", async ({ page }) => {
@@ -15,5 +18,23 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
       page.getByText("Latest podcasts with new episodes")
     ).toBeVisible()
     await assertNewReleasePodcasts(page, fiveNewReleasePodcasts.data)
+  })
+
+  test("should navigate to podcast detail page when podcast title link is clicked", async ({
+    page,
+  }) => {
+    const firstPodcast = fiveNewReleasePodcasts.data[0]
+    const podcastTitle = encodeURIComponent(firstPodcast.title)
+    const podcastId = firstPodcast.id
+    const expectedPodcastDetailUrl =
+      HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`
+
+    await page.route("*/**/api/podcast/recent?limit=5", async (route) => {
+      const json = fiveNewReleasePodcasts
+      await route.fulfill({ json })
+    })
+    await page.goto(HOMEPAGE + "/podcasts")
+    await clickFirstNewReleasePodcastTitleLink(page, firstPodcast.title)
+    await expect(page).toHaveURL(expectedPodcastDetailUrl)
   })
 })
