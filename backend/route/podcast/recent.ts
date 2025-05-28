@@ -8,6 +8,50 @@ import logger from "../../logger.js"
 
 const router = Router()
 
+/**
+ * @openapi
+ * /api/podcast/recent:
+ *   get:
+ *     tags:
+ *       - Podcast Recent Entries
+ *     description: Retrieve recent podcasts
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         description: Limit result count returned
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 100
+ *           default: 10
+ *       - in: query
+ *         name: offset
+ *         description: Offset returned result
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 0
+ *           maximum: 500
+ *           default: 0
+ *       - in: query
+ *         name: lang
+ *         description: Return podcasts in specified language (ISO 639 Language Code). Default of all languages if not given.
+ *           https://www.rssboard.org/rss-language-codes - https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
+ *         required: false
+ *         schema:
+ *           type: string
+ *           format: ISO 639 Language Code
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved recent podcasts
+ *       400:
+ *         description: Validation error in provided endpoint parameters
+ *       429:
+ *         description: Rate limit exceeded
+ *       500:
+ *         description: Error in processing request
+ */
 router.get(
   "/api/podcast/recent",
   rateLimiter.getPodcastRecentLimiter,
