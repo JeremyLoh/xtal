@@ -42,4 +42,9 @@
   .new-release-podcast-card-title {
     width: 100%;
   }
+  .new-release-podcast-card-info,
+  .new-release-podcast-card-title-link,
+  .new-release-podcast-card-last-active-time {
+    width: 100%;
+  }
 }
