@@ -1,0 +1,39 @@
+import ky from "ky"
+import { getEnv } from "../env/environmentVariables.ts"
+import { Podcast } from "./model/podcast.ts"
+
+type PodcastNewReleaseSearchParams = {
+  limit: number
+}
+type PodcastNewReleaseResponse = {
+  count: number
+  data: Podcast[] | null
+}
+
+async function getNewReleasePodcasts(
+  abortController: AbortController,
+  params: PodcastNewReleaseSearchParams
+) {
+  const { BACKEND_ORIGIN } = getEnv()
+  const url = BACKEND_ORIGIN + "/api/podcast/recent"
+  const searchParams = new URLSearchParams(`limit=${params.limit}`)
+  try {
+    const json: PodcastNewReleaseResponse = await ky
+      .get(url, { retry: 0, signal: abortController.signal, searchParams })
+      .json()
+    return json
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    if (error.name === "AbortError") {
+      return null
+    }
+    if (error.response && error.response.status === 429) {
+      throw new Error(`Rate Limit Exceeded, please try again later`)
+    }
+    throw new Error(
+      "Could not retrieve recent podcasts. Please try again later"
+    )
+  }
+}
+
+export { getNewReleasePodcasts }
