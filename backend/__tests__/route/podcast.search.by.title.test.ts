@@ -96,11 +96,11 @@ describe("GET /api/podcast/search", () => {
       const language = podcast.language.toLowerCase()
       return {
         id: podcast.id,
-        url: podcast.url,
-        title: podcast.title,
-        description: getSanitizedHtmlText(podcast.description),
-        author: podcast.author,
-        image: podcast.image || podcast.artwork,
+        url: podcast.link || podcast.url || "",
+        title: podcast.title || "",
+        description: getSanitizedHtmlText(podcast.description || ""),
+        author: podcast.author || "",
+        image: podcast.image || podcast.artwork || "",
         language: Language[language as keyof typeof Language],
         latestPublishTime: podcast.newestItemPubdate,
         categories: podcast.categories

@@ -1,5 +1,5 @@
 import DateUtil from "./dateUtil.js"
-import { Podcast } from "../model/podcast.js"
+import { Language, Podcast } from "../model/podcast.js"
 import { PodcastEpisode } from "../model/podcastEpisode.js"
 import { PodcastCategory } from "../model/podcastCategory.js"
 import { PodcastIndexAuthManager } from "./authManager.js"
@@ -26,6 +26,15 @@ interface PodcastFacade {
   getPodcastInfo(podcastId: string): Promise<Podcast>
   getPodcastCategories(): Promise<PodcastCategory[]>
   getCurrentPodcastApiCountStats(): Promise<PodcastCountStats>
+  getRecentPodcasts({
+    limit,
+    offset,
+    lang,
+  }: {
+    limit: number
+    offset: number
+    lang?: Language
+  }): Promise<Podcast[]>
 }
 
 export class PodcastIndexFacade implements PodcastFacade {
@@ -123,5 +132,29 @@ export class PodcastIndexFacade implements PodcastFacade {
   async getCurrentPodcastApiCountStats() {
     const authHeaders = this.authManager.getAuthTokenHeaders()
     return await this.podcastApi.getCurrentPodcastApiCountStats(authHeaders)
+  }
+
+  async getRecentPodcasts({
+    limit,
+    offset,
+    lang,
+  }: {
+    limit: number
+    offset: number
+    lang?: Language
+  }) {
+    const authHeaders = this.authManager.getAuthTokenHeaders()
+    const searchParams = new URLSearchParams(`max=${limit + offset}`)
+    if (lang) {
+      searchParams.set("lang", lang)
+    }
+    const recentPodcasts = await this.podcastApi.getRecentPodcasts(
+      authHeaders,
+      searchParams
+    )
+    if (offset > 0) {
+      return recentPodcasts.slice(offset, offset + limit)
+    }
+    return recentPodcasts
   }
 }

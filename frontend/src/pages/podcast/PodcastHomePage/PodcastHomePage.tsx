@@ -4,30 +4,35 @@ import { useNavigate } from "react-router"
 import { useSessionContext } from "supertokens-auth-react/recipe/session/index"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import PodcastSearchSection from "../../../features/podcast/search/PodcastSearchSection/PodcastSearchSection.tsx"
+import NewReleasePodcastSection from "../../../features/podcast/newRelease/NewReleasePodcastSection/NewReleasePodcastSection.tsx"
 import TrendingPodcastSection from "../../../features/podcast/trending/TrendingPodcastSection/TrendingPodcastSection.tsx"
 import PodcastCategorySection from "../../../features/podcast/category/PodcastCategorySection/PodcastCategorySection.tsx"
+import useNewReleasePodcasts from "../../../hooks/podcast/useNewReleasePodcasts.ts"
 import useTrendingPodcasts from "../../../hooks/podcast/useTrendingPodcasts.ts"
 import usePodcastCategory from "../../../hooks/podcast/usePodcastCategory.ts"
 import { TrendingPodcastFiltersType } from "../../../api/podcast/model/podcast.ts"
 import Button from "../../../components/ui/button/Button.tsx"
 import { profileHistoryPage } from "../../../paths.ts"
 
-const LIMIT = 10
+const NEW_RELEASE_PODCAST_LIMIT = 5
+const TRENDING_PODCAST_OPTIONS = {
+  limit: 10,
+}
 
 export default function PodcastHomePage() {
   const session = useSessionContext()
   const navigate = useNavigate()
-  const options = useMemo(() => {
-    return {
-      limit: LIMIT,
-    }
-  }, [])
+  const {
+    loading: loadingNewReleasePodcasts,
+    newReleasePodcasts,
+    getNewReleases,
+  } = useNewReleasePodcasts()
   const {
     DEFAULT_SINCE_DAYS,
     trendingPodcasts,
     loading: loadingTrendingPodcasts,
     onRefresh: handleTrendingPodcastRefresh,
-  } = useTrendingPodcasts(options)
+  } = useTrendingPodcasts(TRENDING_PODCAST_OPTIONS)
   const [sinceDaysBefore, setSinceDaysBefore] =
     useState<number>(DEFAULT_SINCE_DAYS)
   const initialFilters: TrendingPodcastFiltersType = useMemo(() => {
@@ -50,6 +55,10 @@ export default function PodcastHomePage() {
     [handleTrendingPodcastRefresh]
   )
 
+  const handleNewReleasePodcastsRefresh = useCallback(async () => {
+    await getNewReleases({ limit: NEW_RELEASE_PODCAST_LIMIT })
+  }, [getNewReleases])
+
   const handleNavigateToProfileHistory = useCallback(() => {
     navigate(profileHistoryPage())
   }, [navigate])
@@ -59,6 +68,7 @@ export default function PodcastHomePage() {
     Promise.allSettled([
       handlePodcastCategoryRefresh(),
       handlePodcastRefresh({ since: sinceDaysBefore }),
+      getNewReleases({ limit: NEW_RELEASE_PODCAST_LIMIT }),
     ])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -81,6 +91,13 @@ export default function PodcastHomePage() {
         <PodcastCategorySection
           categories={categories}
           onRefresh={handlePodcastCategoryRefresh}
+        />
+      </LoadingDisplay>
+      <LoadingDisplay loading={loadingNewReleasePodcasts}>
+        <NewReleasePodcastSection
+          loading={loadingNewReleasePodcasts}
+          newReleasePodcasts={newReleasePodcasts}
+          onRefreshNewReleasePodcasts={handleNewReleasePodcastsRefresh}
         />
       </LoadingDisplay>
       <TrendingPodcastSection

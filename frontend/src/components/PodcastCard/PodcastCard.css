@@ -24,6 +24,7 @@
   /* handle text overflow, limit to max-height before scrolling in y-axis */
   overflow-y: auto; /* hide the scrollbar when it is not needed */
   max-height: 6rem;
+  text-wrap: wrap;
 }
 
 .podcast-card-title {
@@ -45,6 +46,11 @@
 .podcast-card-author-large {
   color: var(--subtitle-text-color);
   font-size: clamp(0.8rem, 0.8rem + 1vw, 1rem);
+}
+
+.podcast-card-last-active {
+  font-size: 1rem;
+  text-wrap: wrap;
 }
 
 @media (max-width: 430px) {

@@ -1,0 +1,54 @@
+.new-release-podcast-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.new-release-podcast-header {
+  margin: 0;
+}
+
+.new-release-podcast-subtitle {
+  color: var(--subtitle-text-color);
+  font-size: 1rem;
+}
+
+.new-release-podcast-list-item:not([data-index="0"]) {
+  /* add gap between wrapped react-virtuoso items, except for first item, use padding to prevent layout shift (CLS) */
+  /* https://virtuoso.dev/troubleshooting/#list-does-not-scroll-to-the-bottom--items-jump-around */
+  padding: 0 1rem;
+}
+
+.new-release-podcast-card-info,
+.new-release-podcast-card-title-link,
+.new-release-podcast-card-last-active-time {
+  width: 200px; /* should match desktop podcast artwork image size */
+}
+
+.new-release-podcast-card-title-link {
+  text-decoration: none;
+}
+.new-release-podcast-card-title-link:hover {
+  text-decoration: underline;
+}
+
+.refresh-recent-podcast-button {
+  width: fit-content;
+}
+
+@media (max-width: 430px) {
+  /* Mobile View */
+  .new-release-podcast-list-item:not([data-index="0"]) {
+    padding: 0.5rem 0;
+  }
+  .new-release-podcast-card-title {
+    width: 100%;
+  }
+  .new-release-podcast-card-info,
+  .new-release-podcast-card-title-link,
+  .new-release-podcast-card-last-active-time {
+    width: 100%;
+  }
+}

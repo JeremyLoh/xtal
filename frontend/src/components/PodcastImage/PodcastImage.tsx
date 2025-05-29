@@ -94,10 +94,12 @@ export default memo(function PodcastImage({
           title={imageTitle}
         />
       ) : (
-        <MdOutlineImageNotSupported
-          size={size}
-          title={imageNotAvailableTitle}
-        />
+        <span className="podcast-image-not-available">
+          <MdOutlineImageNotSupported
+            size={size}
+            title={imageNotAvailableTitle}
+          />
+        </span>
       )}
     </div>
   )

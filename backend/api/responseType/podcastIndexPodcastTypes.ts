@@ -1,4 +1,4 @@
-import { PodcastIndexFeed } from "../model/podcast.js"
+import { PodcastIndexFeed, RecentPodcastIndexFeed } from "../model/podcast.js"
 
 export type PodcastIndexTrendingPodcastResponse = {
   // "/podcasts/trending" - https://podcastindex-org.github.io/docs-api/#get-/podcasts/trending
@@ -23,4 +23,14 @@ export type PodcastIndexPodcastBySearchTermResponse = {
   count: number
   description: string // response description
   feeds: PodcastIndexFeed[]
+}
+
+export type PodcastIndexRecentPodcastResponse = {
+  // https://podcastindex-org.github.io/docs-api/#get-/recent/feeds
+  status: "true" | "false"
+  feeds: RecentPodcastIndexFeed[]
+  count: number
+  max: number | null // value of max parameter passed to request
+  since: number | null // value of since parameter passed to request
+  description: string // response description
 }
