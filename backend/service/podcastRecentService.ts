@@ -1,6 +1,17 @@
 import { getPodcastIndexAuthManager } from "../api/authManager.js"
 import { PodcastIndexFacade } from "../api/podcastFacade.js"
-import { Language } from "../model/podcast.js"
+import { Language, Podcast } from "../model/podcast.js"
+import PodcastSerializerBuilder from "../serializer/PodcastSerializerBuilder.js"
+
+export function excludePodcastFields(
+  podcasts: Podcast[],
+  fields: (keyof Podcast)[]
+): Partial<Podcast>[] {
+  return new PodcastSerializerBuilder()
+    .setPodcasts(podcasts)
+    .exclude(fields)
+    .build()
+}
 
 export async function getRecentPodcasts({
   limit,

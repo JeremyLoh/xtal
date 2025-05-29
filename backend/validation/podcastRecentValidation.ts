@@ -28,4 +28,13 @@ export const getPodcastRecentValidationSchema: Schema = {
       )}`,
     },
   },
+  exclude: {
+    optional: true,
+    escape: true,
+    isEmpty: false,
+    isIn: {
+      options: [["description"]],
+      errorMessage: "'exclude' should be a valid value in 'description'",
+    },
+  },
 }

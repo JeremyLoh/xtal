@@ -286,6 +286,40 @@ describe("GET /api/podcast/recent", () => {
         )
       })
     })
+
+    describe("exclude parameter", () => {
+      test("should respond with status 400 for exclude parameter that is empty string", async () => {
+        const exclude = ""
+        const app = setupApp()
+        const response = await request(app)
+          .get(`/api/podcast/recent?exclude=${exclude}`)
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              `'exclude' should be a valid value in 'description'`,
+            ]),
+          })
+        )
+      })
+
+      test("should respond with status 400 for exclude parameter that is not a valid value", async () => {
+        const exclude = "desc"
+        const app = setupApp()
+        const response = await request(app)
+          .get(`/api/podcast/recent?exclude=${exclude}`)
+          .set("Origin", expectedOrigin)
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            errors: expect.arrayContaining([
+              `'exclude' should be a valid value in 'description'`,
+            ]),
+          })
+        )
+      })
+    })
   })
 
   describe("get recent podcasts", () => {
@@ -431,6 +465,86 @@ describe("GET /api/podcast/recent", () => {
           count: expectedResponseData.count,
           data: expect.arrayContaining(
             getExpectedResponsePodcastRecentEntries(expectedResponseData)
+          ),
+        })
+      )
+      expect(response.headers).toEqual(
+        expect.objectContaining({
+          "content-type": expect.stringContaining("application/json;"),
+        })
+      )
+    })
+  })
+
+  describe("get recent podcasts excluding description", () => {
+    function getExpectedResponsePodcastRecentEntriesWithoutDescription(
+      responseData: RecentPodcastResponseType
+    ) {
+      return responseData.feeds.map((d) => {
+        return {
+          id: d.id,
+          url: d.url,
+          title: d.title,
+          latestPublishTime: d.newestItemPublishTime,
+          image: d.image,
+          author: "", // no author info is available from endpoint
+          language: Language[d.language.toLowerCase() as keyof typeof Language],
+          categories: d.categories
+            ? expect.arrayContaining(Object.values(d.categories))
+            : [],
+        }
+      })
+    }
+
+    test("should get recent podcasts with exclude description", async () => {
+      const expectedResponseData = PODCAST_RECENT_FIVE_ENTRIES
+      const exclude = "description"
+      const limit = 5
+      const app = setupApp()
+      const response = await request(app)
+        .get(`/api/podcast/recent?limit=${limit}&exclude=${exclude}`)
+        .set("Origin", expectedOrigin)
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          count: expectedResponseData.count,
+          data: expect.arrayContaining(
+            getExpectedResponsePodcastRecentEntriesWithoutDescription(
+              expectedResponseData
+            )
+          ),
+        })
+      )
+      expect(response.headers).toEqual(
+        expect.objectContaining({
+          "content-type": expect.stringContaining("application/json;"),
+        })
+      )
+    })
+
+    test("should get recent podcasts with offset and exclude description", async () => {
+      const expectedResponseData = {
+        ...PODCAST_RECENT_FIVE_ENTRIES,
+        count: 3,
+        feeds: PODCAST_RECENT_FIVE_ENTRIES.feeds.slice(2, 5),
+      }
+      const exclude = "description"
+      const limit = 3
+      const offset = 2 // ensure limit + offset = 5 (for mock data query parameter ?max=5)
+      const app = setupApp()
+      const response = await request(app)
+        .get(
+          `/api/podcast/recent?limit=${limit}&offset=${offset}&exclude=${exclude}`
+        )
+        .set("Origin", expectedOrigin)
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          count: expectedResponseData.count,
+          data: expect.arrayContaining(
+            getExpectedResponsePodcastRecentEntriesWithoutDescription(
+              expectedResponseData
+            )
           ),
         })
       )

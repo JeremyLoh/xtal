@@ -1,9 +1,12 @@
 import { Request, Response, Router } from "express"
 import { checkSchema, matchedData, validationResult } from "express-validator"
 import { getPodcastRecentValidationSchema } from "../../validation/podcastRecentValidation.js"
-import { Language } from "../../model/podcast.js"
+import { Language, Podcast } from "../../model/podcast.js"
 import rateLimiter from "../../middleware/rateLimiter.js"
-import { getRecentPodcasts } from "../../service/podcastRecentService.js"
+import {
+  excludePodcastFields,
+  getRecentPodcasts,
+} from "../../service/podcastRecentService.js"
 import logger from "../../logger.js"
 
 const router = Router()
@@ -42,6 +45,13 @@ const router = Router()
  *         schema:
  *           type: string
  *           format: ISO 639 Language Code
+ *       - in: query
+ *         name: exclude
+ *         description: Excludes given field from response data. E.g. Providing "exclude=description" will remove the "description" field in the response
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum: [description]
  *     responses:
  *       200:
  *         description: Successfully retrieved recent podcasts
@@ -68,11 +78,21 @@ router.get(
     const limit = data.limit ? Number(data.limit) : 10
     const offset = data.offset ? Number(data.offset) : 0
     const lang: Language | undefined = data.lang ? data.lang : undefined
+    const excludeFields: (keyof Podcast)[] | undefined = data.exclude
+      ? [data.exclude]
+      : undefined
     try {
-      const recentPodcasts = await getRecentPodcasts({ limit, offset, lang })
+      const recentPodcasts = await getRecentPodcasts({
+        limit,
+        offset,
+        lang,
+      })
+      const outputRecentPodcasts = excludeFields
+        ? excludePodcastFields(recentPodcasts, excludeFields)
+        : recentPodcasts
       response.status(200).type("application/json").send({
-        count: recentPodcasts.length,
-        data: recentPodcasts,
+        count: outputRecentPodcasts.length,
+        data: outputRecentPodcasts,
       })
     } catch (error: any) {
       logger.error(error.message)
