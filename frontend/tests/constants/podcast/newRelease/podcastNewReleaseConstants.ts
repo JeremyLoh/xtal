@@ -17,7 +17,7 @@ async function assertPodcastImagePlaceholderIsVisible(elementLocator: Locator) {
 
 export async function assertNewReleasePodcasts(
   page: Page,
-  expectedPodcasts: Podcast[]
+  expectedPodcasts: Partial<Podcast>[]
 ) {
   const virtualizedListParentElement = getVirtualizedListParentElement(page)
   await expect(virtualizedListParentElement).toBeVisible()
@@ -26,6 +26,11 @@ export async function assertNewReleasePodcasts(
     const podcastCard = page.getByTestId(
       `new-release-podcast-card-${podcast.id}`
     )
+    if (podcast.title == null) {
+      throw new Error(
+        "assertNewReleasePodcasts(): Invalid data with podcast title null"
+      )
+    }
     const title = page
       .locator(".new-release-podcast-card")
       .getByText(podcast.title)

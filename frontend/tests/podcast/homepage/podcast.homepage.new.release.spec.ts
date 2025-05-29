@@ -8,10 +8,14 @@ import {
 
 test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () => {
   test("should display five new release podcasts section", async ({ page }) => {
-    await page.route("*/**/api/podcast/recent?limit=5", async (route) => {
-      const json = fiveNewReleasePodcasts
-      await route.fulfill({ json })
-    })
+    const exclude = "description"
+    await page.route(
+      `*/**/api/podcast/recent?limit=5&exclude=${exclude}`,
+      async (route) => {
+        const json = fiveNewReleasePodcasts
+        await route.fulfill({ json })
+      }
+    )
     await page.goto(HOMEPAGE + "/podcasts")
     await expect(page.getByText("New Releases")).toBeVisible()
     await expect(
@@ -24,15 +28,21 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
     page,
   }) => {
     const firstPodcast = fiveNewReleasePodcasts.data[0]
+    if (firstPodcast.title == null) {
+      throw new Error("Invalid first podcast data with title of null")
+    }
     const podcastTitle = encodeURIComponent(firstPodcast.title)
     const podcastId = firstPodcast.id
     const expectedPodcastDetailUrl =
       HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`
-
-    await page.route("*/**/api/podcast/recent?limit=5", async (route) => {
-      const json = fiveNewReleasePodcasts
-      await route.fulfill({ json })
-    })
+    const exclude = "description"
+    await page.route(
+      `*/**/api/podcast/recent?limit=5&exclude=${exclude}`,
+      async (route) => {
+        const json = fiveNewReleasePodcasts
+        await route.fulfill({ json })
+      }
+    )
     await page.goto(HOMEPAGE + "/podcasts")
     await clickFirstNewReleasePodcastTitleLink(page, firstPodcast.title)
     await expect(page).toHaveURL(expectedPodcastDetailUrl)

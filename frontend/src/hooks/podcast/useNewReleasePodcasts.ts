@@ -20,8 +20,8 @@ function useNewReleasePodcasts() {
         abortController.current,
         params
       )
-      if (newReleasePodcasts && newReleasePodcasts.data) {
-        setNewReleasePodcasts(newReleasePodcasts.data)
+      if (newReleasePodcasts) {
+        setNewReleasePodcasts(newReleasePodcasts)
       }
       return newReleasePodcasts
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
