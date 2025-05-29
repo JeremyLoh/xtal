@@ -51,50 +51,30 @@ type PodcastApi = {
 class PodcastIndexApi implements PodcastApi {
   private url: string = "https://api.podcastindex.org/api/1.0"
 
-  private parseTrendingPodcasts(
-    response: PodcastIndexTrendingPodcastResponse
-  ): Podcast[] {
-    const podcasts = response.feeds.map((feed) => {
-      const language = feed.language.toLowerCase()
-      return {
-        id: feed.id,
-        url: feed.url || "",
-        title: feed.title || "",
-        description: getSanitizedHtmlText(feed.description || ""),
-        author: feed.author || "",
-        image: feed.image || feed.artwork || "",
-        latestPublishTime: feed.newestItemPublishTime || feed.newestItemPubdate,
-        language: Language[language as keyof typeof Language],
-        categories: feed.categories
-          ? Object.values<string>(feed.categories)
-          : [],
-      }
-    })
-    return podcasts
+  private parsePodcastFeedData(feed: any): Podcast {
+    // parse single podcast feed based on attribute priority (backup attributes are used if data is not available)
+    const language = feed.language.toLowerCase()
+    return {
+      id: feed.id,
+      url: feed.link || feed.url || "",
+      title: feed.title || "",
+      description: getSanitizedHtmlText(feed.description || ""),
+      author: feed.author || "",
+      image: feed.image || feed.artwork || "",
+      latestPublishTime:
+        feed.newestItemPublishTime ||
+        feed.newestItemPubdate ||
+        feed.lastUpdateTime,
+      language: Language[language as keyof typeof Language],
+      categories: feed.categories ? Object.values<string>(feed.categories) : [],
+      ...(feed.episodeCount >= 0 && { episodeCount: feed.episodeCount }),
+      ...(feed.explicit != undefined && { isExplicit: feed.explicit }),
+    }
   }
 
-  private parsePodcastBySearchTerm(
-    response: PodcastIndexPodcastBySearchTermResponse
-  ): Podcast[] {
-    const podcasts = response.feeds.map((feed) => {
-      const language = feed.language.toLowerCase()
-      return {
-        id: feed.id,
-        url: feed.url || "",
-        title: feed.title || "",
-        description: getSanitizedHtmlText(feed.description || ""),
-        author: feed.author || "",
-        image: feed.image || feed.artwork || "",
-        latestPublishTime: feed.newestItemPubdate,
-        language: Language[language as keyof typeof Language],
-        categories: feed.categories
-          ? Object.values<string>(feed.categories)
-          : [],
-        episodeCount: feed.episodeCount,
-        isExplicit: feed.explicit,
-      }
-    })
-    return podcasts
+  private parsePodcastsResponse(response: any): Podcast[] {
+    // parse a list of podcast feeds
+    return response.feeds.map(this.parsePodcastFeedData)
   }
 
   private parsePodcastEpisodes(
@@ -152,49 +132,6 @@ class PodcastIndexApi implements PodcastApi {
     }
   }
 
-  private parsePodcastFeed(
-    response: PodcastIndexPodcastByFeedIdResponse
-  ): Podcast {
-    const language = response.feed.language.toLowerCase()
-    return {
-      id: response.feed.id,
-      url: response.feed.link || "",
-      title: response.feed.title,
-      description: getSanitizedHtmlText(response.feed.description || ""),
-      author: response.feed.author,
-      image: response.feed.image || response.feed.artwork,
-      language: Language[language as keyof typeof Language],
-      latestPublishTime: response.feed.lastUpdateTime,
-      categories: response.feed.categories
-        ? Object.values<string>(response.feed.categories)
-        : [],
-      episodeCount: response.feed.episodeCount,
-      isExplicit: response.feed.explicit,
-    }
-  }
-
-  private parseRecentPodcasts(
-    response: PodcastIndexRecentPodcastResponse
-  ): Podcast[] {
-    const podcasts = response.feeds.map((feed) => {
-      const language = feed.language.toLowerCase()
-      return {
-        id: feed.id,
-        url: feed.url || "",
-        title: feed.title || "",
-        description: getSanitizedHtmlText(feed.description || ""),
-        author: "", // author info is not available
-        image: feed.image || "",
-        latestPublishTime: feed.newestItemPublishTime,
-        language: Language[language as keyof typeof Language],
-        categories: feed.categories
-          ? Object.values<string>(feed.categories)
-          : [],
-      }
-    })
-    return podcasts
-  }
-
   async getTrendingPodcasts(
     authHeaders: Headers,
     searchParams: URLSearchParams
@@ -206,7 +143,7 @@ class PodcastIndexApi implements PodcastApi {
       retry: 0,
     })
     const json: PodcastIndexTrendingPodcastResponse = await response.json()
-    return this.parseTrendingPodcasts(json)
+    return this.parsePodcastsResponse(json)
   }
 
   async getPodcastBySearchTerm(
@@ -220,7 +157,7 @@ class PodcastIndexApi implements PodcastApi {
       retry: 0,
     })
     const json: PodcastIndexPodcastBySearchTermResponse = await response.json()
-    return this.parsePodcastBySearchTerm(json)
+    return this.parsePodcastsResponse(json)
   }
 
   async getPodcastEpisodes(
@@ -265,7 +202,7 @@ class PodcastIndexApi implements PodcastApi {
       retry: 0,
     })
     const json: PodcastIndexPodcastByFeedIdResponse = await response.json()
-    return this.parsePodcastFeed(json)
+    return this.parsePodcastFeedData(json.feed)
   }
 
   async getPodcastCategories(authHeaders: Headers): Promise<PodcastCategory[]> {
@@ -310,7 +247,7 @@ class PodcastIndexApi implements PodcastApi {
       retry: 0,
     })
     const json: PodcastIndexRecentPodcastResponse = await response.json()
-    return this.parseRecentPodcasts(json)
+    return this.parsePodcastsResponse(json)
   }
 }
 
