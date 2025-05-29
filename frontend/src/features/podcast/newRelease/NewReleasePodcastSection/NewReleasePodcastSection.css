@@ -34,6 +34,10 @@
   text-decoration: underline;
 }
 
+.refresh-recent-podcast-button {
+  width: fit-content;
+}
+
 @media (max-width: 430px) {
   /* Mobile View */
   .new-release-podcast-list-item:not([data-index="0"]) {

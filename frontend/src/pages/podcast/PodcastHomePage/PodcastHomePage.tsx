@@ -55,6 +55,10 @@ export default function PodcastHomePage() {
     [handleTrendingPodcastRefresh]
   )
 
+  const handleNewReleasePodcastsRefresh = useCallback(async () => {
+    await getNewReleases({ limit: NEW_RELEASE_PODCAST_LIMIT })
+  }, [getNewReleases])
+
   const handleNavigateToProfileHistory = useCallback(() => {
     navigate(profileHistoryPage())
   }, [navigate])
@@ -90,7 +94,11 @@ export default function PodcastHomePage() {
         />
       </LoadingDisplay>
       <LoadingDisplay loading={loadingNewReleasePodcasts}>
-        <NewReleasePodcastSection newReleasePodcasts={newReleasePodcasts} />
+        <NewReleasePodcastSection
+          loading={loadingNewReleasePodcasts}
+          newReleasePodcasts={newReleasePodcasts}
+          onRefreshNewReleasePodcasts={handleNewReleasePodcastsRefresh}
+        />
       </LoadingDisplay>
       <TrendingPodcastSection
         trendingPodcasts={trendingPodcasts}

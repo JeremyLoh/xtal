@@ -74,3 +74,10 @@ export async function clickFirstNewReleasePodcastTitleLink(
   await expect(title).toBeVisible()
   await title.click()
 }
+
+export function getRefreshNewReleasePodcastsButton(page: Page) {
+  return page.locator(".new-release-podcast-container").getByRole("button", {
+    name: "refresh new release podcasts",
+    exact: true,
+  })
+}
