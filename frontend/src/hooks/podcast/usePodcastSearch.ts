@@ -6,7 +6,7 @@ import { Podcast } from "../../api/podcast/model/podcast.ts"
 function usePodcastSearch() {
   const abortController = useRef<AbortController | null>(null)
   const fetchMorePodcastsAbortController = useRef<AbortController | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const [podcasts, setPodcasts] = useState<Podcast[] | null>(null)
 
