@@ -1,7 +1,12 @@
 import "./SidebarToggle.css"
 import { createPortal } from "react-dom"
 import { memo, ReactPortal, useState } from "react"
-import { LuAlignJustify, LuPodcast, LuRadioTower } from "react-icons/lu"
+import {
+  LuAlignJustify,
+  LuPodcast,
+  LuRadioTower,
+  LuSearch,
+} from "react-icons/lu"
 import { GoStarFill } from "react-icons/go"
 import { MdQuestionMark } from "react-icons/md"
 import useClickOutside from "../../hooks/useClickOutside.ts"
@@ -13,10 +18,16 @@ import Sidebar, {
   SidebarMenuItem,
 } from "../Sidebar/Sidebar.tsx"
 import ProfileSidebarGroup from "../../features/sidebar/ProfileSidebarGroup.tsx"
-import { aboutPage, homePage, podcastHomePage } from "../../paths.ts"
+import {
+  aboutPage,
+  homePage,
+  podcastHomePage,
+  podcastSearchPage,
+} from "../../paths.ts"
 
 const homePageUrl = homePage()
 const podcastHomePageUrl = podcastHomePage()
+const podcastSearchPageUrl = podcastSearchPage("")
 const aboutPageUrl = aboutPage()
 
 function SidebarToggle() {
@@ -79,6 +90,14 @@ function SidebarToggle() {
                 Icon={GoStarFill}
                 onClick={handleFavouriteStationClick}
                 data-testid="sidebar-menu-item-radio-view-favourite-stations"
+              />
+            </SidebarGroup>
+            <SidebarGroup label="Podcast">
+              <SidebarMenuItem
+                title="Search Podcasts"
+                url={podcastSearchPageUrl}
+                Icon={LuSearch}
+                data-testid="sidebar-menu-item-podcast-search"
               />
             </SidebarGroup>
             <ProfileSidebarGroup setOpen={setOpen} />

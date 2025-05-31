@@ -20,6 +20,7 @@ export enum SidebarMenuItemAction {
   // contains the data-testid values for the sidebar menu item
   Radio = "sidebar-menu-item-radio",
   Podcasts = "sidebar-menu-item-podcasts",
+  PodcastSearch = "sidebar-menu-item-podcast-search",
   RadioFavouriteStations = "sidebar-menu-item-radio-view-favourite-stations",
   Profile = "sidebar-menu-item-profile",
   ProfileFollowing = "sidebar-menu-item-profile-following",

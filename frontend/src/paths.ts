@@ -10,8 +10,12 @@ export const resetPasswordPage = () => "/auth/reset-password"
 export const radioStationPage = (stationUuid: string) =>
   `/radio-station/${stationUuid}`
 export const podcastHomePage = () => "/podcasts"
-export const podcastSearchPage = (query: string) =>
-  `/podcasts/search?q=${encodeURIComponent(query)}`
+export const podcastSearchPage = (query: string) => {
+  if (query.trim() === "") {
+    return "/podcasts/search"
+  }
+  return `/podcasts/search?q=${encodeURIComponent(query)}`
+}
 export const podcastCategoryPage = (categoryName: string) => {
   // category should be in Title Case format (e.g. "Arts")
   if (categoryName.trim() === "") {
