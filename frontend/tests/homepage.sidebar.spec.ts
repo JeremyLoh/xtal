@@ -93,6 +93,9 @@ test.describe("Homepage Sidebar", () => {
       getSidebarMenuItem(page, SidebarMenuItemAction.Podcasts)
     ).toBeVisible()
     await expect(
+      getSidebarMenuItem(page, SidebarMenuItemAction.PodcastSearch)
+    ).toBeVisible()
+    await expect(
       getSidebarMenuItem(page, SidebarMenuItemAction.RadioFavouriteStations)
     ).toBeVisible()
     await expect(
@@ -183,6 +186,25 @@ test.describe("Homepage Sidebar", () => {
       ).toBeVisible()
       await getSidebarMenuItem(page, SidebarMenuItemAction.About).click()
       await expect(page).toHaveURL(HOMEPAGE + "/about")
+      await page.waitForLoadState("networkidle")
+      await expect(page.getByText("404 Not Found")).not.toBeVisible()
+    })
+
+    test("should navigate to podcast search page on click of search sidebar action link", async ({
+      page,
+    }) => {
+      await page.goto(HOMEPAGE)
+      await assertLoadingSpinnerIsMissing(page)
+      await getSidebarToggleButton(page).click()
+      await expect(getSidebarElement(page)).toBeVisible()
+      await expect(
+        getSidebarMenuItem(page, SidebarMenuItemAction.PodcastSearch)
+      ).toBeVisible()
+      await getSidebarMenuItem(
+        page,
+        SidebarMenuItemAction.PodcastSearch
+      ).click()
+      await expect(page).toHaveURL(HOMEPAGE + "/podcasts/search")
       await page.waitForLoadState("networkidle")
       await expect(page.getByText("404 Not Found")).not.toBeVisible()
     })
