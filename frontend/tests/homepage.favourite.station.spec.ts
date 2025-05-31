@@ -20,10 +20,6 @@ import {
 } from "./constants/favouriteStationConstants"
 import { getClipboardContent } from "./constants/shareStationConstants"
 
-test.beforeEach(async ({ mapPage }) => {
-  await mapPage.mockMapTile()
-})
-
 test.describe("radio station favourite feature", () => {
   async function assertEmptyFavouriteList(page: Page) {
     await expect(

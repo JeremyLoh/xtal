@@ -16,10 +16,6 @@ test.use({
   colorScheme: "dark",
 })
 
-test.beforeEach(async ({ mapPage }) => {
-  await mapPage.mockMapTile()
-})
-
 test.describe("header app theme (start with dark mode)", () => {
   function getDarkModeIcon(page: Page) {
     return page.getByTestId("theme-toggle-button").locator(".dark-mode-icon")

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { test as base } from "@playwright/test"
 import type { Page } from "@playwright/test"
 import { mockMapTiles } from "../mocks/map/radio.map.tiles"
@@ -15,9 +16,14 @@ type Fixtures = {
   mapPage: MapPage
 }
 
-export const test = base.extend<Fixtures>({
+const test = base.extend<Fixtures>({
   mapPage: async ({ page }, use) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(new MapPage(page))
   },
 })
+
+test.beforeEach(async ({ mapPage }) => {
+  await mapPage.mockMapTile()
+})
+
+export { test }

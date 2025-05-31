@@ -12,10 +12,6 @@ import {
 } from "./constants/searchStationConstants"
 import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
 
-test.beforeEach(async ({ mapPage }) => {
-  await mapPage.mockMapTile()
-})
-
 test.describe("search station drawer for finding radio stations", () => {
   test.beforeEach(({ headless }) => {
     test.skip(headless, "UI element does not does not work in headless mode")

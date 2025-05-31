@@ -9,10 +9,6 @@ import {
 } from "./constants/homepageConstants"
 import { stationWithMultipleTags, unitedStatesStation } from "./mocks/station"
 
-test.beforeEach(async ({ mapPage }) => {
-  await mapPage.mockMapTile()
-})
-
 test.describe("radio station search type", () => {
   test("display genre tab with 'selected' CSS className", async ({ page }) => {
     await page.goto(HOMEPAGE)

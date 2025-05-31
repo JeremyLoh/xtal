@@ -10,10 +10,6 @@ import {
   getStationSearchByNameInput,
 } from "./constants/searchStationConstants"
 
-test.beforeEach(async ({ mapPage }) => {
-  await mapPage.mockMapTile()
-})
-
 test.describe("radio station search form sort options", () => {
   function getSortSelect(page: Page) {
     return getSearchStationForm(page).locator("select#sort")

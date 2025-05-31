@@ -10,10 +10,6 @@ import {
 import { stationWithLocationLatLng, unitedStatesStation } from "./mocks/station"
 import { getClipboardContent } from "./constants/shareStationConstants"
 
-test.beforeEach(async ({ mapPage }) => {
-  await mapPage.mockMapTile()
-})
-
 test.describe("share radio station feature", () => {
   function getRadioCardShareIcon(page: Page) {
     return getRadioCardMapPopup(page).locator(".station-card-share-icon")

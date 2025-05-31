@@ -15,10 +15,6 @@ import {
   unitedStatesStation,
 } from "./mocks/station"
 
-test.beforeEach(async ({ mapPage }) => {
-  await mapPage.mockMapTile()
-})
-
 async function assertMobileAudioPlayButtonIsMissing(page: Page) {
   const element = getRadioCardMapPopup(page).getByTestId(
     "audio-player-mobile-play-button"

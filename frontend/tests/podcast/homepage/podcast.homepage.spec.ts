@@ -19,10 +19,6 @@ import {
   SidebarMenuItemAction,
 } from "../../constants/sidebarConstants"
 
-test.beforeEach(async ({ mapPage }) => {
-  await mapPage.mockMapTile()
-})
-
 test.describe("Podcast Homepage /podcasts", () => {
   test("should display title", async ({ page }) => {
     await page.goto(HOMEPAGE + "/podcasts")

@@ -11,10 +11,6 @@ import {
   SidebarMenuItemAction,
 } from "./constants/sidebarConstants"
 
-test.beforeEach(async ({ mapPage }) => {
-  await mapPage.mockMapTile()
-})
-
 test.describe("Homepage Sidebar", () => {
   test("should open sidebar on header action toggle sidebar button click", async ({
     page,

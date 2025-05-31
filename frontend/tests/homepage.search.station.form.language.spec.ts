@@ -10,10 +10,6 @@ import {
 } from "./constants/searchStationConstants"
 import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
 
-test.beforeEach(async ({ mapPage }) => {
-  await mapPage.mockMapTile()
-})
-
 test.describe("radio station search form language filter", () => {
   test("should display languages in select options", async ({ page }) => {
     const expectedLanguageOptions = [

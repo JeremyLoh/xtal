@@ -14,10 +14,6 @@ import {
   getStationSearchByNameInput,
 } from "./constants/searchStationConstants"
 
-test.beforeEach(async ({ mapPage }) => {
-  await mapPage.mockMapTile()
-})
-
 test.describe("radio station search form", () => {
   function getDrawerLoadMoreStationButton(page: Page) {
     return page.locator(".station-search-load-more-results-button")

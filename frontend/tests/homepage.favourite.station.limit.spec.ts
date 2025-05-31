@@ -16,10 +16,6 @@ import {
 } from "./constants/favouriteStationConstants"
 import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
 
-test.beforeEach(async ({ mapPage }) => {
-  await mapPage.mockMapTile()
-})
-
 test.describe("radio station favourite station limit feature", () => {
   function uuid() {
     return crypto.randomUUID()

@@ -6,10 +6,6 @@ import {
   SidebarMenuItemAction,
 } from "../constants/sidebarConstants.ts"
 
-test.beforeEach(async ({ mapPage }) => {
-  await mapPage.mockMapTile()
-})
-
 test.describe("profile navigation from homepage", () => {
   test("should allow user navigation to sign up page using sidebar action for anonymous user", async ({
     page,

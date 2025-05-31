@@ -11,10 +11,6 @@ import {
 import { StationBuilder } from "./mocks/station"
 import { Station } from "../src/api/radiobrowser/types"
 
-test.beforeEach(async ({ mapPage }) => {
-  await mapPage.mockMapTile()
-})
-
 test.describe("radio station search form tag filter", () => {
   function getTagFilterInput(page: Page) {
     return getSearchStationForm(page).locator("input#tag")
