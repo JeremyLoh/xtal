@@ -1,16 +1,22 @@
-import { Locator, Page } from "@playwright/test"
+import { expect, Locator, Page } from "@playwright/test"
 import { homePageUrl } from "../constants/paths"
 import Sidebar, { SidebarMenuItemAction } from "../pageComponents/Sidebar"
+import Map from "../pageComponents/Map"
+import RadioCard from "../pageComponents/RadioCard"
 
 class HomePage {
   readonly page: Page
   readonly appThemeToggleButton: Locator
   readonly sidebar: Sidebar
+  readonly map: Map
+  readonly radioCard: RadioCard
 
   constructor(page: Page) {
     this.page = page
     this.appThemeToggleButton = this.page.getByTestId("theme-toggle-button")
     this.sidebar = new Sidebar(this.page)
+    this.map = new Map(this.page)
+    this.radioCard = new RadioCard(this.page)
   }
 
   getPage(): Page {
@@ -38,8 +44,23 @@ class HomePage {
       .click()
   }
 
+  getDrawer() {
+    return this.page.locator(".drawer")
+  }
+
   async closeDrawer() {
     await this.page.locator(".drawer-close-button").click()
+  }
+
+  async clickRandomRadioStationButton() {
+    await expect(
+      this.page.getByTestId("random-radio-station-button")
+    ).toBeEnabled()
+    await this.page.getByTestId("random-radio-station-button").click()
+  }
+
+  async clickRadioCardFavouriteIcon() {
+    await this.radioCard.clickFavouriteIcon()
   }
 }
 
