@@ -28,8 +28,21 @@ class SearchRadioStationForm {
     return this.getForm().getByLabel("Search By Name")
   }
 
+  getSortSelect() {
+    return this.getForm().locator("select#sort")
+  }
+
+  getSortOptions() {
+    return this.getSortSelect().locator("option")
+  }
+
   getSubmitButton() {
     return this.getForm().locator("button[type='submit']")
+  }
+
+  getSearchResultCard() {
+    // result cards displayed after form submit
+    return this.drawer.getDrawer().locator(".station-search-result-card")
   }
 }
 
