@@ -1,388 +1,250 @@
 import { test } from "./fixture/test"
-import { expect, Page } from "@playwright/test"
-import {
-  assertToastMessageIsMissing,
-  clickRandomRadioStationButton,
-  getRadioCardMapPopup,
-  getRadioStationMapPopupCloseButton,
-  HOMEPAGE,
-} from "./constants/homepageConstants"
+import { expect } from "@playwright/test"
+import { assertToastMessageIsMissing } from "./constants/homepageConstants"
 import {
   cantoneseStation,
   stationWithMultipleTags,
   unitedStatesStation,
 } from "./mocks/station"
-import {
-  closeFavouriteStationsDrawer,
-  getFavouriteStationsDrawer,
-  getRadioCardFavouriteIcon,
-  openFavouriteStationsDrawer,
-} from "./constants/favouriteStationConstants"
 import { getClipboardContent } from "./constants/shareStationConstants"
+import HomePage from "./pageObjects/HomePage"
 
 test.describe("radio station favourite feature", () => {
-  async function assertEmptyFavouriteList(page: Page) {
+  async function assertEmptyFavouriteList(homePage: HomePage) {
     await expect(
-      getFavouriteStationsDrawer(page).locator(".empty-favourites")
+      homePage.getDrawer().locator(".empty-favourites")
     ).toContainText("No Favourites Yet")
     await expect(
-      getFavouriteStationsDrawer(page).locator(".empty-favourites")
+      homePage.getDrawer().locator(".empty-favourites")
     ).toContainText("Start by adding a new station")
   }
 
   test("hover on favourited station's favourite icon on radio station card changes color", async ({
-    page,
+    homePage,
   }) => {
     test.slow()
-    await page.route("*/**/json/stations/search?*", async (route) => {
-      const json = [unitedStatesStation]
-      await route.fulfill({ json })
-    })
-    await page.goto(HOMEPAGE)
-    await clickRandomRadioStationButton(page)
-    await getRadioCardFavouriteIcon(page).click()
+    await homePage
+      .getPage()
+      .route("*/**/json/stations/search?*", async (route) => {
+        const json = [unitedStatesStation]
+        await route.fulfill({ json })
+      })
+    await homePage.goto()
+    await homePage.clickRandomRadioStationButton()
+    await homePage.clickRadioCardFavouriteIcon()
     // move mouse away from the favourite icon to check the default fill color
-    await page.mouse.move(0, 0)
+    await homePage.getPage().mouse.move(0, 0)
     await expect(
-      getRadioCardFavouriteIcon(page),
+      homePage.getRadioCardFavouriteIcon(),
       "should have non-hover radio card favourite icon yellow fill color"
     ).toHaveCSS("fill", "rgb(250, 204, 21)")
-    await getRadioCardFavouriteIcon(page).hover()
+    await homePage.getRadioCardFavouriteIcon().hover()
     await expect(
-      getRadioCardFavouriteIcon(page),
+      homePage.getRadioCardFavouriteIcon(),
       "should have hover radio card favourite icon red fill color"
     ).toHaveCSS("fill", "rgb(220, 38, 38)")
   })
 
   test("hover on non-favourite station's favourite icon does not change color", async ({
-    page,
+    homePage,
   }) => {
     const NO_FILL_COLOR = "rgb(24, 12, 21)"
-    await page.route("*/**/json/stations/search?*", async (route) => {
-      const json = [unitedStatesStation]
-      await route.fulfill({ json })
-    })
-    await page.goto(HOMEPAGE)
-    await clickRandomRadioStationButton(page)
+    await homePage
+      .getPage()
+      .route("*/**/json/stations/search?*", async (route) => {
+        const json = [unitedStatesStation]
+        await route.fulfill({ json })
+      })
+    await homePage.goto()
+    await homePage.clickRandomRadioStationButton()
     // move mouse away from the favourite icon to check the default fill color
-    await page.mouse.move(0, 0)
+    await homePage.getPage().mouse.move(0, 0)
     await expect(
-      getRadioCardFavouriteIcon(page),
+      homePage.getRadioCardFavouriteIcon(),
       "should have non-hover radio card favourite icon no fill color"
     ).toHaveCSS("fill", NO_FILL_COLOR)
-    await getRadioCardFavouriteIcon(page).hover()
+    await homePage.getRadioCardFavouriteIcon().hover()
     await expect(
-      getRadioCardFavouriteIcon(page),
+      homePage.getRadioCardFavouriteIcon(),
       "should have hover radio card favourite icon no fill color"
     ).toHaveCSS("fill", NO_FILL_COLOR)
   })
 
   test("favourite icon on radio station card toggles on click", async ({
-    page,
+    homePage,
   }) => {
     test.slow()
-    await page.route("*/**/json/stations/search?*", async (route) => {
-      const json = [unitedStatesStation]
-      await route.fulfill({ json })
-    })
-    await page.goto(HOMEPAGE)
-    await clickRandomRadioStationButton(page)
-    await expect(page.locator("#map")).toBeVisible()
-    await expect(getRadioCardFavouriteIcon(page)).toBeVisible()
-    await expect(getRadioCardFavouriteIcon(page)).not.toHaveClass(/selected/)
-    await getRadioCardFavouriteIcon(page).click()
-    await expect(getRadioCardFavouriteIcon(page)).toHaveClass(/selected/)
+    await homePage
+      .getPage()
+      .route("*/**/json/stations/search?*", async (route) => {
+        const json = [unitedStatesStation]
+        await route.fulfill({ json })
+      })
+    await homePage.goto()
+    await homePage.clickRandomRadioStationButton()
+    homePage.getRadioCardFavouriteIcon()
+    await expect(homePage.getRadioCardFavouriteIcon()).toBeVisible()
+    await expect(homePage.getRadioCardFavouriteIcon()).not.toHaveClass(
+      /selected/
+    )
+    await homePage.clickRadioCardFavouriteIcon()
+    await expect(homePage.getRadioCardFavouriteIcon()).toHaveClass(/selected/)
   })
 
   test("display empty favourite stations drawer when favourite station button is clicked", async ({
-    page,
+    homePage,
   }) => {
-    await page.goto(HOMEPAGE)
-    await openFavouriteStationsDrawer(page)
-    await expect(getFavouriteStationsDrawer(page)).toBeVisible()
-    await expect(
-      getFavouriteStationsDrawer(page).locator(".drawer-title")
-    ).toHaveText("Favourite Stations")
-    await assertEmptyFavouriteList(page)
+    await homePage.goto()
+    await homePage.openFavouriteStationsDrawer()
+    await expect(homePage.getDrawer()).toBeVisible()
+    await expect(homePage.getDrawerTitle()).toHaveText("Favourite Stations")
+    await assertEmptyFavouriteList(homePage)
   })
 
-  test("display one favourite station in drawer", async ({ page }) => {
-    await page.route("*/**/json/stations/search?*", async (route) => {
-      const json = [unitedStatesStation]
-      await route.fulfill({ json })
-    })
-    await page.goto(HOMEPAGE)
-    await openFavouriteStationsDrawer(page)
-    await expect(getFavouriteStationsDrawer(page)).toBeVisible()
-    await expect(
-      getFavouriteStationsDrawer(page).locator(".drawer-title")
-    ).toHaveText("Favourite Stations")
-    await assertEmptyFavouriteList(page)
-    await closeFavouriteStationsDrawer(page)
+  test("display one favourite station in drawer", async ({ homePage }) => {
+    await homePage
+      .getPage()
+      .route("*/**/json/stations/search?*", async (route) => {
+        const json = [unitedStatesStation]
+        await route.fulfill({ json })
+      })
+    await homePage.goto()
+    await homePage.openFavouriteStationsDrawer()
+    await expect(homePage.getDrawer()).toBeVisible()
+    await expect(homePage.getDrawerTitle()).toHaveText("Favourite Stations")
+    await assertEmptyFavouriteList(homePage)
+    await homePage.closeDrawer()
 
-    await clickRandomRadioStationButton(page)
-    await expect(page.locator("#map")).toBeVisible()
-    await getRadioCardFavouriteIcon(page).click()
-    await openFavouriteStationsDrawer(page)
+    await homePage.clickRandomRadioStationButton()
+    await homePage.clickRadioCardFavouriteIcon()
+    await homePage.openFavouriteStationsDrawer()
 
     await expect(
-      getFavouriteStationsDrawer(page).locator(".favourite-station")
+      homePage.getDrawer().locator(".favourite-station")
     ).toBeVisible()
     await expect(
-      getFavouriteStationsDrawer(page).locator(".favourite-station")
+      homePage.getDrawer().locator(".favourite-station")
     ).toContainText(unitedStatesStation.name)
     await expect(
-      getFavouriteStationsDrawer(page).locator(
-        ".favourite-station .station-card-icon"
-      )
+      homePage.getDrawer().locator(".favourite-station .station-card-icon")
     ).toBeVisible()
     await expect(
-      getFavouriteStationsDrawer(page).locator(
-        ".favourite-station .station-card-tag-container"
-      )
+      homePage
+        .getDrawer()
+        .locator(".favourite-station .station-card-tag-container")
     ).toBeVisible()
     await expect(
-      getFavouriteStationsDrawer(page).locator(
-        ".favourite-station .station-card-country"
-      )
+      homePage.getDrawer().locator(".favourite-station .station-card-country")
     ).toBeVisible()
     await expect(
-      getFavouriteStationsDrawer(page).locator(
-        ".favourite-station .station-card-favourite-icon.selected"
-      )
+      homePage
+        .getDrawer()
+        .locator(".favourite-station .station-card-favourite-icon.selected")
     ).toBeVisible()
 
     // check hover color for remove favourite station button (do not hover in button center, where icon is)
-    await getFavouriteStationsDrawer(page)
+    await homePage
+      .getDrawer()
       .locator(".favourite-station .remove-favourite-station-button")
       .hover({ position: { x: 5, y: 2 } })
     await expect(
-      getFavouriteStationsDrawer(page).locator(
-        ".favourite-station .station-card-favourite-icon.selected"
-      ),
+      homePage
+        .getDrawer()
+        .locator(".favourite-station .station-card-favourite-icon.selected"),
       "should have hover remove favourite icon red fill color"
     ).toHaveCSS("fill", "rgb(220, 38, 38)")
   })
 
   test("click radio station share button should copy correct radio station share url", async ({
-    page,
+    homePage,
   }) => {
-    await page.route("*/**/json/stations/search?*", async (route) => {
-      const json = [unitedStatesStation]
-      await route.fulfill({ json })
-    })
-    await page.goto(HOMEPAGE)
-    await clickRandomRadioStationButton(page)
-    await getRadioCardFavouriteIcon(page).click()
-    await openFavouriteStationsDrawer(page)
-    await expect(getFavouriteStationsDrawer(page)).toBeVisible()
-    await getFavouriteStationsDrawer(page)
+    await homePage
+      .getPage()
+      .route("*/**/json/stations/search?*", async (route) => {
+        const json = [unitedStatesStation]
+        await route.fulfill({ json })
+      })
+    await homePage.goto()
+    await homePage.clickRandomRadioStationButton()
+    await homePage.clickRadioCardFavouriteIcon()
+    await homePage.openFavouriteStationsDrawer()
+    await expect(homePage.getDrawer()).toBeVisible()
+    await homePage
+      .getDrawer()
       .locator(".favourite-station .station-card-share-icon")
       .click()
     const expectedUrl =
-      (await page.evaluate(() => window.location.href)) +
+      (await homePage.getPage().evaluate(() => window.location.href)) +
       "radio-station/" +
       unitedStatesStation.stationuuid
-    expect(await getClipboardContent(page)).toBe(expectedUrl)
+    expect(await getClipboardContent(homePage.getPage())).toBe(expectedUrl)
   })
 
   test("remove one favourited station in drawer when favourite icon in drawer is clicked", async ({
-    page,
+    homePage,
     headless,
   }) => {
     test.skip(headless, "Remove flaky test in headless mode")
     test.slow()
-    await page.route("*/**/json/stations/search?*", async (route) => {
-      const json = [unitedStatesStation]
-      await route.fulfill({ json })
-    })
-    await page.goto(HOMEPAGE)
-    await openFavouriteStationsDrawer(page)
-    await expect(getFavouriteStationsDrawer(page)).toBeVisible()
-    await expect(
-      getFavouriteStationsDrawer(page).locator(".drawer-title")
-    ).toHaveText("Favourite Stations")
-    await assertEmptyFavouriteList(page)
-    await closeFavouriteStationsDrawer(page)
+    await homePage
+      .getPage()
+      .route("*/**/json/stations/search?*", async (route) => {
+        const json = [unitedStatesStation]
+        await route.fulfill({ json })
+      })
+    await homePage.goto()
+    await homePage.openFavouriteStationsDrawer()
+    await expect(homePage.getDrawer()).toBeVisible()
+    await expect(homePage.getDrawer().locator(".drawer-title")).toHaveText(
+      "Favourite Stations"
+    )
+    await assertEmptyFavouriteList(homePage)
+    await homePage.closeDrawer()
 
-    await expect(page.locator("#map")).toBeVisible()
-    await clickRandomRadioStationButton(page)
-    await getRadioCardFavouriteIcon(page).click()
-    await openFavouriteStationsDrawer(page)
+    await homePage.clickRandomRadioStationButton()
+    await homePage.clickRadioCardFavouriteIcon()
+    await homePage.openFavouriteStationsDrawer()
     await expect(
-      getFavouriteStationsDrawer(page).locator(".favourite-station")
+      homePage.getDrawer().locator(".favourite-station")
     ).toBeVisible()
     await expect(
-      getFavouriteStationsDrawer(page).locator(".favourite-station")
+      homePage.getDrawer().locator(".favourite-station")
     ).toContainText(unitedStatesStation.name)
     await expect(
-      getFavouriteStationsDrawer(page).locator(
-        ".favourite-station .station-card-favourite-icon.selected"
-      )
+      homePage
+        .getDrawer()
+        .locator(".favourite-station .station-card-favourite-icon.selected")
     ).toBeVisible()
 
     // wait for toasts to disappear (blocks the favourite icon on mobile view)
-    await assertToastMessageIsMissing(page, "Could not play radio station")
+    await assertToastMessageIsMissing(
+      homePage.getPage(),
+      "Could not play radio station"
+    )
 
-    await getFavouriteStationsDrawer(page)
+    await homePage
+      .getDrawer()
       .locator(".favourite-station .station-card-favourite-icon.selected")
       .click()
-    await assertEmptyFavouriteList(page)
+    await assertEmptyFavouriteList(homePage)
 
     // assert that closing and opening the drawer shows an empty favourite station list
-    await closeFavouriteStationsDrawer(page)
-    await expect(getRadioCardFavouriteIcon(page)).not.toHaveClass(/selected/)
-    await openFavouriteStationsDrawer(page)
-    await assertEmptyFavouriteList(page)
+    await homePage.closeDrawer()
+    await expect(homePage.getRadioCardFavouriteIcon()).not.toHaveClass(
+      /selected/
+    )
+    await homePage.openFavouriteStationsDrawer()
+    await assertEmptyFavouriteList(homePage)
   })
 
   test("allow selection of a favourite station and display it on the map", async ({
-    page,
+    homePage,
   }) => {
     test.slow()
     let requestCount = 1
-    await page.route("*/**/json/stations/search?*", async (route) => {
-      if (requestCount === 1) {
-        requestCount++
-        const json = [unitedStatesStation]
-        await route.fulfill({ json })
-      } else {
-        const json = [stationWithMultipleTags]
-        await route.fulfill({ json })
-      }
-    })
-    await page.goto(HOMEPAGE)
-    await clickRandomRadioStationButton(page)
-    await expect(page.locator("#map")).toBeVisible()
-    await getRadioCardFavouriteIcon(page).click()
-    // load another radio station on the map that is different from the first station
-    await clickRandomRadioStationButton(page)
-    await expect(
-      getRadioCardMapPopup(page).getByRole("heading", {
-        name: stationWithMultipleTags.name,
-        exact: true,
-      })
-    ).toBeVisible()
-
-    // load first station from favourite stations drawer
-    await openFavouriteStationsDrawer(page)
-
-    // wait for toasts to disappear (blocks the favourite icon on mobile view)
-    await assertToastMessageIsMissing(page, "Could not play radio station")
-
-    await getFavouriteStationsDrawer(page)
-      .locator(".favourite-station")
-      .getByRole("button", {
-        name: "load station",
-      })
-      .click()
-    await expect(getFavouriteStationsDrawer(page)).not.toBeVisible()
-    await expect(getRadioCardMapPopup(page)).toBeVisible()
-    await expect(
-      getRadioCardMapPopup(page).getByRole("heading", {
-        name: unitedStatesStation.name,
-        exact: true,
-      })
-    ).toBeVisible()
-    await expect(
-      getRadioCardMapPopup(page).getByRole("link", {
-        name: unitedStatesStation.homepage,
-        exact: true,
-      })
-    ).toBeVisible()
-  })
-
-  test("removing favourite station Map popup using 'x' button and loading same favourite station using favourite station drawer shows same station on Map", async ({
-    page,
-  }) => {
-    test.slow()
-    await page.route("*/**/json/stations/search?*", async (route) => {
-      const json = [unitedStatesStation]
-      await route.fulfill({ json })
-    })
-    await page.goto(HOMEPAGE)
-    await clickRandomRadioStationButton(page)
-    await expect(page.locator("#map")).toBeVisible()
-    await getRadioCardFavouriteIcon(page).click()
-    await getRadioStationMapPopupCloseButton(page).click()
-    await expect(
-      getRadioCardMapPopup(page),
-      "should remove radio station card from Map"
-    ).not.toBeVisible()
-    await openFavouriteStationsDrawer(page)
-
-    // wait for toasts to disappear (blocks the favourite icon on mobile view)
-    await page.waitForTimeout(500)
-    await assertToastMessageIsMissing(page, "Could not play radio station")
-
-    await getFavouriteStationsDrawer(page)
-      .locator(".favourite-station")
-      .getByRole("button", {
-        name: "load station",
-      })
-      .click()
-    await expect(
-      getRadioCardMapPopup(page),
-      "should display same favourite station on the Map"
-    ).toBeVisible()
-    await expect(
-      getRadioCardMapPopup(page).getByRole("heading", {
-        name: unitedStatesStation.name,
-        exact: true,
-      })
-    ).toBeVisible()
-  })
-
-  test("placeholder icon shows up for station with empty favicon", async ({
-    page,
-  }) => {
-    await page.route("*/**/json/stations/search?*", async (route) => {
-      const json = [{ ...unitedStatesStation, favicon: "" }]
-      await route.fulfill({ json })
-    })
-    await page.goto(HOMEPAGE)
-    await clickRandomRadioStationButton(page)
-    await getRadioCardFavouriteIcon(page).click()
-    await expect(
-      getRadioCardMapPopup(page).locator(".station-card-icon")
-    ).toBeVisible()
-    // open the favourite station drawer, and assert placeholder icon is shown
-    await openFavouriteStationsDrawer(page)
-    await expect(
-      getFavouriteStationsDrawer(page).locator(".station-card-icon")
-    ).toBeVisible()
-    await expect(
-      getFavouriteStationsDrawer(page).locator(".station-card-icon title")
-    ).toHaveText("Icon Not Available")
-  })
-
-  test.describe("favourite station filters", () => {
-    async function assertFavouriteStationName(page: Page, stationName: string) {
-      await expect(
-        getFavouriteStationsDrawer(page)
-          .locator(".favourite-station")
-          .getByText(stationName, { exact: true })
-      ).toBeVisible()
-    }
-
-    async function assertMissingFavouriteStationName(
-      page: Page,
-      stationName: string
-    ) {
-      await expect(
-        getFavouriteStationsDrawer(page)
-          .locator(".favourite-station")
-          .getByText(stationName, { exact: true })
-      ).not.toBeVisible()
-    }
-
-    test("should filter favourite station by name", async ({ browser }) => {
-      test.slow()
-      const context = await browser.newContext()
-      const page = await context.newPage()
-      const nameFilter = unitedStatesStation.name.toLowerCase()
-      let requestCount = 1
-      await page.route("*/**/json/stations/search?*", async (route) => {
+    await homePage
+      .getPage()
+      .route("*/**/json/stations/search?*", async (route) => {
         if (requestCount === 1) {
           requestCount++
           const json = [unitedStatesStation]
@@ -392,71 +254,223 @@ test.describe("radio station favourite feature", () => {
           await route.fulfill({ json })
         }
       })
-      await page.goto(HOMEPAGE)
-      await clickRandomRadioStationButton(page)
-      await getRadioCardFavouriteIcon(page).click()
+    await homePage.goto()
+    await homePage.clickRandomRadioStationButton()
+    await homePage.clickRadioCardFavouriteIcon()
+    // load another radio station on the map that is different from the first station
+    await homePage.clickRandomRadioStationButton()
+    await expect(
+      homePage.getRadioCard().getByRole("heading", {
+        name: stationWithMultipleTags.name,
+        exact: true,
+      })
+    ).toBeVisible()
+    // load first station from favourite stations drawer
+    await homePage.openFavouriteStationsDrawer()
+    // wait for toasts to disappear (blocks the favourite icon on mobile view)
+    await assertToastMessageIsMissing(
+      homePage.getPage(),
+      "Could not play radio station"
+    )
+    await homePage
+      .getDrawer()
+      .locator(".favourite-station")
+      .getByRole("button", {
+        name: "load station",
+      })
+      .click()
+    await expect(homePage.getDrawer()).not.toBeVisible()
+    await expect(homePage.getRadioCard()).toBeVisible()
+    await expect(
+      homePage.getRadioCard().getByRole("heading", {
+        name: unitedStatesStation.name,
+        exact: true,
+      })
+    ).toBeVisible()
+    await expect(
+      homePage.getRadioCard().getByRole("link", {
+        name: unitedStatesStation.homepage,
+        exact: true,
+      })
+    ).toBeVisible()
+  })
+
+  test("removing favourite station Map popup using 'x' button and loading same favourite station using favourite station drawer shows same station on Map", async ({
+    homePage,
+  }) => {
+    test.slow()
+    await homePage
+      .getPage()
+      .route("*/**/json/stations/search?*", async (route) => {
+        const json = [unitedStatesStation]
+        await route.fulfill({ json })
+      })
+    await homePage.goto()
+    await homePage.clickRandomRadioStationButton()
+    await homePage.clickRadioCardFavouriteIcon()
+
+    await homePage.clickRadioCardCloseButton()
+    await expect(
+      homePage.getRadioCard(),
+      "should remove radio station card from Map"
+    ).not.toBeVisible()
+    await homePage.openFavouriteStationsDrawer()
+
+    // wait for toasts to disappear (blocks the favourite icon on mobile view)
+    await homePage.getPage().waitForTimeout(500)
+    await assertToastMessageIsMissing(
+      homePage.getPage(),
+      "Could not play radio station"
+    )
+
+    await homePage
+      .getDrawer()
+      .locator(".favourite-station")
+      .getByRole("button", {
+        name: "load station",
+      })
+      .click()
+    await expect(
+      homePage.getRadioCard(),
+      "should display same favourite station on the Map"
+    ).toBeVisible()
+    await expect(
+      homePage.getRadioCard().getByRole("heading", {
+        name: unitedStatesStation.name,
+        exact: true,
+      })
+    ).toBeVisible()
+  })
+
+  test("placeholder icon shows up for station with empty favicon", async ({
+    homePage,
+  }) => {
+    await homePage
+      .getPage()
+      .route("*/**/json/stations/search?*", async (route) => {
+        const json = [{ ...unitedStatesStation, favicon: "" }]
+        await route.fulfill({ json })
+      })
+    await homePage.goto()
+    await homePage.clickRandomRadioStationButton()
+    await homePage.clickRadioCardFavouriteIcon()
+    await expect(
+      homePage.getRadioCard().locator(".station-card-icon")
+    ).toBeVisible()
+    // open the favourite station drawer, and assert placeholder icon is shown
+    await homePage.openFavouriteStationsDrawer()
+    await expect(
+      homePage.getDrawer().locator(".station-card-icon")
+    ).toBeVisible()
+    await expect(
+      homePage.getDrawer().locator(".station-card-icon title")
+    ).toHaveText("Icon Not Available")
+  })
+
+  test.describe("favourite station filters", () => {
+    async function assertFavouriteStationName(
+      homePage: HomePage,
+      stationName: string
+    ) {
+      await expect(
+        homePage
+          .getDrawer()
+          .locator(".favourite-station")
+          .getByText(stationName, { exact: true })
+      ).toBeVisible()
+    }
+
+    async function assertMissingFavouriteStationName(
+      homePage: HomePage,
+      stationName: string
+    ) {
+      await expect(
+        homePage
+          .getDrawer()
+          .locator(".favourite-station")
+          .getByText(stationName, { exact: true })
+      ).not.toBeVisible()
+    }
+
+    test("should filter favourite station by name", async ({ homePage }) => {
+      test.slow()
+      const nameFilter = unitedStatesStation.name.toLowerCase()
+      let requestCount = 1
+      await homePage
+        .getPage()
+        .route("*/**/json/stations/search?*", async (route) => {
+          if (requestCount === 1) {
+            requestCount++
+            const json = [unitedStatesStation]
+            await route.fulfill({ json })
+          } else {
+            const json = [stationWithMultipleTags]
+            await route.fulfill({ json })
+          }
+        })
+      await homePage.goto()
+      await homePage.clickRandomRadioStationButton()
+      await homePage.clickRadioCardFavouriteIcon()
       requestCount = 2
-      await clickRandomRadioStationButton(page)
-      await getRadioCardFavouriteIcon(page).click()
+      await homePage.clickRandomRadioStationButton()
+      await homePage.clickRadioCardFavouriteIcon()
 
-      await openFavouriteStationsDrawer(page)
+      await homePage.openFavouriteStationsDrawer()
 
-      await assertFavouriteStationName(page, unitedStatesStation.name)
-      await assertFavouriteStationName(page, stationWithMultipleTags.name)
+      await assertFavouriteStationName(homePage, unitedStatesStation.name)
+      await assertFavouriteStationName(homePage, stationWithMultipleTags.name)
 
       await expect(
-        page.locator(".favourite-station-filter-container")
+        homePage.getPage().locator(".favourite-station-filter-container")
       ).toBeVisible()
-      await page.getByLabel("Name").fill(nameFilter)
+      await homePage.getPage().getByLabel("Name").fill(nameFilter)
 
       await assertMissingFavouriteStationName(
-        page,
+        homePage,
         stationWithMultipleTags.name
       )
       // assert filtered station is present after other station is removed
-      await assertFavouriteStationName(page, unitedStatesStation.name)
-      await context.close()
+      await assertFavouriteStationName(homePage, unitedStatesStation.name)
     })
 
-    test("should filter favourite station by country", async ({ browser }) => {
+    test("should filter favourite station by country", async ({ homePage }) => {
       test.slow()
-      const context = await browser.newContext()
-      const page = await context.newPage()
       const countryFilter = unitedStatesStation.countrycode
       let requestCount = 1
-      await page.route("*/**/json/stations/search?*", async (route) => {
-        if (requestCount === 1) {
-          requestCount++
-          const json = [unitedStatesStation]
-          await route.fulfill({ json })
-        } else {
-          const json = [cantoneseStation]
-          await route.fulfill({ json })
-        }
-      })
-      await page.goto(HOMEPAGE)
-      await clickRandomRadioStationButton(page)
-      await getRadioCardFavouriteIcon(page).click()
+      await homePage
+        .getPage()
+        .route("*/**/json/stations/search?*", async (route) => {
+          if (requestCount === 1) {
+            requestCount++
+            const json = [unitedStatesStation]
+            await route.fulfill({ json })
+          } else {
+            const json = [cantoneseStation]
+            await route.fulfill({ json })
+          }
+        })
+      await homePage.goto()
+      await homePage.clickRandomRadioStationButton()
+      await homePage.clickRadioCardFavouriteIcon()
       requestCount = 2
-      await clickRandomRadioStationButton(page)
-      await getRadioCardFavouriteIcon(page).click()
+      await homePage.clickRandomRadioStationButton()
+      await homePage.clickRadioCardFavouriteIcon()
 
-      await openFavouriteStationsDrawer(page)
-      await assertFavouriteStationName(page, unitedStatesStation.name)
-      await assertFavouriteStationName(page, cantoneseStation.name)
+      await homePage.openFavouriteStationsDrawer()
+      await assertFavouriteStationName(homePage, unitedStatesStation.name)
+      await assertFavouriteStationName(homePage, cantoneseStation.name)
 
       await expect(
-        page.locator(".favourite-station-filter-container")
+        homePage.getPage().locator(".favourite-station-filter-container")
       ).toBeVisible()
-      await page.getByLabel("Country").selectOption(countryFilter)
-      await assertMissingFavouriteStationName(page, cantoneseStation.name)
-      await assertFavouriteStationName(page, unitedStatesStation.name)
+      await homePage.getPage().getByLabel("Country").selectOption(countryFilter)
+      await assertMissingFavouriteStationName(homePage, cantoneseStation.name)
+      await assertFavouriteStationName(homePage, unitedStatesStation.name)
 
       // remove country filter and all stations should be displayed again
-      await page.getByLabel("Country").selectOption("")
-      await assertFavouriteStationName(page, unitedStatesStation.name)
-      await assertFavouriteStationName(page, cantoneseStation.name)
-      await context.close()
+      await homePage.getPage().getByLabel("Country").selectOption("")
+      await assertFavouriteStationName(homePage, unitedStatesStation.name)
+      await assertFavouriteStationName(homePage, cantoneseStation.name)
     })
   })
 })

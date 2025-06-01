@@ -19,16 +19,12 @@ class HomePage {
     this.radioCard = new RadioCard(this.page)
   }
 
-  getPage(): Page {
-    return this.page
-  }
-
   async goto() {
     await this.page.goto(homePageUrl())
   }
 
-  async toggleAppTheme() {
-    await this.appThemeToggleButton.click()
+  getPage(): Page {
+    return this.page
   }
 
   getAppThemeToggleButton(themeMode: "light" | "dark") {
@@ -37,15 +33,31 @@ class HomePage {
     )
   }
 
+  getRadioCard() {
+    return this.radioCard.getRadioCard()
+  }
+
+  getRadioCardFavouriteIcon() {
+    return this.radioCard.getFavouriteIcon()
+  }
+
+  getDrawer() {
+    return this.page.locator(".drawer")
+  }
+
+  getDrawerTitle() {
+    return this.page.locator(".drawer .drawer-title")
+  }
+
+  async toggleAppTheme() {
+    await this.appThemeToggleButton.click()
+  }
+
   async openFavouriteStationsDrawer() {
     await this.sidebar.open()
     await this.sidebar
       .getMenuItem(SidebarMenuItemAction.RadioFavouriteStations)
       .click()
-  }
-
-  getDrawer() {
-    return this.page.locator(".drawer")
   }
 
   async closeDrawer() {
@@ -61,6 +73,10 @@ class HomePage {
 
   async clickRadioCardFavouriteIcon() {
     await this.radioCard.clickFavouriteIcon()
+  }
+
+  async clickRadioCardCloseButton() {
+    await this.radioCard.clickCloseButton()
   }
 }
 
