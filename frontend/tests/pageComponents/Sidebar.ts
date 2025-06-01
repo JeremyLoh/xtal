@@ -33,6 +33,14 @@ class Sidebar {
     await this.sidebarToggleButton.click()
   }
 
+  getSidebar() {
+    return this.sidebar
+  }
+
+  getToggleButton() {
+    return this.sidebarToggleButton
+  }
+
   getCloseButton() {
     return this.closeButton
   }

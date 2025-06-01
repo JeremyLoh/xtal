@@ -153,6 +153,26 @@ class HomePage {
     return this.searchRadioStationForm.getLoadMoreResultsButton()
   }
 
+  getSidebar() {
+    return this.sidebar.getSidebar()
+  }
+
+  getSidebarToggleButton() {
+    return this.sidebar.getToggleButton()
+  }
+
+  getSidebarTitle() {
+    return this.sidebar.getTitle()
+  }
+
+  getSidebarCloseButton() {
+    return this.sidebar.getCloseButton()
+  }
+
+  getSidebarMenuItem(action: SidebarMenuItemAction) {
+    return this.sidebar.getMenuItem(action)
+  }
+
   async toggleAppTheme() {
     await this.appThemeToggleButton.click()
   }

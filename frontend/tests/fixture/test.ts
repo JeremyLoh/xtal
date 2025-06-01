@@ -3,6 +3,7 @@ import { test as base } from "@playwright/test"
 import type { Page } from "@playwright/test"
 import { mockMapTiles } from "../mocks/map/radio.map.tiles"
 import HomePage from "../pageObjects/HomePage"
+import PodcastHomePage from "../pageObjects/PodcastHomePage"
 
 // https://playwright.dev/docs/test-fixtures
 class MapPage {
@@ -16,6 +17,7 @@ class MapPage {
 type Fixtures = {
   mapPage: MapPage
   homePage: HomePage
+  podcastHomePage: PodcastHomePage
 }
 
 const test = base.extend<Fixtures>({
@@ -24,6 +26,9 @@ const test = base.extend<Fixtures>({
   },
   homePage: async ({ page }, use) => {
     await use(new HomePage(page))
+  },
+  podcastHomePage: async ({ page }, use) => {
+    await use(new PodcastHomePage(page))
   },
 })
 

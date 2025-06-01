@@ -1,208 +1,220 @@
 import { test } from "./fixture/test"
 import { expect } from "@playwright/test"
-import { HOMEPAGE } from "./constants/homepageConstants"
 import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
+import { SidebarMenuItemAction } from "./pageComponents/Sidebar"
 import {
-  getSidebarCloseButton,
-  getSidebarElement,
-  getSidebarMenuItem,
-  getSidebarTitle,
-  getSidebarToggleButton,
-  SidebarMenuItemAction,
-} from "./constants/sidebarConstants"
+  aboutPageUrl,
+  homePageUrl,
+  podcastHomePageUrl,
+  podcastSearchPageUrl,
+  signInPageUrl,
+  signUpPageUrl,
+} from "./constants/paths"
 
 test.describe("Homepage Sidebar", () => {
   test("should open sidebar on header action toggle sidebar button click", async ({
-    page,
+    homePage,
   }) => {
-    await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
-    await expect(getSidebarToggleButton(page)).toBeVisible()
-    await expect(getSidebarElement(page)).not.toBeVisible()
-    await getSidebarToggleButton(page).click()
-    await expect(getSidebarElement(page)).toBeVisible()
-    await expect(getSidebarTitle(page)).toHaveText("Actions")
+    await homePage.goto()
+    await assertLoadingSpinnerIsMissing(homePage.getPage())
+    await expect(homePage.getSidebarToggleButton()).toBeVisible()
+    await expect(homePage.getSidebar()).not.toBeVisible()
+    await homePage.getSidebarToggleButton().click()
+    await expect(homePage.getSidebar()).toBeVisible()
+    await expect(homePage.getSidebarTitle()).toHaveText("Actions")
   })
 
   test("should close sidebar on header action toggle sidebar button click", async ({
-    page,
+    homePage,
   }) => {
-    await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
-    await expect(getSidebarToggleButton(page)).toBeVisible()
-    await expect(getSidebarElement(page)).not.toBeVisible()
-    await getSidebarToggleButton(page).click()
-    await expect(getSidebarElement(page)).toBeVisible()
-    await getSidebarToggleButton(page).click()
-    await expect(getSidebarElement(page)).not.toBeVisible()
+    await homePage.goto()
+    await assertLoadingSpinnerIsMissing(homePage.getPage())
+    await expect(homePage.getSidebarToggleButton()).toBeVisible()
+    await expect(homePage.getSidebar()).not.toBeVisible()
+    await homePage.getSidebarToggleButton().click()
+    await expect(homePage.getSidebar()).toBeVisible()
+    await homePage.getSidebarToggleButton().click()
+    await expect(homePage.getSidebar()).not.toBeVisible()
   })
 
   test("should close sidebar on sidebar close button click", async ({
-    page,
+    homePage,
   }) => {
-    await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
-    await getSidebarToggleButton(page).click()
-    await expect(getSidebarElement(page)).toBeVisible()
-    await expect(getSidebarCloseButton(page)).toBeVisible()
-    await getSidebarCloseButton(page).click()
-    await expect(getSidebarElement(page)).not.toBeVisible()
+    await homePage.goto()
+    await assertLoadingSpinnerIsMissing(homePage.getPage())
+    await homePage.getSidebarToggleButton().click()
+    await expect(homePage.getSidebar()).toBeVisible()
+    await expect(homePage.getSidebarCloseButton()).toBeVisible()
+    await homePage.getSidebarCloseButton().click()
+    await expect(homePage.getSidebar()).not.toBeVisible()
   })
 
-  test("should close sidebar on click outside sidebar", async ({ page }) => {
-    await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
-    await getSidebarToggleButton(page).click()
-    await expect(getSidebarElement(page)).toBeVisible()
+  test("should close sidebar on click outside sidebar", async ({
+    homePage,
+  }) => {
+    await homePage.goto()
+    await assertLoadingSpinnerIsMissing(homePage.getPage())
+    await homePage.getSidebarToggleButton().click()
+    await expect(homePage.getSidebar()).toBeVisible()
     // click outside of sidebar element
-    await page.locator("body").click({ position: { x: 1, y: 1 } })
-    await expect(getSidebarElement(page)).not.toBeVisible()
+    await homePage
+      .getPage()
+      .locator("body")
+      .click({ position: { x: 1, y: 1 } })
+    await expect(homePage.getSidebar()).not.toBeVisible()
   })
 
-  test("should close sidebar on podcast action click", async ({ page }) => {
-    await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
-    await getSidebarToggleButton(page).click()
-    await expect(getSidebarElement(page)).toBeVisible()
-    await getSidebarMenuItem(page, SidebarMenuItemAction.Podcasts).click()
-    await expect(getSidebarElement(page)).not.toBeVisible()
+  test("should close sidebar on podcast action click", async ({ homePage }) => {
+    await homePage.goto()
+    await assertLoadingSpinnerIsMissing(homePage.getPage())
+    await homePage.getSidebarToggleButton().click()
+    await expect(homePage.getSidebar()).toBeVisible()
+    await homePage.getSidebarMenuItem(SidebarMenuItemAction.Podcasts).click()
+    await expect(homePage.getSidebar()).not.toBeVisible()
   })
 
-  test("should not close sidebar on click inside sidebar", async ({ page }) => {
-    await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
-    await getSidebarToggleButton(page).click()
-    await expect(getSidebarElement(page)).toBeVisible()
-    await getSidebarTitle(page).click()
-    await expect(getSidebarElement(page)).toBeVisible()
+  test("should not close sidebar on click inside sidebar", async ({
+    homePage,
+  }) => {
+    await homePage.goto()
+    await assertLoadingSpinnerIsMissing(homePage.getPage())
+    await homePage.getSidebarToggleButton().click()
+    await expect(homePage.getSidebar()).toBeVisible()
+    await homePage.getSidebarTitle().click()
+    await expect(homePage.getSidebar()).toBeVisible()
   })
 
-  test("should display sidebar navigation action links", async ({ page }) => {
-    await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
-    await getSidebarToggleButton(page).click()
-    await expect(getSidebarElement(page)).toBeVisible()
+  test("should display sidebar navigation action links", async ({
+    homePage,
+  }) => {
+    await homePage.goto()
+    await assertLoadingSpinnerIsMissing(homePage.getPage())
+    await homePage.getSidebarToggleButton().click()
+    await expect(homePage.getSidebar()).toBeVisible()
     await expect(
-      getSidebarMenuItem(page, SidebarMenuItemAction.Radio)
+      homePage.getSidebarMenuItem(SidebarMenuItemAction.Radio)
     ).toBeVisible()
     await expect(
-      getSidebarMenuItem(page, SidebarMenuItemAction.Podcasts)
+      homePage.getSidebarMenuItem(SidebarMenuItemAction.Podcasts)
     ).toBeVisible()
     await expect(
-      getSidebarMenuItem(page, SidebarMenuItemAction.PodcastSearch)
+      homePage.getSidebarMenuItem(SidebarMenuItemAction.PodcastSearch)
     ).toBeVisible()
     await expect(
-      getSidebarMenuItem(page, SidebarMenuItemAction.RadioFavouriteStations)
+      homePage.getSidebarMenuItem(SidebarMenuItemAction.RadioFavouriteStations)
     ).toBeVisible()
     await expect(
-      getSidebarMenuItem(page, SidebarMenuItemAction.ProfileSignIn)
+      homePage.getSidebarMenuItem(SidebarMenuItemAction.ProfileSignIn)
     ).toBeVisible()
     await expect(
-      getSidebarMenuItem(page, SidebarMenuItemAction.ProfileSignUp)
+      homePage.getSidebarMenuItem(SidebarMenuItemAction.ProfileSignUp)
     ).toBeVisible()
     await expect(
-      getSidebarMenuItem(page, SidebarMenuItemAction.About)
+      homePage.getSidebarMenuItem(SidebarMenuItemAction.About)
     ).toBeVisible()
   })
 
   test.describe("Profile sidebar actions", () => {
     test("should display sidebar sign in action link for anonymous user", async ({
-      page,
+      homePage,
     }) => {
-      await page.goto(HOMEPAGE)
-      await assertLoadingSpinnerIsMissing(page)
-      await getSidebarToggleButton(page).click()
-      await expect(getSidebarElement(page)).toBeVisible()
+      await homePage.goto()
+      await assertLoadingSpinnerIsMissing(homePage.getPage())
+      await homePage.getSidebarToggleButton().click()
+      await expect(homePage.getSidebar()).toBeVisible()
       await expect(
-        getSidebarMenuItem(page, SidebarMenuItemAction.ProfileSignIn)
+        homePage.getSidebarMenuItem(SidebarMenuItemAction.ProfileSignIn)
       ).toBeVisible()
-      await getSidebarMenuItem(
-        page,
-        SidebarMenuItemAction.ProfileSignIn
-      ).click()
-      await expect(page).toHaveURL(HOMEPAGE + "/auth?show=signin")
+      await homePage
+        .getSidebarMenuItem(SidebarMenuItemAction.ProfileSignIn)
+        .click()
+      await expect(homePage.getPage()).toHaveURL(signInPageUrl())
     })
 
     test("should display sidebar sign up action link for anonymous user", async ({
-      page,
+      homePage,
     }) => {
-      await page.goto(HOMEPAGE)
-      await assertLoadingSpinnerIsMissing(page)
-      await getSidebarToggleButton(page).click()
-      await expect(getSidebarElement(page)).toBeVisible()
+      await homePage.goto()
+      await assertLoadingSpinnerIsMissing(homePage.getPage())
+      await homePage.getSidebarToggleButton().click()
+      await expect(homePage.getSidebar()).toBeVisible()
       await expect(
-        getSidebarMenuItem(page, SidebarMenuItemAction.ProfileSignUp)
+        homePage.getSidebarMenuItem(SidebarMenuItemAction.ProfileSignUp)
       ).toBeVisible()
-      await getSidebarMenuItem(
-        page,
-        SidebarMenuItemAction.ProfileSignUp
-      ).click()
-      await expect(page).toHaveURL(HOMEPAGE + "/auth?show=signup")
+      await homePage
+        .getSidebarMenuItem(SidebarMenuItemAction.ProfileSignUp)
+        .click()
+      await expect(homePage.getPage()).toHaveURL(signUpPageUrl())
     })
   })
 
   test.describe("navigate to page on click", () => {
     test("should navigate to podcast homepage on click of podcast sidebar action link", async ({
-      page,
+      homePage,
     }) => {
-      await page.goto(HOMEPAGE)
-      await assertLoadingSpinnerIsMissing(page)
-      await getSidebarToggleButton(page).click()
-      await expect(getSidebarElement(page)).toBeVisible()
+      await homePage.goto()
+      await assertLoadingSpinnerIsMissing(homePage.getPage())
+      await homePage.getSidebarToggleButton().click()
+      await expect(homePage.getSidebar()).toBeVisible()
       await expect(
-        getSidebarMenuItem(page, SidebarMenuItemAction.Podcasts)
+        homePage.getSidebarMenuItem(SidebarMenuItemAction.Podcasts)
       ).toBeVisible()
-      await getSidebarMenuItem(page, SidebarMenuItemAction.Podcasts).click()
-      await expect(page).toHaveURL(HOMEPAGE + "/podcasts")
+      await homePage.getSidebarMenuItem(SidebarMenuItemAction.Podcasts).click()
+      await expect(homePage.getPage()).toHaveURL(podcastHomePageUrl())
     })
 
     test("should navigate to radio homepage on click of radio sidebar action link", async ({
-      page,
+      podcastHomePage,
     }) => {
-      await page.goto(HOMEPAGE + "/podcasts")
-      await assertLoadingSpinnerIsMissing(page)
-      await getSidebarToggleButton(page).click()
-      await expect(getSidebarElement(page)).toBeVisible()
+      await podcastHomePage.goto()
+      await assertLoadingSpinnerIsMissing(podcastHomePage.getPage())
+      await podcastHomePage.getSidebarToggleButton().click()
+      await expect(podcastHomePage.getSidebar()).toBeVisible()
       await expect(
-        getSidebarMenuItem(page, SidebarMenuItemAction.Radio)
+        podcastHomePage.getSidebarMenuItem(SidebarMenuItemAction.Radio)
       ).toBeVisible()
-      await getSidebarMenuItem(page, SidebarMenuItemAction.Radio).click()
-      await expect(page).toHaveURL(HOMEPAGE)
+      await podcastHomePage
+        .getSidebarMenuItem(SidebarMenuItemAction.Radio)
+        .click()
+      await expect(podcastHomePage.getPage()).toHaveURL(homePageUrl())
     })
 
     test("should navigate to about page on click of about sidebar action link", async ({
-      page,
+      homePage,
     }) => {
-      await page.goto(HOMEPAGE)
-      await assertLoadingSpinnerIsMissing(page)
-      await getSidebarToggleButton(page).click()
-      await expect(getSidebarElement(page)).toBeVisible()
+      await homePage.goto()
+      await assertLoadingSpinnerIsMissing(homePage.getPage())
+      await homePage.getSidebarToggleButton().click()
+      await expect(homePage.getSidebar()).toBeVisible()
       await expect(
-        getSidebarMenuItem(page, SidebarMenuItemAction.About)
+        homePage.getSidebarMenuItem(SidebarMenuItemAction.About)
       ).toBeVisible()
-      await getSidebarMenuItem(page, SidebarMenuItemAction.About).click()
-      await expect(page).toHaveURL(HOMEPAGE + "/about")
-      await page.waitForLoadState("networkidle")
-      await expect(page.getByText("404 Not Found")).not.toBeVisible()
+      await homePage.getSidebarMenuItem(SidebarMenuItemAction.About).click()
+      await expect(homePage.getPage()).toHaveURL(aboutPageUrl())
+      await homePage.getPage().waitForLoadState("networkidle")
+      await expect(
+        homePage.getPage().getByText("404 Not Found")
+      ).not.toBeVisible()
     })
 
     test("should navigate to podcast search page on click of search sidebar action link", async ({
-      page,
+      homePage,
     }) => {
-      await page.goto(HOMEPAGE)
-      await assertLoadingSpinnerIsMissing(page)
-      await getSidebarToggleButton(page).click()
-      await expect(getSidebarElement(page)).toBeVisible()
+      await homePage.goto()
+      await assertLoadingSpinnerIsMissing(homePage.getPage())
+      await homePage.getSidebarToggleButton().click()
+      await expect(homePage.getSidebar()).toBeVisible()
       await expect(
-        getSidebarMenuItem(page, SidebarMenuItemAction.PodcastSearch)
+        homePage.getSidebarMenuItem(SidebarMenuItemAction.PodcastSearch)
       ).toBeVisible()
-      await getSidebarMenuItem(
-        page,
-        SidebarMenuItemAction.PodcastSearch
-      ).click()
-      await expect(page).toHaveURL(HOMEPAGE + "/podcasts/search")
-      await page.waitForLoadState("networkidle")
-      await expect(page.getByText("404 Not Found")).not.toBeVisible()
+      await homePage
+        .getSidebarMenuItem(SidebarMenuItemAction.PodcastSearch)
+        .click()
+      await expect(homePage.getPage()).toHaveURL(podcastSearchPageUrl(""))
+      await homePage.getPage().waitForLoadState("networkidle")
+      await expect(
+        homePage.getPage().getByText("404 Not Found")
+      ).not.toBeVisible()
     })
   })
 })
