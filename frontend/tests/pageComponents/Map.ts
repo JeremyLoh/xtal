@@ -16,6 +16,14 @@ class Map {
     return this.radioCard.getRadioCard()
   }
 
+  getRadioCardPlayer() {
+    return this.radioCard.getPlayer()
+  }
+
+  getRadioCardTags() {
+    return this.radioCard.getTags()
+  }
+
   getRadioCardFavouriteIcon() {
     return this.radioCard.getFavouriteIcon()
   }

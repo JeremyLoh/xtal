@@ -43,12 +43,32 @@ class HomePage {
     await this.page.goto(homePageUrl())
   }
 
+  async gotoUrl(url: string) {
+    await this.page.goto(homePageUrl() + url)
+  }
+
   async gotoRadioStationShareUrl(stationUuid: string) {
     await this.page.goto(radioStationShareUrl(stationUuid))
   }
 
   getPage(): Page {
     return this.page
+  }
+
+  getHeader() {
+    return this.page.locator("header")
+  }
+
+  getFooter() {
+    return this.page.locator("footer")
+  }
+
+  getNavbarRadioLink() {
+    return this.getHeader().locator(".header-navbar-radio-link")
+  }
+
+  getNavbarPodcastLink() {
+    return this.getHeader().locator(".header-navbar-podcast-link")
   }
 
   getAppThemeToggleButton(themeMode: "light" | "dark") {
@@ -87,6 +107,14 @@ class HomePage {
 
   getRadioCard() {
     return this.map.getRadioCard()
+  }
+
+  getRadioCardPlayer() {
+    return this.map.getRadioCardPlayer()
+  }
+
+  getRadioCardTags() {
+    return this.map.getRadioCardTags()
   }
 
   getRadioCardFavouriteIcon() {

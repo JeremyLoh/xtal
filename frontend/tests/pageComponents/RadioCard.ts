@@ -15,6 +15,14 @@ class RadioCard {
     return this.radioCard
   }
 
+  getPlayer() {
+    return this.radioCard.getByTestId("radio-player-container")
+  }
+
+  getTags() {
+    return this.radioCard.locator(".station-card-tag-container")
+  }
+
   getFavouriteIcon() {
     return this.radioCard.locator(".station-card-favourite-icon")
   }
