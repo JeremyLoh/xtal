@@ -2,15 +2,18 @@ import { expect, Locator, Page } from "@playwright/test"
 import { homePageUrl } from "../constants/paths"
 import Sidebar, { SidebarMenuItemAction } from "../pageComponents/Sidebar"
 import Map from "../pageComponents/Map"
+import Drawer from "../pageComponents/Drawer"
 
 class HomePage {
   readonly page: Page
   readonly appThemeToggleButton: Locator
   readonly genreSearchButton: Locator
   readonly countrySearchButton: Locator
+  readonly searchStationButton: Locator
   readonly genreSliderContainer: Locator
   readonly sidebar: Sidebar
   readonly map: Map
+  readonly drawer: Drawer
 
   constructor(page: Page) {
     this.page = page
@@ -21,9 +24,13 @@ class HomePage {
     this.countrySearchButton = this.page.locator(
       "#station-search-type-container .country-search-button"
     )
+    this.searchStationButton = this.page.getByRole("button", {
+      name: "search stations",
+    })
     this.genreSliderContainer = this.page.locator(".genre-slider-container")
     this.sidebar = new Sidebar(this.page)
     this.map = new Map(this.page)
+    this.drawer = new Drawer(this.page)
   }
 
   async goto() {
@@ -64,6 +71,10 @@ class HomePage {
     return this.page.locator(".slider .country-slider-option")
   }
 
+  getSearchStationButton() {
+    return this.searchStationButton
+  }
+
   getRadioCard() {
     return this.map.getRadioCard()
   }
@@ -73,11 +84,19 @@ class HomePage {
   }
 
   getDrawer() {
-    return this.page.locator(".drawer")
+    return this.drawer.getDrawer()
+  }
+
+  getDrawerBackgroundContainer() {
+    return this.drawer.getBackgroundContainer()
   }
 
   getDrawerTitle() {
-    return this.page.locator(".drawer .drawer-title")
+    return this.drawer.getTitle()
+  }
+
+  getDrawerDragButton() {
+    return this.drawer.getDragButton()
   }
 
   async toggleAppTheme() {
@@ -92,7 +111,7 @@ class HomePage {
   }
 
   async closeDrawer() {
-    await this.page.locator(".drawer-close-button").click()
+    await this.drawer.getCloseButton().click()
   }
 
   async clickRandomRadioStationButton() {
