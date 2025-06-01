@@ -3,6 +3,7 @@ import { homePageUrl } from "../constants/paths"
 import Sidebar, { SidebarMenuItemAction } from "../pageComponents/Sidebar"
 import Map from "../pageComponents/Map"
 import Drawer from "../pageComponents/Drawer"
+import SearchRadioStationForm from "../pageComponents/SearchRadioStationForm"
 
 class HomePage {
   readonly page: Page
@@ -14,6 +15,7 @@ class HomePage {
   readonly sidebar: Sidebar
   readonly map: Map
   readonly drawer: Drawer
+  readonly searchRadioStationForm: SearchRadioStationForm
 
   constructor(page: Page) {
     this.page = page
@@ -31,6 +33,10 @@ class HomePage {
     this.sidebar = new Sidebar(this.page)
     this.map = new Map(this.page)
     this.drawer = new Drawer(this.page)
+    this.searchRadioStationForm = new SearchRadioStationForm(
+      this.page,
+      this.drawer
+    )
   }
 
   async goto() {
@@ -97,6 +103,10 @@ class HomePage {
 
   getDrawerDragButton() {
     return this.drawer.getDragButton()
+  }
+
+  getSearchStationForm() {
+    return this.searchRadioStationForm
   }
 
   async toggleAppTheme() {
