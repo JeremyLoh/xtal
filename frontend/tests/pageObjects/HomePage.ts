@@ -2,21 +2,28 @@ import { expect, Locator, Page } from "@playwright/test"
 import { homePageUrl } from "../constants/paths"
 import Sidebar, { SidebarMenuItemAction } from "../pageComponents/Sidebar"
 import Map from "../pageComponents/Map"
-import RadioCard from "../pageComponents/RadioCard"
 
 class HomePage {
   readonly page: Page
   readonly appThemeToggleButton: Locator
+  readonly genreSearchButton: Locator
+  readonly countrySearchButton: Locator
+  readonly genreSliderContainer: Locator
   readonly sidebar: Sidebar
   readonly map: Map
-  readonly radioCard: RadioCard
 
   constructor(page: Page) {
     this.page = page
     this.appThemeToggleButton = this.page.getByTestId("theme-toggle-button")
+    this.genreSearchButton = this.page.locator(
+      "#station-search-type-container .genre-search-button"
+    )
+    this.countrySearchButton = this.page.locator(
+      "#station-search-type-container .country-search-button"
+    )
+    this.genreSliderContainer = this.page.locator(".genre-slider-container")
     this.sidebar = new Sidebar(this.page)
     this.map = new Map(this.page)
-    this.radioCard = new RadioCard(this.page)
   }
 
   async goto() {
@@ -33,12 +40,36 @@ class HomePage {
     )
   }
 
+  getGenreSearchButton() {
+    return this.genreSearchButton
+  }
+
+  getGenreSliderContainer() {
+    return this.genreSliderContainer
+  }
+
+  getGenreSlideLeftIcon() {
+    return this.genreSliderContainer.locator(".slide-left-icon")
+  }
+
+  getGenreSlideRightIcon() {
+    return this.genreSliderContainer.locator(".slide-right-icon")
+  }
+
+  getCountrySearchButton() {
+    return this.countrySearchButton
+  }
+
+  getCountrySearchSliderOptions() {
+    return this.page.locator(".slider .country-slider-option")
+  }
+
   getRadioCard() {
-    return this.radioCard.getRadioCard()
+    return this.map.getRadioCard()
   }
 
   getRadioCardFavouriteIcon() {
-    return this.radioCard.getFavouriteIcon()
+    return this.map.getRadioCardFavouriteIcon()
   }
 
   getDrawer() {
@@ -72,11 +103,11 @@ class HomePage {
   }
 
   async clickRadioCardFavouriteIcon() {
-    await this.radioCard.clickFavouriteIcon()
+    await this.map.clickRadioCardFavouriteIcon()
   }
 
   async clickRadioCardCloseButton() {
-    await this.radioCard.clickCloseButton()
+    await this.map.clickRadioCardCloseButton()
   }
 }
 

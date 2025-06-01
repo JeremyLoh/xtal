@@ -2,11 +2,13 @@ import { Locator, Page } from "@playwright/test"
 
 class RadioCard {
   readonly page: Page
+  readonly parentComponent: Locator
   readonly radioCard: Locator
 
-  constructor(page: Page) {
+  constructor(page: Page, parentComponent: Locator) {
     this.page = page
-    this.radioCard = this.page.locator(".radio-card")
+    this.parentComponent = parentComponent
+    this.radioCard = this.parentComponent.locator(".radio-card")
   }
 
   getRadioCard() {
