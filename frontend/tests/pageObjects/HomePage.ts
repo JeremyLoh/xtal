@@ -133,6 +133,10 @@ class HomePage {
     return this.searchRadioStationForm.getSubmitButton()
   }
 
+  getSearchStationFormTagInput() {
+    return this.searchRadioStationForm.getTagFilterInput()
+  }
+
   getSearchStationResultCards() {
     return this.searchRadioStationForm.getSearchResultCards()
   }

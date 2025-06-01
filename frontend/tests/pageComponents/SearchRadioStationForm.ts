@@ -36,6 +36,10 @@ class SearchRadioStationForm {
     return this.getSortSelect().locator("option")
   }
 
+  getTagFilterInput() {
+    return this.getForm().locator("input#tag")
+  }
+
   getSubmitButton() {
     return this.getForm().locator("button[type='submit']")
   }
