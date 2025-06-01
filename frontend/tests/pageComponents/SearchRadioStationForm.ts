@@ -40,9 +40,15 @@ class SearchRadioStationForm {
     return this.getForm().locator("button[type='submit']")
   }
 
-  getSearchResultCard() {
+  getSearchResultCards() {
     // result cards displayed after form submit
     return this.drawer.getDrawer().locator(".station-search-result-card")
+  }
+
+  getLoadMoreResultsButton() {
+    return this.drawer
+      .getDrawer()
+      .locator(".station-search-load-more-results-button")
   }
 }
 

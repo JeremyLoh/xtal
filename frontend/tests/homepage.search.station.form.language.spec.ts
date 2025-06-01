@@ -72,16 +72,13 @@ test.describe("radio station search form language filter", () => {
     await assertLoadingSpinnerIsMissing(homePage.getPage())
     await homePage.getSearchStationButton().click()
     expect(
-      await homePage
-        .getSearchStationForm()
-        .getLanguageOptions()
-        .allTextContents()
+      await homePage.getSearchStationFormLanguageOptions().allTextContents()
     ).toEqual(
       expect.arrayContaining([...expectedLanguageOptions, "any language"])
     )
-    await expect(
-      homePage.getSearchStationForm().getLanguageOptions()
-    ).toHaveCount(expectedLanguageOptions.length + 1) // add one for "any language"
+    await expect(homePage.getSearchStationFormLanguageOptions()).toHaveCount(
+      expectedLanguageOptions.length + 1
+    ) // add one for "any language"
   })
 
   test("display english as default language", async ({ homePage }) => {
@@ -89,14 +86,13 @@ test.describe("radio station search form language filter", () => {
     await assertLoadingSpinnerIsMissing(homePage.getPage())
     await homePage.getSearchStationButton().click()
     await expect(
-      homePage.getSearchStationForm().getCurrentLanguageOption()
+      homePage.getSearchStationFormCurrentLanguageOption()
     ).toHaveValue("english")
     await homePage
-      .getSearchStationForm()
-      .getCurrentLanguageOption()
+      .getSearchStationFormCurrentLanguageOption()
       .selectOption(["cantonese"])
     await expect(
-      homePage.getSearchStationForm().getCurrentLanguageOption()
+      homePage.getSearchStationFormCurrentLanguageOption()
     ).toHaveValue("cantonese")
   })
 
@@ -125,14 +121,10 @@ test.describe("radio station search form language filter", () => {
     await assertLoadingSpinnerIsMissing(homePage.getPage())
     await homePage.getSearchStationButton().click()
     await homePage
-      .getSearchStationForm()
-      .getCurrentLanguageOption()
+      .getSearchStationFormCurrentLanguageOption()
       .selectOption(["cantonese"])
-    await homePage
-      .getSearchStationForm()
-      .getSearchNameInput()
-      .fill(cantoneseStation.name)
-    await homePage.getSearchStationForm().getSubmitButton().click()
+    await homePage.getSearchStationFormNameInput().fill(cantoneseStation.name)
+    await homePage.getSearchStationFormSubmitButton().click()
 
     await expect(
       homePage.getDrawer().locator(".station-search-result-card")

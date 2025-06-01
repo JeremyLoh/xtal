@@ -106,7 +106,39 @@ class HomePage {
   }
 
   getSearchStationForm() {
-    return this.searchRadioStationForm
+    return this.searchRadioStationForm.getForm()
+  }
+
+  getSearchStationFormNameInput() {
+    return this.searchRadioStationForm.getSearchNameInput()
+  }
+
+  getSearchStationFormSortSelect() {
+    return this.searchRadioStationForm.getSortSelect()
+  }
+
+  getSearchStationFormSortOptions() {
+    return this.searchRadioStationForm.getSortOptions()
+  }
+
+  getSearchStationFormLanguageOptions() {
+    return this.searchRadioStationForm.getLanguageOptions()
+  }
+
+  getSearchStationFormCurrentLanguageOption() {
+    return this.searchRadioStationForm.getCurrentLanguageOption()
+  }
+
+  getSearchStationFormSubmitButton() {
+    return this.searchRadioStationForm.getSubmitButton()
+  }
+
+  getSearchStationResultCards() {
+    return this.searchRadioStationForm.getSearchResultCards()
+  }
+
+  getSearchStationLoadMoreResultsButton() {
+    return this.searchRadioStationForm.getLoadMoreResultsButton()
   }
 
   async toggleAppTheme() {

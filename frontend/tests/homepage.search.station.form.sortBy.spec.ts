@@ -9,9 +9,9 @@ test.describe("radio station search form sort options", () => {
     await homePage.goto()
     await homePage.getSearchStationButton().click()
     expect(
-      await homePage.getSearchStationForm().getSortOptions().allTextContents()
+      await homePage.getSearchStationFormSortOptions().allTextContents()
     ).toEqual(expect.arrayContaining([...expectedSortOptions]))
-    await expect(homePage.getSearchStationForm().getSortOptions()).toHaveCount(
+    await expect(homePage.getSearchStationFormSortOptions()).toHaveCount(
       expectedSortOptions.length
     )
   })
@@ -45,25 +45,18 @@ test.describe("radio station search form sort options", () => {
       )
     await homePage.goto()
     await homePage.getSearchStationButton().click()
-    await homePage
-      .getSearchStationForm()
-      .getSearchNameInput()
-      .fill(stationNameSearch)
-    await homePage.getSearchStationForm().getSubmitButton().click()
-    await expect(
-      homePage.getSearchStationForm().getSearchResultCard()
-    ).toHaveCount(2)
+    await homePage.getSearchStationFormNameInput().fill(stationNameSearch)
+    await homePage.getSearchStationFormSubmitButton().click()
+    await expect(homePage.getSearchStationResultCards()).toHaveCount(2)
     await expect(
       homePage
-        .getSearchStationForm()
-        .getSearchResultCard()
+        .getSearchStationResultCards()
         .nth(0)
         .getByText(stationNameSearch, { exact: true })
     ).toBeVisible()
     await expect(
       homePage
-        .getSearchStationForm()
-        .getSearchResultCard()
+        .getSearchStationResultCards()
         .nth(1)
         .getByText(stationNameSearch + " 2", { exact: true })
     ).toBeVisible()
@@ -96,45 +89,33 @@ test.describe("radio station search form sort options", () => {
       )
     await homePage.goto()
     await homePage.getSearchStationButton().click()
-    await homePage
-      .getSearchStationForm()
-      .getSearchNameInput()
-      .fill(stationNameSearch)
-    await homePage
-      .getSearchStationForm()
-      .getSortSelect()
-      .selectOption(["bitrate"])
-    await homePage.getSearchStationForm().getSubmitButton().click()
-    await expect(
-      homePage.getSearchStationForm().getSearchResultCard()
-    ).toHaveCount(2)
+    await homePage.getSearchStationFormNameInput().fill(stationNameSearch)
+    await homePage.getSearchStationFormSortSelect().selectOption(["bitrate"])
+    await homePage.getSearchStationFormSubmitButton().click()
+    await expect(homePage.getSearchStationResultCards()).toHaveCount(2)
 
     await expect(
       homePage
-        .getSearchStationForm()
-        .getSearchResultCard()
+        .getSearchStationResultCards()
         .nth(0)
         .getByText(stationNameSearch + " higher bitrate", { exact: true })
     ).toBeVisible()
     await expect(
       homePage
-        .getSearchStationForm()
-        .getSearchResultCard()
+        .getSearchStationResultCards()
         .nth(0)
         .getByText("128 kbps", { exact: true })
     ).toBeVisible()
 
     await expect(
       homePage
-        .getSearchStationForm()
-        .getSearchResultCard()
+        .getSearchStationResultCards()
         .nth(1)
         .getByText(stationNameSearch, { exact: true })
     ).toBeVisible()
     await expect(
       homePage
-        .getSearchStationForm()
-        .getSearchResultCard()
+        .getSearchStationResultCards()
         .nth(1)
         .getByText("64 kbps", { exact: true })
     ).toBeVisible()
@@ -167,43 +148,31 @@ test.describe("radio station search form sort options", () => {
       )
     await homePage.goto()
     await homePage.getSearchStationButton().click()
-    await homePage
-      .getSearchStationForm()
-      .getSearchNameInput()
-      .fill(stationNameSearch)
-    await homePage
-      .getSearchStationForm()
-      .getSortSelect()
-      .selectOption(["votes"])
-    await homePage.getSearchStationForm().getSubmitButton().click()
-    await expect(
-      homePage.getSearchStationForm().getSearchResultCard()
-    ).toHaveCount(2)
+    await homePage.getSearchStationFormNameInput().fill(stationNameSearch)
+    await homePage.getSearchStationFormSortSelect().selectOption(["votes"])
+    await homePage.getSearchStationFormSubmitButton().click()
+    await expect(homePage.getSearchStationResultCards()).toHaveCount(2)
     await expect(
       homePage
-        .getSearchStationForm()
-        .getSearchResultCard()
+        .getSearchStationResultCards()
         .nth(0)
         .getByText(stationNameSearch + " higher votes", { exact: true })
     ).toBeVisible()
     await expect(
       homePage
-        .getSearchStationForm()
-        .getSearchResultCard()
+        .getSearchStationResultCards()
         .nth(0)
         .getByText("200", { exact: true })
     ).toBeVisible()
     await expect(
       homePage
-        .getSearchStationForm()
-        .getSearchResultCard()
+        .getSearchStationResultCards()
         .nth(1)
         .getByText(stationNameSearch, { exact: true })
     ).toBeVisible()
     await expect(
       homePage
-        .getSearchStationForm()
-        .getSearchResultCard()
+        .getSearchStationResultCards()
         .nth(1)
         .getByText("5", { exact: true })
     ).toBeVisible()
