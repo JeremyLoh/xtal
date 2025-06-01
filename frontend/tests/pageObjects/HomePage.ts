@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test"
-import { homePageUrl } from "../constants/paths"
+import { homePageUrl, radioStationShareUrl } from "../constants/paths"
 import Sidebar, { SidebarMenuItemAction } from "../pageComponents/Sidebar"
 import Map from "../pageComponents/Map"
 import Drawer from "../pageComponents/Drawer"
@@ -41,6 +41,10 @@ class HomePage {
 
   async goto() {
     await this.page.goto(homePageUrl())
+  }
+
+  async gotoRadioStationShareUrl(stationUuid: string) {
+    await this.page.goto(radioStationShareUrl(stationUuid))
   }
 
   getPage(): Page {
@@ -87,6 +91,10 @@ class HomePage {
 
   getRadioCardFavouriteIcon() {
     return this.map.getRadioCardFavouriteIcon()
+  }
+
+  getRadioCardShareIcon() {
+    return this.map.getRadioCardShareIcon()
   }
 
   getDrawer() {

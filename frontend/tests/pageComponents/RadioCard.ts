@@ -19,6 +19,10 @@ class RadioCard {
     return this.radioCard.locator(".station-card-favourite-icon")
   }
 
+  getShareIcon() {
+    return this.radioCard.locator(".station-card-share-icon")
+  }
+
   async clickFavouriteIcon() {
     await this.radioCard.locator(".station-card-favourite-icon").click()
   }

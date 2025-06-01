@@ -20,6 +20,10 @@ class Map {
     return this.radioCard.getFavouriteIcon()
   }
 
+  getRadioCardShareIcon() {
+    return this.radioCard.getShareIcon()
+  }
+
   async clickRadioCardFavouriteIcon() {
     await this.radioCard.clickFavouriteIcon()
   }
