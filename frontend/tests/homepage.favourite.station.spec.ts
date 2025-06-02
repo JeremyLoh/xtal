@@ -10,6 +10,13 @@ import { getClipboardContent } from "./constants/shareStationConstants"
 import HomePage from "./pageObjects/HomePage"
 
 test.describe("radio station favourite feature", () => {
+  async function clearBrowserStorage(homePage: HomePage) {
+    // must be done after page goto() call (after page opened)
+    // clear browser localStorage used for saving favourite stations
+    await homePage.getPage().evaluate(() => window.localStorage.clear())
+    await homePage.getPage().evaluate(() => window.sessionStorage.clear())
+  }
+
   async function assertEmptyFavouriteList(homePage: HomePage) {
     await expect(
       homePage.getDrawer().locator(".empty-favourites")
@@ -30,6 +37,7 @@ test.describe("radio station favourite feature", () => {
         await route.fulfill({ json })
       })
     await homePage.goto()
+    await clearBrowserStorage(homePage)
     await homePage.clickRandomRadioStationButton()
     await homePage.clickRadioCardFavouriteIcon()
     // move mouse away from the favourite icon to check the default fill color
@@ -56,6 +64,7 @@ test.describe("radio station favourite feature", () => {
         await route.fulfill({ json })
       })
     await homePage.goto()
+    await clearBrowserStorage(homePage)
     await homePage.clickRandomRadioStationButton()
     // move mouse away from the favourite icon to check the default fill color
     await homePage.getPage().mouse.move(0, 0)
@@ -81,6 +90,7 @@ test.describe("radio station favourite feature", () => {
         await route.fulfill({ json })
       })
     await homePage.goto()
+    await clearBrowserStorage(homePage)
     await homePage.clickRandomRadioStationButton()
     homePage.getRadioCardFavouriteIcon()
     await expect(homePage.getRadioCardFavouriteIcon()).toBeVisible()
@@ -95,6 +105,7 @@ test.describe("radio station favourite feature", () => {
     homePage,
   }) => {
     await homePage.goto()
+    await clearBrowserStorage(homePage)
     await homePage.openFavouriteStationsDrawer()
     await expect(homePage.getDrawer()).toBeVisible()
     await expect(homePage.getDrawerTitle()).toHaveText("Favourite Stations")
@@ -109,6 +120,7 @@ test.describe("radio station favourite feature", () => {
         await route.fulfill({ json })
       })
     await homePage.goto()
+    await clearBrowserStorage(homePage)
     await homePage.openFavouriteStationsDrawer()
     await expect(homePage.getDrawer()).toBeVisible()
     await expect(homePage.getDrawerTitle()).toHaveText("Favourite Stations")
@@ -165,6 +177,7 @@ test.describe("radio station favourite feature", () => {
         await route.fulfill({ json })
       })
     await homePage.goto()
+    await clearBrowserStorage(homePage)
     await homePage.clickRandomRadioStationButton()
     await homePage.clickRadioCardFavouriteIcon()
     await homePage.openFavouriteStationsDrawer()
@@ -193,6 +206,7 @@ test.describe("radio station favourite feature", () => {
         await route.fulfill({ json })
       })
     await homePage.goto()
+    await clearBrowserStorage(homePage)
     await homePage.openFavouriteStationsDrawer()
     await expect(homePage.getDrawer()).toBeVisible()
     await expect(homePage.getDrawer().locator(".drawer-title")).toHaveText(
@@ -255,6 +269,7 @@ test.describe("radio station favourite feature", () => {
         }
       })
     await homePage.goto()
+    await clearBrowserStorage(homePage)
     await homePage.clickRandomRadioStationButton()
     await homePage.clickRadioCardFavouriteIcon()
     // load another radio station on the map that is different from the first station
@@ -306,6 +321,7 @@ test.describe("radio station favourite feature", () => {
         await route.fulfill({ json })
       })
     await homePage.goto()
+    await clearBrowserStorage(homePage)
     await homePage.clickRandomRadioStationButton()
     await homePage.clickRadioCardFavouriteIcon()
 
@@ -352,6 +368,7 @@ test.describe("radio station favourite feature", () => {
         await route.fulfill({ json })
       })
     await homePage.goto()
+    await clearBrowserStorage(homePage)
     await homePage.clickRandomRadioStationButton()
     await homePage.clickRadioCardFavouriteIcon()
     await expect(
@@ -409,6 +426,7 @@ test.describe("radio station favourite feature", () => {
           }
         })
       await homePage.goto()
+      await clearBrowserStorage(homePage)
       await homePage.clickRandomRadioStationButton()
       await homePage.clickRadioCardFavouriteIcon()
       requestCount = 2
@@ -450,6 +468,7 @@ test.describe("radio station favourite feature", () => {
           }
         })
       await homePage.goto()
+      await clearBrowserStorage(homePage)
       await homePage.clickRandomRadioStationButton()
       await homePage.clickRadioCardFavouriteIcon()
       requestCount = 2
