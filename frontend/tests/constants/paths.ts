@@ -23,3 +23,14 @@ export const podcastCategoryPageUrl = (categoryName: string) => {
       : categoryTrim.toUpperCase()
   return homePageUrl() + `/podcasts/${categoryTitleCase}`
 }
+export const podcastDetailPageUrl = ({
+  podcastTitle,
+  podcastId,
+}: {
+  podcastTitle: string
+  podcastId: string
+}) => {
+  return (
+    homePageUrl() + `/podcasts/${encodeURIComponent(podcastTitle)}/${podcastId}`
+  )
+}
