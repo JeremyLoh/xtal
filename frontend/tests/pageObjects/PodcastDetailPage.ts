@@ -77,6 +77,10 @@ class PodcastDetailPage {
     return this.podcastInfoContainer.getByText(category, { exact: true })
   }
 
+  getPodcastInfoShareButton() {
+    return this.podcastInfoContainer.getByTestId("podcast-share-button")
+  }
+
   getPodcastEpisodeCardTitle(title: string) {
     return this.podcastEpisodeCards.getByText(title, { exact: true })
   }
@@ -86,6 +90,26 @@ class PodcastDetailPage {
       name: episodeTitle + " podcast image",
       exact: true,
     })
+  }
+
+  getPodcastEpisodeShareButton(index: number) {
+    return this.podcastEpisodeCards
+      .getByTestId("podcast-episode-share-button")
+      .nth(index)
+  }
+
+  getPodcastEpisodeShareDialog() {
+    return this.page.getByTestId("podcast-episode-share-dialog-content")
+  }
+
+  getPodcastEpisodeDialogCopyLinkButton() {
+    return this.page.getByTestId("podcast-episode-copy-link-button")
+  }
+
+  getPodcastEpisodeDialogTimestampInput() {
+    return this.page
+      .getByTestId("podcast-episode-share-dialog-content")
+      .locator(".podcast-episode-start-playback-time")
   }
 
   getPodcastEpisodePlayButton(index: number) {
