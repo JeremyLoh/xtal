@@ -1,18 +1,12 @@
-import test, { expect, Page } from "@playwright/test"
+import { test } from "../../fixture/test"
+import { expect } from "@playwright/test"
 import dayjs from "dayjs"
-import { HOMEPAGE } from "../../constants/homepageConstants"
 import {
   tenArtTrendingPodcasts,
   tenArtTrendingPodcastsOffsetTen,
 } from "../../mocks/podcast.trending"
-import {
-  getActivePageNumberElement,
-  getNextPaginationButton,
-  getPageNumberElement,
-  getPreviousPaginationButton,
-  getSinceSelectFilter,
-} from "../../constants/podcast/pagination/podcastTrendingPagination"
 import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
+import PodcastCategoryPage from "../../pageObjects/PodcastCategoryPage"
 
 test.describe("Pagination on Podcast Category Page /podcasts/<category_name>", () => {
   function convertToUnixTimestamp(daysBefore: number): number {
@@ -20,26 +14,24 @@ test.describe("Pagination on Podcast Category Page /podcasts/<category_name>", (
   }
 
   async function assertTrendingPodcastIsShown(
-    page: Page,
+    podcastCategoryPage: PodcastCategoryPage,
     expectedIndex: number,
     expectedPodcast: (typeof tenArtTrendingPodcasts.data)[0]
   ) {
     await expect(
-      page
-        .locator(".podcast-trending-card-container .podcast-card-artwork")
-        .nth(expectedIndex),
+      podcastCategoryPage.getTrendingPodcastArtwork().nth(expectedIndex),
       `(Podcast ${expectedIndex + 1}) should have artwork present`
     ).toBeVisible()
     await expect(
-      page
-        .locator(".podcast-trending-card-container .podcast-card-title")
+      podcastCategoryPage
+        .getTrendingPodcastTitle()
         .nth(expectedIndex)
         .getByText(expectedPodcast.title, { exact: true }),
       `(Podcast ${expectedIndex + 1}) should have title present`
     ).toBeVisible()
     await expect(
-      page
-        .locator(".podcast-trending-card-container .podcast-card-author")
+      podcastCategoryPage
+        .getTrendingPodcastAuthor()
         .nth(expectedIndex)
         .getByText(expectedPodcast.author, { exact: true }),
       `(Podcast ${expectedIndex + 1}) should have author present`
@@ -48,165 +40,239 @@ test.describe("Pagination on Podcast Category Page /podcasts/<category_name>", (
 
   test.describe("Trending Podcasts Section", () => {
     test("should display active page, next and previous pagination buttons", async ({
-      page,
+      podcastCategoryPage,
     }) => {
       test.slow()
       const expectedActivePage = "1"
       const category = "Arts"
-      await page.route(
-        `*/**/api/podcast/trending?limit=10&since=*&category=${category}`,
-        async (route) => {
-          const json = tenArtTrendingPodcasts
-          await route.fulfill({ json })
-        }
-      )
-      await page.goto(HOMEPAGE + `/podcasts/${category}`)
-      await assertLoadingSpinnerIsMissing(page)
+      await podcastCategoryPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/trending?limit=10&since=*&category=${category}`,
+          async (route) => {
+            const json = tenArtTrendingPodcasts
+            await route.fulfill({ json })
+          }
+        )
+      await podcastCategoryPage.goto(category)
+      await assertLoadingSpinnerIsMissing(podcastCategoryPage.getPage())
       for (let i = 0; i < tenArtTrendingPodcasts.count; i++) {
         const expectedPodcast = tenArtTrendingPodcasts.data[i]
-        await assertTrendingPodcastIsShown(page, i, expectedPodcast)
+        await assertTrendingPodcastIsShown(
+          podcastCategoryPage,
+          i,
+          expectedPodcast
+        )
       }
-      await expect(getNextPaginationButton(page)).toBeVisible()
-      await expect(getNextPaginationButton(page)).not.toBeDisabled()
+      const nextPaginationButton =
+        podcastCategoryPage.getTrendingPodcastNextPaginationButton()
+      await expect(nextPaginationButton).toBeVisible()
+      await expect(nextPaginationButton).not.toBeDisabled()
       await expect(
-        getActivePageNumberElement(page, expectedActivePage)
+        podcastCategoryPage.getTrendingPodcastPaginationActivePageNumber(
+          expectedActivePage
+        )
       ).toBeVisible()
-      await expect(getPreviousPaginationButton(page)).toBeVisible()
-      await expect(getPreviousPaginationButton(page)).toBeDisabled()
+      const previousPaginationButton =
+        podcastCategoryPage.getTrendingPodcastPreviousPaginationButton()
+      await expect(previousPaginationButton).toBeVisible()
+      await expect(previousPaginationButton).toBeDisabled()
     })
 
     test("should allow pagination to next page on next pagination button click", async ({
-      page,
+      podcastCategoryPage,
     }) => {
       test.slow()
       const limit = 10
       const category = "Arts"
-      await page.route(
-        `*/**/api/podcast/trending?limit=${limit}&since=*&category=${category}`,
-        async (route) => {
-          const requestUrl = route.request().url()
-          const isFirstPageRequest = !requestUrl.includes(`offset=${limit}`)
-          const json = isFirstPageRequest ? tenArtTrendingPodcasts : []
-          await route.fulfill({ json })
-        }
-      )
-      await page.route(
-        `*/**/api/podcast/trending?limit=${limit}&offset=${limit}&since=*&category=${category}`,
-        async (route) => {
-          const json = tenArtTrendingPodcastsOffsetTen
-          await route.fulfill({ json })
-        }
-      )
-      await page.goto(HOMEPAGE + `/podcasts/${category}`)
-      await assertLoadingSpinnerIsMissing(page)
-      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      await podcastCategoryPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/trending?limit=${limit}&since=*&category=${category}`,
+          async (route) => {
+            const requestUrl = route.request().url()
+            const isFirstPageRequest = !requestUrl.includes(`offset=${limit}`)
+            const json = isFirstPageRequest ? tenArtTrendingPodcasts : []
+            await route.fulfill({ json })
+          }
+        )
+      await podcastCategoryPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/trending?limit=${limit}&offset=${limit}&since=*&category=${category}`,
+          async (route) => {
+            const json = tenArtTrendingPodcastsOffsetTen
+            await route.fulfill({ json })
+          }
+        )
+      await podcastCategoryPage.goto(category)
+      await assertLoadingSpinnerIsMissing(podcastCategoryPage.getPage())
+      await expect(
+        podcastCategoryPage.getTrendingPodcastPaginationActivePageNumber("1")
+      ).toBeVisible()
       for (let i = 0; i < tenArtTrendingPodcasts.count; i++) {
         const expectedPodcast = tenArtTrendingPodcasts.data[i]
-        await assertTrendingPodcastIsShown(page, i, expectedPodcast)
+        await assertTrendingPodcastIsShown(
+          podcastCategoryPage,
+          i,
+          expectedPodcast
+        )
       }
-      await expect(getNextPaginationButton(page)).toBeVisible()
-      await expect(getNextPaginationButton(page)).not.toBeDisabled()
-      await getNextPaginationButton(page).click()
-      await assertLoadingSpinnerIsMissing(page)
+      const nextPaginationButton =
+        podcastCategoryPage.getTrendingPodcastNextPaginationButton()
+      await expect(nextPaginationButton).toBeVisible()
+      await expect(nextPaginationButton).not.toBeDisabled()
+      await nextPaginationButton.click()
+      await assertLoadingSpinnerIsMissing(podcastCategoryPage.getPage())
 
       for (let i = 0; i < tenArtTrendingPodcastsOffsetTen.count; i++) {
         const expectedPodcast = tenArtTrendingPodcastsOffsetTen.data[i]
-        await assertTrendingPodcastIsShown(page, i, expectedPodcast)
+        await assertTrendingPodcastIsShown(
+          podcastCategoryPage,
+          i,
+          expectedPodcast
+        )
       }
-      await expect(getActivePageNumberElement(page, "2")).toBeVisible()
+      await expect(
+        podcastCategoryPage.getTrendingPodcastPaginationActivePageNumber("2")
+      ).toBeVisible()
     })
 
     test("should allow pagination to previous page on previous pagination button click", async ({
-      page,
+      podcastCategoryPage,
     }) => {
       test.slow()
       const limit = 10
       const category = "Arts"
-      await page.route(
-        `*/**/api/podcast/trending?limit=${limit}&since=*&category=${category}`,
-        async (route) => {
-          const requestUrl = route.request().url()
-          const isFirstPageRequest = !requestUrl.includes(`offset=${limit}`)
-          const json = isFirstPageRequest ? tenArtTrendingPodcasts : []
-          await route.fulfill({ json })
-        }
-      )
-      await page.route(
-        `*/**/api/podcast/trending?limit=${limit}&offset=${limit}&since=*&category=${category}`,
-        async (route) => {
-          const json = tenArtTrendingPodcastsOffsetTen
-          await route.fulfill({ json })
-        }
-      )
-      await page.goto(HOMEPAGE + `/podcasts/${category}`)
-      await assertLoadingSpinnerIsMissing(page)
-      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      await podcastCategoryPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/trending?limit=${limit}&since=*&category=${category}`,
+          async (route) => {
+            const requestUrl = route.request().url()
+            const isFirstPageRequest = !requestUrl.includes(`offset=${limit}`)
+            const json = isFirstPageRequest ? tenArtTrendingPodcasts : []
+            await route.fulfill({ json })
+          }
+        )
+      await podcastCategoryPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/trending?limit=${limit}&offset=${limit}&since=*&category=${category}`,
+          async (route) => {
+            const json = tenArtTrendingPodcastsOffsetTen
+            await route.fulfill({ json })
+          }
+        )
+      await podcastCategoryPage.goto(category)
+      await assertLoadingSpinnerIsMissing(podcastCategoryPage.getPage())
+      await expect(
+        podcastCategoryPage.getTrendingPodcastPaginationActivePageNumber("1")
+      ).toBeVisible()
       for (let i = 0; i < tenArtTrendingPodcasts.count; i++) {
         const expectedPodcast = tenArtTrendingPodcasts.data[i]
-        await assertTrendingPodcastIsShown(page, i, expectedPodcast)
+        await assertTrendingPodcastIsShown(
+          podcastCategoryPage,
+          i,
+          expectedPodcast
+        )
       }
-      await expect(getNextPaginationButton(page)).toBeVisible()
-      await expect(getNextPaginationButton(page)).not.toBeDisabled()
-      await getNextPaginationButton(page).click()
-      await assertLoadingSpinnerIsMissing(page)
+      const nextPaginationButton =
+        podcastCategoryPage.getTrendingPodcastNextPaginationButton()
+      await expect(nextPaginationButton).toBeVisible()
+      await expect(nextPaginationButton).not.toBeDisabled()
+      await nextPaginationButton.click()
+      await assertLoadingSpinnerIsMissing(podcastCategoryPage.getPage())
 
-      await expect(getPreviousPaginationButton(page)).not.toBeDisabled()
+      const previousPaginationButton =
+        podcastCategoryPage.getTrendingPodcastPreviousPaginationButton()
+      await expect(previousPaginationButton).not.toBeDisabled()
       for (let i = 0; i < tenArtTrendingPodcastsOffsetTen.count; i++) {
         const expectedPodcast = tenArtTrendingPodcastsOffsetTen.data[i]
-        await assertTrendingPodcastIsShown(page, i, expectedPodcast)
+        await assertTrendingPodcastIsShown(
+          podcastCategoryPage,
+          i,
+          expectedPodcast
+        )
       }
-      await expect(getActivePageNumberElement(page, "2")).toBeVisible()
-      await getPreviousPaginationButton(page).click()
-      await assertLoadingSpinnerIsMissing(page)
+      await expect(
+        podcastCategoryPage.getTrendingPodcastPaginationActivePageNumber("2")
+      ).toBeVisible()
+      await previousPaginationButton.click()
+      await assertLoadingSpinnerIsMissing(podcastCategoryPage.getPage())
 
-      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      await expect(
+        podcastCategoryPage.getTrendingPodcastPaginationActivePageNumber("1")
+      ).toBeVisible()
       for (let i = 0; i < tenArtTrendingPodcasts.count; i++) {
         const expectedPodcast = tenArtTrendingPodcasts.data[i]
-        await assertTrendingPodcastIsShown(page, i, expectedPodcast)
+        await assertTrendingPodcastIsShown(
+          podcastCategoryPage,
+          i,
+          expectedPodcast
+        )
       }
     })
 
     test("should allow desktop pagination via page number button between first and second page", async ({
-      page,
+      podcastCategoryPage,
       isMobile,
     }) => {
       test.skip(isMobile, "skip desktop test")
       test.slow()
       const limit = 10
       const category = "Arts"
-      await page.route(
-        `*/**/api/podcast/trending?limit=${limit}&since=*&category=${category}`,
-        async (route) => {
-          const requestUrl = route.request().url()
-          const isFirstPageRequest = !requestUrl.includes(`offset=${limit}`)
-          const json = isFirstPageRequest ? tenArtTrendingPodcasts : []
-          await route.fulfill({ json })
-        }
-      )
-      await page.route(
-        `*/**/api/podcast/trending?limit=${limit}&offset=${limit}&since=*&category=${category}`,
-        async (route) => {
-          const json = tenArtTrendingPodcastsOffsetTen
-          await route.fulfill({ json })
-        }
-      )
-      await page.goto(HOMEPAGE + `/podcasts/${category}`)
-      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      await podcastCategoryPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/trending?limit=${limit}&since=*&category=${category}`,
+          async (route) => {
+            const requestUrl = route.request().url()
+            const isFirstPageRequest = !requestUrl.includes(`offset=${limit}`)
+            const json = isFirstPageRequest ? tenArtTrendingPodcasts : []
+            await route.fulfill({ json })
+          }
+        )
+      await podcastCategoryPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/trending?limit=${limit}&offset=${limit}&since=*&category=${category}`,
+          async (route) => {
+            const json = tenArtTrendingPodcastsOffsetTen
+            await route.fulfill({ json })
+          }
+        )
+      await podcastCategoryPage.goto(category)
+      await expect(
+        podcastCategoryPage.getTrendingPodcastPaginationActivePageNumber("1")
+      ).toBeVisible()
       for (let i = 0; i < tenArtTrendingPodcasts.count; i++) {
         const expectedPodcast = tenArtTrendingPodcasts.data[i]
-        await assertTrendingPodcastIsShown(page, i, expectedPodcast)
+        await assertTrendingPodcastIsShown(
+          podcastCategoryPage,
+          i,
+          expectedPodcast
+        )
       }
 
-      await getPageNumberElement(page, "2").click()
-      await expect(getActivePageNumberElement(page, "2")).toBeVisible()
+      await podcastCategoryPage
+        .getTrendingPodcastPaginationPageNumber("2")
+        .click()
+      await expect(
+        podcastCategoryPage.getTrendingPodcastPaginationActivePageNumber("2")
+      ).toBeVisible()
       for (let i = 0; i < tenArtTrendingPodcastsOffsetTen.count; i++) {
         const expectedPodcast = tenArtTrendingPodcastsOffsetTen.data[i]
-        await assertTrendingPodcastIsShown(page, i, expectedPodcast)
+        await assertTrendingPodcastIsShown(
+          podcastCategoryPage,
+          i,
+          expectedPodcast
+        )
       }
     })
 
     test("should reset pagination page to one when trending podcasts since filter is updated on second pagination page", async ({
-      page,
+      podcastCategoryPage,
     }) => {
       test.slow()
       const defaultSinceDays = 3
@@ -214,58 +280,88 @@ test.describe("Pagination on Podcast Category Page /podcasts/<category_name>", (
       const limit = 10
       const defaultSinceTimestamp = convertToUnixTimestamp(defaultSinceDays)
       const category = "Arts"
-      await page.route(
-        `*/**/api/podcast/trending?limit=${limit}&since=${defaultSinceTimestamp}&category=${category}`,
-        async (route) => {
-          const requestUrl = route.request().url()
-          const isFirstPageRequest = !requestUrl.includes(`offset=${limit}`)
-          const json = isFirstPageRequest ? tenArtTrendingPodcasts : []
-          await route.fulfill({ json })
-        }
-      )
-      await page.route(
-        `*/**/api/podcast/trending?limit=${limit}&offset=${limit}&since=${defaultSinceTimestamp}&category=${category}`,
-        async (route) => {
-          const json = tenArtTrendingPodcastsOffsetTen
-          await route.fulfill({ json })
-        }
-      )
+      await podcastCategoryPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/trending?limit=${limit}&since=${defaultSinceTimestamp}&category=${category}`,
+          async (route) => {
+            const requestUrl = route.request().url()
+            const isFirstPageRequest = !requestUrl.includes(`offset=${limit}`)
+            const json = isFirstPageRequest ? tenArtTrendingPodcasts : []
+            await route.fulfill({ json })
+          }
+        )
+      await podcastCategoryPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/trending?limit=${limit}&offset=${limit}&since=${defaultSinceTimestamp}&category=${category}`,
+          async (route) => {
+            const json = tenArtTrendingPodcastsOffsetTen
+            await route.fulfill({ json })
+          }
+        )
       // mock page one of a different since time selection
       const differentSinceTimestamp = convertToUnixTimestamp(sinceDaysSelect)
-      await page.route(
-        `*/**/api/podcast/trending?limit=${limit}&since=${differentSinceTimestamp}&category=${category}`,
-        async (route) => {
-          const requestUrl = route.request().url()
-          const isMissingOffset = !requestUrl.includes(`offset=${limit}`)
-          const json = isMissingOffset ? tenArtTrendingPodcasts : []
-          await route.fulfill({ json })
-        }
-      )
-      await page.goto(HOMEPAGE + `/podcasts/${category}`)
-      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      await podcastCategoryPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/trending?limit=${limit}&since=${differentSinceTimestamp}&category=${category}`,
+          async (route) => {
+            const requestUrl = route.request().url()
+            const isMissingOffset = !requestUrl.includes(`offset=${limit}`)
+            const json = isMissingOffset ? tenArtTrendingPodcasts : []
+            await route.fulfill({ json })
+          }
+        )
+      await podcastCategoryPage.goto(category)
+      await expect(
+        podcastCategoryPage.getTrendingPodcastPaginationActivePageNumber("1")
+      ).toBeVisible()
       for (let i = 0; i < tenArtTrendingPodcasts.count; i++) {
         const expectedPodcast = tenArtTrendingPodcasts.data[i]
-        await assertTrendingPodcastIsShown(page, i, expectedPodcast)
+        await assertTrendingPodcastIsShown(
+          podcastCategoryPage,
+          i,
+          expectedPodcast
+        )
       }
-      await expect(getSinceSelectFilter(page)).toHaveValue(
-        `${defaultSinceDays}`
-      )
-      await expect(getNextPaginationButton(page)).toBeVisible()
-      await expect(getNextPaginationButton(page)).not.toBeDisabled()
-      await getNextPaginationButton(page).click()
-      await expect(getActivePageNumberElement(page, "2")).toBeVisible()
+      await expect(
+        podcastCategoryPage.getTrendingPodcastSinceSelectFilter()
+      ).toHaveValue(`${defaultSinceDays}`)
+      const nextPaginationButton =
+        podcastCategoryPage.getTrendingPodcastNextPaginationButton()
+      await expect(nextPaginationButton).toBeVisible()
+      await expect(nextPaginationButton).not.toBeDisabled()
+      await nextPaginationButton.click()
+      await expect(
+        podcastCategoryPage.getTrendingPodcastPaginationActivePageNumber("2")
+      ).toBeVisible()
       for (let i = 0; i < tenArtTrendingPodcastsOffsetTen.count; i++) {
         const expectedPodcast = tenArtTrendingPodcastsOffsetTen.data[i]
-        await assertTrendingPodcastIsShown(page, i, expectedPodcast)
+        await assertTrendingPodcastIsShown(
+          podcastCategoryPage,
+          i,
+          expectedPodcast
+        )
       }
       // should reset the filters to zero offset with a new different since date search
-      await getSinceSelectFilter(page).selectOption(`${sinceDaysSelect}`)
-      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
-      await expect(getPreviousPaginationButton(page)).toBeVisible()
-      await expect(getPreviousPaginationButton(page)).toBeDisabled()
+      await podcastCategoryPage
+        .getTrendingPodcastSinceSelectFilter()
+        .selectOption(`${sinceDaysSelect}`)
+      await expect(
+        podcastCategoryPage.getTrendingPodcastPaginationActivePageNumber("1")
+      ).toBeVisible()
+      const previousPaginationButton =
+        podcastCategoryPage.getTrendingPodcastPreviousPaginationButton()
+      await expect(previousPaginationButton).toBeVisible()
+      await expect(previousPaginationButton).toBeDisabled()
       for (let i = 0; i < tenArtTrendingPodcasts.count; i++) {
         const expectedPodcast = tenArtTrendingPodcasts.data[i]
-        await assertTrendingPodcastIsShown(page, i, expectedPodcast)
+        await assertTrendingPodcastIsShown(
+          podcastCategoryPage,
+          i,
+          expectedPodcast
+        )
       }
     })
   })
