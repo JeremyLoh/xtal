@@ -3,25 +3,29 @@ import { podcastDetailPageUrl } from "../constants/paths"
 
 class PodcastDetailPage {
   readonly page: Page
+  readonly breadcrumbPodcastDetailPageLink: Locator
+  readonly podcastInfoContainer: Locator
   readonly nextEpisodeListPaginationButton: Locator
   readonly episodePaginationActivePageNumber: Locator
-  readonly breadcrumbPodcastDetailPageLink: Locator
   readonly episodeDurationFilter: Locator
+  readonly podcastEpisodeCards: Locator
 
   constructor(page: Page) {
     this.page = page
+    this.breadcrumbPodcastDetailPageLink = this.page.getByTestId(
+      "podcast-detail-page-category-link"
+    )
+    this.podcastInfoContainer = this.page.locator(".podcast-info-container")
     this.nextEpisodeListPaginationButton = this.page
       .locator(".podcast-episode-pagination")
       .getByTestId("pagination-next-button")
     this.episodePaginationActivePageNumber = this.page
       .locator(".podcast-episode-pagination")
       .locator(".active")
-    this.breadcrumbPodcastDetailPageLink = this.page.getByTestId(
-      "podcast-detail-page-category-link"
-    )
     this.episodeDurationFilter = this.page.locator(
       ".podcast-episode-list-filters select.podcast-episode-duration-filter"
     )
+    this.podcastEpisodeCards = this.page.locator(".podcast-episode-card")
   }
 
   getPage() {
@@ -52,6 +56,18 @@ class PodcastDetailPage {
 
   getEpisodePaginationActivePageNumber(activePageNumber: string) {
     return this.episodePaginationActivePageNumber.getByText(activePageNumber)
+  }
+
+  getPodcastInfoContainer() {
+    return this.podcastInfoContainer
+  }
+
+  getPodcastInfoCategoryPill(category: string) {
+    return this.podcastInfoContainer.getByText(category, { exact: true })
+  }
+
+  getPodcastEpisodeCardTitle(title: string) {
+    return this.podcastEpisodeCards.getByText(title, { exact: true })
   }
 }
 
