@@ -1,19 +1,25 @@
 import { Locator, Page } from "@playwright/test"
 import { podcastDetailPageUrl } from "../constants/paths"
+import PodcastPlayer from "../pageComponents/PodcastPlayer"
 
 class PodcastDetailPage {
   readonly page: Page
   readonly breadcrumbPodcastDetailPageLink: Locator
+  readonly breadcrumbPodcastPageLink: Locator
   readonly podcastInfoContainer: Locator
   readonly nextEpisodeListPaginationButton: Locator
   readonly episodePaginationActivePageNumber: Locator
   readonly episodeDurationFilter: Locator
   readonly podcastEpisodeCards: Locator
+  readonly podcastPlayer: PodcastPlayer
 
   constructor(page: Page) {
     this.page = page
     this.breadcrumbPodcastDetailPageLink = this.page.getByTestId(
       "podcast-detail-page-category-link"
+    )
+    this.breadcrumbPodcastPageLink = this.page.getByTestId(
+      "podcast-detail-page-podcasts-link"
     )
     this.podcastInfoContainer = this.page.locator(".podcast-info-container")
     this.nextEpisodeListPaginationButton = this.page
@@ -26,6 +32,7 @@ class PodcastDetailPage {
       ".podcast-episode-list-filters select.podcast-episode-duration-filter"
     )
     this.podcastEpisodeCards = this.page.locator(".podcast-episode-card")
+    this.podcastPlayer = new PodcastPlayer(this.page)
   }
 
   getPage() {
@@ -44,6 +51,10 @@ class PodcastDetailPage {
 
   getBreadcrumbPodcastDetailPageLink() {
     return this.breadcrumbPodcastDetailPageLink
+  }
+
+  getBreadcrumbPodcastPageLink() {
+    return this.breadcrumbPodcastPageLink
   }
 
   getEpisodeDurationFilter() {
@@ -68,6 +79,43 @@ class PodcastDetailPage {
 
   getPodcastEpisodeCardTitle(title: string) {
     return this.podcastEpisodeCards.getByText(title, { exact: true })
+  }
+
+  getPodcastEpisodeCardArtwork(episodeTitle: string) {
+    return this.podcastEpisodeCards.getByRole("img", {
+      name: episodeTitle + " podcast image",
+      exact: true,
+    })
+  }
+
+  getPodcastEpisodePlayButton(index: number) {
+    return this.podcastEpisodeCards
+      .locator(".podcast-episode-card-play-button")
+      .nth(index)
+  }
+
+  getPodcastPlayer() {
+    return this.podcastPlayer.getAudioPlayer()
+  }
+
+  getPodcastPlayerAudio() {
+    return this.podcastPlayer.getAudioPlayerSource()
+  }
+
+  getPodcastPlayerLink(linkName: string) {
+    return this.podcastPlayer.getLink(linkName)
+  }
+
+  getPodcastPlayerArtwork(episodeTitle: string) {
+    return this.podcastPlayer.getArtwork(episodeTitle)
+  }
+
+  getPodcastPlayerExpandPlayerButton() {
+    return this.podcastPlayer.getExpandPlayerButton()
+  }
+
+  getPodcastPlayerMinimizePlayerButton() {
+    return this.podcastPlayer.getMinimizePlayerButton()
   }
 }
 

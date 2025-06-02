@@ -1,183 +1,179 @@
+import { test } from "../../fixture/test"
+import { expect } from "@playwright/test"
 import dayjs from "dayjs"
 import duration from "dayjs/plugin/duration.js"
-import test, { expect, Page } from "@playwright/test"
 import { defaultTenPodcastEpisodes } from "../../mocks/podcast.episode"
-import { HOMEPAGE } from "../../constants/homepageConstants"
 import {
   getVirtualizedListParentElement,
   scrollUntilElementIsVisible,
 } from "../../constants/scroller/scrollerConstants"
+import PodcastDetailPage from "../../pageObjects/PodcastDetailPage"
 
 dayjs.extend(duration)
 
 test.describe("Podcast detail page for individual podcast", () => {
   test.describe("podcast episode player", () => {
-    function getEpisodePlayButton(page: Page, index: number) {
-      return page
-        .locator(".podcast-episode-card .podcast-episode-card-play-button")
-        .nth(index)
-    }
-
     function getEpisodeDatePublished(unixSecondsDatePublished: number) {
       return dayjs.unix(unixSecondsDatePublished).format("MMMM D, YYYY")
     }
 
-    function getMinimizePlayerButton(page: Page) {
-      return page.locator(
-        ".audio-player .podcast-play-episode-minimize-player-button"
-      )
-    }
-
-    function getExpandPlayerButton(page: Page) {
-      return page.locator(
-        ".audio-player .podcast-play-episode-expand-player-button"
-      )
-    }
-
-    async function assertEpisodePlayerDoesNotHaveText(
-      page: Page,
-      text: string
-    ) {
-      await expect(
-        page.locator(".audio-player").getByText(text, {
-          exact: true,
-        })
-      ).not.toBeVisible()
-    }
-
     async function assertEpisodePlayerHasText(
-      page: Page,
+      podcastDetailPage: PodcastDetailPage,
       expectedText: string
     ) {
       await expect(
-        page.locator(".audio-player").getByText(expectedText, {
+        podcastDetailPage.getPodcastPlayer().getByText(expectedText, {
           exact: true,
         })
       ).toBeVisible()
     }
 
     async function assertPodcastPlayerHasEpisode(
-      page: Page,
+      podcastDetailPage: PodcastDetailPage,
       expectedEpisode,
       expectedArtworkSize: string
     ) {
       await expect(
-        page.locator(".audio-player audio"),
+        podcastDetailPage.getPodcastPlayerAudio(),
         "should have <audio> loaded with podcast episode"
       ).toHaveAttribute("src", expectedEpisode.contentUrl)
       await expect(
-        page.locator(".audio-player audio"),
+        podcastDetailPage.getPodcastPlayerAudio(),
         "should not have <audio> autoplay with podcast episode"
       ).not.toHaveAttribute("autoplay")
-      const artwork = page.locator(".audio-player").getByRole("img", {
-        name: expectedEpisode.title + " podcast image",
-        exact: true,
-      })
+      const artwork = podcastDetailPage.getPodcastPlayerArtwork(
+        expectedEpisode.title
+      )
       await expect(artwork).toBeVisible()
       expect(
         await artwork.getAttribute("width"),
         `should have podcast artwork image width of ${expectedArtworkSize}`
       ).toBe(expectedArtworkSize)
-      await assertEpisodePlayerHasText(page, expectedEpisode.title)
+
+      await assertEpisodePlayerHasText(podcastDetailPage, expectedEpisode.title)
       await assertEpisodePlayerHasText(
-        page,
+        podcastDetailPage,
         `Episode ${expectedEpisode.episodeNumber}`
       )
       const expectedDateFormat = getEpisodeDatePublished(
         expectedEpisode.datePublished
       )
-      await assertEpisodePlayerHasText(page, expectedDateFormat)
+      await assertEpisodePlayerHasText(podcastDetailPage, expectedDateFormat)
     }
 
     test.describe("minimize and expand podcast player", () => {
       test("should minimize podcast player episode when minimize podcast player button is clicked", async ({
-        page,
+        podcastDetailPage,
       }) => {
         test.slow()
         const i = 0
         const expectedEpisode = defaultTenPodcastEpisodes.data.episodes[i]
-        const podcastTitle = encodeURIComponent("Batman University")
+        const podcastTitle = "Batman University"
         const podcastId = "75075"
         const limit = 10
-        await page.route(
-          `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-          async (route) => {
-            const json = defaultTenPodcastEpisodes
-            await route.fulfill({ json })
-          }
+        await podcastDetailPage
+          .getPage()
+          .route(
+            `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+            async (route) => {
+              const json = defaultTenPodcastEpisodes
+              await route.fulfill({ json })
+            }
+          )
+        await podcastDetailPage.goto({ podcastId, podcastTitle })
+        await expect(podcastDetailPage.getPage()).toHaveTitle(
+          /Batman University - xtal - podcasts/
         )
-        await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-        await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
         await expect(
-          getEpisodePlayButton(page, i),
+          podcastDetailPage.getPodcastEpisodePlayButton(i),
           `(Episode ${
             i + 1
           }) podcast episode card Play button should be present`
         ).toBeVisible()
-        await getEpisodePlayButton(page, i).click()
+        await podcastDetailPage.getPodcastEpisodePlayButton(i).click()
         await expect(
-          page.locator(".audio-player audio"),
+          podcastDetailPage.getPodcastPlayerAudio(),
           "should have <audio> loaded with podcast episode"
         ).toHaveAttribute("src", expectedEpisode.contentUrl)
-        const artwork = page.locator(".audio-player").getByRole("img", {
-          name: expectedEpisode.title + " podcast image",
-          exact: true,
-        })
+        const artwork = podcastDetailPage.getPodcastPlayerArtwork(
+          expectedEpisode.title
+        )
         await expect(artwork).toBeVisible()
-        await expect(getExpandPlayerButton(page)).not.toBeVisible()
-        await expect(getMinimizePlayerButton(page)).toBeVisible()
-        await getMinimizePlayerButton(page).click()
+        await expect(
+          podcastDetailPage.getPodcastPlayerExpandPlayerButton()
+        ).not.toBeVisible()
+        await expect(
+          podcastDetailPage.getPodcastPlayerMinimizePlayerButton()
+        ).toBeVisible()
+        await podcastDetailPage.getPodcastPlayerMinimizePlayerButton().click()
         await expect(artwork).not.toBeVisible()
         const episodeDatePublishedText = getEpisodeDatePublished(
           expectedEpisode.datePublished
         )
-        await assertEpisodePlayerDoesNotHaveText(page, episodeDatePublishedText)
-        await assertEpisodePlayerDoesNotHaveText(
-          page,
-          `Episode ${expectedEpisode.episodeNumber}`
-        )
+        await expect(
+          podcastDetailPage
+            .getPodcastPlayer()
+            .getByText(episodeDatePublishedText, { exact: true })
+        ).not.toBeVisible()
+
+        await expect(
+          podcastDetailPage
+            .getPodcastPlayer()
+            .getByText(`Episode ${expectedEpisode.episodeNumber}`, {
+              exact: true,
+            })
+        ).not.toBeVisible()
       })
 
       test("should maximize podcast player when user clicks on maximize podcast player button", async ({
-        page,
+        podcastDetailPage,
       }) => {
         test.slow()
         const i = 0
         const expectedArtworkSize = "96"
         const expectedEpisode = defaultTenPodcastEpisodes.data.episodes[i]
-        const podcastTitle = encodeURIComponent("Batman University")
+        const podcastTitle = "Batman University"
         const podcastId = "75075"
         const limit = 10
-        await page.route(
-          `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-          async (route) => {
-            const json = defaultTenPodcastEpisodes
-            await route.fulfill({ json })
-          }
+        await podcastDetailPage
+          .getPage()
+          .route(
+            `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+            async (route) => {
+              const json = defaultTenPodcastEpisodes
+              await route.fulfill({ json })
+            }
+          )
+        await podcastDetailPage.goto({ podcastId, podcastTitle })
+        await expect(podcastDetailPage.getPage()).toHaveTitle(
+          /Batman University - xtal - podcasts/
         )
-        await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-        await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
         await expect(
-          getEpisodePlayButton(page, i),
+          podcastDetailPage.getPodcastEpisodePlayButton(i),
           `(Episode ${
             i + 1
           }) podcast episode card Play button should be present`
         ).toBeVisible()
-        await getEpisodePlayButton(page, i).click()
-        const artwork = page.locator(".audio-player").getByRole("img", {
-          name: expectedEpisode.title + " podcast image",
-          exact: true,
-        })
+        await podcastDetailPage.getPodcastEpisodePlayButton(i).click()
+        const artwork = podcastDetailPage.getPodcastPlayerArtwork(
+          expectedEpisode.title
+        )
         await expect(artwork).toBeVisible()
-        await expect(getMinimizePlayerButton(page)).toBeVisible()
-        await getMinimizePlayerButton(page).click()
+        await expect(
+          podcastDetailPage.getPodcastPlayerMinimizePlayerButton()
+        ).toBeVisible()
+        await podcastDetailPage.getPodcastPlayerMinimizePlayerButton().click()
         await expect(artwork).not.toBeVisible()
-        await expect(getMinimizePlayerButton(page)).not.toBeVisible()
-        await expect(getExpandPlayerButton(page)).toBeVisible()
+        await expect(
+          podcastDetailPage.getPodcastPlayerMinimizePlayerButton()
+        ).not.toBeVisible()
+        await expect(
+          podcastDetailPage.getPodcastPlayerExpandPlayerButton()
+        ).toBeVisible()
 
-        await getExpandPlayerButton(page).click()
+        await podcastDetailPage.getPodcastPlayerExpandPlayerButton().click()
         await assertPodcastPlayerHasEpisode(
-          page,
+          podcastDetailPage,
           expectedEpisode,
           expectedArtworkSize
         )
@@ -185,37 +181,41 @@ test.describe("Podcast detail page for individual podcast", () => {
     })
 
     test("should still display currently playing podcast after clicking podcast breadcrumb link to podcast homepage", async ({
-      page,
+      podcastDetailPage,
     }) => {
       test.slow()
       // podcast episodes are rendered in virtualized list, use first visible podcast episode card element
       const i = 0
       const expectedEpisode = defaultTenPodcastEpisodes.data.episodes[i]
       const expectedArtworkSize = "96"
-      const podcastTitle = encodeURIComponent("Batman University")
+      const podcastTitle = "Batman University"
       const podcastId = "75075"
       const limit = 10
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-        async (route) => {
-          const json = defaultTenPodcastEpisodes
-          await route.fulfill({ json })
-        }
+      await podcastDetailPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+          async (route) => {
+            const json = defaultTenPodcastEpisodes
+            await route.fulfill({ json })
+          }
+        )
+      await podcastDetailPage.goto({ podcastId, podcastTitle })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Batman University - xtal - podcasts/
       )
-      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-      await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-      await getEpisodePlayButton(page, i).click()
-      await page.getByTestId("podcast-detail-page-podcasts-link").click()
-      await expect(page).toHaveTitle("xtal - podcasts")
+      await podcastDetailPage.getPodcastEpisodePlayButton(i).click()
+      await podcastDetailPage.getBreadcrumbPodcastPageLink().click()
+      await expect(podcastDetailPage.getPage()).toHaveTitle("xtal - podcasts")
       await assertPodcastPlayerHasEpisode(
-        page,
+        podcastDetailPage,
         expectedEpisode,
         expectedArtworkSize
       )
     })
 
     test("should have lazy loaded podcast image from third episode image onwards", async ({
-      page,
+      podcastDetailPage,
     }) => {
       test.slow()
       const lazyLoadedImageStartIndex = 2 // zero based index
@@ -225,28 +225,31 @@ test.describe("Podcast detail page for individual podcast", () => {
         "should have episode count greater than lazyLoadedImageStartIndex"
       ).toBeGreaterThanOrEqual(lazyLoadedImageStartIndex + 1)
 
-      const podcastTitle = encodeURIComponent("Batman University")
+      const podcastTitle = "Batman University"
       const podcastId = "75075"
       const limit = 10
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-        async (route) => {
-          const json = defaultTenPodcastEpisodes
-          await route.fulfill({ json })
-        }
+      await podcastDetailPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+          async (route) => {
+            const json = defaultTenPodcastEpisodes
+            await route.fulfill({ json })
+          }
+        )
+      await podcastDetailPage.goto({ podcastId, podcastTitle })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Batman University - xtal - podcasts/
       )
-      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-      await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
       for (let i = 0; i < episodeCount; i++) {
         const episode = defaultTenPodcastEpisodes.data.episodes[i]
-        const artwork = page.locator(".podcast-episode-card").getByRole("img", {
-          name: episode.title + " podcast image",
-          exact: true,
-        })
+        const artwork = podcastDetailPage.getPodcastEpisodeCardArtwork(
+          episode.title
+        )
         await scrollUntilElementIsVisible(
-          page,
+          podcastDetailPage.getPage(),
           artwork,
-          getVirtualizedListParentElement(page)
+          getVirtualizedListParentElement(podcastDetailPage.getPage())
         )
         if (i < lazyLoadedImageStartIndex) {
           await expect(
@@ -263,69 +266,77 @@ test.describe("Podcast detail page for individual podcast", () => {
     })
 
     test("should play podcast episode when podcast episode card play button is clicked", async ({
-      page,
+      podcastDetailPage,
     }) => {
       test.slow()
       const i = 0
       const expectedArtworkSize = "96"
       const expectedEpisode = defaultTenPodcastEpisodes.data.episodes[i]
-      const podcastTitle = encodeURIComponent("Batman University")
+      const podcastTitle = "Batman University"
       const podcastId = "75075"
       const limit = 10
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-        async (route) => {
-          const json = defaultTenPodcastEpisodes
-          await route.fulfill({ json })
-        }
+      await podcastDetailPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+          async (route) => {
+            const json = defaultTenPodcastEpisodes
+            await route.fulfill({ json })
+          }
+        )
+      await podcastDetailPage.goto({ podcastId, podcastTitle })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Batman University - xtal - podcasts/
       )
-      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-      await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
       await expect(
-        getEpisodePlayButton(page, i),
+        podcastDetailPage.getPodcastEpisodePlayButton(i),
         `(Episode ${i + 1}) podcast episode card Play button should be present`
       ).toBeVisible()
-      await getEpisodePlayButton(page, i).click()
+      await podcastDetailPage.getPodcastEpisodePlayButton(i).click()
 
       await assertPodcastPlayerHasEpisode(
-        page,
+        podcastDetailPage,
         expectedEpisode,
         expectedArtworkSize
       )
     })
 
     test("should redirect to podcast episode detail page on click of episode title in podcast player", async ({
-      page,
+      podcastDetailPage,
     }) => {
       const i = 0
-      const podcastTitle = encodeURIComponent("Batman University")
+      const podcastTitle = "Batman University"
       const podcastId = "75075"
       const limit = 10
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-        async (route) => {
-          const json = defaultTenPodcastEpisodes
-          await route.fulfill({ json })
-        }
+      await podcastDetailPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+          async (route) => {
+            const json = defaultTenPodcastEpisodes
+            await route.fulfill({ json })
+          }
+        )
+      await podcastDetailPage.goto({ podcastId, podcastTitle })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Batman University - xtal - podcasts/
       )
-      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-      await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
       await expect(
-        getEpisodePlayButton(page, i),
+        podcastDetailPage.getPodcastEpisodePlayButton(i),
         `(Episode ${i + 1}) podcast episode card Play button should be present`
       ).toBeVisible()
-      await getEpisodePlayButton(page, i).click()
+      await podcastDetailPage.getPodcastEpisodePlayButton(i).click()
       const expectedPodcastEpisodeId =
         defaultTenPodcastEpisodes.data.episodes[i].id
       const expectedEpisodeTitle =
         defaultTenPodcastEpisodes.data.episodes[i].title
-      await page
-        .locator(".audio-player")
-        .getByRole("link", { name: expectedEpisodeTitle, exact: true })
-        .click()
-      expect(page.url()).toBe(
-        HOMEPAGE +
-          `/podcasts/${podcastTitle}/${podcastId}/${expectedPodcastEpisodeId}`
+      await podcastDetailPage.getPodcastPlayerLink(expectedEpisodeTitle).click()
+      expect(podcastDetailPage.getPage()).toHaveURL(
+        new RegExp(
+          `/podcasts/${encodeURIComponent(
+            podcastTitle
+          )}/${podcastId}/${expectedPodcastEpisodeId}` + "$"
+        )
       )
     })
   })
