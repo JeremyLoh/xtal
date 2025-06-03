@@ -1,15 +1,9 @@
-import test, { expect, Page } from "@playwright/test"
+import { test } from "../../fixture/test"
+import { expect, Page } from "@playwright/test"
 import { podcastId_259760_episodeId_34000697601 } from "../../mocks/podcast.episode"
-import { assertToastMessage, HOMEPAGE } from "../../constants/homepageConstants"
+import { assertToastMessage } from "../../constants/homepageConstants"
 import { getClipboardContent } from "../../constants/shareStationConstants"
-import {
-  getPodcastEpisodeCloseDialogButton,
-  getPodcastEpisodeCopyLinkButton,
-  getPodcastEpisodeShareButton,
-  getPodcastEpisodeDialogTimestampInput,
-  getPodcastEpisodePlayButton,
-  getPodcastEpisodeShareDialog,
-} from "../../constants/podcast/share/podcastEpisodeShareConstants"
+import { homePageUrl } from "../../constants/paths"
 
 test.describe("Share Feature of Podcast Episode Detail Page for viewing single podcast episode /podcasts/PODCAST-TITLE/PODCAST-ID/PODCAST-EPISODE-ID", () => {
   async function assertPodcastPlayerCurrentTime(
@@ -33,136 +27,182 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
   }
 
   test("should open share episode dialog when share button is clicked", async ({
-    page,
+    podcastEpisodeDetailPage,
   }) => {
-    const podcastTitle = encodeURIComponent("Infinite Loops")
+    const podcastTitle = "Infinite Loops"
     const podcastId = "259760"
     const podcastEpisodeId = "34000697601"
-    await page.route(
-      `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
-      async (route) => {
-        const json = podcastId_259760_episodeId_34000697601
-        await route.fulfill({ json })
-      }
-    )
-    await page.goto(
-      HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
-    )
-    await expect(getPodcastEpisodeShareButton(page)).toBeVisible()
-    await getPodcastEpisodeShareButton(page).click()
-    await expect(getPodcastEpisodeShareDialog(page)).toBeVisible()
+    await podcastEpisodeDetailPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
+        async (route) => {
+          const json = podcastId_259760_episodeId_34000697601
+          await route.fulfill({ json })
+        }
+      )
+    await podcastEpisodeDetailPage.goto({
+      podcastId,
+      podcastTitle,
+      podcastEpisodeId,
+    })
+    await expect(podcastEpisodeDetailPage.getEpisodeShareButton()).toBeVisible()
+    await podcastEpisodeDetailPage.getEpisodeShareButton().click()
+    await expect(podcastEpisodeDetailPage.getEpisodeShareDialog()).toBeVisible()
   })
 
   test("should close share episode dialog on click outside dialog", async ({
-    page,
+    podcastEpisodeDetailPage,
   }) => {
-    const podcastTitle = encodeURIComponent("Infinite Loops")
+    const podcastTitle = "Infinite Loops"
     const podcastId = "259760"
     const podcastEpisodeId = "34000697601"
-    await page.route(
-      `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
-      async (route) => {
-        const json = podcastId_259760_episodeId_34000697601
-        await route.fulfill({ json })
-      }
-    )
-    await page.goto(
-      HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
-    )
-    await expect(getPodcastEpisodeShareButton(page)).toBeVisible()
-    await getPodcastEpisodeShareButton(page).click()
-    await expect(getPodcastEpisodeShareDialog(page)).toBeVisible()
+    await podcastEpisodeDetailPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
+        async (route) => {
+          const json = podcastId_259760_episodeId_34000697601
+          await route.fulfill({ json })
+        }
+      )
+    await podcastEpisodeDetailPage.goto({
+      podcastId,
+      podcastTitle,
+      podcastEpisodeId,
+    })
+    const shareButton = podcastEpisodeDetailPage.getEpisodeShareButton()
+    await expect(shareButton).toBeVisible()
+    await shareButton.click()
+
+    const shareDialog = podcastEpisodeDetailPage.getEpisodeShareDialog()
+    await expect(shareDialog).toBeVisible()
     // click outside modal
-    await page.locator("body").click({ position: { x: 1, y: 1 } })
-    await expect(getPodcastEpisodeShareDialog(page)).not.toBeVisible()
+    await podcastEpisodeDetailPage
+      .getPage()
+      .locator("body")
+      .click({ position: { x: 1, y: 1 } })
+    await expect(shareDialog).not.toBeVisible()
   })
 
   test("should close share episode dialog on dialog close button click", async ({
-    page,
+    podcastEpisodeDetailPage,
   }) => {
-    const podcastTitle = encodeURIComponent("Infinite Loops")
+    const podcastTitle = "Infinite Loops"
     const podcastId = "259760"
     const podcastEpisodeId = "34000697601"
-    await page.route(
-      `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
-      async (route) => {
-        const json = podcastId_259760_episodeId_34000697601
-        await route.fulfill({ json })
-      }
-    )
-    await page.goto(
-      HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
-    )
-    await expect(getPodcastEpisodeShareButton(page)).toBeVisible()
-    await getPodcastEpisodeShareButton(page).click()
-    await expect(getPodcastEpisodeShareDialog(page)).toBeVisible()
-    await expect(getPodcastEpisodeCloseDialogButton(page)).toBeVisible()
-    await getPodcastEpisodeCloseDialogButton(page).click()
-    await expect(getPodcastEpisodeShareDialog(page)).not.toBeVisible()
+    await podcastEpisodeDetailPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
+        async (route) => {
+          const json = podcastId_259760_episodeId_34000697601
+          await route.fulfill({ json })
+        }
+      )
+    await podcastEpisodeDetailPage.goto({
+      podcastId,
+      podcastTitle,
+      podcastEpisodeId,
+    })
+    const shareButton = podcastEpisodeDetailPage.getEpisodeShareButton()
+    await expect(shareButton).toBeVisible()
+    await shareButton.click()
+
+    const shareDialog = podcastEpisodeDetailPage.getEpisodeShareDialog()
+    const closeDialogButton =
+      podcastEpisodeDetailPage.getEpisodeCloseDialogButton()
+    await expect(shareDialog).toBeVisible()
+    await expect(closeDialogButton).toBeVisible()
+    await closeDialogButton.click()
+    await expect(shareDialog).not.toBeVisible()
   })
 
   test("should copy podcast episode detail page url using copy button on share podcast episode dialog", async ({
-    page,
+    podcastEpisodeDetailPage,
   }) => {
-    const podcastTitle = encodeURIComponent("Infinite Loops")
+    const podcastTitle = "Infinite Loops"
     const podcastId = "259760"
     const podcastEpisodeId = "34000697601"
-    await page.route(
-      `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
-      async (route) => {
-        const json = podcastId_259760_episodeId_34000697601
-        await route.fulfill({ json })
-      }
-    )
+    await podcastEpisodeDetailPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
+        async (route) => {
+          const json = podcastId_259760_episodeId_34000697601
+          await route.fulfill({ json })
+        }
+      )
     const expectedPodcastEpisodeUrl =
-      HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
-    await page.goto(
-      HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
+      homePageUrl() +
+      `/podcasts/${encodeURIComponent(
+        podcastTitle
+      )}/${podcastId}/${podcastEpisodeId}`
+    await podcastEpisodeDetailPage.goto({
+      podcastId,
+      podcastTitle,
+      podcastEpisodeId,
+    })
+    const shareButton = podcastEpisodeDetailPage.getEpisodeShareButton()
+    const shareDialog = podcastEpisodeDetailPage.getEpisodeShareDialog()
+    const copyButton = podcastEpisodeDetailPage.getEpisodeCopyLinkButton()
+    await expect(shareButton).toBeVisible()
+    await shareButton.click()
+    await expect(shareDialog).toBeVisible()
+    await expect(copyButton).toBeVisible()
+    await copyButton.click()
+    expect(await getClipboardContent(podcastEpisodeDetailPage.getPage())).toBe(
+      expectedPodcastEpisodeUrl
     )
-    await expect(getPodcastEpisodeShareButton(page)).toBeVisible()
-    await getPodcastEpisodeShareButton(page).click()
-    await expect(getPodcastEpisodeShareDialog(page)).toBeVisible()
-    await expect(getPodcastEpisodeCopyLinkButton(page)).toBeVisible()
-    await getPodcastEpisodeCopyLinkButton(page).click()
-    expect(await getClipboardContent(page)).toBe(expectedPodcastEpisodeUrl)
-    await assertToastMessage(page, "Link Copied")
+    await assertToastMessage(podcastEpisodeDetailPage.getPage(), "Link Copied")
   })
 
   test("should allow user to copy share podcast episode link at specific timestamp", async ({
-    page,
+    podcastEpisodeDetailPage,
   }) => {
     const expectedStartDurationInSeconds = "50"
-    const podcastTitle = encodeURIComponent("Infinite Loops")
+    const podcastTitle = "Infinite Loops"
     const podcastId = "259760"
     const podcastEpisodeId = "34000697601"
-    await page.route(
-      `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
-      async (route) => {
-        const json = podcastId_259760_episodeId_34000697601
-        await route.fulfill({ json })
-      }
-    )
+    await podcastEpisodeDetailPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
+        async (route) => {
+          const json = podcastId_259760_episodeId_34000697601
+          await route.fulfill({ json })
+        }
+      )
     const expectedPodcastEpisodeUrl =
-      HOMEPAGE +
-      `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}?t=${expectedStartDurationInSeconds}`
-    await page.goto(
-      HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
-    )
-    await expect(getPodcastEpisodeShareButton(page)).toBeVisible()
-    await getPodcastEpisodeShareButton(page).click()
-    await expect(getPodcastEpisodeShareDialog(page)).toBeVisible()
+      homePageUrl() +
+      `/podcasts/${encodeURIComponent(
+        podcastTitle
+      )}/${podcastId}/${podcastEpisodeId}?t=${expectedStartDurationInSeconds}`
+    await podcastEpisodeDetailPage.goto({
+      podcastId,
+      podcastTitle,
+      podcastEpisodeId,
+    })
+    const shareButton = podcastEpisodeDetailPage.getEpisodeShareButton()
+    const shareDialog = podcastEpisodeDetailPage.getEpisodeShareDialog()
+    await expect(shareButton).toBeVisible()
+    await shareButton.click()
+    await expect(shareDialog).toBeVisible()
 
-    await expect(getPodcastEpisodeDialogTimestampInput(page)).toBeVisible()
-    await getPodcastEpisodeDialogTimestampInput(page).fill(
-      expectedStartDurationInSeconds
+    const dialogTimestampInput =
+      podcastEpisodeDetailPage.getEpisodeDialogTimestampInput()
+    const copyLinkButton = podcastEpisodeDetailPage.getEpisodeCopyLinkButton()
+    await expect(dialogTimestampInput).toBeVisible()
+    await dialogTimestampInput.fill(expectedStartDurationInSeconds)
+    await copyLinkButton.click()
+    expect(await getClipboardContent(podcastEpisodeDetailPage.getPage())).toBe(
+      expectedPodcastEpisodeUrl
     )
-    await getPodcastEpisodeCopyLinkButton(page).click()
-    expect(await getClipboardContent(page)).toBe(expectedPodcastEpisodeUrl)
-    await assertToastMessage(page, "Link Copied")
+    await assertToastMessage(podcastEpisodeDetailPage.getPage(), "Link Copied")
   })
 
   test("should start podcast episode playback with url parameter ?t=", async ({
-    page,
+    podcastEpisodeDetailPage,
     isMobile,
     headless,
   }) => {
@@ -171,32 +211,37 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
       "Skip test in headless mode due to decode error on media playback on headless mode in CI environment"
     )
     const expectedStartDurationInSeconds = "50"
-    const podcastTitle = encodeURIComponent("Infinite Loops")
+    const podcastTitle = "Infinite Loops"
     const podcastId = "259760"
     const podcastEpisodeId = "34000697601"
-    await page.route(
-      `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
-      async (route) => {
-        const json = podcastId_259760_episodeId_34000697601
-        await route.fulfill({ json })
-      }
-    )
-    const podcastEpisodeUrl =
-      HOMEPAGE +
-      `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}?t=${expectedStartDurationInSeconds}`
-    await page.goto(podcastEpisodeUrl)
-    await expect(getPodcastEpisodePlayButton(page)).toBeVisible()
-    await getPodcastEpisodePlayButton(page).click()
-    await expect(getPodcastEpisodePlayButton(page)).toBeVisible()
+    await podcastEpisodeDetailPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
+        async (route) => {
+          const json = podcastId_259760_episodeId_34000697601
+          await route.fulfill({ json })
+        }
+      )
+    await podcastEpisodeDetailPage.gotoEpisodeTimestamp({
+      podcastId,
+      podcastTitle,
+      podcastEpisodeId,
+      timestampInSeconds: expectedStartDurationInSeconds,
+    })
+    const playButton = podcastEpisodeDetailPage.getEpisodePlayButton()
+    await expect(playButton).toBeVisible()
+    await playButton.click()
+    await expect(playButton).toBeVisible()
     await assertPodcastPlayerCurrentTime(
-      page,
+      podcastEpisodeDetailPage.getPage(),
       isMobile,
       Number(expectedStartDurationInSeconds)
     )
   })
 
   test("should ignore start podcast playback and start from zero seconds if url parameter (?t=) is greater than podcast episode duration", async ({
-    page,
+    podcastEpisodeDetailPage,
     isMobile,
     headless,
   }) => {
@@ -206,28 +251,37 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
     )
     const invalidStartDurationInSeconds =
       podcastId_259760_episodeId_34000697601.data.durationInSeconds + 1
-    const podcastTitle = encodeURIComponent("Infinite Loops")
+    const podcastTitle = "Infinite Loops"
     const podcastId = "259760"
     const podcastEpisodeId = "34000697601"
-    await page.route(
-      `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
-      async (route) => {
-        const json = podcastId_259760_episodeId_34000697601
-        await route.fulfill({ json })
-      }
+    await podcastEpisodeDetailPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
+        async (route) => {
+          const json = podcastId_259760_episodeId_34000697601
+          await route.fulfill({ json })
+        }
+      )
+    await podcastEpisodeDetailPage.gotoEpisodeTimestamp({
+      podcastId,
+      podcastTitle,
+      podcastEpisodeId,
+      timestampInSeconds: `${invalidStartDurationInSeconds}`,
+    })
+    const playButton = podcastEpisodeDetailPage.getEpisodePlayButton()
+    await expect(playButton).toBeVisible()
+    await playButton.click()
+    await expect(playButton).toBeVisible()
+    await assertPodcastPlayerCurrentTime(
+      podcastEpisodeDetailPage.getPage(),
+      isMobile,
+      0
     )
-    const podcastEpisodeUrl =
-      HOMEPAGE +
-      `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}?t=${invalidStartDurationInSeconds}`
-    await page.goto(podcastEpisodeUrl)
-    await expect(getPodcastEpisodePlayButton(page)).toBeVisible()
-    await getPodcastEpisodePlayButton(page).click()
-    await expect(getPodcastEpisodePlayButton(page)).toBeVisible()
-    await assertPodcastPlayerCurrentTime(page, isMobile, 0)
   })
 
   test("should ignore negative start time url parameter (?t=) and start playback from zero seconds", async ({
-    page,
+    podcastEpisodeDetailPage,
     isMobile,
     headless,
   }) => {
@@ -236,23 +290,32 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
       "Skip test in headless mode due to decode error on media playback on headless mode in CI environment"
     )
     const invalidStartDurationInSeconds = "-1"
-    const podcastTitle = encodeURIComponent("Infinite Loops")
+    const podcastTitle = "Infinite Loops"
     const podcastId = "259760"
     const podcastEpisodeId = "34000697601"
-    await page.route(
-      `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
-      async (route) => {
-        const json = podcastId_259760_episodeId_34000697601
-        await route.fulfill({ json })
-      }
+    await podcastEpisodeDetailPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/episode?id=${podcastEpisodeId}`,
+        async (route) => {
+          const json = podcastId_259760_episodeId_34000697601
+          await route.fulfill({ json })
+        }
+      )
+    await podcastEpisodeDetailPage.gotoEpisodeTimestamp({
+      podcastId,
+      podcastTitle,
+      podcastEpisodeId,
+      timestampInSeconds: `${invalidStartDurationInSeconds}`,
+    })
+    const playButton = podcastEpisodeDetailPage.getEpisodePlayButton()
+    await expect(playButton).toBeVisible()
+    await playButton.click()
+    await expect(playButton).toBeVisible()
+    await assertPodcastPlayerCurrentTime(
+      podcastEpisodeDetailPage.getPage(),
+      isMobile,
+      0
     )
-    const podcastEpisodeUrl =
-      HOMEPAGE +
-      `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}?t=${invalidStartDurationInSeconds}`
-    await page.goto(podcastEpisodeUrl)
-    await expect(getPodcastEpisodePlayButton(page)).toBeVisible()
-    await getPodcastEpisodePlayButton(page).click()
-    await expect(getPodcastEpisodePlayButton(page)).toBeVisible()
-    await assertPodcastPlayerCurrentTime(page, isMobile, 0)
   })
 })

@@ -50,3 +50,37 @@ export const podcastDetailPageWithPageNumberUrl = ({
     )}/${podcastId}?page=${pageNumber}`
   )
 }
+export const podcastEpisodeDetailPageUrl = ({
+  podcastTitle,
+  podcastId,
+  podcastEpisodeId,
+}: {
+  podcastTitle: string
+  podcastId: string
+  podcastEpisodeId: string
+}) => {
+  return (
+    homePageUrl() +
+    `/podcasts/${encodeURIComponent(
+      podcastTitle
+    )}/${podcastId}/${podcastEpisodeId}`
+  )
+}
+export const podcastEpisodeDetailPageWithTimestampUrl = ({
+  podcastId,
+  podcastTitle,
+  podcastEpisodeId,
+  timestampInSeconds,
+}: {
+  podcastId: string
+  podcastTitle: string
+  podcastEpisodeId: string
+  timestampInSeconds: string
+}) => {
+  return (
+    homePageUrl() +
+    `/podcasts/${encodeURIComponent(
+      podcastTitle
+    )}/${podcastId}/${podcastEpisodeId}?t=${timestampInSeconds}`
+  )
+}

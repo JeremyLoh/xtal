@@ -101,7 +101,7 @@ test.describe("Podcast Detail Page navigation", () => {
         .click()
 
       await expect(
-        podcastEpisodeDetailPage.getPodcastEpisodeDetailContainer()
+        podcastEpisodeDetailPage.getEpisodeDetailContainer()
       ).toBeVisible()
       // podcast no data error message should not be shown
       await expect(
@@ -116,12 +116,12 @@ test.describe("Podcast Detail Page navigation", () => {
       ).toMatch(expectedEpisodeDetailRoute)
       await expect(
         podcastEpisodeDetailPage
-          .getPodcastEpisodeDetailContainer()
+          .getEpisodeDetailContainer()
           .getByText(expectedEpisodeTitle)
       ).toBeVisible()
       await expect(
         podcastEpisodeDetailPage
-          .getPodcastEpisodeDetailContainer()
+          .getEpisodeDetailContainer()
           .getByText(expectedEpisodeWebsite)
       ).toBeVisible()
     })
@@ -180,7 +180,7 @@ test.describe("Podcast Detail Page navigation", () => {
         .getPodcastEpisodeCardTitle(expectedEpisodeTitle)
         .click()
       await expect(
-        podcastEpisodeDetailPage.getPodcastEpisodeDetailContainer()
+        podcastEpisodeDetailPage.getEpisodeDetailContainer()
       ).toBeVisible()
       // podcast no data error message should not be shown
       await expect(
