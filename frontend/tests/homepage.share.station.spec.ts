@@ -3,11 +3,11 @@ import { expect } from "@playwright/test"
 import {
   assertToastMessage,
   assertToastMessageIsMissing,
-  HOMEPAGE,
 } from "./constants/homepageConstants"
 import { stationWithLocationLatLng, unitedStatesStation } from "./mocks/station"
 import { getClipboardContent } from "./constants/shareStationConstants"
 import HomePage from "./pageObjects/HomePage"
+import { homePageUrl } from "./constants/paths"
 
 test.describe("share radio station feature", () => {
   async function getRadioStationShareUrl(
@@ -160,7 +160,6 @@ test.describe("share radio station feature", () => {
         exact: true,
       })
     ).toBeVisible()
-    await homePage.getPage().waitForTimeout(500)
     await homePage.getRadioCardShareIcon().click()
 
     await assertToastMessage(homePage.getPage(), "Link Copied")
@@ -169,9 +168,10 @@ test.describe("share radio station feature", () => {
       homePage.getPage(),
       "Could not play radio station"
     )
+    await homePage.getPage().waitForTimeout(1000)
     const clipboardContent = await getClipboardContent(homePage.getPage())
     const expectedUrl =
-      new URL(HOMEPAGE).origin +
+      new URL(homePageUrl()).origin +
       `/radio-station/${stationWithLocationLatLng.stationuuid}`
     expect(clipboardContent).toBe(expectedUrl)
   })
