@@ -1,7 +1,13 @@
 export const homePageUrl = () => "http://localhost:5173"
+export const authSessionRefreshUrl = () =>
+  homePageUrl() + "/auth/session/refresh"
 export const aboutPageUrl = () => homePageUrl() + "/about"
 export const signUpPageUrl = () => homePageUrl() + "/auth?show=signup"
 export const signInPageUrl = () => homePageUrl() + "/auth?show=signin"
+export const profilePageUrl = () => homePageUrl() + "/profile"
+export const profileHistoryPageUrl = () => homePageUrl() + "/profile/history"
+export const profileFollowingPageUrl = () =>
+  homePageUrl() + "/profile/following"
 export const radioStationShareUrl = (stationUuid: string) =>
   homePageUrl() + `/radio-station/${stationUuid}`
 export const podcastHomePageUrl = () => homePageUrl() + "/podcasts"

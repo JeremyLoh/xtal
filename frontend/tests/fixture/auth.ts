@@ -4,14 +4,20 @@ import ky from "ky"
 import { test as base, expect } from "@playwright/test"
 import type { Page, BrowserContext, Cookie } from "@playwright/test"
 import type { Tokens } from "../mocks/supertokens/cookieHelpers"
-import { HOMEPAGE } from "../constants/homepageConstants"
+import {
+  authSessionRefreshUrl,
+  homePageUrl,
+  profilePageUrl,
+  signInPageUrl,
+  signUpPageUrl,
+} from "../constants/paths"
 
 const paths = Object.freeze({
-  home: HOMEPAGE + "/",
-  profile: HOMEPAGE + "/profile",
-  login: HOMEPAGE + "/auth?show=signin",
-  signup: HOMEPAGE + "/auth?show=signup",
-  refresh: HOMEPAGE + "/auth/session/refresh",
+  home: homePageUrl() + "/",
+  profile: profilePageUrl(),
+  login: signInPageUrl(),
+  signup: signUpPageUrl(),
+  refresh: authSessionRefreshUrl(),
 })
 
 type AuthTokens = {
