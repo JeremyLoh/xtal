@@ -34,3 +34,19 @@ export const podcastDetailPageUrl = ({
     homePageUrl() + `/podcasts/${encodeURIComponent(podcastTitle)}/${podcastId}`
   )
 }
+export const podcastDetailPageWithPageNumberUrl = ({
+  podcastTitle,
+  podcastId,
+  pageNumber,
+}: {
+  podcastTitle: string
+  podcastId: string
+  pageNumber: string
+}) => {
+  return (
+    homePageUrl() +
+    `/podcasts/${encodeURIComponent(
+      podcastTitle
+    )}/${podcastId}?page=${pageNumber}`
+  )
+}

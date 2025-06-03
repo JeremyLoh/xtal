@@ -1,5 +1,8 @@
 import { Locator, Page } from "@playwright/test"
-import { podcastDetailPageUrl } from "../constants/paths"
+import {
+  podcastDetailPageUrl,
+  podcastDetailPageWithPageNumberUrl,
+} from "../constants/paths"
 import PodcastPlayer from "../pageComponents/PodcastPlayer"
 
 class PodcastDetailPage {
@@ -8,8 +11,14 @@ class PodcastDetailPage {
   readonly breadcrumbPodcastPageLink: Locator
   readonly refreshPodcastEpisodeButton: Locator
   readonly podcastInfoContainer: Locator
+
+  readonly episodeListPaginationContainer: Locator
   readonly nextEpisodeListPaginationButton: Locator
+  readonly previousEpisodeListPaginationButton: Locator
   readonly episodePaginationActivePageNumber: Locator
+  readonly firstPageEpisodeListPaginationButton: Locator
+  readonly lastPageEpisodeListPaginationButton: Locator
+
   readonly episodeDurationFilter: Locator
   readonly podcastEpisodeCards: Locator
   readonly podcastPlayer: PodcastPlayer
@@ -29,12 +38,25 @@ class PodcastDetailPage {
         exact: true,
       })
     this.podcastInfoContainer = this.page.locator(".podcast-info-container")
-    this.nextEpisodeListPaginationButton = this.page
-      .locator(".podcast-episode-pagination")
-      .getByTestId("pagination-next-button")
-    this.episodePaginationActivePageNumber = this.page
-      .locator(".podcast-episode-pagination")
-      .locator(".active")
+
+    this.episodeListPaginationContainer = this.page.locator(
+      ".podcast-episode-pagination"
+    )
+    this.nextEpisodeListPaginationButton =
+      this.episodeListPaginationContainer.getByTestId("pagination-next-button")
+    this.previousEpisodeListPaginationButton =
+      this.episodeListPaginationContainer.getByTestId(
+        "pagination-previous-button"
+      )
+    this.episodePaginationActivePageNumber =
+      this.episodeListPaginationContainer.locator(".active")
+    this.firstPageEpisodeListPaginationButton = this.page.getByTestId(
+      "pagination-first-page-button"
+    )
+    this.lastPageEpisodeListPaginationButton = this.page.getByTestId(
+      "pagination-last-page-button"
+    )
+
     this.episodeDurationFilter = this.page.locator(
       ".podcast-episode-list-filters select.podcast-episode-duration-filter"
     )
@@ -54,6 +76,24 @@ class PodcastDetailPage {
     podcastTitle: string
   }) {
     await this.page.goto(podcastDetailPageUrl({ podcastId, podcastTitle }))
+  }
+
+  async gotoPageNumber({
+    podcastId,
+    podcastTitle,
+    pageNumber,
+  }: {
+    podcastId: string
+    podcastTitle: string
+    pageNumber: string
+  }) {
+    await this.page.goto(
+      podcastDetailPageWithPageNumberUrl({
+        podcastId,
+        podcastTitle,
+        pageNumber,
+      })
+    )
   }
 
   getRefreshPodcastEpisodeButton() {
@@ -76,8 +116,24 @@ class PodcastDetailPage {
     return this.nextEpisodeListPaginationButton
   }
 
+  getPreviousEpisodeListPaginationButton() {
+    return this.previousEpisodeListPaginationButton
+  }
+
+  getFirstPageEpisodeListPaginationButton() {
+    return this.firstPageEpisodeListPaginationButton
+  }
+
+  getLastPageEpisodeListPaginationButton() {
+    return this.lastPageEpisodeListPaginationButton
+  }
+
   getEpisodePaginationActivePageNumber(activePageNumber: string) {
     return this.episodePaginationActivePageNumber.getByText(activePageNumber)
+  }
+
+  getEpisodePaginationPageNumber(pageNumber: string) {
+    return this.episodeListPaginationContainer.getByText(pageNumber)
   }
 
   getPodcastInfoContainer() {
