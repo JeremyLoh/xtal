@@ -1,6 +1,7 @@
 import test, { expect, Page } from "@playwright/test"
 import { allPodcastCategories } from "../../mocks/podcast.category"
 import { HOMEPAGE } from "../../constants/homepageConstants"
+import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants.ts"
 
 test.describe("Podcast Homepage /podcasts", () => {
   test.describe("Podcast Categories Section", () => {
@@ -84,6 +85,7 @@ test.describe("Podcast Homepage /podcasts", () => {
           "Could not get podcast categories. Please try again later"
         )
       ).toBeVisible()
+      await assertLoadingSpinnerIsMissing(page)
       await expect(getRefreshPodcastCategoryButton(page)).toBeVisible()
 
       shouldFetchData = true
