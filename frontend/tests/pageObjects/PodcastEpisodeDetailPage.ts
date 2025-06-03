@@ -6,6 +6,8 @@ import {
 
 class PodcastEpisodeDetailPage {
   readonly page: Page
+  readonly breadcrumbPodcastHomepageLink: Locator
+  readonly breadcrumbPodcastDetailLink: Locator
   readonly podcastEpisodeDetailContainer: Locator
   readonly podcastEpisodePlayButton: Locator
   readonly podcastEpisodeShareButton: Locator
@@ -16,6 +18,12 @@ class PodcastEpisodeDetailPage {
 
   constructor(page: Page) {
     this.page = page
+    this.breadcrumbPodcastHomepageLink = this.page.getByTestId(
+      "podcast-episode-detail-podcasts-link"
+    )
+    this.breadcrumbPodcastDetailLink = this.page.getByTestId(
+      "podcast-episode-detail-page-link"
+    )
     this.podcastEpisodeDetailContainer = this.page.locator(
       ".podcast-episode-detail-container"
     )
@@ -80,6 +88,14 @@ class PodcastEpisodeDetailPage {
 
   getErrorMessage(errorMessage: string) {
     return this.podcastEpisodeDetailContainer.getByText(errorMessage)
+  }
+
+  getBreadcrumbPodcastHomepageLink() {
+    return this.breadcrumbPodcastHomepageLink
+  }
+
+  getBreadcrumbPodcastDetailLink() {
+    return this.breadcrumbPodcastDetailLink
   }
 
   getEpisodeDetailContainer() {
