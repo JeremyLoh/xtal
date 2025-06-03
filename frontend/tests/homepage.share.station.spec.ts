@@ -160,6 +160,7 @@ test.describe("share radio station feature", () => {
         exact: true,
       })
     ).toBeVisible()
+    await homePage.getPage().waitForTimeout(500)
     await homePage.getRadioCardShareIcon().click()
 
     await assertToastMessage(homePage.getPage(), "Link Copied")
