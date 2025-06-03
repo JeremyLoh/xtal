@@ -6,6 +6,7 @@ class PodcastDetailPage {
   readonly page: Page
   readonly breadcrumbPodcastDetailPageLink: Locator
   readonly breadcrumbPodcastPageLink: Locator
+  readonly refreshPodcastEpisodeButton: Locator
   readonly podcastInfoContainer: Locator
   readonly nextEpisodeListPaginationButton: Locator
   readonly episodePaginationActivePageNumber: Locator
@@ -21,6 +22,12 @@ class PodcastDetailPage {
     this.breadcrumbPodcastPageLink = this.page.getByTestId(
       "podcast-detail-page-podcasts-link"
     )
+    this.refreshPodcastEpisodeButton = this.page
+      .locator(".podcast-episode-container")
+      .getByRole("button", {
+        name: "refresh podcast episodes",
+        exact: true,
+      })
     this.podcastInfoContainer = this.page.locator(".podcast-info-container")
     this.nextEpisodeListPaginationButton = this.page
       .locator(".podcast-episode-pagination")
@@ -47,6 +54,10 @@ class PodcastDetailPage {
     podcastTitle: string
   }) {
     await this.page.goto(podcastDetailPageUrl({ podcastId, podcastTitle }))
+  }
+
+  getRefreshPodcastEpisodeButton() {
+    return this.refreshPodcastEpisodeButton
   }
 
   getBreadcrumbPodcastDetailPageLink() {
@@ -88,6 +99,16 @@ class PodcastDetailPage {
   getPodcastEpisodeCardArtwork(episodeTitle: string) {
     return this.podcastEpisodeCards.getByRole("img", {
       name: episodeTitle + " podcast image",
+      exact: true,
+    })
+  }
+
+  getPodcastEpisodeCardDuration(episodeTitle: string, duration: string) {
+    const artwork = this.getPodcastEpisodeCardArtwork(episodeTitle)
+    const podcastEpisodeCard = this.page.locator(".podcast-episode-list-item", {
+      has: artwork,
+    })
+    return podcastEpisodeCard.getByText(duration, {
       exact: true,
     })
   }
