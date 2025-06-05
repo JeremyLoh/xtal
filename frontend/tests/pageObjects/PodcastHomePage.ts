@@ -6,6 +6,7 @@ import HeaderNavbar from "../pageComponents/HeaderNavbar"
 import Drawer from "../pageComponents/Drawer"
 import PodcastSearchBar from "../pageComponents/podcast/PodcastSearchBar"
 import PodcastSearchBarResult from "../pageComponents/podcast/PodcastSearchBarResult"
+import TrendingPodcastSection from "../pageComponents/podcast/TrendingPodcastSection"
 
 class PodcastHomePage {
   readonly page: Page
@@ -17,6 +18,7 @@ class PodcastHomePage {
   readonly podcastNewRelease: PodcastNewRelease
   readonly headerNavbar: HeaderNavbar
   readonly drawer: Drawer
+  readonly trendingPodcastSection: TrendingPodcastSection
   readonly podcastSearchBar: PodcastSearchBar
   readonly podcastSearchBarResult: PodcastSearchBarResult
 
@@ -40,6 +42,7 @@ class PodcastHomePage {
     this.podcastNewRelease = new PodcastNewRelease(this.page)
     this.headerNavbar = new HeaderNavbar(this.page)
     this.drawer = new Drawer(this.page)
+    this.trendingPodcastSection = new TrendingPodcastSection(this.page)
     this.podcastSearchBar = new PodcastSearchBar(this.page)
     this.podcastSearchBarResult = new PodcastSearchBarResult(this.page)
   }
@@ -130,6 +133,36 @@ class PodcastHomePage {
 
   getNewReleasePodcastCard(podcastId: string) {
     return this.podcastNewRelease.getPodcastCard(podcastId)
+  }
+
+  getTrendingPodcastSectionContainer() {
+    return this.trendingPodcastSection.getContainer()
+  }
+
+  getTrendingPodcastSectionSinceSelectFilter() {
+    return this.trendingPodcastSection.getSinceSelectFilter()
+  }
+
+  getTrendingPodcastSectionPageNumber(pageNumber: string) {
+    return this.trendingPodcastSection.getPageNumber(pageNumber)
+  }
+
+  getTrendingPodcastSectionActivePageNumber(pageNumber: string) {
+    return this.trendingPodcastSection
+      .getActivePageNumber()
+      .getByText(pageNumber)
+  }
+
+  getTrendingPodcastSectionNextPaginationButton() {
+    return this.trendingPodcastSection.getNextPaginationButton()
+  }
+
+  getTrendingPodcastSectionPreviousPaginationButton() {
+    return this.trendingPodcastSection.getPreviousPaginationButton()
+  }
+
+  getTrendingPodcastCards() {
+    return this.trendingPodcastSection.getPodcastCards()
   }
 }
 
