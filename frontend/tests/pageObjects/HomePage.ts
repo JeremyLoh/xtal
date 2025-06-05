@@ -4,6 +4,7 @@ import Sidebar, { SidebarMenuItemAction } from "../pageComponents/Sidebar"
 import Map from "../pageComponents/Map"
 import Drawer from "../pageComponents/Drawer"
 import SearchRadioStationForm from "../pageComponents/SearchRadioStationForm"
+import HeaderNavbar from "../pageComponents/HeaderNavbar"
 
 class HomePage {
   readonly page: Page
@@ -16,6 +17,7 @@ class HomePage {
   readonly map: Map
   readonly drawer: Drawer
   readonly searchRadioStationForm: SearchRadioStationForm
+  readonly headerNavbar: HeaderNavbar
 
   constructor(page: Page) {
     this.page = page
@@ -37,6 +39,7 @@ class HomePage {
       this.page,
       this.drawer
     )
+    this.headerNavbar = new HeaderNavbar(this.page)
   }
 
   async goto() {
@@ -64,17 +67,15 @@ class HomePage {
   }
 
   getNavbarRadioLink() {
-    return this.getHeader().locator(".header-navbar-radio-link")
+    return this.headerNavbar.getHeaderRadioLink()
   }
 
   getNavbarPodcastLink() {
-    return this.getHeader().locator(".header-navbar-podcast-link")
+    return this.headerNavbar.getHeaderPodcastLink()
   }
 
   getAppThemeToggleButton(themeMode: "light" | "dark") {
-    return this.appThemeToggleButton.locator(
-      themeMode === "light" ? ".light-mode-icon" : ".dark-mode-icon"
-    )
+    return this.headerNavbar.getThemeToggleButton(themeMode)
   }
 
   getGenreSearchButton() {

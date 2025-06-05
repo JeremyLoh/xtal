@@ -1,81 +1,92 @@
 import { test } from "../../fixture/test"
 import { expect } from "@playwright/test"
-import {
-  clickRandomRadioStationButton,
-  getNavbarPodcastLink,
-  getNavbarRadioLink,
-  getRadioCardMapPopup,
-  getRadioStationMapPopupCloseButton,
-  HOMEPAGE,
-} from "../../constants/homepageConstants"
-import {
-  getFavouriteStationsDrawer,
-  getRadioCardFavouriteIcon,
-  openFavouriteStationsDrawer,
-} from "../../constants/favouriteStationConstants"
 import { unitedStatesStation } from "../../mocks/station"
-import {
-  navigateUsingSidebarMenuItem,
-  SidebarMenuItemAction,
-} from "../../constants/sidebarConstants"
+import { SidebarMenuItemAction } from "../../pageComponents/Sidebar"
+import PodcastHomePage from "../../pageObjects/PodcastHomePage"
+import { podcastHomePageUrl } from "../../constants/paths"
 
 test.describe("Podcast Homepage /podcasts", () => {
-  test("should display title", async ({ page }) => {
-    await page.goto(HOMEPAGE + "/podcasts")
-    await expect(page).toHaveTitle(/xtal - podcasts/)
+  async function navigateUsingSidebarMenuItem(
+    podcastHomePage: PodcastHomePage,
+    action: SidebarMenuItemAction
+  ) {
+    await expect(podcastHomePage.getSidebarToggleButton()).toBeVisible()
+    await podcastHomePage.getSidebarToggleButton().click()
+    await expect(podcastHomePage.getSidebar()).toBeVisible()
+    await expect(podcastHomePage.getSidebarMenuItem(action)).toBeVisible()
+    await podcastHomePage.getSidebarMenuItem(action).click()
+  }
+
+  test("should display title", async ({ podcastHomePage }) => {
+    await podcastHomePage.goto()
+    await expect(podcastHomePage.getPage()).toHaveTitle(/xtal - podcasts/)
   })
 
   test("should navigate back to homepage (/) header navbar radio link is clicked", async ({
-    page,
+    podcastHomePage,
     isMobile,
   }) => {
-    await page.goto(HOMEPAGE + "/podcasts")
-    await expect(page).toHaveTitle(/xtal - podcasts/)
-    expect(page.url()).toMatch(/\/podcasts$/)
+    await podcastHomePage.goto()
+    await expect(podcastHomePage.getPage()).toHaveTitle(/xtal - podcasts/)
+    await expect(podcastHomePage.getPage()).toHaveURL(/\/podcasts$/)
     if (isMobile) {
-      await navigateUsingSidebarMenuItem(page, SidebarMenuItemAction.Radio)
+      await navigateUsingSidebarMenuItem(
+        podcastHomePage,
+        SidebarMenuItemAction.Radio
+      )
     } else {
-      await getNavbarRadioLink(page).click()
+      await expect(podcastHomePage.getNavbarRadioLink()).toBeVisible()
+      await podcastHomePage.getNavbarRadioLink().click()
     }
-    await expect(page).not.toHaveTitle(/xtal - podcasts/)
-    expect(page.url()).not.toMatch(/\/podcasts$/)
+    await expect(podcastHomePage.getPage()).not.toHaveTitle(/xtal - podcasts/)
+    expect(podcastHomePage.getPage().url()).not.toMatch(/\/podcasts$/)
   })
 
   test("should load favourite station and navigate back to homepage when load station button is clicked in favourite stations drawer", async ({
-    page,
+    homePage,
+    podcastHomePage,
     headless,
     isMobile,
   }) => {
     test.skip(headless, "Remove flaky test in headless mode")
-    await page.route("*/**/json/stations/search?*", async (route) => {
-      const json = [unitedStatesStation]
-      await route.fulfill({ json })
-    })
-    await page.goto(HOMEPAGE)
-    await clickRandomRadioStationButton(page)
-    await expect(getRadioCardFavouriteIcon(page)).toBeVisible()
-    await getRadioCardFavouriteIcon(page).click()
-    await getRadioStationMapPopupCloseButton(page).click()
+    await homePage
+      .getPage()
+      .route("*/**/json/stations/search?*", async (route) => {
+        const json = [unitedStatesStation]
+        await route.fulfill({ json })
+      })
+    await homePage.goto()
+    await homePage.clickRandomRadioStationButton()
+    await expect(homePage.getRadioCardFavouriteIcon()).toBeVisible()
+    await homePage.getRadioCardFavouriteIcon().click()
+    await homePage.clickRadioCardCloseButton()
 
     if (isMobile) {
-      await navigateUsingSidebarMenuItem(page, SidebarMenuItemAction.Podcasts)
+      await navigateUsingSidebarMenuItem(
+        podcastHomePage,
+        SidebarMenuItemAction.Podcasts
+      )
     } else {
-      await getNavbarPodcastLink(page).click()
+      await podcastHomePage.getNavbarPodcastLink().click()
     }
-    await expect(page).toHaveURL(HOMEPAGE + "/podcasts")
-    await openFavouriteStationsDrawer(page)
-    await getFavouriteStationsDrawer(page)
+    await expect(podcastHomePage.getPage()).toHaveURL(podcastHomePageUrl())
+    await navigateUsingSidebarMenuItem(
+      podcastHomePage,
+      SidebarMenuItemAction.RadioFavouriteStations
+    )
+    await podcastHomePage
+      .getDrawer()
       .locator(".favourite-station")
       .getByRole("button", {
         name: "load station",
       })
       .click()
     await expect(
-      getRadioCardMapPopup(page).getByRole("heading", {
+      homePage.getRadioCard().getByRole("heading", {
         name: unitedStatesStation.name,
         exact: true,
       })
     ).toBeVisible()
-    expect(page.url()).not.toMatch(/\/podcasts$/)
+    expect(homePage.getPage().url()).not.toMatch(/\/podcasts$/)
   })
 })

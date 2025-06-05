@@ -2,6 +2,8 @@ import { Locator, Page } from "@playwright/test"
 import { podcastHomePageUrl } from "../constants/paths"
 import Sidebar, { SidebarMenuItemAction } from "../pageComponents/Sidebar"
 import PodcastNewRelease from "../pageComponents/PodcastNewRelease"
+import HeaderNavbar from "../pageComponents/HeaderNavbar"
+import Drawer from "../pageComponents/Drawer"
 
 class PodcastHomePage {
   readonly page: Page
@@ -11,6 +13,8 @@ class PodcastHomePage {
   readonly podcastCategorySlider: Locator
   readonly podcastCategoryRefreshButton: Locator
   readonly podcastNewRelease: PodcastNewRelease
+  readonly headerNavbar: HeaderNavbar
+  readonly drawer: Drawer
 
   constructor(page: Page) {
     this.page = page
@@ -30,6 +34,8 @@ class PodcastHomePage {
       }
     )
     this.podcastNewRelease = new PodcastNewRelease(this.page)
+    this.headerNavbar = new HeaderNavbar(this.page)
+    this.drawer = new Drawer(this.page)
   }
 
   async goto() {
@@ -42,6 +48,18 @@ class PodcastHomePage {
 
   getErrorMessage(message: string) {
     return this.page.getByText(message, { exact: true })
+  }
+
+  getNavbarRadioLink() {
+    return this.headerNavbar.getHeaderRadioLink()
+  }
+
+  getNavbarPodcastLink() {
+    return this.headerNavbar.getHeaderPodcastLink()
+  }
+
+  getDrawer() {
+    return this.drawer.getDrawer()
   }
 
   getSidebarToggleButton() {
