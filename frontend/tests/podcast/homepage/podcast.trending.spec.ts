@@ -1,109 +1,129 @@
+import { test } from "../../fixture/test"
 import dayjs from "dayjs"
-import test, { expect, Page } from "@playwright/test"
+import { expect } from "@playwright/test"
 import {
   defaultTenTrendingPodcasts,
   tenArtTrendingPodcasts,
   threeTrendingPodcasts,
   zeroTrendingPodcasts,
 } from "../../mocks/podcast.trending"
-import { assertToastMessage, HOMEPAGE } from "../../constants/homepageConstants"
-import {
-  getPodcastCardDetailLink,
-  getPodcastCards,
-} from "../../constants/podcast/trending/podcastTrendingConstants"
-import { getSinceSelectFilter } from "../../constants/podcast/pagination/podcastTrendingPagination"
+import { assertToastMessage } from "../../constants/homepageConstants"
+import { podcastDetailPageUrl } from "../../constants/paths"
+import PodcastHomePage from "../../pageObjects/PodcastHomePage"
 
 test.describe("Podcast Homepage /podcasts", () => {
-  function getPodcastImage(page: Page, imageName: string) {
-    const imageLocator = getPodcastCards(page).getByRole("img", {
-      name: imageName,
-      exact: true,
-    })
+  function getPodcastImage(
+    podcastHomePage: PodcastHomePage,
+    imageName: string
+  ) {
+    const imageLocator = podcastHomePage
+      .getTrendingPodcastCards()
+      .getByRole("img", {
+        name: imageName,
+        exact: true,
+      })
     return imageLocator
   }
 
   test.describe("Trending Podcasts Section", () => {
     test.describe("navigation to podcast detail page", () => {
       test("should navigate to podcast detail page on podcast card image click", async ({
-        page,
+        podcastHomePage,
       }) => {
-        await page.route(
-          "*/**/api/podcast/trending?limit=10&since=*",
-          async (route) => {
-            const json = defaultTenTrendingPodcasts
-            await route.fulfill({ json })
-          }
-        )
-        await page.goto(HOMEPAGE + "/podcasts")
-        await expect(page).toHaveTitle(/xtal - podcasts/)
-        await expect(page.locator(".podcast-trending-container")).toBeVisible()
+        await podcastHomePage
+          .getPage()
+          .route(
+            "*/**/api/podcast/trending?limit=10&since=*",
+            async (route) => {
+              const json = defaultTenTrendingPodcasts
+              await route.fulfill({ json })
+            }
+          )
+        await podcastHomePage.goto()
+        await expect(podcastHomePage.getPage()).toHaveTitle(/xtal - podcasts/)
+        await expect(
+          podcastHomePage.getTrendingPodcastSectionContainer()
+        ).toBeVisible()
         const podcastIndex = 0
         const podcastData = defaultTenTrendingPodcasts.data[podcastIndex]
-        const podcastTitle = encodeURIComponent(podcastData.title)
+        const podcastTitle = podcastData.title
         const podcastId = podcastData.id
-        const expectedPodcastDetailUrl =
-          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`
+        const expectedPodcastDetailUrl = podcastDetailPageUrl({
+          podcastId: `${podcastId}`,
+          podcastTitle,
+        })
         const imageLocator = getPodcastImage(
-          page,
+          podcastHomePage,
           podcastData.title + " podcast image"
         )
         await expect(imageLocator).toBeVisible()
         await imageLocator.click()
-        await expect(page).toHaveURL(expectedPodcastDetailUrl)
+        await expect(podcastHomePage.getPage()).toHaveURL(
+          expectedPodcastDetailUrl
+        )
       })
 
       test("should have underline text decoration on hover of trending podcast title and description", async ({
-        page,
+        podcastHomePage,
       }) => {
-        await page.route(
-          "*/**/api/podcast/trending?limit=10&since=*",
-          async (route) => {
-            const json = defaultTenTrendingPodcasts
-            await route.fulfill({ json })
-          }
-        )
-        await page.goto(HOMEPAGE + "/podcasts")
-        await expect(page).toHaveTitle(/xtal - podcasts/)
-        await expect(page.locator(".podcast-trending-container")).toBeVisible()
+        await podcastHomePage
+          .getPage()
+          .route(
+            "*/**/api/podcast/trending?limit=10&since=*",
+            async (route) => {
+              const json = defaultTenTrendingPodcasts
+              await route.fulfill({ json })
+            }
+          )
+        await podcastHomePage.goto()
+        await expect(podcastHomePage.getPage()).toHaveTitle(/xtal - podcasts/)
         await expect(
-          getPodcastCardDetailLink(page, 0),
+          podcastHomePage.getTrendingPodcastSectionContainer()
+        ).toBeVisible()
+        await expect(
+          podcastHomePage.getTrendingPodcastCardDetailLink(0),
           "should not have underline text decoration without hover"
         ).not.toHaveCSS("text-decoration", /underline/)
-        await getPodcastCardDetailLink(page, 0).hover({
+        await podcastHomePage.getTrendingPodcastCardDetailLink(0).hover({
           position: { x: 1, y: 1 },
         })
         await expect(
-          getPodcastCardDetailLink(page, 0),
+          podcastHomePage.getTrendingPodcastCardDetailLink(0),
           "should have underline text decoration on hover"
         ).toHaveCSS("text-decoration", /underline/)
       })
 
       test("should navigate to podcast detail page on click of one trending podcast link", async ({
-        page,
+        podcastHomePage,
       }) => {
         test.slow()
-        const podcastTitle = encodeURIComponent(
-          defaultTenTrendingPodcasts.data[0].title
-        )
+        const podcastTitle = defaultTenTrendingPodcasts.data[0].title
         const podcastId = defaultTenTrendingPodcasts.data[0].id
-        const expectedUrl = HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`
-        await page.route(
-          "*/**/api/podcast/trending?limit=10&since=*",
-          async (route) => {
-            const json = defaultTenTrendingPodcasts
-            await route.fulfill({ json })
-          }
-        )
-        await page.goto(HOMEPAGE + "/podcasts")
-        await expect(page).toHaveTitle(/xtal - podcasts/)
-        await expect(page.locator(".podcast-trending-container")).toBeVisible()
-        await getPodcastCardDetailLink(page, 0).click()
-        expect(page.url()).toBe(expectedUrl)
+        const expectedUrl = podcastDetailPageUrl({
+          podcastId: `${podcastId}`,
+          podcastTitle,
+        })
+        await podcastHomePage
+          .getPage()
+          .route(
+            "*/**/api/podcast/trending?limit=10&since=*",
+            async (route) => {
+              const json = defaultTenTrendingPodcasts
+              await route.fulfill({ json })
+            }
+          )
+        await podcastHomePage.goto()
+        await expect(podcastHomePage.getPage()).toHaveTitle(/xtal - podcasts/)
+        await expect(
+          podcastHomePage.getTrendingPodcastSectionContainer()
+        ).toBeVisible()
+        await podcastHomePage.getTrendingPodcastCardDetailLink(0).click()
+        expect(podcastHomePage.getPage().url()).toBe(expectedUrl)
       })
     })
 
     test("should display desktop view default 10 trending podcasts and remove any duplicate entries", async ({
-      page,
+      podcastHomePage,
       isMobile,
     }) => {
       if (isMobile) {
@@ -111,25 +131,30 @@ test.describe("Podcast Homepage /podcasts", () => {
         return
       }
       test.slow()
-      await page.route(
-        "*/**/api/podcast/trending?limit=10&since=*",
-        async (route) => {
+      await podcastHomePage
+        .getPage()
+        .route("*/**/api/podcast/trending?limit=10&since=*", async (route) => {
           const json = defaultTenTrendingPodcasts
           await route.fulfill({ json })
-        }
-      )
-      await page.goto(HOMEPAGE + "/podcasts")
-      await expect(page.locator(".podcast-trending-container")).toBeVisible()
+        })
+      await podcastHomePage.goto()
+      await expect(
+        podcastHomePage.getTrendingPodcastSectionContainer()
+      ).toBeVisible()
       for (const podcastData of defaultTenTrendingPodcasts.data) {
         await expect(
-          getPodcastCards(page).getByText(podcastData.title, { exact: true })
+          podcastHomePage
+            .getTrendingPodcastCards()
+            .getByText(podcastData.title, { exact: true })
         ).toBeVisible()
         await expect(
-          getPodcastCards(page).getByText(podcastData.author, { exact: true })
+          podcastHomePage
+            .getTrendingPodcastCards()
+            .getByText(podcastData.author, { exact: true })
         ).toBeVisible()
 
         const imageLocator = getPodcastImage(
-          page,
+          podcastHomePage,
           podcastData.title + " podcast image"
         )
         await expect(imageLocator).toBeVisible()
@@ -145,29 +170,36 @@ test.describe("Podcast Homepage /podcasts", () => {
     })
 
     test("should display mobile view default 10 trending podcasts and remove any duplicate entries", async ({
-      page,
+      podcastHomePage,
     }) => {
       test.slow()
-      await page.setViewportSize({ width: 360, height: 800 })
-      await page.route(
-        "*/**/api/podcast/trending?limit=10&since=*",
-        async (route) => {
+      await podcastHomePage
+        .getPage()
+        .setViewportSize({ width: 360, height: 800 })
+      await podcastHomePage
+        .getPage()
+        .route("*/**/api/podcast/trending?limit=10&since=*", async (route) => {
           const json = defaultTenTrendingPodcasts
           await route.fulfill({ json })
-        }
-      )
-      await page.goto(HOMEPAGE + "/podcasts")
-      await expect(page.locator(".podcast-trending-container")).toBeVisible()
+        })
+      await podcastHomePage.goto()
+      await expect(
+        podcastHomePage.getTrendingPodcastSectionContainer()
+      ).toBeVisible()
       for (const podcastData of defaultTenTrendingPodcasts.data) {
         await expect(
-          getPodcastCards(page).getByText(podcastData.title, { exact: true })
+          podcastHomePage
+            .getTrendingPodcastCards()
+            .getByText(podcastData.title, { exact: true })
         ).toBeVisible()
         await expect(
-          getPodcastCards(page).getByText(podcastData.author, { exact: true })
+          podcastHomePage
+            .getTrendingPodcastCards()
+            .getByText(podcastData.author, { exact: true })
         ).toBeVisible()
 
         const imageLocator = getPodcastImage(
-          page,
+          podcastHomePage,
           podcastData.title + " podcast image"
         )
         await expect(imageLocator).toBeVisible()
@@ -183,7 +215,7 @@ test.describe("Podcast Homepage /podcasts", () => {
     })
 
     test("should have mobile view lazy loaded podcast image from third podcast image onwards", async ({
-      page,
+      podcastHomePage,
       isMobile,
     }) => {
       test.skip(!isMobile, "skip mobile test")
@@ -193,18 +225,20 @@ test.describe("Podcast Homepage /podcasts", () => {
         podcastCount,
         "should have podcast count greater than lazyLoadedImageStartIndex"
       ).toBeGreaterThanOrEqual(lazyLoadedImageStartIndex + 1)
-      await page.route(
-        "*/**/api/podcast/trending?limit=10&since=*",
-        async (route) => {
+      await podcastHomePage
+        .getPage()
+        .route("*/**/api/podcast/trending?limit=10&since=*", async (route) => {
           const json = tenArtTrendingPodcasts
           await route.fulfill({ json })
-        }
-      )
-      await page.goto(HOMEPAGE + "/podcasts")
-      await expect(page.locator(".podcast-trending-container")).toBeVisible()
+        })
+      await podcastHomePage.goto()
+      await expect(
+        podcastHomePage.getTrendingPodcastSectionContainer()
+      ).toBeVisible()
       for (let i = 0; i < podcastCount; i++) {
         const podcastData = tenArtTrendingPodcasts.data[i]
-        const artwork = getPodcastCards(page)
+        const artwork = podcastHomePage
+          .getTrendingPodcastCards()
           .nth(i)
           .getByRole("img", {
             name: podcastData.title + " podcast image",
@@ -225,7 +259,7 @@ test.describe("Podcast Homepage /podcasts", () => {
     })
 
     test("should have desktop view zero lazy loaded podcast image", async ({
-      page,
+      podcastHomePage,
       isMobile,
     }) => {
       test.skip(isMobile, "skip desktop test")
@@ -235,22 +269,26 @@ test.describe("Podcast Homepage /podcasts", () => {
         podcastCount,
         "should have podcast count greater than lazyLoadedImageStartIndex"
       ).toBeGreaterThanOrEqual(1)
-      await page.route("*/**/api/podcast/category", async (route) => {
-        const json = []
-        await route.fulfill({ json })
-      })
-      await page.route(
-        "*/**/api/podcast/trending?limit=10&since=*",
-        async (route) => {
+      await podcastHomePage
+        .getPage()
+        .route("*/**/api/podcast/category", async (route) => {
+          const json = []
+          await route.fulfill({ json })
+        })
+      await podcastHomePage
+        .getPage()
+        .route("*/**/api/podcast/trending?limit=10&since=*", async (route) => {
           const json = tenArtTrendingPodcasts
           await route.fulfill({ json })
-        }
-      )
-      await page.goto(HOMEPAGE + "/podcasts")
-      await expect(page.locator(".podcast-trending-container")).toBeVisible()
+        })
+      await podcastHomePage.goto()
+      await expect(
+        podcastHomePage.getTrendingPodcastSectionContainer()
+      ).toBeVisible()
       for (let i = 0; i < podcastCount; i++) {
         const podcastData = tenArtTrendingPodcasts.data[i]
-        const artwork = getPodcastCards(page)
+        const artwork = podcastHomePage
+          .getTrendingPodcastCards()
           .nth(i)
           .getByRole("img", {
             name: podcastData.title + " podcast image",
@@ -264,15 +302,17 @@ test.describe("Podcast Homepage /podcasts", () => {
     })
 
     test("should display error toast when rate limit is reached", async ({
-      page,
+      podcastHomePage,
     }) => {
-      await page.route("*/**/api/podcast/category", async (route) => {
-        // prevent rate limit from getting podcast category
-        await route.fulfill({ status: 200 })
-      })
-      await page.route(
-        "*/**/api/podcast/trending?limit=10&since=*",
-        async (route) => {
+      await podcastHomePage
+        .getPage()
+        .route("*/**/api/podcast/category", async (route) => {
+          // prevent rate limit from getting podcast category
+          await route.fulfill({ status: 200 })
+        })
+      await podcastHomePage
+        .getPage()
+        .route("*/**/api/podcast/trending?limit=10&since=*", async (route) => {
           await route.fulfill({
             status: 429,
             // headers are missing in the error.response.headers - https://github.com/microsoft/playwright/issues/19788
@@ -282,148 +322,186 @@ test.describe("Podcast Homepage /podcasts", () => {
             },
             body: "Too many requests, please try again later.",
           })
-        }
-      )
-      await page.goto(HOMEPAGE + "/podcasts")
-      await expect(page.locator(".podcast-trending-container")).toBeVisible()
+        })
+      await podcastHomePage.goto()
+      await expect(
+        podcastHomePage.getTrendingPodcastSectionContainer()
+      ).toBeVisible()
       await assertToastMessage(
-        page,
+        podcastHomePage.getPage(),
         "Rate Limit Exceeded, please try again later"
       )
     })
 
     test.describe("since select element", () => {
       test("should display <select> that shows the trending podcast 'since' date", async ({
-        page,
+        podcastHomePage,
       }) => {
-        await page.route(
-          "*/**/api/podcast/trending?limit=10&since=*",
-          async (route) => {
-            const json = defaultTenTrendingPodcasts
-            await route.fulfill({ json })
-          }
-        )
-        await page.goto(HOMEPAGE + "/podcasts")
-        await expect(getSinceSelectFilter(page)).toBeVisible()
-        await expect(getSinceSelectFilter(page)).toHaveValue("3")
+        await podcastHomePage
+          .getPage()
+          .route(
+            "*/**/api/podcast/trending?limit=10&since=*",
+            async (route) => {
+              const json = defaultTenTrendingPodcasts
+              await route.fulfill({ json })
+            }
+          )
+        await podcastHomePage.goto()
+        await expect(
+          podcastHomePage.getTrendingPodcastSectionSinceSelectFilter()
+        ).toBeVisible()
+        await expect(
+          podcastHomePage.getTrendingPodcastSectionSinceSelectFilter()
+        ).toHaveValue("3")
       })
 
       test("should fetch new podcast entries on change to since <select> element of 'last 24 hours'", async ({
-        page,
+        podcastHomePage,
       }) => {
         test.slow()
         const oneDayAgo = dayjs().startOf("day").subtract(1, "days").unix()
         const threeDaysAgo = dayjs().startOf("day").subtract(3, "days").unix()
         let isFirstFetch = true
-        await page.route("*/**/api/podcast/category", async (route) => {
-          const json = []
-          await route.fulfill({ json })
-        })
-        await page.route(
-          `*/**/api/podcast/trending?limit=10&since=${threeDaysAgo}`,
-          async (route) => {
-            if (isFirstFetch) {
-              const json = defaultTenTrendingPodcasts
-              await route.fulfill({ json })
+        await podcastHomePage
+          .getPage()
+          .route("*/**/api/podcast/category", async (route) => {
+            const json = []
+            await route.fulfill({ json })
+          })
+        await podcastHomePage
+          .getPage()
+          .route(
+            `*/**/api/podcast/trending?limit=10&since=${threeDaysAgo}`,
+            async (route) => {
+              if (isFirstFetch) {
+                const json = defaultTenTrendingPodcasts
+                await route.fulfill({ json })
+              }
             }
-          }
-        )
-        await page.route(
-          `*/**/api/podcast/trending?limit=10&since=${oneDayAgo}`,
-          async (route) => {
-            if (!isFirstFetch) {
-              const json = threeTrendingPodcasts
-              await route.fulfill({ json })
+          )
+        await podcastHomePage
+          .getPage()
+          .route(
+            `*/**/api/podcast/trending?limit=10&since=${oneDayAgo}`,
+            async (route) => {
+              if (!isFirstFetch) {
+                const json = threeTrendingPodcasts
+                await route.fulfill({ json })
+              }
             }
-          }
-        )
-        await page.goto(HOMEPAGE + "/podcasts")
+          )
+        await podcastHomePage.goto()
         for (const podcastData of defaultTenTrendingPodcasts.data) {
           await expect(
-            getPodcastCards(page).getByText(podcastData.title, { exact: true })
+            podcastHomePage
+              .getTrendingPodcastCards()
+              .getByText(podcastData.title, { exact: true })
           ).toBeVisible()
         }
 
         isFirstFetch = false
-        await getSinceSelectFilter(page).selectOption("1")
+        await podcastHomePage
+          .getTrendingPodcastSectionSinceSelectFilter()
+          .selectOption("1")
         for (const podcastData of threeTrendingPodcasts.data) {
           await expect(
-            getPodcastCards(page).getByText(podcastData.title, { exact: true })
+            podcastHomePage
+              .getTrendingPodcastCards()
+              .getByText(podcastData.title, { exact: true })
           ).toBeVisible()
         }
       })
 
       test("should fetch new podcast entries on change to since <select> element of 'last week'", async ({
-        page,
+        podcastHomePage,
       }) => {
         test.slow()
         const oneWeekAgo = dayjs().startOf("day").subtract(7, "days").unix()
         const threeDaysAgo = dayjs().startOf("day").subtract(3, "days").unix()
         let isFirstFetch = true
-        await page.route(
-          `*/**/api/podcast/trending?limit=10&since=${threeDaysAgo}`,
-          async (route) => {
-            if (isFirstFetch) {
-              const json = defaultTenTrendingPodcasts
-              await route.fulfill({ json })
+        await podcastHomePage
+          .getPage()
+          .route(
+            `*/**/api/podcast/trending?limit=10&since=${threeDaysAgo}`,
+            async (route) => {
+              if (isFirstFetch) {
+                const json = defaultTenTrendingPodcasts
+                await route.fulfill({ json })
+              }
             }
-          }
-        )
-        await page.route(
-          `*/**/api/podcast/trending?limit=10&since=${oneWeekAgo}`,
-          async (route) => {
-            if (!isFirstFetch) {
-              const json = threeTrendingPodcasts
-              await route.fulfill({ json })
+          )
+        await podcastHomePage
+          .getPage()
+          .route(
+            `*/**/api/podcast/trending?limit=10&since=${oneWeekAgo}`,
+            async (route) => {
+              if (!isFirstFetch) {
+                const json = threeTrendingPodcasts
+                await route.fulfill({ json })
+              }
             }
-          }
-        )
-        await page.goto(HOMEPAGE + "/podcasts")
+          )
+        await podcastHomePage.goto()
         for (const podcastData of defaultTenTrendingPodcasts.data) {
           await expect(
-            getPodcastCards(page).getByText(podcastData.title, { exact: true })
+            podcastHomePage
+              .getTrendingPodcastCards()
+              .getByText(podcastData.title, { exact: true })
           ).toBeVisible()
         }
 
         isFirstFetch = false
-        await getSinceSelectFilter(page).selectOption("7")
+        await podcastHomePage
+          .getTrendingPodcastSectionSinceSelectFilter()
+          .selectOption("7")
         for (const podcastData of threeTrendingPodcasts.data) {
           await expect(
-            getPodcastCards(page).getByText(podcastData.title, { exact: true })
+            podcastHomePage
+              .getTrendingPodcastCards()
+              .getByText(podcastData.title, { exact: true })
           ).toBeVisible()
         }
       })
     })
 
     test.describe("empty trending podcast section", () => {
-      function getEmptyTrendingPodcastMessage(page: Page) {
-        return page
-          .locator(".podcast-trending-container")
+      function getEmptyTrendingPodcastMessage(
+        podcastHomePage: PodcastHomePage
+      ) {
+        return podcastHomePage
+          .getTrendingPodcastSectionContainer()
           .getByText("Zero podcasts found. Please try again later", {
             exact: true,
           })
       }
-      function getRefreshTrendingPodcastButton(page: Page) {
-        return page.locator(".podcast-trending-container").getByRole("button", {
-          name: "refresh trending podcasts",
-          exact: true,
-        })
+      function getRefreshTrendingPodcastButton(
+        podcastHomePage: PodcastHomePage
+      ) {
+        return podcastHomePage.getTrendingPodcastSectionRefreshButton()
       }
 
       test("should display empty trending podcast section when no data is available", async ({
-        page,
+        podcastHomePage,
       }) => {
-        await page.route(
-          "*/**/api/podcast/trending?limit=10&since=*",
-          async (route) => {
-            const json = zeroTrendingPodcasts
-            await route.fulfill({ json })
-          }
-        )
-        await page.goto(HOMEPAGE + "/podcasts")
-        await expect(page.locator(".podcast-trending-container")).toBeVisible()
-        await expect(getEmptyTrendingPodcastMessage(page)).toBeVisible()
-        await expect(getRefreshTrendingPodcastButton(page)).toBeVisible()
+        await podcastHomePage
+          .getPage()
+          .route(
+            "*/**/api/podcast/trending?limit=10&since=*",
+            async (route) => {
+              const json = zeroTrendingPodcasts
+              await route.fulfill({ json })
+            }
+          )
+        await podcastHomePage.goto()
+        await expect(
+          podcastHomePage.getTrendingPodcastSectionContainer()
+        ).toBeVisible()
+        await expect(
+          getEmptyTrendingPodcastMessage(podcastHomePage)
+        ).toBeVisible()
+        await expect(
+          getRefreshTrendingPodcastButton(podcastHomePage)
+        ).toBeVisible()
       })
 
       test("should refresh empty trending podcast section with new data when refresh trending podcast button is clicked", async ({
@@ -432,26 +510,37 @@ test.describe("Podcast Homepage /podcasts", () => {
         test.slow()
         const context = await browser.newContext()
         const page = await context.newPage()
+        const podcastHomePage = new PodcastHomePage(page)
         let isDataMissing = true
-        await page.route(
-          "*/**/api/podcast/trending?limit=10&since=*",
-          async (route) => {
-            const json = isDataMissing
-              ? zeroTrendingPodcasts
-              : defaultTenTrendingPodcasts
-            await route.fulfill({ json })
-          }
-        )
-        await page.goto(HOMEPAGE + "/podcasts")
-        await expect(getEmptyTrendingPodcastMessage(page)).toBeVisible()
+        await podcastHomePage
+          .getPage()
+          .route(
+            "*/**/api/podcast/trending?limit=10&since=*",
+            async (route) => {
+              const json = isDataMissing
+                ? zeroTrendingPodcasts
+                : defaultTenTrendingPodcasts
+              await route.fulfill({ json })
+            }
+          )
+        await podcastHomePage.goto()
+        await expect(
+          getEmptyTrendingPodcastMessage(podcastHomePage)
+        ).toBeVisible()
 
-        await expect(getRefreshTrendingPodcastButton(page)).toBeVisible()
+        await expect(
+          getRefreshTrendingPodcastButton(podcastHomePage)
+        ).toBeVisible()
         isDataMissing = false
-        await getRefreshTrendingPodcastButton(page).click()
-        await expect(getEmptyTrendingPodcastMessage(page)).not.toBeVisible()
+        await getRefreshTrendingPodcastButton(podcastHomePage).click()
+        await expect(
+          getEmptyTrendingPodcastMessage(podcastHomePage)
+        ).not.toBeVisible()
         for (const podcastData of defaultTenTrendingPodcasts.data) {
           await expect(
-            getPodcastCards(page).getByText(podcastData.title, { exact: true })
+            podcastHomePage
+              .getTrendingPodcastCards()
+              .getByText(podcastData.title, { exact: true })
           ).toBeVisible()
         }
         await context.close()

@@ -143,6 +143,10 @@ class PodcastHomePage {
     return this.trendingPodcastSection.getSinceSelectFilter()
   }
 
+  getTrendingPodcastSectionRefreshButton() {
+    return this.trendingPodcastSection.getRefreshPodcastsButton()
+  }
+
   getTrendingPodcastSectionPageNumber(pageNumber: string) {
     return this.trendingPodcastSection.getPageNumber(pageNumber)
   }
@@ -163,6 +167,10 @@ class PodcastHomePage {
 
   getTrendingPodcastCards() {
     return this.trendingPodcastSection.getPodcastCards()
+  }
+
+  getTrendingPodcastCardDetailLink(index: number) {
+    return this.trendingPodcastSection.getPodcastCardDetailLink(index)
   }
 }
 

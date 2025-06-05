@@ -4,6 +4,7 @@ class TrendingPodcastSection {
   readonly page: Page
   readonly container: Locator
   readonly sinceSelectFilter: Locator
+  readonly refreshTrendingPodcastsButton: Locator
 
   readonly paginationContainer: Locator
   readonly nextPaginationButton: Locator
@@ -16,6 +17,10 @@ class TrendingPodcastSection {
     this.sinceSelectFilter = this.container.locator(
       ".podcast-trending-since-select"
     )
+    this.refreshTrendingPodcastsButton = this.container.getByRole("button", {
+      name: "refresh trending podcasts",
+      exact: true,
+    })
     this.paginationContainer = this.page.locator(".trending-podcast-pagination")
     this.nextPaginationButton = this.paginationContainer.getByTestId(
       "pagination-next-button"
@@ -34,6 +39,10 @@ class TrendingPodcastSection {
 
   getSinceSelectFilter() {
     return this.sinceSelectFilter
+  }
+
+  getRefreshPodcastsButton() {
+    return this.refreshTrendingPodcastsButton
   }
 
   getNextPaginationButton() {
