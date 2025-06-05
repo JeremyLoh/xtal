@@ -4,6 +4,8 @@ import Sidebar, { SidebarMenuItemAction } from "../pageComponents/Sidebar"
 import PodcastNewRelease from "../pageComponents/PodcastNewRelease"
 import HeaderNavbar from "../pageComponents/HeaderNavbar"
 import Drawer from "../pageComponents/Drawer"
+import PodcastSearchBar from "../pageComponents/podcast/PodcastSearchBar"
+import PodcastSearchBarResult from "../pageComponents/podcast/PodcastSearchBarResult"
 
 class PodcastHomePage {
   readonly page: Page
@@ -15,6 +17,8 @@ class PodcastHomePage {
   readonly podcastNewRelease: PodcastNewRelease
   readonly headerNavbar: HeaderNavbar
   readonly drawer: Drawer
+  readonly podcastSearchBar: PodcastSearchBar
+  readonly podcastSearchBarResult: PodcastSearchBarResult
 
   constructor(page: Page) {
     this.page = page
@@ -36,6 +40,8 @@ class PodcastHomePage {
     this.podcastNewRelease = new PodcastNewRelease(this.page)
     this.headerNavbar = new HeaderNavbar(this.page)
     this.drawer = new Drawer(this.page)
+    this.podcastSearchBar = new PodcastSearchBar(this.page)
+    this.podcastSearchBarResult = new PodcastSearchBarResult(this.page)
   }
 
   async goto() {
@@ -60,6 +66,22 @@ class PodcastHomePage {
 
   getDrawer() {
     return this.drawer.getDrawer()
+  }
+
+  getPodcastSearchInput() {
+    return this.podcastSearchBar.getSearchInput()
+  }
+
+  getPodcastSearchResultContainer() {
+    return this.podcastSearchBarResult.getContainer()
+  }
+
+  getPodcastSearchResultTitle() {
+    return this.podcastSearchBarResult.getTitle()
+  }
+
+  getPodcastSearchResultAuthor() {
+    return this.podcastSearchBarResult.getAuthor()
   }
 
   getSidebarToggleButton() {
