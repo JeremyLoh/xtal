@@ -195,6 +195,10 @@ class PodcastDetailPage {
       .nth(index)
   }
 
+  getPodcastPlayerContainer() {
+    return this.podcastPlayer.getContainer()
+  }
+
   getPodcastPlayer() {
     return this.podcastPlayer.getAudioPlayer()
   }
@@ -217,6 +221,14 @@ class PodcastDetailPage {
 
   getPodcastPlayerMinimizePlayerButton() {
     return this.podcastPlayer.getMinimizePlayerButton()
+  }
+
+  getMobilePodcastPlayerElements() {
+    return this.podcastPlayer.getMobilePodcastPlayerElements()
+  }
+
+  getDesktopPodcastPlayerElements() {
+    return this.podcastPlayer.getDesktopPodcastPlayerElements()
   }
 }
 

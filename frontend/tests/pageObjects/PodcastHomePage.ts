@@ -7,10 +7,12 @@ import Drawer from "../pageComponents/Drawer"
 import PodcastSearchBar from "../pageComponents/podcast/PodcastSearchBar"
 import PodcastSearchBarResult from "../pageComponents/podcast/PodcastSearchBarResult"
 import TrendingPodcastSection from "../pageComponents/podcast/TrendingPodcastSection"
+import PodcastPlayer from "../pageComponents/PodcastPlayer"
 
 class PodcastHomePage {
   readonly page: Page
   readonly sidebar: Sidebar
+  readonly podcastPlayer: PodcastPlayer
   readonly podcastCategoryContainer: Locator
   readonly podcastCategoryTitle: Locator
   readonly podcastCategorySlider: Locator
@@ -25,6 +27,7 @@ class PodcastHomePage {
   constructor(page: Page) {
     this.page = page
     this.sidebar = new Sidebar(this.page)
+    this.podcastPlayer = new PodcastPlayer(this.page)
     this.podcastCategoryContainer = this.page.locator(
       ".podcast-category-container"
     )
@@ -65,6 +68,18 @@ class PodcastHomePage {
 
   getNavbarPodcastLink() {
     return this.headerNavbar.getHeaderPodcastLink()
+  }
+
+  getPodcastPlayerContainer() {
+    return this.podcastPlayer.getContainer()
+  }
+
+  getMobilePodcastPlayerElements() {
+    return this.podcastPlayer.getMobilePodcastPlayerElements()
+  }
+
+  getDesktopPodcastPlayerElements() {
+    return this.podcastPlayer.getDesktopPodcastPlayerElements()
   }
 
   getDrawer() {
