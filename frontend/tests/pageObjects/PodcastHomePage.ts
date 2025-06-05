@@ -1,6 +1,7 @@
 import { Locator, Page } from "@playwright/test"
 import { podcastHomePageUrl } from "../constants/paths"
 import Sidebar, { SidebarMenuItemAction } from "../pageComponents/Sidebar"
+import PodcastNewRelease from "../pageComponents/PodcastNewRelease"
 
 class PodcastHomePage {
   readonly page: Page
@@ -9,6 +10,7 @@ class PodcastHomePage {
   readonly podcastCategoryTitle: Locator
   readonly podcastCategorySlider: Locator
   readonly podcastCategoryRefreshButton: Locator
+  readonly podcastNewRelease: PodcastNewRelease
 
   constructor(page: Page) {
     this.page = page
@@ -27,6 +29,7 @@ class PodcastHomePage {
         exact: true,
       }
     )
+    this.podcastNewRelease = new PodcastNewRelease(this.page)
   }
 
   async goto() {
@@ -38,7 +41,7 @@ class PodcastHomePage {
   }
 
   getErrorMessage(message: string) {
-    return this.podcastCategoryContainer.getByText(message, { exact: true })
+    return this.page.getByText(message, { exact: true })
   }
 
   getSidebarToggleButton() {
@@ -67,6 +70,26 @@ class PodcastHomePage {
 
   getPodcastCategoryRefreshButton() {
     return this.podcastCategoryRefreshButton
+  }
+
+  getNewReleaseContainer() {
+    return this.podcastNewRelease.getContainer()
+  }
+
+  getNewReleaseRefreshButton() {
+    return this.podcastNewRelease.getRefreshNewReleaseButton()
+  }
+
+  getNewReleaseHeader() {
+    return this.podcastNewRelease.getHeader()
+  }
+
+  getNewReleaseSubtitle() {
+    return this.podcastNewRelease.getSubtitle()
+  }
+
+  getNewReleasePodcastCard(podcastId: string) {
+    return this.podcastNewRelease.getPodcastCard(podcastId)
   }
 }
 
