@@ -2,7 +2,7 @@ import { test } from "../../fixture/test"
 import { expect, Page } from "@playwright/test"
 import { podcastId_259760_episodeId_34000697601 } from "../../mocks/podcast.episode"
 import { assertToastMessage } from "../../constants/toasterConstants"
-import { getClipboardContent } from "../../constants/shareStationConstants"
+import { getClipboardContent } from "../../constants/clipboardConstants"
 import { homePageUrl } from "../../constants/paths"
 
 test.describe("Share Feature of Podcast Episode Detail Page for viewing single podcast episode /podcasts/PODCAST-TITLE/PODCAST-ID/PODCAST-EPISODE-ID", () => {

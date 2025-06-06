@@ -2,7 +2,7 @@ import { test } from "../../fixture/test"
 import { expect } from "@playwright/test"
 import { defaultTenPodcastEpisodes } from "../../mocks/podcast.episode"
 import { assertToastMessage } from "../../constants/toasterConstants"
-import { getClipboardContent } from "../../constants/shareStationConstants"
+import { getClipboardContent } from "../../constants/clipboardConstants"
 import { homePageUrl } from "../../constants/paths"
 
 test.describe("Share Feature of Podcast Detail Page for individual podcast /podcasts/PODCAST-TITLE/PODCAST-ID", () => {

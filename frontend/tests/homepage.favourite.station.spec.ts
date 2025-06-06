@@ -6,7 +6,7 @@ import {
   stationWithMultipleTags,
   unitedStatesStation,
 } from "./mocks/station"
-import { getClipboardContent } from "./constants/shareStationConstants"
+import { getClipboardContent } from "./constants/clipboardConstants"
 import HomePage from "./pageObjects/HomePage"
 
 test.describe("radio station favourite feature", () => {
