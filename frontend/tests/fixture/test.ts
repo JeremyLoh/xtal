@@ -7,6 +7,7 @@ import PodcastHomePage from "../pageObjects/PodcastHomePage"
 import PodcastCategoryPage from "../pageObjects/PodcastCategoryPage"
 import PodcastDetailPage from "../pageObjects/PodcastDetailPage"
 import PodcastEpisodeDetailPage from "../pageObjects/PodcastEpisodeDetailPage"
+import PodcastSearchPage from "../pageObjects/PodcastSearchPage"
 
 // https://playwright.dev/docs/test-fixtures
 class MapPage {
@@ -24,6 +25,7 @@ type Fixtures = {
   podcastCategoryPage: PodcastCategoryPage
   podcastDetailPage: PodcastDetailPage
   podcastEpisodeDetailPage: PodcastEpisodeDetailPage
+  podcastSearchPage: PodcastSearchPage
 }
 
 const test = base.extend<Fixtures>({
@@ -44,6 +46,9 @@ const test = base.extend<Fixtures>({
   },
   podcastEpisodeDetailPage: async ({ page }, use) => {
     await use(new PodcastEpisodeDetailPage(page))
+  },
+  podcastSearchPage: async ({ page }, use) => {
+    await use(new PodcastSearchPage(page))
   },
 })
 

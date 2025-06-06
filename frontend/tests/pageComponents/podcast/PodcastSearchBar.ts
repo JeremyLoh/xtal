@@ -11,6 +11,10 @@ class PodcastSearchBar {
     this.searchBarInput = this.searchBar.locator(".search-input")
   }
 
+  getSearchBar() {
+    return this.searchBar
+  }
+
   getSearchInput() {
     return this.searchBarInput
   }

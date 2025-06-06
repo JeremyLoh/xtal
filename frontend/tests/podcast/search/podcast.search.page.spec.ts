@@ -1,18 +1,14 @@
-import test, { expect, Page } from "@playwright/test"
-import { HOMEPAGE } from "../../constants/homepageConstants"
+import { test } from "../../fixture/test"
+import { expect } from "@playwright/test"
 import { podcastSearch_similarTerm_syntax_limit_10 } from "../../mocks/podcast.search"
 import {
   getVirtualizedListParentElement,
   scrollUntilElementIsVisible,
 } from "../../constants/scroller/scrollerConstants"
+import { homePageUrl } from "../../constants/paths"
+import PodcastSearchPage from "../../pageObjects/PodcastSearchPage"
 
 test.describe("Podcast Search Page /podcasts/search", () => {
-  async function navigateToPodcastSearchPage(page: Page, query: string) {
-    await page.goto(
-      HOMEPAGE + `/podcasts/search?q=${encodeURIComponent(query)}`
-    )
-  }
-
   function replaceWhitespaceWithPlusSymbol(text: string) {
     let output = text
     const regex = new RegExp(/ /g)
@@ -22,113 +18,100 @@ test.describe("Podcast Search Page /podcasts/search", () => {
     return output
   }
 
-  async function assertPodcastSearchSectionIsVisible(page: Page) {
-    await expect(page.locator(".podcast-search-bar")).toBeVisible()
-  }
-
-  async function getPodcastTitleAndAuthorLink(
-    page: Page,
+  async function getPodcastTitleLink(
+    podcastSearchPage: PodcastSearchPage,
     podcastTitle: string
   ) {
-    const virtualizedListParentElement = getVirtualizedListParentElement(page)
-    const artwork = page.locator(".podcast-card").getByRole("img", {
-      name: podcastTitle + " podcast image",
-      exact: true,
-    })
+    const virtualizedListParentElement = getVirtualizedListParentElement(
+      podcastSearchPage.getPage()
+    )
+    const artwork = podcastSearchPage.getPodcastCardArtwork(
+      podcastTitle + " podcast image"
+    )
     // to handle virtualized list rendering (not all elements are rendered to DOM at once)
     await scrollUntilElementIsVisible(
-      page,
+      podcastSearchPage.getPage(),
       artwork,
       virtualizedListParentElement
     )
-    const podcastCard = page.locator(".podcast-search-result-item", {
-      has: artwork,
-    })
-    await expect(podcastCard).toBeVisible()
-    return podcastCard
-      .locator(".podcast-card-title")
-      .getByText(podcastTitle, { exact: true })
+    return podcastSearchPage.getPodcastCardTitle(podcastTitle)
   }
 
-  async function assertPodcastsAreVisible(page: Page, expectedPodcasts) {
+  async function assertPodcastsAreVisible(
+    podcastSearchPage: PodcastSearchPage,
+    expectedPodcasts
+  ) {
     for (const expectedPodcast of expectedPodcasts) {
-      const virtualizedListParentElement = getVirtualizedListParentElement(page)
-      const artwork = page.locator(".podcast-card").getByRole("img", {
-        name: expectedPodcast.title + " podcast image",
-        exact: true,
-      })
+      const virtualizedListParentElement = getVirtualizedListParentElement(
+        podcastSearchPage.getPage()
+      )
+      const artwork = podcastSearchPage.getPodcastCardArtwork(
+        expectedPodcast.title + " podcast image"
+      )
       // to handle virtualized list rendering (not all elements are rendered to DOM at once)
       await scrollUntilElementIsVisible(
-        page,
+        podcastSearchPage.getPage(),
         artwork,
         virtualizedListParentElement
       )
-      const podcastCard = page.locator(".podcast-search-result-item", {
-        has: artwork,
-      })
-      await expect(podcastCard).toBeVisible()
       await expect(
-        podcastCard
-          .locator(".podcast-card-title")
-          .getByText(expectedPodcast.title, { exact: true })
+        podcastSearchPage.getPodcastCardTitle(expectedPodcast.title)
       ).toBeVisible()
       await expect(
-        podcastCard
-          .locator(".podcast-card-author")
-          .getByText(expectedPodcast.author, { exact: true })
+        podcastSearchPage.getPodcastCardAuthor(expectedPodcast.author)
       ).toBeVisible()
     }
   }
 
   test("should display podcasts matching search query input", async ({
-    page,
+    podcastSearchPage,
   }) => {
     test.slow()
     const query = "syntax"
     const limit = 10
-    await page.route(
-      `*/**/api/podcast/search?q=${replaceWhitespaceWithPlusSymbol(
-        query
-      )}&limit=${limit}`,
-      async (route) => {
-        const json = podcastSearch_similarTerm_syntax_limit_10
-        await route.fulfill({ json })
-      }
+    await podcastSearchPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/search?q=${replaceWhitespaceWithPlusSymbol(
+          query
+        )}&limit=${limit}`,
+        async (route) => {
+          const json = podcastSearch_similarTerm_syntax_limit_10
+          await route.fulfill({ json })
+        }
+      )
+    await podcastSearchPage.goto(query)
+    await expect(podcastSearchPage.getPage()).toHaveURL(
+      homePageUrl() + `/podcasts/search?q=${encodeURIComponent(query)}`
     )
-    await navigateToPodcastSearchPage(page, query)
-    await expect(page).toHaveURL(
-      HOMEPAGE + `/podcasts/search?q=${encodeURIComponent(query)}`
-    )
-    await expect(
-      page.getByText(`Showing results for ${query}`, { exact: true })
-    ).toBeVisible()
-    await assertPodcastSearchSectionIsVisible(page)
+    await expect(podcastSearchPage.getSearchResultHeader(query)).toBeVisible()
+    await expect(podcastSearchPage.getSearchBar()).toBeVisible()
     const expectedPodcasts = podcastSearch_similarTerm_syntax_limit_10.data
-    await assertPodcastsAreVisible(page, expectedPodcasts)
+    await assertPodcastsAreVisible(podcastSearchPage, expectedPodcasts)
   })
 
   test("should navigate to podcast detail page on title and author link click", async ({
-    page,
+    podcastSearchPage,
   }) => {
     test.slow()
     const query = "syntax"
     const limit = 10
-    await page.route(
-      `*/**/api/podcast/search?q=${replaceWhitespaceWithPlusSymbol(
-        query
-      )}&limit=${limit}`,
-      async (route) => {
-        const json = podcastSearch_similarTerm_syntax_limit_10
-        await route.fulfill({ json })
-      }
+    await podcastSearchPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/search?q=${replaceWhitespaceWithPlusSymbol(
+          query
+        )}&limit=${limit}`,
+        async (route) => {
+          const json = podcastSearch_similarTerm_syntax_limit_10
+          await route.fulfill({ json })
+        }
+      )
+    await podcastSearchPage.goto(query)
+    await expect(podcastSearchPage.getPage()).toHaveURL(
+      homePageUrl() + `/podcasts/search?q=${encodeURIComponent(query)}`
     )
-    await navigateToPodcastSearchPage(page, query)
-    await expect(page).toHaveURL(
-      HOMEPAGE + `/podcasts/search?q=${encodeURIComponent(query)}`
-    )
-    await expect(
-      page.getByText(`Showing results for ${query}`, { exact: true })
-    ).toBeVisible()
+    await expect(podcastSearchPage.getSearchResultHeader(query)).toBeVisible()
     const expectedPodcasts = podcastSearch_similarTerm_syntax_limit_10.data
     const expectedPodcast = expectedPodcasts[0]
     const expectedPodcastDetailPageUrl = new RegExp(
@@ -136,40 +119,46 @@ test.describe("Podcast Search Page /podcasts/search", () => {
         expectedPodcast.id
       }$`
     )
-    const titleElement = await getPodcastTitleAndAuthorLink(
-      page,
+    const titleElement = await getPodcastTitleLink(
+      podcastSearchPage,
       expectedPodcast.title
     )
     await titleElement.click()
-    expect(page.url()).toMatch(expectedPodcastDetailPageUrl)
+    expect(podcastSearchPage.getPage().url()).toMatch(
+      expectedPodcastDetailPageUrl
+    )
   })
 
   test("should display no podcast found message when query result is empty", async ({
-    page,
+    podcastSearchPage,
   }) => {
     test.slow()
     const query = "zero podcast data"
     const limit = 10
     // replace any whitespace to "+" for the api mock endpoint
-    await page.route(
-      `*/**/api/podcast/search?q=${replaceWhitespaceWithPlusSymbol(
-        query
-      )}&limit=${limit}`,
-      async (route) => {
-        const json = []
-        await route.fulfill({ json })
-      }
+    await podcastSearchPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/search?q=${replaceWhitespaceWithPlusSymbol(
+          query
+        )}&limit=${limit}`,
+        async (route) => {
+          const json = []
+          await route.fulfill({ json })
+        }
+      )
+    await podcastSearchPage.goto(query)
+    await expect(podcastSearchPage.getPage()).toHaveURL(
+      homePageUrl() + `/podcasts/search?q=${encodeURIComponent(query)}`
     )
-    await navigateToPodcastSearchPage(page, query)
-    await expect(page).toHaveURL(
-      HOMEPAGE + `/podcasts/search?q=${encodeURIComponent(query)}`
-    )
+    await expect(podcastSearchPage.getSearchResultHeader(query)).toBeVisible()
     await expect(
-      page.getByText(`Showing results for ${query}`, { exact: true })
+      podcastSearchPage.getErrorMessage("No results found")
     ).toBeVisible()
-    await expect(page.getByText("No results found")).toBeVisible()
     await expect(
-      page.getByText("Try searching again using different spelling or keywords")
+      podcastSearchPage.getErrorMessage(
+        "Try searching again using different spelling or keywords"
+      )
     ).toBeVisible()
   })
 })
