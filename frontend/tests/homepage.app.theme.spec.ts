@@ -1,6 +1,5 @@
 import { test } from "./fixture/test.ts"
 import { expect, Page } from "@playwright/test"
-import { getSearchStationButton } from "./constants/searchStationConstants.ts"
 import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants.ts"
 
 // https://playwright.dev/docs/emulation#color-scheme-and-media
@@ -68,11 +67,11 @@ test.describe("header app theme (start with dark mode)", () => {
   }) => {
     await homePage.goto()
     await assertLoadingSpinnerIsMissing(homePage.getPage())
-    await getSearchStationButton(homePage.getPage()).click()
+    await homePage.getSearchStationButton().click()
     await assertElementHasDarkTheme(homePage.getPage(), "#drawer-root")
     await homePage.closeDrawer()
     await homePage.toggleAppTheme()
-    await getSearchStationButton(homePage.getPage()).click()
+    await homePage.getSearchStationButton().click()
     await assertElementHasLightTheme(homePage.getPage(), "#drawer-root")
   })
 })
