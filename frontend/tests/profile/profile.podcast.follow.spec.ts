@@ -6,8 +6,8 @@ import {
   signIntoExistingAccount,
   test,
 } from "../fixture/auth"
-import { HOMEPAGE } from "../constants/homepageConstants"
 import { defaultTenPodcastEpisodes } from "../mocks/podcast.episode"
+import { homePageUrl, podcastDetailPageUrl } from "../constants/paths"
 
 test.describe("Profile Follow Podcast", () => {
   test.beforeEach(async ({ headless }) => {
@@ -37,7 +37,7 @@ test.describe("Profile Follow Podcast", () => {
     existingAccount,
   }) => {
     test.slow()
-    const podcastTitle = encodeURIComponent("Batman University")
+    const podcastTitle = "Batman University"
     const podcastId = "75075"
     const limit = 10
     await page.route(
@@ -51,7 +51,7 @@ test.describe("Profile Follow Podcast", () => {
     await expect(page).toHaveURL(paths.home)
     await assertUserIsAuthenticated(context)
 
-    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+    await page.goto(podcastDetailPageUrl({ podcastId, podcastTitle }))
     await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
     await expect(getFollowPodcastButton(page)).toBeVisible()
     const followButtonText = await getFollowPodcastButton(page).innerText()
@@ -79,7 +79,7 @@ test.describe("Profile Follow Podcast", () => {
     existingAccount,
   }) => {
     test.slow()
-    const podcastTitle = encodeURIComponent("Batman University")
+    const podcastTitle = "Batman University"
     const podcastId = "75075"
     const limit = 10
     await page.route(
@@ -93,7 +93,7 @@ test.describe("Profile Follow Podcast", () => {
     await expect(page).toHaveURL(paths.home)
     await assertUserIsAuthenticated(context)
 
-    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+    await page.goto(podcastDetailPageUrl({ podcastId, podcastTitle }))
     await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
     await expect(getFollowPodcastButton(page)).toBeVisible()
     const followButtonText = await getFollowPodcastButton(page).innerText()
@@ -111,7 +111,7 @@ test.describe("Profile Follow Podcast", () => {
       page.getByRole("button", { name: /followed podcasts/i })
     ).toBeVisible()
     await page.getByRole("button", { name: /followed podcasts/i }).click()
-    await expect(page).toHaveURL(HOMEPAGE + "/profile/following")
+    await expect(page).toHaveURL(homePageUrl() + "/profile/following")
 
     // ensure /profile/following page displays the followed podcast
     await expect(
@@ -120,10 +120,10 @@ test.describe("Profile Follow Podcast", () => {
     await expect(
       page.getByRole("heading", { name: "Followed Podcasts", exact: true })
     ).toBeVisible()
-    await expect(page.getByText(decodeURIComponent(podcastTitle))).toBeVisible()
+    await expect(page.getByText(podcastTitle)).toBeVisible()
 
     // remove podcast follow as part of cleanup
-    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
+    await page.goto(podcastDetailPageUrl({ podcastId, podcastTitle }))
     await expect(getFollowPodcastButton(page)).toHaveText("Followed")
     await getFollowPodcastButton(page).click()
     await expect(getFollowPodcastButton(page)).toHaveText("Follow")
