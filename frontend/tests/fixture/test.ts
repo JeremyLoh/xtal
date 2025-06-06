@@ -2,6 +2,7 @@
 import { test as base } from "@playwright/test"
 import type { Page } from "@playwright/test"
 import { mockMapTiles } from "../mocks/map/radio.map.tiles"
+import AboutPage from "../pageObjects/AboutPage"
 import HomePage from "../pageObjects/HomePage"
 import PodcastHomePage from "../pageObjects/PodcastHomePage"
 import PodcastCategoryPage from "../pageObjects/PodcastCategoryPage"
@@ -20,6 +21,7 @@ class MapPage {
 
 type Fixtures = {
   mapPage: MapPage
+  aboutPage: AboutPage
   homePage: HomePage
   podcastHomePage: PodcastHomePage
   podcastCategoryPage: PodcastCategoryPage
@@ -31,6 +33,9 @@ type Fixtures = {
 const test = base.extend<Fixtures>({
   mapPage: async ({ page }, use) => {
     await use(new MapPage(page))
+  },
+  aboutPage: async ({ page }, use) => {
+    await use(new AboutPage(page))
   },
   homePage: async ({ page }, use) => {
     await use(new HomePage(page))
