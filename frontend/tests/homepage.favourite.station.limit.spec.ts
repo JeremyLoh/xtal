@@ -5,7 +5,7 @@ import { unitedStatesStation } from "./mocks/station"
 import {
   assertToastMessage,
   assertToastMessageIsMissing,
-} from "./constants/homepageConstants"
+} from "./constants/toasterConstants"
 import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
 
 test.describe("radio station favourite station limit feature", () => {

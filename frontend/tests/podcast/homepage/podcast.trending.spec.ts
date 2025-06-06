@@ -7,7 +7,7 @@ import {
   threeTrendingPodcasts,
   zeroTrendingPodcasts,
 } from "../../mocks/podcast.trending"
-import { assertToastMessage } from "../../constants/homepageConstants"
+import { assertToastMessage } from "../../constants/toasterConstants"
 import { podcastDetailPageUrl } from "../../constants/paths"
 import PodcastHomePage from "../../pageObjects/PodcastHomePage"
 
