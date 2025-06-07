@@ -190,6 +190,7 @@ test.describe("Homepage Sidebar", () => {
         homePage.getSidebarMenuItem(SidebarMenuItemAction.About)
       ).toBeVisible()
       await homePage.getSidebarMenuItem(SidebarMenuItemAction.About).click()
+      await expect(homePage.getSidebar()).not.toBeVisible()
       await expect(homePage.getPage()).toHaveURL(aboutPageUrl())
       await homePage.getPage().waitForLoadState("networkidle")
       await expect(
@@ -210,6 +211,7 @@ test.describe("Homepage Sidebar", () => {
       await homePage
         .getSidebarMenuItem(SidebarMenuItemAction.PodcastSearch)
         .click()
+      await expect(homePage.getSidebar()).not.toBeVisible()
       await expect(homePage.getPage()).toHaveURL(podcastSearchPageUrl(""))
       await homePage.getPage().waitForLoadState("networkidle")
       await expect(
