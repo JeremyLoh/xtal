@@ -97,6 +97,7 @@ function SidebarToggle() {
                 title="Search Podcasts"
                 url={podcastSearchPageUrl}
                 Icon={LuSearch}
+                onClick={handleToggle}
                 data-testid="sidebar-menu-item-podcast-search"
               />
             </SidebarGroup>
