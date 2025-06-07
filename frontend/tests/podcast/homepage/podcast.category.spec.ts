@@ -94,6 +94,7 @@ test.describe("Podcast Homepage /podcasts", () => {
       ).toBeVisible()
 
       shouldFetchData = true
+      await podcastHomePage.getPage().waitForTimeout(1000)
       await podcastHomePage.getPodcastCategoryRefreshButton().click()
       await assertPodcastCategoriesInSlider(
         podcastHomePage,
