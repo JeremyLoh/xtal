@@ -104,8 +104,9 @@ function SidebarToggle() {
             <SidebarMenuItem
               title="About"
               url={aboutPageUrl}
-              data-testid="sidebar-menu-item-about"
               Icon={MdQuestionMark}
+              onClick={handleToggle}
+              data-testid="sidebar-menu-item-about"
             />
           </SidebarMenu>
         </Sidebar>
