@@ -1,27 +1,32 @@
 import { test } from "../../fixture/test"
-import { expect, Page } from "@playwright/test"
+import { expect } from "@playwright/test"
 import { podcastId_259760_episodeId_34000697601 } from "../../mocks/podcast.episode"
 import { assertToastMessage } from "../../constants/toasterConstants"
 import { getClipboardContent } from "../../constants/clipboardConstants"
 import { homePageUrl } from "../../constants/paths"
+import PodcastEpisodeDetailPage from "../../pageObjects/PodcastEpisodeDetailPage"
 
 test.describe("Share Feature of Podcast Episode Detail Page for viewing single podcast episode /podcasts/PODCAST-TITLE/PODCAST-ID/PODCAST-EPISODE-ID", () => {
   async function assertPodcastPlayerCurrentTime(
-    page: Page,
+    podcastEpisodeDetailPage: PodcastEpisodeDetailPage,
     isMobile: boolean,
     expectedCurrentTime: number
   ) {
+    await podcastEpisodeDetailPage.getPage().waitForTimeout(1000)
+
+    const { timeDisplayButton } = isMobile
+      ? podcastEpisodeDetailPage.getMobilePodcastPlayerElements()
+      : podcastEpisodeDetailPage.getDesktopPodcastPlayerElements()
+    await expect(timeDisplayButton).toBeVisible()
     await expect(
-      page.locator("media-controller"),
-      "Podcast Player should not be in mediapaused state"
-    ).not.toHaveAttribute("mediapaused")
-    const playerTimeElement = page.getByTestId(
-      `audio-player-${isMobile ? "mobile" : "desktop"}-time-display-button`
-    )
-    await expect(playerTimeElement).toBeVisible()
+      podcastEpisodeDetailPage.getPodcastPlayerMediaController(),
+      "Podcast Player should be in playing state"
+    ).toHaveAttribute("mediahasplayed")
     expect(
       Math.floor(
-        Number(await playerTimeElement.getAttribute("mediacurrenttime"))
+        await podcastEpisodeDetailPage.getPodcastPlayerCurrentTime(
+          isMobile ? "mobile" : "desktop"
+        )
       )
     ).toBeGreaterThanOrEqual(expectedCurrentTime)
   }
@@ -150,6 +155,7 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
     await shareButton.click()
     await expect(shareDialog).toBeVisible()
     await expect(copyButton).toBeVisible()
+    await podcastEpisodeDetailPage.getPage().waitForTimeout(1000)
     await copyButton.click()
     expect(await getClipboardContent(podcastEpisodeDetailPage.getPage())).toBe(
       expectedPodcastEpisodeUrl
@@ -210,6 +216,7 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
       headless,
       "Skip test in headless mode due to decode error on media playback on headless mode in CI environment"
     )
+    test.slow()
     const expectedStartDurationInSeconds = "50"
     const podcastTitle = "Infinite Loops"
     const podcastId = "259760"
@@ -234,7 +241,7 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
     await playButton.click()
     await expect(playButton).toBeVisible()
     await assertPodcastPlayerCurrentTime(
-      podcastEpisodeDetailPage.getPage(),
+      podcastEpisodeDetailPage,
       isMobile,
       Number(expectedStartDurationInSeconds)
     )
@@ -249,6 +256,7 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
       headless,
       "Skip test in headless mode due to decode error on media playback on headless mode in CI environment"
     )
+    test.slow()
     const invalidStartDurationInSeconds =
       podcastId_259760_episodeId_34000697601.data.durationInSeconds + 1
     const podcastTitle = "Infinite Loops"
@@ -273,11 +281,7 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
     await expect(playButton).toBeVisible()
     await playButton.click()
     await expect(playButton).toBeVisible()
-    await assertPodcastPlayerCurrentTime(
-      podcastEpisodeDetailPage.getPage(),
-      isMobile,
-      0
-    )
+    await assertPodcastPlayerCurrentTime(podcastEpisodeDetailPage, isMobile, 0)
   })
 
   test("should ignore negative start time url parameter (?t=) and start playback from zero seconds", async ({
@@ -289,6 +293,7 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
       headless,
       "Skip test in headless mode due to decode error on media playback on headless mode in CI environment"
     )
+    test.slow()
     const invalidStartDurationInSeconds = "-1"
     const podcastTitle = "Infinite Loops"
     const podcastId = "259760"
@@ -312,10 +317,6 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
     await expect(playButton).toBeVisible()
     await playButton.click()
     await expect(playButton).toBeVisible()
-    await assertPodcastPlayerCurrentTime(
-      podcastEpisodeDetailPage.getPage(),
-      isMobile,
-      0
-    )
+    await assertPodcastPlayerCurrentTime(podcastEpisodeDetailPage, isMobile, 0)
   })
 })

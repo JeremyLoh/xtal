@@ -3,9 +3,11 @@ import {
   podcastEpisodeDetailPageUrl,
   podcastEpisodeDetailPageWithTimestampUrl,
 } from "../constants/paths"
+import PodcastPlayer, { DisplayType } from "../pageComponents/PodcastPlayer"
 
 class PodcastEpisodeDetailPage {
   readonly page: Page
+  readonly podcastPlayer: PodcastPlayer
   readonly breadcrumbPodcastHomepageLink: Locator
   readonly breadcrumbPodcastDetailLink: Locator
   readonly podcastEpisodeDetailContainer: Locator
@@ -18,6 +20,7 @@ class PodcastEpisodeDetailPage {
 
   constructor(page: Page) {
     this.page = page
+    this.podcastPlayer = new PodcastPlayer(this.page)
     this.breadcrumbPodcastHomepageLink = this.page.getByTestId(
       "podcast-episode-detail-podcasts-link"
     )
@@ -96,6 +99,22 @@ class PodcastEpisodeDetailPage {
 
   getBreadcrumbPodcastDetailLink() {
     return this.breadcrumbPodcastDetailLink
+  }
+
+  getPodcastPlayerMediaController() {
+    return this.podcastPlayer.getMediaController()
+  }
+
+  async getPodcastPlayerCurrentTime(displayType: DisplayType) {
+    return await this.podcastPlayer.getCurrentTimeDisplay(displayType)
+  }
+
+  getMobilePodcastPlayerElements() {
+    return this.podcastPlayer.getMobilePodcastPlayerElements()
+  }
+
+  getDesktopPodcastPlayerElements() {
+    return this.podcastPlayer.getDesktopPodcastPlayerElements()
   }
 
   getEpisodeDetailContainer() {

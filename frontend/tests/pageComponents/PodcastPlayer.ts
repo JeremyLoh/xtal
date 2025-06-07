@@ -5,6 +5,7 @@ type DisplayType = "mobile" | "desktop"
 class PodcastPlayer {
   readonly page: Page
   readonly container: Locator
+  readonly mediaController: Locator
   readonly audioPlayer: Locator
   readonly getPlayButton: (displayType: DisplayType) => Locator
   readonly getSeekBackwardButton: (displayType: DisplayType) => Locator
@@ -18,6 +19,7 @@ class PodcastPlayer {
   constructor(page: Page) {
     this.page = page
     this.container = this.page.locator(".podcast-player")
+    this.mediaController = this.page.locator("media-controller")
     this.audioPlayer = this.page.locator(".audio-player")
     this.getPlayButton = (displayType: DisplayType) => {
       return this.page.getByTestId(`audio-player-${displayType}-play-button`)
@@ -59,6 +61,10 @@ class PodcastPlayer {
 
   getContainer() {
     return this.container
+  }
+
+  getMediaController() {
+    return this.mediaController
   }
 
   getAudioPlayer() {
@@ -147,6 +153,15 @@ class PodcastPlayer {
       muteButton: this.getMuteButton(displayType),
       volumeRangeButton: this.getPlayerVolumeRangeButton(displayType),
     }
+  }
+
+  async getCurrentTimeDisplay(displayType: DisplayType) {
+    const time = Number(
+      await this.getTimeDisplayButton(displayType).getAttribute(
+        "mediacurrenttime"
+      )
+    )
+    return time
   }
 }
 
