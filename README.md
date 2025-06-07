@@ -1,6 +1,6 @@
 # xtal
 
-[![](https://tokei.rs/b1/github/JeremyLoh/xtal?category=code)](https://github.com/JeremyLoh/xtal)
+[![Scc Count Badge](https://sloc.xyz/github/JeremyLoh/xtal/?category=code)](https://github.com/JeremyLoh/xtal/)
 
 Listen to the world (radio & podcasts) with xtal, a fast and responsive mobile / desktop web application
 

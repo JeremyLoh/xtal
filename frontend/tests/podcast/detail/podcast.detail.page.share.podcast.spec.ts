@@ -1,92 +1,118 @@
-import test, { expect } from "@playwright/test"
+import { test } from "../../fixture/test"
+import { expect } from "@playwright/test"
 import { defaultTenPodcastEpisodes } from "../../mocks/podcast.episode"
-import { assertToastMessage, HOMEPAGE } from "../../constants/homepageConstants"
-import { getPodcastInfoShareButton } from "../../constants/podcast/detail/podcastDetailConstants"
-import { getClipboardContent } from "../../constants/shareStationConstants"
-import {
-  getFirstPodcastEpisodeShareButton,
-  getPodcastEpisodeCopyLinkButton,
-  getPodcastEpisodeDialogTimestampInput,
-  getPodcastEpisodeShareDialog,
-} from "../../constants/podcast/share/podcastEpisodeShareConstants"
+import { assertToastMessage } from "../../constants/toasterConstants"
+import { getClipboardContent } from "../../constants/clipboardConstants"
+import { homePageUrl } from "../../constants/paths"
 
 test.describe("Share Feature of Podcast Detail Page for individual podcast /podcasts/PODCAST-TITLE/PODCAST-ID", () => {
   test("should copy podcast detail page url when podcast info section share button is clicked", async ({
-    page,
+    podcastDetailPage,
   }) => {
-    const podcastTitle = encodeURIComponent("Batman University")
+    const podcastTitle = "Batman University"
     const podcastId = "75075"
     const limit = 10
-    await page.route(
-      `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-      async (route) => {
-        const json = defaultTenPodcastEpisodes
-        await route.fulfill({ json })
-      }
-    )
+    await podcastDetailPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+        async (route) => {
+          const json = defaultTenPodcastEpisodes
+          await route.fulfill({ json })
+        }
+      )
     const expectedPodcastUrl =
-      HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`
-    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-    await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-    const podcastShareButton = getPodcastInfoShareButton(page)
+      homePageUrl() +
+      `/podcasts/${encodeURIComponent(podcastTitle)}/${podcastId}`
+    await podcastDetailPage.goto({ podcastId, podcastTitle })
+    await expect(podcastDetailPage.getPage()).toHaveTitle(
+      /Batman University - xtal - podcasts/
+    )
+    const podcastShareButton = podcastDetailPage.getPodcastInfoShareButton()
     await expect(podcastShareButton).toBeVisible()
     await podcastShareButton.click()
-    expect(await getClipboardContent(page)).toBe(expectedPodcastUrl)
-    await assertToastMessage(page, "Link Copied")
+    expect(await getClipboardContent(podcastDetailPage.getPage())).toBe(
+      expectedPodcastUrl
+    )
+    await assertToastMessage(podcastDetailPage.getPage(), "Link Copied")
   })
 
   test.describe("podcast episode list", () => {
     test("should open share podcast episode dialog on episode share button click", async ({
-      page,
+      podcastDetailPage,
     }) => {
-      const podcastTitle = encodeURIComponent("Batman University")
+      const podcastTitle = "Batman University"
       const podcastId = "75075"
       const limit = 10
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-        async (route) => {
-          const json = defaultTenPodcastEpisodes
-          await route.fulfill({ json })
-        }
+      await podcastDetailPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+          async (route) => {
+            const json = defaultTenPodcastEpisodes
+            await route.fulfill({ json })
+          }
+        )
+      await podcastDetailPage.goto({ podcastId, podcastTitle })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Batman University - xtal - podcasts/
       )
-      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-      await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-      await expect(getFirstPodcastEpisodeShareButton(page)).toBeVisible()
-      await getFirstPodcastEpisodeShareButton(page).click()
-      await expect(getPodcastEpisodeShareDialog(page)).toBeVisible()
-      await expect(getPodcastEpisodeCopyLinkButton(page)).toBeVisible()
+      await expect(
+        podcastDetailPage.getPodcastEpisodeShareButton(0)
+      ).toBeVisible()
+      await podcastDetailPage.getPodcastEpisodeShareButton(0).click()
+      await expect(
+        podcastDetailPage.getPodcastEpisodeShareDialog()
+      ).toBeVisible()
+      await expect(
+        podcastDetailPage.getPodcastEpisodeDialogCopyLinkButton()
+      ).toBeVisible()
     })
 
     test("should allow user to copy first share podcast episode link at specific timestamp", async ({
-      page,
+      podcastDetailPage,
     }) => {
       const expectedStartDurationInSeconds = "30"
-      const podcastTitle = encodeURIComponent("Batman University")
+      const podcastTitle = "Batman University"
       const podcastId = "75075"
       const limit = 10
       const podcastEpisodeId = defaultTenPodcastEpisodes.data.episodes[0].id
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-        async (route) => {
-          const json = defaultTenPodcastEpisodes
-          await route.fulfill({ json })
-        }
-      )
+      await podcastDetailPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+          async (route) => {
+            const json = defaultTenPodcastEpisodes
+            await route.fulfill({ json })
+          }
+        )
       const expectedPodcastEpisodeUrl =
-        HOMEPAGE +
-        `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}?t=${expectedStartDurationInSeconds}`
-      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-      await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-      await expect(getFirstPodcastEpisodeShareButton(page)).toBeVisible()
-      await getFirstPodcastEpisodeShareButton(page).click()
-      await expect(getPodcastEpisodeDialogTimestampInput(page)).toBeVisible()
-      await getPodcastEpisodeDialogTimestampInput(page).fill(
-        expectedStartDurationInSeconds
+        homePageUrl() +
+        `/podcasts/${encodeURIComponent(
+          podcastTitle
+        )}/${podcastId}/${podcastEpisodeId}?t=${expectedStartDurationInSeconds}`
+      await podcastDetailPage.goto({ podcastId, podcastTitle })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Batman University - xtal - podcasts/
       )
-      await expect(getPodcastEpisodeCopyLinkButton(page)).toBeVisible()
-      await getPodcastEpisodeCopyLinkButton(page).click()
-      expect(await getClipboardContent(page)).toBe(expectedPodcastEpisodeUrl)
-      await assertToastMessage(page, "Link Copied")
+      await expect(
+        podcastDetailPage.getPodcastEpisodeShareButton(0)
+      ).toBeVisible()
+      await podcastDetailPage.getPodcastEpisodeShareButton(0).click()
+
+      const dialogTimestampInput =
+        podcastDetailPage.getPodcastEpisodeDialogTimestampInput()
+      await expect(dialogTimestampInput).toBeVisible()
+      await dialogTimestampInput.fill(expectedStartDurationInSeconds)
+
+      const dialogCopyLinkButton =
+        podcastDetailPage.getPodcastEpisodeDialogCopyLinkButton()
+      await expect(dialogCopyLinkButton).toBeVisible()
+      await dialogCopyLinkButton.click()
+      expect(await getClipboardContent(podcastDetailPage.getPage())).toBe(
+        expectedPodcastEpisodeUrl
+      )
+      await assertToastMessage(podcastDetailPage.getPage(), "Link Copied")
     })
   })
 })

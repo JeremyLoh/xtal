@@ -1,37 +1,39 @@
-import { expect } from "@playwright/test"
-import { HOMEPAGE } from "../constants/homepageConstants.ts"
 import { test } from "../fixture/test.ts"
-import {
-  navigateUsingSidebarMenuItem,
-  SidebarMenuItemAction,
-} from "../constants/sidebarConstants.ts"
-
-test.beforeEach(async ({ mapPage }) => {
-  await mapPage.mockMapTile()
-})
+import { expect } from "@playwright/test"
+import { SidebarMenuItemAction } from "../pageComponents/Sidebar.ts"
+import HomePage from "../pageObjects/HomePage.ts"
 
 test.describe("profile navigation from homepage", () => {
+  async function navigateUsingSidebar(
+    homePage: HomePage,
+    action: SidebarMenuItemAction
+  ) {
+    await expect(homePage.getSidebarToggleButton()).toBeVisible()
+    await homePage.getSidebarToggleButton().click()
+    await expect(homePage.getSidebar()).toBeVisible()
+    await expect(homePage.getSidebarMenuItem(action)).toBeVisible()
+    await homePage.getSidebarMenuItem(action).click()
+  }
+
   test("should allow user navigation to sign up page using sidebar action for anonymous user", async ({
-    page,
+    homePage,
   }) => {
-    await page.goto(HOMEPAGE)
-    await navigateUsingSidebarMenuItem(
-      page,
-      SidebarMenuItemAction.ProfileSignUp
-    )
-    await expect(page.getByText("Sign Up", { exact: true })).toBeVisible()
-    expect(page.url()).toMatch(/\/auth\?show=signup$/)
+    await homePage.goto()
+    await navigateUsingSidebar(homePage, SidebarMenuItemAction.ProfileSignUp)
+    await expect(
+      homePage.getPage().getByText("Sign Up", { exact: true })
+    ).toBeVisible()
+    expect(homePage.getPage().url()).toMatch(/\/auth\?show=signup$/)
   })
 
   test("should allow user navigation to sign in page using sidebar action for anonymous user", async ({
-    page,
+    homePage,
   }) => {
-    await page.goto(HOMEPAGE)
-    await navigateUsingSidebarMenuItem(
-      page,
-      SidebarMenuItemAction.ProfileSignIn
-    )
-    await expect(page.getByText("Sign In", { exact: true })).toBeVisible()
-    expect(page.url()).toMatch(/\/auth\?show=signin$/)
+    await homePage.goto()
+    await navigateUsingSidebar(homePage, SidebarMenuItemAction.ProfileSignIn)
+    await expect(
+      homePage.getPage().getByText("Sign In", { exact: true })
+    ).toBeVisible()
+    expect(homePage.getPage().url()).toMatch(/\/auth\?show=signin$/)
   })
 })

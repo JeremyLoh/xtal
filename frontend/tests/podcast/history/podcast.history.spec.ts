@@ -7,10 +7,13 @@ import {
   test,
 } from "../../fixture/auth"
 import { expect } from "@playwright/test"
-import { HOMEPAGE } from "../../constants/homepageConstants"
 import { podcastId_259760_episodeId_34000697601 } from "../../mocks/podcast.episode"
 import { assertPodcastEpisodeOnPodcastEpisodeDetailPage } from "../../constants/podcast/detail/podcastDetailConstants"
 import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
+import {
+  podcastEpisodeDetailPageUrl,
+  profileHistoryPageUrl,
+} from "../../constants/paths"
 
 test.describe("Profile Podcast History Page /profile/history", () => {
   test.beforeEach(async ({ headless }) => {
@@ -40,7 +43,7 @@ test.describe("Profile Podcast History Page /profile/history", () => {
       await expect(page).toHaveURL(paths.home)
       await assertUserIsAuthenticated(context)
 
-      await page.goto(HOMEPAGE + "/profile/history")
+      await page.goto(profileHistoryPageUrl())
       await expect(page.getByText("Podcast Listen History")).toBeVisible()
       await expect(page).toHaveTitle("xtal - profile - history")
       expect(page.url()).toMatch(/\/profile\/history$/)
@@ -65,7 +68,7 @@ test.describe("Profile Podcast History Page /profile/history", () => {
         page.getByRole("button", { name: /profile history/i })
       ).toBeVisible()
       await page.getByRole("button", { name: /profile history/i }).click()
-      await expect(page).toHaveURL(HOMEPAGE + "/profile/history")
+      await expect(page).toHaveURL(profileHistoryPageUrl())
 
       await logoutAccount(page)
     })
@@ -76,7 +79,7 @@ test.describe("Profile Podcast History Page /profile/history", () => {
       existingAccount,
     }) => {
       test.slow()
-      const podcastTitle = encodeURIComponent("Infinite Loops")
+      const podcastTitle = "Infinite Loops"
       const podcastId = "259760"
       const podcastEpisodeId = "34000697601"
       const episode = podcastId_259760_episodeId_34000697601.data
@@ -90,10 +93,14 @@ test.describe("Profile Podcast History Page /profile/history", () => {
       await signIntoExistingAccount(page, existingAccount)
       await expect(page).toHaveURL(paths.home)
       await assertUserIsAuthenticated(context)
-      await page.goto(HOMEPAGE + "/profile/history")
+      await page.goto(profileHistoryPageUrl())
       // play one podcast episode
       await page.goto(
-        HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}/${podcastEpisodeId}`
+        podcastEpisodeDetailPageUrl({
+          podcastId,
+          podcastTitle,
+          podcastEpisodeId,
+        })
       )
       await assertPodcastEpisodeOnPodcastEpisodeDetailPage(
         page,
@@ -106,7 +113,7 @@ test.describe("Profile Podcast History Page /profile/history", () => {
       await page.waitForTimeout(2000) // wait for player to load and play episode
 
       // check that it appears in the recent profile history
-      await page.goto(HOMEPAGE + "/profile/history")
+      await page.goto(profileHistoryPageUrl())
       await expect(
         page.getByText("Not available. Start listening to some podcasts!")
       ).not.toBeVisible()

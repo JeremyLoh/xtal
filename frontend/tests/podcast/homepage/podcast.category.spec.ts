@@ -1,62 +1,61 @@
-import test, { expect, Page } from "@playwright/test"
+import { test } from "../../fixture/test.ts"
+import { expect } from "@playwright/test"
 import { allPodcastCategories } from "../../mocks/podcast.category"
-import { HOMEPAGE } from "../../constants/homepageConstants"
+import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants.ts"
+import PodcastHomePage from "../../pageObjects/PodcastHomePage.ts"
 
 test.describe("Podcast Homepage /podcasts", () => {
   test.describe("Podcast Categories Section", () => {
-    function getRefreshPodcastCategoryButton(page: Page) {
-      return page.locator(".podcast-category-container").getByRole("button", {
-        name: "refresh podcast categories",
-        exact: true,
-      })
-    }
-
     async function assertPodcastCategoriesInSlider(
-      page: Page,
+      podcastHomePage: PodcastHomePage,
       podcastCategories: typeof allPodcastCategories
     ) {
       for (const category of podcastCategories.data) {
         await expect(
-          page
-            .locator(".podcast-category-slider")
-            .getByText(category.name, { exact: true }),
+          podcastHomePage.getPodcastCategorySliderItem(category.name),
           `Podcast category "${category.name}" should be visible`
         ).toBeVisible()
       }
     }
 
-    test("should display podcast categories in slider", async ({ page }) => {
-      await page.route("*/**/api/podcast/category", async (route) => {
-        const json = allPodcastCategories
-        await route.fulfill({ json })
-      })
-      await page.goto(HOMEPAGE + "/podcasts")
-      await expect(page).toHaveTitle(/xtal - podcasts/)
-      await expect(page.locator(".podcast-category-container")).toBeVisible()
-      await expect(
-        page.locator(".podcast-category-container .podcast-category-title")
-      ).toBeVisible()
-      await assertPodcastCategoriesInSlider(page, allPodcastCategories)
+    test("should display podcast categories in slider", async ({
+      podcastHomePage,
+    }) => {
+      await podcastHomePage
+        .getPage()
+        .route("*/**/api/podcast/category", async (route) => {
+          const json = allPodcastCategories
+          await route.fulfill({ json })
+        })
+      await podcastHomePage.goto()
+      await expect(podcastHomePage.getPage()).toHaveTitle(/xtal - podcasts/)
+      await expect(podcastHomePage.getPodcastCategoryContainer()).toBeVisible()
+      await expect(podcastHomePage.getPodcastCategoryTitle()).toBeVisible()
+      await assertPodcastCategoriesInSlider(
+        podcastHomePage,
+        allPodcastCategories
+      )
     })
 
     test("should display error message and refresh category button when podcast categories cannot be fetched", async ({
-      page,
+      podcastHomePage,
     }) => {
-      await page.route("*/**/api/podcast/category", async (route) => {
-        const json = []
-        await route.fulfill({ json })
-      })
-      await page.goto(HOMEPAGE + "/podcasts")
-      await expect(page).toHaveTitle(/xtal - podcasts/)
+      await podcastHomePage
+        .getPage()
+        .route("*/**/api/podcast/category", async (route) => {
+          const json = []
+          await route.fulfill({ json })
+        })
+      await podcastHomePage.goto()
+      await expect(podcastHomePage.getPage()).toHaveTitle(/xtal - podcasts/)
       await expect(
-        page
-          .locator(".podcast-category-container")
-          .getByText(
-            "Could not get podcast categories. Please try again later",
-            { exact: true }
-          )
+        podcastHomePage.getErrorMessage(
+          "Could not get podcast categories. Please try again later"
+        )
       ).toBeVisible()
-      await expect(getRefreshPodcastCategoryButton(page)).toBeVisible()
+      await expect(
+        podcastHomePage.getPodcastCategoryRefreshButton()
+      ).toBeVisible()
     })
 
     test("should refresh podcast categories on button click", async ({
@@ -67,45 +66,60 @@ test.describe("Podcast Homepage /podcasts", () => {
       test.slow()
       const context = await browser.newContext()
       const page = await context.newPage()
+      const podcastHomePage = new PodcastHomePage(page)
       let shouldFetchData = false
-      await page.route("*/**/api/podcast/category", async (route) => {
-        const json = shouldFetchData ? allPodcastCategories : []
-        await route.fulfill({ json })
-      })
-      await page.route("*/**/api/podcast/trending?limit=*", async (route) => {
-        // mock trending podcast section data
-        const json = []
-        await route.fulfill({ json })
-      })
-      await page.goto(HOMEPAGE + "/podcasts")
-      await expect(page).toHaveTitle(/xtal - podcasts/)
+      await podcastHomePage
+        .getPage()
+        .route("*/**/api/podcast/category", async (route) => {
+          const json = shouldFetchData ? allPodcastCategories : []
+          await route.fulfill({ json })
+        })
+      await podcastHomePage
+        .getPage()
+        .route("*/**/api/podcast/trending?limit=*", async (route) => {
+          // mock trending podcast section data
+          const json = []
+          await route.fulfill({ json })
+        })
+      await podcastHomePage.goto()
+      await expect(podcastHomePage.getPage()).toHaveTitle(/xtal - podcasts/)
       await expect(
-        page.getByText(
+        podcastHomePage.getErrorMessage(
           "Could not get podcast categories. Please try again later"
         )
       ).toBeVisible()
-      await expect(getRefreshPodcastCategoryButton(page)).toBeVisible()
+      await assertLoadingSpinnerIsMissing(podcastHomePage.getPage())
+      await expect(
+        podcastHomePage.getPodcastCategoryRefreshButton()
+      ).toBeVisible()
 
       shouldFetchData = true
-      await getRefreshPodcastCategoryButton(page).click()
-      await assertPodcastCategoriesInSlider(page, allPodcastCategories)
+      await podcastHomePage.getPage().waitForTimeout(1000)
+      await podcastHomePage.getPodcastCategoryRefreshButton().click()
+      await assertPodcastCategoriesInSlider(
+        podcastHomePage,
+        allPodcastCategories
+      )
       await context.close()
     })
 
     test.describe("Select podcast category button", () => {
-      test("should redirect to podcast category page", async ({ page }) => {
+      test("should redirect to podcast category page", async ({
+        podcastHomePage,
+      }) => {
         const expectedCategoryName = allPodcastCategories.data[0].name
-        await page.route("*/**/api/podcast/category", async (route) => {
-          const json = allPodcastCategories
-          await route.fulfill({ json })
-        })
-        await page.goto(HOMEPAGE + "/podcasts")
-        await expect(page).toHaveTitle(/xtal - podcasts/)
-        await page
-          .locator(".podcast-category-slider")
-          .getByText(expectedCategoryName, { exact: true })
+        await podcastHomePage
+          .getPage()
+          .route("*/**/api/podcast/category", async (route) => {
+            const json = allPodcastCategories
+            await route.fulfill({ json })
+          })
+        await podcastHomePage.goto()
+        await expect(podcastHomePage.getPage()).toHaveTitle(/xtal - podcasts/)
+        await podcastHomePage
+          .getPodcastCategorySliderItem(expectedCategoryName)
           .click()
-        await expect(page).toHaveTitle(
+        await expect(podcastHomePage.getPage()).toHaveTitle(
           new RegExp(`xtal - ${expectedCategoryName.toLowerCase()} podcasts`)
         )
       })
@@ -113,23 +127,31 @@ test.describe("Podcast Homepage /podcasts", () => {
 
     test.describe("podcast category cache data", () => {
       test("should return cache of categories on page refresh after successful first fetch", async ({
-        page,
+        podcastHomePage,
         headless,
       }) => {
         test.skip(headless, "Remove failing CI test in headless mode")
         test.slow()
         let shouldFetchData = true
-        await page.route("*/**/api/podcast/category", async (route) => {
-          const json = shouldFetchData ? allPodcastCategories : []
-          await route.fulfill({ json })
-        })
-        await page.goto(HOMEPAGE + "/podcasts")
-        await expect(page).toHaveTitle(/xtal - podcasts/)
-        await assertPodcastCategoriesInSlider(page, allPodcastCategories)
+        await podcastHomePage
+          .getPage()
+          .route("*/**/api/podcast/category", async (route) => {
+            const json = shouldFetchData ? allPodcastCategories : []
+            await route.fulfill({ json })
+          })
+        await podcastHomePage.goto()
+        await expect(podcastHomePage.getPage()).toHaveTitle(/xtal - podcasts/)
+        await assertPodcastCategoriesInSlider(
+          podcastHomePage,
+          allPodcastCategories
+        )
 
         shouldFetchData = false
-        await page.reload()
-        await assertPodcastCategoriesInSlider(page, allPodcastCategories)
+        await podcastHomePage.getPage().reload()
+        await assertPodcastCategoriesInSlider(
+          podcastHomePage,
+          allPodcastCategories
+        )
       })
     })
   })

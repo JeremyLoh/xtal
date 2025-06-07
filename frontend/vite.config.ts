@@ -80,7 +80,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
-      compression({ algorithm: "brotliCompress" }),
+      compression({ algorithms: ["brotliCompress"] }),
       getCspPlugin(),
     ].concat(
       ENABLE_VISUALIZER ? [visualizer({ open: true }) as PluginOption] : []

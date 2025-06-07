@@ -22,10 +22,10 @@
   "description": "Backend for xtal application",
   "dependencies": {
     "@2toad/profanity": "3.1.1",
-    "@supabase/supabase-js": "2.49.4",
+    "@supabase/supabase-js": "2.50.0",
     "compression": "1.8.0",
     "cors": "2.8.5",
-    "cron": "4.3.0",
+    "cron": "4.3.1",
     "dayjs": "1.11.13",
     "dompurify": "^3.2.6",
     "dotenv": "16.5.0",
@@ -48,16 +48,16 @@
     "@types/express": "5.0.2",
     "@types/jsdom": "21.1.7",
     "@types/jsonwebtoken": "9.0.9",
-    "@types/node": "22.15.21",
+    "@types/node": "22.15.30",
     "@types/supertest": "6.0.3",
     "@types/swagger-jsdoc": "6.0.4",
     "@types/swagger-ui-express": "4.1.8",
-    "msw": "2.8.4",
+    "msw": "2.10.0",
     "supertest": "7.1.1",
     "swagger-jsdoc": "6.2.8",
     "swagger-ui-express": "5.0.1",
     "tsx": "4.19.4",
     "typescript": "5.8.3",
-    "vitest": "3.1.4"
+    "vitest": "3.2.2"
   }
 }

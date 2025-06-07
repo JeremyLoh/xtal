@@ -1,8 +1,6 @@
-import test, { expect, Page } from "@playwright/test"
-import {
-  assertToastMessage,
-  HOMEPAGE,
-} from "../../constants/homepageConstants.ts"
+import { test } from "../../fixture/test.ts"
+import { expect } from "@playwright/test"
+import { assertToastMessage } from "../../constants/toasterConstants.ts"
 import {
   defaultTenPodcastEpisodes,
   podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes,
@@ -16,57 +14,75 @@ import {
   getVirtualizedListParentElement,
   scrollUntilElementIsVisible,
 } from "../../constants/scroller/scrollerConstants.ts"
+import PodcastDetailPage from "../../pageObjects/PodcastDetailPage.ts"
+import { podcastHomePageUrl } from "../../constants/paths.ts"
 
 test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITLE/PODCAST-ID", () => {
-  test("should display podcast detail page", async ({ page }) => {
+  test("should display podcast detail page", async ({ podcastDetailPage }) => {
     test.slow()
-    const podcastTitle = encodeURIComponent("Batman University")
+    const podcastTitle = "Batman University"
     const podcastId = "75075"
     const limit = 10
-    await page.route(
-      `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-      async (route) => {
-        const json = defaultTenPodcastEpisodes
-        await route.fulfill({ json })
-      }
+    await podcastDetailPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+        async (route) => {
+          const json = defaultTenPodcastEpisodes
+          await route.fulfill({ json })
+        }
+      )
+    await podcastDetailPage.goto({ podcastId, podcastTitle })
+    await expect(podcastDetailPage.getPage()).toHaveTitle(
+      /Batman University - xtal - podcasts/
     )
-    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-    await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-    await assertPodcastInfo(page, defaultTenPodcastEpisodes.data.podcast)
-    await assertPodcastEpisodes(page, defaultTenPodcastEpisodes)
+    await assertPodcastInfo(
+      podcastDetailPage.getPage(),
+      defaultTenPodcastEpisodes.data.podcast
+    )
+    await assertPodcastEpisodes(
+      podcastDetailPage.getPage(),
+      defaultTenPodcastEpisodes
+    )
   })
 
   test("should display podcast detail page where podcast title has % symbol", async ({
-    page,
+    podcastDetailPage,
   }) => {
     test.slow()
-    const podcastTitle = "99%25%20Invisible" // "99% Invisible"
+    const podcastTitle = "99% Invisible" // encodeURIComponent => "99%25%20Invisible"
     const podcastId = "387129"
     const limit = 10
-    await page.route(
-      `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-      async (route) => {
-        const json =
-          podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes
-        await route.fulfill({ json })
-      }
+    await podcastDetailPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+        async (route) => {
+          const json =
+            podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes
+          await route.fulfill({ json })
+        }
+      )
+    await podcastDetailPage.goto({ podcastId, podcastTitle })
+    await expect(podcastDetailPage.getPage()).toHaveTitle(
+      /99% Invisible - xtal - podcasts/
     )
-    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-    await expect(page).toHaveTitle(/99% Invisible - xtal - podcasts/)
-    await expect(page.getByText("404 Not Found")).not.toBeVisible()
+    await expect(
+      podcastDetailPage.getPage().getByText("404 Not Found")
+    ).not.toBeVisible()
     await assertPodcastInfo(
-      page,
+      podcastDetailPage.getPage(),
       podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes.data
         .podcast
     )
     await assertPodcastEpisodes(
-      page,
+      podcastDetailPage.getPage(),
       podcastTitleHasPercentSymbol_podcastId_387129_FirstTenEpisodes
     )
   })
 
   test("should display podcast info without last active time when podcast latestPublishTime is missing", async ({
-    page,
+    podcastDetailPage,
   }) => {
     test.slow()
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -80,78 +96,105 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
         podcast: podcastWithoutLatestPublishTime,
       },
     }
-    const podcastTitle = "99%25%20Invisible" // "99% Invisible"
+    const podcastTitle = "99% Invisible" // encodeURIComponent => "99%25%20Invisible"
     const podcastId = "387129"
     const limit = 10
-    await page.route(
-      `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-      async (route) => {
-        const json = podcastWithoutLastPublishTime
-        await route.fulfill({ json })
-      }
+    await podcastDetailPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+        async (route) => {
+          const json = podcastWithoutLastPublishTime
+          await route.fulfill({ json })
+        }
+      )
+    await podcastDetailPage.goto({ podcastId, podcastTitle })
+    await expect(podcastDetailPage.getPage()).toHaveTitle(
+      /99% Invisible - xtal - podcasts/
     )
-    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-    await expect(page).toHaveTitle(/99% Invisible - xtal - podcasts/)
-    await assertPodcastInfo(page, podcastWithoutLastPublishTime.data.podcast)
-    await assertPodcastEpisodes(page, podcastWithoutLastPublishTime)
+    await assertPodcastInfo(
+      podcastDetailPage.getPage(),
+      podcastWithoutLastPublishTime.data.podcast
+    )
+    await assertPodcastEpisodes(
+      podcastDetailPage.getPage(),
+      podcastWithoutLastPublishTime
+    )
   })
 
   test.describe("cache data", () => {
     test("should use cached podcast episode values after page refresh of first successful request", async ({
-      page,
+      podcastDetailPage,
       headless,
     }) => {
       test.skip(headless, "Remove failing CI test in headless mode")
       test.slow()
-      const podcastTitle = encodeURIComponent("Batman University")
+      const podcastTitle = "Batman University"
       const podcastId = "75075"
       const limit = 10
       let shouldFetchData = true
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-        async (route) => {
-          const json = shouldFetchData ? defaultTenPodcastEpisodes : []
-          await route.fulfill({ json })
-        }
+      await podcastDetailPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+          async (route) => {
+            const json = shouldFetchData ? defaultTenPodcastEpisodes : []
+            await route.fulfill({ json })
+          }
+        )
+      await podcastDetailPage.goto({ podcastId, podcastTitle })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Batman University - xtal - podcasts/
       )
-      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-      await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-      await assertPodcastInfo(page, defaultTenPodcastEpisodes.data.podcast)
-      await assertPodcastEpisodes(page, defaultTenPodcastEpisodes)
+      await assertPodcastInfo(
+        podcastDetailPage.getPage(),
+        defaultTenPodcastEpisodes.data.podcast
+      )
+      await assertPodcastEpisodes(
+        podcastDetailPage.getPage(),
+        defaultTenPodcastEpisodes
+      )
       shouldFetchData = false
-      await page.reload()
-      await assertPodcastInfo(page, defaultTenPodcastEpisodes.data.podcast)
-      await assertPodcastEpisodes(page, defaultTenPodcastEpisodes)
+      await podcastDetailPage.getPage().reload()
+      await assertPodcastInfo(
+        podcastDetailPage.getPage(),
+        defaultTenPodcastEpisodes.data.podcast
+      )
+      await assertPodcastEpisodes(
+        podcastDetailPage.getPage(),
+        defaultTenPodcastEpisodes
+      )
     })
   })
 
   test.describe("data fetch failed", () => {
-    function getPodcastEpisodeRefreshButton(page: Page) {
-      return page.locator(".podcast-episode-container").getByRole("button", {
-        name: "refresh podcast episodes",
-        exact: true,
-      })
-    }
-
     test("should display podcast detail page refresh episode button on data fetch error", async ({
-      page,
+      podcastDetailPage,
     }) => {
-      const podcastTitle = encodeURIComponent("Batman University")
+      const podcastTitle = "Batman University"
       const podcastId = "75075"
       const limit = 10
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-        async (route) => {
-          const json = []
-          await route.fulfill({ json })
-        }
+      await podcastDetailPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+          async (route) => {
+            const json = []
+            await route.fulfill({ json })
+          }
+        )
+      await podcastDetailPage.goto({ podcastId, podcastTitle })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Batman University - xtal - podcasts/
       )
-      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-      await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
       await expect(
-        page.getByText("Could not get podcast episodes. Please try again later")
+        podcastDetailPage
+          .getPage()
+          .getByText("Could not get podcast episodes. Please try again later")
       ).toBeVisible()
-      await expect(getPodcastEpisodeRefreshButton(page)).toBeVisible()
+      await expect(
+        podcastDetailPage.getRefreshPodcastEpisodeButton()
+      ).toBeVisible()
     })
 
     test("should fetch podcast episode on refresh button click", async ({
@@ -162,44 +205,59 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
       test.slow()
       const context = await browser.newContext()
       const page = await context.newPage()
-      const podcastTitle = encodeURIComponent("Batman University")
+      const podcastDetailPage = new PodcastDetailPage(page)
+      const podcastTitle = "Batman University"
       const podcastId = "75075"
       const limit = 10
       let shouldFetchData = false
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-        async (route) => {
-          if (shouldFetchData) {
-            const json = defaultTenPodcastEpisodes
-            await route.fulfill({ json })
-          } else {
-            const json = []
-            await route.fulfill({ json })
+      await podcastDetailPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+          async (route) => {
+            if (shouldFetchData) {
+              const json = defaultTenPodcastEpisodes
+              await route.fulfill({ json })
+            } else {
+              const json = []
+              await route.fulfill({ json })
+            }
           }
-        }
+        )
+      await podcastDetailPage
+        .getPage()
+        .route("*/**/auth/session/refresh", async (route) => {
+          const json = []
+          await route.fulfill({ json })
+        })
+      await podcastDetailPage.goto({ podcastId, podcastTitle })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Batman University - xtal - podcasts/
       )
-      await page.route("*/**/auth/session/refresh", async (route) => {
-        const json = []
-        await route.fulfill({ json })
-      })
-      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-      await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
       await expect(
-        page.getByText("Could not get podcast episodes. Please try again later")
+        podcastDetailPage
+          .getPage()
+          .getByText("Could not get podcast episodes. Please try again later")
       ).toBeVisible()
 
       shouldFetchData = true
-      await getPodcastEpisodeRefreshButton(page).click()
-      await page.waitForTimeout(1000)
-      await assertPodcastInfo(page, defaultTenPodcastEpisodes.data.podcast)
-      await assertPodcastEpisodes(page, defaultTenPodcastEpisodes)
+      await podcastDetailPage.getRefreshPodcastEpisodeButton().click()
+      await podcastDetailPage.getPage().waitForTimeout(1000)
+      await assertPodcastInfo(
+        podcastDetailPage.getPage(),
+        defaultTenPodcastEpisodes.data.podcast
+      )
+      await assertPodcastEpisodes(
+        podcastDetailPage.getPage(),
+        defaultTenPodcastEpisodes
+      )
       await context.close()
     })
   })
 
   test.describe("episode duration", () => {
     test("should display duration of episode in hours and minutes", async ({
-      page,
+      podcastDetailPage,
     }) => {
       test.slow()
       const expectedDurationsInSeconds = [
@@ -219,18 +277,22 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
           ),
         },
       }
-      const podcastTitle = encodeURIComponent("Batman University")
+      const podcastTitle = "Batman University"
       const podcastId = "75075"
       const limit = 10
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-        async (route) => {
-          const json = mockDurationPodcastEpisodes
-          await route.fulfill({ json })
-        }
+      await podcastDetailPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+          async (route) => {
+            const json = mockDurationPodcastEpisodes
+            await route.fulfill({ json })
+          }
+        )
+      await podcastDetailPage.goto({ podcastId, podcastTitle })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Batman University - xtal - podcasts/
       )
-      await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-      await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
       for (
         let i = 0;
         i < mockDurationPodcastEpisodes.data.episodes.length;
@@ -241,23 +303,20 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
           episode.durationInSeconds
         )
 
-        const artwork = page.locator(".podcast-episode-card").getByRole("img", {
-          name: episode.title + " podcast image",
-          exact: true,
-        })
-        const podcastEpisodeCard = page.locator(".podcast-episode-list-item", {
-          has: artwork,
-        })
-        const durationLocator = podcastEpisodeCard.getByText(expectedDuration, {
-          exact: true,
-        })
+        const artwork = podcastDetailPage.getPodcastEpisodeCardArtwork(
+          episode.title
+        )
+        const duration = podcastDetailPage.getPodcastEpisodeCardDuration(
+          episode.title,
+          expectedDuration
+        )
         await scrollUntilElementIsVisible(
-          page,
+          podcastDetailPage.getPage(),
           artwork,
-          getVirtualizedListParentElement(page)
+          getVirtualizedListParentElement(podcastDetailPage.getPage())
         )
         await expect(
-          durationLocator,
+          duration,
           `(Episode ${i + 1}) podcast episode card Duration should be present`
         ).toBeVisible()
       }
@@ -265,76 +324,89 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
   })
 
   test("should allow podcasts breadcrumb link click to navigate back to /podcasts homepage", async ({
-    page,
+    podcastDetailPage,
   }) => {
-    const podcastTitle = encodeURIComponent("Batman University")
+    const podcastTitle = "Batman University"
     const podcastId = "75075"
     const limit = 10
-    await page.route(
-      `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-      async (route) => {
-        const json = defaultTenPodcastEpisodes
-        await route.fulfill({ json })
-      }
+    await podcastDetailPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+        async (route) => {
+          const json = defaultTenPodcastEpisodes
+          await route.fulfill({ json })
+        }
+      )
+    await podcastDetailPage.goto({ podcastId, podcastTitle })
+    await expect(podcastDetailPage.getPage()).toHaveTitle(
+      /Batman University - xtal - podcasts/
     )
-    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-    await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
-    await assertPodcastInfo(page, defaultTenPodcastEpisodes.data.podcast)
-    await expect(
-      page.getByTestId("podcast-detail-page-podcasts-link")
-    ).toBeVisible()
-    await page.getByTestId("podcast-detail-page-podcasts-link").click()
-    await expect(page).toHaveTitle("xtal - podcasts")
-    expect(page.url()).toMatch(/\/podcasts$/)
+    await assertPodcastInfo(
+      podcastDetailPage.getPage(),
+      defaultTenPodcastEpisodes.data.podcast
+    )
+    await expect(podcastDetailPage.getBreadcrumbPodcastPageLink()).toBeVisible()
+    await podcastDetailPage.getBreadcrumbPodcastPageLink().click()
+    await expect(podcastDetailPage.getPage()).toHaveTitle("xtal - podcasts")
+    await expect(podcastDetailPage.getPage()).toHaveURL(podcastHomePageUrl())
   })
 
   test("should display error toast for rate limit exceeded", async ({
-    page,
+    podcastDetailPage,
   }) => {
-    const podcastTitle = encodeURIComponent("Batman University")
+    const podcastTitle = "Batman University"
     const podcastId = "75075"
     const limit = 10
-    await page.route(
-      `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-      async (route) => {
-        await route.fulfill({
-          status: 429,
-          // retry-after headers are missing - https://github.com/microsoft/playwright/issues/19788
-          headers: {
-            "access-control-expose-headers": "retry-after",
-            "retry-after": "2",
-          },
-          body: "Too many requests, please try again later.",
-        })
-      }
+    await podcastDetailPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+        async (route) => {
+          await route.fulfill({
+            status: 429,
+            // retry-after headers are missing - https://github.com/microsoft/playwright/issues/19788
+            headers: {
+              "access-control-expose-headers": "retry-after",
+              "retry-after": "2",
+            },
+            body: "Too many requests, please try again later.",
+          })
+        }
+      )
+    await podcastDetailPage.goto({ podcastId, podcastTitle })
+    await expect(podcastDetailPage.getPage()).toHaveTitle(
+      /Batman University - xtal - podcasts/
     )
-    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-    await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
     await assertToastMessage(
-      page,
+      podcastDetailPage.getPage(),
       "Rate Limit Exceeded, please try again later",
       2 // react strict mode calls endpoint twice
     )
   })
 
   test("should display generic error toast for server HTTP 404 error", async ({
-    page,
+    podcastDetailPage,
   }) => {
-    const podcastTitle = encodeURIComponent("Batman University")
+    const podcastTitle = "Batman University"
     const podcastId = "75075"
     const limit = 10
-    await page.route(
-      `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-      async (route) => {
-        await route.fulfill({
-          status: 404,
-        })
-      }
+    await podcastDetailPage
+      .getPage()
+      .route(
+        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+        async (route) => {
+          await route.fulfill({
+            status: 404,
+          })
+        }
+      )
+    await podcastDetailPage.goto({ podcastId, podcastTitle })
+    await expect(podcastDetailPage.getPage()).toHaveTitle(
+      /Batman University - xtal - podcasts/
     )
-    await page.goto(HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}`)
-    await expect(page).toHaveTitle(/Batman University - xtal - podcasts/)
     await assertToastMessage(
-      page,
+      podcastDetailPage.getPage(),
       "Could not retrieve podcast episodes. Please try again later",
       2 // react strict mode calls endpoint twice
     )

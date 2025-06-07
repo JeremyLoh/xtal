@@ -7,7 +7,7 @@ import {
   signIntoExistingAccount,
   test,
 } from "../fixture/auth"
-import { HOMEPAGE } from "../constants/homepageConstants"
+import { homePageUrl } from "../constants/paths"
 
 test.describe("Profile Reset Password navigation", () => {
   test.beforeEach(async ({ headless }) => {
@@ -41,7 +41,7 @@ test.describe("Profile Reset Password navigation", () => {
       page.getByRole("button", { name: /reset password/i })
     ).toBeVisible()
     await page.getByRole("button", { name: /reset password/i }).click()
-    await expect(page).toHaveURL(HOMEPAGE + "/auth/reset-password")
+    await expect(page).toHaveURL(homePageUrl() + "/auth/reset-password")
     await expect(
       page.getByText("Reset your password", { exact: true })
     ).toBeVisible()

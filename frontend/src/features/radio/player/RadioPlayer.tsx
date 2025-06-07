@@ -67,7 +67,10 @@ function RadioPlayer({ source, onError, onReady }: RadioPlayerProps) {
   }, [])
 
   return (
-    <div className="radio-player-container">
+    <div
+      className="radio-player-container"
+      data-testid="radio-player-container"
+    >
       <div className="audio-player">
         <MediaController audio>
           {source && source.type !== "hls" ? (

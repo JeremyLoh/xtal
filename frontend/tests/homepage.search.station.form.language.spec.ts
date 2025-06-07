@@ -1,21 +1,10 @@
 import { test } from "./fixture/test"
 import { expect } from "@playwright/test"
-import { HOMEPAGE } from "./constants/homepageConstants"
 import { cantoneseStation } from "./mocks/station"
-import {
-  getDrawerStationResultCard,
-  getSearchStationForm,
-  getSearchStationButton,
-  getStationSearchByNameInput,
-} from "./constants/searchStationConstants"
 import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
 
-test.beforeEach(async ({ mapPage }) => {
-  await mapPage.mockMapTile()
-})
-
 test.describe("radio station search form language filter", () => {
-  test("should display languages in select options", async ({ page }) => {
+  test("should display languages in select options", async ({ homePage }) => {
     const expectedLanguageOptions = [
       "english",
       "spanish",
@@ -79,64 +68,72 @@ test.describe("radio station search form language filter", () => {
       "telugu",
       "vietnamese",
     ]
-    await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
-    await getSearchStationButton(page).click()
+    await homePage.goto()
+    await assertLoadingSpinnerIsMissing(homePage.getPage())
+    await homePage.getSearchStationButton().click()
     expect(
-      await getSearchStationForm(page)
-        .locator("select#language option")
-        .allTextContents()
+      await homePage.getSearchStationFormLanguageOptions().allTextContents()
     ).toEqual(
       expect.arrayContaining([...expectedLanguageOptions, "any language"])
     )
-    await expect(
-      getSearchStationForm(page).locator("select#language option")
-    ).toHaveCount(expectedLanguageOptions.length + 1) // add one for "any language"
+    await expect(homePage.getSearchStationFormLanguageOptions()).toHaveCount(
+      expectedLanguageOptions.length + 1
+    ) // add one for "any language"
   })
 
-  test("display english as default language", async ({ page }) => {
-    await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
-    await getSearchStationButton(page).click()
+  test("display english as default language", async ({ homePage }) => {
+    await homePage.goto()
+    await assertLoadingSpinnerIsMissing(homePage.getPage())
+    await homePage.getSearchStationButton().click()
     await expect(
-      getSearchStationForm(page).locator("select#language")
+      homePage.getSearchStationFormCurrentLanguageOption()
     ).toHaveValue("english")
-    await getSearchStationForm(page)
-      .locator("select#language")
+    await homePage
+      .getSearchStationFormCurrentLanguageOption()
       .selectOption(["cantonese"])
     await expect(
-      getSearchStationForm(page).locator("select#language")
+      homePage.getSearchStationFormCurrentLanguageOption()
     ).toHaveValue("cantonese")
   })
 
-  test("search for cantonese language radio station", async ({ page }) => {
+  test("search for cantonese language radio station", async ({ homePage }) => {
     const name = cantoneseStation.name.split(" ").join("+")
-    await page.route(
-      `*/**/json/stations/search?name=${name}&limit=**`,
-      async (route) => {
-        // force test failure for searching endpoint without language search param
-        const json = []
-        await route.fulfill({ json })
-      }
-    )
-    await page.route(
-      `*/**/json/stations/search?**name=${name}**language=cantonese**`,
-      async (route) => {
-        const json = [cantoneseStation]
-        await route.fulfill({ json })
-      }
-    )
-    await page.goto(HOMEPAGE)
-    await assertLoadingSpinnerIsMissing(page)
-    await getSearchStationButton(page).click()
-    await getSearchStationForm(page)
-      .locator("select#language")
+    await homePage
+      .getPage()
+      .route(
+        `*/**/json/stations/search?name=${name}&limit=**`,
+        async (route) => {
+          // force test failure for searching endpoint without language search param
+          const json = []
+          await route.fulfill({ json })
+        }
+      )
+    await homePage
+      .getPage()
+      .route(
+        `*/**/json/stations/search?**name=${name}**language=cantonese**`,
+        async (route) => {
+          const json = [cantoneseStation]
+          await route.fulfill({ json })
+        }
+      )
+    await homePage.goto()
+    await assertLoadingSpinnerIsMissing(homePage.getPage())
+    await homePage.getSearchStationButton().click()
+    await homePage
+      .getSearchStationFormCurrentLanguageOption()
       .selectOption(["cantonese"])
-    await getStationSearchByNameInput(page).fill(cantoneseStation.name)
-    await getSearchStationForm(page).locator("button[type='submit']").click()
-    await expect(getDrawerStationResultCard(page)).toBeVisible()
+    await homePage.getSearchStationFormNameInput().fill(cantoneseStation.name)
+    await homePage.getSearchStationFormSubmitButton().click()
+
     await expect(
-      getDrawerStationResultCard(page).getByText(cantoneseStation.name)
+      homePage.getDrawer().locator(".station-search-result-card")
+    ).toBeVisible()
+    await expect(
+      homePage
+        .getDrawer()
+        .locator(".station-search-result-card")
+        .getByText(cantoneseStation.name)
     ).toBeVisible()
   })
 })

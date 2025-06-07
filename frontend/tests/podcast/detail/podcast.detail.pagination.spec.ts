@@ -1,5 +1,5 @@
-import test, { expect, Page } from "@playwright/test"
-import { HOMEPAGE } from "../../constants/homepageConstants.ts"
+import { test } from "../../fixture/test.ts"
+import { expect } from "@playwright/test"
 import {
   podcastId_259760_FirstTenEpisodes,
   podcastId_259760_OffsetTenEpisodes,
@@ -8,26 +8,20 @@ import {
   assertPodcastEpisodes,
   assertPodcastInfo,
 } from "../../constants/podcast/detail/podcastDetailConstants.ts"
-import {
-  getNextPaginationButton,
-  getPageNumberElement,
-  getPreviousPaginationButton,
-  getActivePageNumberElement,
-} from "../../constants/podcast/pagination/podcastDetailPagination.ts"
 
 test.describe("Pagination of Podcast Detail Page for individual podcast /podcasts/PODCAST-TITLE/PODCAST-ID", () => {
   test.describe("Pagination using url parameter '?page=PAGE-NUMBER'", () => {
     test("should display latest ten podcasts for first page", async ({
-      page,
+      podcastDetailPage,
     }) => {
       test.slow()
-      const podcastTitle = encodeURIComponent("Infinite Loops")
+      const podcastTitle = "Infinite Loops"
       const podcastId = "259760"
       const limit = 10
-      const pageNumber = 1
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}**`,
-        async (route) => {
+      const pageNumber = "1"
+      await podcastDetailPage
+        .getPage()
+        .route(`*/**/api/podcast/episodes?id=${podcastId}**`, async (route) => {
           const requestUrl = route.request().url()
           if (
             !requestUrl.includes(`offset=`) &&
@@ -40,36 +34,47 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = []
             await route.fulfill({ json })
           }
-        }
+        })
+      await podcastDetailPage.gotoPageNumber({
+        podcastId,
+        podcastTitle,
+        pageNumber,
+      })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Infinite Loops - xtal - podcasts/
       )
-      await page.goto(
-        HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-      )
-      await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
       await assertPodcastInfo(
-        page,
+        podcastDetailPage.getPage(),
         podcastId_259760_FirstTenEpisodes.data.podcast
       )
-      await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
-      await expect(page.locator(".podcast-episode-pagination")).toBeVisible()
-      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
-      await expect(getPreviousPaginationButton(page)).toBeVisible()
-      await expect(getPreviousPaginationButton(page)).toBeDisabled()
-      await expect(getNextPaginationButton(page)).toBeVisible()
+      await assertPodcastEpisodes(
+        podcastDetailPage.getPage(),
+        podcastId_259760_FirstTenEpisodes
+      )
+      const nextPaginationButton =
+        podcastDetailPage.getNextEpisodeListPaginationButton()
+      const previousPaginationButton =
+        podcastDetailPage.getPreviousEpisodeListPaginationButton()
+      await expect(
+        podcastDetailPage.getEpisodePaginationActivePageNumber("1")
+      ).toBeVisible()
+      await expect(previousPaginationButton).toBeVisible()
+      await expect(previousPaginationButton).toBeDisabled()
+      await expect(nextPaginationButton).toBeVisible()
     })
 
     test("should display second page of podcast episodes when url param ?page=2 is given", async ({
-      page,
+      podcastDetailPage,
     }) => {
       test.slow()
-      const podcastTitle = encodeURIComponent("Infinite Loops")
+      const podcastTitle = "Infinite Loops"
       const podcastId = "259760"
       const limit = 10
-      const pageNumber = 2
+      const pageNumber = "2"
       const expectedOffset = 10
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}**`,
-        async (route) => {
+      await podcastDetailPage
+        .getPage()
+        .route(`*/**/api/podcast/episodes?id=${podcastId}**`, async (route) => {
           const requestUrl = route.request().url()
           if (
             requestUrl.includes(`offset=${expectedOffset}`) &&
@@ -81,38 +86,49 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = []
             await route.fulfill({ json })
           }
-        }
+        })
+      await podcastDetailPage.gotoPageNumber({
+        podcastId,
+        podcastTitle,
+        pageNumber,
+      })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Infinite Loops - xtal - podcasts/
       )
-      await page.goto(
-        HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-      )
-      await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
       await assertPodcastInfo(
-        page,
+        podcastDetailPage.getPage(),
         podcastId_259760_OffsetTenEpisodes.data.podcast
       )
-      await assertPodcastEpisodes(page, podcastId_259760_OffsetTenEpisodes)
-      await expect(page.locator(".podcast-episode-pagination")).toBeVisible()
-      await expect(getActivePageNumberElement(page, "2")).toBeVisible()
-      await expect(getPreviousPaginationButton(page)).toBeVisible()
-      await expect(getPreviousPaginationButton(page)).not.toBeDisabled()
-      await expect(getNextPaginationButton(page)).toBeVisible()
+      await assertPodcastEpisodes(
+        podcastDetailPage.getPage(),
+        podcastId_259760_OffsetTenEpisodes
+      )
+      const nextPaginationButton =
+        podcastDetailPage.getNextEpisodeListPaginationButton()
+      const previousPaginationButton =
+        podcastDetailPage.getPreviousEpisodeListPaginationButton()
+      await expect(
+        podcastDetailPage.getEpisodePaginationActivePageNumber("2")
+      ).toBeVisible()
+      await expect(previousPaginationButton).toBeVisible()
+      await expect(previousPaginationButton).not.toBeDisabled()
+      await expect(nextPaginationButton).toBeVisible()
     })
 
     test("should not have disabled pagination buttons on second last page", async ({
-      page,
+      podcastDetailPage,
     }) => {
       test.slow()
-      const podcastTitle = encodeURIComponent("Infinite Loops")
+      const podcastTitle = "Infinite Loops"
       const podcastId = "259760"
       const limit = 10
       const expectedTotalEpisodes =
         podcastId_259760_FirstTenEpisodes.data.podcast.episodeCount
       const expectedTotalPages = Math.ceil(expectedTotalEpisodes / limit)
-      const pageNumber = expectedTotalPages - 1
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}**`,
-        async (route) => {
+      const pageNumber = `${expectedTotalPages - 1}`
+      await podcastDetailPage
+        .getPage()
+        .route(`*/**/api/podcast/episodes?id=${podcastId}**`, async (route) => {
           const requestUrl = route.request().url()
           const isSecondLastPageRequest =
             requestUrl.includes(
@@ -127,48 +143,54 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = []
             await route.fulfill({ json })
           }
-        }
+        })
+      await podcastDetailPage.gotoPageNumber({
+        podcastId,
+        podcastTitle,
+        pageNumber,
+      })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Infinite Loops - xtal - podcasts/
       )
-      await page.goto(
-        HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-      )
-      await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
       await assertPodcastInfo(
-        page,
+        podcastDetailPage.getPage(),
         podcastId_259760_FirstTenEpisodes.data.podcast
       )
-      await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
-      await expect(
-        getActivePageNumberElement(page, `${pageNumber}`)
-      ).toBeVisible()
-      await expect(getNextPaginationButton(page)).toBeVisible()
-      await expect(getNextPaginationButton(page)).not.toBeDisabled()
-      await expect(getPreviousPaginationButton(page)).toBeVisible()
-      await expect(getPreviousPaginationButton(page)).not.toBeDisabled()
+      await assertPodcastEpisodes(
+        podcastDetailPage.getPage(),
+        podcastId_259760_FirstTenEpisodes
+      )
+      const activePageNumber =
+        podcastDetailPage.getEpisodePaginationActivePageNumber(pageNumber)
+      const nextPaginationButton =
+        podcastDetailPage.getNextEpisodeListPaginationButton()
+      const previousPaginationButton =
+        podcastDetailPage.getPreviousEpisodeListPaginationButton()
+      await expect(activePageNumber).toBeVisible()
+      await expect(nextPaginationButton).toBeVisible()
+      await expect(nextPaginationButton).not.toBeDisabled()
+      await expect(previousPaginationButton).toBeVisible()
+      await expect(previousPaginationButton).not.toBeDisabled()
     })
   })
 
   test.describe("Navigate to static last page button", () => {
-    function getStaticLastPaginationPageButton(page: Page) {
-      return page.getByTestId("pagination-last-page-button")
-    }
-
     test("should navigate and static last page pagination button should be disabled on last page", async ({
-      page,
+      podcastDetailPage,
     }) => {
       test.slow()
       // NOTE: there must be at least 50 episodes for the mocked podcast data
-      const podcastTitle = encodeURIComponent("Infinite Loops")
+      const podcastTitle = "Infinite Loops"
       const podcastId = "259760"
       const limit = 10
-      const pageNumber = 1
+      const pageNumber = "1"
       const episodeCount =
         podcastId_259760_FirstTenEpisodes.data.podcast.episodeCount
       const lastPageNumber = Math.ceil(episodeCount / limit)
       const lastPageOffset = lastPageNumber * limit - limit
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}**`,
-        async (route) => {
+      await podcastDetailPage
+        .getPage()
+        .route(`*/**/api/podcast/episodes?id=${podcastId}**`, async (route) => {
           const requestUrl = route.request().url()
           const isLastPage =
             requestUrl.includes(`offset=${lastPageOffset}`) &&
@@ -187,39 +209,47 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = []
             await route.fulfill({ json })
           }
-        }
+        })
+      await podcastDetailPage.gotoPageNumber({
+        podcastId,
+        podcastTitle,
+        pageNumber,
+      })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Infinite Loops - xtal - podcasts/
       )
-      await page.goto(
-        HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-      )
-      await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
-      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
-
-      await expect(getStaticLastPaginationPageButton(page)).toBeVisible()
-      await getStaticLastPaginationPageButton(page).click()
       await expect(
-        getActivePageNumberElement(page, `${lastPageNumber}`)
+        podcastDetailPage.getEpisodePaginationActivePageNumber("1")
       ).toBeVisible()
-      await assertPodcastEpisodes(page, podcastId_259760_OffsetTenEpisodes)
+
+      await expect(
+        podcastDetailPage.getLastPageEpisodeListPaginationButton()
+      ).toBeVisible()
+      await podcastDetailPage.getLastPageEpisodeListPaginationButton().click()
+      await expect(
+        podcastDetailPage.getEpisodePaginationActivePageNumber(
+          `${lastPageNumber}`
+        )
+      ).toBeVisible()
+      await assertPodcastEpisodes(
+        podcastDetailPage.getPage(),
+        podcastId_259760_OffsetTenEpisodes
+      )
     })
   })
 
   test.describe("Navigate to static first page button", () => {
-    function getStaticFirstPaginationPageButton(page: Page) {
-      return page.getByTestId("pagination-first-page-button")
-    }
-
     test("static first page pagination button should be disabled on first page", async ({
-      page,
+      podcastDetailPage,
     }) => {
       // NOTE: there must be at least 50 episodes for the mocked podcast data
-      const podcastTitle = encodeURIComponent("Infinite Loops")
+      const podcastTitle = "Infinite Loops"
       const podcastId = "259760"
       const limit = 10
-      const pageNumber = 1
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}**`,
-        async (route) => {
+      const pageNumber = "1"
+      await podcastDetailPage
+        .getPage()
+        .route(`*/**/api/podcast/episodes?id=${podcastId}**`, async (route) => {
           const requestUrl = route.request().url()
           if (
             !requestUrl.includes(`offset=`) &&
@@ -232,30 +262,39 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = []
             await route.fulfill({ json })
           }
-        }
+        })
+      await podcastDetailPage.gotoPageNumber({
+        podcastId,
+        podcastTitle,
+        pageNumber,
+      })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Infinite Loops - xtal - podcasts/
       )
-      await page.goto(
-        HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-      )
-      await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
-      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
-      await expect(getStaticFirstPaginationPageButton(page)).toBeVisible()
-      await expect(getStaticFirstPaginationPageButton(page)).toBeDisabled()
+      await expect(
+        podcastDetailPage.getEpisodePaginationActivePageNumber("1")
+      ).toBeVisible()
+      await expect(
+        podcastDetailPage.getFirstPageEpisodeListPaginationButton()
+      ).toBeVisible()
+      await expect(
+        podcastDetailPage.getFirstPageEpisodeListPaginationButton()
+      ).toBeDisabled()
     })
 
     test("should fetch first page results when static first page pagination button is clicked", async ({
-      page,
+      podcastDetailPage,
       isMobile,
     }) => {
       test.slow()
       // NOTE: there must be at least 50 episodes for the mocked podcast data
-      const podcastTitle = encodeURIComponent("Infinite Loops")
+      const podcastTitle = "Infinite Loops"
       const podcastId = "259760"
       const limit = 10
-      const pageNumber = 1
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}**`,
-        async (route) => {
+      const pageNumber = "1"
+      await podcastDetailPage
+        .getPage()
+        .route(`*/**/api/podcast/episodes?id=${podcastId}**`, async (route) => {
           const requestUrl = route.request().url()
           const isFirstPageRequest =
             !requestUrl.includes(`offset=`) &&
@@ -276,29 +315,52 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = []
             await route.fulfill({ json })
           }
-        }
+        })
+      await podcastDetailPage.gotoPageNumber({
+        podcastId,
+        podcastTitle,
+        pageNumber,
+      })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Infinite Loops - xtal - podcasts/
       )
-      await page.goto(
-        HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-      )
-      await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
-      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
+      await expect(
+        podcastDetailPage.getEpisodePaginationActivePageNumber("1")
+      ).toBeVisible()
       if (isMobile) {
         // navigate to page 3, mobile view only has current active page number element
-        await getNextPaginationButton(page).click()
-        await expect(getActivePageNumberElement(page, "2")).toBeVisible()
-        await getNextPaginationButton(page).click()
-        await expect(getActivePageNumberElement(page, "3")).toBeVisible()
+        const nextPaginationButton =
+          podcastDetailPage.getNextEpisodeListPaginationButton()
+        await nextPaginationButton.click()
+        await expect(
+          podcastDetailPage.getEpisodePaginationActivePageNumber("2")
+        ).toBeVisible()
+        await nextPaginationButton.click()
+        await expect(
+          podcastDetailPage.getEpisodePaginationActivePageNumber("3")
+        ).toBeVisible()
       } else {
-        await getPageNumberElement(page, "3").click()
-        await expect(getActivePageNumberElement(page, "3")).toBeVisible()
+        await podcastDetailPage.getEpisodePaginationPageNumber("3").click()
+        await expect(
+          podcastDetailPage.getEpisodePaginationActivePageNumber("3")
+        ).toBeVisible()
       }
-      await expect(getStaticFirstPaginationPageButton(page)).not.toBeDisabled()
-      await assertPodcastEpisodes(page, podcastId_259760_OffsetTenEpisodes)
+      await expect(
+        podcastDetailPage.getFirstPageEpisodeListPaginationButton()
+      ).not.toBeDisabled()
+      await assertPodcastEpisodes(
+        podcastDetailPage.getPage(),
+        podcastId_259760_OffsetTenEpisodes
+      )
 
-      await getStaticFirstPaginationPageButton(page).click()
-      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
-      await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
+      await podcastDetailPage.getFirstPageEpisodeListPaginationButton().click()
+      await expect(
+        podcastDetailPage.getEpisodePaginationActivePageNumber("1")
+      ).toBeVisible()
+      await assertPodcastEpisodes(
+        podcastDetailPage.getPage(),
+        podcastId_259760_FirstTenEpisodes
+      )
     })
   })
 
@@ -311,46 +373,69 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
       })
 
       test("should display only current page for mobile view", async ({
-        page,
+        podcastDetailPage,
       }) => {
         test.slow()
         // NOTE: there must be at least 50 episodes for the mocked podcast data
-        const podcastTitle = encodeURIComponent("Infinite Loops")
+        const podcastTitle = "Infinite Loops"
         const podcastId = "259760"
         const limit = 10
-        const pageNumber = 1
-        await page.route(
-          `*/**/api/podcast/episodes?id=${podcastId}**`,
-          async (route) => {
-            const requestUrl = route.request().url()
-            if (
-              !requestUrl.includes(`offset=`) &&
-              requestUrl.includes(`limit=${limit}`)
-            ) {
-              // ensure backend api call does not have offset parameter
-              const json = podcastId_259760_FirstTenEpisodes
-              await route.fulfill({ json })
-            } else {
-              const json = []
-              await route.fulfill({ json })
+        const pageNumber = "1"
+        await podcastDetailPage
+          .getPage()
+          .route(
+            `*/**/api/podcast/episodes?id=${podcastId}**`,
+            async (route) => {
+              const requestUrl = route.request().url()
+              if (
+                !requestUrl.includes(`offset=`) &&
+                requestUrl.includes(`limit=${limit}`)
+              ) {
+                // ensure backend api call does not have offset parameter
+                const json = podcastId_259760_FirstTenEpisodes
+                await route.fulfill({ json })
+              } else {
+                const json = []
+                await route.fulfill({ json })
+              }
             }
-          }
+          )
+        await podcastDetailPage.gotoPageNumber({
+          podcastId,
+          podcastTitle,
+          pageNumber,
+        })
+        await expect(podcastDetailPage.getPage()).toHaveTitle(
+          /Infinite Loops - xtal - podcasts/
         )
-        await page.goto(
-          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-        )
-        await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
         await assertPodcastInfo(
-          page,
+          podcastDetailPage.getPage(),
           podcastId_259760_FirstTenEpisodes.data.podcast
         )
-        await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
-        await expect(getPageNumberElement(page, "-1")).not.toBeVisible()
-        await expect(getPageNumberElement(page, "0")).not.toBeVisible()
-        await expect(getActivePageNumberElement(page, "1")).toBeVisible()
-        await expect(getPageNumberElement(page, "2")).not.toBeVisible()
-        await expect(getPageNumberElement(page, "3")).not.toBeVisible()
-        await expect(getPageNumberElement(page, "4")).not.toBeVisible()
+        await assertPodcastEpisodes(
+          podcastDetailPage.getPage(),
+          podcastId_259760_FirstTenEpisodes
+        )
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("-1")
+        ).not.toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("0")
+        ).not.toBeVisible()
+
+        await expect(
+          podcastDetailPage.getEpisodePaginationActivePageNumber("1")
+        ).toBeVisible()
+
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("2")
+        ).not.toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("3")
+        ).not.toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("4")
+        ).not.toBeVisible()
       })
     })
 
@@ -363,291 +448,439 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
 
       test("should navigate to clicked pagination page", async ({
         headless,
-        page,
+        podcastDetailPage,
       }) => {
         test.skip(headless, "Skip slow test in headless mode")
         test.slow()
         // NOTE: there must be at least 50 episodes for the mocked podcast data
-        const podcastTitle = encodeURIComponent("Infinite Loops")
+        const podcastTitle = "Infinite Loops"
         const podcastId = "259760"
         const limit = 10
-        const pageNumber = 1
-        await page.route(
-          `*/**/api/podcast/episodes?id=${podcastId}**`,
-          async (route) => {
-            const requestUrl = route.request().url()
-            const isFirstPageRequest =
-              !requestUrl.includes(`offset=`) &&
-              requestUrl.includes(`limit=${limit}`)
-            const isThirdPageRequest =
-              requestUrl.includes(`offset=20`) &&
-              requestUrl.includes(`limit=${limit}`)
+        const pageNumber = "1"
+        await podcastDetailPage
+          .getPage()
+          .route(
+            `*/**/api/podcast/episodes?id=${podcastId}**`,
+            async (route) => {
+              const requestUrl = route.request().url()
+              const isFirstPageRequest =
+                !requestUrl.includes(`offset=`) &&
+                requestUrl.includes(`limit=${limit}`)
+              const isThirdPageRequest =
+                requestUrl.includes(`offset=20`) &&
+                requestUrl.includes(`limit=${limit}`)
 
-            if (isThirdPageRequest) {
-              // use offset ten episodes as the third page data
-              const json = podcastId_259760_OffsetTenEpisodes
-              await route.fulfill({ json })
-            } else if (isFirstPageRequest) {
-              // ensure backend api call does not have offset parameter
-              const json = podcastId_259760_FirstTenEpisodes
-              await route.fulfill({ json })
-            } else {
-              const json = []
-              await route.fulfill({ json })
+              if (isThirdPageRequest) {
+                // use offset ten episodes as the third page data
+                const json = podcastId_259760_OffsetTenEpisodes
+                await route.fulfill({ json })
+              } else if (isFirstPageRequest) {
+                // ensure backend api call does not have offset parameter
+                const json = podcastId_259760_FirstTenEpisodes
+                await route.fulfill({ json })
+              } else {
+                const json = []
+                await route.fulfill({ json })
+              }
             }
-          }
+          )
+        await podcastDetailPage.gotoPageNumber({
+          podcastId,
+          podcastTitle,
+          pageNumber,
+        })
+        await expect(podcastDetailPage.getPage()).toHaveTitle(
+          /Infinite Loops - xtal - podcasts/
         )
-        await page.goto(
-          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-        )
-        await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
         await assertPodcastInfo(
-          page,
+          podcastDetailPage.getPage(),
           podcastId_259760_FirstTenEpisodes.data.podcast
         )
-        await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
-        await expect(getPageNumberElement(page, "-1")).not.toBeVisible()
-        await expect(getPageNumberElement(page, "0")).not.toBeVisible()
-        await expect(getActivePageNumberElement(page, "1")).toBeVisible()
-        await expect(getPageNumberElement(page, "2")).toBeVisible()
-        await expect(getPageNumberElement(page, "3")).toBeVisible()
-        await expect(getPageNumberElement(page, "4")).toBeVisible()
+        await assertPodcastEpisodes(
+          podcastDetailPage.getPage(),
+          podcastId_259760_FirstTenEpisodes
+        )
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("-1")
+        ).not.toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("0")
+        ).not.toBeVisible()
 
-        await getPageNumberElement(page, "3").click()
+        await expect(
+          podcastDetailPage.getEpisodePaginationActivePageNumber("1")
+        ).toBeVisible()
+
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("2")
+        ).toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("3")
+        ).toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("4")
+        ).toBeVisible()
+
+        await podcastDetailPage.getEpisodePaginationPageNumber("3").click()
 
         await assertPodcastInfo(
-          page,
+          podcastDetailPage.getPage(),
           podcastId_259760_OffsetTenEpisodes.data.podcast
         )
-        await assertPodcastEpisodes(page, podcastId_259760_OffsetTenEpisodes)
-        await expect(getActivePageNumberElement(page, "3")).toBeVisible()
+        await assertPodcastEpisodes(
+          podcastDetailPage.getPage(),
+          podcastId_259760_OffsetTenEpisodes
+        )
+        await expect(
+          podcastDetailPage.getEpisodePaginationActivePageNumber("3")
+        ).toBeVisible()
       })
 
       test("should display pages 1, 2, 3, 4 on first page (?page=1)", async ({
-        page,
+        podcastDetailPage,
       }) => {
         test.slow()
         // NOTE: there must be at least 50 episodes for the mocked podcast data
-        const podcastTitle = encodeURIComponent("Infinite Loops")
+        const podcastTitle = "Infinite Loops"
         const podcastId = "259760"
         const limit = 10
-        const pageNumber = 1
-        await page.route(
-          `*/**/api/podcast/episodes?id=${podcastId}**`,
-          async (route) => {
-            const requestUrl = route.request().url()
-            if (
-              !requestUrl.includes(`offset=`) &&
-              requestUrl.includes(`limit=${limit}`)
-            ) {
-              // ensure backend api call does not have offset parameter
-              const json = podcastId_259760_FirstTenEpisodes
-              await route.fulfill({ json })
-            } else {
-              const json = []
-              await route.fulfill({ json })
+        const pageNumber = "1"
+        await podcastDetailPage
+          .getPage()
+          .route(
+            `*/**/api/podcast/episodes?id=${podcastId}**`,
+            async (route) => {
+              const requestUrl = route.request().url()
+              if (
+                !requestUrl.includes(`offset=`) &&
+                requestUrl.includes(`limit=${limit}`)
+              ) {
+                // ensure backend api call does not have offset parameter
+                const json = podcastId_259760_FirstTenEpisodes
+                await route.fulfill({ json })
+              } else {
+                const json = []
+                await route.fulfill({ json })
+              }
             }
-          }
+          )
+        await podcastDetailPage.gotoPageNumber({
+          podcastId,
+          podcastTitle,
+          pageNumber,
+        })
+        await expect(podcastDetailPage.getPage()).toHaveTitle(
+          /Infinite Loops - xtal - podcasts/
         )
-        await page.goto(
-          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-        )
-        await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
         await assertPodcastInfo(
-          page,
+          podcastDetailPage.getPage(),
           podcastId_259760_FirstTenEpisodes.data.podcast
         )
-        await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
-        await expect(getPageNumberElement(page, "-1")).not.toBeVisible()
-        await expect(getPageNumberElement(page, "0")).not.toBeVisible()
-        await expect(getActivePageNumberElement(page, "1")).toBeVisible()
-        await expect(getPageNumberElement(page, "2")).toBeVisible()
-        await expect(getPageNumberElement(page, "3")).toBeVisible()
-        await expect(getPageNumberElement(page, "4")).toBeVisible()
+        await assertPodcastEpisodes(
+          podcastDetailPage.getPage(),
+          podcastId_259760_FirstTenEpisodes
+        )
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("-1")
+        ).not.toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("0")
+        ).not.toBeVisible()
+
+        await expect(
+          podcastDetailPage.getEpisodePaginationActivePageNumber("1")
+        ).toBeVisible()
+
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("2")
+        ).toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("3")
+        ).toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("4")
+        ).toBeVisible()
       })
 
       test("should display pages 1, 2, 3, 4, 5 on first page (?page=2)", async ({
-        page,
+        podcastDetailPage,
       }) => {
         test.slow()
         // NOTE: there must be at least 60 episodes for the mocked podcast data
-        const podcastTitle = encodeURIComponent("Infinite Loops")
+        const podcastTitle = "Infinite Loops"
         const podcastId = "259760"
         const limit = 10
-        const pageNumber = 2
-        await page.route(
-          `*/**/api/podcast/episodes?id=${podcastId}**`,
-          async (route) => {
-            const requestUrl = route.request().url()
-            if (
-              requestUrl.includes(`offset=10`) &&
-              requestUrl.includes(`limit=${limit}`)
-            ) {
-              const json = podcastId_259760_FirstTenEpisodes
-              await route.fulfill({ json })
-            } else {
-              const json = []
-              await route.fulfill({ json })
+        const pageNumber = "2"
+        await podcastDetailPage
+          .getPage()
+          .route(
+            `*/**/api/podcast/episodes?id=${podcastId}**`,
+            async (route) => {
+              const requestUrl = route.request().url()
+              if (
+                requestUrl.includes(`offset=10`) &&
+                requestUrl.includes(`limit=${limit}`)
+              ) {
+                const json = podcastId_259760_FirstTenEpisodes
+                await route.fulfill({ json })
+              } else {
+                const json = []
+                await route.fulfill({ json })
+              }
             }
-          }
+          )
+        await podcastDetailPage.gotoPageNumber({
+          podcastId,
+          podcastTitle,
+          pageNumber,
+        })
+        await expect(podcastDetailPage.getPage()).toHaveTitle(
+          /Infinite Loops - xtal - podcasts/
         )
-        await page.goto(
-          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-        )
-        await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
         await assertPodcastInfo(
-          page,
+          podcastDetailPage.getPage(),
           podcastId_259760_FirstTenEpisodes.data.podcast
         )
-        await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
-        await expect(getPageNumberElement(page, "-1")).not.toBeVisible()
-        await expect(getPageNumberElement(page, "0")).not.toBeVisible()
-        await expect(getPageNumberElement(page, "1")).toBeVisible()
-        await expect(getActivePageNumberElement(page, "2")).toBeVisible()
-        await expect(getPageNumberElement(page, "3")).toBeVisible()
-        await expect(getPageNumberElement(page, "4")).toBeVisible()
-        await expect(getPageNumberElement(page, "5")).toBeVisible()
+        await assertPodcastEpisodes(
+          podcastDetailPage.getPage(),
+          podcastId_259760_FirstTenEpisodes
+        )
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("-1")
+        ).not.toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("0")
+        ).not.toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("1")
+        ).toBeVisible()
+
+        await expect(
+          podcastDetailPage.getEpisodePaginationActivePageNumber("2")
+        ).toBeVisible()
+
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("3")
+        ).toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("4")
+        ).toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("5")
+        ).toBeVisible()
       })
 
       test("should display pages 1, 2, 3, 4, 5, 6 on first page (?page=3)", async ({
-        page,
+        podcastDetailPage,
       }) => {
         test.slow()
         // NOTE: there must be at least 70 episodes for the mocked podcast data
-        const podcastTitle = encodeURIComponent("Infinite Loops")
+        const podcastTitle = "Infinite Loops"
         const podcastId = "259760"
         const limit = 10
-        const pageNumber = 3
-        await page.route(
-          `*/**/api/podcast/episodes?id=${podcastId}**`,
-          async (route) => {
-            const requestUrl = route.request().url()
-            if (
-              requestUrl.includes(`offset=20`) &&
-              requestUrl.includes(`limit=${limit}`)
-            ) {
-              const json = podcastId_259760_FirstTenEpisodes
-              await route.fulfill({ json })
-            } else {
-              const json = []
-              await route.fulfill({ json })
+        const pageNumber = "3"
+        await podcastDetailPage
+          .getPage()
+          .route(
+            `*/**/api/podcast/episodes?id=${podcastId}**`,
+            async (route) => {
+              const requestUrl = route.request().url()
+              if (
+                requestUrl.includes(`offset=20`) &&
+                requestUrl.includes(`limit=${limit}`)
+              ) {
+                const json = podcastId_259760_FirstTenEpisodes
+                await route.fulfill({ json })
+              } else {
+                const json = []
+                await route.fulfill({ json })
+              }
             }
-          }
+          )
+        await podcastDetailPage.gotoPageNumber({
+          podcastId,
+          podcastTitle,
+          pageNumber,
+        })
+        await expect(podcastDetailPage.getPage()).toHaveTitle(
+          /Infinite Loops - xtal - podcasts/
         )
-        await page.goto(
-          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-        )
-        await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
         await assertPodcastInfo(
-          page,
+          podcastDetailPage.getPage(),
           podcastId_259760_FirstTenEpisodes.data.podcast
         )
-        await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
-        await expect(getPageNumberElement(page, "-1")).not.toBeVisible()
-        await expect(getPageNumberElement(page, "0")).not.toBeVisible()
-        await expect(getPageNumberElement(page, "1")).toBeVisible()
-        await expect(getPageNumberElement(page, "2")).toBeVisible()
-        await expect(getActivePageNumberElement(page, "3")).toBeVisible()
-        await expect(getPageNumberElement(page, "4")).toBeVisible()
-        await expect(getPageNumberElement(page, "5")).toBeVisible()
-        await expect(getPageNumberElement(page, "6")).toBeVisible()
+        await assertPodcastEpisodes(
+          podcastDetailPage.getPage(),
+          podcastId_259760_FirstTenEpisodes
+        )
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("-1")
+        ).not.toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("0")
+        ).not.toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("1")
+        ).toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("2")
+        ).toBeVisible()
+
+        await expect(
+          podcastDetailPage.getEpisodePaginationActivePageNumber("3")
+        ).toBeVisible()
+
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("4")
+        ).toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("5")
+        ).toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("6")
+        ).toBeVisible()
       })
 
       test("should display pages 1, 2, 3, 4, 5, 6, 7 on first page (?page=4)", async ({
-        page,
+        podcastDetailPage,
       }) => {
         test.slow()
         // NOTE: there must be at least 70 episodes for the mocked podcast data
-        const podcastTitle = encodeURIComponent("Infinite Loops")
+        const podcastTitle = "Infinite Loops"
         const podcastId = "259760"
         const limit = 10
-        const pageNumber = 4
-        await page.route(
-          `*/**/api/podcast/episodes?id=${podcastId}**`,
-          async (route) => {
-            const requestUrl = route.request().url()
-            if (
-              requestUrl.includes(`offset=30`) &&
-              requestUrl.includes(`limit=${limit}`)
-            ) {
-              const json = podcastId_259760_FirstTenEpisodes
-              await route.fulfill({ json })
-            } else {
-              const json = []
-              await route.fulfill({ json })
+        const pageNumber = "4"
+        await podcastDetailPage
+          .getPage()
+          .route(
+            `*/**/api/podcast/episodes?id=${podcastId}**`,
+            async (route) => {
+              const requestUrl = route.request().url()
+              if (
+                requestUrl.includes(`offset=30`) &&
+                requestUrl.includes(`limit=${limit}`)
+              ) {
+                const json = podcastId_259760_FirstTenEpisodes
+                await route.fulfill({ json })
+              } else {
+                const json = []
+                await route.fulfill({ json })
+              }
             }
-          }
+          )
+        await podcastDetailPage.gotoPageNumber({
+          podcastId,
+          podcastTitle,
+          pageNumber,
+        })
+        await expect(podcastDetailPage.getPage()).toHaveTitle(
+          /Infinite Loops - xtal - podcasts/
         )
-        await page.goto(
-          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-        )
-        await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
         await assertPodcastInfo(
-          page,
+          podcastDetailPage.getPage(),
           podcastId_259760_FirstTenEpisodes.data.podcast
         )
-        await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
-        await expect(getPageNumberElement(page, "-1")).not.toBeVisible()
-        await expect(getPageNumberElement(page, "0")).not.toBeVisible()
-        await expect(getPageNumberElement(page, "1")).toBeVisible()
-        await expect(getPageNumberElement(page, "2")).toBeVisible()
-        await expect(getPageNumberElement(page, "3")).toBeVisible()
-        await expect(getActivePageNumberElement(page, "4")).toBeVisible()
-        await expect(getPageNumberElement(page, "5")).toBeVisible()
-        await expect(getPageNumberElement(page, "6")).toBeVisible()
-        await expect(getPageNumberElement(page, "7")).toBeVisible()
+        await assertPodcastEpisodes(
+          podcastDetailPage.getPage(),
+          podcastId_259760_FirstTenEpisodes
+        )
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("-1")
+        ).not.toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("0")
+        ).not.toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("1")
+        ).toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("2")
+        ).toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("3")
+        ).toBeVisible()
+
+        await expect(
+          podcastDetailPage.getEpisodePaginationActivePageNumber("4")
+        ).toBeVisible()
+
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("5")
+        ).toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("6")
+        ).toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("7")
+        ).toBeVisible()
       })
 
       test("should display last 4 pages on last page (?page=<LAST_PAGE>)", async ({
-        page,
+        podcastDetailPage,
       }) => {
         test.slow()
         // NOTE: there must be at least 50 episodes for the mocked podcast data
-        const podcastTitle = encodeURIComponent("Infinite Loops")
+        const podcastTitle = "Infinite Loops"
         const podcastId = "259760"
         const limit = 10
         const totalEpisodes =
           podcastId_259760_FirstTenEpisodes.data.podcast.episodeCount
         const totalPages = Math.ceil(totalEpisodes / limit)
         const pageNumber = totalPages
-        await page.route(
-          `*/**/api/podcast/episodes?id=${podcastId}**`,
-          async (route) => {
-            const requestUrl = route.request().url()
-            if (
-              requestUrl.includes(`offset=${totalEpisodes - limit}`) &&
-              requestUrl.includes(`limit=${limit}`)
-            ) {
-              const json = podcastId_259760_FirstTenEpisodes
-              await route.fulfill({ json })
-            } else {
-              const json = []
-              await route.fulfill({ json })
+        await podcastDetailPage
+          .getPage()
+          .route(
+            `*/**/api/podcast/episodes?id=${podcastId}**`,
+            async (route) => {
+              const requestUrl = route.request().url()
+              if (
+                requestUrl.includes(`offset=${totalEpisodes - limit}`) &&
+                requestUrl.includes(`limit=${limit}`)
+              ) {
+                const json = podcastId_259760_FirstTenEpisodes
+                await route.fulfill({ json })
+              } else {
+                const json = []
+                await route.fulfill({ json })
+              }
             }
-          }
+          )
+        await podcastDetailPage.gotoPageNumber({
+          podcastId,
+          podcastTitle,
+          pageNumber: `${pageNumber}`,
+        })
+        await expect(podcastDetailPage.getPage()).toHaveTitle(
+          /Infinite Loops - xtal - podcasts/
         )
-        await page.goto(
-          HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-        )
-        await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
         await assertPodcastInfo(
-          page,
+          podcastDetailPage.getPage(),
           podcastId_259760_FirstTenEpisodes.data.podcast
         )
-        await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
-        await expect(getPageNumberElement(page, "-1")).not.toBeVisible()
-        await expect(getPageNumberElement(page, "0")).not.toBeVisible()
+        await assertPodcastEpisodes(
+          podcastDetailPage.getPage(),
+          podcastId_259760_FirstTenEpisodes
+        )
         await expect(
-          getPageNumberElement(page, `${pageNumber - 3}`)
+          podcastDetailPage.getEpisodePaginationPageNumber("-1")
+        ).not.toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber("0")
+        ).not.toBeVisible()
+        await expect(
+          podcastDetailPage.getEpisodePaginationPageNumber(`${pageNumber - 3}`)
         ).toBeVisible()
         await expect(
-          getPageNumberElement(page, `${pageNumber - 2}`)
+          podcastDetailPage.getEpisodePaginationPageNumber(`${pageNumber - 2}`)
         ).toBeVisible()
         await expect(
-          getPageNumberElement(page, `${pageNumber - 1}`)
+          podcastDetailPage.getEpisodePaginationPageNumber(`${pageNumber - 1}`)
         ).toBeVisible()
+
         await expect(
-          getActivePageNumberElement(page, `${pageNumber}`)
+          podcastDetailPage.getEpisodePaginationActivePageNumber(
+            `${pageNumber}`
+          )
         ).toBeVisible()
       })
     })
@@ -656,17 +889,17 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
   test.describe("Previous Pagination Button", () => {
     test("should navigate to first page when previous pagination button is clicked from second page", async ({
       headless,
-      page,
+      podcastDetailPage,
     }) => {
       test.skip(headless, "Skip slow test in headless mode")
       test.slow()
-      const podcastTitle = encodeURIComponent("Infinite Loops")
+      const podcastTitle = "Infinite Loops"
       const podcastId = "259760"
       const limit = 10
-      const pageNumber = 2
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}**`,
-        async (route) => {
+      const pageNumber = "2"
+      await podcastDetailPage
+        .getPage()
+        .route(`*/**/api/podcast/episodes?id=${podcastId}**`, async (route) => {
           const requestUrl = route.request().url()
           const isFirstPageRequest =
             !requestUrl.includes("offset=") &&
@@ -685,48 +918,63 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = []
             await route.fulfill({ json })
           }
-        }
+        })
+      await podcastDetailPage.gotoPageNumber({
+        podcastId,
+        podcastTitle,
+        pageNumber,
+      })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Infinite Loops - xtal - podcasts/
       )
-      await page.goto(
-        HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-      )
-      await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
       await assertPodcastInfo(
-        page,
+        podcastDetailPage.getPage(),
         podcastId_259760_OffsetTenEpisodes.data.podcast
       )
-      await assertPodcastEpisodes(page, podcastId_259760_OffsetTenEpisodes)
-      await expect(getActivePageNumberElement(page, "2")).toBeVisible()
-      await expect(getPreviousPaginationButton(page)).toBeVisible()
-      await expect(getPreviousPaginationButton(page)).not.toBeDisabled()
+      await assertPodcastEpisodes(
+        podcastDetailPage.getPage(),
+        podcastId_259760_OffsetTenEpisodes
+      )
+      await expect(
+        podcastDetailPage.getEpisodePaginationActivePageNumber("2")
+      ).toBeVisible()
+      const previousPaginationButton =
+        podcastDetailPage.getPreviousEpisodeListPaginationButton()
+      await expect(previousPaginationButton).toBeVisible()
+      await expect(previousPaginationButton).not.toBeDisabled()
 
-      await getPreviousPaginationButton(page).click()
+      await previousPaginationButton.click()
 
-      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
-      await expect(getPreviousPaginationButton(page)).toBeDisabled()
+      await expect(
+        podcastDetailPage.getEpisodePaginationActivePageNumber("1")
+      ).toBeVisible()
+      await expect(previousPaginationButton).toBeDisabled()
       await assertPodcastInfo(
-        page,
+        podcastDetailPage.getPage(),
         podcastId_259760_FirstTenEpisodes.data.podcast
       )
-      await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
+      await assertPodcastEpisodes(
+        podcastDetailPage.getPage(),
+        podcastId_259760_FirstTenEpisodes
+      )
     })
   })
 
   test.describe("Next Pagination Button", () => {
     test("should disable next pagination button on last page", async ({
-      page,
+      podcastDetailPage,
     }) => {
       test.slow()
-      const podcastTitle = encodeURIComponent("Infinite Loops")
+      const podcastTitle = "Infinite Loops"
       const podcastId = "259760"
       const limit = 10
       const expectedTotalEpisodes =
         podcastId_259760_FirstTenEpisodes.data.podcast.episodeCount
       const expectedTotalPages = Math.ceil(expectedTotalEpisodes / limit)
       const pageNumber = expectedTotalPages
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}**`,
-        async (route) => {
+      await podcastDetailPage
+        .getPage()
+        .route(`*/**/api/podcast/episodes?id=${podcastId}**`, async (route) => {
           const requestUrl = route.request().url()
           const isLastPageRequest =
             requestUrl.includes(`offset=${expectedTotalEpisodes - limit}`) &&
@@ -740,38 +988,48 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = []
             await route.fulfill({ json })
           }
-        }
+        })
+      await podcastDetailPage.gotoPageNumber({
+        podcastId,
+        podcastTitle,
+        pageNumber: `${pageNumber}`,
+      })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Infinite Loops - xtal - podcasts/
       )
-      await page.goto(
-        HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-      )
-      await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
       await assertPodcastInfo(
-        page,
+        podcastDetailPage.getPage(),
         podcastId_259760_FirstTenEpisodes.data.podcast
       )
-      await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
+      await assertPodcastEpisodes(
+        podcastDetailPage.getPage(),
+        podcastId_259760_FirstTenEpisodes
+      )
       await expect(
-        getActivePageNumberElement(page, `${pageNumber}`)
+        podcastDetailPage.getEpisodePaginationActivePageNumber(`${pageNumber}`)
       ).toBeVisible()
-      await expect(getNextPaginationButton(page)).toBeVisible()
-      await expect(getNextPaginationButton(page)).toBeDisabled()
+      const nextPaginationButton =
+        podcastDetailPage.getNextEpisodeListPaginationButton()
+      await expect(nextPaginationButton).toBeVisible()
+      await expect(nextPaginationButton).toBeDisabled()
 
-      await expect(getPreviousPaginationButton(page)).toBeVisible()
-      await expect(getPreviousPaginationButton(page)).not.toBeDisabled()
+      const previousPaginationButton =
+        podcastDetailPage.getPreviousEpisodeListPaginationButton()
+      await expect(previousPaginationButton).toBeVisible()
+      await expect(previousPaginationButton).not.toBeDisabled()
     })
 
     test("should navigate to second page when next pagination button is clicked from first page", async ({
-      page,
+      podcastDetailPage,
     }) => {
       test.slow()
-      const podcastTitle = encodeURIComponent("Infinite Loops")
+      const podcastTitle = "Infinite Loops"
       const podcastId = "259760"
       const limit = 10
       const pageNumber = 1
-      await page.route(
-        `*/**/api/podcast/episodes?id=${podcastId}**`,
-        async (route) => {
+      await podcastDetailPage
+        .getPage()
+        .route(`*/**/api/podcast/episodes?id=${podcastId}**`, async (route) => {
           const requestUrl = route.request().url()
           const isFirstPageRequest =
             !requestUrl.includes("offset=") &&
@@ -790,33 +1048,54 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = []
             await route.fulfill({ json })
           }
-        }
+        })
+      await podcastDetailPage.gotoPageNumber({
+        podcastId,
+        podcastTitle,
+        pageNumber: `${pageNumber}`,
+      })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Infinite Loops - xtal - podcasts/
       )
-      await page.goto(
-        HOMEPAGE + `/podcasts/${podcastTitle}/${podcastId}?page=${pageNumber}`
-      )
-      await expect(page).toHaveTitle(/Infinite Loops - xtal - podcasts/)
       await assertPodcastInfo(
-        page,
+        podcastDetailPage.getPage(),
         podcastId_259760_FirstTenEpisodes.data.podcast
       )
-      await assertPodcastEpisodes(page, podcastId_259760_FirstTenEpisodes)
-      await expect(getActivePageNumberElement(page, "1")).toBeVisible()
-      await expect(getPreviousPaginationButton(page)).toBeDisabled()
-      await expect(getNextPaginationButton(page)).toBeVisible()
-      await expect(getNextPaginationButton(page)).not.toBeDisabled()
-      expect(page.url(), "should match 1").toMatch(/page=1$/)
+      await assertPodcastEpisodes(
+        podcastDetailPage.getPage(),
+        podcastId_259760_FirstTenEpisodes
+      )
 
-      await getNextPaginationButton(page).click()
+      const previousPaginationButton =
+        podcastDetailPage.getPreviousEpisodeListPaginationButton()
+      const nextPaginationButton =
+        podcastDetailPage.getNextEpisodeListPaginationButton()
 
-      await expect(getActivePageNumberElement(page, "2")).toBeVisible()
-      await expect(getNextPaginationButton(page)).not.toBeDisabled()
-      await expect(getPreviousPaginationButton(page)).not.toBeDisabled()
+      await expect(
+        podcastDetailPage.getEpisodePaginationActivePageNumber("1")
+      ).toBeVisible()
+      await expect(previousPaginationButton).toBeDisabled()
+      await expect(nextPaginationButton).toBeVisible()
+      await expect(nextPaginationButton).not.toBeDisabled()
+      expect(podcastDetailPage.getPage().url(), "should match 1").toMatch(
+        /page=1$/
+      )
+
+      await nextPaginationButton.click()
+
+      await expect(
+        podcastDetailPage.getEpisodePaginationActivePageNumber("2")
+      ).toBeVisible()
+      await expect(nextPaginationButton).not.toBeDisabled()
+      await expect(previousPaginationButton).not.toBeDisabled()
       await assertPodcastInfo(
-        page,
+        podcastDetailPage.getPage(),
         podcastId_259760_OffsetTenEpisodes.data.podcast
       )
-      await assertPodcastEpisodes(page, podcastId_259760_OffsetTenEpisodes)
+      await assertPodcastEpisodes(
+        podcastDetailPage.getPage(),
+        podcastId_259760_OffsetTenEpisodes
+      )
     })
   })
 })

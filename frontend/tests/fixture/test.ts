@@ -1,6 +1,14 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { test as base } from "@playwright/test"
 import type { Page } from "@playwright/test"
 import { mockMapTiles } from "../mocks/map/radio.map.tiles"
+import AboutPage from "../pageObjects/AboutPage"
+import HomePage from "../pageObjects/HomePage"
+import PodcastHomePage from "../pageObjects/PodcastHomePage"
+import PodcastCategoryPage from "../pageObjects/PodcastCategoryPage"
+import PodcastDetailPage from "../pageObjects/PodcastDetailPage"
+import PodcastEpisodeDetailPage from "../pageObjects/PodcastEpisodeDetailPage"
+import PodcastSearchPage from "../pageObjects/PodcastSearchPage"
 
 // https://playwright.dev/docs/test-fixtures
 class MapPage {
@@ -13,11 +21,44 @@ class MapPage {
 
 type Fixtures = {
   mapPage: MapPage
+  aboutPage: AboutPage
+  homePage: HomePage
+  podcastHomePage: PodcastHomePage
+  podcastCategoryPage: PodcastCategoryPage
+  podcastDetailPage: PodcastDetailPage
+  podcastEpisodeDetailPage: PodcastEpisodeDetailPage
+  podcastSearchPage: PodcastSearchPage
 }
 
-export const test = base.extend<Fixtures>({
+const test = base.extend<Fixtures>({
   mapPage: async ({ page }, use) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(new MapPage(page))
   },
+  aboutPage: async ({ page }, use) => {
+    await use(new AboutPage(page))
+  },
+  homePage: async ({ page }, use) => {
+    await use(new HomePage(page))
+  },
+  podcastHomePage: async ({ page }, use) => {
+    await use(new PodcastHomePage(page))
+  },
+  podcastCategoryPage: async ({ page }, use) => {
+    await use(new PodcastCategoryPage(page))
+  },
+  podcastDetailPage: async ({ page }, use) => {
+    await use(new PodcastDetailPage(page))
+  },
+  podcastEpisodeDetailPage: async ({ page }, use) => {
+    await use(new PodcastEpisodeDetailPage(page))
+  },
+  podcastSearchPage: async ({ page }, use) => {
+    await use(new PodcastSearchPage(page))
+  },
 })
+
+test.beforeEach(async ({ mapPage }) => {
+  await mapPage.mockMapTile()
+})
+
+export { test }
