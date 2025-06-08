@@ -93,8 +93,8 @@ test.describe("Podcast Homepage /podcasts", () => {
         podcastHomePage.getPodcastCategoryRefreshButton()
       ).toBeVisible()
 
+      await podcastHomePage.getPage().waitForLoadState("networkidle") // change fetch data boolean after first fetch is complete
       shouldFetchData = true
-      await podcastHomePage.getPage().waitForTimeout(1000)
       await podcastHomePage.getPodcastCategoryRefreshButton().click()
       await assertPodcastCategoriesInSlider(
         podcastHomePage,

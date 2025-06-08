@@ -19,11 +19,12 @@
 }
 
 .podcast-episode-card-description {
-  font-size: 0.9rem;
+  font-size: 1rem;
   overflow-y: auto;
   max-height: 200px;
 }
 .podcast-episode-card-description * {
+  margin: 1rem 0;
   /* Override any child with style attribute that sets text color */
   color: var(--text-color) !important;
   background-color: transparent !important;
@@ -39,7 +40,7 @@
   width: fit-content;
   gap: 0.1rem;
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 .podcast-episode-card-duration,

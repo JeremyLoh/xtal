@@ -15,4 +15,5 @@
   padding: 0.5rem;
   color: var(--text-color);
   background-color: transparent;
+  border-radius: 8px;
 }

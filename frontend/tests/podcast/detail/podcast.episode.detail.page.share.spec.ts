@@ -12,7 +12,7 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
     isMobile: boolean,
     expectedCurrentTime: number
   ) {
-    await podcastEpisodeDetailPage.getPage().waitForTimeout(1000)
+    await podcastEpisodeDetailPage.getPage().waitForLoadState("networkidle")
 
     const { timeDisplayButton } = isMobile
       ? podcastEpisodeDetailPage.getMobilePodcastPlayerElements()
