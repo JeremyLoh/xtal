@@ -104,7 +104,7 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
     ).toBeVisible()
     await expect(podcastHomePage.getNewReleaseRefreshButton()).toBeVisible()
 
-    await podcastHomePage.getPage().waitForTimeout(1000) // fix flaky headless test - explicit wait required before changing shouldFetchData variable
+    await podcastHomePage.getPage().waitForLoadState("networkidle") // fix flaky headless test - explicit wait required before changing shouldFetchData variable
     shouldFetchData = true
     await podcastHomePage.getNewReleaseRefreshButton().click()
     await assertNewReleasePodcasts(podcastHomePage, fiveNewReleasePodcasts.data)
