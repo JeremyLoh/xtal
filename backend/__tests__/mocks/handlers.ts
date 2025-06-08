@@ -4,13 +4,13 @@ import {
   PODCAST_EPISODES_BY_FEED_ID_75075,
   PODCAST_TRENDING_DEFAULT_TEN_ENTRIES,
   PODCAST_TRENDING_TEN_ARTS_PODCASTS,
-} from "./podcast.js"
-import { ALL_PODCAST_CATEGORIES } from "./podcastCategory.js"
-import { PODCAST_EPISODE_ID_16795090 } from "./podcastEpisode.js"
+} from "./data/podcast.js"
+import { ALL_PODCAST_CATEGORIES } from "./data/podcastCategory.js"
+import { PODCAST_EPISODE_ID_16795090 } from "./data/podcastEpisode.js"
 import {
   PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_10,
   PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_12,
-} from "./podcastSearch.js"
+} from "./data/podcastSearch.js"
 import { podcastStatsHandlers } from "./podcastStatHandler.js"
 import { podcastRecentHandlers } from "./podcastRecentHandler.js"
 

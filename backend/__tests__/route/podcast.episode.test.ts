@@ -4,12 +4,12 @@ import { NextFunction, Request, Response } from "express"
 import {
   PODCAST_BY_FEED_ID_75075,
   PODCAST_EPISODES_BY_FEED_ID_75075,
-} from "../mocks/podcast.js"
+} from "../mocks/data/podcast.js"
 import { setupApp } from "../../index.js"
 import { getFrontendOrigin } from "../cors/origin.js"
 import { getSanitizedHtmlText } from "../../api/dom/htmlSanitize.js"
 import { Language } from "../../model/podcast.js"
-import { PODCAST_EPISODE_ID_16795090 } from "../mocks/podcastEpisode.js"
+import { PODCAST_EPISODE_ID_16795090 } from "../mocks/data/podcastEpisode.js"
 
 function getMockMiddleware() {
   return (request: Request, response: Response, next: NextFunction) => next()

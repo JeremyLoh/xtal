@@ -1,4 +1,4 @@
-import { Language } from "../../model/podcast.js"
+import { Language } from "../../../model/podcast.js"
 
 type PodcastIndexCategory = {
   [categoryId: string]: string

@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest"
 import { NextFunction, Request, Response } from "express"
 import { setupApp } from "../../index.js"
 import { getFrontendOrigin } from "../cors/origin.js"
-import { ALL_PODCAST_CATEGORIES } from "../mocks/podcastCategory.js"
+import { ALL_PODCAST_CATEGORIES } from "../mocks/data/podcastCategory.js"
 
 function getMockMiddleware() {
   return (request: Request, response: Response, next: NextFunction) => next()
