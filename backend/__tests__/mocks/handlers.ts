@@ -12,24 +12,14 @@ import { podcastStatsHandlers } from "./handlers/podcastStatHandler.js"
 import { podcastRecentHandlers } from "./handlers/podcastRecentHandler.js"
 import { podcastCategoryHandler } from "./handlers/podcastCategoryHandler.js"
 import { podcastTrendingHandler } from "./handlers/podcastTrendingHandler.js"
+import { podcastHandler } from "./handlers/podcastHandler.js"
 
 export const handlers: HttpHandler[] = [
   ...podcastStatsHandlers,
   ...podcastRecentHandlers,
   ...podcastCategoryHandler,
   ...podcastTrendingHandler,
-  http.get(
-    "https://api.podcastindex.org/api/1.0/podcasts/byfeedid",
-    ({ request }) => {
-      // https://podcastindex-org.github.io/docs-api/#get-/podcasts/byfeedid
-      const url = new URL(request.url)
-      const id = url.searchParams.get("id")
-      if (id === "75075") {
-        return HttpResponse.json(PODCAST_BY_FEED_ID_75075)
-      }
-      return HttpResponse.error()
-    }
-  ),
+  ...podcastHandler,
   http.get(
     "https://api.podcastindex.org/api/1.0/search/byterm",
     ({ request }) => {
