@@ -240,6 +240,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
           .getByText("Could not get podcast episodes. Please try again later")
       ).toBeVisible()
 
+      await podcastDetailPage.getPage().waitForLoadState("networkidle")
       shouldFetchData = true
       await podcastDetailPage.getRefreshPodcastEpisodeButton().click()
       await podcastDetailPage.getPage().waitForTimeout(1000)
