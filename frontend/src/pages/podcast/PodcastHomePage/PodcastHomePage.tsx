@@ -1,7 +1,5 @@
 import "./PodcastHomePage.css"
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { useNavigate } from "react-router"
-import { useSessionContext } from "supertokens-auth-react/recipe/session/index"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import PodcastSearchSection from "../../../features/podcast/search/PodcastSearchSection/PodcastSearchSection.tsx"
 import NewReleasePodcastSection from "../../../features/podcast/newRelease/NewReleasePodcastSection/NewReleasePodcastSection.tsx"
@@ -11,8 +9,6 @@ import useNewReleasePodcasts from "../../../hooks/podcast/useNewReleasePodcasts.
 import useTrendingPodcasts from "../../../hooks/podcast/useTrendingPodcasts.ts"
 import usePodcastCategory from "../../../hooks/podcast/usePodcastCategory.ts"
 import { TrendingPodcastFiltersType } from "../../../api/podcast/model/podcast.ts"
-import Button from "../../../components/ui/button/Button.tsx"
-import { profileHistoryPage } from "../../../paths.ts"
 
 const NEW_RELEASE_PODCAST_LIMIT = 5
 const TRENDING_PODCAST_OPTIONS = {
@@ -20,8 +16,6 @@ const TRENDING_PODCAST_OPTIONS = {
 }
 
 export default function PodcastHomePage() {
-  const session = useSessionContext()
-  const navigate = useNavigate()
   const {
     loading: loadingNewReleasePodcasts,
     newReleasePodcasts,
@@ -59,10 +53,6 @@ export default function PodcastHomePage() {
     await getNewReleases({ limit: NEW_RELEASE_PODCAST_LIMIT })
   }, [getNewReleases])
 
-  const handleNavigateToProfileHistory = useCallback(() => {
-    navigate(profileHistoryPage())
-  }, [navigate])
-
   useEffect(() => {
     document.title = "xtal - podcasts"
     Promise.allSettled([
@@ -75,17 +65,6 @@ export default function PodcastHomePage() {
 
   return (
     <div id="podcast-home-page-container">
-      {session && !session.loading && session.doesSessionExist && (
-        <Button
-          keyProp="podcast-home-page-profile-history-button"
-          className="podcast-home-page-profile-history-button"
-          onClick={handleNavigateToProfileHistory}
-          variant="secondary"
-          title="Profile History"
-        >
-          Profile History
-        </Button>
-      )}
       <PodcastSearchSection />
       <LoadingDisplay loading={loadingCategories}>
         <PodcastCategorySection
