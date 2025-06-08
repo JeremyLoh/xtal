@@ -5,22 +5,19 @@ import {
   PODCAST_TRENDING_DEFAULT_TEN_ENTRIES,
   PODCAST_TRENDING_TEN_ARTS_PODCASTS,
 } from "./data/podcast.js"
-import { ALL_PODCAST_CATEGORIES } from "./data/podcastCategory.js"
 import { PODCAST_EPISODE_ID_16795090 } from "./data/podcastEpisode.js"
 import {
   PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_10,
   PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_12,
 } from "./data/podcastSearch.js"
-import { podcastStatsHandlers } from "./podcastStatHandler.js"
-import { podcastRecentHandlers } from "./podcastRecentHandler.js"
+import { podcastStatsHandlers } from "./handlers/podcastStatHandler.js"
+import { podcastRecentHandlers } from "./handlers/podcastRecentHandler.js"
+import { podcastCategoryHandler } from "./handlers/podcastCategoryHandler.js"
 
 export const handlers: HttpHandler[] = [
   ...podcastStatsHandlers,
   ...podcastRecentHandlers,
-  http.get("https://api.podcastindex.org/api/1.0/categories/list", () => {
-    // https://podcastindex-org.github.io/docs-api/#tag--Categories
-    return HttpResponse.json(ALL_PODCAST_CATEGORIES)
-  }),
+  ...podcastCategoryHandler,
   http.get(
     "https://api.podcastindex.org/api/1.0/podcasts/trending",
     ({ request }) => {
