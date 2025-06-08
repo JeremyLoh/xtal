@@ -2,8 +2,6 @@ import { http, HttpHandler, HttpResponse } from "msw"
 import {
   PODCAST_BY_FEED_ID_75075,
   PODCAST_EPISODES_BY_FEED_ID_75075,
-  PODCAST_TRENDING_DEFAULT_TEN_ENTRIES,
-  PODCAST_TRENDING_TEN_ARTS_PODCASTS,
 } from "./data/podcast.js"
 import { PODCAST_EPISODE_ID_16795090 } from "./data/podcastEpisode.js"
 import {
@@ -13,31 +11,13 @@ import {
 import { podcastStatsHandlers } from "./handlers/podcastStatHandler.js"
 import { podcastRecentHandlers } from "./handlers/podcastRecentHandler.js"
 import { podcastCategoryHandler } from "./handlers/podcastCategoryHandler.js"
+import { podcastTrendingHandler } from "./handlers/podcastTrendingHandler.js"
 
 export const handlers: HttpHandler[] = [
   ...podcastStatsHandlers,
   ...podcastRecentHandlers,
   ...podcastCategoryHandler,
-  http.get(
-    "https://api.podcastindex.org/api/1.0/podcasts/trending",
-    ({ request }) => {
-      // https://podcastindex-org.github.io/docs-api/#get-/podcasts/trending
-      const url = new URL(request.url)
-      const max = url.searchParams.get("max")
-      const since = url.searchParams.get("since")
-      const category = url.searchParams.get("cat")
-      if (max === "10" && since != null && category == null) {
-        return HttpResponse.json(PODCAST_TRENDING_DEFAULT_TEN_ENTRIES)
-      } else if (max === "10" && category?.toLowerCase() === "arts") {
-        return HttpResponse.json(PODCAST_TRENDING_TEN_ARTS_PODCASTS)
-      } else if (max === "15") {
-        // backend ?offset=5&limit=10 trending podcast test. PodcastIndex API doesn't have offset
-        return HttpResponse.json(PODCAST_TRENDING_DEFAULT_TEN_ENTRIES)
-      } else {
-        return HttpResponse.error()
-      }
-    }
-  ),
+  ...podcastTrendingHandler,
   http.get(
     "https://api.podcastindex.org/api/1.0/podcasts/byfeedid",
     ({ request }) => {
