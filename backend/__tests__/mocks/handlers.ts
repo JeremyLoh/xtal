@@ -1,18 +1,12 @@
 import { http, HttpHandler, HttpResponse } from "msw"
-import {
-  PODCAST_BY_FEED_ID_75075,
-  PODCAST_EPISODES_BY_FEED_ID_75075,
-} from "./data/podcast.js"
+import { PODCAST_EPISODES_BY_FEED_ID_75075 } from "./data/podcast.js"
 import { PODCAST_EPISODE_ID_16795090 } from "./data/podcastEpisode.js"
-import {
-  PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_10,
-  PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_12,
-} from "./data/podcastSearch.js"
 import { podcastStatsHandlers } from "./handlers/podcastStatHandler.js"
 import { podcastRecentHandlers } from "./handlers/podcastRecentHandler.js"
 import { podcastCategoryHandler } from "./handlers/podcastCategoryHandler.js"
 import { podcastTrendingHandler } from "./handlers/podcastTrendingHandler.js"
 import { podcastHandler } from "./handlers/podcastHandler.js"
+import { podcastSearchHandler } from "./handlers/podcastSearchHandler.js"
 
 export const handlers: HttpHandler[] = [
   ...podcastStatsHandlers,
@@ -20,34 +14,7 @@ export const handlers: HttpHandler[] = [
   ...podcastCategoryHandler,
   ...podcastTrendingHandler,
   ...podcastHandler,
-  http.get(
-    "https://api.podcastindex.org/api/1.0/search/byterm",
-    ({ request }) => {
-      // https://podcastindex-org.github.io/docs-api/#get-/search/byterm
-      const url = new URL(request.url)
-      const query = url.searchParams.get("q")
-      const similar = url.searchParams.get("similar")
-      const fulltext = url.searchParams.get("fulltext")
-      const max = url.searchParams.get("max")
-      if (
-        query === "syntax" &&
-        similar === "true" &&
-        fulltext === "description" &&
-        max === "10"
-      ) {
-        return HttpResponse.json(PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_10)
-      } else if (
-        query === "syntax" &&
-        similar === "true" &&
-        fulltext === "description" &&
-        max === "12"
-      ) {
-        return HttpResponse.json(PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_12)
-      }
-
-      return HttpResponse.error()
-    }
-  ),
+  ...podcastSearchHandler,
   http.get(
     "https://api.podcastindex.org/api/1.0/episodes/byid",
     ({ request }) => {
