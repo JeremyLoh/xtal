@@ -2,7 +2,7 @@ import { http, HttpHandler, HttpResponse } from "msw"
 import {
   JAPANESE_LANGUAGE_PODCAST_RECENT_TEN_ENTRIES,
   PODCAST_RECENT_FIVE_ENTRIES,
-} from "./podcastRecent.js"
+} from "../data/podcastRecent.js"
 
 export const podcastRecentHandlers: HttpHandler[] = [
   http.get(

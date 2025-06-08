@@ -8,7 +8,7 @@ import {
   JAPANESE_LANGUAGE_PODCAST_RECENT_TEN_ENTRIES,
   PODCAST_RECENT_FIVE_ENTRIES,
   RecentPodcastResponseType,
-} from "../mocks/podcastRecent.js"
+} from "../mocks/data/podcastRecent.js"
 import { getSanitizedHtmlText } from "../../api/dom/htmlSanitize.js"
 
 function getMockMiddleware() {

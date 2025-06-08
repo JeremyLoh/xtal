@@ -3,7 +3,7 @@ import request from "supertest"
 import { NextFunction } from "express"
 import { getFrontendOrigin } from "../cors/origin.js"
 import { setupApp } from "../../index.js"
-import { CURRENT_PODCAST_STATISTICS } from "../mocks/podcastStatHandler.js"
+import { CURRENT_PODCAST_STATISTICS } from "../mocks/data/podcastStatistic.js"
 
 function getMockMiddleware() {
   return (request: Request, response: Response, next: NextFunction) => next()

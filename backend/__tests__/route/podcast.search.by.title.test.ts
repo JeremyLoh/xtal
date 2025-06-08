@@ -6,7 +6,7 @@ import { setupApp } from "../../index.js"
 import {
   PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_10,
   PODCAST_SEARCH_SIMILAR_TERM_SYNTAX_LIMIT_12,
-} from "../mocks/podcastSearch.js"
+} from "../mocks/data/podcastSearch.js"
 import { Language, Podcast } from "../../model/podcast.js"
 import { getSanitizedHtmlText } from "../../api/dom/htmlSanitize.js"
 

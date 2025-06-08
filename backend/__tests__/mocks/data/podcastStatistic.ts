@@ -1,5 +1,4 @@
-import { http, HttpHandler, HttpResponse } from "msw"
-
+// https://podcastindex-org.github.io/docs-api/#get-/stats/current
 export const CURRENT_PODCAST_STATISTICS = {
   status: "true",
   stats: {
@@ -13,10 +12,3 @@ export const CURRENT_PODCAST_STATISTICS = {
   },
   description: "Found matching feed",
 }
-
-export const podcastStatsHandlers: HttpHandler[] = [
-  http.get("https://api.podcastindex.org/api/1.0/stats/current", () => {
-    // https://podcastindex-org.github.io/docs-api/#get-/stats/current
-    return HttpResponse.json(CURRENT_PODCAST_STATISTICS)
-  }),
-]
