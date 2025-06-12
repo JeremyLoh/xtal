@@ -1,4 +1,5 @@
-import { createContext, useCallback, useMemo, useState } from "react"
+import { createContext, useCallback, useEffect, useMemo, useState } from "react"
+import useLocalStorage from "../../hooks/useLocalStorage.ts"
 
 const lightTheme = "light-theme"
 const darkTheme = "dark-theme"
@@ -12,18 +13,29 @@ export const ThemeContext = createContext<Theme | undefined>(undefined)
 
 // https://stackoverflow.com/questions/61117608/how-do-i-set-system-preference-dark-mode-in-a-react-app-but-also-allow-users-to
 function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [isDark, setIsDark] = useState<boolean>(
-    window.matchMedia("(prefers-color-scheme: dark)").matches
-  )
+  const { getItem: getStorageTheme, setItem: setStorageTheme } =
+    useLocalStorage("THEME")
+  const [isDark, setIsDark] = useState<boolean>(getStorageTheme() === darkTheme)
+
   const applyTheme = useCallback((theme: string) => {
     const root = document.getElementsByTagName("html")[0]
     root.className = theme
   }, [])
+
   const toggle = useCallback(() => {
     const theme = isDark ? lightTheme : darkTheme
     applyTheme(theme)
+    setStorageTheme(theme)
     setIsDark(!isDark)
-  }, [applyTheme, isDark])
+  }, [applyTheme, setStorageTheme, isDark])
+
+  useEffect(() => {
+    // set starting theme based on user preference
+    const isDarkThemePreferred = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches
+    setStorageTheme(isDarkThemePreferred ? darkTheme : lightTheme)
+  }, [setStorageTheme])
 
   const output = useMemo(() => {
     return { isDark, toggle }
