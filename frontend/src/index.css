@@ -154,6 +154,3 @@ li {
 a {
   color: var(--link-color) !important;
 }
-a:hover {
-  filter: brightness(0.8);
-}

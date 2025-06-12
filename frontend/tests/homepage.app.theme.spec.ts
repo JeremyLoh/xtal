@@ -1,6 +1,8 @@
 import { test } from "./fixture/test.ts"
 import { expect, Page } from "@playwright/test"
 import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants.ts"
+import { SidebarMenuItemAction } from "./pageComponents/Sidebar.ts"
+import { podcastHomePageUrl } from "./constants/paths.ts"
 
 // https://playwright.dev/docs/emulation#color-scheme-and-media
 test.use({
@@ -73,5 +75,20 @@ test.describe("header app theme (start with dark mode)", () => {
     await homePage.toggleAppTheme()
     await homePage.getSearchStationButton().click()
     await assertElementHasLightTheme(homePage.getPage(), "#drawer-root")
+  })
+
+  test("should not switch theme when navigating to different page (homepage to podcast page)", async ({
+    homePage,
+  }) => {
+    await homePage.goto()
+    await assertLoadingSpinnerIsMissing(homePage.getPage())
+    await assertElementHasDarkTheme(homePage.getPage(), "#root")
+    await homePage.toggleAppTheme()
+
+    await homePage.getSidebarToggleButton().click()
+    await expect(homePage.getSidebar()).toBeVisible()
+    await homePage.getSidebarMenuItem(SidebarMenuItemAction.Podcasts).click()
+    await expect(homePage.getPage()).toHaveURL(podcastHomePageUrl())
+    await assertElementHasLightTheme(homePage.getPage(), "#root")
   })
 })
