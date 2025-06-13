@@ -4,6 +4,9 @@ import { Components, ItemContent, Virtuoso } from "react-virtuoso"
 import { Link } from "react-router"
 import { IoReload } from "react-icons/io5"
 import { Podcast } from "../../../../api/podcast/model/podcast.ts"
+import { RECENT_PODCAST_LANGUAGES } from "../../../../api/podcast/model/podcastRecent.ts"
+import LoadingDisplay from "../../../../components/LoadingDisplay/LoadingDisplay.tsx"
+import NewReleasePodcastFilters from "../NewReleasePodcastFilters/NewReleasePodcastFilters.tsx"
 import PodcastCard from "../../../../components/PodcastCard/index.tsx"
 import Button from "../../../../components/ui/button/Button.tsx"
 import useScreenDimensions from "../../../../hooks/useScreenDimensions.ts"
@@ -16,12 +19,14 @@ const virtuosoStyle = {
 
 type NewReleasePodcastSectionProps = {
   loading: boolean
+  availableLanguages: [string, RECENT_PODCAST_LANGUAGES][]
   newReleasePodcasts: Podcast[] | null
-  onRefreshNewReleasePodcasts: () => Promise<void>
+  onRefreshNewReleasePodcasts: (filters?: { language: string }) => Promise<void>
 }
 
 function NewReleasePodcastSection({
   loading,
+  availableLanguages,
   newReleasePodcasts,
   onRefreshNewReleasePodcasts,
 }: NewReleasePodcastSectionProps) {
@@ -30,6 +35,13 @@ function NewReleasePodcastSection({
   const handleRefreshNewReleasePodcasts = useCallback(async () => {
     await onRefreshNewReleasePodcasts()
   }, [onRefreshNewReleasePodcasts])
+
+  const handleFilterChange = useCallback(
+    async (filters?: { language: string }) => {
+      await onRefreshNewReleasePodcasts(filters)
+    },
+    [onRefreshNewReleasePodcasts]
+  )
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const components: Components<Podcast, any> | undefined = useMemo(() => {
@@ -78,6 +90,12 @@ function NewReleasePodcastSection({
       <span className="new-release-podcast-subtitle">
         Latest podcasts with new episodes
       </span>
+      <div>
+        <NewReleasePodcastFilters
+          availableLanguages={availableLanguages}
+          onFilterChange={handleFilterChange}
+        />
+      </div>
     </h2>
   )
 
@@ -102,6 +120,7 @@ function NewReleasePodcastSection({
   }
   return (
     <div className="new-release-podcast-container">
+      <LoadingDisplay loading={loading} />
       {headerComponent}
       <Virtuoso
         style={virtuosoStyle}

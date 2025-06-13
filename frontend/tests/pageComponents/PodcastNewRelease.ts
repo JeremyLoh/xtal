@@ -5,6 +5,7 @@ class PodcastNewRelease {
   readonly container: Locator
   readonly header: Locator
   readonly subtitle: Locator
+  readonly languageFilter: Locator
   readonly refreshNewReleaseButton: Locator
   readonly getNewReleasePodcastCard: (podcastId: string) => Locator
 
@@ -14,6 +15,9 @@ class PodcastNewRelease {
     this.header = this.container.getByText("New Releases")
     this.subtitle = this.container.getByText(
       "Latest podcasts with new episodes"
+    )
+    this.languageFilter = this.container.getByTestId(
+      "new-release-podcast-language-filter"
     )
     this.refreshNewReleaseButton = this.container.getByRole("button", {
       name: "refresh new release podcasts",
@@ -37,6 +41,10 @@ class PodcastNewRelease {
 
   getSubtitle() {
     return this.subtitle
+  }
+
+  getLanguageFilter() {
+    return this.languageFilter
   }
 
   getRefreshNewReleaseButton() {

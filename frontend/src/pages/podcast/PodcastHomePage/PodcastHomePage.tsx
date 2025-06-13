@@ -18,25 +18,28 @@ const TRENDING_PODCAST_OPTIONS = {
 export default function PodcastHomePage() {
   const {
     loading: loadingNewReleasePodcasts,
+    AVAILABLE_LANGUAGES,
     newReleasePodcasts,
     getNewReleases,
   } = useNewReleasePodcasts()
+  const {
+    loading: loadingCategories,
+    categories,
+    onRefresh: handlePodcastCategoryRefresh,
+  } = usePodcastCategory()
   const {
     DEFAULT_SINCE_DAYS,
     trendingPodcasts,
     loading: loadingTrendingPodcasts,
     onRefresh: handleTrendingPodcastRefresh,
   } = useTrendingPodcasts(TRENDING_PODCAST_OPTIONS)
+
   const [sinceDaysBefore, setSinceDaysBefore] =
     useState<number>(DEFAULT_SINCE_DAYS)
-  const initialFilters: TrendingPodcastFiltersType = useMemo(() => {
-    return { since: DEFAULT_SINCE_DAYS }
-  }, [DEFAULT_SINCE_DAYS])
-  const {
-    loading: loadingCategories,
-    categories,
-    onRefresh: handlePodcastCategoryRefresh,
-  } = usePodcastCategory()
+  const initialTrendingPodcastFilters: TrendingPodcastFiltersType =
+    useMemo(() => {
+      return { since: DEFAULT_SINCE_DAYS }
+    }, [DEFAULT_SINCE_DAYS])
 
   const handlePodcastRefresh = useCallback(
     async (filters: TrendingPodcastFiltersType) => {
@@ -49,9 +52,15 @@ export default function PodcastHomePage() {
     [handleTrendingPodcastRefresh]
   )
 
-  const handleNewReleasePodcastsRefresh = useCallback(async () => {
-    await getNewReleases({ limit: NEW_RELEASE_PODCAST_LIMIT })
-  }, [getNewReleases])
+  const handleNewReleasePodcastsRefresh = useCallback(
+    async (filters?: { language: string }) => {
+      await getNewReleases({
+        limit: NEW_RELEASE_PODCAST_LIMIT,
+        ...(filters && filters.language && { language: filters.language }),
+      })
+    },
+    [getNewReleases]
+  )
 
   useEffect(() => {
     document.title = "xtal - podcasts"
@@ -72,17 +81,16 @@ export default function PodcastHomePage() {
           onRefresh={handlePodcastCategoryRefresh}
         />
       </LoadingDisplay>
-      <LoadingDisplay loading={loadingNewReleasePodcasts}>
-        <NewReleasePodcastSection
-          loading={loadingNewReleasePodcasts}
-          newReleasePodcasts={newReleasePodcasts}
-          onRefreshNewReleasePodcasts={handleNewReleasePodcastsRefresh}
-        />
-      </LoadingDisplay>
+      <NewReleasePodcastSection
+        loading={loadingNewReleasePodcasts}
+        newReleasePodcasts={newReleasePodcasts}
+        onRefreshNewReleasePodcasts={handleNewReleasePodcastsRefresh}
+        availableLanguages={AVAILABLE_LANGUAGES}
+      />
       <TrendingPodcastSection
         trendingPodcasts={trendingPodcasts}
         onRefresh={handlePodcastRefresh}
-        filters={initialFilters}
+        filters={initialTrendingPodcastFilters}
         loading={loadingTrendingPodcasts}
       />
     </div>
