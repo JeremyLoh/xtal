@@ -1,0 +1,31 @@
+export enum RECENT_PODCAST_LANGUAGES {
+  // IMPORTANT: Not complete list of available languages
+  // https://www.rssboard.org/rss-language-codes
+  // https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
+  "en" = "English",
+  "zh" = "Chinese",
+  "zh-cn" = "Chinese (Simplified)",
+  "zh-tw" = "Chinese (Traditional)",
+  "es" = "Spanish",
+  "hi" = "Hindi",
+  "pt" = "Portuguese",
+  "bn" = "Bengali",
+  "ja" = "Japanese",
+  "vi" = "Vietnamese",
+  "tr" = "Turkish",
+  "mr" = "Marathi",
+  "fr" = "French",
+  "id" = "Indonesian",
+  "ur" = "Urdu",
+  "de" = "German",
+  "ar" = "Arabic",
+  "ms" = "Malay",
+  "tl" = "Tagalog",
+  "th" = "Thai",
+  "ko" = "Korean",
+  "it" = "Italian",
+  "sv" = "Swedish",
+  "pl" = "Polish",
+  "ta" = "Tamil",
+  "cy" = "Welsh",
+}
