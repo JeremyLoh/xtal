@@ -3,6 +3,7 @@ import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime.js"
 import {
   getVirtualizedListParentElement,
+  scrollToTop,
   scrollUntilElementIsVisible,
 } from "../../scroller/scrollerConstants"
 import { Podcast } from "../../../../src/api/podcast/model/podcast"
@@ -65,6 +66,8 @@ export async function assertNewReleasePodcasts(
       await expect(podcastCard.getByText("Last Active ")).not.toBeVisible()
     }
   }
+
+  await scrollToTop(virtualizedListParentElement)
 }
 
 export async function clickFirstNewReleasePodcastTitleLink(
