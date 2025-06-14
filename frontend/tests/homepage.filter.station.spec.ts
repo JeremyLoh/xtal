@@ -91,7 +91,7 @@ test.describe("radio station search type", () => {
       await homePage.goto()
       await homePage.getCountrySearchButton().click()
       await homePage.clickRandomRadioStationButton()
-      await homePage.getPage().waitForTimeout(2000) // test fails without waiting for the navigation
+      await homePage.getPage().waitForTimeout(2000) // test fails without waiting for the map navigation to finish
       const expectedStationMapPane =
         (await homePage
           .getPage()

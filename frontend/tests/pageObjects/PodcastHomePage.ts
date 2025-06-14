@@ -146,6 +146,10 @@ class PodcastHomePage {
     return this.podcastNewRelease.getSubtitle()
   }
 
+  getNewReleaseLanguageFilter() {
+    return this.podcastNewRelease.getLanguageFilter()
+  }
+
   getNewReleasePodcastCard(podcastId: string) {
     return this.podcastNewRelease.getPodcastCard(podcastId)
   }

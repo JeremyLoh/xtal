@@ -4,6 +4,7 @@ import { Podcast } from "./model/podcast.ts"
 
 type PodcastNewReleaseSearchParams = {
   limit: number
+  lang?: string
 }
 type PodcastNewReleaseResponse = {
   count: number
@@ -20,6 +21,9 @@ async function getNewReleasePodcasts(
   const searchParams = new URLSearchParams(
     `limit=${params.limit}&exclude=${exclude}`
   )
+  if (params.lang) {
+    searchParams.set("lang", params.lang)
+  }
   try {
     const json: PodcastNewReleaseResponse = await ky
       .get(url, { retry: 0, signal: abortController.signal, searchParams })

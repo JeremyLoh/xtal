@@ -2,13 +2,14 @@ import { test } from "../../fixture/test"
 import { expect } from "@playwright/test"
 import { defaultTenPodcastEpisodes } from "../../mocks/podcast.episode"
 import { assertToastMessage } from "../../constants/toasterConstants"
-import { getClipboardContent } from "../../constants/clipboardConstants"
+import { waitForClipboardContent } from "../../constants/clipboardConstants"
 import { homePageUrl } from "../../constants/paths"
 
 test.describe("Share Feature of Podcast Detail Page for individual podcast /podcasts/PODCAST-TITLE/PODCAST-ID", () => {
   test("should copy podcast detail page url when podcast info section share button is clicked", async ({
     podcastDetailPage,
   }) => {
+    test.slow()
     const podcastTitle = "Batman University"
     const podcastId = "75075"
     const limit = 10
@@ -31,10 +32,11 @@ test.describe("Share Feature of Podcast Detail Page for individual podcast /podc
     const podcastShareButton = podcastDetailPage.getPodcastInfoShareButton()
     await expect(podcastShareButton).toBeVisible()
     await podcastShareButton.click()
-    expect(await getClipboardContent(podcastDetailPage.getPage())).toBe(
+    await assertToastMessage(podcastDetailPage.getPage(), "Link Copied")
+    await waitForClipboardContent(
+      podcastDetailPage.getPage(),
       expectedPodcastUrl
     )
-    await assertToastMessage(podcastDetailPage.getPage(), "Link Copied")
   })
 
   test.describe("podcast episode list", () => {
@@ -72,6 +74,7 @@ test.describe("Share Feature of Podcast Detail Page for individual podcast /podc
     test("should allow user to copy first share podcast episode link at specific timestamp", async ({
       podcastDetailPage,
     }) => {
+      test.slow()
       const expectedStartDurationInSeconds = "30"
       const podcastTitle = "Batman University"
       const podcastId = "75075"
@@ -109,10 +112,11 @@ test.describe("Share Feature of Podcast Detail Page for individual podcast /podc
         podcastDetailPage.getPodcastEpisodeDialogCopyLinkButton()
       await expect(dialogCopyLinkButton).toBeVisible()
       await dialogCopyLinkButton.click()
-      expect(await getClipboardContent(podcastDetailPage.getPage())).toBe(
+      await assertToastMessage(podcastDetailPage.getPage(), "Link Copied")
+      await waitForClipboardContent(
+        podcastDetailPage.getPage(),
         expectedPodcastEpisodeUrl
       )
-      await assertToastMessage(podcastDetailPage.getPage(), "Link Copied")
     })
   })
 })

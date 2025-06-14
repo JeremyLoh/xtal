@@ -154,6 +154,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
         podcastDetailPage.getPage(),
         defaultTenPodcastEpisodes
       )
+      await podcastDetailPage.getPage().waitForLoadState("networkidle")
       shouldFetchData = false
       await podcastDetailPage.getPage().reload()
       await assertPodcastInfo(
