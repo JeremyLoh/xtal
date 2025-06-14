@@ -201,6 +201,7 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
     await expect(dialogTimestampInput).toBeVisible()
     await dialogTimestampInput.fill(expectedStartDurationInSeconds)
     await copyLinkButton.click()
+    await podcastEpisodeDetailPage.getPage().waitForTimeout(500) // wait for clipboard content to update
     expect(await getClipboardContent(podcastEpisodeDetailPage.getPage())).toBe(
       expectedPodcastEpisodeUrl
     )
