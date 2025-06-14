@@ -8,6 +8,7 @@ import {
 } from "../../scroller/scrollerConstants"
 import { Podcast } from "../../../../src/api/podcast/model/podcast"
 import PodcastHomePage from "../../../pageObjects/PodcastHomePage"
+import { assertLoadingSpinnerIsMissing } from "../../loadingConstants"
 
 dayjs.extend(relativeTime)
 
@@ -21,6 +22,8 @@ export async function assertNewReleasePodcasts(
   podcastHomePage: PodcastHomePage,
   expectedPodcasts: Partial<Podcast>[]
 ) {
+  await podcastHomePage.getPage().waitForLoadState("networkidle")
+  await assertLoadingSpinnerIsMissing(podcastHomePage.getPage())
   const virtualizedListParentElement = getVirtualizedListParentElement(
     podcastHomePage.getPage()
   )
@@ -52,6 +55,8 @@ export async function assertNewReleasePodcasts(
       title,
       `(Podcast ${i + 1}) card title should be present`
     ).toBeVisible()
+
+    await podcastHomePage.getPage().waitForTimeout(500) // wait for image to load (swap placeholder image with real image if available)
     if (!(await artwork.isVisible())) {
       await assertPodcastImagePlaceholderIsVisible(podcastCard)
     }

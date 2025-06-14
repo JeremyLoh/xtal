@@ -191,9 +191,7 @@ test.describe("radio station favourite feature", () => {
       (await homePage.getPage().evaluate(() => window.location.href)) +
       "radio-station/" +
       unitedStatesStation.stationuuid
-    expect(
-      async () => await waitForClipboardContent(homePage.getPage(), expectedUrl)
-    ).not.toThrowError()
+    await waitForClipboardContent(homePage.getPage(), expectedUrl)
   })
 
   test("remove one favourited station in drawer when favourite icon in drawer is clicked", async ({

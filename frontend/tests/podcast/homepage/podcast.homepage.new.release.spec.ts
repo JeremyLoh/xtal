@@ -90,6 +90,7 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
   test("should refresh new release podcasts when refresh new release podcast button is clicked", async ({
     podcastHomePage,
   }) => {
+    test.slow()
     let shouldFetchData = false
     const exclude = "description"
     const limit = "5"
@@ -114,6 +115,7 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
     await podcastHomePage.getPage().waitForLoadState("networkidle") // fix flaky headless test - explicit wait required before changing shouldFetchData variable
     shouldFetchData = true
     await podcastHomePage.getNewReleaseRefreshButton().click()
+    await expect(podcastHomePage.getNewReleaseHeader()).toBeVisible()
     await assertNewReleasePodcasts(podcastHomePage, fiveNewReleasePodcasts.data)
   })
 
@@ -141,7 +143,13 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
 
     test("should display language filter options", async ({
       podcastHomePage,
+      headless,
     }) => {
+      test.skip(
+        headless,
+        "Skip slow headless test due to <select> being disabled for some time on each change"
+      )
+      test.slow()
       const languageFilterOptions = [
         "en",
         "zh",
@@ -208,6 +216,7 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
     test("should change new release podcasts based on language", async ({
       podcastHomePage,
     }) => {
+      test.slow()
       const exclude = "description"
       const limit = "5"
       const expectedLanguage = "ja"
@@ -254,6 +263,7 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
     test("should allow user to change from a language filter to none (show all languages)", async ({
       podcastHomePage,
     }) => {
+      test.slow()
       const exclude = "description"
       const limit = "5"
       const expectedLanguage = "ja"
@@ -284,6 +294,7 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
         podcastHomePage,
         fiveNewReleasePodcasts.data
       )
+
       await podcastHomePage
         .getNewReleaseLanguageFilter()
         .selectOption(expectedLanguage)

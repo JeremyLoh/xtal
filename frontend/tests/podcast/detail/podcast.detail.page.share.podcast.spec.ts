@@ -33,13 +33,10 @@ test.describe("Share Feature of Podcast Detail Page for individual podcast /podc
     await expect(podcastShareButton).toBeVisible()
     await podcastShareButton.click()
     await assertToastMessage(podcastDetailPage.getPage(), "Link Copied")
-    expect(
-      async () =>
-        await waitForClipboardContent(
-          podcastDetailPage.getPage(),
-          expectedPodcastUrl
-        )
-    ).not.toThrowError()
+    await waitForClipboardContent(
+      podcastDetailPage.getPage(),
+      expectedPodcastUrl
+    )
   })
 
   test.describe("podcast episode list", () => {
@@ -116,13 +113,10 @@ test.describe("Share Feature of Podcast Detail Page for individual podcast /podc
       await expect(dialogCopyLinkButton).toBeVisible()
       await dialogCopyLinkButton.click()
       await assertToastMessage(podcastDetailPage.getPage(), "Link Copied")
-      expect(
-        async () =>
-          await waitForClipboardContent(
-            podcastDetailPage.getPage(),
-            expectedPodcastEpisodeUrl
-          )
-      ).not.toThrowError()
+      await waitForClipboardContent(
+        podcastDetailPage.getPage(),
+        expectedPodcastEpisodeUrl
+      )
     })
   })
 })

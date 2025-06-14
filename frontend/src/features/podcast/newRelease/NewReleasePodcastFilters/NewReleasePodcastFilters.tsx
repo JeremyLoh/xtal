@@ -3,6 +3,7 @@ import { useCallback, useState } from "react"
 import { RECENT_PODCAST_LANGUAGES } from "../../../../api/podcast/model/podcastRecent.ts"
 
 const DEFAULT_SELECTED_LANGUAGE = "all"
+const DISABLED_DURATION_IN_MS = 600 // rate limit user calls to change filter
 
 type NewReleasePodcastFilterProps = {
   availableLanguages: [string, RECENT_PODCAST_LANGUAGES][]
@@ -16,11 +17,17 @@ function NewReleasePodcastFilters({
   const [selectedLanguage, setSelectedLanguage] = useState<string>(
     DEFAULT_SELECTED_LANGUAGE
   )
+  const [disabled, setDisabled] = useState<boolean>(false)
 
   const handleLanguageChange = useCallback(
     async (event: React.ChangeEvent<HTMLSelectElement>) => {
       const language = event.target.value
       setSelectedLanguage(language)
+      setDisabled(true)
+      setTimeout(() => {
+        setDisabled(false)
+      }, DISABLED_DURATION_IN_MS)
+
       if (language === DEFAULT_SELECTED_LANGUAGE) {
         await onFilterChange()
       } else {
@@ -34,6 +41,7 @@ function NewReleasePodcastFilters({
     <select
       className="new-release-podcast-language-filter"
       value={selectedLanguage}
+      disabled={disabled}
       onChange={handleLanguageChange}
       aria-label="Filter New Releases by language"
       data-testid="new-release-podcast-language-filter"

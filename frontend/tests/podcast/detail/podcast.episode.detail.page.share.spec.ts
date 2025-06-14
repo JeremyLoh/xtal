@@ -159,13 +159,10 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
     await podcastEpisodeDetailPage.getPage().waitForTimeout(1000)
     await copyButton.click()
     await assertToastMessage(podcastEpisodeDetailPage.getPage(), "Link Copied")
-    expect(
-      async () =>
-        await waitForClipboardContent(
-          podcastEpisodeDetailPage.getPage(),
-          expectedPodcastEpisodeUrl
-        )
-    ).not.toThrowError()
+    await waitForClipboardContent(
+      podcastEpisodeDetailPage.getPage(),
+      expectedPodcastEpisodeUrl
+    )
   })
 
   test("should allow user to copy share podcast episode link at specific timestamp", async ({
@@ -208,13 +205,10 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
     await dialogTimestampInput.fill(expectedStartDurationInSeconds)
     await copyLinkButton.click()
     await assertToastMessage(podcastEpisodeDetailPage.getPage(), "Link Copied")
-    expect(
-      async () =>
-        await waitForClipboardContent(
-          podcastEpisodeDetailPage.getPage(),
-          expectedPodcastEpisodeUrl
-        )
-    ).not.toThrowError()
+    await waitForClipboardContent(
+      podcastEpisodeDetailPage.getPage(),
+      expectedPodcastEpisodeUrl
+    )
   })
 
   test("should start podcast episode playback with url parameter ?t=", async ({

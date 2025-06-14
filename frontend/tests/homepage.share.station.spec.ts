@@ -52,9 +52,7 @@ test.describe("share radio station feature", () => {
       homePage,
       unitedStatesStation.stationuuid
     )
-    expect(
-      async () => await waitForClipboardContent(homePage.getPage(), expectedUrl)
-    ).not.toThrowError()
+    await waitForClipboardContent(homePage.getPage(), expectedUrl)
     await assertToastMessage(homePage.getPage(), "Link Copied")
   })
 
@@ -174,9 +172,7 @@ test.describe("share radio station feature", () => {
     const expectedUrl =
       new URL(homePageUrl()).origin +
       `/radio-station/${stationWithLocationLatLng.stationuuid}`
-    expect(
-      async () => await waitForClipboardContent(homePage.getPage(), expectedUrl)
-    ).not.toThrowError()
+    await waitForClipboardContent(homePage.getPage(), expectedUrl)
   })
 
   test.describe("should not redirect to 404 page for valid stationuuid UUID Versions 1 to 5 in Radio Station Share URL", () => {
