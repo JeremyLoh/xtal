@@ -146,6 +146,7 @@ test.describe("Podcast Homepage /podcasts", () => {
           allPodcastCategories
         )
 
+        await podcastHomePage.getPage().waitForLoadState("networkidle")
         shouldFetchData = false
         await podcastHomePage.getPage().reload()
         await assertPodcastCategoriesInSlider(
