@@ -1,6 +1,24 @@
 import { Page } from "@playwright/test"
 
-export async function getClipboardContent(page: Page) {
-  const handle = await page.evaluateHandle(() => navigator.clipboard.readText())
-  return await handle.jsonValue()
+async function getClipboardContent(page: Page) {
+  return await page.evaluate(() => navigator.clipboard.readText())
+}
+
+export async function waitForClipboardContent(
+  page: Page,
+  expectedContent: string,
+  timeout: number = 3000,
+  interval: number = 100
+): Promise<void> {
+  const start = Date.now()
+  while (Date.now() - start < timeout) {
+    const content = await getClipboardContent(page)
+    if (content === expectedContent) {
+      return
+    }
+    await page.waitForTimeout(interval)
+  }
+  throw new Error(
+    `Clipboard did not contain expected content within ${timeout}ms`
+  )
 }

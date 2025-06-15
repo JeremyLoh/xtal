@@ -6,7 +6,7 @@ import {
   stationWithMultipleTags,
   unitedStatesStation,
 } from "./mocks/station"
-import { getClipboardContent } from "./constants/clipboardConstants"
+import { waitForClipboardContent } from "./constants/clipboardConstants"
 import HomePage from "./pageObjects/HomePage"
 
 test.describe("radio station favourite feature", () => {
@@ -170,6 +170,7 @@ test.describe("radio station favourite feature", () => {
   test("click radio station share button should copy correct radio station share url", async ({
     homePage,
   }) => {
+    test.slow()
     await homePage
       .getPage()
       .route("*/**/json/stations/search?*", async (route) => {
@@ -190,7 +191,7 @@ test.describe("radio station favourite feature", () => {
       (await homePage.getPage().evaluate(() => window.location.href)) +
       "radio-station/" +
       unitedStatesStation.stationuuid
-    expect(await getClipboardContent(homePage.getPage())).toBe(expectedUrl)
+    await waitForClipboardContent(homePage.getPage(), expectedUrl)
   })
 
   test("remove one favourited station in drawer when favourite icon in drawer is clicked", async ({

@@ -5,7 +5,7 @@ import {
   assertToastMessageIsMissing,
 } from "./constants/toasterConstants"
 import { stationWithLocationLatLng, unitedStatesStation } from "./mocks/station"
-import { getClipboardContent } from "./constants/clipboardConstants"
+import { waitForClipboardContent } from "./constants/clipboardConstants"
 import HomePage from "./pageObjects/HomePage"
 import { homePageUrl } from "./constants/paths"
 
@@ -52,7 +52,7 @@ test.describe("share radio station feature", () => {
       homePage,
       unitedStatesStation.stationuuid
     )
-    expect(await getClipboardContent(homePage.getPage())).toBe(expectedUrl)
+    await waitForClipboardContent(homePage.getPage(), expectedUrl)
     await assertToastMessage(homePage.getPage(), "Link Copied")
   })
 
@@ -169,12 +169,10 @@ test.describe("share radio station feature", () => {
       homePage.getPage(),
       "Could not play radio station"
     )
-    await homePage.getPage().waitForTimeout(1000)
-    const clipboardContent = await getClipboardContent(homePage.getPage())
     const expectedUrl =
       new URL(homePageUrl()).origin +
       `/radio-station/${stationWithLocationLatLng.stationuuid}`
-    expect(clipboardContent).toBe(expectedUrl)
+    await waitForClipboardContent(homePage.getPage(), expectedUrl)
   })
 
   test.describe("should not redirect to 404 page for valid stationuuid UUID Versions 1 to 5 in Radio Station Share URL", () => {
