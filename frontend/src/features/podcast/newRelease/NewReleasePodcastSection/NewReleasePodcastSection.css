@@ -18,7 +18,7 @@
   font-size: 1rem;
 }
 
-.new-release-podcast-list-item:not([data-index="0"]) {
+.new-release-podcast-list-item {
   /* add gap between wrapped react-virtuoso items, except for first item, use padding to prevent layout shift (CLS) */
   /* https://virtuoso.dev/troubleshooting/#list-does-not-scroll-to-the-bottom--items-jump-around */
   padding: 0 1rem;
@@ -43,8 +43,10 @@
 
 @media (max-width: 430px) {
   /* Mobile View */
-  .new-release-podcast-list-item:not([data-index="0"]) {
-    padding: 0.5rem 0;
+  .new-release-podcast-list-item {
+    /* add gap between wrapped react-virtuoso items, except for first item, use padding to prevent layout shift (CLS) */
+    /* https://virtuoso.dev/troubleshooting/#list-does-not-scroll-to-the-bottom--items-jump-around */
+    padding: 0.5rem;
   }
   .new-release-podcast-card-title {
     width: 100%;
