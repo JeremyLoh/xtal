@@ -35,13 +35,17 @@ function PodcastCard({
       <AnimatePresence>
         <motion.div
           {...(dataTestId && { "data-testid": dataTestId })}
-          className={`podcast-card ${customClassName || ""}`.trim()}
+          className="podcast-card"
           initial={initial}
           animate={animate}
           whileInView={whileInView}
           transition={transition}
         >
-          {children}
+          <motion.div
+            className={`podcast-card-content ${customClassName || ""}`.trim()}
+          >
+            {children}
+          </motion.div>
         </motion.div>
       </AnimatePresence>
     </PodcastCardContext.Provider>
