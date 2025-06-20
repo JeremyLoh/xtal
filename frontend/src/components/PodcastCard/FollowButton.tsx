@@ -76,7 +76,7 @@ const FollowButton = function PodcastCardFollowButton({
       variant="secondary"
       onClick={handleUnfollowUserPodcast}
     >
-      Followed
+      <b>Followed</b>
     </Button>
   ) : (
     <Button
@@ -85,7 +85,7 @@ const FollowButton = function PodcastCardFollowButton({
       onClick={handleFollowUserPodcast}
       title="Follow Podcast"
     >
-      Follow
+      <b>Follow</b>
     </Button>
   )
 }
