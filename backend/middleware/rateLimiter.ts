@@ -131,7 +131,7 @@ const getPodcastRecentLimiter = rateLimit({
 })
 
 const getStatusLimiter = rateLimit({
-  windowMs: 2 * 1000,
+  windowMs: 1 * 1000,
   limit: 1, // Limit each IP to "X" requests per window
   standardHeaders: "draft-7",
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
@@ -141,7 +141,7 @@ const getStatusLimiter = rateLimit({
     next: NextFunction,
     options: Options
   ) => {
-    res.setHeader("retry-after", 2) // in seconds
+    res.setHeader("retry-after", 1) // in seconds
     res.status(options.statusCode).send(options.message)
   },
 })
