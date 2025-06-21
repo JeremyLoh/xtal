@@ -92,6 +92,7 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
   }) => {
     test.slow()
     let shouldFetchData = false
+    let routeCalled = false
     const exclude = "description"
     const limit = "5"
     await podcastHomePage
@@ -99,6 +100,7 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
       .route(
         `*/**/api/podcast/recent?limit=${limit}&exclude=${exclude}`,
         async (route) => {
+          routeCalled = true
           const json = shouldFetchData ? fiveNewReleasePodcasts : []
           await route.fulfill({ json })
         }
@@ -112,7 +114,9 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
     ).toBeVisible()
     await expect(podcastHomePage.getNewReleaseRefreshButton()).toBeVisible()
 
-    await podcastHomePage.getPage().waitForLoadState("networkidle") // fix flaky headless test - explicit wait required before changing shouldFetchData variable
+    // fix flaky headless test - wait required before changing shouldFetchData variable
+    await expect.poll(() => routeCalled, { timeout: 3000 }).toBe(true)
+    await podcastHomePage.getPage().waitForLoadState("networkidle")
     shouldFetchData = true
     await podcastHomePage.getNewReleaseRefreshButton().click()
     await expect(podcastHomePage.getNewReleaseHeader()).toBeVisible()

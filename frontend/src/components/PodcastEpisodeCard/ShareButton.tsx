@@ -40,37 +40,35 @@ const ShareButton = function PodcastEpisodeCardShareButton({
   )
 
   return (
-    <>
-      {open && <DialogDimBackground />}
-      <div
-        ref={clickOutsideRef}
-        className="podcast-episode-card-share-button-container"
+    <div
+      ref={clickOutsideRef}
+      className="podcast-episode-card-share-button-container"
+    >
+      {open && <DialogDimBackground onClose={handleClick} />}
+      <Button
+        keyProp={`podcast-episode-share-button-${episode.id}`}
+        data-testid="podcast-episode-share-button"
+        variant="icon"
+        title="Open Share Podcast Episode Dialog"
+        onClick={handleClick}
       >
-        <Button
-          keyProp={`podcast-episode-share-button-${episode.id}`}
-          data-testid="podcast-episode-share-button"
-          variant="icon"
-          title="Open Share Podcast Episode Dialog"
-          onClick={handleClick}
-        >
-          <IoShareSocialSharp size={20} />
-        </Button>
-        <Dialog
-          open={open}
-          onClose={handleClick}
-          title="Share this podcast episode"
-          className="podcast-episode-share-dialog"
-        >
-          <DialogContent data-testid="podcast-episode-share-dialog-content">
-            <ShareButtonDialogContent
-              episodeId={episode.id}
-              episodeDurationInSeconds={episode.durationInSeconds || 0}
-              onCopy={handleCopy}
-            />
-          </DialogContent>
-        </Dialog>
-      </div>
-    </>
+        <IoShareSocialSharp size={20} />
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClick}
+        title="Share this podcast episode"
+        className="podcast-episode-share-dialog"
+      >
+        <DialogContent data-testid="podcast-episode-share-dialog-content">
+          <ShareButtonDialogContent
+            episodeId={episode.id}
+            episodeDurationInSeconds={episode.durationInSeconds || 0}
+            onCopy={handleCopy}
+          />
+        </DialogContent>
+      </Dialog>
+    </div>
   )
 }
 

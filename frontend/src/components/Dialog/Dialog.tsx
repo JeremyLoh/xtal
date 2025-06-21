@@ -65,8 +65,8 @@ function DialogContent({
   )
 }
 
-function DialogDimBackground() {
-  return <div className="dialog-dim-background" />
+function DialogDimBackground({ onClose }: { onClose: () => void }) {
+  return <div className="dialog-dim-background" onClick={onClose} />
 }
 
 export default Dialog

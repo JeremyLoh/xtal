@@ -22,6 +22,7 @@
   /* add gap between wrapped react-virtuoso items, except for first item, use padding to prevent layout shift (CLS) */
   /* https://virtuoso.dev/troubleshooting/#list-does-not-scroll-to-the-bottom--items-jump-around */
   padding: 0 1rem;
+  height: 20rem !important; /* override PodcastCard height: 100% to prevent scrollbar in react-virtuoso container */
 }
 
 .new-release-podcast-card-info,
@@ -47,6 +48,7 @@
     /* add gap between wrapped react-virtuoso items, except for first item, use padding to prevent layout shift (CLS) */
     /* https://virtuoso.dev/troubleshooting/#list-does-not-scroll-to-the-bottom--items-jump-around */
     padding: 0.5rem;
+    height: 10rem !important; /* override PodcastCard height: 100% to prevent scrollbar in react-virtuoso container */
   }
   .new-release-podcast-card-title {
     width: 100%;
