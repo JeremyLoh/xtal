@@ -1,5 +1,6 @@
 import { test } from "../fixture/test"
 import { expect, Page } from "@playwright/test"
+import { SidebarMenuItemAction } from "../pageComponents/Sidebar"
 
 test.describe("About Page", () => {
   async function mockCurrentTotalPodcastStatistics(
@@ -101,5 +102,28 @@ test.describe("About Page", () => {
         "54805 Radio Stations in 238 Countries — https://www.radio-browser.info/"
       )
     ).toBeVisible()
+  })
+
+  test("should display mobile profile picture of correct size on first page load after navigation from another page", async ({
+    isMobile,
+    homePage,
+    aboutPage,
+  }) => {
+    test.skip(!isMobile, "Skip mobile test")
+    await homePage.goto()
+    await homePage.getSidebarToggleButton().click()
+    await expect(homePage.getSidebar()).toBeVisible()
+    await homePage.getSidebarMenuItem(SidebarMenuItemAction.About).click()
+
+    await expect(aboutPage.getJeremyProfilePicture()).toBeVisible()
+    const profilePictureBox = await aboutPage
+      .getJeremyProfilePicture()
+      .boundingBox()
+    expect(profilePictureBox).not.toBeNull()
+    const viewport = aboutPage.getPage().viewportSize()
+    expect(viewport).not.toBeNull()
+
+    expect(profilePictureBox!.width).toBeLessThan(viewport!.width)
+    expect(profilePictureBox!.height).toBe(profilePictureBox!.width)
   })
 })

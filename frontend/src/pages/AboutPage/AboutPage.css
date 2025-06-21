@@ -58,6 +58,11 @@
 .jeremy-profile-picture {
   border-radius: 16px;
   margin: auto;
+  width: min(
+    70vw,
+    500px
+  ); /* Fix incorrect values for window.innerWidth on mobile first load, should be same as the size of profile picture in code */
+  height: auto;
 }
 
 @media (max-width: 430px) {
