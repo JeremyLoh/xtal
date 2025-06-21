@@ -37,8 +37,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           # Needs to match blob reporter outputDir in playwright.config.ts
+          # upload-artifact action does not use "working-directory" path. Needs to be relative path from root - https://github.com/actions/upload-artifact/issues/232
           name: playwright-blob-report-${{ matrix.shardIndex }}
-          path: playwright-blob-report
+          path: frontend/playwright-blob-report
           retention-days: 1
 
   merge-reports:
