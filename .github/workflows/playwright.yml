@@ -31,11 +31,12 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
-        run: npx playwright test --reporter=blob --output playwright-blob-report --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        run: npx playwright test --reporter=blob --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
       - name: Upload blob report to GitHub Actions Artifacts
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
+          # Needs to match blob reporter outputDir in playwright.config.ts
           name: playwright-blob-report-${{ matrix.shardIndex }}
           path: playwright-blob-report
           retention-days: 1
