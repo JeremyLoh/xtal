@@ -91,4 +91,31 @@ test.describe("header app theme (start with dark mode)", () => {
     await expect(homePage.getPage()).toHaveURL(podcastHomePageUrl())
     await assertElementHasLightTheme(homePage.getPage(), "#root")
   })
+
+  test("should not switch theme when navigating to multiple new pages", async ({
+    homePage,
+  }) => {
+    await homePage.goto()
+    await assertLoadingSpinnerIsMissing(homePage.getPage())
+    await assertElementHasDarkTheme(homePage.getPage(), "#root")
+    await homePage.toggleAppTheme()
+
+    await homePage.getSidebarToggleButton().click()
+    await expect(homePage.getSidebar()).toBeVisible()
+    await homePage.getSidebarMenuItem(SidebarMenuItemAction.Podcasts).click()
+    await expect(homePage.getPage()).toHaveURL(podcastHomePageUrl())
+    await assertElementHasLightTheme(homePage.getPage(), "#root")
+
+    await homePage.getSidebarToggleButton().click()
+    await expect(homePage.getSidebar()).toBeVisible()
+    await homePage
+      .getSidebarMenuItem(SidebarMenuItemAction.PodcastSearch)
+      .click()
+    await assertElementHasLightTheme(homePage.getPage(), "#root")
+
+    await homePage.getSidebarToggleButton().click()
+    await expect(homePage.getSidebar()).toBeVisible()
+    await homePage.getSidebarMenuItem(SidebarMenuItemAction.About).click()
+    await assertElementHasLightTheme(homePage.getPage(), "#root")
+  })
 })

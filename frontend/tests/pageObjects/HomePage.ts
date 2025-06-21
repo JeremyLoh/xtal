@@ -220,6 +220,9 @@ class HomePage {
   async clickRandomRadioStationButton() {
     await expect(
       this.page.getByTestId("random-radio-station-button")
+    ).toBeVisible()
+    await expect(
+      this.page.getByTestId("random-radio-station-button")
     ).toBeEnabled()
     await this.page.getByTestId("random-radio-station-button").click()
   }

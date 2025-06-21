@@ -31,7 +31,9 @@ export default defineConfig({
   /* Run parallel tests with 3 workers for CI */
   workers: process.env.CI ? 3 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: "html",
+  reporter: process.env.CI ? "blob" : "html",
+  // Limit the number of failures on CI to save resources
+  maxFailures: process.env.CI ? 20 : undefined,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */

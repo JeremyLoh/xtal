@@ -133,6 +133,7 @@ await page.route("*/**/api/podcast/trending?limit=10", async (route) => {
 14. Vite code splitting that works - https://sambitsahoo.com/blog/vite-code-splitting-that-works.html
 15. Prevent stream from being loaded when player is closed - https://github.com/muxinc/media-elements/discussions/82
 16. Reverse Scrolling Flickering/Jumping with Dynamic Heights - react-virtuoso (add explicit width and height values and change margin to padding) - https://github.com/petyosi/react-virtuoso/discussions/1083
+17. Playwright test sharding - https://playwright.dev/docs/test-sharding#introduction
 
 # React + TypeScript + Vite
 

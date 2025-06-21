@@ -1,11 +1,12 @@
 import { createContext, useCallback, useEffect, useMemo, useState } from "react"
 import useLocalStorage from "../../hooks/useLocalStorage.ts"
+import LoadingDisplay from "../../components/LoadingDisplay/LoadingDisplay.tsx"
 
 const lightTheme = "light-theme"
 const darkTheme = "dark-theme"
 
 type Theme = {
-  isDark: boolean
+  isDark: boolean | undefined
   toggle: () => void
 }
 // eslint-disable-next-line react-refresh/only-export-components
@@ -15,7 +16,7 @@ export const ThemeContext = createContext<Theme | undefined>(undefined)
 function ThemeProvider({ children }: { children: React.ReactNode }) {
   const { getItem: getStorageTheme, setItem: setStorageTheme } =
     useLocalStorage("THEME")
-  const [isDark, setIsDark] = useState<boolean>(getStorageTheme() === darkTheme)
+  const [isDark, setIsDark] = useState<boolean | undefined>(undefined)
 
   const applyTheme = useCallback((theme: string) => {
     const root = document.getElementsByTagName("html")[0]
@@ -30,21 +31,29 @@ function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [applyTheme, setStorageTheme, isDark])
 
   useEffect(() => {
-    // set starting theme based on user preference
-    const isDarkThemePreferred = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches
-    setStorageTheme(isDarkThemePreferred ? darkTheme : lightTheme)
-  }, [setStorageTheme])
+    const savedTheme = getStorageTheme()
+    if (savedTheme) {
+      applyTheme(savedTheme)
+      setIsDark(savedTheme === darkTheme)
+    } else {
+      // set starting theme based on user preference
+      const isDarkThemePreferred = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches
+      applyTheme(isDarkThemePreferred ? darkTheme : lightTheme)
+      setStorageTheme(isDarkThemePreferred ? darkTheme : lightTheme)
+      setIsDark(isDarkThemePreferred)
+    }
+  }, [applyTheme, setStorageTheme, getStorageTheme])
 
   const output = useMemo(() => {
     return { isDark, toggle }
   }, [isDark, toggle])
 
-  applyTheme(isDark ? darkTheme : lightTheme)
-
   return (
-    <ThemeContext.Provider value={output}>{children}</ThemeContext.Provider>
+    <ThemeContext.Provider value={output}>
+      <LoadingDisplay loading={isDark == undefined}>{children}</LoadingDisplay>
+    </ThemeContext.Provider>
   )
 }
 
