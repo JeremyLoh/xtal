@@ -16,14 +16,23 @@
 
 .podcast-info-card-actions {
   display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 1rem;
+  margin-right: 1rem;
   margin-left: auto;
 }
 
 @media (max-width: 430px) {
   /* Mobile View */
   .podcast-info-card-actions {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
     margin-left: 0;
+    margin-right: 0;
   }
 }
