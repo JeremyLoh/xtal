@@ -31,9 +31,7 @@ export default defineConfig({
   /* Run parallel tests with 3 workers for CI */
   workers: process.env.CI ? 3 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: process.env.CI
-    ? [["blob", { outputDir: "playwright-blob-report" }]] // needs to match the github action folder for blob report
-    : "html",
+  reporter: process.env.CI ? "blob" : "html",
   // Limit the number of failures on CI to save resources
   maxFailures: process.env.CI ? 20 : undefined,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */

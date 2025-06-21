@@ -36,10 +36,10 @@ jobs:
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          # Needs to match blob reporter outputDir in playwright.config.ts
+          # use default blob-report name - https://playwright.dev/docs/test-reporters#blob-reporter
           # upload-artifact action does not use "working-directory" path. Needs to be relative path from root - https://github.com/actions/upload-artifact/issues/232
-          name: playwright-blob-report-${{ matrix.shardIndex }}
-          path: frontend/playwright-blob-report
+          name: blob-report-${{ matrix.shardIndex }}
+          path: frontend/blob-report
           retention-days: 1
 
   merge-reports:
@@ -61,16 +61,16 @@ jobs:
       - name: Download blob reports from GitHub Actions Artifacts
         uses: actions/download-artifact@v4
         with:
-          path: playwright-blob-report
-          pattern: playwright-blob-report-*
+          path: blob-report
+          pattern: blob-report-*
           merge-multiple: true
 
       - name: Merge into HTML Report
-        run: npx playwright merge-reports --reporter html ./playwright-blob-report
+        run: npx playwright merge-reports --reporter html ./blob-report
 
       - name: Upload HTML report
         uses: actions/upload-artifact@v4
         with:
           name: html-report--attempt-${{ github.run_attempt }}
-          path: playwright-report
+          path: frontend/playwright-report
           retention-days: 14
