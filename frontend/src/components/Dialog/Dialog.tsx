@@ -1,5 +1,5 @@
 import "./Dialog.css"
-import { PropsWithChildren } from "react"
+import { PropsWithChildren, useRef } from "react"
 import { createPortal } from "react-dom"
 import { AnimatePresence, motion } from "motion/react"
 import { IoClose } from "react-icons/io5"
@@ -19,36 +19,54 @@ type DialogProps = {
 } & PropsWithChildren
 
 function Dialog({ title, open, onClose, className, children }: DialogProps) {
-  return (
+  const contentRef = useRef<HTMLDivElement | null>(null)
+
+  function handleBackgroundClick(event: React.MouseEvent<HTMLDivElement>) {
+    if (
+      contentRef.current &&
+      !event.nativeEvent.composedPath().includes(contentRef.current)
+    ) {
+      onClose()
+    }
+  }
+
+  return createPortal(
     <AnimatePresence>
       {open && (
-        <motion.div className="dialog-container">
-          <DialogDimBackground onClose={onClose} />
+        <>
           <motion.div
-            className={`dialog ${className ? className : ""}`}
-            initial={dialogInitial}
-            animate={dialogAnimate}
-            exit={dialogExit}
-            transition={dialogTransition}
+            className="dialog-container"
+            onClick={handleBackgroundClick}
           >
-            <motion.div className="dialog-header">
-              <motion.h3>{title}</motion.h3>
-              <Button
-                keyProp="dialog-close-button"
-                className="dialog-close-button"
-                variant="icon"
-                title="Close Dialog"
-                onClick={onClose}
-              >
-                <IoClose size={24} />
-              </Button>
+            <motion.div className="dialog-dim-background" />
+            <motion.div
+              ref={contentRef}
+              className={`dialog ${className ? className : ""}`}
+              initial={dialogInitial}
+              animate={dialogAnimate}
+              exit={dialogExit}
+              transition={dialogTransition}
+            >
+              <motion.div className="dialog-header">
+                <motion.h3>{title}</motion.h3>
+                <Button
+                  keyProp="dialog-close-button"
+                  className="dialog-close-button"
+                  variant="icon"
+                  title="Close Dialog"
+                  onClick={onClose}
+                >
+                  <IoClose size={24} />
+                </Button>
+              </motion.div>
+              <Separator />
+              <motion.div>{children}</motion.div>
             </motion.div>
-            <Separator />
-            <motion.div>{children}</motion.div>
           </motion.div>
-        </motion.div>
+        </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   )
 }
 
@@ -64,13 +82,6 @@ function DialogContent({
     <motion.div data-testid={dataTestId} className="dialog-content-container">
       {children}
     </motion.div>
-  )
-}
-
-function DialogDimBackground({ onClose }: { onClose: () => void }) {
-  return createPortal(
-    <motion.div className="dialog-dim-background" onClick={onClose} />,
-    document.body
   )
 }
 
