@@ -19,7 +19,7 @@
     "dayjs": "1.11.13",
     "dompurify": "^3.2.6",
     "dotenv": "16.5.0",
-    "free-email-domains": "1.2.18",
+    "free-email-domains": "1.2.20",
     "hls-video-element": "1.5.4",
     "ky": "1.8.1",
     "leaflet": "1.9.4",
