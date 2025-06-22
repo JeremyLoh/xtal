@@ -6,7 +6,6 @@ import Button from "../ui/button/Button.tsx"
 import { PodcastEpisode } from "../../api/podcast/model/podcast.ts"
 import { usePodcastEpisodeCardContext } from "./PodcastEpisodeCardContext.ts"
 import Dialog, { DialogContent } from "../Dialog/Dialog.tsx"
-import useClickOutside from "../../hooks/useClickOutside.ts"
 
 dayjs.extend(duration)
 
@@ -19,13 +18,6 @@ const ShareButton = function PodcastEpisodeCardShareButton({
 }: PodcastEpisodeCardShareButtonProps) {
   const { episode } = usePodcastEpisodeCardContext()
   const [open, setOpen] = useState<boolean>(false)
-  const clickOutsideRef = useClickOutside<HTMLDivElement>({
-    onClickOutside: () => {
-      if (open) {
-        setOpen(false)
-      }
-    },
-  })
   const handleClick = useCallback(() => {
     setOpen(!open)
   }, [open])
@@ -37,10 +29,7 @@ const ShareButton = function PodcastEpisodeCardShareButton({
   )
 
   return (
-    <div
-      ref={clickOutsideRef}
-      className="podcast-episode-card-share-button-container"
-    >
+    <div className="podcast-episode-card-share-button-container">
       <Button
         keyProp={`podcast-episode-share-button-${episode.id}`}
         data-testid="podcast-episode-share-button"
