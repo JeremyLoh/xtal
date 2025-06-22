@@ -71,6 +71,38 @@ test.describe("Share Feature of Podcast Detail Page for individual podcast /podc
       ).toBeVisible()
     })
 
+    test("should not close share podcast episode dialog on copy button click", async ({
+      podcastDetailPage,
+    }) => {
+      const podcastTitle = "Batman University"
+      const podcastId = "75075"
+      const limit = 10
+      await podcastDetailPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+          async (route) => {
+            const json = defaultTenPodcastEpisodes
+            await route.fulfill({ json })
+          }
+        )
+      await podcastDetailPage.goto({ podcastId, podcastTitle })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Batman University - xtal - podcasts/
+      )
+      await expect(
+        podcastDetailPage.getPodcastEpisodeShareButton(0)
+      ).toBeVisible()
+      await podcastDetailPage.getPodcastEpisodeShareButton(0).click()
+      await expect(
+        podcastDetailPage.getPodcastEpisodeShareDialog()
+      ).toBeVisible()
+      await podcastDetailPage.getPodcastEpisodeDialogCopyLinkButton().click()
+      await expect(
+        podcastDetailPage.getPodcastEpisodeShareDialog()
+      ).toBeVisible()
+    })
+
     test("should allow user to copy first share podcast episode link at specific timestamp", async ({
       podcastDetailPage,
     }) => {
