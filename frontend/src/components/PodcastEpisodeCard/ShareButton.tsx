@@ -5,10 +5,7 @@ import duration from "dayjs/plugin/duration.js"
 import Button from "../ui/button/Button.tsx"
 import { PodcastEpisode } from "../../api/podcast/model/podcast.ts"
 import { usePodcastEpisodeCardContext } from "./PodcastEpisodeCardContext.ts"
-import Dialog, {
-  DialogContent,
-  DialogDimBackground,
-} from "../Dialog/Dialog.tsx"
+import Dialog, { DialogContent } from "../Dialog/Dialog.tsx"
 import useClickOutside from "../../hooks/useClickOutside.ts"
 
 dayjs.extend(duration)
@@ -44,7 +41,6 @@ const ShareButton = function PodcastEpisodeCardShareButton({
       ref={clickOutsideRef}
       className="podcast-episode-card-share-button-container"
     >
-      {open && <DialogDimBackground onClose={handleClick} />}
       <Button
         keyProp={`podcast-episode-share-button-${episode.id}`}
         data-testid="podcast-episode-share-button"
