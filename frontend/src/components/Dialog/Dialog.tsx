@@ -1,5 +1,6 @@
 import "./Dialog.css"
 import { PropsWithChildren } from "react"
+import { createPortal } from "react-dom"
 import { AnimatePresence, motion } from "motion/react"
 import { IoClose } from "react-icons/io5"
 import Button from "../ui/button/Button.tsx"
@@ -22,6 +23,7 @@ function Dialog({ title, open, onClose, className, children }: DialogProps) {
     <AnimatePresence>
       {open && (
         <motion.div className="dialog-container">
+          <DialogDimBackground onClose={onClose} />
           <motion.div
             className={`dialog ${className ? className : ""}`}
             initial={dialogInitial}
@@ -59,15 +61,18 @@ function DialogContent({
   children,
 }: DialogContentProps) {
   return (
-    <div data-testid={dataTestId} className="dialog-content-container">
+    <motion.div data-testid={dataTestId} className="dialog-content-container">
       {children}
-    </div>
+    </motion.div>
   )
 }
 
 function DialogDimBackground({ onClose }: { onClose: () => void }) {
-  return <div className="dialog-dim-background" onClick={onClose} />
+  return createPortal(
+    <motion.div className="dialog-dim-background" onClick={onClose} />,
+    document.body
+  )
 }
 
 export default Dialog
-export { DialogContent, DialogDimBackground }
+export { DialogContent }
