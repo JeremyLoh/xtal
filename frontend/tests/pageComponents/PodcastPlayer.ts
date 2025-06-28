@@ -75,6 +75,21 @@ class PodcastPlayer {
     return this.audioPlayer.locator("audio")
   }
 
+  async getAudioMetadata() {
+    return await this.audioPlayer.evaluate(() => {
+      if ("mediaSession" in navigator) {
+        const data = navigator.mediaSession.metadata
+        return {
+          title: data?.title,
+          artist: data?.artist,
+          album: data?.album,
+          artwork: data?.artwork,
+        }
+      }
+      return null
+    })
+  }
+
   getLink(linkName: string) {
     return this.audioPlayer.getByRole("link", { name: linkName, exact: true })
   }

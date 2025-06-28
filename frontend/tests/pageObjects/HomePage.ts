@@ -114,6 +114,10 @@ class HomePage {
     return this.map.getRadioCardPlayer()
   }
 
+  async getRadioCardPlayerAudioMetadata() {
+    return await this.map.getRadioCardAudioMetadata()
+  }
+
   getRadioCardTags() {
     return this.map.getRadioCardTags()
   }

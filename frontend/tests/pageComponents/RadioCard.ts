@@ -1,14 +1,17 @@
 import { Locator, Page } from "@playwright/test"
+import RadioPlayer from "./RadioPlayer"
 
 class RadioCard {
   readonly page: Page
   readonly parentComponent: Locator
   readonly radioCard: Locator
+  readonly radioPlayer: RadioPlayer
 
   constructor(page: Page, parentComponent: Locator) {
     this.page = page
     this.parentComponent = parentComponent
     this.radioCard = this.parentComponent.locator(".radio-card")
+    this.radioPlayer = new RadioPlayer(this.page)
   }
 
   getRadioCard() {
@@ -16,7 +19,11 @@ class RadioCard {
   }
 
   getPlayer() {
-    return this.radioCard.getByTestId("radio-player-container")
+    return this.radioPlayer.getPlayer()
+  }
+
+  async getPlayerAudioMetadata() {
+    return await this.radioPlayer.getAudioMetadata()
   }
 
   getTags() {

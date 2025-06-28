@@ -301,6 +301,47 @@ test.describe("Podcast detail page for individual podcast", () => {
       )
     })
 
+    test("should set audio MediaSession metadata for currently playing media info", async ({
+      podcastDetailPage,
+    }) => {
+      test.slow()
+      const i = 0
+      const expectedArtworkSize = "96"
+      const expectedEpisode = defaultTenPodcastEpisodes.data.episodes[i]
+      const podcastTitle = "Batman University"
+      const podcastId = "75075"
+      const limit = 10
+      await podcastDetailPage
+        .getPage()
+        .route(
+          `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+          async (route) => {
+            const json = defaultTenPodcastEpisodes
+            await route.fulfill({ json })
+          }
+        )
+      await podcastDetailPage.goto({ podcastId, podcastTitle })
+      await expect(podcastDetailPage.getPage()).toHaveTitle(
+        /Batman University - xtal - podcasts/
+      )
+      await expect(
+        podcastDetailPage.getPodcastEpisodePlayButton(i),
+        `(Episode ${i + 1}) podcast episode card Play button should be present`
+      ).toBeVisible()
+      await podcastDetailPage.getPodcastEpisodePlayButton(i).click()
+      await assertPodcastPlayerHasEpisode(
+        podcastDetailPage,
+        expectedEpisode,
+        expectedArtworkSize
+      )
+      const audioMetadata =
+        await podcastDetailPage.getPodcastPlayerAudioMetadata()
+      expect(audioMetadata).toMatchObject({
+        title: expectedEpisode.title,
+        artist: podcastTitle,
+      })
+    })
+
     test("should redirect to podcast episode detail page on click of episode title in podcast player", async ({
       podcastDetailPage,
     }) => {
