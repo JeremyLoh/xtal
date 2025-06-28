@@ -1,5 +1,5 @@
 import "./PodcastPlayer.css"
-import { lazy, memo, useCallback, useContext, useState } from "react"
+import { lazy, memo, useCallback, useContext, useMemo, useState } from "react"
 import { MdOutlineExpandLess, MdOutlineExpandMore } from "react-icons/md"
 import { Link } from "react-router"
 import dayjs from "dayjs"
@@ -9,6 +9,7 @@ import {
 } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import AudioPlayer from "../../../components/AudioPlayer/AudioPlayer.tsx"
 import Button from "../../../components/ui/button/Button.tsx"
+import useAudioMetadata from "../../../hooks/useAudioMetadata.ts"
 import usePlayHistory from "../../../hooks/podcast/usePlayHistory.ts"
 import { podcastEpisodeDetailPage } from "../../../paths.ts"
 const Pill = lazy(() => import("../../../components/Pill/Pill.tsx"))
@@ -32,6 +33,16 @@ function PodcastPlayer() {
   const episode = podcastEpisodeContext?.episode
   const lastPlayedTimestamp =
     podcastEpisodeTimestampContext?.lastPlayedTimestamp
+  const episodeAudioMetadata: MediaMetadataInit = useMemo(() => {
+    if (episode) {
+      return {
+        title: episode.title || "",
+        artist: episode.feedTitle || "",
+      }
+    }
+    return {}
+  }, [episode])
+  useAudioMetadata(episodeAudioMetadata)
 
   const handlePause = useCallback(
     async (currentTimeInSeconds: number) => {

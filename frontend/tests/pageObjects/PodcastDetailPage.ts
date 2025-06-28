@@ -207,6 +207,10 @@ class PodcastDetailPage {
     return this.podcastPlayer.getAudioPlayerSource()
   }
 
+  async getPodcastPlayerAudioMetadata() {
+    return await this.podcastPlayer.getAudioMetadata()
+  }
+
   getPodcastPlayerLink(linkName: string) {
     return this.podcastPlayer.getLink(linkName)
   }
