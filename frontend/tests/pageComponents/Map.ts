@@ -20,6 +20,10 @@ class Map {
     return this.radioCard.getPlayer()
   }
 
+  async getRadioCardAudioMetadata() {
+    return await this.radioCard.getPlayerAudioMetadata()
+  }
+
   getRadioCardTags() {
     return this.radioCard.getTags()
   }

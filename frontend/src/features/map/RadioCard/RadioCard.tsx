@@ -134,7 +134,11 @@ function RadioCard(props: RadioCardProps) {
           {error}
         </p>
       ) : (
-        <RadioPlayer source={stationAudioSource} onError={handleError} />
+        <RadioPlayer
+          stationName={station.name}
+          source={stationAudioSource}
+          onError={handleError}
+        />
       )}
     </div>
   )

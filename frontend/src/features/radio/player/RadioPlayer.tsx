@@ -1,5 +1,5 @@
 import "./RadioPlayer.css"
-import { memo, useCallback, useEffect, useRef, useState } from "react"
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import {
   MediaControlBar,
   MediaController,
@@ -12,6 +12,7 @@ import {
 } from "media-chrome/react"
 import HlsVideo from "hls-video-element/react"
 import HlsVideoElement from "hls-video-element"
+import useAudioMetadata from "../../../hooks/useAudioMetadata.ts"
 import { Station } from "../../../api/radiobrowser/types.ts"
 
 const controlBarStyle = { padding: "0 0.5rem", width: "100%" }
@@ -22,15 +23,30 @@ type RadioSource = {
 }
 
 type RadioPlayerProps = {
+  stationName: string
   source: RadioSource
   onError: () => void
   onReady?: () => void
 }
 
-function RadioPlayer({ source, onError, onReady }: RadioPlayerProps) {
+function RadioPlayer({
+  stationName,
+  source,
+  onError,
+  onReady,
+}: RadioPlayerProps) {
   const [error, setError] = useState<boolean>(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const hlsRef = useRef<HlsVideoElement | null>(null)
+  const audioMetadata: MediaMetadataInit = useMemo(() => {
+    if (stationName) {
+      return {
+        title: stationName,
+      }
+    }
+    return {}
+  }, [stationName])
+  useAudioMetadata(audioMetadata)
 
   const handleError = useCallback(() => {
     setError(source.src !== "")

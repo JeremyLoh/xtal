@@ -147,6 +147,10 @@ test.describe("random radio station", () => {
         /The media could not be loaded. Server failed or the playback format is not supported/
       )
     } else {
+      const audioMetadata = await homePage.getRadioCardPlayerAudioMetadata()
+      expect(audioMetadata).toMatchObject({
+        title: stationWithNoLocationLatLng.name,
+      })
       if (isMobile) {
         const mobilePlayButton = homePage
           .getRadioCardPlayer()
