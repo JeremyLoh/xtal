@@ -1,5 +1,5 @@
 import "./PodcastPlayer.css"
-import { lazy, memo, useCallback, useContext, useMemo, useState } from "react"
+import { memo, useCallback, useContext, useMemo, useState } from "react"
 import { MdOutlineExpandLess, MdOutlineExpandMore } from "react-icons/md"
 import { Link } from "react-router"
 import dayjs from "dayjs"
@@ -9,12 +9,10 @@ import {
 } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import AudioPlayer from "../../../components/AudioPlayer/AudioPlayer.tsx"
 import Button from "../../../components/ui/button/Button.tsx"
+import PodcastImage from "../../../components/PodcastImage/PodcastImage.tsx"
+import Pill from "../../../components/Pill/Pill.tsx"
 import usePlayHistory from "../../../hooks/podcast/usePlayHistory.ts"
 import { podcastEpisodeDetailPage } from "../../../paths.ts"
-const Pill = lazy(() => import("../../../components/Pill/Pill.tsx"))
-const PodcastImage = lazy(
-  () => import("../../../components/PodcastImage/PodcastImage.tsx")
-)
 
 function getDateFormat(unixTimestampInSeconds: number): string {
   return dayjs.unix(unixTimestampInSeconds).format("MMMM D, YYYY")
@@ -40,7 +38,7 @@ function PodcastPlayer() {
         album: "Xtal Podcasts",
       }
     }
-    return {}
+    return { title: "", artist: "", album: "" }
   }, [episode])
 
   const handlePause = useCallback(

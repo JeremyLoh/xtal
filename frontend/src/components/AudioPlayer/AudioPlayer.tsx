@@ -73,10 +73,27 @@ function AudioPlayer({
 
   const handlePlay = useCallback(() => {
     setError(false)
-    if (audioRef.current) {
-      audioRef.current.play()
+    if (!audioRef.current) {
+      return
     }
-  }, [])
+    audioRef.current
+      .play()
+      .then(() => {
+        if (
+          audioMetadata.title ||
+          audioMetadata.artist ||
+          audioMetadata.album
+        ) {
+          // write audio metadata for first play
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: audioMetadata.title ?? "",
+            artist: audioMetadata.artist ?? "",
+            album: audioMetadata.album ?? "",
+          })
+        }
+      })
+      .catch(() => {}) // ignore error from user autoplay blocked
+  }, [audioMetadata.title, audioMetadata.artist, audioMetadata.album])
 
   const handlePause = useCallback(
     (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
