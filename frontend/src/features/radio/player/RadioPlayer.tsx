@@ -46,7 +46,8 @@ function RadioPlayer({
     }
     return {}
   }, [stationName])
-  useAudioMetadata(audioMetadata)
+
+  useAudioMetadata(source.type === "hls" ? hlsRef : audioRef, audioMetadata)
 
   const handleError = useCallback(() => {
     setError(source.src !== "")

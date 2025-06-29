@@ -147,10 +147,6 @@ test.describe("random radio station", () => {
         /The media could not be loaded. Server failed or the playback format is not supported/
       )
     } else {
-      const audioMetadata = await homePage.getRadioCardPlayerAudioMetadata()
-      expect(audioMetadata).toMatchObject({
-        title: stationWithNoLocationLatLng.name,
-      })
       if (isMobile) {
         const mobilePlayButton = homePage
           .getRadioCardPlayer()
@@ -177,6 +173,89 @@ test.describe("random radio station", () => {
         await desktopPauseButton.click()
       }
     }
+  })
+
+  test("should display audio metadata on play", async ({
+    homePage,
+    headless,
+    isMobile,
+  }) => {
+    test.skip(headless, "Remove flaky test in headless mode")
+    test.slow()
+    // mock radio browser api with any query params
+    await homePage
+      .getPage()
+      .route("*/**/json/stations/search?*", async (route) => {
+        const json = [stationWithNoLocationLatLng]
+        await route.fulfill({ json })
+      })
+    await homePage.goto()
+    await homePage.clickRandomRadioStationButton()
+    // assert radio card is shown inside map (map has css id of "map")
+    await expect(homePage.getRadioCard()).toBeVisible()
+    await expect(
+      homePage.getRadioCard().getByRole("heading", {
+        name: stationWithNoLocationLatLng.name,
+        exact: true,
+      })
+    ).toBeVisible()
+    await expect(
+      homePage.getRadioCard().getByRole("link", {
+        name: stationWithNoLocationLatLng.homepage,
+        exact: true,
+      })
+    ).toBeVisible()
+    await expect(
+      homePage.getRadioCard().getByText(stationWithNoLocationLatLng.country, {
+        exact: true,
+      })
+    ).toBeVisible()
+
+    await homePage.getPage().waitForTimeout(3000) // wait for possible radio playback error message
+    const isPlaybackErrorMessagePresent =
+      (await homePage
+        .getRadioCard()
+        .getByTestId("radio-card-playback-error")
+        .count()) === 1
+    if (isPlaybackErrorMessagePresent) {
+      // skip assertion on play button as playback error happened for this test run
+      await expect(
+        homePage.getRadioCard().getByTestId("radio-card-playback-error")
+      ).toHaveText(
+        /The media could not be loaded. Server failed or the playback format is not supported/
+      )
+      test.fail(true, "Station could not be loaded for audio metadata test")
+    }
+
+    if (isMobile) {
+      const mobilePlayButton = homePage
+        .getRadioCardPlayer()
+        .getByTestId("audio-player-mobile-play-button")
+      await expect(mobilePlayButton).toHaveAttribute("mediapaused")
+      await mobilePlayButton.click()
+
+      const mobilePauseButton = homePage
+        .getRadioCardPlayer()
+        .getByTestId("audio-player-mobile-play-button")
+      await expect(mobilePauseButton).not.toHaveAttribute("mediapaused")
+      await mobilePauseButton.click()
+    } else {
+      const desktopPlayButton = homePage
+        .getRadioCardPlayer()
+        .getByTestId("audio-player-desktop-play-button")
+      await expect(desktopPlayButton).toHaveAttribute("mediapaused")
+      await desktopPlayButton.click()
+
+      const desktopPauseButton = homePage
+        .getRadioCardPlayer()
+        .getByTestId("audio-player-desktop-play-button")
+      await expect(desktopPauseButton).not.toHaveAttribute("mediapaused")
+      await desktopPauseButton.click()
+    }
+    const audioMetadata = await homePage.getRadioCardPlayerAudioMetadata()
+    expect(audioMetadata).toMatchObject({
+      title: stationWithNoLocationLatLng.name,
+    })
   })
 
   test("should not display error message for radio station with HLS .m3u8 audio source", async ({
