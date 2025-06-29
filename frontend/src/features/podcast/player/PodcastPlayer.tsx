@@ -37,6 +37,7 @@ function PodcastPlayer() {
       return {
         title: episode.title || "",
         artist: episode.feedTitle || "",
+        album: "Xtal Podcasts",
       }
     }
     return {}

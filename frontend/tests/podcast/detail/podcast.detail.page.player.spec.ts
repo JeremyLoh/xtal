@@ -348,6 +348,7 @@ test.describe("Podcast detail page for individual podcast", () => {
       expect(audioMetadata).toMatchObject({
         title: expectedEpisode.title,
         artist: podcastTitle,
+        album: "Xtal Podcasts",
       })
     })
 
