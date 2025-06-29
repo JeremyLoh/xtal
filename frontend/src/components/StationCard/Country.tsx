@@ -6,7 +6,7 @@ const Country = function StationCardCountry() {
   return (
     station.country && (
       <p className="station-card-country">
-        <FaMapMarkerAlt size={15} />
+        <FaMapMarkerAlt size={16} />
         {station.country}
       </p>
     )
