@@ -40,7 +40,7 @@ function PodcastPlayer() {
         album: "Xtal Podcasts",
       }
     }
-    return {}
+    return { title: "", artist: "", album: "" }
   }, [episode])
 
   const handlePause = useCallback(

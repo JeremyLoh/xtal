@@ -46,7 +46,7 @@ function RadioPlayer({
         album: "Live Radio Stream",
       }
     }
-    return {}
+    return { title: "", artist: "", album: "" }
   }, [stationName])
 
   useAudioMetadata(source.type === "hls" ? hlsRef : audioRef, audioMetadata)
