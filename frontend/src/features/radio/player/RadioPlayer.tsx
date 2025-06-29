@@ -42,6 +42,8 @@ function RadioPlayer({
     if (stationName) {
       return {
         title: stationName,
+        artist: "Xtal Radio",
+        album: "Live Radio Stream",
       }
     }
     return {}

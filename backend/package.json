@@ -22,7 +22,7 @@
   "description": "Backend for xtal application",
   "dependencies": {
     "@2toad/profanity": "3.1.1",
-    "@supabase/supabase-js": "2.50.0",
+    "@supabase/supabase-js": "2.50.2",
     "compression": "1.8.0",
     "cors": "2.8.5",
     "cron": "4.3.1",
@@ -31,7 +31,7 @@
     "dotenv": "16.5.0",
     "entities": "6.0.1",
     "express": "5.1.0",
-    "express-rate-limit": "7.5.0",
+    "express-rate-limit": "7.5.1",
     "express-validator": "7.2.1",
     "free-email-domains": "1.2.20",
     "jsdom": "^26.1.0",
@@ -40,7 +40,7 @@
     "nanoid": "5.1.5",
     "pino": "9.7.0",
     "sharp": "0.34.2",
-    "supertokens-node": "22.1.0"
+    "supertokens-node": "22.1.1"
   },
   "devDependencies": {
     "@types/compression": "1.8.1",
