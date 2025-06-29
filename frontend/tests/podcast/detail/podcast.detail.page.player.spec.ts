@@ -301,7 +301,7 @@ test.describe("Podcast detail page for individual podcast", () => {
       )
     })
 
-    test("should set audio MediaSession metadata for currently playing media info", async ({
+    test("should set audio MediaSession metadata for currently playing media info when podcast is playing", async ({
       podcastDetailPage,
     }) => {
       test.slow()
@@ -334,6 +334,15 @@ test.describe("Podcast detail page for individual podcast", () => {
         expectedEpisode,
         expectedArtworkSize
       )
+
+      await podcastDetailPage.getPage().waitForFunction(() => {
+        // wait for metadata to populate on podcast play
+        const mediaSession = navigator.mediaSession
+        if (!mediaSession || !mediaSession.metadata) {
+          return undefined
+        }
+        return mediaSession.metadata
+      })
       const audioMetadata =
         await podcastDetailPage.getPodcastPlayerAudioMetadata()
       expect(audioMetadata).toMatchObject({

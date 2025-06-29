@@ -9,7 +9,6 @@ import {
 } from "../../../context/PodcastEpisodeProvider/PodcastEpisodeProvider.tsx"
 import AudioPlayer from "../../../components/AudioPlayer/AudioPlayer.tsx"
 import Button from "../../../components/ui/button/Button.tsx"
-import useAudioMetadata from "../../../hooks/useAudioMetadata.ts"
 import usePlayHistory from "../../../hooks/podcast/usePlayHistory.ts"
 import { podcastEpisodeDetailPage } from "../../../paths.ts"
 const Pill = lazy(() => import("../../../components/Pill/Pill.tsx"))
@@ -42,7 +41,6 @@ function PodcastPlayer() {
     }
     return {}
   }, [episode])
-  useAudioMetadata(episodeAudioMetadata)
 
   const handlePause = useCallback(
     async (currentTimeInSeconds: number) => {
@@ -75,6 +73,7 @@ function PodcastPlayer() {
         onPause={handlePause}
         onEnded={handleEnded}
         playFromTimestamp={lastPlayedTimestamp || 0}
+        audioMetadata={episodeAudioMetadata}
       >
         {episode && (
           <div className="podcast-play-episode-container">

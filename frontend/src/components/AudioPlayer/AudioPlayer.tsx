@@ -21,10 +21,12 @@ import {
   MediaTimeRange,
   MediaVolumeRange,
 } from "media-chrome/react"
+import useAudioMetadata from "../../hooks/useAudioMetadata"
 
 type AudioPlayerProps = PropsWithChildren & {
   source: string
   playFromTimestamp: number
+  audioMetadata: MediaMetadataInit
   onPause: (currentTimeInSeconds: number) => void
   onEnded: (currentTimeInSeconds: number) => void
 }
@@ -32,6 +34,7 @@ type AudioPlayerProps = PropsWithChildren & {
 function AudioPlayer({
   source,
   playFromTimestamp,
+  audioMetadata,
   onPause,
   onEnded,
   children,
@@ -39,6 +42,7 @@ function AudioPlayer({
   const [error, setError] = useState<boolean>(false)
   const [disabled, setDisabled] = useState<boolean>(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  useAudioMetadata(audioRef, audioMetadata)
 
   useEffect(() => {
     // Prevent stream from being loaded when player is closed - https://github.com/muxinc/media-elements/discussions/82
