@@ -21,7 +21,7 @@ function useAudioMetadata(
       handlePlay() // apply immediately only if the element is already playing
     }
     // reapply on every play / playing
-    media.addEventListener("play", handlePlay, { once: true })
+    media.addEventListener("play", handlePlay)
     media.addEventListener("playing", handlePlay)
 
     return () => {

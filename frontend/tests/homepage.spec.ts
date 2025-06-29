@@ -255,6 +255,8 @@ test.describe("random radio station", () => {
     const audioMetadata = await homePage.getRadioCardPlayerAudioMetadata()
     expect(audioMetadata).toMatchObject({
       title: stationWithNoLocationLatLng.name,
+      artist: "Xtal Radio",
+      album: "Live Radio Stream",
     })
   })
 
