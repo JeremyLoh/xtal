@@ -1,7 +1,23 @@
+media-controller {
+  width: 100%;
+  --media-font-family: monospace, Inter, system-ui, Helvetica, sans-serif;
+  --media-font-size: 1rem;
+  --media-control-padding: 0.3rem; /* prevent control icons from being small due to padding */
+  --media-tooltip-padding: 0.5rem;
+  --media-tooltip-z-index: 2;
+  --media-control-height: 2rem;
+  --media-button-icon-width: 2rem;
+  --media-button-icon-height: 2rem;
+}
+
 .radio-player-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+}
+
+.audio-player {
   width: 100%;
 }
 
@@ -18,6 +34,11 @@
   }
   .desktop {
     display: none !important;
+  }
+  media-controller {
+    --media-control-height: 1.5rem;
+    --media-button-icon-width: 1.5rem;
+    --media-button-icon-height: 1.5rem;
   }
 }
 
