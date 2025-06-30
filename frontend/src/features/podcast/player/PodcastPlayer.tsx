@@ -13,6 +13,7 @@ import PodcastImage from "../../../components/PodcastImage/PodcastImage.tsx"
 import Pill from "../../../components/Pill/Pill.tsx"
 import usePlayHistory from "../../../hooks/podcast/usePlayHistory.ts"
 import { podcastEpisodeDetailPage } from "../../../paths.ts"
+import { getArtworkMediaMetadata } from "../../../api/image/image.ts"
 
 function getDateFormat(unixTimestampInSeconds: number): string {
   return dayjs.unix(unixTimestampInSeconds).format("MMMM D, YYYY")
@@ -36,6 +37,7 @@ function PodcastPlayer() {
         title: episode.title || "",
         artist: episode.feedTitle || "",
         album: "Xtal Podcasts",
+        artwork: getArtworkMediaMetadata(episode.image),
       }
     }
     return { title: "", artist: "", album: "" }

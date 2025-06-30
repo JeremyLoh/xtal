@@ -349,6 +349,7 @@ test.describe("Podcast detail page for individual podcast", () => {
         title: expectedEpisode.title,
         artist: podcastTitle,
         album: "Xtal Podcasts",
+        // artwork is not tested currently, will be removed for artwork with non https urls
       })
     })
 

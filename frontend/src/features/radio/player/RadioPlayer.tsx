@@ -14,6 +14,7 @@ import HlsVideo from "hls-video-element/react"
 import HlsVideoElement from "hls-video-element"
 import useAudioMetadata from "../../../hooks/useAudioMetadata.ts"
 import { Station } from "../../../api/radiobrowser/types.ts"
+import { getArtworkMediaMetadata } from "../../../api/image/image.ts"
 
 const controlBarStyle = { padding: "0 0.5rem", width: "100%" }
 
@@ -24,6 +25,7 @@ type RadioSource = {
 
 type RadioPlayerProps = {
   stationName: string
+  stationImageUrl: string
   source: RadioSource
   onError: () => void
   onReady?: () => void
@@ -31,6 +33,7 @@ type RadioPlayerProps = {
 
 function RadioPlayer({
   stationName,
+  stationImageUrl,
   source,
   onError,
   onReady,
@@ -44,10 +47,11 @@ function RadioPlayer({
         title: stationName,
         artist: "Xtal Radio",
         album: "Live Radio Stream",
+        artwork: getArtworkMediaMetadata(stationImageUrl),
       }
     }
     return { title: "", artist: "", album: "" }
-  }, [stationName])
+  }, [stationName, stationImageUrl])
 
   useAudioMetadata(source.type === "hls" ? hlsRef : audioRef, audioMetadata)
 

@@ -128,6 +128,7 @@ function RadioCard(props: RadioCardProps) {
       ) : (
         <RadioPlayer
           stationName={station.name}
+          stationImageUrl={station.favicon}
           source={stationAudioSource}
           onError={handleError}
         />
