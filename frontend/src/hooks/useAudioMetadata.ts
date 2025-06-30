@@ -21,6 +21,7 @@ function useAudioMetadata(
         title: init.title ?? "",
         artist: init.artist ?? "",
         album: init.album ?? "",
+        artwork: init.artwork || [],
       })
     }
 
@@ -35,7 +36,7 @@ function useAudioMetadata(
       media.removeEventListener("play", handlePlay)
       media.removeEventListener("playing", handlePlay)
     }
-  }, [mediaRef, init.title, init.artist, init.album])
+  }, [mediaRef, init])
 }
 
 export default useAudioMetadata

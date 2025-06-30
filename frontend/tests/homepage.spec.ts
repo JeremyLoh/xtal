@@ -257,6 +257,7 @@ test.describe("random radio station", () => {
       title: stationWithNoLocationLatLng.name,
       artist: "Xtal Radio",
       album: "Live Radio Stream",
+      // artwork is not tested currently, will be removed for artwork with non https urls
     })
   })
 
