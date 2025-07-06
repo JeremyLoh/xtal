@@ -183,7 +183,7 @@ class PodcastDetailPage {
     return this.page.getByTestId("podcast-episode-copy-link-button")
   }
 
-  getPodcastEpisodeDialogTimestampInput() {
+  getPodcastEpisodeDialogTimestampRangeInput() {
     return this.page
       .getByTestId("podcast-episode-share-dialog-content")
       .locator(".podcast-episode-start-playback-time")

@@ -135,10 +135,10 @@ test.describe("Share Feature of Podcast Detail Page for individual podcast /podc
       ).toBeVisible()
       await podcastDetailPage.getPodcastEpisodeShareButton(0).click()
 
-      const dialogTimestampInput =
-        podcastDetailPage.getPodcastEpisodeDialogTimestampInput()
-      await expect(dialogTimestampInput).toBeVisible()
-      await dialogTimestampInput.fill(expectedStartDurationInSeconds)
+      const dialogTimestampRangeInput =
+        podcastDetailPage.getPodcastEpisodeDialogTimestampRangeInput()
+      await expect(dialogTimestampRangeInput).toBeVisible()
+      await dialogTimestampRangeInput.fill(expectedStartDurationInSeconds)
 
       const dialogCopyLinkButton =
         podcastDetailPage.getPodcastEpisodeDialogCopyLinkButton()

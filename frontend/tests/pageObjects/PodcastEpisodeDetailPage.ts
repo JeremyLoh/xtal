@@ -16,7 +16,7 @@ class PodcastEpisodeDetailPage {
   readonly podcastEpisodeShareDialog: Locator
   readonly podcastEpisodeCloseDialogButton: Locator
   readonly podcastEpisodeCopyLinkButton: Locator
-  readonly podcastEpisodeDialogTimestampInput: Locator
+  readonly podcastEpisodeDialogTimestampRangeInput: Locator
 
   constructor(page: Page) {
     this.page = page
@@ -45,7 +45,7 @@ class PodcastEpisodeDetailPage {
     this.podcastEpisodeCopyLinkButton = this.page.getByTestId(
       "podcast-episode-copy-link-button"
     )
-    this.podcastEpisodeDialogTimestampInput = this.page
+    this.podcastEpisodeDialogTimestampRangeInput = this.page
       .getByTestId("podcast-episode-share-dialog-content")
       .locator(".podcast-episode-start-playback-time")
   }
@@ -141,8 +141,8 @@ class PodcastEpisodeDetailPage {
     return this.podcastEpisodeCopyLinkButton
   }
 
-  getEpisodeDialogTimestampInput() {
-    return this.podcastEpisodeDialogTimestampInput
+  getEpisodeDialogTimestampRangeInput() {
+    return this.podcastEpisodeDialogTimestampRangeInput
   }
 }
 
