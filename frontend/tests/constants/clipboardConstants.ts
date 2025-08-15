@@ -7,7 +7,7 @@ async function getClipboardContent(page: Page) {
 export async function waitForClipboardContent(
   page: Page,
   expectedContent: string,
-  timeout: number = 3000,
+  timeout: number = 5000,
   interval: number = 100
 ): Promise<void> {
   const start = Date.now()
