@@ -62,7 +62,7 @@ async function downloadImageFromUrl(url: string): Promise<Buffer> {
 }
 
 async function resizeAndCompressImage(
-  buffer: ArrayBuffer,
+  buffer: Buffer,
   width: number,
   height: number
 ) {
