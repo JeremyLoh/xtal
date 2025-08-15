@@ -198,11 +198,11 @@ test.describe("Share Feature of Podcast Episode Detail Page for viewing single p
     await shareButton.click()
     await expect(shareDialog).toBeVisible()
 
-    const dialogTimestampInput =
-      podcastEpisodeDetailPage.getEpisodeDialogTimestampInput()
+    const dialogTimestampRangeInput =
+      podcastEpisodeDetailPage.getEpisodeDialogTimestampRangeInput()
     const copyLinkButton = podcastEpisodeDetailPage.getEpisodeCopyLinkButton()
-    await expect(dialogTimestampInput).toBeVisible()
-    await dialogTimestampInput.fill(expectedStartDurationInSeconds)
+    await expect(dialogTimestampRangeInput).toBeVisible()
+    await dialogTimestampRangeInput.fill(expectedStartDurationInSeconds)
     await copyLinkButton.click()
     await assertToastMessage(podcastEpisodeDetailPage.getPage(), "Link Copied")
     await waitForClipboardContent(

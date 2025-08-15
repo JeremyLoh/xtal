@@ -69,3 +69,18 @@
 .podcast-episode-card-share-button-container {
   margin: 0.5rem 0;
 }
+
+.podcast-episode-start-duration-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+.podcast-episode-time-input {
+  width: 50%;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  color: var(--text-color);
+  background-color: transparent;
+  border-radius: 8px;
+}

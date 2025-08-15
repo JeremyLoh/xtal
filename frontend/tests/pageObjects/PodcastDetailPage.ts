@@ -186,6 +186,12 @@ class PodcastDetailPage {
   getPodcastEpisodeDialogTimestampInput() {
     return this.page
       .getByTestId("podcast-episode-share-dialog-content")
+      .getByTestId("podcast-episode-start-playback-edit-input")
+  }
+
+  getPodcastEpisodeDialogTimestampRangeInput() {
+    return this.page
+      .getByTestId("podcast-episode-share-dialog-content")
       .locator(".podcast-episode-start-playback-time")
   }
 
