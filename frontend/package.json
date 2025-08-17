@@ -54,6 +54,6 @@
     "typescript-eslint": "8.39.1",
     "vite": "6.3.5",
     "vite-plugin-compression2": "2.2.0",
-    "vite-plugin-node-csp": "0.1.3"
+    "vite-plugin-node-csp": "1.0.0"
   }
 }
