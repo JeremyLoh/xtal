@@ -25,10 +25,11 @@ type TrendingPodcast = {
 }
 
 type TrendingPodcastFiltersType = {
+  limit: number
   since: number
   offset?: number
   category?: string
-} | null
+}
 
 type Transcript = {
   url: string

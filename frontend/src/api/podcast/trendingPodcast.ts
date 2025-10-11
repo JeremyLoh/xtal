@@ -15,10 +15,7 @@ type TrendingPodcastResponse = {
   data: TrendingPodcast[]
 }
 
-async function getTrendingPodcasts(
-  abortController: AbortController,
-  params: TrendingPodcastSearchParams
-) {
+async function getTrendingPodcasts(params: TrendingPodcastSearchParams) {
   const { BACKEND_ORIGIN } = getEnv()
   const url = BACKEND_ORIGIN + "/api/podcast/trending"
   const searchParams = getTrendingSearchParams(params)
@@ -26,7 +23,6 @@ async function getTrendingPodcasts(
     const json: TrendingPodcastResponse = await ky
       .get(url, {
         retry: 0,
-        signal: abortController.signal,
         searchParams,
       })
       .json()

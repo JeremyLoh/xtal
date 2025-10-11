@@ -22,7 +22,7 @@ type TrendingPodcastSectionProps = {
   loading: boolean
   trendingPodcasts: TrendingPodcast[] | null
   filters: TrendingPodcastFiltersType
-  onRefresh: (filters: TrendingPodcastFiltersType) => Promise<void>
+  onRefresh: (filters?: TrendingPodcastFiltersType) => Promise<void>
 }
 
 function TrendingPodcastSection({
@@ -33,78 +33,70 @@ function TrendingPodcastSection({
 }: TrendingPodcastSectionProps) {
   const { isMobile } = useScreenDimensions()
   const [page, setPage] = useState<number>(1)
-  const [podcastFilters, setPodcastFilters] =
-    useState<TrendingPodcastFiltersType>(filters)
 
   const handleRefreshTrendingPodcasts = useCallback(async () => {
-    await onRefresh(null)
+    await onRefresh()
   }, [onRefresh])
 
   const handleFilterChange = useCallback(
-    async (filters: { since: number }) => {
-      const { since } = filters
-      setPodcastFilters({ ...podcastFilters, ...filters, offset: undefined })
+    async (updateFilters: { since: number }) => {
+      const { since } = updateFilters
       setPage(1)
-      await onRefresh({ since })
+      await onRefresh({ ...filters, since, offset: 0 })
     },
-    [onRefresh, podcastFilters]
+    [onRefresh, filters]
   )
 
   const handlePreviousPageClick = useCallback(
     async (currentPage: number) => {
-      if (podcastFilters == null || currentPage === 1) {
+      if (filters == null || currentPage === 1) {
         return
       }
       const previousOffset =
-        podcastFilters.offset != null
-          ? podcastFilters.offset - LIMIT_PER_PAGE
-          : 0
+        filters.offset != null ? filters.offset - LIMIT_PER_PAGE : 0
       const nextFilter = {
-        ...podcastFilters,
+        ...filters,
         offset: previousOffset,
       }
-      setPodcastFilters(nextFilter)
       setPage(currentPage - 1)
       await onRefresh(nextFilter)
     },
-    [onRefresh, podcastFilters]
+    [onRefresh, filters]
   )
 
   const handleNextPageClick = useCallback(
     async (currentPage: number) => {
-      if (podcastFilters == null) {
+      if (filters == null) {
         return
       }
       const nextOffset =
-        podcastFilters.offset != null
-          ? podcastFilters.offset + LIMIT_PER_PAGE
+        filters.offset != null
+          ? filters.offset + LIMIT_PER_PAGE
           : 0 + LIMIT_PER_PAGE
       const nextFilter = {
-        ...podcastFilters,
+        ...filters,
         offset: nextOffset,
       }
-      setPodcastFilters(nextFilter)
       setPage(currentPage + 1)
       await onRefresh(nextFilter)
     },
-    [onRefresh, podcastFilters]
+    [onRefresh, filters]
   )
 
   const handlePageClick = useCallback(
     async (pageNumber: number) => {
-      if (pageNumber === page || podcastFilters == null) {
+      if (pageNumber === page || filters == null) {
         return
       }
       const nextOffset = (pageNumber - 1) * LIMIT_PER_PAGE
       const nextFilter = {
-        ...podcastFilters,
+        ...filters,
         offset: nextOffset,
       }
-      setPodcastFilters(nextFilter)
       setPage(pageNumber)
       await onRefresh(nextFilter)
     },
-    [onRefresh, podcastFilters, page]
+    [onRefresh, filters, page]
   )
 
   const renderTrendingPodcasts = useCallback(() => {
@@ -166,7 +158,7 @@ function TrendingPodcastSection({
           Trending
           <IoChevronForward size={20} />
           <TrendingPodcastFilters
-            initialSinceDays={podcastFilters?.since}
+            initialSinceDays={filters?.since}
             onChange={handleFilterChange}
           />
         </h2>
