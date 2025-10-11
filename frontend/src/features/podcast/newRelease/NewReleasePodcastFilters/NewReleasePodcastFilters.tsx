@@ -2,37 +2,31 @@ import "./NewReleasePodcastFilters.css"
 import { useCallback, useState } from "react"
 import { RECENT_PODCAST_LANGUAGES } from "../../../../api/podcast/model/podcastRecent.ts"
 
-const DEFAULT_SELECTED_LANGUAGE = "all"
+const ALL_LANGUAGES = "all"
 const DISABLED_DURATION_IN_MS = 600 // rate limit user calls to change filter
 
 type NewReleasePodcastFilterProps = {
   availableLanguages: [string, RECENT_PODCAST_LANGUAGES][]
   onFilterChange: (filters?: { language: string }) => Promise<void>
+  selectedLanguage: string
 }
 
 function NewReleasePodcastFilters({
   availableLanguages,
   onFilterChange,
+  selectedLanguage = ALL_LANGUAGES,
 }: NewReleasePodcastFilterProps) {
-  const [selectedLanguage, setSelectedLanguage] = useState<string>(
-    DEFAULT_SELECTED_LANGUAGE
-  )
   const [disabled, setDisabled] = useState<boolean>(false)
 
   const handleLanguageChange = useCallback(
     async (event: React.ChangeEvent<HTMLSelectElement>) => {
       const language = event.target.value
-      setSelectedLanguage(language)
       setDisabled(true)
       setTimeout(() => {
         setDisabled(false)
       }, DISABLED_DURATION_IN_MS)
 
-      if (language === DEFAULT_SELECTED_LANGUAGE) {
-        await onFilterChange()
-      } else {
-        await onFilterChange({ language })
-      }
+      await onFilterChange({ language })
     },
     [onFilterChange]
   )
@@ -46,7 +40,7 @@ function NewReleasePodcastFilters({
       aria-label="Filter New Releases by language"
       data-testid="new-release-podcast-language-filter"
     >
-      <option value={DEFAULT_SELECTED_LANGUAGE}>All Languages</option>
+      <option value={ALL_LANGUAGES}>All Languages</option>
       {availableLanguages.map(([languageCodeIso639, languageFullName]) => {
         return (
           <option
@@ -61,4 +55,5 @@ function NewReleasePodcastFilters({
   )
 }
 
+export { ALL_LANGUAGES }
 export default NewReleasePodcastFilters

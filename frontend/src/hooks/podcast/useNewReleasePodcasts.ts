@@ -1,48 +1,49 @@
-import { useCallback, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
+import { useQuery } from "@tanstack/react-query"
 import { getNewReleasePodcasts } from "../../api/podcast/podcastNewRelease.ts"
-import { Podcast } from "../../api/podcast/model/podcast.ts"
 import { RECENT_PODCAST_LANGUAGES } from "../../api/podcast/model/podcastRecent.ts"
+import { ALL_LANGUAGES } from "../../features/podcast/newRelease/NewReleasePodcastFilters/NewReleasePodcastFilters.tsx"
 
 const AVAILABLE_LANGUAGES = Object.entries(RECENT_PODCAST_LANGUAGES)
 
-function useNewReleasePodcasts() {
-  const abortController = useRef<AbortController | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
-  const [newReleasePodcasts, setNewReleasePodcasts] = useState<
-    Podcast[] | null
-  >(null)
+function useNewReleasePodcasts({
+  limit,
+  language,
+}: {
+  limit: number
+  language?: string
+}) {
+  const getNewReleases = async ({
+    limit,
+    language,
+  }: {
+    limit: number
+    language?: string
+  }) => {
+    const params = {
+      limit,
+      ...(language && language !== ALL_LANGUAGES && { lang: language }),
+    }
+    try {
+      return await getNewReleasePodcasts(params)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.message)
+      throw error
+    }
+  }
 
-  const getNewReleases = useCallback(
-    async ({ limit, language }: { limit: number; language?: string }) => {
-      setLoading(true)
-      abortController.current?.abort()
-      abortController.current = new AbortController()
-      const params = { limit, ...(language && { lang: language }) }
-      try {
-        const newReleasePodcasts = await getNewReleasePodcasts(
-          abortController.current,
-          params
-        )
-        if (newReleasePodcasts) {
-          setNewReleasePodcasts(newReleasePodcasts)
-        }
-        return newReleasePodcasts
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        toast.error(error.message)
-      } finally {
-        setLoading(false)
-      }
-    },
-    []
-  )
+  const query = useQuery({
+    queryKey: ["newReleasePodcasts", { limit, language }],
+    queryFn: () => getNewReleases({ limit, language }),
+  })
 
-  const output = useMemo(() => {
-    return { loading, AVAILABLE_LANGUAGES, newReleasePodcasts, getNewReleases }
-  }, [loading, newReleasePodcasts, getNewReleases])
-
-  return output
+  return {
+    loading: query.isLoading,
+    AVAILABLE_LANGUAGES,
+    newReleasePodcasts: query.isError ? null : query.data ?? null,
+    refetch: () => query.refetch(),
+  }
 }
 
 export default useNewReleasePodcasts

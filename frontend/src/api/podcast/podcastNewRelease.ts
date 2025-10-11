@@ -12,7 +12,6 @@ type PodcastNewReleaseResponse = {
 }
 
 async function getNewReleasePodcasts(
-  abortController: AbortController,
   params: PodcastNewReleaseSearchParams
 ): Promise<Podcast[] | null> {
   const { BACKEND_ORIGIN } = getEnv()
@@ -26,7 +25,7 @@ async function getNewReleasePodcasts(
   }
   try {
     const json: PodcastNewReleaseResponse = await ky
-      .get(url, { retry: 0, signal: abortController.signal, searchParams })
+      .get(url, { retry: 0, searchParams })
       .json()
     return convertNewReleasePartialFieldsToEmptyString(json.data, exclude)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
