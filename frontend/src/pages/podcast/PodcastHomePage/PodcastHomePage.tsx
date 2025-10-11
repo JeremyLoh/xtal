@@ -16,12 +16,19 @@ const TRENDING_PODCAST_OPTIONS = {
 }
 
 export default function PodcastHomePage() {
+  const [newReleaseLanguage, setNewReleaseLanguage] = useState<
+    string | undefined
+  >(undefined)
+
   const {
     loading: loadingNewReleasePodcasts,
     AVAILABLE_LANGUAGES,
     newReleasePodcasts,
-    getNewReleases,
-  } = useNewReleasePodcasts()
+    refetch,
+  } = useNewReleasePodcasts({
+    limit: NEW_RELEASE_PODCAST_LIMIT,
+    language: newReleaseLanguage,
+  })
   const {
     loading: loadingCategories,
     categories,
@@ -52,22 +59,18 @@ export default function PodcastHomePage() {
     [handleTrendingPodcastRefresh]
   )
 
-  const handleNewReleasePodcastsRefresh = useCallback(
-    async (filters?: { language: string }) => {
-      await getNewReleases({
-        limit: NEW_RELEASE_PODCAST_LIMIT,
-        ...(filters && filters.language && { language: filters.language }),
-      })
-    },
-    [getNewReleases]
-  )
+  const handleNewReleasePodcastsRefresh = async (filters?: {
+    language: string
+  }) => {
+    setNewReleaseLanguage(filters?.language)
+    refetch()
+  }
 
   useEffect(() => {
     document.title = "xtal - podcasts"
     Promise.allSettled([
       handlePodcastCategoryRefresh(),
       handlePodcastRefresh({ since: sinceDaysBefore }),
-      getNewReleases({ limit: NEW_RELEASE_PODCAST_LIMIT }),
     ])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

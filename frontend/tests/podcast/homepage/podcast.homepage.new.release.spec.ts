@@ -9,6 +9,7 @@ import {
   clickFirstNewReleasePodcastTitleLink,
 } from "../../constants/podcast/newRelease/podcastNewReleaseConstants"
 import { podcastDetailPageUrl } from "../../constants/paths"
+import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
 
 test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () => {
   test("should display five new release podcasts section", async ({
@@ -73,8 +74,7 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
       .route(
         `*/**/api/podcast/recent?limit=${limit}&exclude=${exclude}`,
         async (route) => {
-          const json = []
-          await route.fulfill({ json })
+          await route.fulfill({ json: [] })
         }
       )
     await podcastHomePage.goto()
@@ -91,8 +91,8 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
     podcastHomePage,
   }) => {
     test.slow()
-    let shouldFetchData = false
-    let routeCalled = false
+    let routeCallCount = 0
+
     const exclude = "description"
     const limit = "5"
     await podcastHomePage
@@ -100,12 +100,14 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
       .route(
         `*/**/api/podcast/recent?limit=${limit}&exclude=${exclude}`,
         async (route) => {
-          routeCalled = true
-          const json = shouldFetchData ? fiveNewReleasePodcasts : []
+          routeCallCount++
+          const json = routeCallCount === 1 ? [] : fiveNewReleasePodcasts
+          // const json = shouldFetchData ? fiveNewReleasePodcasts : []
           await route.fulfill({ json })
         }
       )
     await podcastHomePage.goto()
+    await assertLoadingSpinnerIsMissing(podcastHomePage.getPage())
     await expect(podcastHomePage.getNewReleaseHeader()).toBeVisible()
     await expect(
       podcastHomePage.getErrorMessage(
@@ -115,10 +117,9 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
     await expect(podcastHomePage.getNewReleaseRefreshButton()).toBeVisible()
 
     // fix flaky headless test - wait required before changing shouldFetchData variable
-    await expect.poll(() => routeCalled, { timeout: 3000 }).toBe(true)
     await podcastHomePage.getPage().waitForLoadState("networkidle")
-    shouldFetchData = true
     await podcastHomePage.getNewReleaseRefreshButton().click()
+
     await expect(podcastHomePage.getNewReleaseHeader()).toBeVisible()
     await assertNewReleasePodcasts(podcastHomePage, fiveNewReleasePodcasts.data)
   })
@@ -189,8 +190,7 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
         .route(
           `*/**/api/podcast/recent?limit=${limit}&exclude=${exclude}`,
           async (route) => {
-            const json = []
-            await route.fulfill({ json })
+            await route.fulfill({ json: [] })
           }
         )
       await podcastHomePage
@@ -198,8 +198,7 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
         .route(
           `*/**/api/podcast/recent?limit=${limit}&exclude=${exclude}&lang=*`,
           async (route) => {
-            const json = []
-            await route.fulfill({ json })
+            await route.fulfill({ json: [] })
           }
         )
       await podcastHomePage.goto()

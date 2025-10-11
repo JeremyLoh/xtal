@@ -1,12 +1,14 @@
 import "./NewReleasePodcastSection.css"
-import { memo, useCallback, useMemo } from "react"
+import { memo, useCallback, useMemo, useState } from "react"
 import { Components, ItemContent, Virtuoso } from "react-virtuoso"
 import { Link } from "react-router"
 import { IoReload } from "react-icons/io5"
 import { Podcast } from "../../../../api/podcast/model/podcast.ts"
 import { RECENT_PODCAST_LANGUAGES } from "../../../../api/podcast/model/podcastRecent.ts"
 import LoadingDisplay from "../../../../components/LoadingDisplay/LoadingDisplay.tsx"
-import NewReleasePodcastFilters from "../NewReleasePodcastFilters/NewReleasePodcastFilters.tsx"
+import NewReleasePodcastFilters, {
+  ALL_LANGUAGES,
+} from "../NewReleasePodcastFilters/NewReleasePodcastFilters.tsx"
 import PodcastCard from "../../../../components/PodcastCard/index.tsx"
 import Button from "../../../../components/ui/button/Button.tsx"
 import useScreenDimensions from "../../../../hooks/useScreenDimensions.ts"
@@ -31,17 +33,19 @@ function NewReleasePodcastSection({
   onRefreshNewReleasePodcasts,
 }: NewReleasePodcastSectionProps) {
   const { isMobile } = useScreenDimensions()
+  const [selectedLanguage, setSelectedLanguage] =
+    useState<string>(ALL_LANGUAGES)
 
-  const handleRefreshNewReleasePodcasts = useCallback(async () => {
+  const handleRefreshNewReleasePodcasts = async () => {
     await onRefreshNewReleasePodcasts()
-  }, [onRefreshNewReleasePodcasts])
+  }
 
-  const handleFilterChange = useCallback(
-    async (filters?: { language: string }) => {
-      await onRefreshNewReleasePodcasts(filters)
-    },
-    [onRefreshNewReleasePodcasts]
-  )
+  const handleFilterChange = async (filters?: { language: string }) => {
+    if (filters?.language) {
+      setSelectedLanguage(filters.language)
+    }
+    await onRefreshNewReleasePodcasts(filters)
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const components: Components<Podcast, any> | undefined = useMemo(() => {
@@ -94,6 +98,7 @@ function NewReleasePodcastSection({
         <NewReleasePodcastFilters
           availableLanguages={availableLanguages}
           onFilterChange={handleFilterChange}
+          selectedLanguage={selectedLanguage}
         />
       </div>
     </h2>
@@ -103,32 +108,35 @@ function NewReleasePodcastSection({
     return (
       <div className="new-release-podcast-container">
         {headerComponent}
-        <div>Zero recent podcasts found. Please try again later</div>
-        <Button
-          keyProp="refresh-recent-podcast-button"
-          className="refresh-recent-podcast-button"
-          variant="primary"
-          disabled={loading}
-          onClick={handleRefreshNewReleasePodcasts}
-          aria-label="refresh new release podcasts"
-          title="refresh new release podcasts"
-        >
-          <IoReload size={20} /> Refresh
-        </Button>
+        <LoadingDisplay loading={loading}>
+          <div>Zero recent podcasts found. Please try again later</div>
+          <Button
+            keyProp="refresh-recent-podcast-button"
+            className="refresh-recent-podcast-button"
+            variant="primary"
+            disabled={loading}
+            onClick={handleRefreshNewReleasePodcasts}
+            aria-label="refresh new release podcasts"
+            title="refresh new release podcasts"
+          >
+            <IoReload size={20} /> Refresh
+          </Button>
+        </LoadingDisplay>
       </div>
     )
   }
   return (
     <div className="new-release-podcast-container">
-      <LoadingDisplay loading={loading} />
       {headerComponent}
-      <Virtuoso
-        style={virtuosoStyle}
-        horizontalDirection={!isMobile}
-        data={newReleasePodcasts}
-        components={components}
-        itemContent={itemContent}
-      />
+      <LoadingDisplay loading={loading}>
+        <Virtuoso
+          style={virtuosoStyle}
+          horizontalDirection={!isMobile}
+          data={newReleasePodcasts ?? undefined}
+          components={components}
+          itemContent={itemContent}
+        />
+      </LoadingDisplay>
     </div>
   )
 }
