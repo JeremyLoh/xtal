@@ -55,8 +55,7 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
       .route(
         `*/**/api/podcast/search?q=${query}&limit=${limit}`,
         async (route) => {
-          const json = []
-          await route.fulfill({ json })
+          await route.fulfill({ json: [] })
         }
       )
     await podcastHomePage.goto()
@@ -78,8 +77,7 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
       .route(
         `*/**/api/podcast/search?q=${query}&limit=${limit}`,
         async (route) => {
-          const json = []
-          await route.fulfill({ json })
+          await route.fulfill({ json: [] })
         }
       )
     await podcastHomePage.goto()
@@ -359,8 +357,7 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
       await podcastHomePage
         .getPage()
         .route(`*/**/api/podcast/search?**`, async (route) => {
-          const json = []
-          await route.fulfill({ json })
+          await route.fulfill({ json: [] })
         })
       await podcastHomePage.goto()
       await expect(podcastHomePage.getPodcastSearchInput()).toBeVisible()
@@ -380,8 +377,7 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
       await podcastHomePage
         .getPage()
         .route(`*/**/api/podcast/search?**`, async (route) => {
-          const json = []
-          await route.fulfill({ json })
+          await route.fulfill({ json: [] })
         })
       await podcastHomePage.goto()
       await expect(podcastHomePage.getPodcastSearchInput()).toBeVisible()
@@ -405,8 +401,7 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
       await podcastHomePage
         .getPage()
         .route(`*/**/api/podcast/search?**`, async (route) => {
-          const json = []
-          await route.fulfill({ json })
+          await route.fulfill({ json: [] })
         })
       await podcastHomePage.goto()
       await expect(podcastHomePage.getPodcastSearchInput()).toBeVisible()
@@ -431,8 +426,7 @@ test.describe("Podcast Homepage /podcasts - Podcast Search Section", () => {
       await podcastHomePage
         .getPage()
         .route(`*/**/api/podcast/search?**`, async (route) => {
-          const json = []
-          await route.fulfill({ json })
+          await route.fulfill({ json: [] })
         })
       await podcastHomePage.goto()
       await expect(podcastHomePage.getPodcastSearchInput()).toBeVisible()

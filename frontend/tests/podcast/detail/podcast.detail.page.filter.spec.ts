@@ -53,8 +53,7 @@ test.describe("Podcast Episode Filters on Podcast Detail Page for individual pod
               const json = mockDurationPodcastEpisodes
               await route.fulfill({ json })
             } else {
-              const json = []
-              await route.fulfill({ json })
+              await route.fulfill({ json: [] })
             }
           }
         )

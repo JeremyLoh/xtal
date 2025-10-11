@@ -140,8 +140,7 @@ test.describe("share radio station feature", () => {
             const json = [unitedStatesStation]
             await route.fulfill({ json })
           } else {
-            const json = []
-            await route.fulfill({ json })
+            await route.fulfill({ json: [] })
           }
         }
       )

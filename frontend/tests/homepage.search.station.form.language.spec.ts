@@ -104,8 +104,7 @@ test.describe("radio station search form language filter", () => {
         `*/**/json/stations/search?name=${name}&limit=**`,
         async (route) => {
           // force test failure for searching endpoint without language search param
-          const json = []
-          await route.fulfill({ json })
+          await route.fulfill({ json: [] })
         }
       )
     await homePage

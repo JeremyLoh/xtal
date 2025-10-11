@@ -39,8 +39,7 @@ test.describe("radio station search form sort options", () => {
         `*/**/json/stations/search?**name=${stationNameSearch}**order=**`,
         async (route) => {
           // ensure that order search param is not called
-          const json = []
-          await route.fulfill({ json })
+          await route.fulfill({ json: [] })
         }
       )
     await homePage.goto()

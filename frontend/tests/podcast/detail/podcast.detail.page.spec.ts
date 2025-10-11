@@ -180,8 +180,7 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
         .route(
           `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
           async (route) => {
-            const json = []
-            await route.fulfill({ json })
+            await route.fulfill({ json: [] })
           }
         )
       await podcastDetailPage.goto({ podcastId, podcastTitle })
@@ -220,16 +219,14 @@ test.describe("Podcast Detail Page for individual podcast /podcasts/PODCAST-TITL
               const json = defaultTenPodcastEpisodes
               await route.fulfill({ json })
             } else {
-              const json = []
-              await route.fulfill({ json })
+              await route.fulfill({ json: [] })
             }
           }
         )
       await podcastDetailPage
         .getPage()
         .route("*/**/auth/session/refresh", async (route) => {
-          const json = []
-          await route.fulfill({ json })
+          await route.fulfill({ json: [] })
         })
       await podcastDetailPage.goto({ podcastId, podcastTitle })
       await expect(podcastDetailPage.getPage()).toHaveTitle(
