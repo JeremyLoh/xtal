@@ -24,7 +24,7 @@ export default function PodcastHomePage() {
     loading: loadingNewReleasePodcasts,
     AVAILABLE_LANGUAGES,
     newReleasePodcasts,
-    refetch,
+    refetch: refetchNewReleasePodcasts,
   } = useNewReleasePodcasts({
     limit: NEW_RELEASE_PODCAST_LIMIT,
     language: newReleaseLanguage,
@@ -32,7 +32,7 @@ export default function PodcastHomePage() {
   const {
     loading: loadingCategories,
     categories,
-    onRefresh: handlePodcastCategoryRefresh,
+    refetch: handlePodcastCategoryRefresh,
   } = usePodcastCategory()
   const {
     DEFAULT_SINCE_DAYS,
@@ -63,7 +63,7 @@ export default function PodcastHomePage() {
     language: string
   }) => {
     setNewReleaseLanguage(filters?.language)
-    refetch()
+    refetchNewReleasePodcasts()
   }
 
   useEffect(() => {
