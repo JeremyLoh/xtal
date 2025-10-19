@@ -2,14 +2,11 @@ import ky from "ky"
 import { getEnv } from "../../env/environmentVariables.ts"
 import { Podcast } from "../model/podcast.ts"
 
-export async function getAccountTotalFollowedPodcasts(
-  abortController: AbortController
-) {
+export async function getAccountTotalFollowedPodcasts() {
   const { BACKEND_ORIGIN } = getEnv()
   const backendUrl = BACKEND_ORIGIN + "/api/account/podcast/following/total"
   try {
     const response = await ky.get(backendUrl, {
-      signal: abortController.signal,
       retry: 0,
     })
     const json: { total: number } = await response.json()
@@ -28,7 +25,6 @@ export async function getAccountTotalFollowedPodcasts(
 }
 
 export async function getAccountLatestFollowedPodcasts(
-  abortController: AbortController,
   limit: number,
   offset?: number
 ) {
@@ -40,7 +36,6 @@ export async function getAccountLatestFollowedPodcasts(
   }
   try {
     const response = await ky.get(backendUrl, {
-      signal: abortController.signal,
       retry: 0,
       searchParams,
     })
