@@ -272,8 +272,7 @@ test.describe("Podcast Homepage /podcasts", () => {
       await podcastHomePage
         .getPage()
         .route("*/**/api/podcast/category", async (route) => {
-          const json = []
-          await route.fulfill({ json })
+          await route.fulfill({ json: [] })
         })
       await podcastHomePage
         .getPage()
@@ -365,8 +364,7 @@ test.describe("Podcast Homepage /podcasts", () => {
         await podcastHomePage
           .getPage()
           .route("*/**/api/podcast/category", async (route) => {
-            const json = []
-            await route.fulfill({ json })
+            await route.fulfill({ json: [] })
           })
         await podcastHomePage
           .getPage()

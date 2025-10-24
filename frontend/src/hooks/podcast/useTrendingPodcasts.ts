@@ -1,94 +1,54 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 import { toast } from "sonner"
 import dayjs from "dayjs"
-import {
-  TrendingPodcast,
-  TrendingPodcastFiltersType,
-} from "../../api/podcast/model/podcast.ts"
 import { getTrendingPodcasts } from "../../api/podcast/trendingPodcast.ts"
+import { TrendingPodcastFiltersType } from "../../api/podcast/model/podcast.ts"
 
-type UseTrendingPodcastsProps = {
-  limit: number
-  category?: string
-}
+type UseTrendingPodcastsProps = TrendingPodcastFiltersType
 
-function convertToDate(daysBefore: number): Date {
+export function convertToDate(daysBefore: number): Date {
   return dayjs().startOf("day").subtract(daysBefore, "days").toDate()
 }
 
 const DEFAULT_SINCE_DAYS = 3
 
-function useTrendingPodcasts({ limit, category }: UseTrendingPodcastsProps) {
-  const abortController = useRef<AbortController | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
-  const [trendingPodcasts, setTrendingPodcasts] = useState<
-    TrendingPodcast[] | null
-  >(null)
-
-  const getPodcasts = useCallback(
-    async ({ since, offset }: { since: Date; offset: number }) => {
-      setLoading(true)
-      abortController.current?.abort()
-      abortController.current = new AbortController()
-      const params = {
-        limit: limit,
-        offset: offset,
-        since: since,
-        category: category,
-      }
-      try {
-        const podcasts = await getTrendingPodcasts(
-          abortController.current,
-          params
-        )
-        if (podcasts && podcasts.data) {
-          setTrendingPodcasts(podcasts.data)
-          setLoading(false)
-        }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        toast.error(error.message)
-        setLoading(false)
-      }
-    },
-    [category, limit]
-  )
-
-  useEffect(() => {
-    if (trendingPodcasts) {
-      // set loading to false here to prevent flash of no podcast placeholder message on initial load
-      setLoading(false)
+function useTrendingPodcasts({
+  limit = 10,
+  category,
+  since = DEFAULT_SINCE_DAYS,
+  offset = 0,
+}: UseTrendingPodcastsProps) {
+  const getPodcasts = async () => {
+    const params = {
+      limit: limit,
+      offset: offset,
+      since: convertToDate(since),
+      ...(category && { category }),
     }
-  }, [trendingPodcasts])
-
-  const handlePodcastRefresh = useCallback(
-    async (filters: TrendingPodcastFiltersType) => {
-      if (filters == null) {
-        await getPodcasts({
-          since: convertToDate(DEFAULT_SINCE_DAYS),
-          offset: 0,
-        })
-      } else {
-        const { since, offset } = filters
-        await getPodcasts({
-          since: convertToDate(since),
-          offset: offset != null ? offset : 0,
-        })
+    try {
+      const podcasts = await getTrendingPodcasts(params)
+      if (podcasts && podcasts.data) {
+        return podcasts.data
       }
-    },
-    [getPodcasts]
-  )
-
-  const output = useMemo(() => {
-    return {
-      DEFAULT_SINCE_DAYS,
-      loading,
-      trendingPodcasts,
-      onRefresh: handlePodcastRefresh,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.message)
+      throw error
     }
-  }, [loading, trendingPodcasts, handlePodcastRefresh])
+  }
 
-  return output
+  const query = useQuery({
+    queryKey: ["useTrendingPodcasts", { limit, category, since, offset }],
+    queryFn: async () => {
+      return await getPodcasts()
+    },
+  })
+
+  return {
+    loading: query.isLoading,
+    trendingPodcasts: query.data ?? null,
+    refetch: query.refetch,
+  }
 }
 
 export default useTrendingPodcasts

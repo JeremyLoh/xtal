@@ -31,8 +31,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = podcastId_259760_FirstTenEpisodes
             await route.fulfill({ json })
           } else {
-            const json = []
-            await route.fulfill({ json })
+            await route.fulfill({ json: [] })
           }
         })
       await podcastDetailPage.gotoPageNumber({
@@ -83,8 +82,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = podcastId_259760_OffsetTenEpisodes
             await route.fulfill({ json })
           } else {
-            const json = []
-            await route.fulfill({ json })
+            await route.fulfill({ json: [] })
           }
         })
       await podcastDetailPage.gotoPageNumber({
@@ -140,8 +138,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = podcastId_259760_FirstTenEpisodes
             await route.fulfill({ json })
           } else {
-            const json = []
-            await route.fulfill({ json })
+            await route.fulfill({ json: [] })
           }
         })
       await podcastDetailPage.gotoPageNumber({
@@ -206,8 +203,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = podcastId_259760_OffsetTenEpisodes
             await route.fulfill({ json })
           } else {
-            const json = []
-            await route.fulfill({ json })
+            await route.fulfill({ json: [] })
           }
         })
       await podcastDetailPage.gotoPageNumber({
@@ -259,8 +255,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = podcastId_259760_FirstTenEpisodes
             await route.fulfill({ json })
           } else {
-            const json = []
-            await route.fulfill({ json })
+            await route.fulfill({ json: [] })
           }
         })
       await podcastDetailPage.gotoPageNumber({
@@ -312,8 +307,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = podcastId_259760_FirstTenEpisodes
             await route.fulfill({ json })
           } else {
-            const json = []
-            await route.fulfill({ json })
+            await route.fulfill({ json: [] })
           }
         })
       await podcastDetailPage.gotoPageNumber({
@@ -395,8 +389,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
                 const json = podcastId_259760_FirstTenEpisodes
                 await route.fulfill({ json })
               } else {
-                const json = []
-                await route.fulfill({ json })
+                await route.fulfill({ json: [] })
               }
             }
           )
@@ -479,8 +472,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
                 const json = podcastId_259760_FirstTenEpisodes
                 await route.fulfill({ json })
               } else {
-                const json = []
-                await route.fulfill({ json })
+                await route.fulfill({ json: [] })
               }
             }
           )
@@ -559,8 +551,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
                 const json = podcastId_259760_FirstTenEpisodes
                 await route.fulfill({ json })
               } else {
-                const json = []
-                await route.fulfill({ json })
+                await route.fulfill({ json: [] })
               }
             }
           )
@@ -624,8 +615,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
                 const json = podcastId_259760_FirstTenEpisodes
                 await route.fulfill({ json })
               } else {
-                const json = []
-                await route.fulfill({ json })
+                await route.fulfill({ json: [] })
               }
             }
           )
@@ -692,8 +682,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
                 const json = podcastId_259760_FirstTenEpisodes
                 await route.fulfill({ json })
               } else {
-                const json = []
-                await route.fulfill({ json })
+                await route.fulfill({ json: [] })
               }
             }
           )
@@ -763,8 +752,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
                 const json = podcastId_259760_FirstTenEpisodes
                 await route.fulfill({ json })
               } else {
-                const json = []
-                await route.fulfill({ json })
+                await route.fulfill({ json: [] })
               }
             }
           )
@@ -840,8 +828,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
                 const json = podcastId_259760_FirstTenEpisodes
                 await route.fulfill({ json })
               } else {
-                const json = []
-                await route.fulfill({ json })
+                await route.fulfill({ json: [] })
               }
             }
           )
@@ -915,8 +902,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = podcastId_259760_FirstTenEpisodes
             await route.fulfill({ json })
           } else {
-            const json = []
-            await route.fulfill({ json })
+            await route.fulfill({ json: [] })
           }
         })
       await podcastDetailPage.gotoPageNumber({
@@ -985,8 +971,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = podcastId_259760_FirstTenEpisodes
             await route.fulfill({ json })
           } else {
-            const json = []
-            await route.fulfill({ json })
+            await route.fulfill({ json: [] })
           }
         })
       await podcastDetailPage.gotoPageNumber({
@@ -1045,8 +1030,7 @@ test.describe("Pagination of Podcast Detail Page for individual podcast /podcast
             const json = podcastId_259760_FirstTenEpisodes
             await route.fulfill({ json })
           } else {
-            const json = []
-            await route.fulfill({ json })
+            await route.fulfill({ json: [] })
           }
         })
       await podcastDetailPage.gotoPageNumber({

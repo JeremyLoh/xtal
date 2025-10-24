@@ -43,8 +43,7 @@ test.describe("Podcast Homepage /podcasts", () => {
       await podcastHomePage
         .getPage()
         .route("*/**/api/podcast/category", async (route) => {
-          const json = []
-          await route.fulfill({ json })
+          await route.fulfill({ json: [] })
         })
       await podcastHomePage.goto()
       await expect(podcastHomePage.getPage()).toHaveTitle(/xtal - podcasts/)
@@ -78,8 +77,7 @@ test.describe("Podcast Homepage /podcasts", () => {
         .getPage()
         .route("*/**/api/podcast/trending?limit=*", async (route) => {
           // mock trending podcast section data
-          const json = []
-          await route.fulfill({ json })
+          await route.fulfill({ json: [] })
         })
       await podcastHomePage.goto()
       await expect(podcastHomePage.getPage()).toHaveTitle(/xtal - podcasts/)

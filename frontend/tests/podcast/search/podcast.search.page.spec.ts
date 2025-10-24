@@ -143,8 +143,7 @@ test.describe("Podcast Search Page /podcasts/search", () => {
           query
         )}&limit=${limit}`,
         async (route) => {
-          const json = []
-          await route.fulfill({ json })
+          await route.fulfill({ json: [] })
         }
       )
     await podcastSearchPage.goto(query)

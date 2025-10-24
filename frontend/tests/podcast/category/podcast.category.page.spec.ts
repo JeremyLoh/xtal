@@ -117,8 +117,7 @@ test.describe("Podcast Category Page /podcasts/<category_name>", () => {
             const json = podcastId_259760_OffsetTenEpisodes
             await route.fulfill({ json })
           } else {
-            const json = []
-            await route.fulfill({ json })
+            await route.fulfill({ json: [] })
           }
         }
       )

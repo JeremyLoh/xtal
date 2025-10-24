@@ -1,5 +1,5 @@
 import "./PodcastHomePage.css"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import LoadingDisplay from "../../../components/LoadingDisplay/LoadingDisplay.tsx"
 import PodcastSearchSection from "../../../features/podcast/search/PodcastSearchSection/PodcastSearchSection.tsx"
 import NewReleasePodcastSection from "../../../features/podcast/newRelease/NewReleasePodcastSection/NewReleasePodcastSection.tsx"
@@ -11,20 +11,23 @@ import usePodcastCategory from "../../../hooks/podcast/usePodcastCategory.ts"
 import { TrendingPodcastFiltersType } from "../../../api/podcast/model/podcast.ts"
 
 const NEW_RELEASE_PODCAST_LIMIT = 5
-const TRENDING_PODCAST_OPTIONS = {
+const TRENDING_PODCAST_OPTIONS: TrendingPodcastFiltersType = {
   limit: 10,
+  since: 3,
 }
 
 export default function PodcastHomePage() {
   const [newReleaseLanguage, setNewReleaseLanguage] = useState<
     string | undefined
   >(undefined)
+  const [trendingPodcastFilters, setTrendingPodcastFilters] =
+    useState<TrendingPodcastFiltersType>(TRENDING_PODCAST_OPTIONS)
 
   const {
     loading: loadingNewReleasePodcasts,
     AVAILABLE_LANGUAGES,
     newReleasePodcasts,
-    refetch,
+    refetch: refetchNewReleasePodcasts,
   } = useNewReleasePodcasts({
     limit: NEW_RELEASE_PODCAST_LIMIT,
     language: newReleaseLanguage,
@@ -32,47 +35,28 @@ export default function PodcastHomePage() {
   const {
     loading: loadingCategories,
     categories,
-    onRefresh: handlePodcastCategoryRefresh,
+    refetch: handlePodcastCategoryRefresh,
   } = usePodcastCategory()
   const {
-    DEFAULT_SINCE_DAYS,
     trendingPodcasts,
     loading: loadingTrendingPodcasts,
-    onRefresh: handleTrendingPodcastRefresh,
-  } = useTrendingPodcasts(TRENDING_PODCAST_OPTIONS)
+    refetch: handleTrendingPodcastRefresh,
+  } = useTrendingPodcasts(trendingPodcastFilters)
 
-  const [sinceDaysBefore, setSinceDaysBefore] =
-    useState<number>(DEFAULT_SINCE_DAYS)
-  const initialTrendingPodcastFilters: TrendingPodcastFiltersType =
-    useMemo(() => {
-      return { since: DEFAULT_SINCE_DAYS }
-    }, [DEFAULT_SINCE_DAYS])
-
-  const handlePodcastRefresh = useCallback(
-    async (filters: TrendingPodcastFiltersType) => {
-      if (filters != null) {
-        const { since } = filters
-        setSinceDaysBefore(since)
-      }
-      await handleTrendingPodcastRefresh(filters)
-    },
-    [handleTrendingPodcastRefresh]
-  )
+  const handlePodcastRefresh = async (filters?: TrendingPodcastFiltersType) => {
+    setTrendingPodcastFilters({ ...trendingPodcastFilters, ...filters })
+    await handleTrendingPodcastRefresh()
+  }
 
   const handleNewReleasePodcastsRefresh = async (filters?: {
     language: string
   }) => {
     setNewReleaseLanguage(filters?.language)
-    refetch()
+    refetchNewReleasePodcasts()
   }
 
   useEffect(() => {
     document.title = "xtal - podcasts"
-    Promise.allSettled([
-      handlePodcastCategoryRefresh(),
-      handlePodcastRefresh({ since: sinceDaysBefore }),
-    ])
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -93,7 +77,7 @@ export default function PodcastHomePage() {
       <TrendingPodcastSection
         trendingPodcasts={trendingPodcasts}
         onRefresh={handlePodcastRefresh}
-        filters={initialTrendingPodcastFilters}
+        filters={trendingPodcastFilters}
         loading={loadingTrendingPodcasts}
       />
     </div>

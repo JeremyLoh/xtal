@@ -1,5 +1,5 @@
 import "./PodcastCategoryPage.css"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useNavigate, useParams } from "react-router"
 import TrendingPodcastSection from "../../../features/podcast/trending/TrendingPodcastSection/TrendingPodcastSection.tsx"
 import useTrendingPodcasts from "../../../hooks/podcast/useTrendingPodcasts.ts"
@@ -12,7 +12,8 @@ type PodcastCategoryFilters = {
   since: number
   offset?: number
   category?: string
-} | null
+  limit?: number
+}
 
 export default function PodcastCategoryPage() {
   const { categoryName } = useParams()
@@ -20,62 +21,46 @@ export default function PodcastCategoryPage() {
   const options = useMemo(() => {
     return {
       limit: LIMIT,
+      since: 3,
       category: categoryName,
     }
   }, [categoryName])
+  const [podcastCategoryFilters, setPodcastCategoryFilters] = useState(options)
+
   const {
-    DEFAULT_SINCE_DAYS,
     trendingPodcasts,
     loading: loadingTrendingPodcasts,
-    onRefresh,
-  } = useTrendingPodcasts(options)
-  const [sinceDaysBefore, setSinceDaysBefore] =
-    useState<number>(DEFAULT_SINCE_DAYS)
-  const initialFilters: PodcastCategoryFilters = useMemo(() => {
-    return { since: DEFAULT_SINCE_DAYS }
-  }, [DEFAULT_SINCE_DAYS])
+    refetch,
+  } = useTrendingPodcasts(podcastCategoryFilters)
 
-  const handlePodcastRefresh = useCallback(
-    async (filters: PodcastCategoryFilters) => {
-      if (filters != null) {
-        const { since } = filters
-        setSinceDaysBefore(since)
-      }
-      await onRefresh(filters)
-    },
-    [onRefresh]
-  )
+  const handlePodcastRefresh = async (filters?: PodcastCategoryFilters) => {
+    setPodcastCategoryFilters({ ...podcastCategoryFilters, ...filters })
+    await refetch()
+  }
 
   useEffect(() => {
     if (!categoryName) {
       return
     }
     document.title = `xtal - ${categoryName.toLowerCase()} podcasts`
-    onRefresh({ since: sinceDaysBefore, category: categoryName })
-    // remove useEffect dependencies for initial page load run
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [categoryName])
 
-  function renderPodcasts() {
-    if (!categoryName) {
-      navigate(notFoundPage())
-      return
-    }
-    return (
-      <>
-        <PodcastCategoryPageNavigation categoryName={categoryName} />
-        <h2 className="podcast-category-title">
-          {decodeURIComponent(categoryName)}
-        </h2>
-        <TrendingPodcastSection
-          trendingPodcasts={trendingPodcasts}
-          onRefresh={handlePodcastRefresh}
-          filters={initialFilters}
-          loading={loadingTrendingPodcasts}
-        />
-      </>
-    )
+  if (!categoryName) {
+    navigate(notFoundPage())
+    return
   }
-
-  return <div className="podcast-category-container">{renderPodcasts()}</div>
+  return (
+    <div className="podcast-category-container">
+      <PodcastCategoryPageNavigation categoryName={categoryName} />
+      <h2 className="podcast-category-title">
+        {decodeURIComponent(categoryName)}
+      </h2>
+      <TrendingPodcastSection
+        trendingPodcasts={trendingPodcasts}
+        onRefresh={handlePodcastRefresh}
+        filters={podcastCategoryFilters}
+        loading={loadingTrendingPodcasts}
+      />
+    </div>
+  )
 }

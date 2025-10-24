@@ -7,14 +7,12 @@ type PodcastCategoryResponse = {
   data: PodcastCategory[]
 }
 
-async function getAllPodcastCategories(
-  abortController: AbortController
-): Promise<PodcastCategory[] | null> {
+async function getAllPodcastCategories(): Promise<PodcastCategory[] | null> {
   const { BACKEND_ORIGIN } = getEnv()
   const backendUrl = BACKEND_ORIGIN + "/api/podcast/category"
   try {
     const json: PodcastCategoryResponse = await ky
-      .get(backendUrl, { retry: 0, signal: abortController.signal })
+      .get(backendUrl, { retry: 0 })
       .json()
     return json.data
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

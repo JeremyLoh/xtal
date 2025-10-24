@@ -102,7 +102,6 @@ test.describe("New Release Podcasts Section on Podcast Homepage /podcasts", () =
         async (route) => {
           routeCallCount++
           const json = routeCallCount === 1 ? [] : fiveNewReleasePodcasts
-          // const json = shouldFetchData ? fiveNewReleasePodcasts : []
           await route.fulfill({ json })
         }
       )

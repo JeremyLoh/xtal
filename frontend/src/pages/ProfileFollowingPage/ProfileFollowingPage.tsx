@@ -1,8 +1,7 @@
 import "./ProfileFollowingPage.css"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { Components, ItemContent, Virtuoso } from "react-virtuoso"
 import { Link } from "react-router"
-import { toast } from "sonner"
 import useFollowPodcastHistory from "../../hooks/podcast/useFollowPodcastHistory.ts"
 import useScreenDimensions from "../../hooks/useScreenDimensions.ts"
 import { Podcast } from "../../api/podcast/model/podcast.ts"
@@ -24,34 +23,16 @@ const LIMIT_PER_PAGE = 10
 
 function ProfileFollowingPage() {
   const { height, isMobile } = useScreenDimensions()
-  const { loading, getLatestFollowedPodcasts, getTotalFollowedPodcasts } =
-    useFollowPodcastHistory()
-  const [followedPodcasts, setFollowedPodcasts] = useState<Podcast[]>([])
-  const [totalFollowing, setTotalFollowing] = useState<number>(0)
+  const [limitPerPage] = useState<number>(LIMIT_PER_PAGE)
+  const [pageOffset, setPageOffset] = useState<number>()
+
+  const { loading, latestFollowedPodcasts, totalFollowedPodcasts } =
+    useFollowPodcastHistory({ limitPerPage, pageOffset })
   const [page, setPage] = useState<number>(1)
 
   const virtuosoStyle = useMemo(() => {
     return { height: (height * 2) / 3 }
   }, [height])
-
-  useEffect(() => {
-    getTotalFollowedPodcasts()
-      .then((total) => {
-        if (total != null) {
-          setTotalFollowing(total)
-        }
-      })
-      .catch((error) => toast.error(error.message))
-  }, [getTotalFollowedPodcasts])
-
-  useEffect(() => {
-    getLatestFollowedPodcasts(LIMIT_PER_PAGE).then((response) => {
-      if (response == null) {
-        return
-      }
-      setFollowedPodcasts(response.data)
-    })
-  }, [getLatestFollowedPodcasts])
 
   const handlePreviousPageClick = useCallback(
     async (currentPage: number) => {
@@ -59,28 +40,25 @@ function ProfileFollowingPage() {
         return
       }
       setPage(currentPage - 1)
-      const offset = (currentPage - 2) * LIMIT_PER_PAGE
-      const response = await getLatestFollowedPodcasts(LIMIT_PER_PAGE, offset)
-      if (response) {
-        setFollowedPodcasts(response.data)
-      }
+      const offset = (currentPage - 2) * limitPerPage
+      setPageOffset(offset)
     },
-    [getLatestFollowedPodcasts]
+    [limitPerPage]
   )
 
   const handleNextPageClick = useCallback(
     async (currentPage: number) => {
-      if (currentPage === Math.ceil(totalFollowing / LIMIT_PER_PAGE)) {
+      if (
+        !totalFollowedPodcasts ||
+        currentPage === Math.ceil(totalFollowedPodcasts / limitPerPage)
+      ) {
         return
       }
       setPage(currentPage + 1)
-      const offset = currentPage * LIMIT_PER_PAGE
-      const response = await getLatestFollowedPodcasts(LIMIT_PER_PAGE, offset)
-      if (response) {
-        setFollowedPodcasts(response.data)
-      }
+      const offset = currentPage * limitPerPage
+      setPageOffset(offset)
     },
-    [totalFollowing, getLatestFollowedPodcasts]
+    [totalFollowedPodcasts, limitPerPage]
   )
 
   const handlePageClick = useCallback(
@@ -89,13 +67,10 @@ function ProfileFollowingPage() {
         return
       }
       setPage(pageNumber)
-      const offset = (pageNumber - 1) * LIMIT_PER_PAGE
-      const response = await getLatestFollowedPodcasts(LIMIT_PER_PAGE, offset)
-      if (response) {
-        setFollowedPodcasts(response.data)
-      }
+      const offset = (pageNumber - 1) * limitPerPage
+      setPageOffset(offset)
     },
-    [page, getLatestFollowedPodcasts]
+    [page, limitPerPage]
   )
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -157,15 +132,17 @@ function ProfileFollowingPage() {
       <LoadingDisplay loading={loading}>
         <Pagination
           currentPage={page}
-          totalPages={Math.ceil(totalFollowing / LIMIT_PER_PAGE)}
+          totalPages={Math.ceil((totalFollowedPodcasts || 0) / LIMIT_PER_PAGE)}
           onPreviousPageClick={handlePreviousPageClick}
           onNextPageClick={handleNextPageClick}
           onPageClick={handlePageClick}
         />
-        {followedPodcasts.length === 0 && <p>Zero followed podcasts</p>}
+        {latestFollowedPodcasts && latestFollowedPodcasts.data.length === 0 && (
+          <p>Zero followed podcasts</p>
+        )}
         <Virtuoso
           style={virtuosoStyle}
-          data={followedPodcasts}
+          data={latestFollowedPodcasts?.data}
           components={components}
           itemContent={itemContent}
         />

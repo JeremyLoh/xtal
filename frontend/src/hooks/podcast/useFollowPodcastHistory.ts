@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 import { useSessionContext } from "supertokens-auth-react/recipe/session"
 import { toast } from "sonner"
 import {
@@ -6,67 +6,66 @@ import {
   getAccountTotalFollowedPodcasts,
 } from "../../api/podcast/history/accountFollowing.ts"
 
-function useFollowPodcastHistory() {
+function useFollowPodcastHistory({
+  limitPerPage,
+  pageOffset,
+}: {
+  limitPerPage: number
+  pageOffset?: number
+}) {
   const session = useSessionContext()
-  const [loading, setLoading] = useState<boolean>(true)
-  const abortController = useRef<AbortController | null>(null)
-  const totalFollowedAbortController = useRef<AbortController | null>(null)
 
-  const getTotalFollowedPodcasts = useCallback(async () => {
-    if (session.loading) {
-      return
-    }
-    if (!session.doesSessionExist) {
-      return
-    }
-    totalFollowedAbortController.current?.abort()
-    totalFollowedAbortController.current = new AbortController()
-    try {
-      setLoading(true)
-      const total = await getAccountTotalFollowedPodcasts(
-        totalFollowedAbortController.current
-      )
-      return total
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      toast.error(error.message)
-    } finally {
-      setLoading(false)
-    }
-  }, [session])
-
-  const getLatestFollowedPodcasts = useCallback(
-    async (limit: number, offset: number = 0) => {
-      if (session.loading) {
+  const {
+    data: totalFollowedPodcasts,
+    isLoading: isTotalFollowedPodcastsLoading,
+  } = useQuery({
+    queryKey: ["useFollowPodcastHistory", "totalFollowedPodcasts"],
+    queryFn: async () => {
+      if (session.loading || !session.doesSessionExist) {
         return
       }
-      if (!session.doesSessionExist) {
-        return
-      }
-      abortController.current?.abort()
-      abortController.current = new AbortController()
       try {
-        setLoading(true)
-        const followedPodcastData = await getAccountLatestFollowedPodcasts(
-          abortController.current,
-          limit,
-          offset
-        )
-        return followedPodcastData
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        toast.error(error.message)
-      } finally {
-        setLoading(false)
+        return await getAccountTotalFollowedPodcasts()
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          toast.error(error.message)
+        }
+        throw error
       }
     },
-    [session]
-  )
+    enabled: !session.loading && session.doesSessionExist,
+  })
 
-  const output = useMemo(() => {
-    return { loading, getLatestFollowedPodcasts, getTotalFollowedPodcasts }
-  }, [loading, getLatestFollowedPodcasts, getTotalFollowedPodcasts])
-  return output
+  const {
+    data: latestFollowedPodcasts,
+    isLoading: isLatestFollowedPodcastsLoading,
+  } = useQuery({
+    queryKey: [
+      "useFollowPodcastHistory",
+      "latestFollowedPodcasts",
+      { limitPerPage, pageOffset },
+    ],
+    queryFn: async () => {
+      if (session.loading || !session.doesSessionExist) {
+        return
+      }
+      try {
+        return await getAccountLatestFollowedPodcasts(limitPerPage, pageOffset)
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          toast.error(error.message)
+        }
+        throw error
+      }
+    },
+    enabled: !session.loading && session.doesSessionExist,
+  })
+
+  return {
+    loading: isTotalFollowedPodcastsLoading || isLatestFollowedPodcastsLoading,
+    latestFollowedPodcasts,
+    totalFollowedPodcasts,
+  }
 }
 
 export default useFollowPodcastHistory
