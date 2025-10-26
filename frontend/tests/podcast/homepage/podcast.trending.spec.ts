@@ -8,6 +8,7 @@ import {
   zeroTrendingPodcasts,
 } from "../../mocks/podcast.trending"
 import { assertToastMessage } from "../../constants/toasterConstants"
+import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
 import { podcastDetailPageUrl } from "../../constants/paths"
 import PodcastHomePage from "../../pageObjects/PodcastHomePage"
 
@@ -323,6 +324,7 @@ test.describe("Podcast Homepage /podcasts", () => {
           })
         })
       await podcastHomePage.goto()
+      await assertLoadingSpinnerIsMissing(podcastHomePage.getPage())
       await expect(
         podcastHomePage.getTrendingPodcastSectionContainer()
       ).toBeVisible()
