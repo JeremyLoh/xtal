@@ -5,6 +5,7 @@ export async function assertToastMessage(
   message: string,
   count: number = 1
 ) {
+  await page.waitForTimeout(500)
   await expect(page.locator(".toaster").getByText(message)).toHaveCount(count)
 }
 
