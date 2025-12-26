@@ -60,15 +60,17 @@ const ShareButton = function PodcastEpisodeCardShareButton({
   )
 }
 
+type ShareButtonDialogContentProps = {
+  episodeId: number
+  episodeDurationInSeconds: number
+  onCopy: (startDurationInSeconds: number) => void
+}
+
 function ShareButtonDialogContent({
   episodeId,
   episodeDurationInSeconds,
   onCopy,
-}: {
-  episodeId: number
-  episodeDurationInSeconds: number
-  onCopy: (startDurationInSeconds: number) => void
-}) {
+}: Readonly<ShareButtonDialogContentProps>) {
   const [startDuration, setStartDuration] = useState<number>(0)
   const [startDurationInput, setStartDurationInput] = useState(() =>
     dayjs.duration(0, "seconds").format("HH:mm:ss")
