@@ -176,7 +176,7 @@ async function validateUsername(username: string) {
   }
   const containsInvalidCharactersRegex = new RegExp(/[:/%\\]/)
   if (containsInvalidCharactersRegex.test(username)) {
-    return "Invalid username. The following characters are not allowed: ':', '/', '%', '\\'"
+    return String.raw`Invalid username. The following characters are not allowed: ':', '/', '%', '\'`
   }
   return undefined
 }
