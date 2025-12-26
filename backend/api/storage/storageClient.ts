@@ -85,7 +85,6 @@ class StorageClient {
           `uploadFileAndUpdateDatabase(): could not delete upload file. image url ${url}, storage file path: ${filePath}`
         )
       }
-      return
     }
   }
 

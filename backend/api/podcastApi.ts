@@ -49,7 +49,7 @@ type PodcastApi = {
 }
 
 class PodcastIndexApi implements PodcastApi {
-  private url: string = "https://api.podcastindex.org/api/1.0"
+  private readonly url: string = "https://api.podcastindex.org/api/1.0"
 
   private parsePodcastFeedData(feed: any): Podcast {
     // parse single podcast feed based on attribute priority (backup attributes are used if data is not available)

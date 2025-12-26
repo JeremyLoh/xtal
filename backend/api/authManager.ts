@@ -8,8 +8,8 @@ type AuthManager = {
 
 class PodcastIndexAuthManager implements AuthManager {
   // https://podcastindex-org.github.io/docs-api/#overview--authentication-details
-  private apiKey: string
-  private apiSecret: string
+  private readonly apiKey: string
+  private readonly apiSecret: string
 
   constructor(apiKey: string, apiSecret: string) {
     this.apiKey = apiKey
