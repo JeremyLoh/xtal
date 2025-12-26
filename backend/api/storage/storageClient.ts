@@ -5,13 +5,12 @@ import { Database } from "../supabase/databaseTypes/supabase.js"
 import logger from "../../logger.js"
 
 // Create singleton for the supabase client
-let instance: StorageClient
-
 class StorageClient {
+  private static instance: StorageClient | null = null
   private readonly supabase: SupabaseClient<Database, "public", any>
 
   constructor() {
-    if (instance) {
+    if (StorageClient.instance) {
       throw new Error("Unable to create multiple StorageClient instances")
     }
     if (process.env.SUPABASE_PROJECT_URL == null) {
@@ -29,7 +28,7 @@ class StorageClient {
       process.env.SUPABASE_PROJECT_SERVICE_ROLE_API_KEY
     )
     this.supabase = supabase
-    instance = this
+    StorageClient.instance = this
   }
 
   getInstance() {
