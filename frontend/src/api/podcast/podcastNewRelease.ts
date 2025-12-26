@@ -33,7 +33,7 @@ async function getNewReleasePodcasts(
     if (error.name === "AbortError") {
       return null
     }
-    if (error.response && error.response.status === 429) {
+    if (error.response?.status === 429) {
       throw new Error(`Rate Limit Exceeded, please try again later`)
     }
     throw new Error(

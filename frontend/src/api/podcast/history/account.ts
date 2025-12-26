@@ -15,7 +15,7 @@ export async function getAccountTotalPodcastEpisodePlayCount() {
     return json.count
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    if (error.response && error.response.status === 429) {
+    if (error.response?.status === 429) {
       throw new Error(
         `Get podcast episode play history count Rate Limit Exceeded. Please try again later`
       )
@@ -61,7 +61,7 @@ export async function updateAccountPodcastEpisodePlayHistory(
     if (error.name === "AbortError") {
       return null
     }
-    if (error.response && error.response.status === 429) {
+    if (error.response?.status === 429) {
       throw new Error(
         `Update podcast episode play history Rate Limit Exceeded. Please try again later`
       )
@@ -104,7 +104,7 @@ export async function getAccountPodcastEpisodePlayHistory(
     if (error.name === "AbortError") {
       return null
     }
-    if (error.response && error.response.status === 429) {
+    if (error.response?.status === 429) {
       throw new Error(
         `Get podcast episode play history Rate Limit Exceeded. Please try again later`
       )
@@ -133,7 +133,7 @@ export async function deleteAccountPodcastEpisodePlayHistory(
     if (error.name === "AbortError") {
       return null
     }
-    if (error.response && error.response.status === 429) {
+    if (error.response?.status === 429) {
       throw new Error(
         `Delete podcast episode play history Rate Limit Exceeded. Please try again later`
       )
@@ -165,7 +165,7 @@ export async function getAccountPodcastEpisodeLastPlayTimestamp(
     if (error.name === "AbortError") {
       return null
     }
-    if (error.response && error.response.status === 429) {
+    if (error.response?.status === 429) {
       throw new Error(
         `Get podcast episode last played timestamp Rate Limit Exceeded. Please try again later`
       )
