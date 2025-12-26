@@ -66,7 +66,8 @@ const getSupertokensConfig = (): TypeInput => {
                   return getErrorResponse("Username should not be empty")
                 }
                 const username = usernameField[0].value as string
-                if (usernameField[0] != null && !validateUsername(username)) {
+                const isInvalidUsername = !(await validateUsername(username))
+                if (usernameField[0] != null && isInvalidUsername) {
                   return getErrorResponse("Username is invalid")
                 }
                 const accountClient = AccountClient.getInstance()
