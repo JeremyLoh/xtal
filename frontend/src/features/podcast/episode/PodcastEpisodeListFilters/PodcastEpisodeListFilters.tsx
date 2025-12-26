@@ -13,7 +13,7 @@ type PodcastEpisodeListFiltersProps = {
 function PodcastEpisodeListFilters({
   filters,
   onChange,
-}: PodcastEpisodeListFiltersProps) {
+}: Readonly<PodcastEpisodeListFiltersProps>) {
   const [duration, setDuration] = useState<number>(
     filters.durationInMinutes || 0
   )
@@ -27,10 +27,10 @@ function PodcastEpisodeListFilters({
         setDuration(0)
       } else {
         onChange({ durationInMinutes })
-        setDuration(duration)
+        setDuration(durationInMinutes)
       }
     },
-    [duration, onChange]
+    [onChange]
   )
 
   return (
