@@ -2,8 +2,10 @@ import "dotenv/config"
 import express from "express"
 import cors from "cors"
 import compression from "compression"
-import { middleware as superTokensMiddleware } from "supertokens-node/framework/express"
-import { errorHandler } from "supertokens-node/framework/express"
+import {
+  middleware as superTokensMiddleware,
+  errorHandler,
+} from "supertokens-node/framework/express"
 import logger from "./logger.js"
 import router from "./route/index.js"
 import statusRouter from "./route/status.js"
