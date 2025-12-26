@@ -21,7 +21,7 @@ function RadioCard(props: Readonly<RadioCardProps>) {
   const { copyRadioStationShareUrl } = useClipboard()
   const favouriteStationsContext = useContext(FavouriteStationsContext)
   const [error, setError] = useState<string | null>(null)
-  const [isFavourite, setFavourite] = useState<boolean>(
+  const [isFavourite, setIsFavourite] = useState<boolean>(
     favouriteStationsContext
       ?.getFavouriteStations()
       .some((s: Station) => s.stationuuid === station.stationuuid) || false
@@ -29,7 +29,7 @@ function RadioCard(props: Readonly<RadioCardProps>) {
 
   useEffect(() => {
     // handle favourite station change by other components
-    setFavourite(
+    setIsFavourite(
       favouriteStationsContext
         ?.getFavouriteStations()
         .some((s: Station) => s.stationuuid === station.stationuuid) || false
@@ -46,7 +46,7 @@ function RadioCard(props: Readonly<RadioCardProps>) {
           (s: Station) => s.stationuuid !== station.stationuuid
         )
       )
-      setFavourite(!isFavourite)
+      setIsFavourite(!isFavourite)
     } else {
       handleAddFavouriteStation(previousStations)
     }
@@ -68,14 +68,14 @@ function RadioCard(props: Readonly<RadioCardProps>) {
       toast.warning(
         `Favourite station limit of ${MAX_FAVOURITE_STATIONS_ANONYMOUS} reached`
       )
-      setFavourite(!isFavourite)
+      setIsFavourite(!isFavourite)
     }
     if (isFavouriteStationBelowLimit) {
       favouriteStationsContext?.setFavouriteStations([
         station,
         ...previousStations,
       ])
-      setFavourite(!isFavourite)
+      setIsFavourite(!isFavourite)
     } else {
       toast.error(
         `Could not add favourite station. Exceeded limit of ${MAX_FAVOURITE_STATIONS_ANONYMOUS}`
