@@ -66,7 +66,8 @@ const getSupertokensConfig = (): TypeInput => {
                   return getErrorResponse("Username should not be empty")
                 }
                 const username = usernameField[0].value as string
-                if (usernameField[0] != null && !validateUsername(username)) {
+                const isInvalidUsername = !(await validateUsername(username))
+                if (usernameField[0] != null && isInvalidUsername) {
                   return getErrorResponse("Username is invalid")
                 }
                 const accountClient = AccountClient.getInstance()
@@ -163,7 +164,7 @@ async function validateEmail(email: string) {
 
 async function validateUsername(username: string) {
   // needs to be identical between frontend and backend
-  const containsWhitespaceRegex = new RegExp(/[\s]/)
+  const containsWhitespaceRegex = new RegExp(/\s/)
   if (containsWhitespaceRegex.test(username)) {
     return "Invalid username. Whitespace is invalid"
   }
@@ -175,7 +176,7 @@ async function validateUsername(username: string) {
   }
   const containsInvalidCharactersRegex = new RegExp(/[:/%\\]/)
   if (containsInvalidCharactersRegex.test(username)) {
-    return "Invalid username. The following characters are not allowed: ':', '/', '%', '\\'"
+    return String.raw`Invalid username. The following characters are not allowed: ':', '/', '%', '\'`
   }
   return undefined
 }

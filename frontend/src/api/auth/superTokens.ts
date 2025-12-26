@@ -80,7 +80,7 @@ async function validateEmail(email: string) {
 
 async function validateUsername(username: string) {
   // needs to be identical between frontend and backend
-  const containsWhitespaceRegex = new RegExp(/[\s]/)
+  const containsWhitespaceRegex = new RegExp(/\s/)
   if (containsWhitespaceRegex.test(username)) {
     return "Invalid username. Whitespace is invalid"
   }
@@ -92,7 +92,7 @@ async function validateUsername(username: string) {
   }
   const containsInvalidCharactersRegex = new RegExp(/[:/%\\]/)
   if (containsInvalidCharactersRegex.test(username)) {
-    return "Invalid username. The following characters are not allowed: ':', '/', '%', '\\'"
+    return String.raw`Invalid username. The following characters are not allowed: ':', '/', '%', '\'`
   }
   return undefined
 }

@@ -8,7 +8,7 @@ import logger from "../../logger.js"
 let instance: StorageClient
 
 class StorageClient {
-  private supabase: SupabaseClient<Database, "public", any>
+  private readonly supabase: SupabaseClient<Database, "public", any>
 
   constructor() {
     if (instance) {
@@ -85,7 +85,6 @@ class StorageClient {
           `uploadFileAndUpdateDatabase(): could not delete upload file. image url ${url}, storage file path: ${filePath}`
         )
       }
-      return
     }
   }
 

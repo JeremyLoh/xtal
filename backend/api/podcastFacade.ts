@@ -38,8 +38,8 @@ interface PodcastFacade {
 }
 
 export class PodcastIndexFacade implements PodcastFacade {
-  private authManager: PodcastIndexAuthManager
-  private podcastApi: PodcastApi
+  private readonly authManager: PodcastIndexAuthManager
+  private readonly podcastApi: PodcastApi
 
   constructor(authManager: PodcastIndexAuthManager) {
     this.authManager = authManager

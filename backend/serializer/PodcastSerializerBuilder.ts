@@ -2,7 +2,7 @@ import { Podcast } from "../model/podcast.js"
 
 class PodcastSerializerBuilder {
   private podcasts: Podcast[] | null = null
-  private excludeFields: Set<keyof Podcast> = new Set()
+  private readonly excludeFields: Set<keyof Podcast> = new Set()
 
   public setPodcasts(podcasts: Podcast[]): this {
     this.podcasts = podcasts
