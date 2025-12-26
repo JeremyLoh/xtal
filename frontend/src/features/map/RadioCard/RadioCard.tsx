@@ -13,7 +13,7 @@ type RadioCardProps = {
 }
 
 // Display radio player on map as a popup
-function RadioCard(props: RadioCardProps) {
+function RadioCard(props: Readonly<RadioCardProps>) {
   const { station } = props
   const stationAudioSource = useMemo(() => {
     return getAudioSource(station)
@@ -57,10 +57,12 @@ function RadioCard(props: RadioCardProps) {
     const { MAX_FAVOURITE_STATIONS_ANONYMOUS } = getEnv()
     const isFavouriteStationLimitReached =
       MAX_FAVOURITE_STATIONS_ANONYMOUS != undefined &&
-      previousStationCount + 1 === parseInt(MAX_FAVOURITE_STATIONS_ANONYMOUS)
+      previousStationCount + 1 ===
+        Number.parseInt(MAX_FAVOURITE_STATIONS_ANONYMOUS)
     const isFavouriteStationBelowLimit =
       MAX_FAVOURITE_STATIONS_ANONYMOUS != undefined &&
-      previousStationCount + 1 <= parseInt(MAX_FAVOURITE_STATIONS_ANONYMOUS)
+      previousStationCount + 1 <=
+        Number.parseInt(MAX_FAVOURITE_STATIONS_ANONYMOUS)
 
     if (isFavouriteStationLimitReached) {
       toast.warning(
