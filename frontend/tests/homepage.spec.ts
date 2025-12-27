@@ -74,6 +74,7 @@ test.describe("404 Not Found page", () => {
     homePage,
   }) => {
     await homePage.gotoUrl("/invalid-url")
+
     await expect(homePage.getPage().getByText("404 Not Found")).toBeVisible()
     await expect(
       homePage.getPage().getByRole("link", { name: "Return Home", exact: true })
@@ -84,14 +85,17 @@ test.describe("404 Not Found page", () => {
     homePage,
   }) => {
     await homePage.gotoUrl("/invalid-url")
+
     await expect(homePage.getPage().getByText("404 Not Found")).toBeVisible()
     await expect(
       homePage.getPage().getByRole("link", { name: "Return Home", exact: true })
     ).toBeVisible()
+
     await homePage
       .getPage()
       .getByRole("link", { name: "Return Home", exact: true })
       .click()
+
     expect(homePage.getPage().url()).not.toBe("/invalid-url")
   })
 })
@@ -104,6 +108,7 @@ test.describe("random radio station", () => {
   }) => {
     test.skip(headless, "Remove flaky test in headless mode")
     test.slow()
+
     // mock radio browser api with any query params
     await homePage
       .getPage()
@@ -113,6 +118,7 @@ test.describe("random radio station", () => {
       })
     await homePage.goto()
     await homePage.clickRandomRadioStationButton()
+
     // assert radio card is shown inside map (map has css id of "map")
     await expect(homePage.getRadioCard()).toBeVisible()
     await expect(
@@ -134,6 +140,7 @@ test.describe("random radio station", () => {
     ).toBeVisible()
 
     await homePage.getPage().waitForTimeout(3000) // wait for possible radio playback error message
+
     const isPlaybackErrorMessagePresent =
       (await homePage
         .getRadioCard()
@@ -146,32 +153,33 @@ test.describe("random radio station", () => {
       ).toHaveText(
         /The media could not be loaded. Server failed or the playback format is not supported/
       )
+      return
+    }
+
+    if (isMobile) {
+      const mobilePlayButton = homePage
+        .getRadioCardPlayer()
+        .getByTestId("audio-player-mobile-play-button")
+      await expect(mobilePlayButton).toHaveAttribute("mediapaused")
+      await mobilePlayButton.click()
+
+      const mobilePauseButton = homePage
+        .getRadioCardPlayer()
+        .getByTestId("audio-player-mobile-play-button")
+      await expect(mobilePauseButton).not.toHaveAttribute("mediapaused")
+      await mobilePauseButton.click()
     } else {
-      if (isMobile) {
-        const mobilePlayButton = homePage
-          .getRadioCardPlayer()
-          .getByTestId("audio-player-mobile-play-button")
-        await expect(mobilePlayButton).toHaveAttribute("mediapaused")
-        await mobilePlayButton.click()
+      const desktopPlayButton = homePage
+        .getRadioCardPlayer()
+        .getByTestId("audio-player-desktop-play-button")
+      await expect(desktopPlayButton).toHaveAttribute("mediapaused")
+      await desktopPlayButton.click()
 
-        const mobilePauseButton = homePage
-          .getRadioCardPlayer()
-          .getByTestId("audio-player-mobile-play-button")
-        await expect(mobilePauseButton).not.toHaveAttribute("mediapaused")
-        await mobilePauseButton.click()
-      } else {
-        const desktopPlayButton = homePage
-          .getRadioCardPlayer()
-          .getByTestId("audio-player-desktop-play-button")
-        await expect(desktopPlayButton).toHaveAttribute("mediapaused")
-        await desktopPlayButton.click()
-
-        const desktopPauseButton = homePage
-          .getRadioCardPlayer()
-          .getByTestId("audio-player-desktop-play-button")
-        await expect(desktopPauseButton).not.toHaveAttribute("mediapaused")
-        await desktopPauseButton.click()
-      }
+      const desktopPauseButton = homePage
+        .getRadioCardPlayer()
+        .getByTestId("audio-player-desktop-play-button")
+      await expect(desktopPauseButton).not.toHaveAttribute("mediapaused")
+      await desktopPauseButton.click()
     }
   })
 
@@ -182,6 +190,7 @@ test.describe("random radio station", () => {
   }) => {
     test.skip(headless, "Remove flaky test in headless mode")
     test.slow()
+
     // mock radio browser api with any query params
     await homePage
       .getPage()
@@ -191,6 +200,7 @@ test.describe("random radio station", () => {
       })
     await homePage.goto()
     await homePage.clickRandomRadioStationButton()
+
     // assert radio card is shown inside map (map has css id of "map")
     await expect(homePage.getRadioCard()).toBeVisible()
     await expect(

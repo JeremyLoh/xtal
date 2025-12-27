@@ -7,7 +7,7 @@ type ScreenSize = {
 }
 
 function getScreenSize() {
-  const { innerWidth, innerHeight, devicePixelRatio } = window
+  const { innerWidth, innerHeight, devicePixelRatio } = globalThis
   return {
     width: innerWidth,
     height: innerHeight,
@@ -24,9 +24,9 @@ export default function useScreenDimensions() {
     function handleResize() {
       setScreenSize(getScreenSize())
     }
-    window.addEventListener("resize", handleResize)
+    globalThis.addEventListener("resize", handleResize)
     return () => {
-      window.removeEventListener("resize", handleResize)
+      globalThis.removeEventListener("resize", handleResize)
     }
   }, [])
 

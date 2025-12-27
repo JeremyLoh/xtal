@@ -15,7 +15,7 @@ function NewReleasePodcastFilters({
   availableLanguages,
   onFilterChange,
   selectedLanguage = ALL_LANGUAGES,
-}: NewReleasePodcastFilterProps) {
+}: Readonly<NewReleasePodcastFilterProps>) {
   const [disabled, setDisabled] = useState<boolean>(false)
 
   const handleLanguageChange = useCallback(

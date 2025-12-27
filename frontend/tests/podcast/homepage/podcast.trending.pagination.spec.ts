@@ -8,29 +8,29 @@ import {
 import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
 import PodcastHomePage from "../../pageObjects/PodcastHomePage"
 
+function convertToUnixDaysBefore(daysBefore: number): number {
+  return dayjs().startOf("day").subtract(daysBefore, "days").unix()
+}
+
+async function assertTrendingPodcastIsShown(
+  podcastHomePage: PodcastHomePage,
+  podcastData
+) {
+  await expect(
+    podcastHomePage.getTrendingPodcastCards().getByText(podcastData.title, {
+      exact: true,
+    })
+  ).toBeVisible()
+  const imageLocator = podcastHomePage
+    .getTrendingPodcastCards()
+    .getByRole("img", {
+      name: podcastData.title + " podcast image",
+      exact: true,
+    })
+  await expect(imageLocator).toBeVisible()
+}
+
 test.describe("Podcast Homepage /podcasts", () => {
-  function convertToUnixDaysBefore(daysBefore: number): number {
-    return dayjs().startOf("day").subtract(daysBefore, "days").unix()
-  }
-
-  async function assertTrendingPodcastIsShown(
-    podcastHomePage: PodcastHomePage,
-    podcastData
-  ) {
-    await expect(
-      podcastHomePage.getTrendingPodcastCards().getByText(podcastData.title, {
-        exact: true,
-      })
-    ).toBeVisible()
-    const imageLocator = podcastHomePage
-      .getTrendingPodcastCards()
-      .getByRole("img", {
-        name: podcastData.title + " podcast image",
-        exact: true,
-      })
-    await expect(imageLocator).toBeVisible()
-  }
-
   test.describe("Trending Podcasts Section", () => {
     test("should display active page, next and previous pagination buttons", async ({
       podcastHomePage,

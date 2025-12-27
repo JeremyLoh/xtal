@@ -5,7 +5,7 @@ type SeparatorProps = {
   size?: number
 }
 
-function Separator({ size = 1 }: SeparatorProps) {
+function Separator({ size = 1 }: Readonly<SeparatorProps>) {
   return <hr className="separator" style={{ borderWidth: size }} />
 }
 

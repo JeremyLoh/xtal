@@ -43,20 +43,22 @@ export async function assertPodcastInfo(page: Page, expectedPodcast: Podcast) {
     getPodcastInfoElement(page, expectedPodcast.language),
     "Podcast Info Language should be present"
   ).toBeVisible()
-  if (expectedPodcast.latestPublishTime != undefined) {
+
+  if (expectedPodcast.latestPublishTime == undefined) {
+    // WARNING: perform text check for just "last active" word (might collide with other podcast info card text (e.g. title containing "last active" word))
+    await expect(
+      getPodcastInfoElement(page, new RegExp(/last active/i)),
+      "Podcast Info Last Active Time should NOT be present"
+    ).not.toBeVisible()
+  } else {
     const lastActiveTimeString =
       "Last Active " + dayjs.unix(expectedPodcast.latestPublishTime).fromNow()
     await expect(
       getPodcastInfoElement(page, lastActiveTimeString),
       "Podcast Info Last Active Time should be present"
     ).toBeVisible()
-  } else {
-    // WARNING: perform text check for just "last active" word (might collide with other podcast info card text (e.g. title containing "last active" word))
-    await expect(
-      getPodcastInfoElement(page, new RegExp(/last active/i)),
-      "Podcast Info Last Active Time should NOT be present"
-    ).not.toBeVisible()
   }
+
   await expect(
     getPodcastInfoElement(
       page,

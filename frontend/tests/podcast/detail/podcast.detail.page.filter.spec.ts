@@ -46,10 +46,7 @@ test.describe("Podcast Episode Filters on Podcast Detail Page for individual pod
             const requestUrl = route.request().url()
             const isFirstPageRequest = !requestUrl.includes("offset=")
             const isSecondPageRequest = requestUrl.includes(`offset=${limit}`)
-            if (isFirstPageRequest) {
-              const json = mockDurationPodcastEpisodes
-              await route.fulfill({ json })
-            } else if (isSecondPageRequest) {
+            if (isFirstPageRequest || isSecondPageRequest) {
               const json = mockDurationPodcastEpisodes
               await route.fulfill({ json })
             } else {

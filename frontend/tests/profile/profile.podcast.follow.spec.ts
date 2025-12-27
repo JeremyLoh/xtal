@@ -9,6 +9,10 @@ import {
 import { defaultTenPodcastEpisodes } from "../mocks/podcast.episode"
 import { homePageUrl, podcastDetailPageUrl } from "../constants/paths"
 
+function getFollowPodcastButton(page: Page) {
+  return page.locator(".podcast-info-card-follow-button")
+}
+
 test.describe("Profile Follow Podcast", () => {
   test.beforeEach(async ({ headless }) => {
     test.skip(
@@ -26,10 +30,6 @@ test.describe("Profile Follow Podcast", () => {
       )
     }
   })
-
-  function getFollowPodcastButton(page: Page) {
-    return page.locator(".podcast-info-card-follow-button")
-  }
 
   test("should allow logged in user to follow and unfollow a podcast on podcast detail page", async ({
     page,

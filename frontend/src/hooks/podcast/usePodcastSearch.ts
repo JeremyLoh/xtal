@@ -26,7 +26,7 @@ function usePodcastSearch() {
           fetchMorePodcastsAbortController.current,
           params
         )
-        if (response && response.data && response.count > 0) {
+        if (response?.data && response.count > 0) {
           const uniquePodcastIds = new Set(
             podcasts ? podcasts.map((p) => p.id) : []
           )
@@ -65,7 +65,7 @@ function usePodcastSearch() {
       const params = { q: query.trim(), limit: limit }
       try {
         const response = await getPodcastSearch(abortController.current, params)
-        if (response && response.data && response.count > 0) {
+        if (response?.data && response.count > 0) {
           setPodcasts(response.data)
         } else {
           toast.info("No podcasts found for search term")

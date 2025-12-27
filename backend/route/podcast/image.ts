@@ -67,8 +67,7 @@ router.get(
   async (request: Request, response: Response) => {
     const result = validationResult(request)
     const data = matchedData(request)
-    const isInvalidUrl =
-      data && data.url ? !isValidUrl(decodeHTML(data.url)) : true
+    const isInvalidUrl = data?.url ? !isValidUrl(decodeHTML(data.url)) : true
     if (!result.isEmpty() || isInvalidUrl) {
       const validationErrors = result.array().map((error) => error.msg)
       response.status(400).send({

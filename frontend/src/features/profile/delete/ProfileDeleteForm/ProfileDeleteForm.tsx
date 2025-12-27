@@ -17,7 +17,7 @@ type ProfileDeleteFormProps = {
   onDelete: (email: string) => Promise<void>
 }
 
-function ProfileDeleteForm({ onDelete }: ProfileDeleteFormProps) {
+function ProfileDeleteForm({ onDelete }: Readonly<ProfileDeleteFormProps>) {
   const {
     register,
     handleSubmit,

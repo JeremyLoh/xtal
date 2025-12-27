@@ -38,13 +38,13 @@ function RadioSelect({
   onRandomSelect,
   onCountryChange,
   isLoading,
-}: RadioSelectProps) {
+}: Readonly<RadioSelectProps>) {
   const [activeSearch, setActiveSearch] =
     useState<ActiveSearch>(initialActiveSearch)
 
   const handleStationSearchType = useCallback(
     (searchType: StationSearchType) => {
-      if (activeSearch && searchType === activeSearch.type) {
+      if (searchType === activeSearch.type) {
         return
       }
       if (searchType === StationSearchType.COUNTRY) {
@@ -94,7 +94,7 @@ function RadioSelect({
         data-testid="random-radio-station-button"
       >
         <FaRandom
-          size={window.innerWidth < 500 ? 16 : 20}
+          size={globalThis.innerWidth < 500 ? 16 : 20}
           title="Select a random radio station"
         />
         <b>Random</b>

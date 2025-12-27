@@ -11,7 +11,7 @@ type CountrySelectProps = {
   onCountrySelect: (country: CountryStation) => void
 }
 
-function CountrySelect({ onCountrySelect }: CountrySelectProps) {
+function CountrySelect({ onCountrySelect }: Readonly<CountrySelectProps>) {
   const SCROLL_AMOUNT = 500
   const [selectedCountry, setSelectedCountry] = useState<string>(
     DEFAULT_COUNTRY_SEARCH.name

@@ -14,11 +14,7 @@ function BreadcrumbLink({
   children,
 }: BreadcrumbLinkProps) {
   return (
-    <Link
-      to={href}
-      style={breadcrumbLinkStyle}
-      data-testid={dataTestId ? dataTestId : null}
-    >
+    <Link to={href} style={breadcrumbLinkStyle} data-testid={dataTestId}>
       {children}
     </Link>
   )

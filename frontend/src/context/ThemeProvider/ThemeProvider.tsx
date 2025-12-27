@@ -12,8 +12,10 @@ type Theme = {
 // eslint-disable-next-line react-refresh/only-export-components
 export const ThemeContext = createContext<Theme | undefined>(undefined)
 
+type ThemeProviderProps = { children: React.ReactNode }
+
 // https://stackoverflow.com/questions/61117608/how-do-i-set-system-preference-dark-mode-in-a-react-app-but-also-allow-users-to
-function ThemeProvider({ children }: { children: React.ReactNode }) {
+function ThemeProvider({ children }: Readonly<ThemeProviderProps>) {
   const { getItem: getStorageTheme, setItem: setStorageTheme } =
     useLocalStorage("THEME")
   const [isDark, setIsDark] = useState<boolean | undefined>(undefined)
@@ -37,7 +39,7 @@ function ThemeProvider({ children }: { children: React.ReactNode }) {
       setIsDark(savedTheme === darkTheme)
     } else {
       // set starting theme based on user preference
-      const isDarkThemePreferred = window.matchMedia(
+      const isDarkThemePreferred = globalThis.matchMedia(
         "(prefers-color-scheme: dark)"
       ).matches
       applyTheme(isDarkThemePreferred ? darkTheme : lightTheme)

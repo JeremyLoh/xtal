@@ -71,7 +71,9 @@ export default function AboutPage() {
   )
 }
 
-function AboutSectionCard({ text, Icon }: { text: string; Icon: IconType }) {
+type AboutSectionCardProps = { text: string; Icon: IconType }
+
+function AboutSectionCard({ text, Icon }: Readonly<AboutSectionCardProps>) {
   const ICON_SIZE = 36
   return (
     <div className="about-section-card">
@@ -121,7 +123,9 @@ function AboutSectionStats() {
       <div className="about-page-podcast-stats-container">
         {/* ensure podcast stats container has explicit height to prevent layout shift - need to be outside <LoadingDisplay> to exist in DOM */}
         <LoadingDisplay loading={loading}>
-          {currentStats != null ? (
+          {currentStats == null ? (
+            <p>Could not get current podcast stats</p>
+          ) : (
             <>
               <b>
                 <span className="about-page-podcast-stats-figure">
@@ -152,8 +156,6 @@ function AboutSectionStats() {
                 </Link>
               </b>
             </>
-          ) : (
-            <p>Could not get current podcast stats</p>
           )}
         </LoadingDisplay>
       </div>

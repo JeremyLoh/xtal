@@ -37,7 +37,7 @@ function RadioPlayer({
   source,
   onError,
   onReady,
-}: RadioPlayerProps) {
+}: Readonly<RadioPlayerProps>) {
   const [error, setError] = useState<boolean>(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const hlsRef = useRef<HlsVideoElement | null>(null)
@@ -62,9 +62,7 @@ function RadioPlayer({
 
   const handlePlay = useCallback(() => {
     setError(false)
-    if (audioRef.current && onReady) {
-      onReady()
-    } else if (hlsRef.current && onReady) {
+    if ((audioRef.current || hlsRef.current) && onReady) {
       onReady()
     }
   }, [onReady])
@@ -80,10 +78,10 @@ function RadioPlayer({
       audio = audioRef
     }
     return () => {
-      if (ref && ref.current) {
+      if (ref?.current) {
         ref.current.src = ""
       }
-      if (audio && audio.current) {
+      if (audio?.current) {
         audio.current.src = ""
       }
     }
@@ -178,18 +176,18 @@ function getAudioSource(station: Station): RadioSource {
     ["MP3", "audio/mpeg"],
   ])
   const codec = station.codec ? station.codec.trim().toUpperCase() : ""
-  if (codec != null && codec.includes(",")) {
+  if (codec.includes(",")) {
     // handle multiple values in codec (e.g. "AAC,H.264"), find valid codec
     const codecs = codec.split(",").filter((c) => codecToType.has(c))
     const values = codecs.flatMap((c) => {
-      if (codecToType == null || !codecToType.has(c)) {
+      if (!codecToType.has(c)) {
         return []
       }
       return { src: station.url_resolved, type: codecToType.get(c) || "hls" }
     })
     return values[0]
   }
-  if (codec != null && codecToType.has(codec)) {
+  if (codecToType.has(codec)) {
     return {
       src: station.url_resolved,
       type: codecToType.get(codec) || "hls",

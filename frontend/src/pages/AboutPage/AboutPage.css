@@ -61,7 +61,7 @@
   width: min(
     70vw,
     500px
-  ); /* Fix incorrect values for window.innerWidth on mobile first load, should be same as the size of profile picture in code */
+  ); /* Fix incorrect values for globalThis.innerWidth on mobile first load, should be same as the size of profile picture in code */
   height: auto;
 }
 

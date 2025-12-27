@@ -27,7 +27,7 @@ function useTrendingPodcasts({
     }
     try {
       const podcasts = await getTrendingPodcasts(params)
-      if (podcasts && podcasts.data) {
+      if (podcasts?.data) {
         return podcasts.data
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

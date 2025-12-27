@@ -7,20 +7,17 @@ const categoryLinkStyle = { textDecoration: "none", width: "fit-content" }
 
 const Categories = function PodcastCardCategories() {
   const { podcast } = usePodcastCardContext()
-  return (
-    podcast.categories &&
-    podcast.categories.map((category, index) => {
-      return (
-        <Link
-          key={`category-link-${category}`}
-          to={podcastCategoryPage(category)}
-          style={categoryLinkStyle}
-        >
-          <Pill key={`${category}-${index}`}>{category}</Pill>
-        </Link>
-      )
-    })
-  )
+  return podcast.categories?.map((category, index) => {
+    return (
+      <Link
+        key={`category-link-${category}`}
+        to={podcastCategoryPage(category)}
+        style={categoryLinkStyle}
+      >
+        <Pill key={`${category}-${index}`}>{category}</Pill>
+      </Link>
+    )
+  })
 }
 
 export default Categories

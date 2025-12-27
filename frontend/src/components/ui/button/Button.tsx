@@ -25,7 +25,7 @@ function Button({
       {/* @ts-expect-error {...rest} will be valid props */}
       <motion.button
         key={keyProp}
-        className={`button ${variant ? variant : ""} ${className ?? ""}`}
+        className={`button ${variant ?? ""} ${className ?? ""}`.trim()}
         transition={buttonTransition}
         whileHover={buttonWhileHover}
         whileTap={buttonWhileTap}

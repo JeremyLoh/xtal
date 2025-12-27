@@ -30,7 +30,7 @@ function TrendingPodcastSection({
   trendingPodcasts,
   filters,
   onRefresh,
-}: TrendingPodcastSectionProps) {
+}: Readonly<TrendingPodcastSectionProps>) {
   const { isMobile } = useScreenDimensions()
   const [page, setPage] = useState<number>(1)
 
@@ -53,7 +53,7 @@ function TrendingPodcastSection({
         return
       }
       const previousOffset =
-        filters.offset != null ? filters.offset - LIMIT_PER_PAGE : 0
+        filters.offset == null ? 0 : filters.offset - LIMIT_PER_PAGE
       const nextFilter = {
         ...filters,
         offset: previousOffset,
@@ -70,9 +70,9 @@ function TrendingPodcastSection({
         return
       }
       const nextOffset =
-        filters.offset != null
-          ? filters.offset + LIMIT_PER_PAGE
-          : 0 + LIMIT_PER_PAGE
+        filters.offset == null
+          ? 0 + LIMIT_PER_PAGE
+          : filters.offset + LIMIT_PER_PAGE
       const nextFilter = {
         ...filters,
         offset: nextOffset,

@@ -68,7 +68,7 @@ function usePodcastEpisodes({
           abortController.current,
           params
         )
-        if (podcastEpisodes && podcastEpisodes.data) {
+        if (podcastEpisodes?.data) {
           setPodcastEpisodes(podcastEpisodes.data.episodes)
           setPodcast(podcastEpisodes.data.podcast)
           setLoading(false)

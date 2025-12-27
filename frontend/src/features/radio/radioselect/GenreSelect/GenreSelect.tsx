@@ -11,7 +11,7 @@ type GenreSelectProps = {
   onGenreSelect: (genre: GenreInformation) => void
 }
 
-function GenreSelect(props: GenreSelectProps) {
+function GenreSelect(props: Readonly<GenreSelectProps>) {
   const SCROLL_AMOUNT = 500
   const [selectedGenre, setSelectedGenre] = useState<string>(
     DEFAULT_GENRE_SEARCH.genre

@@ -17,7 +17,7 @@ function usePodcastEpisode() {
     try {
       const params = { id: episodeId }
       const response = await getPodcastEpisode(abortController.current, params)
-      if (response && response.data) {
+      if (response?.data) {
         setEpisode(response.data)
         setError(null)
       } else {

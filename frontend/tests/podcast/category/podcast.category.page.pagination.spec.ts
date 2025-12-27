@@ -8,36 +8,36 @@ import {
 import { assertLoadingSpinnerIsMissing } from "../../constants/loadingConstants"
 import PodcastCategoryPage from "../../pageObjects/PodcastCategoryPage"
 
+function convertToUnixTimestamp(daysBefore: number): number {
+  return dayjs().startOf("day").subtract(daysBefore, "days").unix()
+}
+
+async function assertTrendingPodcastIsShown(
+  podcastCategoryPage: PodcastCategoryPage,
+  expectedIndex: number,
+  expectedPodcast: (typeof tenArtTrendingPodcasts.data)[0]
+) {
+  await expect(
+    podcastCategoryPage.getTrendingPodcastArtwork().nth(expectedIndex),
+    `(Podcast ${expectedIndex + 1}) should have artwork present`
+  ).toBeVisible()
+  await expect(
+    podcastCategoryPage
+      .getTrendingPodcastTitle()
+      .nth(expectedIndex)
+      .getByText(expectedPodcast.title, { exact: true }),
+    `(Podcast ${expectedIndex + 1}) should have title present`
+  ).toBeVisible()
+  await expect(
+    podcastCategoryPage
+      .getTrendingPodcastAuthor()
+      .nth(expectedIndex)
+      .getByText(expectedPodcast.author, { exact: true }),
+    `(Podcast ${expectedIndex + 1}) should have author present`
+  ).toBeVisible()
+}
+
 test.describe("Pagination on Podcast Category Page /podcasts/<category_name>", () => {
-  function convertToUnixTimestamp(daysBefore: number): number {
-    return dayjs().startOf("day").subtract(daysBefore, "days").unix()
-  }
-
-  async function assertTrendingPodcastIsShown(
-    podcastCategoryPage: PodcastCategoryPage,
-    expectedIndex: number,
-    expectedPodcast: (typeof tenArtTrendingPodcasts.data)[0]
-  ) {
-    await expect(
-      podcastCategoryPage.getTrendingPodcastArtwork().nth(expectedIndex),
-      `(Podcast ${expectedIndex + 1}) should have artwork present`
-    ).toBeVisible()
-    await expect(
-      podcastCategoryPage
-        .getTrendingPodcastTitle()
-        .nth(expectedIndex)
-        .getByText(expectedPodcast.title, { exact: true }),
-      `(Podcast ${expectedIndex + 1}) should have title present`
-    ).toBeVisible()
-    await expect(
-      podcastCategoryPage
-        .getTrendingPodcastAuthor()
-        .nth(expectedIndex)
-        .getByText(expectedPodcast.author, { exact: true }),
-      `(Podcast ${expectedIndex + 1}) should have author present`
-    ).toBeVisible()
-  }
-
   test.describe("Trending Podcasts Section", () => {
     test("should display active page, next and previous pagination buttons", async ({
       podcastCategoryPage,

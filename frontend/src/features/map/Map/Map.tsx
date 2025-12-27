@@ -15,7 +15,7 @@ type MapProps = {
   latLng: L.LatLngExpression
 }
 
-function Map(props: MapProps) {
+function Map(props: Readonly<MapProps>) {
   const [currentPopup, setCurrentPopup] = useState<L.Popup | null>(null)
   const [popupContainer, setPopupContainer] = useState<HTMLElement | null>(null)
 

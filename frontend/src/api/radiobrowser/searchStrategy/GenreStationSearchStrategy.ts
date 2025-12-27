@@ -19,9 +19,9 @@ export class GenreStationSearchStrategy implements StationSearchStrategy {
     const tag = this.genre.searchTag
     const limit = 3
     const searchParams = new URLSearchParams(
-      tag !== ""
-        ? `order=random&limit=${limit}&hidebroken=true&is_https=true&offset=${offset}&tag=${tag}`
-        : `order=random&limit=${limit}&hidebroken=true&is_https=true&offset=${offset}`
+      tag === ""
+        ? `order=random&limit=${limit}&hidebroken=true&is_https=true&offset=${offset}`
+        : `order=random&limit=${limit}&hidebroken=true&is_https=true&offset=${offset}&tag=${tag}`
     )
     const server = await getRandomServer()
     const url = `${server}/json/stations/search`

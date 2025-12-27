@@ -76,11 +76,9 @@ export default function PodcastDetailPage() {
 
   const handleEpisodeFilterChange = useCallback(
     ({ durationInMinutes }: PodcastEpisodeListFiltersType) => {
-      if (durationInMinutes != null) {
-        setEpisodeFilter({ ...episodeFilter, durationInMinutes })
-      } else {
-        setEpisodeFilter({})
-      }
+      setEpisodeFilter(
+        durationInMinutes == null ? {} : { ...episodeFilter, durationInMinutes }
+      )
     },
     [episodeFilter]
   )
@@ -185,7 +183,7 @@ function parseToPageInt(value: string | null) {
   }
   try {
     const pageNumber = Number.parseInt(value)
-    return pageNumber >= 1 ? pageNumber : 1
+    return Math.max(pageNumber, 1)
   } catch {
     return 1
   }

@@ -23,7 +23,7 @@ function PodcastEpisodeList({
   episodes,
   podcastTitle,
   podcastId,
-}: PodcastEpisodeListProps) {
+}: Readonly<PodcastEpisodeListProps>) {
   const { height } = useScreenDimensions()
   const podcastEpisodeDispatchContext = useContext(
     PodcastEpisodeDispatchContext

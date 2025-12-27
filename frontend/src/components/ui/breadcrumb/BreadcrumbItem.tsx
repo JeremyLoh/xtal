@@ -4,7 +4,7 @@ type BreadcrumbItemProps = PropsWithChildren
 
 const breadcrumbItemStyle = { width: "fit-content" }
 
-function BreadcrumbItem({ children }: BreadcrumbItemProps) {
+function BreadcrumbItem({ children }: Readonly<BreadcrumbItemProps>) {
   return <span style={breadcrumbItemStyle}>{children}</span>
 }
 
