@@ -17,7 +17,7 @@ const LastActiveTime = function PodcastCardLastActiveTime({
   }
   const timeFromNow = dayjs.unix(podcast.latestPublishTime).fromNow()
   return (
-    <div className={`podcast-card-last-active ${className ? className : ""}`}>
+    <div className={`podcast-card-last-active ${className ?? ""}`}>
       Last Active {timeFromNow}
     </div>
   )

@@ -40,7 +40,7 @@ function Dialog({ title, open, onClose, className, children }: DialogProps) {
           <motion.div className="dialog-dim-background" />
           <motion.div
             ref={contentRef}
-            className={`dialog ${className ? className : ""}`}
+            className={`dialog ${className ?? ""}`}
             initial={dialogInitial}
             animate={dialogAnimate}
             exit={dialogExit}

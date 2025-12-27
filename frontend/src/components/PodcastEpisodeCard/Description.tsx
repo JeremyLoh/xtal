@@ -37,9 +37,7 @@ const Description = function PodcastEpisodeCardDescription({
   return (
     <div
       ref={descriptionDivRef}
-      className={`podcast-episode-card-description ${
-        className ? className : ""
-      }`}
+      className={`podcast-episode-card-description ${className ?? ""}`}
     ></div>
   )
 }
