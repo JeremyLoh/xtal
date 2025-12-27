@@ -1,6 +1,6 @@
 import { test } from "./fixture/test"
 import { expect } from "@playwright/test"
-import process from "process"
+import process from "node:process"
 import { unitedStatesStation } from "./mocks/station"
 import {
   assertToastMessage,
@@ -8,18 +8,18 @@ import {
 } from "./constants/toasterConstants"
 import { assertLoadingSpinnerIsMissing } from "./constants/loadingConstants"
 
+function uuid() {
+  return crypto.randomUUID()
+}
+
+function assertMaxFavouriteStationsEnvProperty(max: number) {
+  expect(
+    process.env.VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS,
+    ".env.local environment property VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS should be defined"
+  ).toBe(`${max}`)
+}
+
 test.describe("radio station favourite station limit feature", () => {
-  function uuid() {
-    return crypto.randomUUID()
-  }
-
-  function assertMaxFavouriteStationsEnvProperty(max: number) {
-    expect(
-      process.env.VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS,
-      ".env.local environment property VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS should be defined"
-    ).toBe(`${max}`)
-  }
-
   test("should show warning toast when total favourite stations limit is reached", async ({
     homePage,
     headless,
