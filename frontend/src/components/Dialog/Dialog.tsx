@@ -33,37 +33,35 @@ function Dialog({ title, open, onClose, className, children }: DialogProps) {
   return createPortal(
     <AnimatePresence>
       {open && (
-        <>
+        <motion.div
+          className="dialog-container"
+          onClick={handleBackgroundClick}
+        >
+          <motion.div className="dialog-dim-background" />
           <motion.div
-            className="dialog-container"
-            onClick={handleBackgroundClick}
+            ref={contentRef}
+            className={`dialog ${className ?? ""}`}
+            initial={dialogInitial}
+            animate={dialogAnimate}
+            exit={dialogExit}
+            transition={dialogTransition}
           >
-            <motion.div className="dialog-dim-background" />
-            <motion.div
-              ref={contentRef}
-              className={`dialog ${className ? className : ""}`}
-              initial={dialogInitial}
-              animate={dialogAnimate}
-              exit={dialogExit}
-              transition={dialogTransition}
-            >
-              <motion.div className="dialog-header">
-                <motion.h3>{title}</motion.h3>
-                <Button
-                  keyProp="dialog-close-button"
-                  className="dialog-close-button"
-                  variant="icon"
-                  title="Close Dialog"
-                  onClick={onClose}
-                >
-                  <IoClose size={24} />
-                </Button>
-              </motion.div>
-              <Separator />
-              <motion.div>{children}</motion.div>
+            <motion.div className="dialog-header">
+              <motion.h3>{title}</motion.h3>
+              <Button
+                keyProp="dialog-close-button"
+                className="dialog-close-button"
+                variant="icon"
+                title="Close Dialog"
+                onClick={onClose}
+              >
+                <IoClose size={24} />
+              </Button>
             </motion.div>
+            <Separator />
+            <motion.div>{children}</motion.div>
           </motion.div>
-        </>
+        </motion.div>
       )}
     </AnimatePresence>,
     document.body

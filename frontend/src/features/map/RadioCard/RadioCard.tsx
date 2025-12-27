@@ -13,7 +13,7 @@ type RadioCardProps = {
 }
 
 // Display radio player on map as a popup
-function RadioCard(props: RadioCardProps) {
+function RadioCard(props: Readonly<RadioCardProps>) {
   const { station } = props
   const stationAudioSource = useMemo(() => {
     return getAudioSource(station)
@@ -21,7 +21,7 @@ function RadioCard(props: RadioCardProps) {
   const { copyRadioStationShareUrl } = useClipboard()
   const favouriteStationsContext = useContext(FavouriteStationsContext)
   const [error, setError] = useState<string | null>(null)
-  const [isFavourite, setFavourite] = useState<boolean>(
+  const [isFavourite, setIsFavourite] = useState<boolean>(
     favouriteStationsContext
       ?.getFavouriteStations()
       .some((s: Station) => s.stationuuid === station.stationuuid) || false
@@ -29,7 +29,7 @@ function RadioCard(props: RadioCardProps) {
 
   useEffect(() => {
     // handle favourite station change by other components
-    setFavourite(
+    setIsFavourite(
       favouriteStationsContext
         ?.getFavouriteStations()
         .some((s: Station) => s.stationuuid === station.stationuuid) || false
@@ -46,7 +46,7 @@ function RadioCard(props: RadioCardProps) {
           (s: Station) => s.stationuuid !== station.stationuuid
         )
       )
-      setFavourite(!isFavourite)
+      setIsFavourite(!isFavourite)
     } else {
       handleAddFavouriteStation(previousStations)
     }
@@ -57,23 +57,25 @@ function RadioCard(props: RadioCardProps) {
     const { MAX_FAVOURITE_STATIONS_ANONYMOUS } = getEnv()
     const isFavouriteStationLimitReached =
       MAX_FAVOURITE_STATIONS_ANONYMOUS != undefined &&
-      previousStationCount + 1 === parseInt(MAX_FAVOURITE_STATIONS_ANONYMOUS)
+      previousStationCount + 1 ===
+        Number.parseInt(MAX_FAVOURITE_STATIONS_ANONYMOUS)
     const isFavouriteStationBelowLimit =
       MAX_FAVOURITE_STATIONS_ANONYMOUS != undefined &&
-      previousStationCount + 1 <= parseInt(MAX_FAVOURITE_STATIONS_ANONYMOUS)
+      previousStationCount + 1 <=
+        Number.parseInt(MAX_FAVOURITE_STATIONS_ANONYMOUS)
 
     if (isFavouriteStationLimitReached) {
       toast.warning(
         `Favourite station limit of ${MAX_FAVOURITE_STATIONS_ANONYMOUS} reached`
       )
-      setFavourite(!isFavourite)
+      setIsFavourite(!isFavourite)
     }
     if (isFavouriteStationBelowLimit) {
       favouriteStationsContext?.setFavouriteStations([
         station,
         ...previousStations,
       ])
-      setFavourite(!isFavourite)
+      setIsFavourite(!isFavourite)
     } else {
       toast.error(
         `Could not add favourite station. Exceeded limit of ${MAX_FAVOURITE_STATIONS_ANONYMOUS}`

@@ -22,7 +22,7 @@ async function getPodcastFollowStatusById(
     if (error.name === "AbortError") {
       return null
     }
-    if (error.response && error.response.status === 429) {
+    if (error.response?.status === 429) {
       throw new Error(
         `Podcast Check Follow History Rate Limit Exceeded, please try again later`
       )
@@ -57,7 +57,7 @@ async function addPodcastFollow(
     if (error.name === "AbortError") {
       return null
     }
-    if (error.response && error.response.status === 429) {
+    if (error.response?.status === 429) {
       throw new Error(
         `Podcast Follow Rate Limit Exceeded, please try again later`
       )
@@ -86,7 +86,7 @@ async function removePodcastFollow(
     if (error.name === "AbortError") {
       return null
     }
-    if (error.response && error.response.status === 429) {
+    if (error.response?.status === 429) {
       throw new Error(
         `Podcast Unfollow Rate Limit Exceeded, please try again later`
       )

@@ -27,7 +27,7 @@ export default function AboutPage() {
           data-testid="jeremy-profile-picture"
           className="jeremy-profile-picture"
           src={jeremyProfilePicture}
-          alt="Profile Picture of Jeremy_Loh"
+          alt="Jeremy Loh"
           width={profilePictureSize}
           height={profilePictureSize}
         />

@@ -47,7 +47,7 @@ async function ensureBackendIsRunning() {
     await ky.get(backendStatusEndpoint, { retry: 0 })
   } catch (error) {
     // allow for rate limit status (HTTP 429)
-    if (error.response && error.response.status === 429) {
+    if (error.response?.status === 429) {
       return
     }
     throw new Error(errorMessage)

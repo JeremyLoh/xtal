@@ -197,6 +197,52 @@ describe("GET /api/podcast/episode (single episode information)", () => {
   })
 })
 
+function getExpectedEpisodeData(podcastResponse: any, episodeItems: any[]) {
+  // convert PodcastIndex API episode "items" response array to expected /api/podcast/episodes json response for "data"
+  return {
+    podcast: {
+      id: podcastResponse.feed.id,
+      title: podcastResponse.feed.title,
+      url: podcastResponse.feed.link,
+      description: getSanitizedHtmlText(podcastResponse.feed.description || ""),
+      author: podcastResponse.feed.author,
+      image: podcastResponse.feed.image || podcastResponse.feed.artwork,
+      language:
+        Language[
+          podcastResponse.feed.language.toLowerCase() as keyof typeof Language
+        ],
+      latestPublishTime: podcastResponse.feed.lastUpdateTime,
+      isExplicit: podcastResponse.feed.explicit,
+      episodeCount: podcastResponse.feed.episodeCount,
+      categories: podcastResponse.feed.categories
+        ? Object.values(podcastResponse.feed.categories)
+        : [],
+    },
+    episodes: episodeItems.map((episode) => {
+      return {
+        id: episode.id,
+        feedId: episode.feedId,
+        feedUrl: episode.feedUrl,
+        title: episode.title,
+        description: getSanitizedHtmlText(episode.description || ""),
+        contentUrl: episode.enclosureUrl, // url link to episode file
+        contentType: episode.enclosureType, // Content-Type of the episode file (e.g. mp3 => "audio\/mpeg")
+        durationInSeconds: episode.duration,
+        datePublished: episode.datePublished, // unix epoch time in seconds
+        isExplicit: episode.explicit === 1, // Not explicit = 0. Explicit = 1
+        episodeNumber: episode.episode,
+        seasonNumber: episode.season,
+        image: episode.image || episode.feedImage,
+        language:
+          Language[episode.feedLanguage.toLowerCase() as keyof typeof Language],
+        people: episode.persons || null,
+        externalWebsiteUrl: episode.link,
+        transcripts: episode.transcripts || null,
+      }
+    }),
+  }
+}
+
 describe("GET /api/podcast/episodes", () => {
   const expectedOrigin = getFrontendOrigin() || ""
 
@@ -207,56 +253,6 @@ describe("GET /api/podcast/episodes", () => {
   afterEach(() => {
     vi.restoreAllMocks()
   })
-
-  function getExpectedEpisodeData(podcastResponse: any, episodeItems: any[]) {
-    // convert PodcastIndex API episode "items" response array to expected /api/podcast/episodes json response for "data"
-    return {
-      podcast: {
-        id: podcastResponse.feed.id,
-        title: podcastResponse.feed.title,
-        url: podcastResponse.feed.link,
-        description: getSanitizedHtmlText(
-          podcastResponse.feed.description || ""
-        ),
-        author: podcastResponse.feed.author,
-        image: podcastResponse.feed.image || podcastResponse.feed.artwork,
-        language:
-          Language[
-            podcastResponse.feed.language.toLowerCase() as keyof typeof Language
-          ],
-        latestPublishTime: podcastResponse.feed.lastUpdateTime,
-        isExplicit: podcastResponse.feed.explicit,
-        episodeCount: podcastResponse.feed.episodeCount,
-        categories: podcastResponse.feed.categories
-          ? Object.values(podcastResponse.feed.categories)
-          : [],
-      },
-      episodes: episodeItems.map((episode) => {
-        return {
-          id: episode.id,
-          feedId: episode.feedId,
-          feedUrl: episode.feedUrl,
-          title: episode.title,
-          description: getSanitizedHtmlText(episode.description || ""),
-          contentUrl: episode.enclosureUrl, // url link to episode file
-          contentType: episode.enclosureType, // Content-Type of the episode file (e.g. mp3 => "audio\/mpeg")
-          durationInSeconds: episode.duration,
-          datePublished: episode.datePublished, // unix epoch time in seconds
-          isExplicit: episode.explicit === 1, // Not explicit = 0. Explicit = 1
-          episodeNumber: episode.episode,
-          seasonNumber: episode.season,
-          image: episode.image || episode.feedImage,
-          language:
-            Language[
-              episode.feedLanguage.toLowerCase() as keyof typeof Language
-            ],
-          people: episode.persons || null,
-          externalWebsiteUrl: episode.link,
-          transcripts: episode.transcripts || null,
-        }
-      }),
-    }
-  }
 
   describe("invalid parameters", () => {
     describe("id parameter", () => {

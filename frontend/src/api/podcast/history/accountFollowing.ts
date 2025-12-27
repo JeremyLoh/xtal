@@ -13,7 +13,7 @@ export async function getAccountTotalFollowedPodcasts() {
     return json.total
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    if (error.response && error.response.status === 429) {
+    if (error.response?.status === 429) {
       throw new Error(
         `Get account podcast following total count Rate Limit Exceeded. Please try again later`
       )
@@ -43,7 +43,7 @@ export async function getAccountLatestFollowedPodcasts(
     return json
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    if (error.response && error.response.status === 429) {
+    if (error.response?.status === 429) {
       throw new Error(
         `Get account podcast following history Rate Limit Exceeded. Please try again later`
       )

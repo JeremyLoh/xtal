@@ -27,7 +27,7 @@ export async function getPodcastImage(
     if (error.name === "AbortError") {
       return null
     }
-    if (error.response && error.response.status === 429) {
+    if (error.response?.status === 429) {
       throw new Error(`Image Rate Limit Exceeded, please try again later`)
     }
     return null

@@ -4,7 +4,7 @@ import { Station } from "../types.ts"
 import { StationSearchStrategy } from "./StationSearchStrategy.ts"
 
 export class UuidSearchStrategy implements StationSearchStrategy {
-  private stationuuid: string
+  private readonly stationuuid: string
 
   constructor(stationuuid: string) {
     this.stationuuid = stationuuid

@@ -21,20 +21,18 @@ export default memo(function TrendingPodcastFilters({
   )
 
   return (
-    <>
-      <label>
-        Since
-        <select
-          className="podcast-trending-since-select"
-          name="podcast-trending-since"
-          defaultValue={sinceDays}
-          onChange={handleSinceChange}
-        >
-          <option value="1">Last 24 hours</option>
-          <option value="3">Last 72 hours</option>
-          <option value="7">Last Week</option>
-        </select>
-      </label>
-    </>
+    <label>
+      Since{" "}
+      <select
+        className="podcast-trending-since-select"
+        name="podcast-trending-since"
+        defaultValue={sinceDays}
+        onChange={handleSinceChange}
+      >
+        <option value="1">Last 24 hours</option>
+        <option value="3">Last 72 hours</option>
+        <option value="7">Last Week</option>
+      </select>
+    </label>
   )
 })

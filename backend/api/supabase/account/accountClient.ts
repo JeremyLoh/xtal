@@ -6,13 +6,12 @@ import logger from "../../../logger.js"
 import { Podcast } from "../../../model/podcast.js"
 
 // Create singleton for the supabase client
-let instance: AccountClient
-
 class AccountClient {
-  private supabase: SupabaseClient<Database, "public", any>
+  private static instance: AccountClient | null = null
+  private readonly supabase: SupabaseClient<Database, "public", any>
 
   constructor() {
-    if (instance) {
+    if (AccountClient.instance) {
       throw new Error("Unable to create multiple AccountClient instances")
     }
     if (process.env.SUPABASE_PROJECT_URL == null) {
@@ -30,7 +29,7 @@ class AccountClient {
       process.env.SUPABASE_PROJECT_SERVICE_ROLE_API_KEY
     )
     this.supabase = supabase
-    instance = this
+    AccountClient.instance = this
   }
 
   getInstance() {

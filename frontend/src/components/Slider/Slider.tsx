@@ -27,7 +27,7 @@ function Slider({ children, scrollAmount, className }: SliderProps) {
   }, [scrollAmount])
 
   return (
-    <div className={`slider-container ${className ? className : ""}`}>
+    <div className={`slider-container ${className ?? ""}`}>
       <FaChevronLeft
         size={16}
         className="icon slide-left-icon"
