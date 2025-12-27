@@ -11,56 +11,56 @@ import PodcastDetailPage from "../../pageObjects/PodcastDetailPage"
 
 dayjs.extend(duration)
 
+function getEpisodeDatePublished(unixSecondsDatePublished: number) {
+  return dayjs.unix(unixSecondsDatePublished).format("MMMM D, YYYY")
+}
+
+async function assertEpisodePlayerHasText(
+  podcastDetailPage: PodcastDetailPage,
+  expectedText: string
+) {
+  await expect(
+    podcastDetailPage.getPodcastPlayer().getByText(expectedText, {
+      exact: true,
+    })
+  ).toBeVisible()
+}
+
+async function assertPodcastPlayerHasEpisode(
+  podcastDetailPage: PodcastDetailPage,
+  expectedEpisode,
+  expectedArtworkSize: string
+) {
+  await expect(
+    podcastDetailPage.getPodcastPlayerAudio(),
+    "should have <audio> loaded with podcast episode"
+  ).toHaveAttribute("src", expectedEpisode.contentUrl)
+  await expect(
+    podcastDetailPage.getPodcastPlayerAudio(),
+    "should not have <audio> autoplay with podcast episode"
+  ).not.toHaveAttribute("autoplay")
+  const artwork = podcastDetailPage.getPodcastPlayerArtwork(
+    expectedEpisode.title
+  )
+  await expect(artwork).toBeVisible()
+  expect(
+    await artwork.getAttribute("width"),
+    `should have podcast artwork image width of ${expectedArtworkSize}`
+  ).toBe(expectedArtworkSize)
+
+  await assertEpisodePlayerHasText(podcastDetailPage, expectedEpisode.title)
+  await assertEpisodePlayerHasText(
+    podcastDetailPage,
+    `Episode ${expectedEpisode.episodeNumber}`
+  )
+  const expectedDateFormat = getEpisodeDatePublished(
+    expectedEpisode.datePublished
+  )
+  await assertEpisodePlayerHasText(podcastDetailPage, expectedDateFormat)
+}
+
 test.describe("Podcast detail page for individual podcast", () => {
   test.describe("podcast episode player", () => {
-    function getEpisodeDatePublished(unixSecondsDatePublished: number) {
-      return dayjs.unix(unixSecondsDatePublished).format("MMMM D, YYYY")
-    }
-
-    async function assertEpisodePlayerHasText(
-      podcastDetailPage: PodcastDetailPage,
-      expectedText: string
-    ) {
-      await expect(
-        podcastDetailPage.getPodcastPlayer().getByText(expectedText, {
-          exact: true,
-        })
-      ).toBeVisible()
-    }
-
-    async function assertPodcastPlayerHasEpisode(
-      podcastDetailPage: PodcastDetailPage,
-      expectedEpisode,
-      expectedArtworkSize: string
-    ) {
-      await expect(
-        podcastDetailPage.getPodcastPlayerAudio(),
-        "should have <audio> loaded with podcast episode"
-      ).toHaveAttribute("src", expectedEpisode.contentUrl)
-      await expect(
-        podcastDetailPage.getPodcastPlayerAudio(),
-        "should not have <audio> autoplay with podcast episode"
-      ).not.toHaveAttribute("autoplay")
-      const artwork = podcastDetailPage.getPodcastPlayerArtwork(
-        expectedEpisode.title
-      )
-      await expect(artwork).toBeVisible()
-      expect(
-        await artwork.getAttribute("width"),
-        `should have podcast artwork image width of ${expectedArtworkSize}`
-      ).toBe(expectedArtworkSize)
-
-      await assertEpisodePlayerHasText(podcastDetailPage, expectedEpisode.title)
-      await assertEpisodePlayerHasText(
-        podcastDetailPage,
-        `Episode ${expectedEpisode.episodeNumber}`
-      )
-      const expectedDateFormat = getEpisodeDatePublished(
-        expectedEpisode.datePublished
-      )
-      await assertEpisodePlayerHasText(podcastDetailPage, expectedDateFormat)
-    }
-
     test.describe("minimize and expand podcast player", () => {
       test("should minimize podcast player episode when minimize podcast player button is clicked", async ({
         podcastDetailPage,
