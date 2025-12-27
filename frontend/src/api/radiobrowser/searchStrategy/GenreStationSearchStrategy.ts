@@ -5,7 +5,7 @@ import { Station } from "../types.ts"
 import { StationSearchStrategy } from "./StationSearchStrategy.ts"
 
 export class GenreStationSearchStrategy implements StationSearchStrategy {
-  private genre: GenreInformation
+  private readonly genre: GenreInformation
 
   constructor(genre: GenreInformation) {
     this.genre = genre

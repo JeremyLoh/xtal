@@ -5,7 +5,7 @@ import { getRandomServer } from "../servers.ts"
 import { getAllStations } from "../station.ts"
 
 export class CountryStationSearchStrategy implements StationSearchStrategy {
-  private country: CountryStation
+  private readonly country: CountryStation
 
   constructor(country: CountryStation) {
     this.country = country
