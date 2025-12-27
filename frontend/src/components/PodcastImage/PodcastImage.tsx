@@ -84,6 +84,7 @@ export default memo(function PodcastImage({
       {imageSrc ? (
         <img
           {...(lazyLoad && { loading: "lazy" })}
+          alt={imageTitle}
           className={imageClassName}
           decoding="async"
           src={imageSrc}
