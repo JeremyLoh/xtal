@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --mode development",
     "prod": "vite --mode production",
-    "test": "npx playwright test --ui --headed",
+    "test:vitest": "vitest run --coverage",
+    "test:playwright": "npx playwright test --ui --headed",
     "build": "tsc -b && vite build --mode production",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -46,21 +47,26 @@
     "@eslint/js": "9.39.2",
     "@playwright/test": "1.57.0",
     "@tanstack/eslint-plugin-query": "5.91.2",
+    "@testing-library/dom": "10.4.1",
+    "@testing-library/react": "16.3.1",
     "@types/leaflet": "1.9.21",
     "@types/node": "22.15.30",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "4.5.2",
+    "@vitest/coverage-v8": "^4.0.16",
     "eslint": "9.39.2",
     "eslint-plugin-react-hooks": "7.0.1",
     "eslint-plugin-react-refresh": "0.4.26",
     "globals": "16.5.0",
+    "happy-dom": "^20.0.11",
     "rollup-plugin-visualizer": "6.0.1",
     "supertokens-node": "23.0.1",
     "typescript": "5.9.3",
     "typescript-eslint": "8.50.1",
     "vite": "7.1.10",
     "vite-plugin-compression2": "2.3.0",
-    "vite-plugin-node-csp": "1.0.0"
+    "vite-plugin-node-csp": "1.0.0",
+    "vitest": "4.0.16"
   }
 }
