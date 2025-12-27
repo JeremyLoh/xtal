@@ -51,7 +51,7 @@ function AudioPlayer({
       ref = audioRef
     }
     return () => {
-      if (ref && ref.current) {
+      if (ref?.current) {
         ref.current.src = ""
       }
     }
