@@ -13,8 +13,8 @@ test.describe("radio station favourite feature", () => {
   async function clearBrowserStorage(homePage: HomePage) {
     // must be done after page goto() call (after page opened)
     // clear browser localStorage used for saving favourite stations
-    await homePage.getPage().evaluate(() => window.localStorage.clear())
-    await homePage.getPage().evaluate(() => window.sessionStorage.clear())
+    await homePage.getPage().evaluate(() => globalThis.localStorage.clear())
+    await homePage.getPage().evaluate(() => globalThis.sessionStorage.clear())
   }
 
   async function assertEmptyFavouriteList(homePage: HomePage) {
@@ -188,7 +188,7 @@ test.describe("radio station favourite feature", () => {
       .locator(".favourite-station .station-card-share-icon")
       .click()
     const expectedUrl =
-      (await homePage.getPage().evaluate(() => window.location.href)) +
+      (await homePage.getPage().evaluate(() => globalThis.location.href)) +
       "radio-station/" +
       unitedStatesStation.stationuuid
     await waitForClipboardContent(homePage.getPage(), expectedUrl)

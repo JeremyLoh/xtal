@@ -37,7 +37,7 @@ function ThemeProvider({ children }: { children: React.ReactNode }) {
       setIsDark(savedTheme === darkTheme)
     } else {
       // set starting theme based on user preference
-      const isDarkThemePreferred = window.matchMedia(
+      const isDarkThemePreferred = globalThis.matchMedia(
         "(prefers-color-scheme: dark)"
       ).matches
       applyTheme(isDarkThemePreferred ? darkTheme : lightTheme)

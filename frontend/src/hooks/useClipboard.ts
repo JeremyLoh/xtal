@@ -10,7 +10,7 @@ import {
 
 function useClipboard() {
   const copyRadioStationShareUrl = useCallback((station: Station) => {
-    const origin = new URL(window.location.href).origin
+    const origin = new URL(globalThis.location.href).origin
     const stationPage = radioStationPage(station.stationuuid)
     navigator.clipboard
       .writeText(`${origin}${stationPage}`)
@@ -21,7 +21,7 @@ function useClipboard() {
   }, [])
 
   const copyPodcastShareUrl = useCallback((podcast: Podcast) => {
-    const origin = new URL(window.location.href).origin
+    const origin = new URL(globalThis.location.href).origin
     const detailPage = podcastDetailPage({
       podcastTitle: podcast.title,
       podcastId: `${podcast.id}`,
@@ -34,7 +34,7 @@ function useClipboard() {
 
   const copyPodcastEpisodeShareUrl = useCallback(
     (episode: PodcastEpisode, startDurationInSeconds: number) => {
-      const origin = new URL(window.location.href).origin
+      const origin = new URL(globalThis.location.href).origin
       const episodeDetailPage = podcastEpisodeDetailPage({
         podcastTitle: episode.feedTitle || "",
         podcastId: `${episode.feedId}`,

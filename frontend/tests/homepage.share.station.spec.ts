@@ -9,18 +9,18 @@ import { waitForClipboardContent } from "./constants/clipboardConstants"
 import HomePage from "./pageObjects/HomePage"
 import { homePageUrl } from "./constants/paths"
 
-test.describe("share radio station feature", () => {
-  async function getRadioStationShareUrl(
-    homePage: HomePage,
-    stationuuid: string
-  ) {
-    const shareUrl =
-      (await homePage.getPage().evaluate(() => window.location.href)) +
-      "radio-station/" +
-      stationuuid
-    return shareUrl
-  }
+async function getRadioStationShareUrl(
+  homePage: HomePage,
+  stationuuid: string
+) {
+  const shareUrl =
+    (await homePage.getPage().evaluate(() => globalThis.location.href)) +
+    "radio-station/" +
+    stationuuid
+  return shareUrl
+}
 
+test.describe("share radio station feature", () => {
   test("should show share icon on radio station card displayed on Map", async ({
     homePage,
   }) => {
