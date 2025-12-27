@@ -183,7 +183,7 @@ function parseToPageInt(value: string | null) {
   }
   try {
     const pageNumber = Number.parseInt(value)
-    return pageNumber >= 1 ? pageNumber : 1
+    return Math.max(pageNumber, 1)
   } catch {
     return 1
   }
