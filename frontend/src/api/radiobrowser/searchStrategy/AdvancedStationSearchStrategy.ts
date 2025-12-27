@@ -8,13 +8,13 @@ const criteriaToSearchParam = new Map<string, (value: string) => string | null>(
     ["name", (value: string) => `name=${value}`],
     [
       "language",
-      (value: string) => (value !== "" ? `language=${value}` : null),
+      (value: string) => (value === "" ? null : `language=${value}`),
     ],
     [
       "sort",
-      (value: string) => (value !== "" ? `order=${value}&reverse=true` : null),
+      (value: string) => (value === "" ? null : `order=${value}&reverse=true`),
     ],
-    ["tag", (value: string) => (value !== "" ? `tag=${value}` : null)],
+    ["tag", (value: string) => (value === "" ? null : `tag=${value}`)],
   ]
 )
 
