@@ -64,7 +64,7 @@ function Sidebar({ open, onClose, title, children }: SidebarProps) {
   )
 }
 
-function SidebarMenu({ children }: PropsWithChildren) {
+function SidebarMenu({ children }: Readonly<PropsWithChildren>) {
   return <motion.div>{children}</motion.div>
 }
 
@@ -82,7 +82,7 @@ function SidebarMenuItem({
   "data-testid": dataTestId,
   Icon,
   onClick,
-}: SidebarMenuItemProps) {
+}: Readonly<SidebarMenuItemProps>) {
   return (
     <motion.div
       key={`sidebar-menu-item-${title}`}

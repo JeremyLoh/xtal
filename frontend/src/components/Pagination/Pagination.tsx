@@ -21,7 +21,7 @@ function Pagination({
   onPreviousPageClick,
   onNextPageClick,
   onPageClick,
-}: PaginationProps) {
+}: Readonly<PaginationProps>) {
   const { isMobile } = useScreenDimensions()
 
   const handlePreviousClick = useCallback(() => {

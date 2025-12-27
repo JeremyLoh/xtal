@@ -17,7 +17,7 @@ function SearchBar({
   maxLength,
   className,
   placeholder,
-}: SearchBarProps) {
+}: Readonly<SearchBarProps>) {
   const [search, setSearch] = useState<string>("")
   const debouncedSearch = useDebounce<string>(search)
 

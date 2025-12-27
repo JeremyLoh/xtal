@@ -5,7 +5,7 @@ type PillProps = {
   className?: string
 }
 
-function Pill(props: PillProps) {
+function Pill(props: Readonly<PillProps>) {
   return (
     <span className={`pill ${props.className || ""}`}>{props.children}</span>
   )
