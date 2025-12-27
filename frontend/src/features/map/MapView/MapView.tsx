@@ -1,4 +1,4 @@
-import "./Map.css"
+import "./MapView.css"
 import "leaflet/dist/leaflet.css"
 // @ts-expect-error import minified version - https://leafletjs.com/download.html
 import L from "leaflet/dist/leaflet.js"
@@ -6,6 +6,7 @@ import { lazy, useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import { toast } from "sonner"
 import { Station } from "../../../api/radiobrowser/types.ts"
+
 const RadioCard = lazy(() => import("../RadioCard/RadioCard.tsx"))
 
 let map: L.Map
