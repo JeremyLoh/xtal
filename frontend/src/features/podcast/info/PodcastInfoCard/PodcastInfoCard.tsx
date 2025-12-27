@@ -9,7 +9,7 @@ type PodcastInfoCardProps = {
   podcast: Podcast | null
 }
 
-function PodcastInfoCard({ podcast }: PodcastInfoCardProps) {
+function PodcastInfoCard({ podcast }: Readonly<PodcastInfoCardProps>) {
   const { isMobile } = useScreenDimensions()
   const { copyPodcastShareUrl } = useClipboard()
 

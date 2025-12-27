@@ -17,7 +17,7 @@ function PodcastEpisodeItem({
   episode,
   titleUrl,
   onPlayClick,
-}: PodcastEpisodeItemProps) {
+}: Readonly<PodcastEpisodeItemProps>) {
   const { isMobile } = useScreenDimensions()
   const { copyPodcastEpisodeShareUrl } = useClipboard()
 

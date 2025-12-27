@@ -1,4 +1,4 @@
-import "./Map.css"
+import "./MapView.css"
 import "leaflet/dist/leaflet.css"
 // @ts-expect-error import minified version - https://leafletjs.com/download.html
 import L from "leaflet/dist/leaflet.js"
@@ -6,16 +6,17 @@ import { lazy, useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import { toast } from "sonner"
 import { Station } from "../../../api/radiobrowser/types.ts"
+
 const RadioCard = lazy(() => import("../RadioCard/RadioCard.tsx"))
 
 let map: L.Map
 
-type MapProps = {
+type MapViewProps = {
   station: Station | null
   latLng: L.LatLngExpression
 }
 
-function Map(props: Readonly<MapProps>) {
+function MapView(props: Readonly<MapViewProps>) {
   const [currentPopup, setCurrentPopup] = useState<L.Popup | null>(null)
   const [popupContainer, setPopupContainer] = useState<HTMLElement | null>(null)
 
@@ -61,8 +62,10 @@ function Map(props: Readonly<MapProps>) {
       .setLatLng(location)
       .setContent(popupDiv)
       .openOn(map)
+
     setPopupContainer(popupDiv)
     setCurrentPopup(popup)
+
     return () => {
       popup.remove()
       setCurrentPopup(null)
@@ -98,4 +101,4 @@ function getStationLocation(station: Station) {
   }
 }
 
-export default Map
+export default MapView

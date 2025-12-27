@@ -8,7 +8,7 @@ type PodcastCategoryPageNavigationProps = {
 
 function PodcastCategoryPageNavigation({
   categoryName,
-}: PodcastCategoryPageNavigationProps) {
+}: Readonly<PodcastCategoryPageNavigationProps>) {
   return (
     <Breadcrumb>
       <Breadcrumb.Link

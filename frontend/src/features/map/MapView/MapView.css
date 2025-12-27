@@ -3,6 +3,4 @@
   flex: 1; /* #root id element has flexbox, fill map to remaining size */
   min-height: 50vh;
   width: 100%;
-  /* stops user map panning */
-  /* pointer-events: none; */
 }

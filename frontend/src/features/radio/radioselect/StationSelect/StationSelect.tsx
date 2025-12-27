@@ -24,7 +24,11 @@ const motionInitial = { opacity: 0, x: 100 }
 const motionAnimate = { opacity: 1, x: 0 }
 const motionTransition = { duration: 0.3, type: "spring", bounce: 0 }
 
-function StationSelect({ onLoadStation, open, setOpen }: StationSelectProps) {
+function StationSelect({
+  onLoadStation,
+  open,
+  setOpen,
+}: Readonly<StationSelectProps>) {
   const abortControllerRef = useRef<AbortController | null>(null)
   const [stations, setStations] = useState<Station[] | null>(null)
   const [searchStrategy, setSearchStrategy] =
@@ -63,7 +67,7 @@ function StationSelect({ onLoadStation, open, setOpen }: StationSelectProps) {
           : [...previousStations, ...stations]
       )
       setSearchStrategy(strategy)
-      if (stations && stations.length === 0) {
+      if (stations?.length === 0) {
         toast.warning("No stations found")
       }
       setHasNoFurtherEntries(stations == null || stations.length === 0)

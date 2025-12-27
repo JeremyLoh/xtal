@@ -11,7 +11,7 @@ type PodcastDetailPageNavigationProps = {
 function PodcastDetailPageNavigation({
   podcast,
   podcastTitle,
-}: PodcastDetailPageNavigationProps) {
+}: Readonly<PodcastDetailPageNavigationProps>) {
   return (
     <Breadcrumb>
       <Breadcrumb.Link
@@ -21,7 +21,7 @@ function PodcastDetailPageNavigation({
         Podcasts
       </Breadcrumb.Link>
       <Breadcrumb.Separator size={16} />
-      {podcast && podcast.categories && podcast.categories.length > 0 && (
+      {podcast?.categories && podcast.categories.length > 0 && (
         <>
           <Breadcrumb.Link
             href={podcastCategoryPage(podcast.categories[0])}

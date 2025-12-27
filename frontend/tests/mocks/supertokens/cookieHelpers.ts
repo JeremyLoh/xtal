@@ -43,7 +43,7 @@ export function createCookieSettings(
   type?: keyof typeof authCookieNames | "device" | "pkce"
 ): CookieSettings {
   const oneYearInMilliseconds = 365 * 24 * 60 * 60 * 1000
-  const nextYear = new Date(new Date().getTime() + oneYearInMilliseconds)
+  const nextYear = new Date(Date.now() + oneYearInMilliseconds)
 
   let path = "/"
   if (type === "refresh") {
@@ -78,24 +78,19 @@ export function createHeadersFromTokens(tokens: Partial<Tokens>): Headers {
   const headerName = "Set-Cookie"
   const { accessToken, refreshToken, antiCsrfToken } = tokens
 
-  if (!accessToken) {
-    headers.append(
-      headerName,
-      serialize(authCookieNames.access, "", deleteCookieSettings)
-    )
-  } else {
+  if (accessToken) {
     headers.append(
       headerName,
       serialize(authCookieNames.access, accessToken, createCookieSettings())
     )
-  }
-
-  if (!refreshToken) {
+  } else {
     headers.append(
       headerName,
-      serialize(authCookieNames.refresh, "", deleteRefreshSettings)
+      serialize(authCookieNames.access, "", deleteCookieSettings)
     )
-  } else {
+  }
+
+  if (refreshToken) {
     headers.append(
       headerName,
       serialize(
@@ -104,17 +99,22 @@ export function createHeadersFromTokens(tokens: Partial<Tokens>): Headers {
         createCookieSettings("refresh")
       )
     )
-  }
-
-  if (!antiCsrfToken) {
+  } else {
     headers.append(
       headerName,
-      serialize(authCookieNames.csrf, "", deleteCookieSettings)
+      serialize(authCookieNames.refresh, "", deleteRefreshSettings)
+    )
+  }
+
+  if (antiCsrfToken) {
+    headers.append(
+      headerName,
+      serialize(authCookieNames.csrf, antiCsrfToken, createCookieSettings())
     )
   } else {
     headers.append(
       headerName,
-      serialize(authCookieNames.csrf, antiCsrfToken, createCookieSettings())
+      serialize(authCookieNames.csrf, "", deleteCookieSettings)
     )
   }
 

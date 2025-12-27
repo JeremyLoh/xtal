@@ -12,11 +12,13 @@ export const FavouriteStationsContext = createContext<FavouriteStations | null>(
   null
 )
 
+type FavouriteStationsProviderProps = {
+  children: React.ReactNode
+}
+
 function FavouriteStationsProvider({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: Readonly<FavouriteStationsProviderProps>) {
   const { getItem, setItem } = useLocalStorage("FAVOURITE_STATIONS")
   const [favouriteStations, setFavouriteStations] = useState<Station[]>(
     getItem() || []
@@ -35,6 +37,7 @@ function FavouriteStationsProvider({
   const output = useMemo(() => {
     return { getFavouriteStations, setFavouriteStations: setStations }
   }, [getFavouriteStations, setStations])
+
   return (
     <FavouriteStationsContext.Provider value={output}>
       {children}

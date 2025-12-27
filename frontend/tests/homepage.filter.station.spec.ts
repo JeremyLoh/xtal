@@ -185,18 +185,18 @@ test.describe("radio station search type", () => {
   })
 })
 
-test.describe("select genre of random radio station", () => {
-  async function assertGenreIsInView(homePage: HomePage, genre: string) {
-    await expect(
-      homePage.getGenreSliderContainer().getByText(genre, { exact: true })
-    ).toBeInViewport()
-  }
-  async function assertGenreIsNotInView(homePage: HomePage, genre: string) {
-    await expect(
-      homePage.getGenreSliderContainer().getByText(genre, { exact: true })
-    ).not.toBeInViewport()
-  }
+async function assertGenreIsInView(homePage: HomePage, genre: string) {
+  await expect(
+    homePage.getGenreSliderContainer().getByText(genre, { exact: true })
+  ).toBeInViewport()
+}
+async function assertGenreIsNotInView(homePage: HomePage, genre: string) {
+  await expect(
+    homePage.getGenreSliderContainer().getByText(genre, { exact: true })
+  ).not.toBeInViewport()
+}
 
+test.describe("select genre of random radio station", () => {
   test("display genre labels and slide left and right icon", async ({
     homePage,
   }) => {

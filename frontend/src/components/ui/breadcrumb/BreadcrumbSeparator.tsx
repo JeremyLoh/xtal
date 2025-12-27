@@ -4,7 +4,7 @@ type BreadcrumbSeparatorProps = {
   size: number
 }
 
-function BreadcrumbSeparator({ size }: BreadcrumbSeparatorProps) {
+function BreadcrumbSeparator({ size }: Readonly<BreadcrumbSeparatorProps>) {
   return <RxSlash size={size} />
 }
 

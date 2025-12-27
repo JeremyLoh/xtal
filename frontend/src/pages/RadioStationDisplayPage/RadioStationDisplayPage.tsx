@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router"
 import { toast } from "sonner"
 import { MapContext } from "../../context/MapProvider/MapProvider.tsx"
 import { SearchStrategyFactory } from "../../api/radiobrowser/searchStrategy/SearchStrategyFactory.ts"
-import Map from "../../features/map/Map/Map.tsx"
+import MapView from "../../features/map/MapView/MapView.tsx"
 import { notFoundPage } from "../../paths.ts"
 
 type RadioStationDisplayPageParams = {
@@ -53,7 +53,7 @@ export default function RadioStationDisplayPage() {
   }, [stationuuid])
 
   return (
-    <Map
+    <MapView
       station={mapContext ? mapContext.station : null}
       latLng={mapContext ? mapContext.currentView : { lat: 0, lng: 0 }}
     />

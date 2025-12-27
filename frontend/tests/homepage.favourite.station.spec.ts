@@ -9,23 +9,47 @@ import {
 import { waitForClipboardContent } from "./constants/clipboardConstants"
 import HomePage from "./pageObjects/HomePage"
 
+async function clearBrowserStorage(homePage: HomePage) {
+  // must be done after page goto() call (after page opened)
+  // clear browser localStorage used for saving favourite stations
+  await homePage.getPage().evaluate(() => globalThis.localStorage.clear())
+  await homePage.getPage().evaluate(() => globalThis.sessionStorage.clear())
+}
+
+async function assertEmptyFavouriteList(homePage: HomePage) {
+  await expect(homePage.getDrawer().locator(".empty-favourites")).toContainText(
+    "No Favourites Yet"
+  )
+  await expect(homePage.getDrawer().locator(".empty-favourites")).toContainText(
+    "Start by adding a new station"
+  )
+}
+
+async function assertFavouriteStationName(
+  homePage: HomePage,
+  stationName: string
+) {
+  await expect(
+    homePage
+      .getDrawer()
+      .locator(".favourite-station")
+      .getByText(stationName, { exact: true })
+  ).toBeVisible()
+}
+
+async function assertMissingFavouriteStationName(
+  homePage: HomePage,
+  stationName: string
+) {
+  await expect(
+    homePage
+      .getDrawer()
+      .locator(".favourite-station")
+      .getByText(stationName, { exact: true })
+  ).not.toBeVisible()
+}
+
 test.describe("radio station favourite feature", () => {
-  async function clearBrowserStorage(homePage: HomePage) {
-    // must be done after page goto() call (after page opened)
-    // clear browser localStorage used for saving favourite stations
-    await homePage.getPage().evaluate(() => globalThis.localStorage.clear())
-    await homePage.getPage().evaluate(() => globalThis.sessionStorage.clear())
-  }
-
-  async function assertEmptyFavouriteList(homePage: HomePage) {
-    await expect(
-      homePage.getDrawer().locator(".empty-favourites")
-    ).toContainText("No Favourites Yet")
-    await expect(
-      homePage.getDrawer().locator(".empty-favourites")
-    ).toContainText("Start by adding a new station")
-  }
-
   test("hover on favourited station's favourite icon on radio station card changes color", async ({
     homePage,
   }) => {
@@ -386,30 +410,6 @@ test.describe("radio station favourite feature", () => {
   })
 
   test.describe("favourite station filters", () => {
-    async function assertFavouriteStationName(
-      homePage: HomePage,
-      stationName: string
-    ) {
-      await expect(
-        homePage
-          .getDrawer()
-          .locator(".favourite-station")
-          .getByText(stationName, { exact: true })
-      ).toBeVisible()
-    }
-
-    async function assertMissingFavouriteStationName(
-      homePage: HomePage,
-      stationName: string
-    ) {
-      await expect(
-        homePage
-          .getDrawer()
-          .locator(".favourite-station")
-          .getByText(stationName, { exact: true })
-      ).not.toBeVisible()
-    }
-
     test("should filter favourite station by name", async ({ homePage }) => {
       test.slow()
       const nameFilter = unitedStatesStation.name.toLowerCase()
