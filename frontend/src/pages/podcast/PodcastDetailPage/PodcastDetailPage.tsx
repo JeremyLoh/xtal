@@ -87,24 +87,16 @@ export default function PodcastDetailPage() {
     if (podcastEpisodes == null) {
       return []
     }
-    let filteredEpisodes = podcastEpisodes
-    if (
-      episodeFilter.durationInMinutes != null &&
-      episodeFilter.durationInMinutes > 0
-    ) {
-      filteredEpisodes = filteredEpisodes.filter((episode) => {
-        if (episode.durationInSeconds == null) {
-          return true
-        }
-        if (episodeFilter.durationInMinutes) {
-          return (
-            episode.durationInSeconds <= episodeFilter.durationInMinutes * 60
-          )
-        }
-        return true
-      })
+    if (episodeFilter.durationInMinutes == null) {
+      return podcastEpisodes
     }
-    return filteredEpisodes
+    const maxEpisodeDurationInSeconds = episodeFilter.durationInMinutes * 60
+
+    return podcastEpisodes.filter(
+      (episode) =>
+        episode.durationInSeconds == null ||
+        episode.durationInSeconds <= maxEpisodeDurationInSeconds
+    )
   }, [podcastEpisodes, episodeFilter])
 
   useEffect(() => {
