@@ -10,28 +10,28 @@ import PodcastDetailPage from "../../pageObjects/PodcastDetailPage"
 
 dayjs.extend(duration)
 
-test.describe("Share Feature of Podcast Detail Page for individual podcast /podcasts/PODCAST-TITLE/PODCAST-ID", () => {
-  async function mockPodcastEpisodes({
-    podcastDetailPage,
-    podcastId,
-    limit,
-    episodes,
-  }: {
-    podcastDetailPage: PodcastDetailPage
-    podcastId: string
-    limit: number
-    episodes: object
-  }) {
-    await podcastDetailPage
-      .getPage()
-      .route(
-        `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
-        async (route) => {
-          await route.fulfill({ json: episodes })
-        }
-      )
-  }
+async function mockPodcastEpisodes({
+  podcastDetailPage,
+  podcastId,
+  limit,
+  episodes,
+}: {
+  podcastDetailPage: PodcastDetailPage
+  podcastId: string
+  limit: number
+  episodes: object
+}) {
+  await podcastDetailPage
+    .getPage()
+    .route(
+      `*/**/api/podcast/episodes?id=${podcastId}&limit=${limit}`,
+      async (route) => {
+        await route.fulfill({ json: episodes })
+      }
+    )
+}
 
+test.describe("Share Feature of Podcast Detail Page for individual podcast /podcasts/PODCAST-TITLE/PODCAST-ID", () => {
   test("should copy podcast detail page url when podcast info section share button is clicked", async ({
     podcastDetailPage,
   }) => {
@@ -48,13 +48,17 @@ test.describe("Share Feature of Podcast Detail Page for individual podcast /podc
     const expectedPodcastUrl =
       homePageUrl() +
       `/podcasts/${encodeURIComponent(podcastTitle)}/${podcastId}`
+
     await podcastDetailPage.goto({ podcastId, podcastTitle })
+
     await expect(podcastDetailPage.getPage()).toHaveTitle(
       /Batman University - xtal - podcasts/
     )
+
     const podcastShareButton = podcastDetailPage.getPodcastInfoShareButton()
     await expect(podcastShareButton).toBeVisible()
     await podcastShareButton.click()
+
     await assertToastMessage(podcastDetailPage.getPage(), "Link Copied")
     await waitForClipboardContent(
       podcastDetailPage.getPage(),
@@ -75,14 +79,18 @@ test.describe("Share Feature of Podcast Detail Page for individual podcast /podc
         limit,
         episodes: defaultTenPodcastEpisodes,
       })
+
       await podcastDetailPage.goto({ podcastId, podcastTitle })
+
       await expect(podcastDetailPage.getPage()).toHaveTitle(
         /Batman University - xtal - podcasts/
       )
       await expect(
         podcastDetailPage.getPodcastEpisodeShareButton(0)
       ).toBeVisible()
+
       await podcastDetailPage.getPodcastEpisodeShareButton(0).click()
+
       await expect(
         podcastDetailPage.getPodcastEpisodeShareDialog()
       ).toBeVisible()
@@ -103,18 +111,24 @@ test.describe("Share Feature of Podcast Detail Page for individual podcast /podc
         limit,
         episodes: defaultTenPodcastEpisodes,
       })
+
       await podcastDetailPage.goto({ podcastId, podcastTitle })
+
       await expect(podcastDetailPage.getPage()).toHaveTitle(
         /Batman University - xtal - podcasts/
       )
       await expect(
         podcastDetailPage.getPodcastEpisodeShareButton(0)
       ).toBeVisible()
+
       await podcastDetailPage.getPodcastEpisodeShareButton(0).click()
+
       await expect(
         podcastDetailPage.getPodcastEpisodeShareDialog()
       ).toBeVisible()
+
       await podcastDetailPage.getPodcastEpisodeDialogCopyLinkButton().click()
+
       await expect(
         podcastDetailPage.getPodcastEpisodeShareDialog()
       ).toBeVisible()
@@ -139,20 +153,26 @@ test.describe("Share Feature of Podcast Detail Page for individual podcast /podc
           limit,
           episodes: defaultTenPodcastEpisodes,
         })
+
         await podcastDetailPage.goto({ podcastId, podcastTitle })
+
         await expect(podcastDetailPage.getPage()).toHaveTitle(
           /Batman University - xtal - podcasts/
         )
         await expect(
           podcastDetailPage.getPodcastEpisodeShareButton(0)
         ).toBeVisible()
+
         await podcastDetailPage.getPodcastEpisodeShareButton(0).click()
+
         const dialogTimestampInput =
           podcastDetailPage.getPodcastEpisodeDialogTimestampInput()
         await expect(dialogTimestampInput).toBeVisible()
         await expect(dialogTimestampInput).toHaveValue("00:00:00")
+
         await dialogTimestampInput.clear()
         await dialogTimestampInput.fill(expectedStartDurationTextDisplay)
+
         await assertToastMessage(
           podcastDetailPage.getPage(),
           "Time exceeds episode duration"
@@ -184,20 +204,26 @@ test.describe("Share Feature of Podcast Detail Page for individual podcast /podc
           `/podcasts/${encodeURIComponent(
             podcastTitle
           )}/${podcastId}/${podcastEpisodeId}?t=${expectedStartDurationInSeconds}`
+
         await podcastDetailPage.goto({ podcastId, podcastTitle })
+
         await expect(podcastDetailPage.getPage()).toHaveTitle(
           /Batman University - xtal - podcasts/
         )
         await expect(
           podcastDetailPage.getPodcastEpisodeShareButton(0)
         ).toBeVisible()
+
         await podcastDetailPage.getPodcastEpisodeShareButton(0).click()
+
         const dialogTimestampInput =
           podcastDetailPage.getPodcastEpisodeDialogTimestampInput()
         await expect(dialogTimestampInput).toBeVisible()
         await expect(dialogTimestampInput).toHaveValue("00:00:00")
+
         await dialogTimestampInput.clear()
         await dialogTimestampInput.fill("00:00:35")
+
         await expect(dialogTimestampInput).toHaveValue(
           expectedStartDurationTextDisplay
         )
@@ -205,7 +231,9 @@ test.describe("Share Feature of Podcast Detail Page for individual podcast /podc
         const dialogCopyLinkButton =
           podcastDetailPage.getPodcastEpisodeDialogCopyLinkButton()
         await expect(dialogCopyLinkButton).toBeVisible()
+
         await dialogCopyLinkButton.click()
+
         await assertToastMessage(podcastDetailPage.getPage(), "Link Copied")
         await waitForClipboardContent(
           podcastDetailPage.getPage(),
@@ -235,24 +263,30 @@ test.describe("Share Feature of Podcast Detail Page for individual podcast /podc
           `/podcasts/${encodeURIComponent(
             podcastTitle
           )}/${podcastId}/${podcastEpisodeId}?t=${expectedStartDurationInSeconds}`
+
         await podcastDetailPage.goto({ podcastId, podcastTitle })
+
         await expect(podcastDetailPage.getPage()).toHaveTitle(
           /Batman University - xtal - podcasts/
         )
         await expect(
           podcastDetailPage.getPodcastEpisodeShareButton(0)
         ).toBeVisible()
+
         await podcastDetailPage.getPodcastEpisodeShareButton(0).click()
 
         const dialogTimestampRangeInput =
           podcastDetailPage.getPodcastEpisodeDialogTimestampRangeInput()
         await expect(dialogTimestampRangeInput).toBeVisible()
+
         await dialogTimestampRangeInput.fill(expectedStartDurationInSeconds)
 
         const dialogCopyLinkButton =
           podcastDetailPage.getPodcastEpisodeDialogCopyLinkButton()
         await expect(dialogCopyLinkButton).toBeVisible()
+
         await dialogCopyLinkButton.click()
+
         await assertToastMessage(podcastDetailPage.getPage(), "Link Copied")
         await waitForClipboardContent(
           podcastDetailPage.getPage(),
