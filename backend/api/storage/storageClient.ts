@@ -109,10 +109,7 @@ class StorageClient {
     if (data == null || error) {
       return null
     }
-    if (data[0] && data[0].storage_file_path) {
-      return data[0].storage_file_path
-    }
-    return null
+    return data[0]?.storage_file_path ?? null
   }
 
   async deleteStorageFilesBefore(deleteBeforeDate: Date, limit: number) {
@@ -127,11 +124,13 @@ class StorageClient {
         `deleteStorageFilesBefore(): could not get entries to delete, deleteBeforeDate: ${deleteBeforeDateString}. Error: ${error?.details}`
       )
     }
+
     const deleteDataSize = data.length
     if (deleteDataSize === 0) {
       logger.info("deleteStorageFilesBefore(): zero entries found")
       return
     }
+
     const chunkSize = 50
     const totalChunks = Math.ceil(deleteDataSize / chunkSize)
     for (let i = 0; i < totalChunks; i++) {
