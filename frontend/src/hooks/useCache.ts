@@ -23,7 +23,7 @@ function useCache<V>(key: string, cacheStaleTimeInMinutes: number) {
 
   const getCacheItem = useCallback(async () => {
     const deadlineInMs = 50
-    let lastYield = performance.now()
+    const lastYield = performance.now()
     const cachedData = getItem() as CacheType<V>
     if (cachedData == null) {
       return null
@@ -37,7 +37,6 @@ function useCache<V>(key: string, cacheStaleTimeInMinutes: number) {
     }
     if (performance.now() - lastYield > deadlineInMs) {
       await yieldToMainThread()
-      lastYield = performance.now()
     }
     await clearExpiredCacheItems(yieldToMainThread)
     return null
