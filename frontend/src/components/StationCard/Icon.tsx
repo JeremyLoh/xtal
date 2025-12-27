@@ -5,6 +5,7 @@ const Icon = function StationCardIcon() {
   const { station } = useStationCardContext()
   return station.favicon ? (
     <img
+      alt="radio station icon"
       className="station-card-icon"
       src={station.favicon}
       height={64}
