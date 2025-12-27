@@ -81,6 +81,7 @@ The Frontend end-to-end tests are written in Playwright - https://playwright.dev
    VITE_SUPABASE_PUBLIC_KEY="anon public api key in Project Settings => Data API => Project API Keys"
    QA_TEST_ACCOUNT_EMAIL="test xtal account created for running Playwright tests"
    QA_TEST_ACCOUNT_PASSWORD="test xtal account password created for running Playwright tests"
+   DOTENV_CONFIG_QUIET=true
    ```
 
 5. Install the required dependencies using `npm install`
