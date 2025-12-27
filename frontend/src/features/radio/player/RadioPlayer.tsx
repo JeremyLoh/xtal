@@ -80,10 +80,10 @@ function RadioPlayer({
       audio = audioRef
     }
     return () => {
-      if (ref && ref.current) {
+      if (ref?.current) {
         ref.current.src = ""
       }
-      if (audio && audio.current) {
+      if (audio?.current) {
         audio.current.src = ""
       }
     }
@@ -178,7 +178,7 @@ function getAudioSource(station: Station): RadioSource {
     ["MP3", "audio/mpeg"],
   ])
   const codec = station.codec ? station.codec.trim().toUpperCase() : ""
-  if (codec != null && codec.includes(",")) {
+  if (codec.includes(",")) {
     // handle multiple values in codec (e.g. "AAC,H.264"), find valid codec
     const codecs = codec.split(",").filter((c) => codecToType.has(c))
     const values = codecs.flatMap((c) => {
@@ -189,7 +189,7 @@ function getAudioSource(station: Station): RadioSource {
     })
     return values[0]
   }
-  if (codec != null && codecToType.has(codec)) {
+  if (codecToType.has(codec)) {
     return {
       src: station.url_resolved,
       type: codecToType.get(codec) || "hls",
