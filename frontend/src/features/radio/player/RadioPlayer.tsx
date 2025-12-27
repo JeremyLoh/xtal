@@ -37,7 +37,7 @@ function RadioPlayer({
   source,
   onError,
   onReady,
-}: RadioPlayerProps) {
+}: Readonly<RadioPlayerProps>) {
   const [error, setError] = useState<boolean>(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const hlsRef = useRef<HlsVideoElement | null>(null)

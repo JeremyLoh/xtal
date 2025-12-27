@@ -30,7 +30,7 @@ function TrendingPodcastSection({
   trendingPodcasts,
   filters,
   onRefresh,
-}: TrendingPodcastSectionProps) {
+}: Readonly<TrendingPodcastSectionProps>) {
   const { isMobile } = useScreenDimensions()
   const [page, setPage] = useState<number>(1)
 

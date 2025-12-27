@@ -31,7 +31,7 @@ function NewReleasePodcastSection({
   availableLanguages,
   newReleasePodcasts,
   onRefreshNewReleasePodcasts,
-}: NewReleasePodcastSectionProps) {
+}: Readonly<NewReleasePodcastSectionProps>) {
   const { isMobile } = useScreenDimensions()
   const [selectedLanguage, setSelectedLanguage] =
     useState<string>(ALL_LANGUAGES)

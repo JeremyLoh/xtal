@@ -71,7 +71,9 @@ export default function AboutPage() {
   )
 }
 
-function AboutSectionCard({ text, Icon }: { text: string; Icon: IconType }) {
+type AboutSectionCardProps = { text: string; Icon: IconType }
+
+function AboutSectionCard({ text, Icon }: Readonly<AboutSectionCardProps>) {
   const ICON_SIZE = 36
   return (
     <div className="about-section-card">
