@@ -112,7 +112,7 @@ function SidebarToggle() {
           </SidebarMenu>
         </Sidebar>
       </div>
-      {portals && portals.map((p) => p)}
+      {portals?.map((p) => p)}
     </>
   )
 }
