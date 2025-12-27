@@ -32,11 +32,11 @@ const profileFollowingPageUrl = profileFollowingPage()
 const profileListenHistoryPageUrl = profileHistoryPage()
 const profileResetPasswordPageUrl = resetPasswordPage()
 
-function ProfileSidebarGroup({
-  setOpen,
-}: {
+type ProfileSidebarGroupProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-}) {
+}
+
+function ProfileSidebarGroup({ setOpen }: Readonly<ProfileSidebarGroupProps>) {
   const session = useSessionContext()
 
   function handleToggle() {

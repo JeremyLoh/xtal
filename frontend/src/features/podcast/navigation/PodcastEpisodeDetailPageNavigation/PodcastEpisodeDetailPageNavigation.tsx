@@ -10,7 +10,7 @@ type PodcastEpisodeDetailPageNavigationProps = {
 function PodcastEpisodeDetailPageNavigation({
   podcastId,
   podcastTitle,
-}: PodcastEpisodeDetailPageNavigationProps) {
+}: Readonly<PodcastEpisodeDetailPageNavigationProps>) {
   return (
     <Breadcrumb>
       <Breadcrumb.Link

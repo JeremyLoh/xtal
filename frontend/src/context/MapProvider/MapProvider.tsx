@@ -12,7 +12,9 @@ type MapInfo = {
 // eslint-disable-next-line react-refresh/only-export-components
 export const MapContext = createContext<MapInfo | null>(null)
 
-function MapProvider({ children }: { children: React.ReactNode }) {
+type MapProviderProps = { children: React.ReactNode }
+
+function MapProvider({ children }: Readonly<MapProviderProps>) {
   const initialPosition = useMemo(() => {
     return { lat: 0, lng: 0 }
   }, [])
@@ -32,6 +34,7 @@ function MapProvider({ children }: { children: React.ReactNode }) {
       setCurrentView,
     }
   }, [station, currentView, setMapStation])
+
   return <MapContext.Provider value={output}>{children}</MapContext.Provider>
 }
 

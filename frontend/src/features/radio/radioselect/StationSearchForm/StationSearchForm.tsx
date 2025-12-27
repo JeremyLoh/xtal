@@ -39,7 +39,7 @@ type StationSearchFormProps = {
   }: StationSearchValues) => void
 }
 
-function StationSearchForm(props: StationSearchFormProps) {
+function StationSearchForm(props: Readonly<StationSearchFormProps>) {
   const limit: number = 10
   const [offset] = useState<number>(0)
   const {

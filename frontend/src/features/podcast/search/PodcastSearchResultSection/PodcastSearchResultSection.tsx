@@ -38,7 +38,7 @@ type PodcastSearchResultSectionType = {
 function PodcastSearchResultSection({
   podcasts,
   onLoadMorePodcasts,
-}: PodcastSearchResultSectionType) {
+}: Readonly<PodcastSearchResultSectionType>) {
   const { height, isMobile } = useScreenDimensions()
   const virtuosoStyle = useMemo(() => {
     return { height }

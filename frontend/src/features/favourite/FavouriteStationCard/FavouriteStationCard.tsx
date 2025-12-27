@@ -16,7 +16,7 @@ function FavouriteStationCard({
   station,
   onRemoveFavouriteStation,
   onLoadStation,
-}: FavouriteStationCardProps) {
+}: Readonly<FavouriteStationCardProps>) {
   const { copyRadioStationShareUrl } = useClipboard()
 
   const handleRemoveFavouriteStation = useCallback(() => {

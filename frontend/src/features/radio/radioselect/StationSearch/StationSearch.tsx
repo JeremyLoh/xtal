@@ -11,7 +11,9 @@ type StationSearchProps = {
   onStationSearchTypeSelect: (searchType: StationSearchType) => void
 }
 
-function StationSearch({ onStationSearchTypeSelect }: StationSearchProps) {
+function StationSearch({
+  onStationSearchTypeSelect,
+}: Readonly<StationSearchProps>) {
   const mapContext = useContext(MapContext)
   const [showSearchStation, setShowSearchStation] = useState<boolean>(false)
   const [selectedSearch, setSelectedSearch] = useState<StationSearchType>(

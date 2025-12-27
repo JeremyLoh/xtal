@@ -16,7 +16,7 @@ type PodcastCategorySectionProps = {
 function PodcastCategorySection({
   categories,
   onRefresh,
-}: PodcastCategorySectionProps) {
+}: Readonly<PodcastCategorySectionProps>) {
   const navigate = useNavigate()
   const { isMobile } = useScreenDimensions()
   const SCROLL_AMOUNT = isMobile ? 500 : 700

@@ -7,6 +7,7 @@ import Drawer from "../../../components/Drawer/Drawer.tsx"
 import { Station } from "../../../api/radiobrowser/types.ts"
 import { MapContext } from "../../../context/MapProvider/MapProvider.tsx"
 import { FavouriteStationsContext } from "../../../context/FavouriteStationsProvider/FavouriteStationsProvider.tsx"
+
 const FavouriteStationFilters = lazy(
   () => import("../FavouriteStationFilters/FavouriteStationFilters.tsx")
 )
@@ -27,7 +28,7 @@ type FavouriteStationDrawerProps = {
 function FavouriteStationDrawer({
   open,
   setOpen,
-}: FavouriteStationDrawerProps) {
+}: Readonly<FavouriteStationDrawerProps>) {
   const mapContext = useContext(MapContext)
   const favouriteStationsContext = useContext(FavouriteStationsContext)
   const location = useLocation()

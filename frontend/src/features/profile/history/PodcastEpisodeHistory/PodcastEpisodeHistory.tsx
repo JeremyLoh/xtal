@@ -31,7 +31,7 @@ function PodcastEpisodeHistory({
   episodes,
   episodeCountOffset,
   onDelete,
-}: PodcastEpisodeHistoryProps) {
+}: Readonly<PodcastEpisodeHistoryProps>) {
   const { isMobile } = useScreenDimensions()
   const podcastEpisodeTimestampDispatchContext = useContext(
     PodcastEpisodeTimestampDispatchContext
