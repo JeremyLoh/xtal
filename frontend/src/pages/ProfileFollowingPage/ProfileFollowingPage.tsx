@@ -137,7 +137,7 @@ function ProfileFollowingPage() {
           onNextPageClick={handleNextPageClick}
           onPageClick={handlePageClick}
         />
-        {latestFollowedPodcasts && latestFollowedPodcasts.data.length === 0 && (
+        {latestFollowedPodcasts?.data.length === 0 && (
           <p>Zero followed podcasts</p>
         )}
         <Virtuoso
