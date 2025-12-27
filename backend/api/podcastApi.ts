@@ -185,7 +185,7 @@ class PodcastIndexApi implements PodcastApi {
       retry: 0,
     })
     const json: PodcastIndexEpisodeByIdResponse = await response.json()
-    if (json && json.count === 0) {
+    if (json?.count === 0) {
       return null
     }
     return this.parsePodcastEpisode(json)
