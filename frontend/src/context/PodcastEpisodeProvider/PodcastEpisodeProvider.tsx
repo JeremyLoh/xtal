@@ -30,11 +30,13 @@ export const PodcastEpisodeTimestampContext =
 export const PodcastEpisodeTimestampDispatchContext =
   createContext<PodcastEpisodeTimestampDispatch | null>(null)
 
+type PodcastEpisodeProviderProps = {
+  children: React.ReactNode
+}
+
 export default function PodcastEpisodeProvider({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: Readonly<PodcastEpisodeProviderProps>) {
   const [episode, setEpisode] = useState<PodcastEpisode | null>(null)
   const [lastPlayedTimestamp, setLastPlayedTimestamp] = useState<number>(0)
 
