@@ -8,25 +8,39 @@ import {
 import { homePageUrl } from "../../constants/paths"
 import PodcastSearchPage from "../../pageObjects/PodcastSearchPage"
 
-test.describe("Podcast Search Page /podcasts/search", () => {
-  function replaceWhitespaceWithPlusSymbol(text: string) {
-    let output = text
-    const regex = new RegExp(/ /g)
-    while (regex.test(output)) {
-      output = output.replace(regex, "+")
-    }
-    return output
-  }
+function replaceWhitespaceWithPlusSymbol(text: string) {
+  return text.replaceAll(" ", "+")
+}
 
-  async function getPodcastTitleLink(
-    podcastSearchPage: PodcastSearchPage,
-    podcastTitle: string
-  ) {
+async function getPodcastTitleLink(
+  podcastSearchPage: PodcastSearchPage,
+  podcastTitle: string
+) {
+  const virtualizedListParentElement = getVirtualizedListParentElement(
+    podcastSearchPage.getPage()
+  )
+  const artwork = podcastSearchPage.getPodcastCardArtwork(
+    podcastTitle + " podcast image"
+  )
+  // to handle virtualized list rendering (not all elements are rendered to DOM at once)
+  await scrollUntilElementIsVisible(
+    podcastSearchPage.getPage(),
+    artwork,
+    virtualizedListParentElement
+  )
+  return podcastSearchPage.getPodcastCardTitle(podcastTitle)
+}
+
+async function assertPodcastsAreVisible(
+  podcastSearchPage: PodcastSearchPage,
+  expectedPodcasts
+) {
+  for (const expectedPodcast of expectedPodcasts) {
     const virtualizedListParentElement = getVirtualizedListParentElement(
       podcastSearchPage.getPage()
     )
     const artwork = podcastSearchPage.getPodcastCardArtwork(
-      podcastTitle + " podcast image"
+      expectedPodcast.title + " podcast image"
     )
     // to handle virtualized list rendering (not all elements are rendered to DOM at once)
     await scrollUntilElementIsVisible(
@@ -34,35 +48,16 @@ test.describe("Podcast Search Page /podcasts/search", () => {
       artwork,
       virtualizedListParentElement
     )
-    return podcastSearchPage.getPodcastCardTitle(podcastTitle)
+    await expect(
+      podcastSearchPage.getPodcastCardTitle(expectedPodcast.title)
+    ).toBeVisible()
+    await expect(
+      podcastSearchPage.getPodcastCardAuthor(expectedPodcast.author)
+    ).toBeVisible()
   }
+}
 
-  async function assertPodcastsAreVisible(
-    podcastSearchPage: PodcastSearchPage,
-    expectedPodcasts
-  ) {
-    for (const expectedPodcast of expectedPodcasts) {
-      const virtualizedListParentElement = getVirtualizedListParentElement(
-        podcastSearchPage.getPage()
-      )
-      const artwork = podcastSearchPage.getPodcastCardArtwork(
-        expectedPodcast.title + " podcast image"
-      )
-      // to handle virtualized list rendering (not all elements are rendered to DOM at once)
-      await scrollUntilElementIsVisible(
-        podcastSearchPage.getPage(),
-        artwork,
-        virtualizedListParentElement
-      )
-      await expect(
-        podcastSearchPage.getPodcastCardTitle(expectedPodcast.title)
-      ).toBeVisible()
-      await expect(
-        podcastSearchPage.getPodcastCardAuthor(expectedPodcast.author)
-      ).toBeVisible()
-    }
-  }
-
+test.describe("Podcast Search Page /podcasts/search", () => {
   test("should display podcasts matching search query input", async ({
     podcastSearchPage,
   }) => {
