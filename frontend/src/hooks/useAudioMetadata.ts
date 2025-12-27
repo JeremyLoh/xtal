@@ -5,11 +5,7 @@ function useAudioMetadata(
   init: MediaMetadataInit
 ) {
   useEffect(() => {
-    if (
-      mediaRef == null ||
-      mediaRef.current == null ||
-      !("mediaSession" in navigator)
-    ) {
+    if (!mediaRef?.current || !("mediaSession" in navigator)) {
       return
     }
     if (!init.title && !init.artist && !init.album) {
