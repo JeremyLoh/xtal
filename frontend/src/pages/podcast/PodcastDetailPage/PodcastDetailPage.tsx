@@ -76,11 +76,9 @@ export default function PodcastDetailPage() {
 
   const handleEpisodeFilterChange = useCallback(
     ({ durationInMinutes }: PodcastEpisodeListFiltersType) => {
-      if (durationInMinutes != null) {
-        setEpisodeFilter({ ...episodeFilter, durationInMinutes })
-      } else {
-        setEpisodeFilter({})
-      }
+      setEpisodeFilter(
+        durationInMinutes == null ? {} : { ...episodeFilter, durationInMinutes }
+      )
     },
     [episodeFilter]
   )
