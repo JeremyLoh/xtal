@@ -62,9 +62,7 @@ function RadioPlayer({
 
   const handlePlay = useCallback(() => {
     setError(false)
-    if (audioRef.current && onReady) {
-      onReady()
-    } else if (hlsRef.current && onReady) {
+    if ((audioRef.current || hlsRef.current) && onReady) {
       onReady()
     }
   }, [onReady])
@@ -182,7 +180,7 @@ function getAudioSource(station: Station): RadioSource {
     // handle multiple values in codec (e.g. "AAC,H.264"), find valid codec
     const codecs = codec.split(",").filter((c) => codecToType.has(c))
     const values = codecs.flatMap((c) => {
-      if (codecToType == null || !codecToType.has(c)) {
+      if (!codecToType.has(c)) {
         return []
       }
       return { src: station.url_resolved, type: codecToType.get(c) || "hls" }
