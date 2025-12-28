@@ -10,7 +10,7 @@ export async function mockMapTiles(page: Page) {
     await route.fulfill({
       status: 200,
       contentType: "image/png",
-      path: "./tests/mocks/map/mapTilePlaceholder.png", // path based on working directory ("/frontend")
+      path: "./tests/playwright/mocks/map/mapTilePlaceholder.png", // path based on working directory ("/frontend")
     })
   })
 }

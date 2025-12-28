@@ -1,3 +1,5 @@
+/// <reference types="vitest/config" />
+
 import { dependencies } from "./package.json"
 import { defineConfig, type PluginOption } from "vite"
 import react from "@vitejs/plugin-react"
@@ -85,6 +87,24 @@ export default defineConfig(({ mode }) => {
     ].concat(
       ENABLE_VISUALIZER ? [visualizer({ open: true }) as PluginOption] : []
     ),
+    test: {
+      globals: true,
+      environment: "happy-dom",
+      include: ["**/*.test.ts", "**/*.test.tsx"],
+      coverage: {
+        provider: "v8",
+        enabled: true,
+        include: ["**/*.{ts,tsx}"],
+        exclude: [
+          "**/*.spec.ts",
+          "**/mocks/*",
+          "**/playwright.config.ts",
+          "**/*.d.ts",
+          "**/tests/",
+          "**/env/",
+        ],
+      },
+    },
     esbuild: {
       legalComments: "external",
       minifySyntax: true,
