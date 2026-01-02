@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
-    "types": ["vitest/globals", "node"]
+    "types": ["vitest/globals", "node", "vite/client"]
   },
   "include": ["tests/**/*.test.ts", "tests/**/*.test.tsx"]
 }

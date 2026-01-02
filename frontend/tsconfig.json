@@ -4,5 +4,12 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.vitest.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "types": ["vite/client"] // for import.meta.env typing
+  }
 }
