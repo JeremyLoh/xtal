@@ -1,6 +1,7 @@
 /// <reference types="vitest/config" />
 
 import { dependencies } from "./package.json"
+import path from "node:path"
 import { defineConfig, type PluginOption } from "vite"
 import react from "@vitejs/plugin-react"
 import { compression } from "vite-plugin-compression2"
@@ -61,6 +62,11 @@ function getCspPlugin() {
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   return {
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "src"),
+      },
+    },
     define: {
       "process.env.NODE_ENV": JSON.stringify(mode),
     },
