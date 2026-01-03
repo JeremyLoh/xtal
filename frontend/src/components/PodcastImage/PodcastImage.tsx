@@ -43,7 +43,7 @@ export default memo(function PodcastImage({
       const MAX_BACKEND_IMAGE_SIZE = 500 // backend has validation for image size of max 500px
       const newSize = Math.min(size * devicePixelRatio, MAX_BACKEND_IMAGE_SIZE)
       const imageData = await getPodcastImage(
-        abortController,
+        abortController.signal,
         imageUrl,
         newSize,
         newSize
