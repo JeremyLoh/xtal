@@ -94,8 +94,9 @@ export default defineConfig(({ mode }) => {
       ENABLE_VISUALIZER ? [visualizer({ open: true }) as PluginOption] : []
     ),
     test: {
+      setupFiles: ["./tests/vitest/setup.ts"],
       globals: true,
-      environment: "happy-dom",
+      environment: "jsdom",
       include: ["**/*.test.ts", "**/*.test.tsx"],
       coverage: {
         provider: "v8",
