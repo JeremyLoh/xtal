@@ -9,7 +9,7 @@ export default function NotFoundPage() {
     <>
       <Header />
       <div className="not-found-page-container">
-        <HiOutlineFaceFrown size={64} />
+        <HiOutlineFaceFrown size={64} data-testid="frown-face-icon" />
         <h1 className="not-found-page-title">404 Not Found</h1>
         <Link to="/" replace>
           Return Home
