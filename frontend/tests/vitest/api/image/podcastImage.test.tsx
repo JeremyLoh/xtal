@@ -3,7 +3,7 @@ import { vi } from "vitest"
 import nock from "nock"
 import { PropsWithChildren } from "react"
 import { QueryClientProvider } from "@tanstack/react-query"
-import { createTestQueryClient } from "../../testUtils/queryUtils"
+import { createTestQueryClient } from "@tests/vitest/testUtils/queryUtils"
 import { getPodcastImage, usePodcastImage } from "@/api/image/podcastImage"
 
 describe("podcastImage tests", () => {
