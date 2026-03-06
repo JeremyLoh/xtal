@@ -21,6 +21,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
       - name: Create envfile
         run: |
           echo "VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS=${{ secrets.VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS }}" >> .env.local
@@ -53,6 +55,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
       - name: Install dependencies
         run: npm ci
       - name: Run Vitest tests
@@ -71,6 +75,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
       - name: Install dependencies
         run: npm ci
 
