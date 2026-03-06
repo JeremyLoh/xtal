@@ -40,7 +40,7 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test --reporter=blob --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
       - name: Upload blob report to GitHub Actions Artifacts
-        if: ${{ !cancelled() }}
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           # use default blob-report name - https://playwright.dev/docs/test-reporters#blob-reporter
@@ -88,7 +88,7 @@ jobs:
       - name: Download blob reports from GitHub Actions Artifacts
         uses: actions/download-artifact@v4
         with:
-          path: blob-report
+          path: frontend/blob-report
           pattern: blob-report-*
           merge-multiple: true
 
