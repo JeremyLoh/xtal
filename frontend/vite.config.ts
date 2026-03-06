@@ -1,6 +1,7 @@
 /// <reference types="vitest/config" />
 
 import { dependencies } from "./package.json"
+import path from "node:path"
 import { defineConfig, type PluginOption } from "vite"
 import react from "@vitejs/plugin-react"
 import { compression } from "vite-plugin-compression2"
@@ -61,6 +62,12 @@ function getCspPlugin() {
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   return {
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "src"),
+        "@tests": path.resolve(__dirname, "tests"),
+      },
+    },
     define: {
       "process.env.NODE_ENV": JSON.stringify(mode),
     },
@@ -88,8 +95,9 @@ export default defineConfig(({ mode }) => {
       ENABLE_VISUALIZER ? [visualizer({ open: true }) as PluginOption] : []
     ),
     test: {
+      setupFiles: ["./tests/vitest/setup.ts"],
       globals: true,
-      environment: "happy-dom",
+      environment: "jsdom",
       include: ["**/*.test.ts", "**/*.test.tsx"],
       coverage: {
         provider: "v8",

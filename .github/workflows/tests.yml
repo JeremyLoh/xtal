@@ -21,6 +21,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
       - name: Create envfile
         run: |
           echo "VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS=${{ secrets.VITE_MAX_FAVOURITE_STATIONS_ANONYMOUS }}" >> .env.local
@@ -33,7 +40,7 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test --reporter=blob --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
       - name: Upload blob report to GitHub Actions Artifacts
-        if: ${{ !cancelled() }}
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           # use default blob-report name - https://playwright.dev/docs/test-reporters#blob-reporter
@@ -53,6 +60,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
       - name: Install dependencies
         run: npm ci
       - name: Run Vitest tests
@@ -60,7 +69,7 @@ jobs:
 
   merge-reports:
     # Merge reports after playwright-tests, even if some shards have failed
-    if: ${{ !cancelled() }}
+    if: ${{ always() }}
     needs: [playwright-tests]
     defaults:
       run:
@@ -71,6 +80,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
       - name: Install dependencies
         run: npm ci
 

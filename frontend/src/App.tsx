@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react"
 import { BrowserRouter, Routes, Route } from "react-router"
 import Root from "./Root.tsx"
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary.tsx"
-import { SessionAuth } from "supertokens-auth-react/recipe/session/index"
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.tsx"
 import { getSuperTokensRoutes } from "./api/auth/superTokens.ts"
 
 const SuspenseFallbackPage = lazy(
@@ -26,9 +26,7 @@ const PodcastDetailPage = lazy(
 )
 const PodcastEpisodeDetailPage = lazy(
   () =>
-    import(
-      "./pages/podcast/PodcastEpisodeDetailPage/PodcastEpisodeDetailPage.tsx"
-    )
+    import("./pages/podcast/PodcastEpisodeDetailPage/PodcastEpisodeDetailPage.tsx")
 )
 const PodcastCategoryPage = lazy(
   () => import("./pages/podcast/PodcastCategoryPage/PodcastCategoryPage.tsx")
@@ -53,6 +51,7 @@ export default function App() {
             <Route path="/" element={<Root />}>
               {/*renders prebuilt login UI on /auth route*/}
               {getSuperTokensRoutes()}
+
               <Route path="/about" element={<AboutPage />} />
               <Route element={<HomeLayout />}>
                 <Route index element={<HomePage />} />
@@ -61,29 +60,30 @@ export default function App() {
                   element={<RadioStationDisplayPage />}
                 />
               </Route>
+
               <Route element={<PodcastLayout />}>
                 <Route
                   path="/profile"
                   element={
-                    <SessionAuth onSessionExpired={() => <HomePage />}>
+                    <ProtectedRoute>
                       <ProfilePage />
-                    </SessionAuth>
+                    </ProtectedRoute>
                   }
                 />
                 <Route
                   path="/profile/history"
                   element={
-                    <SessionAuth onSessionExpired={() => <HomePage />}>
+                    <ProtectedRoute>
                       <ProfileHistoryPage />
-                    </SessionAuth>
+                    </ProtectedRoute>
                   }
                 />
                 <Route
                   path="/profile/following"
                   element={
-                    <SessionAuth onSessionExpired={() => <HomePage />}>
+                    <ProtectedRoute>
                       <ProfileFollowingPage />
-                    </SessionAuth>
+                    </ProtectedRoute>
                   }
                 />
 
