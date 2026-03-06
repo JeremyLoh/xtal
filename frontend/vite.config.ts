@@ -52,7 +52,7 @@ function getCspPlugin() {
           /\s+/
         ),
       "connect-src":
-        `'self' http://localhost:3000 https://xtal-backend.onrender.com https://qgntdhxjgegxcsnajywb.supabase.co https://va.vercel-scripts.com https://de2.api.radio-browser.info https://fi1.api.radio-browser.info`.split(
+        `'self' https: http://localhost:3000 https://xtal-backend.onrender.com https://qgntdhxjgegxcsnajywb.supabase.co https://va.vercel-scripts.com https://de2.api.radio-browser.info https://de1.api.radio-browser.info`.split(
           /\s+/
         ),
     },

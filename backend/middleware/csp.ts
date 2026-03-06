@@ -17,7 +17,7 @@ export function getContentSecurityPolicyMiddleware(
     `base-uri 'none';` +
     `frame-src 'self';` +
     `img-src 'self' https: blob: data: https://tile.openstreetmap.org/;` +
-    `connect-src 'self' https:; http://localhost:3000 https://xtal-backend.onrender.com https://qgntdhxjgegxcsnajywb.supabase.co https://va.vercel-scripts.com https://de2.api.radio-browser.info https://fi1.api.radio-browser.info;`
+    `connect-src 'self' https:; http://localhost:3000 https://xtal-backend.onrender.com https://qgntdhxjgegxcsnajywb.supabase.co https://va.vercel-scripts.com https://de2.api.radio-browser.info https://de1.api.radio-browser.info;`
   response.setHeader("content-security-policy", csp)
   next()
 }

@@ -3,7 +3,7 @@
 // Need to update vite.config.ts csp plugin 'connect-src' with list of servers
 const servers: string[] = [
   "https://de2.api.radio-browser.info",
-  "https://fi1.api.radio-browser.info",
+  "https://de1.api.radio-browser.info",
 ]
 const serverCount = servers.length
 
