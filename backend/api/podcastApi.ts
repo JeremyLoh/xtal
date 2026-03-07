@@ -75,7 +75,14 @@ class PodcastIndexApi implements PodcastApi {
   }
 
   private parsePodcastsResponse(response: PodcastIndexFeedResponse): Podcast[] {
-    return response.feeds.map((feed) => this.parsePodcastFeedData(feed))
+    return response.feeds
+      .filter((feed) => {
+        if (feed.episodeCount != undefined) {
+          return feed.episodeCount >= 1
+        }
+        return true
+      })
+      .map((feed) => this.parsePodcastFeedData(feed))
   }
 
   private parsePodcastEpisodes(

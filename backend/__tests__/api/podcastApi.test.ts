@@ -9,15 +9,33 @@ import {
 
 describe("podcastApi tests", () => {
   describe("getTrendingPodcasts", () => {
-    test("should parse trending podcast response correctly", async () => {
+    test("should remove junk podcasts with less than 1 episode", async () => {
+      vi.spyOn(ky, "get").mockResolvedValue({
+        json: async () =>
+          createTrendingPodcastResponse({
+            feeds: [createPodcastFeed({ episodeCount: 0 })],
+          }) satisfies PodcastIndexTrendingPodcastResponse,
+      } as any)
+
       const api = new PodcastIndexApi()
 
+      const result = await api.getTrendingPodcasts(
+        new Headers(),
+        new URLSearchParams()
+      )
+
+      expect(result).toHaveLength(0)
+    })
+
+    test("should parse trending podcast response correctly", async () => {
       vi.spyOn(ky, "get").mockResolvedValue({
         json: async () =>
           createTrendingPodcastResponse({
             feeds: [createPodcastFeed()],
           }) satisfies PodcastIndexTrendingPodcastResponse,
       } as any)
+
+      const api = new PodcastIndexApi()
 
       const result = await api.getTrendingPodcasts(
         new Headers(),
