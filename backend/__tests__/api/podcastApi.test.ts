@@ -67,6 +67,34 @@ describe("podcastApi tests", () => {
       expect(result).toHaveLength(0)
     })
 
+    test("should remove junk podcasts with missing or empty image (image / artwork)", async () => {
+      vi.spyOn(ky, "get").mockResolvedValue({
+        json: async () =>
+          createTrendingPodcastResponse({
+            feeds: [
+              createPodcastFeed({ image: undefined, artwork: undefined }),
+              createPodcastFeed({ image: undefined, artwork: "" }),
+              createPodcastFeed({ image: undefined, artwork: "    " }),
+              createPodcastFeed({ image: "", artwork: undefined }),
+              createPodcastFeed({ image: "", artwork: "" }),
+              createPodcastFeed({ image: "", artwork: "     " }),
+              createPodcastFeed({ image: "   ", artwork: undefined }),
+              createPodcastFeed({ image: "   ", artwork: "" }),
+              createPodcastFeed({ image: "   ", artwork: "   " }),
+            ],
+          }) satisfies PodcastIndexTrendingPodcastResponse,
+      } as any)
+
+      const api = new PodcastIndexApi()
+
+      const result = await api.getTrendingPodcasts(
+        new Headers(),
+        new URLSearchParams()
+      )
+
+      expect(result).toHaveLength(0)
+    })
+
     test("should parse trending podcast response correctly", async () => {
       vi.spyOn(ky, "get").mockResolvedValue({
         json: async () =>

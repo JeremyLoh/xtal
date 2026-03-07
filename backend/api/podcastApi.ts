@@ -158,6 +158,9 @@ class PodcastIndexApi implements PodcastApi {
       if (!podcast.description || podcast.description.length < 20) {
         return false
       }
+      if (podcast.image == undefined || podcast.image.trim() === "") {
+        return false
+      }
       return true
     })
   }
