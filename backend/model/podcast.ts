@@ -243,6 +243,18 @@ export enum Language {
   "zu" = "Zulu",
 }
 
+export const ISO_TO_LANGUAGE: Record<string, Language> = Object.fromEntries(
+  Object.entries(Language).map(([key, value]) => [key.toLowerCase(), value])
+)
+
+export function parseLanguage(code: string): Language {
+  const lc = code.toLowerCase()
+  if (lc in ISO_TO_LANGUAGE) {
+    return ISO_TO_LANGUAGE[lc]
+  }
+  return Language.en // fallback
+}
+
 export type Podcast = {
   id: number
   url: string
@@ -255,4 +267,5 @@ export type Podcast = {
   categories: string[]
   episodeCount?: number
   isExplicit?: boolean
+  trendScore?: number
 }

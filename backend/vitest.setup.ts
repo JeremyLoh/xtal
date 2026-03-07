@@ -1,3 +1,4 @@
+import "dotenv/config"
 import { afterAll, afterEach, assert, beforeAll, beforeEach } from "vitest"
 import { server } from "./__tests__/mocks/server.js"
 import { getFrontendOrigin } from "./__tests__/cors/origin.js"
