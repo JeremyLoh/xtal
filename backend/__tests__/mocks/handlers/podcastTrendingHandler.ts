@@ -26,9 +26,3 @@ export function createTrendingPodcastHandler(
     }
   )
 }
-
-// export const podcastTrendingHandler: HttpHandler[] = [
-// http.get("https://api.podcastindex.org/api/1.0/podcasts/trending", () =>
-//   HttpResponse.json(PODCAST_TRENDING_DEFAULT_TEN_ENTRIES)
-// ),
-// ]
