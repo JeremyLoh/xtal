@@ -139,6 +139,9 @@ class PodcastIndexApi implements PodcastApi {
   }
 
   private isValidPodcast(podcast: Podcast): boolean {
+    if (!podcast.url || podcast.url.trim() === "") {
+      return false
+    }
     if (!podcast.title) {
       return false
     }
