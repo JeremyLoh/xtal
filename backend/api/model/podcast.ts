@@ -18,14 +18,14 @@ export type PodcastIndexFeedBase = {
   explicit?: boolean
   language: string
   categories?: PodcastIndexCategory | null
-}
-
-export type PodcastIndexFeed = PodcastIndexFeedBase & {
   trendScore?: number
-  itunesId: number | null
 }
 
-export type RecentPodcastIndexFeed = PodcastIndexFeedBase & {
+type FeedWith<T extends object> = PodcastIndexFeedBase & T
+
+export type PodcastIndexFeed = FeedWith<{ itunesId: number | null }>
+
+export type RecentPodcastIndexFeed = FeedWith<{
   oldestItemPublishTime: number
   itunesId: number | null
-}
+}>

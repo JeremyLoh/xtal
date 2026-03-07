@@ -11,9 +11,8 @@ function getMockMiddleware() {
 
 function mockRateLimiters() {
   vi.mock("../../middleware/rateLimiter.js", async () => {
-    const { default: rateLimiterFunctions } = await import(
-      "../../middleware/rateLimiter.js"
-    )
+    const { default: rateLimiterFunctions } =
+      await import("../../middleware/rateLimiter.js")
     const mockRateLimiterFunctions = Object.keys(rateLimiterFunctions).reduce(
       (mockFunctions, currentFunction) => {
         return {
@@ -345,6 +344,7 @@ describe("GET /api/podcast/trending", () => {
                 "Comedy",
                 "Interviews",
               ]),
+              trendScore: 9,
             },
             {
               id: 854189,
@@ -358,6 +358,7 @@ describe("GET /api/podcast/trending", () => {
               latestPublishTime: 1739685600,
               language: "Spanish (Spain)", // "es-ES"
               categories: expect.arrayContaining(["Arts"]),
+              trendScore: 9,
             },
             {
               id: 1320027,
@@ -376,6 +377,7 @@ describe("GET /api/podcast/trending", () => {
                 "Arts",
                 "Books",
               ]),
+              trendScore: 9,
             },
             {
               id: 6269103,
@@ -396,6 +398,7 @@ describe("GET /api/podcast/trending", () => {
                 "Christianity",
                 "Education",
               ]),
+              trendScore: 9,
             },
             {
               id: 6720001,
@@ -416,6 +419,7 @@ describe("GET /api/podcast/trending", () => {
                 "Food",
                 "Books",
               ]),
+              trendScore: 9,
             },
             {
               id: 326131,
@@ -435,6 +439,7 @@ describe("GET /api/podcast/trending", () => {
                 "Arts",
                 "Food",
               ]),
+              trendScore: 9,
             },
             {
               id: 7047251,
@@ -455,6 +460,7 @@ describe("GET /api/podcast/trending", () => {
                 "Education",
                 "Self Improvement",
               ]),
+              trendScore: 9,
             },
             {
               id: 9027,
@@ -472,6 +478,7 @@ describe("GET /api/podcast/trending", () => {
                 "Education",
                 "Self Improvement",
               ]),
+              trendScore: 9,
             },
             {
               id: 4382154,
@@ -490,6 +497,7 @@ describe("GET /api/podcast/trending", () => {
                 "Education",
                 "Self Improvement",
               ]),
+              trendScore: 9,
             },
             {
               id: 1094738,
@@ -520,6 +528,7 @@ describe("GET /api/podcast/trending", () => {
                 "Fiction",
                 "Science",
               ]),
+              trendScore: 9,
             },
           ]),
         })
@@ -619,6 +628,7 @@ function getDefaultTrendingPodcasts() {
         latestPublishTime: 1737835320,
         language: "Spanish (Spain)", // "es-ES"
         categories: expect.arrayContaining(["News", "Daily"]),
+        trendScore: 9,
       },
       {
         id: 171183,
@@ -639,6 +649,7 @@ function getDefaultTrendingPodcasts() {
           "Culture",
           "Philosophy",
         ]),
+        trendScore: 9,
       },
       {
         id: 7031055,
@@ -656,6 +667,7 @@ function getDefaultTrendingPodcasts() {
           "Business",
           "Entrepreneurship",
         ]),
+        trendScore: 9,
       },
       {
         id: 5874430,
@@ -673,6 +685,7 @@ function getDefaultTrendingPodcasts() {
           "Stand-up",
           "Improv",
         ]),
+        trendScore: 9,
       },
       {
         id: 320763,
@@ -686,6 +699,7 @@ function getDefaultTrendingPodcasts() {
         latestPublishTime: 1737835746,
         language: "English", // "en"
         categories: expect.arrayContaining(["Religion", "Spirituality"]),
+        trendScore: 9,
       },
       {
         id: 437920,
@@ -698,6 +712,7 @@ function getDefaultTrendingPodcasts() {
         latestPublishTime: 1737835800,
         language: "English", // "en"
         categories: expect.arrayContaining(["Arts", "Education", "How To"]),
+        trendScore: 9,
       },
       {
         id: 464425,
@@ -710,6 +725,7 @@ function getDefaultTrendingPodcasts() {
         latestPublishTime: 1737835800,
         language: "English", // "en"
         categories: expect.arrayContaining(["Arts", "Education", "How To"]),
+        trendScore: 9,
       },
       {
         id: 873817,
@@ -728,6 +744,7 @@ function getDefaultTrendingPodcasts() {
           "Places",
           "Travel",
         ]),
+        trendScore: 9,
       },
       {
         id: 1367573,
@@ -748,6 +765,7 @@ function getDefaultTrendingPodcasts() {
           "Science",
           "Life",
         ]),
+        trendScore: 9,
       },
       {
         id: 5630444,
@@ -767,6 +785,7 @@ function getDefaultTrendingPodcasts() {
           "Culture",
           "Self Improvement",
         ]),
+        trendScore: 9,
       },
     ],
   }

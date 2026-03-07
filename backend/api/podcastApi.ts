@@ -71,6 +71,7 @@ class PodcastIndexApi implements PodcastApi {
       ...(feed.episodeCount &&
         feed.episodeCount >= 0 && { episodeCount: feed.episodeCount }),
       ...(feed.explicit != undefined && { isExplicit: feed.explicit }),
+      ...(feed.trendScore != undefined && { trendScore: feed.trendScore }),
     }
   }
 

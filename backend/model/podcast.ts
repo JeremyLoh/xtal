@@ -267,4 +267,5 @@ export type Podcast = {
   categories: string[]
   episodeCount?: number
   isExplicit?: boolean
+  trendScore?: number
 }
