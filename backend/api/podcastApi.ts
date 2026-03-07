@@ -1,5 +1,5 @@
 import ky from "ky"
-import { Language, Podcast } from "../model/podcast.js"
+import { parseLanguage, Podcast } from "../model/podcast.js"
 import { getSanitizedHtmlText } from "./dom/htmlSanitize.js"
 import { PodcastEpisode } from "../model/podcastEpisode.js"
 import { PodcastCategory } from "../model/podcastCategory.js"
@@ -16,6 +16,8 @@ import {
 import { PodcastIndexCategoryResponse } from "./responseType/podcastIndexCategoryTypes.js"
 import { PodcastCountStats } from "../model/podcastStats.js"
 import { PodcastIndexCurrentStatsResponse } from "./responseType/podcastIndexStatsTypes.js"
+import { PodcastIndexFeedResponse } from "./responseType/podcastIndexFeedTypes.js"
+import { PodcastIndexFeedBase } from "./model/podcast.js"
 
 type PodcastApi = {
   getTrendingPodcasts(
@@ -51,9 +53,8 @@ type PodcastApi = {
 class PodcastIndexApi implements PodcastApi {
   private readonly url: string = "https://api.podcastindex.org/api/1.0"
 
-  private parsePodcastFeedData(feed: any): Podcast {
+  private parsePodcastFeedData(feed: PodcastIndexFeedBase): Podcast {
     // parse single podcast feed based on attribute priority (backup attributes are used if data is not available)
-    const language = feed.language.toLowerCase()
     return {
       id: feed.id,
       url: feed.link || feed.url || "",
@@ -65,23 +66,22 @@ class PodcastIndexApi implements PodcastApi {
         feed.newestItemPublishTime ||
         feed.newestItemPubdate ||
         feed.lastUpdateTime,
-      language: Language[language as keyof typeof Language],
+      language: parseLanguage(feed.language),
       categories: feed.categories ? Object.values<string>(feed.categories) : [],
-      ...(feed.episodeCount >= 0 && { episodeCount: feed.episodeCount }),
+      ...(feed.episodeCount &&
+        feed.episodeCount >= 0 && { episodeCount: feed.episodeCount }),
       ...(feed.explicit != undefined && { isExplicit: feed.explicit }),
     }
   }
 
-  private parsePodcastsResponse(response: any): Podcast[] {
-    // parse a list of podcast feeds
-    return response.feeds.map(this.parsePodcastFeedData)
+  private parsePodcastsResponse(response: PodcastIndexFeedResponse): Podcast[] {
+    return response.feeds.map((feed) => this.parsePodcastFeedData(feed))
   }
 
   private parsePodcastEpisodes(
     response: PodcastIndexEpisodeByFeedIdResponse
   ): PodcastEpisode[] {
     const episodes = response.items.map((episode) => {
-      const language = episode.feedLanguage.toLowerCase()
       return {
         id: episode.id,
         feedId: episode.feedId,
@@ -96,7 +96,7 @@ class PodcastIndexApi implements PodcastApi {
         episodeNumber: episode.episode,
         seasonNumber: episode.season,
         image: episode.image || episode.feedImage,
-        language: Language[language as keyof typeof Language],
+        language: parseLanguage(episode.feedLanguage),
         people: episode.persons || null,
         externalWebsiteUrl: episode.link,
         transcripts: episode.transcripts || null,
@@ -109,7 +109,6 @@ class PodcastIndexApi implements PodcastApi {
     response: PodcastIndexEpisodeByIdResponse
   ): PodcastEpisode {
     const episode = response.episode
-    const language = episode.feedLanguage.toLowerCase()
     // feedUrl and isActiveFeed is not available from the API response
     return {
       id: episode.id,
@@ -125,7 +124,7 @@ class PodcastIndexApi implements PodcastApi {
       episodeNumber: episode.episode,
       seasonNumber: episode.season,
       image: episode.image || episode.feedImage,
-      language: Language[language as keyof typeof Language],
+      language: parseLanguage(episode.feedLanguage),
       people: episode.persons || null,
       externalWebsiteUrl: episode.link,
       transcripts: episode.transcripts || null,
