@@ -81,6 +81,7 @@ router.get(
       : threeDaysAgo
     const category: string | null = data?.category || null
     const offset = Number(data.offset) || 0
+
     try {
       const podcasts = await getTrendingPodcasts({
         limit: limit + offset,

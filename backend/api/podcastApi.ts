@@ -18,6 +18,7 @@ import { PodcastCountStats } from "../model/podcastStats.js"
 import { PodcastIndexCurrentStatsResponse } from "./responseType/podcastIndexStatsTypes.js"
 import { PodcastIndexFeedResponse } from "./responseType/podcastIndexFeedTypes.js"
 import { PodcastIndexFeedBase } from "./model/podcast.js"
+import { rankPodcastTextScore } from "./podcastScoring.js"
 
 type PodcastApi = {
   getTrendingPodcasts(
@@ -168,7 +169,21 @@ class PodcastIndexApi implements PodcastApi {
     const json: PodcastIndexTrendingPodcastResponse = await response.json()
     const trendingPodcasts = this.parsePodcastsResponse(json)
 
-    return trendingPodcasts.filter((podcast) => this.isValidPodcast(podcast))
+    const validTrendingPodcasts = trendingPodcasts.filter((podcast) =>
+      this.isValidPodcast(podcast)
+    )
+
+    const sortedTrendingPodcasts = validTrendingPodcasts.map((podcast) => {
+      return {
+        podcast,
+        combinedScore:
+          (podcast.trendScore ?? 0) + rankPodcastTextScore(podcast.description),
+      }
+    })
+
+    sortedTrendingPodcasts.sort((a, b) => b.combinedScore - a.combinedScore)
+
+    return sortedTrendingPodcasts.map((entry) => entry.podcast)
   }
 
   async getPodcastBySearchTerm(
