@@ -95,7 +95,7 @@ test.describe("About Page", () => {
     await mockCurrentTotalPodcastStatistics(aboutPage.getPage())
     await aboutPage.goto()
     await aboutPage.getRadioStationStatsContainer().scrollIntoViewIfNeeded()
-    // Approximate radio station count is hard-coded - https://fi1.api.radio-browser.info/#Server_stats
+    // Approximate radio station count is hard-coded - https://de1.api.radio-browser.info/#Server_stats
     // Server stats endpoint is available on HTTP endpoint, not on HTTPS
     await expect(
       aboutPage.getRadioStationStats(
