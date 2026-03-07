@@ -149,7 +149,17 @@ class PodcastIndexApi implements PodcastApi {
       retry: 0,
     })
     const json: PodcastIndexTrendingPodcastResponse = await response.json()
-    return this.parsePodcastsResponse(json)
+    const trendingPodcasts = this.parsePodcastsResponse(json)
+
+    return trendingPodcasts.filter((podcast) => {
+      if (!podcast.title) {
+        return false
+      }
+      if (!podcast.description || podcast.description.length < 20) {
+        return false
+      }
+      return true
+    })
   }
 
   async getPodcastBySearchTerm(

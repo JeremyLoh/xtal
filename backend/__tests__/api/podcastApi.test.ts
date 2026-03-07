@@ -27,6 +27,46 @@ describe("podcastApi tests", () => {
       expect(result).toHaveLength(0)
     })
 
+    test("should remove junk podcasts with missing podcast title", async () => {
+      vi.spyOn(ky, "get").mockResolvedValue({
+        json: async () =>
+          createTrendingPodcastResponse({
+            feeds: [createPodcastFeed({ title: undefined })],
+          }) satisfies PodcastIndexTrendingPodcastResponse,
+      } as any)
+
+      const api = new PodcastIndexApi()
+
+      const result = await api.getTrendingPodcasts(
+        new Headers(),
+        new URLSearchParams()
+      )
+
+      expect(result).toHaveLength(0)
+    })
+
+    test("should remove junk podcasts with description of less than 20 characters", async () => {
+      vi.spyOn(ky, "get").mockResolvedValue({
+        json: async () =>
+          createTrendingPodcastResponse({
+            feeds: [
+              createPodcastFeed({ description: "" }),
+              createPodcastFeed({ description: "a".repeat(18) }),
+              createPodcastFeed({ description: "a".repeat(19) }),
+            ],
+          }) satisfies PodcastIndexTrendingPodcastResponse,
+      } as any)
+
+      const api = new PodcastIndexApi()
+
+      const result = await api.getTrendingPodcasts(
+        new Headers(),
+        new URLSearchParams()
+      )
+
+      expect(result).toHaveLength(0)
+    })
+
     test("should parse trending podcast response correctly", async () => {
       vi.spyOn(ky, "get").mockResolvedValue({
         json: async () =>
