@@ -138,6 +138,19 @@ class PodcastIndexApi implements PodcastApi {
     }
   }
 
+  private isValidPodcast(podcast: Podcast): boolean {
+    if (!podcast.title) {
+      return false
+    }
+    if (!podcast.description || podcast.description.length < 20) {
+      return false
+    }
+    if (podcast.image == undefined || podcast.image.trim() === "") {
+      return false
+    }
+    return true
+  }
+
   async getTrendingPodcasts(
     authHeaders: Headers,
     searchParams: URLSearchParams
@@ -151,18 +164,7 @@ class PodcastIndexApi implements PodcastApi {
     const json: PodcastIndexTrendingPodcastResponse = await response.json()
     const trendingPodcasts = this.parsePodcastsResponse(json)
 
-    return trendingPodcasts.filter((podcast) => {
-      if (!podcast.title) {
-        return false
-      }
-      if (!podcast.description || podcast.description.length < 20) {
-        return false
-      }
-      if (podcast.image == undefined || podcast.image.trim() === "") {
-        return false
-      }
-      return true
-    })
+    return trendingPodcasts.filter((podcast) => this.isValidPodcast(podcast))
   }
 
   async getPodcastBySearchTerm(
