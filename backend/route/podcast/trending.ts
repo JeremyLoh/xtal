@@ -90,18 +90,13 @@ router.get(
       })
       response.status(200)
       response.type("application/json")
-      if (offset === 0) {
-        response.send({
-          count: podcasts.length,
-          data: podcasts,
-        })
-      } else {
-        const offsetPodcasts = podcasts.slice(offset, offset + limit)
-        response.send({
-          count: offsetPodcasts.length,
-          data: offsetPodcasts,
-        })
-      }
+
+      const paginatedPodcasts = podcasts.slice(offset, offset + limit)
+
+      response.send({
+        count: paginatedPodcasts.length,
+        data: paginatedPodcasts,
+      })
     } catch (error: any) {
       if (error instanceof InvalidApiKeyError) {
         response.status(500).send(error.message)
