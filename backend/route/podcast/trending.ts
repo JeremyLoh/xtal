@@ -83,8 +83,9 @@ router.get(
     const offset = Number(data.offset) || 0
 
     try {
+      const windowSize = Math.max(offset + limit, 30)
       const podcasts = await getTrendingPodcasts({
-        limit: limit + offset,
+        limit: windowSize,
         since,
         category,
       })
